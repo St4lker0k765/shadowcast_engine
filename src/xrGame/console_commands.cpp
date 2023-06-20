@@ -366,10 +366,7 @@ public:
 			return;
 		}
 
-		char	Name[128];	Name[0] = 0;
-		sscanf_s(args, "%s", Name);
-
-		Level().spawn_item(Name, Actor()->Position(), false, Actor()->ID());
+		Level().spawn_item(args, Actor()->Position(), false, Actor()->ID());
 	}
 	virtual void	Info(TInfo& I)
 	{
