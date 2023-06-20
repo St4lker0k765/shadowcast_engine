@@ -192,45 +192,28 @@ static void full_memory_stats	( )
 
 
 
-class CCC_GSpawn : public IConsole_Command {
+class CCC_Spawn : public IConsole_Command {
 public:
-	CCC_GSpawn(LPCSTR N) : IConsole_Command(N) { bEmptyArgsHandled = true; };
+	CCC_Spawn(LPCSTR N) : IConsole_Command(N) {}
 
-	virtual void		Execute(LPCSTR arguments)
+	virtual void		Execute(LPCSTR args)
 	{
-		if (pSettings->section_exist(arguments))
+		if (!g_pGameLevel)
 		{
-			Fvector3 pos, dir, madPos;
-			float range;
-			pos.set(Device.vCameraPosition);
-			dir.set(Device.vCameraDirection);
-			collide::rq_result& RQ = HUD().GetCurrentRayQuery();
-
-			if (RQ.O)
-			{
-				Msg("! ERROR: Can spawn only on ground");
-				return;
-			}
-
-			range = RQ.range;
-			dir.normalize();
-			madPos.mad(pos, dir, range);
-
-			NET_Packet		P;
-			P.w_begin(M_REMOTE_CONTROL_CMD);
-			string128 str;
-			xr_sprintf(str, "sv_spawn_on_position %s %f %f %f", arguments, madPos.x, madPos.y, madPos.z);
-			P.w_stringZ(str);
-			Level().Send(P, net_flags(TRUE, TRUE));
-		}
-		else
-		{
-			Msg("! ERROR: bad command parameters.");
-			Msg("Spawn item. Format: \"g_spawn <item section>\"");
+			Msg("! The level is not loaded!");
 			return;
 		}
+
+		if (!pSettings->section_exist(args))
+		{
+			Msg("! Section [%s] isn`t exits...", args);
+			return;
+		}
+
+		Fvector pos = Actor()->Position();
+		Level().g_cl_Spawn(args, 0xff, M_SPAWN_OBJECT_LOCAL, pos);
 	}
-	virtual void		Save(IWriter* F) {};
+	virtual void		Save(IWriter* /*F*/) {}
 
 	virtual void	fill_tips(vecTips& tips, u32 mode)
 	{
@@ -238,7 +221,7 @@ public:
 		{
 			if ((sect->line_exist("description") && !sect->line_exist("value") && !sect->line_exist("scheme_index"))
 				|| sect->line_exist("species"))
-				tips.push_back(sect->Name);
+				tips.emplace_back(sect->Name);
 		}
 	}
 };
@@ -362,7 +345,7 @@ public:
 
 		TStatus  str;
 		xr_sprintf( str, sizeof(str), "%3.5f  (current)  [0.0,1000.0]", v );
-		tips.push_back( str );
+		tips.emplace_back(str);
 		IConsole_Command::fill_tips( tips, mode );
 	}
 };
@@ -384,13 +367,22 @@ public:
 		}
 
 		char	Name[128];	Name[0] = 0;
-		sscanf(args, "%s", Name);
+		sscanf_s(args, "%s", Name);
 
 		Level().spawn_item(Name, Actor()->Position(), false, Actor()->ID());
 	}
 	virtual void	Info(TInfo& I)
 	{
 		strcpy(I, "name,team,squad,group");
+	}
+	virtual void	fill_tips(vecTips& tips, u32 mode)
+	{
+		for (auto sect : pSettings->sections())
+		{
+			if ((sect->line_exist("description") && !sect->line_exist("value") && !sect->line_exist("scheme_index"))
+				|| sect->line_exist("species"))
+				tips.emplace_back(sect->Name);
+		}
 	}
 };
 
@@ -1925,7 +1917,7 @@ void CCC_RegisterCommands()
 	CMD4(CCC_Float,				"fov",					&g_fov,			5.0f,	180.0f);
 
 	CMD1(CCC_Spawn_to_inventory, "g_spawn_to_inventory");
-	CMD1(CCC_GSpawn, "g_spawn");
+	CMD1(CCC_Spawn, "g_spawn");
 
 	// Demo
 #if 1//ndef MASTER_GOLD

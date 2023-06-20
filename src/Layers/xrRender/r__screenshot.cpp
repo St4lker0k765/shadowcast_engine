@@ -389,9 +389,9 @@ void CRender::ScreenshotImpl	(ScreenshotMode mode, LPCSTR name, CMemoryWriter* m
 			{
 				string64			t_stemp;
 				string_path			buf;
-				xr_sprintf			(buf,sizeof(buf),"ss_%s_%s_(%s).jpg",Core.UserName,timestamp(t_stemp),(g_pGameLevel)?g_pGameLevel->name().c_str():"mainmenu");
+				xr_sprintf			(buf,sizeof(buf),"ss_%s_%s_(%s).png",Core.UserName,timestamp(t_stemp),(g_pGameLevel)?g_pGameLevel->name().c_str():"mainmenu");
 				ID3DBlob*		saved	= 0;
-				CHK_DX				(D3DXSaveSurfaceToFileInMemory (&saved,D3DXIFF_JPG,pFB,0,0));
+				CHK_DX				(D3DXSaveSurfaceToFileInMemory (&saved,D3DXIFF_PNG,pFB,0,0));
 				IWriter*		fs	= FS.w_open	("$screenshots$",buf); R_ASSERT(fs);
 				fs->w				(saved->GetBufferPointer(),saved->GetBufferSize());
 				FS.w_close			(fs);
@@ -404,6 +404,16 @@ void CRender::ScreenshotImpl	(ScreenshotMode mode, LPCSTR name, CMemoryWriter* m
 					fs->w				(saved->GetBufferPointer(),saved->GetBufferSize());
 					FS.w_close			(fs);
 					_RELEASE			(saved);
+				}
+
+				if (strstr(Core.Params, "-ss_bmp")) { // hq
+					xr_sprintf(buf, sizeof(buf), "ssq_%s_%s_(%s).bmp", Core.UserName, timestamp(t_stemp), (g_pGameLevel) ? g_pGameLevel->name().c_str() : "mainmenu");
+					ID3DBlob* saved = 0;
+					CHK_DX(D3DXSaveSurfaceToFileInMemory(&saved, D3DXIFF_BMP, pFB, 0, 0));
+					IWriter* fs = FS.w_open("$screenshots$", buf); R_ASSERT(fs);
+					fs->w(saved->GetBufferPointer(), saved->GetBufferSize());
+					FS.w_close(fs);
+					_RELEASE(saved);
 				}
 			}
 			break;
