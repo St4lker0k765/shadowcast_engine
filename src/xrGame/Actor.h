@@ -397,6 +397,9 @@ public:
 	bool					CanRun					();
 	void					StopAnyMove				();
 
+	// Alex ADD: for smooth crouch fix
+	float					CurrentHeight;
+
 	bool					AnyAction				()	{return (mstate_real & mcAnyAction) != 0;};
 	bool					AnyMove					()	{return (mstate_real & mcAnyMove) != 0;};
 

@@ -257,7 +257,8 @@ void	CActor::cam_Lookout	( const Fmatrix &xform, float camera_height )
 					da			= PI/1000.f;
 					if (!fis_zero(r_torso.roll))
 						da		*= r_torso.roll/_abs(r_torso.roll);
-					for (float angle=0.f; _abs(angle)<_abs(alpha); angle+=da)
+					float angle = 0.f;
+					for (; _abs(angle)<_abs(alpha); angle+=da)
 					{
 						Fvector				pt;
 						calc_gl_point( pt, xform, radius, angle );
@@ -324,8 +325,15 @@ void CActor::cam_Update(float dt, float fFOV)
 	} else
 		current_ik_cam_shift = 0;
 
-	Fvector point		= {0,CameraHeight() + current_ik_cam_shift,0}; 
-	Fvector dangle		= {0,0,0};
+	// Alex ADD: smooth crouch fix
+	// Alex ADD: smooth crouch fix
+	constexpr const float HeightInterpolationSpeed = 4.f;
+
+	if (CurrentHeight != CameraHeight())
+		CurrentHeight = (CurrentHeight * (1.0f - HeightInterpolationSpeed * dt)) + (CameraHeight() * HeightInterpolationSpeed * dt);
+
+	Fvector point = { 0, CurrentHeight + current_ik_cam_shift, 0 }, dangle = { 0, 0, 0 };
+
 	Fmatrix				xform;
 	xform.setXYZ		(0,r_torso.yaw,0);
 	xform.translate_over(XFORM().c);

@@ -27,8 +27,8 @@ IC void MouseRayFromPoint	( Fvector& direction, int x, int y, Fmatrix& m_CamMat 
 	float size_y		= VIEWPORT_NEAR * tanf( deg2rad(60.f) * 0.5f );
 	float size_x		= size_y / (Device.fHeight_2/Device.fWidth_2);
 
-	float r_pt			= float(point2.x) * size_x / (float) halfwidth;
-	float u_pt			= float(point2.y) * size_y / (float) halfheight;
+	float r_pt			= static_cast<float>(point2.x) * size_x / static_cast<float>(halfwidth);
+	float u_pt			= static_cast<float>(point2.y) * size_y / static_cast<float>(halfheight);
 
 	direction.mul		( m_CamMat.k, VIEWPORT_NEAR );
 	direction.mad		( direction, m_CamMat.j, u_pt );
@@ -92,7 +92,7 @@ void CRender::ScreenshotImpl	(ScreenshotMode mode, LPCSTR name, CMemoryWriter* m
 					IWriter*			fs		= FS.w_open	(name); 
 					if (fs)				
 					{
-						fs->w				(saved->GetBufferPointer(),(u32)saved->GetBufferSize());
+						fs->w				(saved->GetBufferPointer(),static_cast<u32>(saved->GetBufferSize()));
 						FS.w_close			(fs);
 					}
 				}
@@ -143,12 +143,12 @@ void CRender::ScreenshotImpl	(ScreenshotMode mode, LPCSTR name, CMemoryWriter* m
 						IWriter*			fs		= FS.w_open	(name); 
 						if (fs)				
 						{
-							fs->w				(saved->GetBufferPointer(),(u32)saved->GetBufferSize());
+							fs->w				(saved->GetBufferPointer(),static_cast<u32>(saved->GetBufferSize()));
 							FS.w_close			(fs);
 						}
 					} else
 					{
-						memory_writer->w		(saved->GetBufferPointer(),(u32)saved->GetBufferSize());
+						memory_writer->w		(saved->GetBufferPointer(),static_cast<u32>(saved->GetBufferSize()));
 					}
 				}
 				_RELEASE			(saved);
@@ -162,15 +162,15 @@ void CRender::ScreenshotImpl	(ScreenshotMode mode, LPCSTR name, CMemoryWriter* m
 			{
 				string64			t_stemp;
 				string_path			buf;
-				xr_sprintf			(buf,sizeof(buf),"ss_%s_%s_(%s).jpg",Core.UserName,timestamp(t_stemp),(g_pGameLevel)?g_pGameLevel->name().c_str():"mainmenu");
+				xr_sprintf			(buf,sizeof(buf),"ss_%s_%s_(%s).png",Core.UserName,timestamp(t_stemp),(g_pGameLevel)?g_pGameLevel->name().c_str():"mainmenu");
 				ID3DBlob			*saved	= 0;
 #ifdef USE_DX11
-				CHK_DX				(D3DX11SaveTextureToMemory(HW.pContext, pSrcTexture, D3DX11_IFF_JPG, &saved, 0));
+				CHK_DX				(D3DX11SaveTextureToMemory(HW.pContext, pSrcTexture, D3DX11_IFF_PNG, &saved, 0));
 #else
-				CHK_DX				(D3DX10SaveTextureToMemory( pSrcTexture, D3DX10_IFF_JPG, &saved, 0));
+				CHK_DX				(D3DX10SaveTextureToMemory( pSrcTexture, D3DX10_IFF_PNG, &saved, 0));
 #endif
 				IWriter*		fs	= FS.w_open	("$screenshots$",buf); R_ASSERT(fs);
-				fs->w				(saved->GetBufferPointer(),(u32)saved->GetBufferSize());
+				fs->w				(saved->GetBufferPointer(),static_cast<u32>(saved->GetBufferSize()));
 				FS.w_close			(fs);
 				_RELEASE			(saved);
 
@@ -185,9 +185,24 @@ void CRender::ScreenshotImpl	(ScreenshotMode mode, LPCSTR name, CMemoryWriter* m
 					//		CHK_DX				(D3DXSaveSurfaceToFileInMemory (&saved,D3DXIFF_TGA,pFB,0,0));
 #endif
 					IWriter*		fs	= FS.w_open	("$screenshots$",buf); R_ASSERT(fs);
-					fs->w				(saved->GetBufferPointer(),(u32)saved->GetBufferSize());
+					fs->w				(saved->GetBufferPointer(),static_cast<u32>(saved->GetBufferSize()));
 					FS.w_close			(fs);
 					_RELEASE			(saved);
+				}
+
+				if (strstr(Core.Params, "-ss_bmp"))
+				{ // hq
+					xr_sprintf(buf, sizeof(buf), "ssq_%s_%s_(%s).bmp", Core.UserName, timestamp(t_stemp), (g_pGameLevel) ? g_pGameLevel->name().c_str() : "mainmenu");
+					ID3DBlob* saved = 0;
+#ifdef USE_DX11
+					CHK_DX(D3DX11SaveTextureToMemory(HW.pContext, pSrcTexture, D3DX11_IFF_BMP, &saved, 0));
+#else
+					CHK_DX(D3DX10SaveTextureToMemory(pSrcTexture, D3DX10_IFF_BMP, &saved, 0));
+#endif
+					IWriter* fs = FS.w_open("$screenshots$", buf); R_ASSERT(fs);
+					fs->w(saved->GetBufferPointer(), static_cast<u32>(saved->GetBufferSize()));
+					FS.w_close(fs);
+					_RELEASE(saved);
 				}
 			}
 			break;
@@ -471,7 +486,7 @@ void CRender::ScreenshotAsyncEnd(CMemoryWriter &memory_writer)
 
 	{
 
-		u32* pPixel		= (u32*)MappedData.pData;
+		u32* pPixel		= static_cast<u32*>(MappedData.pData);
 		u32* pEnd		= pPixel+(Device.dwWidth*Device.dwHeight);
 
 		//	Kill alpha and swap r and b.
