@@ -68,13 +68,13 @@ bool XRayDDSNewLoader::LoadDDS(IReader* F)
 		m_h = header.dwHeight;
 		m_w = header.dwWidth;
 		m_Cube = !!(header.dwCubemapFlags & DDS_CUBEMAP_ALLFACES);
-		if (m_mips != get_count_mips(m_w, m_h) && m_mips != 1)
+		if (!m_mips)
 		{
 			return false;
 		}
-		if (header.dds_pf.dwFlags == dds_rgb || header.dds_pf.dwFlags == dds_rgba)
+		if (header.dds_pf.dwFlags == dds_four_cc)
 		{
-			bool alpha = header.dds_pf.dwFlags & (dds_rgba & (~dds_rgb));
+			const bool alpha = header.dds_pf.dwFlags & (dds_rgba & (~dds_rgb));
 			if (header.dds_pf.dwRGBBitCount % 8 || header.dds_pf.dwRGBBitCount > 64)
 			{
 				return false;
@@ -111,7 +111,7 @@ bool XRayDDSNewLoader::LoadDDS(IReader* F)
 			}
 			return true;
 		}
-		else if (header.dds_pf.dwFlags == dds_four_cc)
+		else
 		{
 			if (header.dds_pf.dwFourCC == MAKEFOURCC('D', 'X', '1', '0'))
 			{
