@@ -12,7 +12,7 @@
 #include <D3DX10Tex.h>
 
 #include "../xrRender/dxRenderDeviceRender.h"
-
+#include "../xrRender/XRayDDSNewLoader.h"
 // #include "std_classes.h"
 // #include "xr_avi.h"
 
@@ -350,6 +350,19 @@ ID3DBaseTexture*	CRender::texture_load(LPCSTR fRName, u32& ret_msize, bool bStag
 _DDS:
 	{
 		// Load and get header
+		{
+			Msg("* Load texture: [%s]", fn);
+			XRayDDSNewLoader NewLoader;
+			if(!NewLoader.Load(fn))
+				Msg("! Can`t load texture: [%s]", fn);
+			else
+			{
+				if(NewLoader.isCube())
+				{
+					Msg("* isCube Texture: [%s]", fn);
+				}
+			}
+		}
 
 		S						= FS.r_open	(fn);
 #ifdef DEBUG

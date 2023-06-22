@@ -184,6 +184,9 @@
     <Filter Include="Debug">
       <UniqueIdentifier>{3382f8e1-4f96-444a-a5b8-f6230eb36502}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Refactored\Execution &amp; 3D\Texture">
+      <UniqueIdentifier>{eb2eeed9-d8f2-464f-9ee9-88054698e23d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cl_intersect.h">
@@ -725,6 +728,12 @@
     </ClInclude>
     <ClInclude Include="blender_cut.h">
       <Filter>Shading templates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\xrRender\DDSMain.h">
+      <Filter>Refactored\Execution &amp; 3D\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\xrRender\XRayDDSNewLoader.h">
+      <Filter>Refactored\Execution &amp; 3D\Texture</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1321,6 +1330,9 @@
     </ClCompile>
     <ClCompile Include="r3_rendertarget_phase_cut.cpp">
       <Filter>Core_Target</Filter>
+    </ClCompile>
+    <ClCompile Include="..\xrRender\XRayDDSNewLoader.cpp">
+      <Filter>Refactored\Execution &amp; 3D\Texture</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

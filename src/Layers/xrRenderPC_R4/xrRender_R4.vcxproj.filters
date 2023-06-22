@@ -184,6 +184,9 @@
     <Filter Include="Debug">
       <UniqueIdentifier>{8d6caf5d-f49d-40f7-b1ae-f1fd5c4f0d58}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Refactored\Execution &amp; 3D\Textures">
+      <UniqueIdentifier>{12a631bd-041d-4df4-a14c-d498eee99633}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cl_intersect.h">
@@ -743,6 +746,12 @@
     </ClInclude>
     <ClInclude Include="..\xrRender\light.h">
       <Filter>Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="..\xrRender\DDSMain.h">
+      <Filter>Refactored\Execution &amp; 3D\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="..\xrRender\XRayDDSNewLoader.h">
+      <Filter>Refactored\Execution &amp; 3D\Textures</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1354,6 +1363,9 @@
     </ClCompile>
     <ClCompile Include="blender_cut.cpp">
       <Filter>Shading templates</Filter>
+    </ClCompile>
+    <ClCompile Include="..\xrRender\XRayDDSNewLoader.cpp">
+      <Filter>Refactored\Execution &amp; 3D\Textures</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
