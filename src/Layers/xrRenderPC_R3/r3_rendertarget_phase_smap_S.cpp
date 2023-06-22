@@ -18,7 +18,7 @@ void	CRenderTarget::phase_smap_spot		(light* L)
 	if (RImplementation.o.HW_smap)		u_setrt	(rt_smap_surf, NULL, NULL, rt_smap_depth->pZRT);
 	//else								u_setrt	(rt_smap_surf, NULL, NULL, rt_smap_ZB);
 	else								VERIFY(!"Use HW SMap only for DX10!");
-	D3D_VIEWPORT VP					=	{L->X.S.posX,L->X.S.posY,L->X.S.size,L->X.S.size,0,1 };
+	D3D_VIEWPORT VP					=	{static_cast<INT>(L->X.S.posX),static_cast<INT>(L->X.S.posY),L->X.S.size,L->X.S.size,0,1 };
 	//CHK_DX								(HW.pDevice->SetViewport(&VP));
 	HW.pDevice->RSSetViewports(1, &VP);
 
@@ -54,18 +54,18 @@ void	CRenderTarget::phase_smap_spot_tsh	(light* L)
 		Fvector2						p0,p1;
 		u32		Offset;
 		u32		C						= color_rgba	(255,255,255,255);
-		float	_w						= float(L->X.S.size);
-		float	_h						= float(L->X.S.size);
+		float	_w						= static_cast<float>(L->X.S.size);
+		float	_h						= static_cast<float>(L->X.S.size);
 		float	d_Z						= EPS_S;
 		float	d_W						= 1.f;
 		p0.set							(.5f/_w, .5f/_h);
 		p1.set							((_w+.5f)/_w, (_h+.5f)/_h );
 
-		FVF::TL* pv						= (FVF::TL*) RCache.Vertex.Lock	(4,g_combine->vb_stride,Offset);
-		pv->set							(EPS,			float(_h+EPS),	d_Z,	d_W, C, p0.x, p1.y);	pv++;
+		FVF::TL* pv						= static_cast<FVF::TL*>(RCache.Vertex.Lock(4, g_combine->vb_stride, Offset));
+		pv->set							(EPS,			static_cast<float>(_h + EPS),	d_Z,	d_W, C, p0.x, p1.y);	pv++;
 		pv->set							(EPS,			EPS,			d_Z,	d_W, C, p0.x, p0.y);	pv++;
-		pv->set							(float(_w+EPS),	float(_h+EPS),	d_Z,	d_W, C, p1.x, p1.y);	pv++;
-		pv->set							(float(_w+EPS),	EPS,			d_Z,	d_W, C, p1.x, p0.y);	pv++;
+		pv->set							(static_cast<float>(_w + EPS),	static_cast<float>(_h + EPS),	d_Z,	d_W, C, p1.x, p1.y);	pv++;
+		pv->set							(static_cast<float>(_w + EPS),	EPS,			d_Z,	d_W, C, p1.x, p0.y);	pv++;
 		RCache.Vertex.Unlock			(4,g_combine->vb_stride);
 		RCache.set_Geometry				(g_combine);
 

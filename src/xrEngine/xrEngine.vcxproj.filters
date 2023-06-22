@@ -456,9 +456,6 @@
     <ClInclude Include="Text_Console.h">
       <Filter>Render\Execution &amp; 3D\TextConsole</Filter>
     </ClInclude>
-    <ClInclude Include="Properties.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
     <ClInclude Include="pure.h">
       <Filter>Engine</Filter>
     </ClInclude>
@@ -624,6 +621,9 @@
     <ClInclude Include="CPU\PLC.h">
       <Filter>CPU</Filter>
     </ClInclude>
+    <ClInclude Include="Properties.h">
+      <Filter>General</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="defines.cpp">
@@ -632,7 +632,7 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>General</Filter>
     </ClCompile>
-    <ClCompile Include="x_ray.cpp">
+    <ClCompile Include="XRayEngine.cpp">
       <Filter>General</Filter>
     </ClCompile>
     <ClCompile Include="IInputReceiver.cpp">
@@ -1002,6 +1002,5 @@
     <Text Include="ClientServer.txt" />
     <Text Include="Effects description.txt" />
     <Text Include="features.txt" />
-    <Text Include="TODO.txt" />
   </ItemGroup>
 </Project>

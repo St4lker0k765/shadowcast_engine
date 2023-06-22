@@ -1,9 +1,4 @@
-// dx10HW.cpp: implementation of the DX10 specialisation of CHW.
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
-#pragma hdrstop
-
 #pragma warning(disable:4995)
 #include <d3dx9.h>
 #pragma warning(default:4995)
@@ -14,37 +9,34 @@
 #include "StateManager\dx10SamplerStateCache.h"
 #include "StateManager\dx10StateCache.h"
 
-#ifndef _EDITOR
 void	fill_vid_mode_list			(CHW* _hw);
 void	free_vid_mode_list			();
 
 void	fill_render_mode_list		();
 void	free_render_mode_list		();
-#else
-void	fill_vid_mode_list			(CHW* _hw)	{}
-void	free_vid_mode_list			()			{}
-void	fill_render_mode_list		()			{}
-void	free_render_mode_list		()			{}
-#endif
 
 CHW			HW;
 
 extern ENGINE_API float psSVPImageSizeK;
 
 
-CHW::CHW() : 
-//	hD3D(NULL),
-	//pD3D(NULL),
-	m_pAdapter(0),
-	pDevice(NULL),
-	m_move_window(true)
-	//pBaseRT(NULL),
-	//pBaseZB(NULL)
+CHW::CHW()
 {
+	m_pAdapter = nullptr;
+	pDevice = nullptr;
+	m_move_window = true;
+	pContext = nullptr;
+
+	m_pSwapChain = nullptr;
+	pBaseRT = nullptr;
+	pBaseZB = nullptr;
+
+	m_bUsePerfhud = false;
+
 	Device.seqAppActivate.Add(this);
 	Device.seqAppDeactivate.Add(this);
 
-	storedVP = (ViewPort)0;
+	storedVP = static_cast<ViewPort>(0);
 }
 
 CHW::~CHW()
@@ -390,7 +382,7 @@ void CHW::selectResolution( u32 &dwWidth, u32 &dwHeight, BOOL bWindowed )
 		string64					buff;
 		xr_sprintf					(buff,sizeof(buff),"%dx%d",psCurrentVidMode[0],psCurrentVidMode[1]);
 
-		if(_ParseItem(buff,vid_mode_token)==u32(-1)) //not found
+		if(_ParseItem(buff,vid_mode_token)==static_cast<u32>(-1)) //not found
 		{ //select safe
 			xr_sprintf				(buff,sizeof(buff),"vid_mode %s",vid_mode_token[0].name);
 			Console->Execute		(buff);
@@ -444,7 +436,7 @@ DXGI_RATIONAL CHW::selectRefresh(u32 dwWidth, u32 dwHeight, DXGI_FORMAT fmt)
 				)
 			{
 				VERIFY(desc.RefreshRate.Denominator);
-				float TempFreq = float(desc.RefreshRate.Numerator)/float(desc.RefreshRate.Denominator);
+				float TempFreq = static_cast<float>(desc.RefreshRate.Numerator)/static_cast<float>(desc.RefreshRate.Denominator);
 				if ( TempFreq > CurrentFreq )
 				{
 					CurrentFreq = TempFreq;
@@ -635,8 +627,8 @@ void CHW::UpdateViews()
 	HRESULT R;
 
 	// Set up svp image size
-	Device.m_SecondViewport.screenWidth = u32((sd.BufferDesc.Width / 32) * psSVPImageSizeK) * 32;
-	Device.m_SecondViewport.screenHeight = u32((sd.BufferDesc.Height / 32) * psSVPImageSizeK) * 32;
+	Device.m_SecondViewport.screenWidth = static_cast<u32>((sd.BufferDesc.Width / 32) * psSVPImageSizeK) * 32;
+	Device.m_SecondViewport.screenHeight = static_cast<u32>((sd.BufferDesc.Height / 32) * psSVPImageSizeK) * 32;
 
 	// Create a render target view
 	//R_CHK	(pDevice->GetRenderTarget			(0,&pBaseRT));

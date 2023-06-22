@@ -10,18 +10,11 @@
 #include "HW.h"
 #include "../../xrEngine/XR_IOConsole.h"
 
-#ifndef _EDITOR
 void	fill_vid_mode_list(CHW* _hw);
 void	free_vid_mode_list();
 
 void	fill_render_mode_list();
 void	free_render_mode_list();
-#else
-void	fill_vid_mode_list(CHW* _hw) {}
-void	free_vid_mode_list() {}
-void	fill_render_mode_list() {}
-void	free_render_mode_list() {}
-#endif
 
 CHW			HW;
 
@@ -29,21 +22,17 @@ CHW			HW;
 IDirect3DStateBlock9*	dwDebugSB = 0;
 #endif
 
-CHW::CHW() :
-	hD3D(NULL),
-	pD3D(NULL),
-	pDevice(NULL),
-	pBaseRT(NULL),
-	pBaseZB(NULL),
-	m_move_window(true)
+CHW::CHW()
 {
-	;
+	hD3D = nullptr;
+	pD3D = nullptr;
+	pDevice = nullptr;
+	pBaseRT = nullptr;
+	pBaseZB = nullptr;
+	m_move_window = true;
 }
 
-CHW::~CHW()
-{
-	;
-}
+CHW::~CHW() {}
 
 void CHW::Reset(HWND hwnd)
 {
@@ -53,12 +42,6 @@ void CHW::Reset(HWND hwnd)
 	_RELEASE(pBaseZB);
 	_RELEASE(pBaseRT);
 
-#ifndef _EDITOR
-	//#ifndef DEDICATED_SERVER
-	//	BOOL	bWindowed		= !psDeviceFlags.is	(rsFullscreen);
-	//#else
-	//	BOOL	bWindowed		= TRUE;
-	//#endif
 	BOOL	bWindowed = TRUE;
 	if (!g_dedicated_server)
 		bWindowed = !psDeviceFlags.is(rsFullscreen);
@@ -77,7 +60,7 @@ void CHW::Reset(HWND hwnd)
 		DevPP.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
 		DevPP.FullScreen_RefreshRateInHz = D3DPRESENT_RATE_DEFAULT;
 	}
-#endif
+
 	bool bNoManagedTex = !!RImplementation.o.managed_tex_disabled;
 	while (TRUE) {
 		HRESULT result;
@@ -107,19 +90,10 @@ void CHW::Reset(HWND hwnd)
 #endif
 }
 
-//xr_token*				vid_mode_token = NULL;
-//extern xr_token*		vid_mode_token;
 #include "../../Include/xrAPI/xrAPI.h"
-//xr_token*				vid_quality_token = NULL;
 
 void CHW::CreateD3D()
 {
-	//#ifndef DEDICATED_SERVER
-	//	LPCSTR		_name			= "d3d9.dll";
-	//#else
-	//	LPCSTR		_name			= "xrd3d9-null.dll";
-	//#endif
-
 	LPCSTR		_name = "xrd3d9-null.dll";
 
 #ifndef _EDITOR
@@ -130,8 +104,8 @@ void CHW::CreateD3D()
 
 	hD3D = LoadLibrary(_name);
 	R_ASSERT2(hD3D, "Can't find 'd3d9.dll'\nPlease install latest version of DirectX before running this program");
-	typedef IDirect3D9 * WINAPI _Direct3DCreate9(UINT SDKVersion);
-	_Direct3DCreate9* createD3D = (_Direct3DCreate9*)GetProcAddress(hD3D, "Direct3DCreate9");	R_ASSERT(createD3D);
+	using _Direct3DCreate9 = IDirect3D9* WINAPI(UINT SDKVersion);
+	_Direct3DCreate9* createD3D = reinterpret_cast<_Direct3DCreate9*>(GetProcAddress(hD3D, "Direct3DCreate9"));	R_ASSERT(createD3D);
 	this->pD3D = createD3D(D3D_SDK_VERSION);
 	R_ASSERT2(this->pD3D, "Please install DirectX 9.0c");
 }
@@ -239,13 +213,6 @@ void		CHW::CreateDevice(HWND m_hWnd, bool move_window)
 {
 	m_move_window = move_window;
 	CreateD3D();
-
-	// General - select adapter and device
-//#ifdef DEDICATED_SERVER
-//	BOOL  bWindowed			= TRUE;
-//#else
-//	BOOL  bWindowed			= !psDeviceFlags.is(rsFullscreen);
-//#endif
 
 	BOOL  bWindowed = TRUE;
 
@@ -384,7 +351,7 @@ void		CHW::CreateDevice(HWND m_hWnd, bool move_window)
 	}
 
 	// Create the device
-	u32 GPU = selectGPU();
+	const u32 GPU = selectGPU();
 	HRESULT R = HW.pD3D->CreateDevice(DevAdapter,
 		DevT,
 		m_hWnd,
@@ -406,7 +373,7 @@ void		CHW::CreateDevice(HWND m_hWnd, bool move_window)
 			"Please try to restart the game.\n"
 			"CreateDevice returned 0x%08x(D3DERR_DEVICELOST)", R);
 		FlushLog();
-		MessageBox(NULL, "Failed to initialize graphics hardware.\nPlease try to restart the game.", "Error!", MB_OK | MB_ICONERROR);
+		MessageBox(nullptr, "Failed to initialize graphics hardware.\nPlease try to restart the game.", "Error!", MB_OK | MB_ICONERROR);
 		TerminateProcess(GetCurrentProcess(), 0);
 	};
 	R_CHK(R);
@@ -426,6 +393,8 @@ void		CHW::CreateDevice(HWND m_hWnd, bool move_window)
 	case D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_PUREDEVICE:
 		Log("* Vertex Processor: PURE HARDWARE");
 		break;
+	default:
+		NODEFAULT;
 	}
 
 	// Capture misc data
@@ -437,10 +406,9 @@ void		CHW::CreateDevice(HWND m_hWnd, bool move_window)
 	u32	memory = pDevice->GetAvailableTextureMem();
 	Msg("*     Texture memory: %d M", memory / (1024 * 1024));
 	Msg("*          DDI-level: %2.1f", float(D3DXGetDriverLevel(pDevice)) / 100.f);
-#ifndef _EDITOR
+
 	updateWindowProps(m_hWnd);
 	fill_vid_mode_list(this);
-#endif
 }
 
 u32	CHW::selectPresentInterval()
@@ -552,13 +520,6 @@ BOOL	CHW::support(D3DFORMAT fmt, DWORD type, DWORD usage)
 
 void	CHW::updateWindowProps(HWND m_hWnd)
 {
-	//	BOOL	bWindowed				= strstr(Core.Params,"-dedicated") ? TRUE : !psDeviceFlags.is	(rsFullscreen);
-	//#ifndef DEDICATED_SERVER
-	//	BOOL	bWindowed				= !psDeviceFlags.is	(rsFullscreen);
-	//#else
-	//	BOOL	bWindowed				= TRUE;
-	//#endif
-
 	BOOL	bWindowed = TRUE;
 #ifndef _EDITOR
 	if (!g_dedicated_server)
@@ -615,9 +576,6 @@ void	CHW::updateWindowProps(HWND m_hWnd)
 	{
 		ShowCursor(FALSE);
 		SetForegroundWindow(m_hWnd);
-		//RECT winRect;
-		//GetWindowRect(m_hWnd, &winRect);
-		//ClipCursor(&winRect);
 	}
 #endif
 }
@@ -627,84 +585,11 @@ struct _uniq_mode
 {
 	_uniq_mode(LPCSTR v) :_val(v) {}
 	LPCSTR _val;
-	bool operator() (LPCSTR _other) { return !stricmp(_val, _other); }
+	bool operator() (LPCSTR _other) const { return !stricmp(_val, _other); }
 };
 
 #ifndef _EDITOR
 
-/*
-void free_render_mode_list()
-{
-	for( int i=0; vid_quality_token[i].name; i++ )
-	{
-		xr_free					(vid_quality_token[i].name);
-	}
-	xr_free						(vid_quality_token);
-	vid_quality_token			= NULL;
-}
-*/
-/*
-void	fill_render_mode_list()
-{
-	if(vid_quality_token != NULL)		return;
-
-	D3DCAPS9					caps;
-	CHW							_HW;
-	_HW.CreateD3D				();
-	_HW.pD3D->GetDeviceCaps		(D3DADAPTER_DEFAULT,D3DDEVTYPE_HAL,&caps);
-	_HW.DestroyD3D				();
-	u16		ps_ver_major		= u16 ( u32(u32(caps.PixelShaderVersion)&u32(0xf << 8ul))>>8 );
-
-	xr_vector<LPCSTR>			_tmp;
-	u32 i						= 0;
-	for(; i<5; ++i)
-	{
-		bool bBreakLoop = false;
-		switch (i)
-		{
-		case 3:		//"renderer_r2.5"
-			if (ps_ver_major < 3)
-				bBreakLoop = true;
-			break;
-		case 4:		//"renderer_r_dx10"
-			bBreakLoop = true;
-			break;
-		default:	;
-		}
-
-		if (bBreakLoop) break;
-
-		_tmp.push_back				(NULL);
-		LPCSTR val					= NULL;
-		switch (i)
-		{
-			case 0: val ="renderer_r1";			break;
-			case 1: val ="renderer_r2a";		break;
-			case 2: val ="renderer_r2";			break;
-			case 3: val ="renderer_r2.5";		break;
-			case 4: val ="renderer_r_dx10";		break; //  -)
-		}
-		_tmp.back()					= xr_strdup(val);
-	}
-	u32 _cnt								= _tmp.size()+1;
-	vid_quality_token						= xr_alloc<xr_token>(_cnt);
-
-	vid_quality_token[_cnt-1].id			= -1;
-	vid_quality_token[_cnt-1].name			= NULL;
-
-#ifdef DEBUG
-	Msg("Available render modes[%d]:",_tmp.size());
-#endif // DEBUG
-	for(u32 i=0; i<_tmp.size();++i)
-	{
-		vid_quality_token[i].id				= i;
-		vid_quality_token[i].name			= _tmp[i];
-#ifdef DEBUG
-		Msg							("[%s]",_tmp[i]);
-#endif // DEBUG
-	}
-}
-*/
 void free_vid_mode_list()
 {
 	for (int i = 0; vid_mode_token[i].name; i++)
@@ -712,12 +597,12 @@ void free_vid_mode_list()
 		xr_free(vid_mode_token[i].name);
 	}
 	xr_free(vid_mode_token);
-	vid_mode_token = NULL;
+	vid_mode_token = nullptr;
 }
 
 void fill_vid_mode_list(CHW* _hw)
 {
-	if (vid_mode_token != NULL)		return;
+	if (vid_mode_token != nullptr)		return;
 	xr_vector<LPCSTR>	_tmp;
 	u32 cnt = _hw->pD3D->GetAdapterModeCount(_hw->DevAdapter, _hw->Caps.fTarget);
 
@@ -735,7 +620,7 @@ void fill_vid_mode_list(CHW* _hw)
 		if (_tmp.end() != std::find_if(_tmp.begin(), _tmp.end(), _uniq_mode(str)))
 			continue;
 
-		_tmp.push_back(NULL);
+		_tmp.emplace_back(nullptr);
 		_tmp.back() = xr_strdup(str);
 	}
 
@@ -744,14 +629,14 @@ void fill_vid_mode_list(CHW* _hw)
 	vid_mode_token = xr_alloc<xr_token>(_cnt);
 
 	vid_mode_token[_cnt - 1].id = -1;
-	vid_mode_token[_cnt - 1].name = NULL;
+	vid_mode_token[_cnt - 1].name = nullptr;
 
 #ifdef DEBUG
 	Msg("Available video modes[%d]:", _tmp.size());
 #endif // DEBUG
 	for (i = 0; i < _tmp.size(); ++i)
 	{
-		vid_mode_token[i].id = i;
+		vid_mode_token[i].id = static_cast<int>(i);
 		vid_mode_token[i].name = _tmp[i];
 #ifdef DEBUG
 		Msg("[%s]", _tmp[i]);

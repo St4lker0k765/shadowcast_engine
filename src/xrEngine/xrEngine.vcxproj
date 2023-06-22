@@ -931,7 +931,7 @@ copy /Y "$(xrSdkDir)binaries\x64\BugTrap-x64.dll" "$(OutputPath)BugTrap-x64.dll"
     <ClCompile Include="xr_ioc_cmd.cpp" />
     <ClCompile Include="xr_object.cpp" />
     <ClCompile Include="xr_object_list.cpp" />
-    <ClCompile Include="x_ray.cpp" />
+    <ClCompile Include="XRayEngine.cpp" />
     <ClCompile Include="_scripting.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -954,7 +954,6 @@ copy /Y "$(xrSdkDir)binaries\x64\BugTrap-x64.dll" "$(OutputPath)BugTrap-x64.dll"
     <Text Include="ClientServer.txt" />
     <Text Include="Effects description.txt" />
     <Text Include="features.txt" />
-    <Text Include="TODO.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="$(SolutionDir)xrSound\xrSound.vcxproj">

@@ -36,7 +36,7 @@ struct HWViewPortRTZB
 #endif	//
 
 
-class  CHW
+class CHW 
 #if defined(USE_DX10) || defined(USE_DX11)
 	:	public pureAppActivate, 
 		public pureAppDeactivate
@@ -95,30 +95,30 @@ public:
 	ID3D11RenderTargetView*	pBaseRT;	//	combine with DX9 pBaseRT via typedef
 	ID3D11DepthStencilView*	pBaseZB;
 
-	CHWCaps					Caps;
+	CHWCaps					Caps{};
 
-	D3D_DRIVER_TYPE			m_DriverType;	//	DevT equivalent
-	DXGI_SWAP_CHAIN_DESC	m_ChainDesc;	//	DevPP equivalent
+	D3D_DRIVER_TYPE			m_DriverType{};	//	DevT equivalent
+	DXGI_SWAP_CHAIN_DESC	m_ChainDesc{};	//	DevPP equivalent
 	//DXGI_SWAP_CHAIN_DESC1	m_ChainDesc1;	//	DevPP equivalent
 	bool					m_bUsePerfhud;
-	D3D_FEATURE_LEVEL		FeatureLevel;
+	D3D_FEATURE_LEVEL		FeatureLevel{};
 #elif defined(USE_DX10)
 public:
 	IDXGIAdapter*			m_pAdapter;	//	pD3D equivalent
-	ID3D10Device1*       	pDevice1;	//	combine with DX9 pDevice via typedef
+	ID3D10Device1*       	pDevice1{};	//	combine with DX9 pDevice via typedef
 	ID3D10Device*        	pDevice;	//	combine with DX9 pDevice via typedef
-	ID3D10Device1*       	pContext1;	//	combine with DX9 pDevice via typedef
+	ID3D10Device1*       	pContext1{};	//	combine with DX9 pDevice via typedef
 	ID3D10Device*        	pContext;	//	combine with DX9 pDevice via typedef
 	IDXGISwapChain*         m_pSwapChain;
 	ID3D10RenderTargetView*	pBaseRT;	//	combine with DX9 pBaseRT via typedef
 	ID3D10DepthStencilView*	pBaseZB;
 
-	CHWCaps					Caps;
+	CHWCaps					Caps{};
 
-	D3D10_DRIVER_TYPE		m_DriverType;	//	DevT equivalent
-	DXGI_SWAP_CHAIN_DESC	m_ChainDesc;	//	DevPP equivalent
+	D3D10_DRIVER_TYPE		m_DriverType{};	//	DevT equivalent
+	DXGI_SWAP_CHAIN_DESC	m_ChainDesc{};	//	DevPP equivalent
 	bool					m_bUsePerfhud;
-	D3D_FEATURE_LEVEL		FeatureLevel;
+	D3D_FEATURE_LEVEL		FeatureLevel{};
 #else
 private:
 	HINSTANCE 				hD3D;
@@ -131,15 +131,15 @@ public:
 	IDirect3DSurface9*		pBaseRT;
 	IDirect3DSurface9*		pBaseZB;
 
-	CHWCaps					Caps;
+	CHWCaps					Caps{};
 
-	UINT					DevAdapter;
-	D3DDEVTYPE				DevT;
-	D3DPRESENT_PARAMETERS	DevPP;
+	UINT					DevAdapter{};
+	D3DDEVTYPE				DevT{};
+	D3DPRESENT_PARAMETERS	DevPP{};
 #endif	//	USE_DX10
 
 #ifndef _MAYA_EXPORT
-	stats_manager			stats_manager;
+	stats_manager			stats_manager{};
 #endif
 #if defined(USE_DX10) || defined(USE_DX11)
 	void			UpdateViews();
