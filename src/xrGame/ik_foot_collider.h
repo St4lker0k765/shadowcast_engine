@@ -69,7 +69,7 @@ class ik_foot_collider
 			SIKCollideData				previous_data;
 public:
 			ik_foot_collider			();
-	void	collide						( SIKCollideData &cld,const ik_foot_geom& foot_geom , CGameObject *O, bool foot_step );
+	void	collide(SIKCollideData& cld, const ik_foot_geom& foot_geom, CGameObject* O, bool foot_step, AccessLock* free_me_before_raypick);
 };
 
 static const float		collide_dist		= 0.5f;

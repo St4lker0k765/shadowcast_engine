@@ -111,7 +111,7 @@ void register_mp_console_commands();
 
 		BOOL	g_bCheckTime			= FALSE;
 		int		net_cl_inputupdaterate	= 50;
-		Flags32	g_mt_config				= {mtLevelPath | mtDetailPath | mtObjectHandler | mtSoundPlayer | mtAiVision | mtBullets | mtLUA_GC | mtLevelSounds | mtALife | mtMap};
+		Flags32	g_mt_config				= {mtLevelPath | mtDetailPath | mtObjectHandler | mtSoundPlayer | mtAiVision | mtBullets | mtLUA_GC | mtLevelSounds | mtALife | mtMap | mtIKinematics};
 #ifdef DEBUG
 		Flags32	dbg_net_Draw_Flags		= {0};
 #endif
@@ -1923,7 +1923,7 @@ void CCC_RegisterCommands()
 	CMD1(CCC_DemoRecordSetPos,	"demo_set_cam_position"	);
 #endif // #ifndef MASTER_GOLD
 	
-#ifndef MASTER_GOLD
+//#ifndef MASTER_GOLD
 	// ai
 	CMD3(CCC_Mask,				"mt_ai_vision",			&g_mt_config,	mtAiVision);
 	CMD3(CCC_Mask,				"mt_level_path",		&g_mt_config,	mtLevelPath);
@@ -1935,7 +1935,8 @@ void CCC_RegisterCommands()
 	CMD3(CCC_Mask,				"mt_level_sounds",		&g_mt_config,	mtLevelSounds);
 	CMD3(CCC_Mask,				"mt_alife",				&g_mt_config,	mtALife);
 	CMD3(CCC_Mask,				"mt_map",				&g_mt_config,	mtMap);
-#endif // MASTER_GOLD
+	CMD3(CCC_Mask,              "mt_ikinematics",       &g_mt_config,   mtIKinematics);
+//#endif // MASTER_GOLD
 
 #ifndef MASTER_GOLD
 	CMD3(CCC_Mask,				"ai_obstacles_avoiding",		&psAI_Flags,			aiObstaclesAvoiding);

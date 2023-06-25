@@ -979,6 +979,7 @@
     <ClInclude Include="string_concatenations_inline.h" />
     <ClInclude Include="SubAlloc.hpp" />
     <ClInclude Include="Threading\Event.hpp" />
+    <ClInclude Include="Threading\ThreadingSystemDefine.h" />
     <ClInclude Include="Utils.hpp" />
     <ClInclude Include="vector.h" />
     <ClInclude Include="xalloc.h" />

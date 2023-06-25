@@ -216,6 +216,8 @@
 #include "xrDebug.h"
 #include "vector.h"
 
+#include "Threading/ThreadingSystemDefine.h"
+
 #include "clsid.h"
 #include "xrSyncronize.h"
 #include "ScopeLock.h"

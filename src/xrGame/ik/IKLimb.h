@@ -34,7 +34,7 @@ public:
 				void		SolveBones			( SCalculateData& cd );
 				void		ApplyState			( SCalculateData& cd );
 				void		SetGoal				( SCalculateData& cd );
-				void		Update				( CGameObject *O, const CBlend *b, const extrapolation::points& object_pose_extrapolation );
+				void		Update				( CGameObject *O, const CBlend *b, const extrapolation::points& object_pose_extrapolation, AccessLock* free_me_before_raypick);
 public:
 IC				u16			get_id				( )									const { return m_id; }
 				float		ObjShiftDown		( float current_shift, const SCalculateData& cd )		const ;
@@ -45,7 +45,7 @@ IC				u16			ref_bone			( )									const { return m_foot.ref_bone();	}
 				Fmatrix		&transform			( Fmatrix &m, u16 bone0, u16 bone1 )const ;
 				float		time_to_footstep	( ) const	{ return state_predict.time_to_footstep; }
 				float		footstep_shift		( ) const	{ return state_predict.footstep_shift; }
-				void		step_predict		( CGameObject *O, const CBlend *b, ik_limb_state_predict &state, const extrapolation::points& object_pose_extrapolation ) ;//const;
+				void		step_predict		( CGameObject *O, const CBlend *b, ik_limb_state_predict &state, const extrapolation::points& object_pose_extrapolation, AccessLock* free_me_before_raypick) ;//const;
 				bool		foot_step			() const { return sv_state.foot_step(); }
 				u16			foot_matrix_predict ( Fmatrix& foot, Fmatrix& toe, float time, IKinematicsAnimated *K ) const ;
 #ifdef		DEBUG

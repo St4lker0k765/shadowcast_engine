@@ -21,7 +21,8 @@ public:
 			void	Destroy						( CGameObject *O );
 public:
 			void	PlayLegs					( CBlend *b );
-			void	Update						( );
+			void	Update						();
+			void __stdcall	            UpdateIK();
 			float	Shift						( ){ return _object_shift.shift(); }
 private:
 			void	Calculate					( );
@@ -31,7 +32,7 @@ private:
 			float	LegLengthShiftLimit			( float current_shift, const SCalculateData cd[max_size] );
 			bool	PredictObjectShift			( const SCalculateData cd[max_size] );
 			void	ObjectShift					( float static_shift, const SCalculateData cd[max_size] );
-			void	LimbUpdate					( CIKLimb &L );
+			void	LimbUpdate					( CIKLimb &L, AccessLock* free_me_before_raypick);
 			void	LimbSetup					( );
 
 private:

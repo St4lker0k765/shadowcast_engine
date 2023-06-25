@@ -15,11 +15,26 @@ void CKinematics::CalculateBones			(BOOL bForceExact)
 	// early out.
 	// check if the info is still relevant
 	// skip all the computations - assume nothing changes in a small period of time :)
-	if		(RDEVICE.dwTimeGlobal == UCalc_Time)										return;	// early out for "fast" update
-	UCalc_mtlock	lock	;
+	if		(RDEVICE.dwTimeGlobal == UCalc_Time)										
+		return;	// early out for "fast" update
+
+	UCalc_Mutex.Enter();
+
+	protectKinematics_.Enter();
+
 	OnCalculateBones		();
-	if		(!bForceExact && (RDEVICE.dwTimeGlobal < (UCalc_Time + UCalc_Interval)))	return;	// early out for "slow" update
-	if		(Update_Visibility)									Visibility_Update	();
+
+	if (!bForceExact && (RDEVICE.dwTimeGlobal < (UCalc_Time + UCalc_Interval))) // early out for "slow" update
+	{
+		protectKinematics_.Leave();
+
+		UCalc_Mutex.Leave();
+
+		return;
+
+	}
+	if (Update_Visibility)									
+		Visibility_Update	();
 
 	_DBG_SINGLE_USE_MARKER;
 	// here we have either:
@@ -91,8 +106,13 @@ void CKinematics::CalculateBones			(BOOL bForceExact)
 #endif
 	}
 
+	protectKinematics_.Leave();
+
+	UCalc_Mutex.Leave();
+
 	//
-	if (Update_Callback)	Update_Callback(this);
+	if (Update_Callback)	
+		Update_Callback(this);
 }
 
 #ifdef DEBUG

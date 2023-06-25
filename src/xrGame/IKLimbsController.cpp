@@ -5,6 +5,7 @@
 #include "IK/IKLimb.h"
 #include "physicsshellholder.h"
 
+#include "mt_config.h"
 #include "ik_anim_state.h"
 #include "../xrphysics/mathutils.h"
 #include "../Include/xrRender/RenderVisual.h"
@@ -64,11 +65,11 @@ void	CIKLimbsController::LimbCalculate( SCalculateData &cd )
 	cd.m_limb->ApplyState( cd );
 }
 
-void	CIKLimbsController::LimbUpdate( CIKLimb &L )
+void	CIKLimbsController::LimbUpdate( CIKLimb &L, AccessLock* free_me_before_raypick)
 {
 	IKinematicsAnimated *skeleton_animated = m_object->Visual( )->dcast_PKinematicsAnimated( );
 	VERIFY( skeleton_animated );
-	L.Update( m_object, m_legs_blend, _pose_extrapolation );
+	L.Update( m_object, m_legs_blend, _pose_extrapolation, free_me_before_raypick );
 }
 
 IC void	update_blend (CBlend* &b)
@@ -242,6 +243,10 @@ void	CIKLimbsController::ShiftObject( const SCalculateData cd[max_size] )
 int ik_shift_object = 1;
 void CIKLimbsController::Calculate( )
 {
+	IKinematics* K = m_object->Visual()->dcast_PKinematics();
+
+	K->protectKinematics_.Enter();
+
 	update_blend( m_legs_blend );
 
 	Fmatrix &obj = m_object->XFORM( );
@@ -261,7 +266,6 @@ void CIKLimbsController::Calculate( )
 		LimbCalculate( cd[i-b] );
 	}
 
-	IKinematics *K = m_object->Visual()->dcast_PKinematics( );
 	u16 root = K->LL_GetBoneRoot( ) ;
 	CBoneInstance &root_bi = K->LL_GetBoneInstance(root);
 
@@ -300,11 +304,10 @@ void CIKLimbsController::Calculate( )
 #endif
 	}
 	ObjectShift( 0, cd );
-	
-
 
 	root_bi.set_callback( root_bi.callback_type(), sv_root_cb, root_bi.callback_param(), sv_root_cb_ovwr );
 
+	K->protectKinematics_.Leave();
 }
 
 void CIKLimbsController::Destroy(CGameObject* O)
@@ -322,6 +325,8 @@ void CIKLimbsController::Destroy(CGameObject* O)
 	for(;e!=i;++i)
 		i->Destroy();
 	_bone_chains.clear();
+
+	Device.remove_from_seq_parallel(fastdelegate::FastDelegate0<>(this, &CIKLimbsController::UpdateIK));
 }
 
 void _stdcall CIKLimbsController:: IKVisualCallback( IKinematics* K )
@@ -356,12 +361,19 @@ void CIKLimbsController::PlayLegs( CBlend *b )
 		Msg( "! No foot stseps for animation: animation name: %s, animation set: %s ", anim_name, anim_set_name );
 #endif
 }
-void	CIKLimbsController:: Update						( )
+void CIKLimbsController::UpdateIK()
 {
 #ifdef DEBUG
 	if( ph_dbg_draw_mask1.test( phDbgIKOff ) )
 		return;
 #endif
+	if(!m_object->Visual()) //lancerKot: I don`t know. is it reasonable? 
+		return;
+
+	IKinematics* K = m_object->Visual()->dcast_PKinematics();
+
+	K->protectKinematics_.Enter();
+
 	IKinematicsAnimated *skeleton_animated = m_object->Visual()->dcast_PKinematicsAnimated( );
 	VERIFY( skeleton_animated );
 
@@ -369,7 +381,20 @@ void	CIKLimbsController:: Update						( )
 	update_blend( m_legs_blend );
 
 	_pose_extrapolation.update( m_object->XFORM() );
-	for (CIKLimb& it : _bone_chains)
-		LimbUpdate(it);
+	for (CIKLimb it: _bone_chains)
+	{
+		LimbUpdate(it, &K->protectKinematics_); // To avoid deadlocking secondary and main threads(because of mutex race) need to send the pointer 
+		// to the mutex up to the ik_foot_collider.cpp->Pick() function, so that it will release the mutex before RayPick call
+		// and then capture it again after RayPick is finished.
+	}
+
+	K->protectKinematics_.Leave();
 }
 
+void	CIKLimbsController::Update()
+{
+	if (g_mt_config.test(mtIKinematics))
+		Device.seqParallel.push_back(fastdelegate::FastDelegate0<>(this, &CIKLimbsController::UpdateIK));
+	else
+		UpdateIK();
+}

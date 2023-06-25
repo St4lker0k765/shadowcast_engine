@@ -27,6 +27,8 @@ public:
 		Fvector	tri[3];
 	};
 public:
+	AccessLock protectKinematics_;
+
 	virtual		void					Bone_Calculate		(CBoneData* bd, Fmatrix* parent) = 0;
 	virtual		void					Bone_GetAnimPos(Fmatrix& pos,u16 id, u8 channel_mask, bool ignore_callbacks) = 0;
 

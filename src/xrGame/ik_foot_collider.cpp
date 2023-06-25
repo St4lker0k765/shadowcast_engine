@@ -178,7 +178,7 @@ IC bool get_plane( ik_pick_result &r,  Fvector &next_pos, float &next_range, con
 		return get_plane_dynamic( r, next_pos, next_range, R, pick_dist, pos, pick_v );
 }
 
-bool Pick( ik_pick_result &r, const ik_pick_query &q , CObject* ignore_object)
+bool Pick( ik_pick_result &r, const ik_pick_query &q , CObject* ignore_object, AccessLock* free_me_before_raypick)
 {
 	VERIFY( q.is_valid() );
 
@@ -187,6 +187,12 @@ bool Pick( ik_pick_result &r, const ik_pick_query &q , CObject* ignore_object)
 	collide::rq_result	R;
 	bool collided = false;
 	Fvector pos = q.pos();
+
+	if (free_me_before_raypick)
+	{
+		free_me_before_raypick->Leave();	// This is intended behavior. if the pointer is not null, then it means the call is derived from IK->update process and is meant 
+		//to release mutex so that RayQuery function, called from another thread can enter the protectKinematics_ mutex to avoid dead locking both threads
+	}
 
 	while( g_pGameLevel->ObjectSpace.RayPick( pos, q.dir(), range, collide::rqtBoth, R, ignore_object ) )
 	{
@@ -202,6 +208,11 @@ bool Pick( ik_pick_result &r, const ik_pick_query &q , CObject* ignore_object)
 		pos		= next_pos;
 		if( range < EPS )
 			break;
+	}
+
+	if (free_me_before_raypick)
+	{
+		free_me_before_raypick->Enter();
 	}
 
 #ifdef DEBUG
@@ -230,7 +241,7 @@ void chose_best_plane( Fplane &p, const Fvector &v, Fplane &p0, Fplane &p1, Fpla
 void DBG_DrawTri( const Fvector& v0, const Fvector& v1, const Fvector& v2, u32 ac, bool solid );
 #endif
 
-void ik_foot_collider::collide( SIKCollideData &cld, const ik_foot_geom &foot_geom, CGameObject *O, bool foot_step )
+void ik_foot_collider::collide( SIKCollideData &cld, const ik_foot_geom &foot_geom, CGameObject *O, bool foot_step, AccessLock* free_me_before_raypick)
 {
 	VERIFY( foot_geom.is_valid() ); 
 	cld.collided = false;
@@ -270,7 +281,7 @@ void ik_foot_collider::collide( SIKCollideData &cld, const ik_foot_geom &foot_ge
 	previous_toe_query	= q_toe;
 
 	ik_pick_result r_toe(ik_foot_geom::toe);
-	cld.collided = Pick( r_toe, q_toe, O );
+	cld.collided = Pick( r_toe, q_toe, O, free_me_before_raypick);
 	cld.m_plane = r_toe.p;
 	cld.m_collide_point = ik_foot_geom::toe;
 //////////////////////////////////////////////////////////////////////////////////////
@@ -286,10 +297,10 @@ void ik_foot_collider::collide( SIKCollideData &cld, const ik_foot_geom &foot_ge
 #endif
 
 	ik_pick_result r_heel(ik_foot_geom::heel); 
-	bool heel_collided = Pick( r_heel, q_heel, O ) ;
+	bool heel_collided = Pick( r_heel, q_heel, O, free_me_before_raypick ) ;
 
 	ik_pick_result r_side(ik_foot_geom::side); 
-	bool side_collided = Pick( r_side, q_side, O ) ;
+	bool side_collided = Pick( r_side, q_side, O, free_me_before_raypick ) ;
 
 	bool toe_heel_compatible = cld.collided && heel_collided && Fvector().sub( r_heel.position, r_toe.position ).magnitude() < foot_length;
 	bool toe_side_compatible = cld.collided && side_collided && Fvector().sub( r_side.position, r_toe.position ).magnitude() < foot_length;

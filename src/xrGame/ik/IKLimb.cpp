@@ -966,7 +966,7 @@ void	CIKLimb::SetAnimGoal			( SCalculateData& cd )
 	cd.apply = true;
 }
 
-void	CIKLimb::Update( CGameObject *O, const CBlend *b, const extrapolation::points& object_pose_extrapolation  )
+void	CIKLimb::Update( CGameObject *O, const CBlend *b, const extrapolation::points& object_pose_extrapolation, AccessLock* free_me_before_raypick)
 {
 	if( !m_collide || !sv_state.valide() )
 	{
@@ -978,9 +978,9 @@ void	CIKLimb::Update( CGameObject *O, const CBlend *b, const extrapolation::poin
 	Fmatrix anim_foot; 
 	AnimGoal( anim_foot );
 	
-	m_foot.Collide( collide_data, collider, anim_foot, O->XFORM(), O, anim_state.step() );
+	m_foot.Collide( collide_data, collider, anim_foot, O->XFORM(), O, anim_state.step(), free_me_before_raypick );
 
-	step_predict( O, b, state_predict, object_pose_extrapolation );
+	step_predict( O, b, state_predict, object_pose_extrapolation, free_me_before_raypick );
 }
 
 float	CIKLimb::ObjShiftDown( float current_shift, const SCalculateData& cd )  const
@@ -1079,7 +1079,7 @@ u16	CIKLimb::foot_matrix_predict ( Fmatrix& foot, Fmatrix& toe, float time, IKin
 
 	return ref_b;
 }
-void	CIKLimb::step_predict( CGameObject *O, const CBlend *b, ik_limb_state_predict &state, const extrapolation::points& object_pose_extrapolation )//const
+void	CIKLimb::step_predict( CGameObject *O, const CBlend *b, ik_limb_state_predict &state, const extrapolation::points& object_pose_extrapolation, AccessLock* free_me_before_raypick)//const
 {
 	if( !b )
 		return;
@@ -1103,7 +1103,7 @@ void	CIKLimb::step_predict( CGameObject *O, const CBlend *b, ik_limb_state_predi
 		VERIFY( ref_b == 3);
 		m_ref_b = toe;
 	}
-	m_foot.Collide( cld, state.collider, m_ref_b, footstep_object, O, true );
+	m_foot.Collide( cld, state.collider, m_ref_b, footstep_object, O, true, free_me_before_raypick);
 	const Fmatrix gl_goal = Fmatrix().mul_43( footstep_object, m_ref_b );
 
 	ik_goal_matrix gl_cl_goal;
