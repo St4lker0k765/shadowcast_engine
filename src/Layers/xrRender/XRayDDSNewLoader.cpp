@@ -72,7 +72,7 @@ bool XRayDDSNewLoader::LoadDDS(IReader* F)
 		{
 			return false;
 		}
-		if (header.dds_pf.dwFlags == dds_four_cc)
+		if (header.dds_pf.dwFlags != dds_four_cc)
 		{
 			const bool alpha = header.dds_pf.dwFlags & (dds_rgba & (~dds_rgb));
 			if (header.dds_pf.dwRGBBitCount % 8 || header.dds_pf.dwRGBBitCount > 64)

@@ -368,7 +368,7 @@ void CIKLimbsController::UpdateIK()
 		return;
 #endif
 	if(!m_object->Visual()) //lancerKot: I don`t know. is it reasonable? 
-     	return;
+		return;
 
 	IKinematics* K = m_object->Visual()->dcast_PKinematics();
 

@@ -110,18 +110,13 @@ IC bool RAYvsCYLINDER(const Fcylinder& c_cylinder, const Fvector& S, const Fvect
 
 CCF_Skeleton::CCF_Skeleton(CObject* O) : ICollisionForm(O, cftObject)
 {
-    if(!O->Visual())
-    {
-        R_ASSERT3(false, "Can't create skeleton without Visual", O->cNameSect_str());
-
-        return;
-    }
-
-    IKinematics* K = PKinematics(O->Visual());
-
-    R_ASSERT3(K, "Can't create skeleton without Kinematics.", *O->cNameVisual());
+    //getVisData
+    IRenderVisual* pVisual = O->Visual();
+    //IKinematics* K = PKinematics(pVisual); VERIFY3(K,"Can't create skeleton without Kinematics.",*O->cNameVisual());
+    IKinematics* K = PKinematics(pVisual);
+    VERIFY3(K, "Can't create skeleton without Kinematics.", *O->cNameVisual());
     //bv_box.set (K->vis.box);
-    bv_box.set(O->Visual()->getVisData().box);
+    bv_box.set(pVisual->getVisData().box);
     bv_box.getsphere(bv_sphere.P, bv_sphere.R);
     vis_mask = 0;
 }
