@@ -184,7 +184,7 @@
     <Filter Include="Debug">
       <UniqueIdentifier>{3382f8e1-4f96-444a-a5b8-f6230eb36502}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Refactored\Execution &amp; 3D\Texture">
+    <Filter Include="Refactored\Execution &amp; 3D\Textures">
       <UniqueIdentifier>{eb2eeed9-d8f2-464f-9ee9-88054698e23d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -730,10 +730,10 @@
       <Filter>Shading templates</Filter>
     </ClInclude>
     <ClInclude Include="..\xrRender\DDSMain.h">
-      <Filter>Refactored\Execution &amp; 3D\Texture</Filter>
+      <Filter>Refactored\Execution &amp; 3D\Textures</Filter>
     </ClInclude>
     <ClInclude Include="..\xrRender\XRayDDSNewLoader.h">
-      <Filter>Refactored\Execution &amp; 3D\Texture</Filter>
+      <Filter>Refactored\Execution &amp; 3D\Textures</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1332,7 +1332,7 @@
       <Filter>Core_Target</Filter>
     </ClCompile>
     <ClCompile Include="..\xrRender\XRayDDSNewLoader.cpp">
-      <Filter>Refactored\Execution &amp; 3D\Texture</Filter>
+      <Filter>Refactored\Execution &amp; 3D\Textures</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

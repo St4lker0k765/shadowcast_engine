@@ -160,6 +160,9 @@
     <Filter Include="Interfase implementations\UI\UISequenceVideoItem">
       <UniqueIdentifier>{7b446f08-e762-4e42-9b67-0dd22dbfc8b4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Refactored\Execution &amp; 3D\Textures">
+      <UniqueIdentifier>{67ee2274-2d88-4e5b-a390-0d4b04cde836}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cl_intersect.h">
@@ -635,6 +638,12 @@
     </ClInclude>
     <ClInclude Include="..\..\Include\xrRender\UISequenceVideoItem.h">
       <Filter>Interfase implementations\UI\UISequenceVideoItem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\xrRender\DDSMain.h">
+      <Filter>Refactored\Execution &amp; 3D\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="..\xrRender\XRayDDSNewLoader.h">
+      <Filter>Refactored\Execution &amp; 3D\Textures</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1135,6 +1144,9 @@
     </ClCompile>
     <ClCompile Include="..\xrRender\dxUISequenceVideoItem.cpp">
       <Filter>Interfase implementations\UI\UISequenceVideoItem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\xrRender\XRayDDSNewLoader.cpp">
+      <Filter>Refactored\Execution &amp; 3D\Textures</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

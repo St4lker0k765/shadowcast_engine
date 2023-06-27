@@ -154,6 +154,9 @@
     <Filter Include="Models\Visuals">
       <UniqueIdentifier>{b4233fe2-78dd-48d9-94ff-620753340597}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Refactored\Execution &amp; 3D\Textures">
+      <UniqueIdentifier>{bce83726-080f-439e-8c52-2c26438da9c4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\xrRender\cl_intersect.h">
@@ -600,6 +603,12 @@
     <ClInclude Include="..\xrRender\ParticleGroup.h">
       <Filter>Models\Visuals</Filter>
     </ClInclude>
+    <ClInclude Include="..\xrRender\DDSMain.h">
+      <Filter>Refactored\Execution &amp; 3D\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="..\xrRender\XRayDDSNewLoader.h">
+      <Filter>Refactored\Execution &amp; 3D\Textures</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -1000,6 +1009,9 @@
     </ClCompile>
     <ClCompile Include="..\xrRender\ParticleGroup.cpp">
       <Filter>Models\Visuals</Filter>
+    </ClCompile>
+    <ClCompile Include="..\xrRender\XRayDDSNewLoader.cpp">
+      <Filter>Refactored\Execution &amp; 3D\Textures</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

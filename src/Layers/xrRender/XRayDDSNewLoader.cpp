@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "XRayDDSNewLoader.h"
+#include <dxgiformat.h>
 
 XRayDDSNewLoader::XRayDDSNewLoader()
 {

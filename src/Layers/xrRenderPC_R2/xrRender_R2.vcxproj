@@ -539,6 +539,7 @@
     <ClInclude Include="..\xrRender\Blender_tree.h" />
     <ClInclude Include="..\xrRender\ColorMapManager.h" />
     <ClInclude Include="..\xrRender\D3DUtils.h" />
+    <ClInclude Include="..\xrRender\DDSMain.h" />
     <ClInclude Include="..\xrRender\DetailManager.h" />
     <ClInclude Include="..\xrRender\DetailModel.h" />
     <ClInclude Include="..\xrRender\du_box.h" />
@@ -621,6 +622,7 @@
     <ClInclude Include="..\xrRender\uber_deffer.h" />
     <ClInclude Include="..\xrRender\VertexCache.h" />
     <ClInclude Include="..\xrRender\WallmarksEngine.h" />
+    <ClInclude Include="..\xrRender\XRayDDSNewLoader.h" />
     <ClInclude Include="..\xrRender\xrD3DDefs.h" />
     <ClInclude Include="..\xrRender\xrRender_console.h" />
     <ClInclude Include="..\xrRender\xrStripify.h" />
@@ -766,6 +768,7 @@
     <ClCompile Include="..\xrRender\uber_deffer.cpp" />
     <ClCompile Include="..\xrRender\VertexCache.cpp" />
     <ClCompile Include="..\xrRender\WallmarksEngine.cpp" />
+    <ClCompile Include="..\xrRender\XRayDDSNewLoader.cpp" />
     <ClCompile Include="..\xrRender\xrRender_console.cpp" />
     <ClCompile Include="..\xrRender\xrStripify.cpp" />
     <ClCompile Include="..\xrRender\xr_effgamma.cpp" />
