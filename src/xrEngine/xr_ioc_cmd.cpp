@@ -675,7 +675,46 @@ public:
     }
 };
 
+ENGINE_API BOOL mtLightTracking = TRUE;
 
+struct CCC_AllMtThreading: public IConsole_Command
+{
+public:
+    CCC_AllMtThreading(LPCSTR N) : IConsole_Command(N) {}
+
+    virtual void Execute(LPCSTR args)
+    {
+        string256 value;
+        sscanf(args, "%s", value);
+
+        int res = std::stoi(value);
+
+        if (!res || res)
+        {
+            Msg("* Switching All MT Calculations to [%i] state", res);
+
+            if (!res)
+            {
+                psDeviceFlags.set(mtSound, false);
+                psDeviceFlags.set(mtPhysics, false);
+                psDeviceFlags.set(mtNetwork, false);
+                //                psDeviceFlags.set(mtParticles, false); //LancerKOT: fix mt_particles!
+                mtLightTracking = FALSE;
+            }
+            else if (res)
+            {
+                psDeviceFlags.set(mtSound, true);
+                psDeviceFlags.set(mtPhysics, true);
+                psDeviceFlags.set(mtNetwork, true);
+                //                psDeviceFlags.set(mtParticles, true); //LancerKOT: fix mt_particles!
+                mtLightTracking = TRUE;
+            }
+        }
+        else
+            Msg("! Valid Argument command. Please again write console");
+    }
+    
+};
 ENGINE_API float psHUD_FOV_def = 0.5f; //--#SM+#--	Дефолтный HUD FOV (В % от Camera FOV) [default hud_fov (perc. of g_fov)]
 ENGINE_API float psHUD_FOV = psHUD_FOV_def; //--#SM+#-- Текущий HUD FOV (В % от Camera FOV) [current hud_fov (perc. of g_fov)]
 ENGINE_API float VIEWPORT_NEAR = 0.2f; //--#SM+#-- (Old: 0.2f)
@@ -719,175 +758,169 @@ extern int g_ErrorLineCount;
 
 ENGINE_API BOOL debugSecondVP = FALSE;
 
+
 ENGINE_API int ps_r__Supersample = 1;
 void CCC_Register()
 {
     // General
-    CMD1(CCC_Help, "help");
-    CMD1(CCC_Quit, "quit");
-    CMD1(CCC_Start, "start");
-    CMD1(CCC_Disconnect, "disconnect");
-    CMD1(CCC_SaveCFG, "cfg_save");
-    CMD1(CCC_LoadCFG, "cfg_load");
+    CMD1(CCC_Help, "help")
+    CMD1(CCC_Quit, "quit")
+    CMD1(CCC_Start, "start")
+    CMD1(CCC_Disconnect, "disconnect")
+    CMD1(CCC_SaveCFG, "cfg_save")
+    CMD1(CCC_LoadCFG, "cfg_load")
 
     //New
-    CMD4(CCC_Float, "svp_image_size_k", &psSVPImageSizeK, 0.1f, 2.f);
+    CMD4(CCC_Float, "svp_image_size_k", &psSVPImageSizeK, 0.1f, 2.f)
+
+    CMD3(CCC_Mask, "mt_sound", &psDeviceFlags, mtSound)
+    CMD3(CCC_Mask, "mt_physics", &psDeviceFlags, mtPhysics)
+    CMD3(CCC_Mask, "mt_network", &psDeviceFlags, mtNetwork)
+//    CMD3(CCC_Mask, "mt_particles", &psDeviceFlags, mtParticles) //LancerKOT: fix mt_particles!
+    CMD4(CCC_Integer, "mt_light_tracking", &mtLightTracking, 0, 1)
+    
 
 #ifdef DEBUG
-    CMD1(CCC_MotionsStat, "stat_motions");
-    CMD1(CCC_TexturesStat, "stat_textures");
+    CMD1(CCC_MotionsStat, "stat_motions")
+    CMD1(CCC_TexturesStat, "stat_textures")
 #endif // DEBUG
 
 #ifdef DEBUG_MEMORY_MANAGER
-    CMD1(CCC_MemStat, "dbg_mem_dump");
-    CMD1(CCC_DbgMemCheck, "dbg_mem_check");
+    CMD1(CCC_MemStat, "dbg_mem_dump")
+    CMD1(CCC_DbgMemCheck, "dbg_mem_check")
 #endif // DEBUG_MEMORY_MANAGER
 
 #ifdef DEBUG
-    CMD3(CCC_Mask, "mt_particles", &psDeviceFlags, mtParticles);
-
-    CMD1(CCC_DbgStrCheck, "dbg_str_check");
-    CMD1(CCC_DbgStrDump, "dbg_str_dump");
-
-    CMD3(CCC_Mask, "mt_sound", &psDeviceFlags, mtSound);
-    CMD3(CCC_Mask, "mt_physics", &psDeviceFlags, mtPhysics);
-    CMD3(CCC_Mask, "mt_network", &psDeviceFlags, mtNetwork);
+    CMD1(CCC_DbgStrCheck, "dbg_str_check")
+    CMD1(CCC_DbgStrDump, "dbg_str_dump")
 
     // Events
-    CMD1(CCC_E_Dump, "e_list");
-    CMD1(CCC_E_Signal, "e_signal");
+    CMD1(CCC_E_Dump, "e_list")
+    CMD1(CCC_E_Signal, "e_signal")
 
-    CMD3(CCC_Mask, "rs_clear_bb", &psDeviceFlags, rsClearBB);
-    CMD3(CCC_Mask, "rs_occlusion", &psDeviceFlags, rsOcclusion);
+    CMD3(CCC_Mask, "rs_clear_bb", &psDeviceFlags, rsClearBB)
+    CMD3(CCC_Mask, "rs_occlusion", &psDeviceFlags, rsOcclusion)
 
-    CMD3(CCC_Mask, "rs_detail", &psDeviceFlags, rsDetails);
-    //CMD4(CCC_Float, "r__dtex_range", &r__dtex_range, 5, 175 );
+    CMD3(CCC_Mask, "rs_detail", &psDeviceFlags, rsDetails)
 
-    // CMD3(CCC_Mask, "rs_constant_fps", &psDeviceFlags, rsConstantFPS );
-    CMD3(CCC_Mask, "rs_render_statics", &psDeviceFlags, rsDrawStatic);
-    CMD3(CCC_Mask, "rs_render_dynamics", &psDeviceFlags, rsDrawDynamic);
+    CMD3(CCC_Mask, "rs_render_statics", &psDeviceFlags, rsDrawStatic)
+    CMD3(CCC_Mask, "rs_render_dynamics", &psDeviceFlags, rsDrawDynamic)
 #endif
 
     // Render device states
-    CMD4(CCC_Integer, "r__supersample", &ps_r__Supersample, 1, 4);
-	CMD3(CCC_Mask, "rs_wireframe", &psDeviceFlags, rsWireframe);
+    CMD4(CCC_Integer, "r__supersample", &ps_r__Supersample, 1, 4)
+	CMD3(CCC_Mask, "rs_wireframe", &psDeviceFlags, rsWireframe)
 
-    CMD3(CCC_Mask, "rs_v_sync", &psDeviceFlags, rsVSync);
-    // CMD3(CCC_Mask, "rs_disable_objects_as_crows",&psDeviceFlags, rsDisableObjectsAsCrows );
-    CMD3(CCC_Mask, "rs_fullscreen", &psDeviceFlags, rsFullscreen);
-    CMD3(CCC_Mask, "rs_refresh_60hz", &psDeviceFlags, rsRefresh60hz);
-    CMD4(CCC_Float, "rs_cap_frame_rate", &fps_limit, 10.f, 900.00f);
-    CMD4(CCC_Integer, "svp_frame_delay", &psSVPFrameDelay, 1, 3);
-    CMD3(CCC_Mask, "rs_stats", &psDeviceFlags, rsStatistic);
-    CMD3(CCC_Mask, "rs_fps", &psDeviceFlags, rsFPS);
-    CMD4(CCC_Float, "rs_vis_distance", &psVisDistance, 0.4f, 1.5f);
-    //CMD3(CCC_Mask, "rs_landscape_cull", &psDeviceFlags, rsLandCull);
+    CMD3(CCC_Mask, "rs_v_sync", &psDeviceFlags, rsVSync)
+    CMD3(CCC_Mask, "rs_fullscreen", &psDeviceFlags, rsFullscreen)
+    CMD3(CCC_Mask, "rs_refresh_60hz", &psDeviceFlags, rsRefresh60hz)
+    CMD4(CCC_Float, "rs_cap_frame_rate", &fps_limit, 10.f, 900.00f)
+    CMD4(CCC_Integer, "svp_frame_delay", &psSVPFrameDelay, 1, 3)
+    CMD3(CCC_Mask, "rs_stats", &psDeviceFlags, rsStatistic)
+    CMD3(CCC_Mask, "rs_fps", &psDeviceFlags, rsFPS)
+    CMD4(CCC_Float, "rs_vis_distance", &psVisDistance, 0.4f, 1.5f)
 
-    CMD3(CCC_Mask, "rs_cam_pos", &psDeviceFlags, rsCameraPos);
+    CMD3(CCC_Mask, "rs_cam_pos", &psDeviceFlags, rsCameraPos)
 #ifdef DEBUG
-    CMD3(CCC_Mask, "rs_occ_draw", &psDeviceFlags, rsOcclusionDraw);
-    CMD3(CCC_Mask, "rs_occ_stats", &psDeviceFlags, rsOcclusionStats);
-    //CMD4(CCC_Integer, "rs_skeleton_update", &psSkeletonUpdate, 2, 128 );
+    CMD3(CCC_Mask, "rs_occ_draw", &psDeviceFlags, rsOcclusionDraw)
+    CMD3(CCC_Mask, "rs_occ_stats", &psDeviceFlags, rsOcclusionStats)
 #endif // DEBUG
 
-    CMD2(CCC_Gamma, "rs_c_gamma", &ps_gamma);
-    CMD2(CCC_Gamma, "rs_c_brightness", &ps_brightness);
-    CMD2(CCC_Gamma, "rs_c_contrast", &ps_contrast);
-    // CMD4(CCC_Integer, "rs_vb_size", &rsDVB_Size, 32, 4096);
-    // CMD4(CCC_Integer, "rs_ib_size", &rsDIB_Size, 32, 4096);
+    CMD2(CCC_Gamma, "rs_c_gamma", &ps_gamma)
+    CMD2(CCC_Gamma, "rs_c_brightness", &ps_brightness)
+    CMD2(CCC_Gamma, "rs_c_contrast", &ps_contrast)
 
     // Texture manager
-    CMD4(CCC_Integer, "texture_lod", &psTextureLOD, 0, 4);
-    CMD4(CCC_Integer, "net_dedicated_sleep", &psNET_DedicatedSleep, 0, 64);
+    CMD4(CCC_Integer, "texture_lod", &psTextureLOD, 0, 4)
+    CMD4(CCC_Integer, "net_dedicated_sleep", &psNET_DedicatedSleep, 0, 64)
 
     // General video control
-    CMD1(CCC_VidMode, "vid_mode");
+    CMD1(CCC_VidMode, "vid_mode")
 
 #ifdef DEBUG
-    CMD3(CCC_Token, "vid_bpp", &psCurrentBPP, vid_bpp_token);
+    CMD3(CCC_Token, "vid_bpp", &psCurrentBPP, vid_bpp_token)
 #endif // DEBUG
 
-    CMD1(CCC_VID_Reset, "vid_restart");
+    CMD1(CCC_VID_Reset, "vid_restart")
 
     // Sound
-    CMD2(CCC_Float, "snd_volume_eff", &psSoundVEffects);
-    CMD2(CCC_Float, "snd_volume_music", &psSoundVMusic);
-    CMD1(CCC_SND_Restart, "snd_restart");
-    CMD3(CCC_Mask, "snd_acceleration", &psSoundFlags, ss_Hardware);
-    CMD3(CCC_Mask, "snd_efx", &psSoundFlags, ss_EAX);
-    CMD4(CCC_Integer, "snd_targets", &psSoundTargets, 4, 32);
-    CMD4(CCC_Integer, "snd_cache_size", &psSoundCacheSizeMB, 4, 32);
+    CMD2(CCC_Float, "snd_volume_eff", &psSoundVEffects)
+    CMD2(CCC_Float, "snd_volume_music", &psSoundVMusic)
+    CMD1(CCC_SND_Restart, "snd_restart")
+    CMD3(CCC_Mask, "snd_acceleration", &psSoundFlags, ss_Hardware)
+    CMD3(CCC_Mask, "snd_efx", &psSoundFlags, ss_EAX)
+    CMD4(CCC_Integer, "snd_targets", &psSoundTargets, 4, 32)
+    CMD4(CCC_Integer, "snd_cache_size", &psSoundCacheSizeMB, 4, 32)
 
 #ifdef DEBUG
-    CMD3(CCC_Mask, "snd_stats", &g_stats_flags, st_sound);
-    CMD3(CCC_Mask, "snd_stats_min_dist", &g_stats_flags, st_sound_min_dist);
-    CMD3(CCC_Mask, "snd_stats_max_dist", &g_stats_flags, st_sound_max_dist);
-    CMD3(CCC_Mask, "snd_stats_ai_dist", &g_stats_flags, st_sound_ai_dist);
-    CMD3(CCC_Mask, "snd_stats_info_name", &g_stats_flags, st_sound_info_name);
-    CMD3(CCC_Mask, "snd_stats_info_object", &g_stats_flags, st_sound_info_object);
+    CMD3(CCC_Mask, "snd_stats", &g_stats_flags, st_sound)
+    CMD3(CCC_Mask, "snd_stats_min_dist", &g_stats_flags, st_sound_min_dist)
+    CMD3(CCC_Mask, "snd_stats_max_dist", &g_stats_flags, st_sound_max_dist)
+    CMD3(CCC_Mask, "snd_stats_ai_dist", &g_stats_flags, st_sound_ai_dist)
+    CMD3(CCC_Mask, "snd_stats_info_name", &g_stats_flags, st_sound_info_name)
+    CMD3(CCC_Mask, "snd_stats_info_object", &g_stats_flags, st_sound_info_object)
 
-    CMD4(CCC_Integer, "error_line_count", &g_ErrorLineCount, 6, 1024);
+    CMD4(CCC_Integer, "error_line_count", &g_ErrorLineCount, 6, 1024)
 #endif // DEBUG
 
     // Mouse
-    CMD3(CCC_Mask, "mouse_invert", &psMouseInvert, 1);
+    CMD3(CCC_Mask, "mouse_invert", &psMouseInvert, 1)
     psMouseSens = 0.12f;
-    CMD4(CCC_Float, "mouse_sens", &psMouseSens, 0.001f, 0.6f);
+    CMD4(CCC_Float, "mouse_sens", &psMouseSens, 0.001f, 0.6f)
 
     // Camera
-    CMD2(CCC_Float, "cam_inert", &psCamInert);
-    CMD2(CCC_Float, "cam_slide_inert", &psCamSlideInert);
+    CMD2(CCC_Float, "cam_inert", &psCamInert)
+    CMD2(CCC_Float, "cam_slide_inert", &psCamSlideInert)
 
-    CMD1(CCC_r2, "renderer");
+    CMD1(CCC_r2, "renderer")
 
 #ifndef DEDICATED_SERVER
-    CMD1(CCC_soundDevice, "snd_device");
+    CMD1(CCC_soundDevice, "snd_device")
 #endif
-    //psSoundRolloff = pSettings->r_float ("sound","rolloff"); clamp(psSoundRolloff, EPS_S, 2.f);
     psSoundOcclusionScale = pSettings->r_float("sound", "occlusion_scale");
     clamp(psSoundOcclusionScale, 0.1f, .5f);
 
     extern int g_Dump_Export_Obj;
     extern int g_Dump_Import_Obj;
-    CMD4(CCC_Integer, "net_dbg_dump_export_obj", &g_Dump_Export_Obj, 0, 1);
-    CMD4(CCC_Integer, "net_dbg_dump_import_obj", &g_Dump_Import_Obj, 0, 1);
+    CMD4(CCC_Integer, "net_dbg_dump_export_obj", &g_Dump_Export_Obj, 0, 1)
+    CMD4(CCC_Integer, "net_dbg_dump_import_obj", &g_Dump_Import_Obj, 0, 1)
 
 #ifdef DEBUG
     CMD1(CCC_DumpOpenFiles, "dump_open_files");
 #endif
 
-	CMD4(CCC_Integer, "rs_debug_second_vp", &debugSecondVP, FALSE, TRUE);
+	CMD4(CCC_Integer, "rs_debug_second_vp", &debugSecondVP, FALSE, TRUE)
 
-	CMD4(CCC_Float, "developer_float_1", &devfloat1, -100000.f, 100000.f);
-	CMD4(CCC_Float, "developer_float_2", &devfloat2, -100000.f, 100000.f);
-	CMD4(CCC_Float, "developer_float_3", &devfloat3, -100000.f, 100000.f);
-	CMD4(CCC_Float, "developer_float_4", &devfloat4, -100000.f, 100000.f);
+	CMD4(CCC_Float, "developer_float_1", &devfloat1, -100000.f, 100000.f)
+	CMD4(CCC_Float, "developer_float_2", &devfloat2, -100000.f, 100000.f)
+	CMD4(CCC_Float, "developer_float_3", &devfloat3, -100000.f, 100000.f)
+	CMD4(CCC_Float, "developer_float_4", &devfloat4, -100000.f, 100000.f)
 
-    CMD1(CCC_TuneTextureMaterial, "debug_texture");
+    CMD1(CCC_TuneTextureMaterial, "debug_texture")
 
-    CMD4(CCC_Float, "d_material", &d_material, -10.f, 10.f);
-    CMD4(CCC_Float, "d_material_weight", &d_material_weight, -10.f, 10.f);
+    CMD4(CCC_Float, "d_material", &d_material, -10.f, 10.f)
+    CMD4(CCC_Float, "d_material_weight", &d_material_weight, -10.f, 10.f)
 
-    CMD4(CCC_Float, "hud_adjust_delta_pos", &hud_adj_delta_pos, -10.f, 10.f);
-    CMD4(CCC_Float, "hud_adjust_delta_rot", &hud_adj_delta_rot, -10.f, 10.f);
+    CMD4(CCC_Float, "hud_adjust_delta_pos", &hud_adj_delta_pos, -10.f, 10.f)
+    CMD4(CCC_Float, "hud_adjust_delta_rot", &hud_adj_delta_rot, -10.f, 10.f)
 
 
-    CMD4(CCC_Float, "adjust_delta_pos", &adj_delta_pos, -10.f, 10.f);
-    CMD4(CCC_Float, "adjust_delta_rot", &adj_delta_rot, -10.f, 10.f);
+    CMD4(CCC_Float, "adjust_delta_pos", &adj_delta_pos, -10.f, 10.f)
+    CMD4(CCC_Float, "adjust_delta_rot", &adj_delta_rot, -10.f, 10.f)
 
-    CMD1(CCC_ExclusiveMode, "input_exclusive_mode");
+    CMD1(CCC_ExclusiveMode, "input_exclusive_mode")
 
     extern int g_svTextConsoleUpdateRate;
-    CMD4(CCC_Integer, "sv_console_update_rate", &g_svTextConsoleUpdateRate, 1, 100);
+    CMD4(CCC_Integer, "sv_console_update_rate", &g_svTextConsoleUpdateRate, 1, 100)
 
     extern int g_svDedicateServerUpdateReate;
-    CMD4(CCC_Integer, "sv_dedicated_server_update_rate", &g_svDedicateServerUpdateReate, 1, 1000);
+    CMD4(CCC_Integer, "sv_dedicated_server_update_rate", &g_svDedicateServerUpdateReate, 1, 1000)
 
-    CMD1(CCC_HideConsole, "hide");
+    CMD1(CCC_HideConsole, "hide")
 
 #ifdef DEBUG
     extern BOOL debug_destroy;
-    CMD4(CCC_Integer, "debug_destroy", &debug_destroy, FALSE, TRUE);
+    CMD4(CCC_Integer, "debug_destroy", &debug_destroy, FALSE, TRUE)
 #endif
 };
 
