@@ -68,8 +68,6 @@ private:
 
 	Fvector					approximate			;
 
-	IRenderable*            Owner_Light;
-
 #if RENDER!=R_R1
 	Fvector					last_position;
 	s32						ticks_to_update;
@@ -83,9 +81,7 @@ public:
 
 	void					add					(light*			L);
 	void					update				(IRenderable*	O);
-	void					update_smooth		(IRenderable*	O=nullptr);
-
-	void __stdcall          perform_ros_update();
+	void					update_smooth		(IRenderable*	O=0);
 	
 	ICF	float				get_hemi			()	{
 		if (dwFrameSmooth!=Device.dwFrame)		update_smooth();

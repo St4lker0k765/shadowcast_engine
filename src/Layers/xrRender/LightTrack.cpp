@@ -1,4 +1,4 @@
-ша// LightTrack.cpp: implementation of the CROS_impl class.
+// LightTrack.cpp: implementation of the CROS_impl class.
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -14,8 +14,6 @@
 #	include "../../xrEngine/igame_persistent.h"
 #	include "../../xrEngine/environment.h"
 #endif
-
-ENGINE_API BOOL mtLightTracking;
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -177,54 +175,23 @@ inline void CROS_impl::accum_hemi(float* hemi_cube, Fvector3& dir, float scale)
 //////////////////////////////////////////////////////////////////////////
 void	CROS_impl::update	(IRenderable* O)
 {
-	if(!O || !this || g_loading_events.size())
-	{
-		// since light update is sent to mt while rendering - it can happen, that
-		// its processed in the next frame. And if the level is destoryed - secondary 
-		// thread will process a nulled object and crash
-
-		Msg("! Safely aborting light tracking calculations!");
-
-		return;
-	}
-
-	Owner_Light = O;
-
-	if (mtLightTracking)
-	{
-		fastdelegate::FastDelegate0<> mtLight(this, &CROS_impl::perform_ros_update);
-		Device.seqParallel.emplace_back(mtLight);
-	}
-	else
-		perform_ros_update();
-}
-void CROS_impl::perform_ros_update()
-{
-	if (dwFrame == Device.dwFrame)
-		return;
-
-	if (!Owner_Light)
-		return;
-
-	IRenderable* O = Owner_Light;
-
-    CObject* _object = dynamic_cast<CObject*>(O);
-	VERIFY(_object);
-	VERIFY(&O->renderable);
-	VERIFY(O->renderable.visual);
-
+	// clip & verify
+	if					(dwFrame==Device.dwFrame)			return;
 	dwFrame				= Device.dwFrame;
-
+	if					(0==O)								return;
+	if					(0==O->renderable.visual)			return;
 	VERIFY				(dynamic_cast<CROS_impl*>			(O->renderable_ROS()));
 	//float	dt			=	Device.fTimeDelta;
 
-	if (!O->renderable.visual)
-		return;
+	CObject*	_object	= dynamic_cast<CObject*>	(O);
 
+	// select sample, randomize position inside object
 	vis_data &vis = O->renderable.visual->getVisData();
 	Fvector	position;	O->renderable.xform.transform_tiny	(position,vis.sphere.P);
 	position.y			+=  .3f * vis.sphere.R;
 	Fvector	direction;	direction.random_dir();
+//.			position.mad(direction,0.25f*radius);
+//.			position.mad(direction,0.025f*radius);
 
 	//function call order is important at least for r1
 	for (size_t i = 0; i < NUM_FACES; ++i)
@@ -349,7 +316,7 @@ void 	CROS_impl::smart_update(IRenderable* O)
 	}
 	else
 	{
-		if (!last_position.similar(position, 0.15f))
+		if (!last_position.similar(position, 0.15))
 		{
 			sky_rays_uptodate = 0;
 			update(O);
