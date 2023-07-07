@@ -667,39 +667,58 @@ void CLocatorAPI::setup_fs_path(LPCSTR fs_name)
         );
 }
 
+const char* fsgame = "\
+;abbreviation           = recurs|notif|  root|                  add|        ext|            description\n\
+$app_data_root$ = true | false | appdata\\ \n\
+$arch_dir$ = false | false | $fs_root$ \n \
+$game_arch_mp$ = false | false | $fs_root$ | mp\\ \n\
+$arch_dir_levels$ = false | false | $fs_root$ | levels\\ \n\
+$arch_dir_resources$ = false | false | $fs_root$ | resources\\ \n\
+$arch_dir_localization$ = false | false | $fs_root$ | localization\\ \n\
+$arch_dir_patches$ = false | true | $fs_root$ | patches\\ \n\
+$game_data$ = false | true | $fs_root$ | gamedata\\ \n\
+$game_ai$ = true | false | $game_data$ | ai\\ \n\
+$game_spawn$ = true | false | $game_data$ | spawns\\ \n\
+$game_levels$ = true | false | $game_data$ | levels\\ \n\
+$game_meshes$ = true | true | $game_data$ | meshes\\ | *.ogf; *.omf | Game Object files \n\
+$game_anims$ = true | true | $game_data$ | anims\\ | *.anm; *.anms | Animation files \n\
+$game_dm$ = true | true | $game_data$ | meshes\\ | *.dm | Detail Model files \n\
+$game_shaders$ = true | true | $game_data$ | shaders\\ \n\
+$game_sounds$ = true | true | $game_data$ | sounds\\ \n\
+$game_textures$ = true | true | $game_data$ | textures\\ \n\
+$game_config$ = true | false | $game_data$ | configs\\ \n\
+$game_weathers$ = true | false | $game_config$ | environment\\weathers \n\
+$game_weather_effects$ = true | false | $game_config$ | environment\\weather_effects \n\
+$textures$ = true | true | $game_data$ | textures\\ \n\
+$level$ = false | false | $game_levels$ \n\
+$game_scripts$ = true | false | $game_data$ | scripts\\ | *.script | Game script files \n\
+$logs$ = true | false | $app_data_root$ | logs\\ \n\
+$screenshots$ = true | false | $app_data_root$ | screenshots\\ \n\
+$game_saves$ = true | false | $app_data_root$ | savedgames\\ \n\
+$downloads$ = false | false | $app_data_root$ \n\
+";
+
 IReader* CLocatorAPI::setup_fs_ltx(LPCSTR fs_name)
 {
     setup_fs_path(fs_name);
 
-    // if (m_Flags.is(flTargetFolderOnly)) {
-    // append_path ("$fs_root$", "", 0, FALSE);
-    // return (0);
-    // }
-
-    LPCSTR fs_file_name = FSLTX;
-    if (fs_name && *fs_name)
-        fs_file_name = fs_name;
-
-    Log("using fs-ltx", fs_file_name);
+    Log("using fs-ltx", fs_name);
 
     int file_handle;
     u32 file_size;
     IReader* result = 0;
-    CHECK_OR_EXIT(
-        file_handle_internal(fs_file_name, file_size, file_handle),
-        make_string("Cannot open file \"%s\".\nCheck your working folder.", fs_file_name)
-        );
 
-    void* buffer = FileDownload(fs_file_name, file_handle, file_size);
+    void* buffer = (void*)fsgame;
+    file_size = xr_strlen(fsgame);
     result = xr_new<CTempReader>(buffer, file_size, 0);
 
 #ifdef DEBUG
     if (result && m_Flags.is(flBuildCopy | flReady))
-        copy_file_to_build(result, fs_file_name);
+        copy_file_to_build(result, fs_name);
 #endif // DEBUG
 
     if (m_Flags.test(flDumpFileActivity))
-        _register_open_file(result, fs_file_name);
+        _register_open_file(result, fs_name);
 
     return (result);
 }
@@ -814,7 +833,6 @@ void CLocatorAPI::_initialize(u32 flags, LPCSTR target_folder, LPCSTR fs_name)
 
             CHECK_OR_EXIT(I.second, "The file 'fsgame.ltx' is corrupted (it contains duplicated lines).\nPlease reinstall the game or fix the problem manually.");
         }
-        r_close(pFSltx);
         R_ASSERT(path_exist("$app_data_root$"));
     };
 
