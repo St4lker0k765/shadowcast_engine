@@ -630,6 +630,80 @@ bool CLocatorAPI::Recurse(const char* path)
 bool file_handle_internal(LPCSTR file_name, u32& size, int& file_handle);
 void* FileDownload(LPCSTR file_name, const int& file_handle, u32& file_size);
 
+void CLocatorAPI::setup_fs_path(LPCSTR fs_name, string_path& fs_path)
+{
+    xr_strcpy(fs_path, fs_name ? fs_name : "");
+    LPSTR slash = strrchr(fs_path, '\\');
+    if (!slash)
+        slash = strrchr(fs_path, '/');
+    if (!slash)
+    {
+        xr_strcpy(fs_path, "");
+        return;
+    }
+
+    *(slash + 1) = 0;
+}
+
+void CLocatorAPI::setup_fs_path(LPCSTR fs_name)
+{
+    string_path fs_path;
+    setup_fs_path(fs_name, fs_path);
+
+
+    string_path full_current_directory;
+    _fullpath(full_current_directory, fs_path, sizeof(full_current_directory));
+
+    FS_Path* path = xr_new<FS_Path>(full_current_directory, "", "", "", 0);
+#ifdef DEBUG
+    Msg("$fs_root$ = %s", full_current_directory);
+#endif // #ifdef DEBUG
+
+    pathes.insert(
+        std::make_pair(
+        xr_strdup("$fs_root$"),
+        path
+        )
+        );
+}
+
+IReader* CLocatorAPI::setup_fs_ltx(LPCSTR fs_name)
+{
+    setup_fs_path(fs_name);
+
+    // if (m_Flags.is(flTargetFolderOnly)) {
+    // append_path ("$fs_root$", "", 0, FALSE);
+    // return (0);
+    // }
+
+    LPCSTR fs_file_name = FSLTX;
+    if (fs_name && *fs_name)
+        fs_file_name = fs_name;
+
+    Log("using fs-ltx", fs_file_name);
+
+    int file_handle;
+    u32 file_size;
+    IReader* result = 0;
+    CHECK_OR_EXIT(
+        file_handle_internal(fs_file_name, file_size, file_handle),
+        make_string("Cannot open file \"%s\".\nCheck your working folder.", fs_file_name)
+        );
+
+    void* buffer = FileDownload(fs_file_name, file_handle, file_size);
+    result = xr_new<CTempReader>(buffer, file_size, 0);
+
+#ifdef DEBUG
+    if (result && m_Flags.is(flBuildCopy | flReady))
+        copy_file_to_build(result, fs_file_name);
+#endif // DEBUG
+
+    if (m_Flags.test(flDumpFileActivity))
+        _register_open_file(result, fs_file_name);
+
+    return (result);
+}
+
 void CLocatorAPI::_initialize(u32 flags, LPCSTR target_folder, LPCSTR fs_name)
 {
     char _delimiter = '|'; //','
@@ -643,49 +717,13 @@ void CLocatorAPI::_initialize(u32 flags, LPCSTR target_folder, LPCSTR fs_name)
     m_Flags.set(flags, TRUE);
 
     // scan root directory
-    IReader* pFSltx = 0;
     bNoRecurse = TRUE;
     string4096 buf;
-    // append working folder
-    LPCSTR fs_ltx = nullptr;
 
     // append application path
     if (m_Flags.is(flScanAppRoot))
         append_path("$app_root$", Core.ApplicationPath, 0, FALSE);
 
-    if (m_Flags.is(flTargetFolderOnly))
-        append_path("$fs_root$", "", 0, FALSE);
-    else
-    { //find nearest fs.ltx and set fs_root correctly
-        fs_ltx = (fs_name && fs_name[0]) ? fs_name : FSLTX;
-        pFSltx = r_open(fs_ltx);
-
-        if (!pFSltx && m_Flags.is(flScanAppRoot))
-            pFSltx = r_open("$app_root$", fs_ltx);
-
-        if (!pFSltx)
-        {
-            string_path tmpAppPath = "";
-            strcpy_s(tmpAppPath, sizeof(tmpAppPath), Core.ApplicationPath);
-            if (xr_strlen(tmpAppPath))
-            {
-                tmpAppPath[xr_strlen(tmpAppPath) - 1] = 0;
-                if (strrchr(tmpAppPath, '\\'))
-                    *(strrchr(tmpAppPath, '\\') + 1) = 0;
-
-                append_path("$fs_root$", tmpAppPath, 0, FALSE);
-            }
-            else
-                append_path("$fs_root$", "", 0, FALSE);
-
-            pFSltx = r_open("$fs_root$", fs_ltx);
-        }
-        else
-            append_path("$fs_root$", "", 0, FALSE);
-
-
-        Log("using fs-ltx", fs_ltx);
-    }
 
     //-----------------------------------------------------------
     // append application data path
@@ -696,7 +734,7 @@ void CLocatorAPI::_initialize(u32 flags, LPCSTR target_folder, LPCSTR fs_name)
     }
     else
     {
-//    	pFSltx = setup_fs_ltx(fs_name);
+        IReader* pFSltx = setup_fs_ltx(fs_name);
         /*
          LPCSTR fs_ltx = (fs_name&&fs_name[0])?fs_name:FSLTX;
          F = r_open(fs_ltx);
@@ -723,7 +761,6 @@ void CLocatorAPI::_initialize(u32 flags, LPCSTR target_folder, LPCSTR fs_name)
          Log ("using fs-ltx",fs_ltx);
          */
         // append all pathes
-       CHECK_OR_EXIT(pFSltx, make_string("Cannot open file \"%s\".\nCheck your working folder.", fs_ltx));
         string_path id, root, add, def, capt;
         LPCSTR lp_add, lp_def, lp_capt;
         string16 b_v;
