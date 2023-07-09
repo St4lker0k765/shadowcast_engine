@@ -114,7 +114,7 @@ void xrCore::_initialize(LPCSTR _ApplicationName, LogCallback cb, BOOL init_fs, 
 #endif
         FS._initialize(flags, 0, fs_fname);
 		Msg("Build: %d\nBuild date: %s\n", build_id, build_date);
-		Msg("Engine Discord: https://discord.gg/MVu2FzyJV5");
+		Msg("Underground Collective Discord: https://discord.gg/Z2YuvKmHhf");
         EFS._initialize();
 #ifdef DEBUG
 #ifndef _EDITOR
