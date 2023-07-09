@@ -1211,7 +1211,7 @@ void	game_sv_Deathmatch::LoadTeams			()
 	
 	m_strWeaponsData->Load(m_sBaseWeaponCostSection);
 	
-	LoadTeamData("deathmatch_team0");
+//	LoadTeamData("deathmatch_team0");
 };
 
 s32		game_sv_Deathmatch::GetMoneyAmount			(const shared_str& caSection, char* caMoneyStr)

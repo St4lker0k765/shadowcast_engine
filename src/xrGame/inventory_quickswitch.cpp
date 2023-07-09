@@ -221,15 +221,15 @@ u32 g_slot3_assault_switch_priority = 0;
 u32 g_slot3_sniper_switch_priority	= 1;
 u32 g_slot3_heavy_switch_priority	= 3;
 
-static char const * teamdata_section	= "deathmatch_team0";
+//static char const * teamdata_section	= "deathmatch_team0";
 
 void CInventory::InitPriorityGroupsForQSwitch()
 {
 	STATIC_CHECK(epg_groups_count == CInventory::qs_priorities_count, groups_count_problem);
-	for (int i = epg_pistols; i < epg_groups_count; ++i)
-	{
-		m_groups[i].init_group		(teamdata_section, groups_names[i]);
-	}
+//	for (int i = epg_pistols; i < epg_groups_count; ++i)
+//	{
+//		m_groups[i].init_group		(teamdata_section, groups_names[i]);
+//	}
 	
 	m_slot2_priorities[g_slot2_pistol_switch_priority]	= &m_groups[epg_pistols];
 	m_slot2_priorities[g_slot2_shotgun_switch_priority] = &m_groups[epg_shotgun];

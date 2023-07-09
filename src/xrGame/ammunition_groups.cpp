@@ -38,12 +38,14 @@ void ammunition_group::init_ammunition_group(CItemMgr const * item_manager,
 	};
 }
 
-static char const * dm_team_data = "deathmatch_team0";
+//static char const * dm_team_data = "deathmatch_team0";
 
-void ammunition_group::init(CItemMgr const * item_manager)
+void ammunition_group::init(CItemMgr const * /*item_manager*/)
 {
-	m_wpn_groups.clear	();
+//	m_wpn_groups.clear	();
 
+
+/*
 	shared_str tmp_string;
 
 	init_ammunition_group	(item_manager, gid_knife, "mp_wpn_knife");
@@ -77,6 +79,7 @@ void ammunition_group::init(CItemMgr const * item_manager)
 
 	tmp_string				= pSettings->r_string(dm_team_data, "gid_cool_weapons");
 	init_ammunition_group	(item_manager, gid_cool_weapons, tmp_string.c_str());
+*/	
 }
 
 bool ammunition_group::is_item_in_group(u16 item_id, enum_group_id gid) const

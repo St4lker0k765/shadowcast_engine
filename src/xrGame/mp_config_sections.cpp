@@ -18,7 +18,7 @@ static char* important_sections[] =
 	"rank_3",
 	"rank_4",
 	"deathmatch_gamedata",
-	"deathmatch_team0",
+//	"deathmatch_team0",
 	"teamdeathmatch_team1",
 	"teamdeathmatch_team2",
 	"artefacthunt_gamedata",

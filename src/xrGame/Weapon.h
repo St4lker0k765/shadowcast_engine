@@ -597,10 +597,12 @@ public:
 protected:
 	u32						m_ef_main_weapon_type;
 	u32						m_ef_weapon_type;
+	u32                     m_ai_weapon_rank;
 
 public:
 	virtual u32				ef_main_weapon_type() const;
 	virtual u32				ef_weapon_type() const;
+	virtual u32             m_ai_weapon() const;
 
 protected:
 	float					m_addon_holder_range_modifier;

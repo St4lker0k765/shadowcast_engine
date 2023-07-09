@@ -38,7 +38,7 @@
 #endif
 
 
-#define	TEAM0_MENU		"deathmatch_team0"
+//#define	TEAM0_MENU		"deathmatch_team0"
 
 game_cl_Deathmatch::game_cl_Deathmatch()
 {
@@ -67,7 +67,7 @@ game_cl_Deathmatch::game_cl_Deathmatch()
 
 void game_cl_Deathmatch::Init ()
 {
-	LoadTeamData(TEAM0_MENU);
+//	LoadTeamData(TEAM0_MENU);
 
 	if (pSettings->line_exist("deathmatch_gamedata", "actor_spawn_effect"))
 		Actor_Spawn_Effect = pSettings->r_string("deathmatch_gamedata", "actor_spawn_effect");
@@ -384,7 +384,7 @@ void	game_cl_Deathmatch::OnSpectatorSelect		()
 
 char*	game_cl_Deathmatch::getTeamSection(int Team)
 {
-	return "deathmatch_team0";
+	return "Virezat ety xerny";
 };
 
 void game_cl_Deathmatch::Check_Invincible_Players()
@@ -1215,7 +1215,7 @@ void game_cl_Deathmatch::SendPickUpEvent(u16 ID_who, u16 ID_what)
 
 const shared_str game_cl_Deathmatch::GetTeamMenu(s16 team)
 {
-	return TEAM0_MENU;
+	return "Virezat ety xerny";
 }
 
 #define SELF_LOCATION	"mp_self_location"

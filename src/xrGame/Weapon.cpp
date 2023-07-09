@@ -71,8 +71,9 @@ CWeapon::CWeapon()
 	m_StrapOffset.identity();
 	m_strapped_mode = false;
 	m_can_be_strapped = false;
-	m_ef_main_weapon_type = u32(-1);
-	m_ef_weapon_type = u32(-1);
+	m_ef_main_weapon_type = static_cast<u32>(-1);
+	m_ef_weapon_type = static_cast<u32>(-1);
+	m_ai_weapon_rank = static_cast<u32>(-1);
 	m_UIScope = NULL;
 	m_set_next_ammoType_on_reload = undefined_ammo_type;
 	m_crosshair_inertion = 0.f;
@@ -103,6 +104,8 @@ CWeapon::CWeapon()
 	bullet_cnt = 0;
 
 	NeedUpdateHudParams = false;
+
+	
 }
 
 const shared_str CWeapon::GetScopeName() const
@@ -882,7 +885,7 @@ void CWeapon::net_Import(NET_Packet& P)
 	P.r_u8(wstate);
 
 	u8 Zoom;
-	P.r_u8((u8)Zoom);
+	P.r_u8(Zoom);
 
 	u8 scope;
 	P.r_u8(scope);
@@ -1926,8 +1929,15 @@ void CWeapon::reload(LPCSTR section)
 	else
 		m_can_be_strapped = false;
 
-	m_ef_main_weapon_type = READ_IF_EXISTS(pSettings, r_u32, section, "ef_main_weapon_type", u32(-1));
-	m_ef_weapon_type = READ_IF_EXISTS(pSettings, r_u32, section, "ef_weapon_type", u32(-1));
+	m_ef_main_weapon_type = READ_IF_EXISTS(pSettings, r_u32, section, "ef_main_weapon_type", static_cast<u32>(-1));
+	m_ef_weapon_type = READ_IF_EXISTS(pSettings, r_u32, section, "ef_weapon_type", static_cast<u32>(-1));
+	m_ai_weapon_rank = READ_IF_EXISTS(pSettings, r_u32, section, "weapon_rank", static_cast<u32>(-1));
+
+	if(m_ai_weapon_rank == static_cast<u32>(-1))
+	{
+		Msg("# Weapon rank not set for weapon: [%s]. Using default set rank(0)", section);
+		m_ai_weapon_rank = 0;
+	}
 }
 
 void CWeapon::create_physic_shell()
@@ -2382,13 +2392,18 @@ void CWeapon::SetAmmoElapsed(int ammo_count)
 u32	CWeapon::ef_main_weapon_type() const
 {
 	VERIFY(m_ef_main_weapon_type != u32(-1));
-	return	(m_ef_main_weapon_type);
+	return m_ef_main_weapon_type;
 }
 
 u32	CWeapon::ef_weapon_type() const
 {
 	VERIFY(m_ef_weapon_type != u32(-1));
-	return	(m_ef_weapon_type);
+	return m_ef_weapon_type;
+}
+
+u32 CWeapon::m_ai_weapon() const
+{
+	return m_ai_weapon_rank;
 }
 
 bool CWeapon::IsNecessaryItem(const shared_str& item_sect)
