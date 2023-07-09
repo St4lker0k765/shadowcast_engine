@@ -49,8 +49,8 @@ static int days_in_month[12] =
 };
 
 static int start_day = 10; // 31
-static int start_month = 2; // January
-static int start_year = 2019; // 1999
+static int start_month = 6; // January
+static int start_year = 2023; // 1999
 
 // binary hash, mainly for copy-protection
 
