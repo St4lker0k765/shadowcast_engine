@@ -82,8 +82,8 @@ PROTECT_API void CRenderDevice::Create()
         m_pRender = RenderFactory->CreateRenderDeviceRender();
     SetupGPU(m_pRender);
     Log("Starting RENDER device...");
-    fFOV = 90.f;
-    fASPECT = 1.f;
+    fFOV = 0.5f;
+    fASPECT = float(dwWidth) / float(dwHeight);
     m_pRender->Create(m_hWnd,dwWidth,dwHeight,fWidth_2,fHeight_2,true);
 
     if (psDeviceFlags.test(rsR3) || psDeviceFlags.test(rsR4))

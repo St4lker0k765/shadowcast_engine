@@ -187,20 +187,19 @@ int			ps_r2_GI_depth				= 1;				// 1..5
 int			ps_r2_GI_photons			= 16;				// 8..64
 float		ps_r2_GI_clip				= EPS_L;			// EPS
 float		ps_r2_GI_refl				= .9f;				// .9f
-float		ps_r2_ls_depth_scale		= 1.00001f;			// 1.00001f
-float		ps_r2_ls_depth_bias			= -0.0003f;			// -0.0001f
+float		ps_r2_ls_depth_scale = 1.00001f;
+float		ps_r2_ls_depth_bias = -0.0001f;		// -0.0001f
 float		ps_r2_ls_squality			= 1.0f;				// 1.00f
 float		ps_r2_sun_tsm_projection	= 0.3f;			// 0.18f
 float		ps_r2_sun_tsm_bias			= -0.01f;			// 
 float		ps_r2_sun_near				= 20.f;				// 12.0f
+float        ps_r2_sun_far = 180.0f;            // 180.0f
 
-extern float OLES_SUN_LIMIT_27_01_07;	//	actually sun_far
-
-float		ps_r2_sun_near_border		= 0.75f;			// 1.0f
-float		ps_r2_sun_depth_far_scale	= 1.00000f;			// 1.00001f
-float		ps_r2_sun_depth_far_bias	= -0.00002f;			// -0.0000f
-float		ps_r2_sun_depth_near_scale	= 1.0000f;			// 1.00001f
-float		ps_r2_sun_depth_near_bias	= 0.00001f;		// -0.00005f
+float		ps_r2_sun_near_border		= 1.0f;			// 1.0f
+float		ps_r2_sun_depth_far_scale = 1.00001f;			// 1.00001f
+float		ps_r2_sun_depth_far_bias = 0.00004f;			// -0.0000f
+float		ps_r2_sun_depth_near_scale = 1.00001f;			// 1.00001f
+float		ps_r2_sun_depth_near_bias = -0.00004f;		// -0.00005f
 float		ps_r2_sun_lumscale			= 1.0f;				// 1.0f
 float		ps_r2_sun_lumscale_hemi		= 1.0f;				// 1.0f
 float		ps_r2_sun_lumscale_amb		= 1.0f;
@@ -823,7 +822,7 @@ void		xrRender_initconsole	()
 	CMD4(CCC_Float,		"r2_sun_tsm_bias",		&ps_r2_sun_tsm_bias,		-0.5,	+0.5	);
 	CMD4(CCC_Float,		"r2_sun_near",			&ps_r2_sun_near,			1.f,	50.f	);
 #if RENDER!=R_R1
-	CMD4(CCC_Float,		"r2_sun_far",			&OLES_SUN_LIMIT_27_01_07,	51.f,	180.f	);
+	CMD4(CCC_Float,		"r2_sun_far",			&ps_r2_sun_far,	51.f,	180.f	);
 #endif
 	CMD4(CCC_Float,		"r2_sun_near_border",	&ps_r2_sun_near_border,		.5f,	1.0f	);
 	CMD4(CCC_Float,		"r2_sun_depth_far_scale",&ps_r2_sun_depth_far_scale,0.5,	1.5		);
