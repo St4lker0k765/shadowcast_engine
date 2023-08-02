@@ -31,6 +31,9 @@ CUILines::CUILines()
 	uFlags.set(flColoringMode,		TRUE);
 	uFlags.set(flCutWordsMode,		FALSE);
 	uFlags.set(flRecognizeNewLine,	TRUE);
+
+	m_wndSize.set(0.f, 0.f);
+	m_wndPos.set(0.f, 0.f);
 }
 
 CUILines::~CUILines(){
