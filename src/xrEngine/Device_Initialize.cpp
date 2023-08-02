@@ -74,7 +74,7 @@ PROTECT_API void CRenderDevice::Initialize()
         ChangeDisplaySettings(&screen_settings, CDS_FULLSCREEN);
 
         // Create the render window
-        m_hWnd = CreateWindow(wndclass, "S.T.A.L.K.E.R.: Call of Pripyat", m_dwWindowStyle,
+        m_hWnd = CreateWindow(wndclass, "Shadow Engine", m_dwWindowStyle,
             /*rc.left, rc.top, */0, 0,
             screen_width, screen_height, 0L,
             0, hInstance, 0L);
