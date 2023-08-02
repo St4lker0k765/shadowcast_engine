@@ -68,7 +68,6 @@ void xrDebug::gather_info(const char *expression, const char *description, const
 {
 	LPSTR buffer = assertion_info;
 	LPCSTR endline = "\n";
-	LPCSTR prefix = "[error]";
 	bool extended_description = (description && !argument0 && strchr(description, '\n'));
 	for (int i = 0; i < 2; ++i)
 	{
@@ -76,10 +75,10 @@ void xrDebug::gather_info(const char *expression, const char *description, const
 		{
 			buffer += sprintf(buffer, "%sFATAL ERROR%s%s", endline, endline, endline);
 		}
-		buffer += sprintf(buffer, "%sExpression    : %s%s", prefix, expression, endline);
-		buffer += sprintf(buffer, "%sFunction      : %s%s", prefix, function, endline);
-		buffer += sprintf(buffer, "%sFile          : %s%s", prefix, file, endline);
-		buffer += sprintf(buffer, "%sLine          : %d%s", prefix, line, endline);
+		buffer += sprintf(buffer, "Expression    : %s%s", expression, endline);
+		buffer += sprintf(buffer, "Function      : %s%s", function, endline);
+		buffer += sprintf(buffer, "File          : %s%s", file, endline);
+		buffer += sprintf(buffer, "Line          : %d%s", line, endline);
 		
 		if (extended_description)
 		{
@@ -98,16 +97,16 @@ void xrDebug::gather_info(const char *expression, const char *description, const
 			}
 		}
 		else {
-			buffer += sprintf(buffer,"%sDescription   : %s%s",prefix,description,endline);
+			buffer += sprintf(buffer,"Description   : %s%s",description,endline);
 			if (argument0)
 			{
 				if (argument1)
 				{
-					buffer += sprintf(buffer, "%sArgument 0    : %s%s", prefix, argument0, endline);
-					buffer += sprintf(buffer, "%sArgument 1    : %s%s", prefix, argument1, endline);
+					buffer += sprintf(buffer, "Argument 0    : %s%s", argument0, endline);
+					buffer += sprintf(buffer, "Argument 1    : %s%s", argument1, endline);
 				}
 				else
-					buffer += sprintf(buffer, "%sArguments     : %s%s", prefix, argument0, endline);
+					buffer += sprintf(buffer, "Arguments     : %s%s", argument0, endline);
 			}
 		}
 
@@ -121,7 +120,6 @@ void xrDebug::gather_info(const char *expression, const char *description, const
 			}
 			buffer = assertion_info;
 			endline = "\r\n";
-			prefix = "";
 		}
 	}
 
