@@ -788,7 +788,7 @@ void CMainMenu::OnConnectToMasterServerOkClicked(CUIWindow*, void*)
 LPCSTR CMainMenu::GetGSVer()
 {
 // no gamespy; game version here
-	return "Developer Test 1.0.0.0";
+	return "Developer Test 1.0.0.3";
 }
 
 LPCSTR CMainMenu::GetPlayerName()
