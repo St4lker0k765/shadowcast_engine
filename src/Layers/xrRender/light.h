@@ -74,9 +74,8 @@ public:
 	union			_xform	{
 		struct		_D		{
 			Fmatrix						combine	;
-			u32 size;
-			u32 posX;
-			u32 posY;
+			s32							minX,maxX	;
+			s32							minY,maxY	;
 			BOOL						transluent	;
 		}	D;
 		struct		_P		{

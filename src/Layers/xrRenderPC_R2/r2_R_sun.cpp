@@ -1286,53 +1286,40 @@ void CRender::render_sun_near	()
         D3DXMatrixOrthoOffCenterLH    ((D3DXMATRIX*)&mdir_Project,bb.min.x,bb.max.x,  bb.min.y,bb.max.y,  bb.min.z-tweak_ortho_xform_initial_offs,bb.max.z);
 
 		// build viewport xform
-		float smapsize = float(RImplementation.o.smapsize);
-		float view_dim = float(fuckingsun->X.D.size - 2) / smapsize;
-		float view_sx = float(fuckingsun->X.D.posX + 1) / smapsize;
-		float view_sy = float(fuckingsun->X.D.posY + 1) / smapsize;
-		float fTexelOffs = (0.5f / smapsize);
-		float fRange = ps_r2_sun_depth_near_scale;
-		float fBias = ps_r2_sun_depth_near_bias;
-		Fmatrix m_viewport = {
-			view_dim / 2.0f,                0.0f,                            0.0f,        0.0f,
-			0.0f,                        -view_dim / 2.0f,                    0.0f,        0.0f,
-			0.0f,                        0.0f,                            fRange,        0.0f,
-			view_dim / 2.0f + fTexelOffs,    view_dim / 2.0f + fTexelOffs,        fBias,        1.0f
+		float	view_dim			= float(RImplementation.o.smapsize);
+		Fmatrix	m_viewport			= {
+			view_dim/2.f,	0.0f,				0.0f,		0.0f,
+			0.0f,			-view_dim/2.f,		0.0f,		0.0f,
+			0.0f,			0.0f,				1.0f,		0.0f,
+			view_dim/2.f,	view_dim/2.f,		0.0f,		1.0f
 		};
-		Fmatrix                m_viewport_inv;
-		D3DXMatrixInverse((D3DXMATRIX*)&m_viewport_inv, 0, (D3DXMATRIX*)&m_viewport);
+		Fmatrix				m_viewport_inv;
+		D3DXMatrixInverse	((D3DXMATRIX*)&m_viewport_inv,0,(D3DXMATRIX*)&m_viewport);
 
 		// snap view-position to pixel
-		cull_xform.mul(mdir_Project, mdir_View);
-		Fvector cam_proj = wform(cull_xform, Device.vCameraPosition);
-		Fvector    cam_pixel = wform(m_viewport, cam_proj);
-		cam_pixel.x = floorf(cam_pixel.x);
-		cam_pixel.y = floorf(cam_pixel.y);
-		Fvector cam_snapped = wform(m_viewport_inv, cam_pixel);
-		Fvector             diff;
-		diff.sub(cam_snapped, cam_proj);
-		Fmatrix                adjust;
-		adjust.translate(diff);
-		cull_xform.mulA_44(adjust);
+		cull_xform.mul		(mdir_Project,mdir_View	);
+		Fvector cam_proj	= wform		(cull_xform,Device.vCameraPosition	);
+		Fvector	cam_pixel	= wform		(m_viewport,cam_proj				);
+		cam_pixel.x			= floorf	(cam_pixel.x);
+		cam_pixel.y			= floorf	(cam_pixel.y);
+		Fvector cam_snapped	= wform		(m_viewport_inv,cam_pixel);
+		Fvector diff;		diff.sub	(cam_snapped,cam_proj				);
+		Fmatrix adjust;		adjust.translate(diff);
+		cull_xform.mulA_44	(adjust);
 
 		// calculate scissor
-		Fbox scissor;
-		scissor.invalidate();
-
-		Fmatrix scissor_xf;
-		scissor_xf.mul(m_viewport, cull_xform);
-
-		for (int it = 0; it < 8; it++)
-		{
-			Fvector    xf = wform(scissor_xf, hull.points[it]);
-			scissor.modify(xf);
+		Fbox		scissor				;	scissor.invalidate();
+		Fmatrix		scissor_xf			;
+					scissor_xf.mul		(m_viewport,cull_xform);
+		for (int it=0; it<9; it++)	{
+			Fvector	xf	= wform		(scissor_xf,hull.points[it]);
+			scissor.modify			(xf);
 		}
-
-		int _cached_size = fuckingsun->X.D.size;
-		fuckingsun->X.D.posX = 0;
-		fuckingsun->X.D.posY = 0;
-		fuckingsun->X.D.size = SMAP_adapt_max;
-		fuckingsun->X.D.transluent = FALSE;
+		s32		limit					= RImplementation.o.smapsize-1;
+		fuckingsun->X.D.minX			= clampr	(iFloor	(scissor.min.x), 0, limit);
+		fuckingsun->X.D.maxX			= clampr	(iCeil	(scissor.max.x), 0, limit);
+		fuckingsun->X.D.minY			= clampr	(iFloor	(scissor.min.y), 0, limit);
+		fuckingsun->X.D.maxY			= clampr	(iCeil	(scissor.max.y), 0, limit);
 
 		// full-xform
 		FPU::m24r			();
