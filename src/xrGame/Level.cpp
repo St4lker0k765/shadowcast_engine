@@ -56,6 +56,17 @@
 #include "PhysicObject.h"
 #include "PHDebug.h"
 #include "debug_text_tree.h"
+#include "../xrCore/xr_detail_collision.h"
+
+//#|DCS++|
+ENGINE_API extern int ps_enable_dcs_detail_collision;
+
+ENGINE_API extern float ps_detail_collision_dcs_radius;
+
+ENGINE_API extern xr_vector<IDetailCollision> level_detail_coll;
+
+ENGINE_API extern Fvector actor_position;
+//#|DCS++|
 
 ENGINE_API bool g_dedicated_server;
 extern CUISequencer* g_tutorial;
@@ -591,6 +602,33 @@ void CLevel::OnFrame()
         pStatGraphR->AppendItem(float(m_dwRPC)*fRPC_Mult, 0xffff0000, 1);
         pStatGraphR->AppendItem(float(m_dwRPS)*fRPS_Mult, 0xff00ff00, 0);
     }
+
+    //#|DCS++|
+    if (ps_enable_dcs_detail_collision)
+    {
+        xr_vector<IDetailCollision> explosion_points;
+        for (const auto& point : level_detail_coll)
+        {
+            if (point.is_explosion)
+                explosion_points.push_back(point);
+        }
+
+        level_detail_coll.clear();
+
+        if (explosion_points.size())
+            level_detail_coll = explosion_points;
+
+        const xr_vector<CObject*>& active_objects = Objects.GetActiveObjects();
+
+        for (auto& obj : active_objects)
+        {
+            auto gobj = smart_cast<CEntityAlive*>(obj);
+
+            if (gobj && actor_position.distance_to(gobj->Position()) <= ps_detail_collision_dcs_radius)
+                level_detail_coll.push_back(IDetailCollision(gobj->Position(), gobj->ID()));
+        }
+    }
+    //#|DCS++|
 }
 
 int psLUA_GCSTEP = 10;

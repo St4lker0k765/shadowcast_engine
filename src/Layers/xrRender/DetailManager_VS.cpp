@@ -13,6 +13,15 @@
 
 #include "../xrRenderDX10/dx10BufferUtils.h"
 
+//#|DCS++|
+ENGINE_API extern int ps_enable_dcs_detail_collision;
+
+ENGINE_API extern float ps_detail_collision_dcs_radius;
+
+ENGINE_API extern Fvector ps_detail_collision_dcs_angle;
+ENGINE_API extern Fvector actor_position;
+//#|DCS++|
+
 const int			quant	= 16384;
 const int			c_hdr	= 10;
 const int			c_size	= 4;
@@ -86,7 +95,7 @@ void CDetailManager::hw_Load_Geom()
 #else	//	USE_DX10
 		R_CHK			(hw_VB->Lock(0,0,(void**)&pV,0));
 #endif	//	USE_DX10
-		for (o=0; o<objects.size(); o++)
+		for (u32 o=0; o<objects.size(); o++)
 		{
 			const CDetail& D		=	*objects[o];
 			for (u32 batch=0; batch<hw_BatchSize; batch++)
@@ -125,7 +134,7 @@ void CDetailManager::hw_Load_Geom()
 #else	//	USE_DX10
 		R_CHK			(hw_IB->Lock(0,0,(void**)(&pI),0));
 #endif	//	USE_DX10
-		for (o=0; o<objects.size(); o++)
+		for (u32 o=0; o<objects.size(); o++)
 		{
 			const CDetail& D		=	*objects[o];
 			u16		offset	=	0;
@@ -223,6 +232,8 @@ void CDetailManager::hw_Render()
 	hw_Render_dump			(&*hwc_s_array,	0, 1, c_hdr );
 }
 
+static auto deg2radfactor = PI / 180.f; // = 0.017453292f;
+
 void	CDetailManager::hw_Render_dump		(ref_constant x_array, u32 var_id, u32 lod_id, u32 c_offset)
 {
 	RDEVICE.Statistic->RenderDUMP_DT_Count	= 0;
@@ -244,6 +255,19 @@ void	CDetailManager::hw_Render_dump		(ref_constant x_array, u32 var_id, u32 lod_
 	c_ambient.set			(1,1,1);
 	c_hemi.set				(1,1,1);
 #endif    
+
+//#pragma todo("LancerKOT: Rework collision detail, in this way - shitty")
+
+    //#|DCS++|
+	float lost_parent_timeout = (ps_detail_collision_dcs_time * 1.5f);
+
+	Fvector ymp = ps_detail_collision_dcs_angle;
+	Fmatrix mGrassCollisionRot, M;
+
+#ifndef SIMPLE_DETAIL_COLLISION
+	IDetailCollision* pPointParent = nullptr;
+#endif
+    //#|DCS++|
 
 	VERIFY(objects.size()<=list.size());
 
@@ -272,7 +296,121 @@ void	CDetailManager::hw_Render_dump		(ref_constant x_array, u32 var_id, u32 lod_
 
 					// Build matrix ( 3x4 matrix, last row - color )
 					float		scale		= Instance.scale_calculated;
-					Fmatrix&	M			= Instance.mRotY;
+					M = Instance.mRotY;
+
+#pragma todo("LancerKOT: Rework collision detail, in this way - shitty")
+					//#|DCS++|
+					if (ps_enable_dcs_detail_collision && M.c.distance_to(actor_position) < ps_detail_collision_dcs_radius)
+					{
+#ifndef SIMPLE_DETAIL_COLLISION
+						if (Instance.IsCollisionParent())
+						{
+							pPointParent = GetDetailCollisionPointByID(Instance.collision_parent);
+							if (!pPointParent)
+								Instance.collision_parent = (u16)-1;
+						}
+
+						for (auto& point : level_detail_coll)
+						{
+							if (pPointParent)
+							{
+								if ((pPointParent->pos.distance_to(M.c) <= (pPointParent->radius + (pPointParent->radius * 0.3f))) && (point.id != Instance.collision_parent))
+									continue;
+
+								if (Instance.collision_parent != point.id && point.pos.distance_to(M.c) > point.radius)
+									continue;
+							}
+
+							if (point.pos.distance_to(M.c) <= point.radius && point.id == Instance.collision_parent)
+							{
+								Instance.m_fTimeCollision += Device.fTimeDelta / point.rot_time_in;
+							}
+							else
+							{
+								if (Instance.IsCollisionParent())
+								{
+
+									if (Instance.collision_parent != point.id && point.pos.distance_to(M.c) <= point.radius)
+									{
+										Instance.collision_parent = point.id;
+										break;
+									}
+
+									if (Instance.collision_parent == point.id)
+										Instance.m_fTimeCollision -= Device.fTimeDelta / point.rot_time_out;
+								}
+								else
+								{
+									if (point.pos.distance_to(M.c) <= point.radius)
+									{
+										Instance.collision_parent = point.id;
+										Instance.m_fTimeCollision += Device.fTimeDelta / point.rot_time_in;
+									}
+
+									if (Instance.m_fTimeCollision && !Instance.IsCollisionParent())
+										Instance.m_fTimeCollision -= Device.fTimeDelta / (lost_parent_timeout / level_detail_coll.size());
+								}
+							}
+
+							if (!Instance.m_fTimeCollision)
+								Instance.collision_parent = (u16)-1;
+
+							if (point.is_explosion)
+								if (Instance.collision_parent == point.id && !point.b_not_explosion_detail_collision)
+									point.b_not_explosion_detail_collision = true;
+						}
+#else
+						for (auto& point : level_detailcoll_points)
+						{
+							if (!Instance.m_fTimeCollision)
+								Instance.collision_parent = (u16)-1;
+
+							if (!Instance.IsCollisionParent())
+							{
+								if (point.pos.distance_to(M.c) <= point.radius)
+									Instance.collision_parent = point.id;
+								else
+								{
+									if (Instance.m_fTimeCollision)
+										Instance.m_fTimeCollision -= Device.fTimeDelta / (lost_parent_timeout / level_detailcoll_points.size());
+									continue;
+								}
+							}
+							else
+							{
+								if (point.id != Instance.collision_parent)
+									continue;
+							}
+
+							if (point.pos.distance_to(M.c) <= point.radius)
+								Instance.m_fTimeCollision += Device.fTimeDelta / point.rot_time_in;
+							else
+								Instance.m_fTimeCollision -= Device.fTimeDelta / point.rot_time_out;
+
+							if (point.is_explosion)
+								if (Instance.collision_parent == point.id && !point.bNoExplCollision)
+									point.bNoExplCollision = true;
+						}
+#endif
+						//CALC_OFFSETS : {
+						clamp(Instance.m_fTimeCollision, 0.f, 1.f);
+						mGrassCollisionRot.identity();
+						ymp.mul(deg2radfactor* Instance.m_fTimeCollision);
+						mGrassCollisionRot.setHPB(ymp.x, ymp.y, ymp.z);
+						ymp = ps_detail_collision_dcs_angle;
+						M.mulB_43(mGrassCollisionRot);
+						//}
+
+#ifndef SIMPLE_DETAIL_COLLISION
+						pPointParent = nullptr;
+#endif
+						}
+						else
+						{
+							Instance.m_fTimeCollision = 0.f;
+							Instance.collision_parent = (u16)-1;
+						}
+					//#|DCS++|
 					c_storage[base+0].set	(M._11*scale,	M._21*scale,	M._31*scale,	M._41	);
 					c_storage[base+1].set	(M._12*scale,	M._22*scale,	M._32*scale,	M._42	);
 					c_storage[base+2].set	(M._13*scale,	M._23*scale,	M._33*scale,	M._43	);

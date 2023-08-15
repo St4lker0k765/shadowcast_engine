@@ -73,6 +73,7 @@
 #include "ui/UIActorMenu.h"
 #include "ActorHelmet.h"
 #include "UI/UIDragDropReferenceList.h"
+#include "../xrCore/xr_detail_collision.h"
 
 const u32		patch_frames	= 50;
 const float		respawn_delay	= 1.f;
@@ -1136,6 +1137,8 @@ void CActor::UpdateCL	()
 }
 
 float	NET_Jump = 0;
+ENGINE_API extern Fvector actor_position;
+
 void CActor::set_state_box(u32	mstate)
 {
 		if ( mstate & mcCrouch)
@@ -1439,6 +1442,8 @@ void CActor::shedule_Update	(u32 DT)
 	UpdateArtefactsOnBeltAndOutfit				();
 	m_pPhysics_support->in_shedule_Update		(DT);
 	Check_for_AutoPickUp						();
+
+	actor_position.set(Position()); //#|DCS++|
 };
 #include "debug_renderer.h"
 void CActor::renderable_Render	()

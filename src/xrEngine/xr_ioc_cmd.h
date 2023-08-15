@@ -7,6 +7,7 @@
 #define CMD4(cls,p1,p2,p3,p4) { static cls x##cls(p1,p2,p3,p4); Console->AddCommand(&x##cls);}
 
 #include "xrSASH.h"
+#include "../xrCore/xr_detail_collision.h"
 
 class ENGINE_API IConsole_Command
 {

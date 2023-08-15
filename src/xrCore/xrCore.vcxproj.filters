@@ -94,6 +94,9 @@
     <Filter Include="ThreadingMain">
       <UniqueIdentifier>{1597de3c-3705-4b1b-bf13-46b177dfbdec}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Addons">
+      <UniqueIdentifier>{f98805c3-427e-4f61-acf3-d33852f0adbe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FTimer.cpp">
@@ -649,6 +652,9 @@
     </ClInclude>
     <ClInclude Include="Threading\ThreadingSystemDefine.h">
       <Filter>ThreadingMain</Filter>
+    </ClInclude>
+    <ClInclude Include="xr_detail_collision.h">
+      <Filter>Addons</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

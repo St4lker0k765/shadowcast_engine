@@ -9,6 +9,17 @@
 #include "PhysicsShellHolder.h"
 #include "Level.h"
 #include "CharacterPhysicsSupport.h"
+#include "../xrCore/xr_detail_collision.h"
+
+//#|DCS++|
+ENGINE_API extern int ps_enable_dcs_detail_collision;
+
+ENGINE_API extern float ps_detail_collision_dcs_radius;
+
+ENGINE_API extern xr_vector<IDetailCollision> level_detail_coll;
+
+ENGINE_API extern Fvector actor_position;
+//#|DCS++|
 
 CBaseGraviZone ::CBaseGraviZone (void)
 {
@@ -204,6 +215,17 @@ void CBaseGraviZone::AffectPullDead(CPhysicsShellHolder* GO,const Fvector& throw
 
 void CBaseGraviZone::AffectThrow(SZoneObjectInfo* O, CPhysicsShellHolder* GO,const Fvector& throw_in_dir,float dist)
 {
+	//#|DCS++|
+	if (ps_enable_dcs_detail_collision)
+	{
+		if (actor_position.distance_to(Position()) <= ps_detail_collision_dcs_radius)
+		{
+			if (m_fTeleHeight <= 3.f)
+				level_detail_coll.push_back(IDetailCollision(this->Position(), this->ID(), 4.0f, 0.4f, 1.f, true));
+		}
+	}
+	//#|DCS++|
+
 	Fvector position_in_bone_space;
 
 	float power = Power(dist, Radius()); //Power(GO->Position().distance_to(zone_center));

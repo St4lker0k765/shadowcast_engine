@@ -998,6 +998,7 @@
     <ClInclude Include="xrstring.h" />
     <ClInclude Include="xrSyncronize.h" />
     <ClInclude Include="xr_deque.h" />
+    <ClInclude Include="xr_detail_collision.h" />
     <ClInclude Include="xr_ini.h" />
     <ClInclude Include="xr_list.h" />
     <ClInclude Include="xr_map.h" />

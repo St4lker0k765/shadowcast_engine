@@ -10,6 +10,7 @@
 #include "detailformat.h"
 #include "detailmodel.h"
 #include "tbb/task_group.h"
+#include "../../xrCore/xr_detail_collision.h"
 
 #ifdef _EDITOR
 //.	#include	"ESceneClassList.h"
@@ -51,6 +52,11 @@ public:
 		float						scale;
 		float						scale_calculated;
 		Fmatrix						mRotY;
+		//#|DCS++|
+		float						m_fTimeCollision{};
+		u16							collision_parent = (u16)-1;
+		IC bool						IsCollisionParent() { return collision_parent != (u16)-1; }
+		//#|DCS++|
 		u32							vis_ID;				// индекс в visibility списке он же тип [не качается, качается1, качается2]
 		float						c_hemi;
 		float						c_sun;

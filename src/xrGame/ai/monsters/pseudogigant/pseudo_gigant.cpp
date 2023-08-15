@@ -15,7 +15,17 @@
 #include "../../../detail_path_manager.h"
 #include "../../../CharacterPhysicsSupport.h"
 #include "../control_path_builder_base.h"
+#include "../../../xrCore/xr_detail_collision.h"
 
+//#|DCS++|
+ENGINE_API extern int ps_enable_dcs_detail_collision;
+
+ENGINE_API extern float ps_detail_collision_dcs_radius;
+
+ENGINE_API extern xr_vector<IDetailCollision> level_detail_coll;
+
+ENGINE_API extern Fvector actor_position;
+//#|DCS++|
 
 CPseudoGigant::CPseudoGigant()
 {
@@ -244,9 +254,21 @@ void CPseudoGigant::on_activate_control(ControlCom::EControlType type)
 
 void CPseudoGigant::on_threaten_execute()
 {
+	Fvector& position = Position();
+
+	//#|DCS++|
+	if (ps_enable_dcs_detail_collision)
+	{
+		//-- VlaGan: для псевдыча ID зеркальный, чтобы он не влиял на траву под ид точки удара
+		//-- для гранат и взрывного легче, ведь они по задумке не коллизируют и можно спокойно брать их ид
+		if (actor_position.distance_to(position) <= ps_detail_collision_dcs_radius)
+			level_detail_coll.push_back(IDetailCollision(position, -ID(), 15.f, 0.3f, 1.5f, true));
+	}
+	//#|DCS++|
+
 	// разбросить объекты
 	m_nearest.clear		();
-	Level().ObjectSpace.GetNearest	(m_nearest,Position(), 15.f, NULL); 
+	Level().ObjectSpace.GetNearest	(m_nearest,position, 15.f, NULL); 
 	for (u32 i=0;i<m_nearest.size();i++) {
 		CPhysicsShellHolder  *obj = smart_cast<CPhysicsShellHolder *>(m_nearest[i]);
 		if (!obj || !obj->m_pPhysicsShell) continue;
@@ -255,14 +277,14 @@ void CPseudoGigant::on_threaten_execute()
 		Fvector pos;
 		pos.set(obj->Position());
 		pos.y += 2.f;
-		dir.sub(pos, Position());
+		dir.sub(pos, position);
 		dir.normalize();
 		obj->m_pPhysicsShell->applyImpulse(dir,20 * obj->m_pPhysicsShell->getMass());
 	}
 
 	// играть звук
 	Fvector		pos;
-	pos.set		(Position());
+	pos.set		(position);
 	pos.y		+= 0.1f;
 	m_sound_threaten_hit.play_at_pos(this,pos);
 
@@ -273,7 +295,7 @@ void CPseudoGigant::on_threaten_execute()
 	if (!pA) return;
 	if ((pA->MovingState() & ACTOR_DEFS::mcJump) != 0) return;
 
-	float dist_to_enemy = pA->Position().distance_to(Position());
+	float dist_to_enemy = pA->Position().distance_to(position);
 	float			hit_value;
 	hit_value		= m_kick_damage - m_kick_damage * dist_to_enemy / m_threaten_dist_max;
 	clamp			(hit_value,0.f,1.f);
