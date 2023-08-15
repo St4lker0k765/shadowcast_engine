@@ -11,18 +11,16 @@ ENGINE_API extern int ps_enable_dcs_detail_collision;
 
 ENGINE_API extern float ps_detail_collision_dcs_radius;
 
-ENGINE_API extern xr_vector<IDetailCollision> level_detail_coll;
-
 ENGINE_API extern Fvector actor_position;
 //#|DCS++|
 
-CMosquitoBald::CMosquitoBald(void) 
+CMosquitoBald::CMosquitoBald() 
 {
 	m_fHitImpulseScale		= 1.f;
 	m_bLastBlowoutUpdate	= false;
 }
 
-CMosquitoBald::~CMosquitoBald(void) 
+CMosquitoBald::~CMosquitoBald() 
 {
 }
 
@@ -64,7 +62,6 @@ void CMosquitoBald::Affect(SZoneObjectInfo* O)
 	{
 		if (actor_position.distance_to(Position()) <= ps_detail_collision_dcs_radius)
 		{
-			//-- это специфично для трамплина, т.к. он может бить очень часто и коллизия ломается
 			EraseDetailCollPointIfExists(ID());
 			level_detail_coll.push_back(IDetailCollision(Position(), ID(), 2.5f, 0.3f, 1.f, true));
 		}

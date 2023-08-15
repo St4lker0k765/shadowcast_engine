@@ -46,12 +46,10 @@ ENGINE_API extern int ps_enable_dcs_detail_collision;
 
 ENGINE_API extern float ps_detail_collision_dcs_radius;
 
-ENGINE_API extern xr_vector<IDetailCollision> level_detail_coll;
-
 ENGINE_API extern Fvector actor_position;
 //#|DCS++|
 
-CExplosive::CExplosive(void) 
+CExplosive::CExplosive()
 {
 	m_fBlastHit				= 50.0f;
 	m_fBlastRadius			= 10.0f;
@@ -93,7 +91,7 @@ void CExplosive::LightDestroy()
 	m_pLight.destroy		();
 }
 
-CExplosive::~CExplosive(void) 
+CExplosive::~CExplosive() 
 {
 	sndExplode.destroy		();
 }
@@ -338,7 +336,7 @@ void CExplosive::Explode()
 	if (ps_enable_dcs_detail_collision)
 	{
 		if (actor_position.distance_to(pos) <= ps_detail_collision_dcs_radius)
-			level_detail_coll.push_back(IDetailCollision(pos, m_iCurrentParentID != g_actor->ID() ? -m_iCurrentParentID : (u16)-2, m_fBlastRadius, 0.3f, 1.5f, true));
+			level_detail_coll.emplace_back(IDetailCollision(pos, m_iCurrentParentID != g_actor->ID() ? -m_iCurrentParentID : static_cast<u16>(-2), m_fBlastRadius, 0.3f, 1.5f, true));
     }
 	//#|DCS++|
 

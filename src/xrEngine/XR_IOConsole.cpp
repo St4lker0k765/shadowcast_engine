@@ -29,8 +29,8 @@ static u32 const cursor_font_color = color_rgba(255, 255, 255, 255);
 static u32 const total_font_color = color_rgba(250, 250, 15, 180);
 static u32 const default_font_color = color_rgba(250, 250, 250, 250);
 
-static u32 const back_color = color_rgba(20, 20, 20, 200);
-static u32 const tips_back_color = color_rgba(20, 20, 20, 200);
+static u32 const back_color = color_rgba(30, 30, 30, 200);
+static u32 const tips_back_color = color_rgba(30, 30, 30, 200);
 static u32 const tips_select_color = color_rgba(90, 90, 140, 230);
 static u32 const tips_word_color = color_rgba(5, 100, 56, 200);
 static u32 const tips_scroll_back_color = color_rgba(15, 15, 15, 230);

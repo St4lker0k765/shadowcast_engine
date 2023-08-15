@@ -16,17 +16,15 @@ ENGINE_API extern int ps_enable_dcs_detail_collision;
 
 ENGINE_API extern float ps_detail_collision_dcs_radius;
 
-ENGINE_API extern xr_vector<IDetailCollision> level_detail_coll;
-
 ENGINE_API extern Fvector actor_position;
 //#|DCS++|
 
-CBaseGraviZone ::CBaseGraviZone (void)
+CBaseGraviZone::CBaseGraviZone()
 {
 	m_dwTeleTime = 0;
 }
 
-CBaseGraviZone ::~CBaseGraviZone (void)
+CBaseGraviZone::~CBaseGraviZone()
 {
 }
 
