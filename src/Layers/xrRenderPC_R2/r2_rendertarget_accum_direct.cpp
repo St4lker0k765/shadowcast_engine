@@ -823,6 +823,12 @@ void CRenderTarget::accum_direct_volumetric	(u32 sub_phase, const u32 Offset, co
 		RCache.set_c				("m_texgen",			m_Texgen);
 //		RCache.set_c				("m_sunmask",			m_clouds_shadow);
 
+		Fvector L_dir;
+		Device.mView.transform_dir(L_dir, fuckingsun->direction);
+
+		L_dir.normalize();
+		RCache.set_c("Ldynamic_dir", L_dir.x, L_dir.y, L_dir.z, 0.0f);
+
 		// nv-DBT
 		float zMin,zMax;
 		if (SE_SUN_NEAR==sub_phase)	{
