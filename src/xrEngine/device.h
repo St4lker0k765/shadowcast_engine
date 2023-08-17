@@ -219,6 +219,9 @@ public:
 
     Fmatrix mInvFullTransform;
 
+    bool m_bMakeLevelMap{};
+    Fbox curr_lm_fbox{};
+
 	// Saved main viewport params
 	Fvector mainVPCamPosSaved;
 	Fmatrix mainVPFullTrans;

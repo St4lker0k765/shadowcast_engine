@@ -461,60 +461,58 @@ extern ENGINE_API BOOL psSVP1FrustumOptimize;
 
 void CCameraManager::ApplyDeviceInternal(float _viewport_near)
 {
-    // Device params
-    Device.mView.build_camera_dir(m_cam_info.p, m_cam_info.d, m_cam_info.n);
-
-    Device.vCameraPosition.set(m_cam_info.p);
-    Device.vCameraDirection.set(m_cam_info.d);
-    Device.vCameraTop.set(m_cam_info.n);
-    Device.vCameraRight.set(m_cam_info.r);
-
-    // projection
-    Device.fFOV = m_cam_info.fFov;
-    Device.fASPECT = m_cam_info.fAspect;
-	float aspect = m_cam_info.fAspect;
-    //Device.mProject.build_projection(deg2rad(m_cam_info.fFov), m_cam_info.fAspect, _viewport_near, m_cam_info.fFar);
-
-	//--#SM+# Begin-- +SecondVP+
-	// Пересчитываем FOV для второго вьюпорта [Recalculate scene FOV for SecondVP frame]
-	if (Render->currentViewPort == SECONDARY_WEAPON_SCOPE)
+    if (Device.m_bMakeLevelMap)
 	{
-		// Для второго вьюпорта FOV выставляем здесь
-		//Device.fFOV = fFovSecond;
-		Device.fFOV = g_pGamePersistent->m_pGShaderConstants->hud_params.y;
+        // build camera matrix
+        Fbox bb = Device.curr_lm_fbox;
+        bb.getcenter(Device.vCameraPosition);
 
-		// Предупреждаем что мы изменили настройки камеры
-		Device.m_SecondViewport.isCamReady = true;
+        Device.vCameraDirection.set(0.f, -1.f, 0.f);
+        Device.vCameraTop.set(0.f, 0.f, 1.f);
+        Device.vCameraRight.set(1.f, 0.f, 0.f);
+        Device.mView.build_camera_dir(Device.vCameraPosition, Device.vCameraDirection, Device.vCameraTop);
+
+        bb.xform(Device.mView);
+        // build project matrix
+        Device.mProject.build_projection_ortho(bb.max.x - bb.min.x, bb.max.y - bb.min.y, bb.min.z, bb.max.z);
 	}
 	else
-		Device.m_SecondViewport.isCamReady = false;
+    {
+        Device.mView.build_camera_dir(m_cam_info.p, m_cam_info.d, m_cam_info.n);
 
-	Device.mProject.build_projection(deg2rad(Device.fFOV), aspect, _viewport_near, m_cam_info.fFar);
+        Device.vCameraPosition.set(m_cam_info.p);
+        Device.vCameraDirection.set(m_cam_info.d);
+        Device.vCameraTop.set(m_cam_info.n);
+        Device.vCameraRight.set(m_cam_info.r);
+
+        // projection
+        Device.fFOV = m_cam_info.fFov;
+        Device.fASPECT = m_cam_info.fAspect;
+        float aspect = m_cam_info.fAspect;
+        //Device.mProject.build_projection(deg2rad(m_cam_info.fFov), m_cam_info.fAspect, _viewport_near, m_cam_info.fFar);
+
+        //--#SM+# Begin-- +SecondVP+
+        // Пересчитываем FOV для второго вьюпорта [Recalculate scene FOV for SecondVP frame]
+        if (Render->currentViewPort == SECONDARY_WEAPON_SCOPE)
+        {
+            // Для второго вьюпорта FOV выставляем здесь
+            //Device.fFOV = fFovSecond;
+            Device.fFOV = g_pGamePersistent->m_pGShaderConstants->hud_params.y;
+            // Предупреждаем что мы изменили настройки камеры
+            Device.m_SecondViewport.isCamReady = true;
+        }
+        else
+            Device.m_SecondViewport.isCamReady = false;
+
+        Device.mProject.build_projection(deg2rad(Device.fFOV), aspect, _viewport_near, m_cam_info.fFar);
+    }
 
     if (Render->currentViewPort == MAIN_VIEWPORT)
     {
         Device.mFullTransform.mul(Device.mProject, Device.mView);
+        Device.m_pRender->SetCacheXform(Device.mView, Device.mProject);
         D3DXMatrixInverse((D3DXMATRIX*)&Device.mInvFullTransform, 0, (D3DXMATRIX*)&Device.mFullTransform);
     }
-
-	/*if (Render->currentViewPort == SECONDARY_WEAPON_SCOPE)
-	{
-		// Create shrinked projection matrix, for better geometry cutoff in svp
-		Fmatrix second_vp_shrinked_project_m;
-
-		if (psSVP1FrustumOptimize)
-			second_vp_shrinked_project_m.build_projection(deg2rad(Device.fFOV * psSVP1FrustumFovK), psSVP1FrustumWidthK, psSVP1FrustumHeightK, _viewport_near, m_cam_info.fFar);
-		else
-			second_vp_shrinked_project_m.build_projection(deg2rad(Device.fFOV), m_cam_info.fAspect, _viewport_near, m_cam_info.fFar);
-
-		Fmatrix second_vp_shrinked_full_m;
-		// now create fulltransform
-		second_vp_shrinked_full_m.mul(second_vp_shrinked_project_m, Device.mView);
-
-		Device.SetShrinkedFullTransform_saved(second_vp_shrinked_full_m);
-
-	}*/
-
 
     if (g_pGamePersistent && g_pGamePersistent->m_pMainMenu->IsActive())
         ResetPP();

@@ -239,6 +239,8 @@ bool CRenderDevice::bMainMenuActive()
     return  g_pGamePersistent && g_pGamePersistent->m_pMainMenu && g_pGamePersistent->m_pMainMenu->IsActive();
 }
 
+#define OPT_Z
+
 void CRenderDevice::on_idle()
 {
     if (!b_is_Ready)
@@ -300,6 +302,7 @@ void CRenderDevice::on_idle()
 	Statistic->RenderTOTAL_Real.Begin();
 
     u32 t_width = Device.dwWidth, t_height = Device.dwHeight;
+#ifdef OPT_Z
 	for (size_t i = 0; i < Render->viewPortsThisFrame.size(); i++)
 	{
 		Render->currentViewPort = Render->viewPortsThisFrame[i];
@@ -312,14 +315,9 @@ void CRenderDevice::on_idle()
         }
 
 		if (g_pGameLevel)
-		g_pGameLevel->ApplyCamera(); // Apply camera params of vp, so that we create a correct full transform matrix
+			g_pGameLevel->ApplyCamera(); // Apply camera params of vp, so that we create a correct full transform matrix
 
         m_pRender->SetCacheXform(mView, mProject);
-
-		//// Matrices
-		//mFullTransform.mul(mProject, mView);
-		//m_pRender->SetCacheXform(mView, mProject);
-		//D3DXMatrixInverse((D3DXMATRIX*)&mInvFullTransform, 0, (D3DXMATRIX*)&mFullTransform);
 
 		if (Render->currentViewPort == MAIN_VIEWPORT && Device.m_SecondViewport.IsSVPActive()) // need to save main vp stuff for next frame
 		{
@@ -361,6 +359,8 @@ void CRenderDevice::on_idle()
             Device.dwHeight = t_height;
         }
 	}
+#endif
+
 	// Restore main vp saved stuff for the needs of new frame
     if (Device.m_SecondViewport.IsSVPActive())
     {

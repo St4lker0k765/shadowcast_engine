@@ -11,6 +11,10 @@
 #include "CustomHUD.h"
 #include "CameraManager.h"
 
+#pragma warning(disable:4995)
+#include <d3dx9.h>
+#pragma warning(default:4995)
+
 extern BOOL g_bDisableRedText;
 static Flags32 s_hud_flag = {0};
 static Flags32 s_dev_flags = {0};
@@ -27,21 +31,8 @@ void setup_lm_screenshot_matrices()
 {
     psHUD_Flags.assign(0);
 
-    // build camera matrix
-    Fbox bb = curr_lm_fbox;
-    bb.getcenter(Device.vCameraPosition);
-
-    Device.vCameraDirection.set(0.f, -1.f, 0.f);
-    Device.vCameraTop.set(0.f, 0.f, 1.f);
-    Device.vCameraRight.set(1.f, 0.f, 0.f);
-    Device.mView.build_camera_dir(Device.vCameraPosition, Device.vCameraDirection, Device.vCameraTop);
-
-    bb.xform(Device.mView);
-    // build project matrix
-    Device.mProject.build_projection_ortho(bb.max.x - bb.min.x,
-        bb.max.y - bb.min.y,
-        bb.min.z,
-        bb.max.z);
+    Device.m_bMakeLevelMap = true;
+    Device.curr_lm_fbox = curr_lm_fbox;
 }
 
 Fbox get_level_screenshot_bound()
@@ -192,7 +183,7 @@ void GetLM_BBox(Fbox& bb, INT Step)
     }
 };
 
-void CDemoRecord::MakeLevelMapProcess()
+void CDemoRecord::MakeLevelMapProcess(SCamEffectorInfo& info)
 {
     switch (m_Stage)
     {
@@ -227,6 +218,8 @@ void CDemoRecord::MakeLevelMapProcess()
                 curr_lm_fbox = get_level_screenshot_bound();
                 GetLM_BBox(curr_lm_fbox, m_iLMScreenshotFragment);
                 m_Stage -= 20;
+
+                Device.curr_lm_fbox = curr_lm_fbox;
             }
         }
 
@@ -240,6 +233,7 @@ void CDemoRecord::MakeLevelMapProcess()
             psDeviceFlags = s_dev_flags;
             if (bDevReset) Device.Reset();
             m_bMakeLevelMap = FALSE;
+            Device.m_bMakeLevelMap = false;
             m_iLMScreenshotFragment = -1;
         }
     }
@@ -299,7 +293,7 @@ BOOL CDemoRecord::ProcessCam(SCamEffectorInfo& info)
     }
     else if (m_bMakeLevelMap)
     {
-        MakeLevelMapProcess();
+        MakeLevelMapProcess(info);
         info.dont_apply = true;
     }
     else if (m_bMakeCubeMap)

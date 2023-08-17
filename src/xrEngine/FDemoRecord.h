@@ -44,7 +44,7 @@ private:
     float m_fAngSpeed3;
 
     void MakeCubeMapFace(Fvector& D, Fvector& N);
-    void MakeLevelMapProcess();
+    void MakeLevelMapProcess(SCamEffectorInfo& info);
     void MakeScreenshotFace();
     void RecordKey();
     void MakeCubemap();
