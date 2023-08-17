@@ -12,7 +12,7 @@
 #include <D3DX10Tex.h>
 
 #include "../xrRender/dxRenderDeviceRender.h"
-#include "../xrRender/XRayDDSNewLoader.h"
+//#include "../xrRender/XRayDDSNewLoader.h"
 // #include "std_classes.h"
 // #include "xr_avi.h"
 
@@ -318,6 +318,7 @@ ID3DBaseTexture*	CRender::texture_load(LPCSTR fRName, u32& ret_msize, bool bStag
 _DDS:
 	{
 		// Load and get header
+#if 0
 		{
 			Msg("* Load texture: [%s]", fn);
 			XRayDDSNewLoader NewLoader;
@@ -331,6 +332,7 @@ _DDS:
 				}
 			}
 		}
+#endif
 
 		S						= FS.r_open	(fn);
 #ifdef DEBUG

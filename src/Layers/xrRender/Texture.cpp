@@ -8,7 +8,7 @@
 #pragma warning(disable:4995)
 #include <d3dx9.h>
 
-#include "XRayDDSNewLoader.h"
+//#include "XRayDDSNewLoader.h"
 #pragma warning(default:4995)
 
 #ifndef _EDITOR
@@ -296,7 +296,7 @@ ID3DBaseTexture*	CRender::texture_load(LPCSTR fRName, u32& ret_msize)
 _DDS:
 	{
 		// Load and get header
-		// Load and get header
+#if 0		
 		{
 			Msg("* Load texture: [%s]", fn);
 			XRayDDSNewLoader NewLoader;
@@ -310,6 +310,7 @@ _DDS:
 				}
 			}
 		}
+#endif
 
 		D3DXIMAGE_INFO			IMG;
 		S						= FS.r_open	(fn);
