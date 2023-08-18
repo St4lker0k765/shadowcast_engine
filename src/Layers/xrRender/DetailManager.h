@@ -31,7 +31,7 @@
 	const int	dm_obj_in_slot		= 4;
 	const float dm_slot_size = DETAIL_SLOT_SIZE;
 //AVO: detail radius
-	const u32 dm_max_cache_size = 62001 * 2; // assuming max dm_size = 124
+	constexpr u32 dm_max_cache_size = 62001 * 2; // assuming max dm_size = 124
 	extern u32 dm_size;
 	extern u32 dm_cache1_line;
 	extern u32 dm_cache_line;
@@ -54,8 +54,8 @@ public:
 		Fmatrix						mRotY;
 		//#|DCS++|
 		float						m_fTimeCollision{};
-		u16							collision_parent = (u16)-1;
-		IC bool						IsCollisionParent() { return collision_parent != (u16)-1; }
+		u16							collision_parent = static_cast<u16>(-1);
+		IC bool						IsCollisionParent() { return collision_parent != static_cast<u16>(-1); }
 		//#|DCS++|
 		u32							vis_ID;				// индекс в visibility списке он же тип [не качается, качается1, качается2]
 		float						c_hemi;

@@ -1353,8 +1353,6 @@ void CRender::render_sun_near	()
 			RCache.set_xform_view				(Fidentity					);
 			RCache.set_xform_project			(fuckingsun->X.D.combine	);	
 			r_dsgraph_render_graph				(0)	;
-			if (ps_r2_ls_flags.test(R2FLAG_SUN_DETAILS))	
-				Details->Render					()	;
 			fuckingsun->X.D.transluent			= FALSE;
 			if (bSpecial)						{
 				fuckingsun->X.D.transluent			= TRUE;
@@ -1379,6 +1377,12 @@ void CRender::render_sun_near	()
 	RCache.set_xform_world		(Fidentity			);
 	RCache.set_xform_view		(Device.mView		);
 	RCache.set_xform_project	(Device.mProject	);
+}
+
+void CRender::render_details()
+{
+	if (Details)
+		Details->Render();
 }
 
 void CRender::render_sun_filtered	()
@@ -1667,8 +1671,8 @@ void CRender::render_sun_cascade ( u32 cascade_ind )
 			RCache.set_xform_view				(Fidentity					);
 			RCache.set_xform_project			(fuckingsun->X.D.combine	);	
 			r_dsgraph_render_graph				(0)	;
-			if (ps_r2_ls_flags.test(R2FLAG_SUN_DETAILS))	
-				Details->Render					()	;
+			if (ps_r2_ls_flags.test(R2FLAG_SUN_DETAILS))
+				render_details();
 			fuckingsun->X.D.transluent			= FALSE;
 			if (bSpecial)						{
 				fuckingsun->X.D.transluent			= TRUE;
