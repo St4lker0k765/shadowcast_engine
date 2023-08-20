@@ -361,34 +361,53 @@ void CIKLimbsController::PlayLegs( CBlend *b )
 		Msg( "! No foot stseps for animation: animation name: %s, animation set: %s ", anim_name, anim_set_name );
 #endif
 }
+
+#define IK_CALC_DIST 200.f
+#define IK_ALWAYS_CALC_DIST 20.f
+
 void CIKLimbsController::UpdateIK()
 {
 #ifdef DEBUG
-	if( ph_dbg_draw_mask1.test( phDbgIKOff ) )
+	if (ph_dbg_draw_mask1.test(phDbgIKOff))
 		return;
 #endif
-	if(!m_object->Visual()) //lancerKot: I don`t know. is it reasonable? 
-		return;
+//	if (!m_object->Visual() && !m_object->Visual()->dcast_PKinematics()) //lancerKot: I don`t know. is it reasonable? 
+//		return;
 
-	IKinematics* K = m_object->Visual()->dcast_PKinematics();
+	CFrustum& viem_frust = ::Render->ViewBase;
+	vis_data& vis = m_object->Visual()->getVisData();
 
-	K->protectKinematics_.Enter();
+	Fvector p;
 
-	IKinematicsAnimated *skeleton_animated = m_object->Visual()->dcast_PKinematicsAnimated( );
-	VERIFY( skeleton_animated );
+	m_object->XFORM().transform_dir(p, vis.sphere.P);
 
-	skeleton_animated->UpdateTracks();
-	update_blend( m_legs_blend );
+	Fvector DeviceR = Device.vCameraPosition_saved;
 
-	_pose_extrapolation.update( m_object->XFORM() );
-	for (CIKLimb it: _bone_chains)
+	if (DeviceR.x < IK_CALC_DIST)
 	{
-		LimbUpdate(it, &K->protectKinematics_); // To avoid deadlocking secondary and main threads(because of mutex race) need to send the pointer 
-		// to the mutex up to the ik_foot_collider.cpp->Pick() function, so that it will release the mutex before RayPick call
-		// and then capture it again after RayPick is finished.
-	}
+		if (viem_frust.testSphere_dirty(p, vis.sphere.R) || DeviceR.x < IK_ALWAYS_CALC_DIST)
+		{
+			IKinematics* K = m_object->Visual()->dcast_PKinematics();
 
-	K->protectKinematics_.Leave();
+			K->protectKinematics_.Enter();
+
+			IKinematicsAnimated* skeleton_animated = m_object->Visual()->dcast_PKinematicsAnimated();
+			VERIFY(skeleton_animated);
+
+			skeleton_animated->UpdateTracks();
+			update_blend(m_legs_blend);
+
+			_pose_extrapolation.update(m_object->XFORM());
+			for (CIKLimb it : _bone_chains)
+			{
+				LimbUpdate(it, &K->protectKinematics_); // To avoid deadlocking secondary and main threads(because of mutex race) need to send the pointer 
+				// to the mutex up to the ik_foot_collider.cpp->Pick() function, so that it will release the mutex before RayPick call
+				// and then capture it again after RayPick is finished.
+			}
+
+			K->protectKinematics_.Leave();
+		}
+	}
 }
 
 void	CIKLimbsController::Update()
