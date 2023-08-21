@@ -34,7 +34,6 @@ const TCHAR* c_szSplashClass = _T("SplashWindow");
 // computing build id
 XRCORE_API LPCSTR build_date;
 XRCORE_API u32 build_id;
-ENGINE_API int ps_rs_loading_stages = 0;
 
 #ifdef MASTER_GOLD
 # define NO_MULTI_INSTANCES
@@ -54,7 +53,6 @@ static int days_in_month[12] =
 static int start_day = 10; // 31
 static int start_month = 6; // January
 static int start_year = 2023; // 1999
-
 
 // binary hash, mainly for copy-protection
 #include <ctype.h>
@@ -1369,12 +1367,6 @@ PROTECT_API void CApplication::LoadDraw()
 
     Device.End();
     CheckCopyProtection();
-}
-
-void CApplication::LoadForceFinish()
-{
-    if (loadingScreen)
-        loadingScreen->ForceFinish();
 }
 
 void CApplication::LoadTitleInt(LPCSTR str1, LPCSTR str2, LPCSTR str3)
