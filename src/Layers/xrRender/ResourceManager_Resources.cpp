@@ -14,6 +14,8 @@
 #include "blenders\blender.h"
 #include "blenders\blender_recorder.h"
 
+#include <thread>
+
 void fix_texture_name(LPSTR fn);
 
 void simplify_texture(string_path &fn)
@@ -184,8 +186,24 @@ SVS*	CResourceManager::_CreateVS		(LPCSTR _name)
 		if (strstr(data, "main_vs_2_0"))	{ c_target = "vs_2_0"; c_entry = "main_vs_2_0";	}
 
 		Msg						( "compiling shader %s", name );
-		HRESULT const _hr		= ::Render->shader_compile( name, (DWORD const*)data, size, c_entry, c_target, D3DXSHADER_DEBUG | D3DXSHADER_PACKMATRIX_ROWMAJOR, (void*&)_vs);
+//		HRESULT const _hr		= ::Render->shader_compile( name, (DWORD const*)data, size, c_entry, c_target, D3DXSHADER_DEBUG | D3DXSHADER_PACKMATRIX_ROWMAJOR, (void*&)_vs);
 
+		std::thread thread_vs([name, data, size, c_entry, c_target, _vs]()
+			{
+				HRESULT const _hr = Render->shader_compile(name, (DWORD const*)data, size, c_entry, c_target, D3DXSHADER_DEBUG | D3DXSHADER_PACKMATRIX_ROWMAJOR, (void*&)_vs);
+
+				if (FAILED(_hr))
+				{
+					FlushLog();
+				}
+
+				CHECK_OR_EXIT(!FAILED(_hr), make_string("Your video card doesn't meet game requirements.\n\nTry to lower game settings."));
+			}
+		);
+
+		thread_vs.join(); //We are waiting while it is being created
+
+/*		
 		if ( FAILED(_hr) ) {
 			FlushLog();
 		}
@@ -194,6 +212,7 @@ SVS*	CResourceManager::_CreateVS		(LPCSTR _name)
 			!FAILED(_hr),
 			make_string("Your video card doesn't meet game requirements.\n\nTry to lower game settings.")
 		);
+*/
 
 		return					_vs;
 	}
@@ -254,8 +273,24 @@ SPS*	CResourceManager::_CreatePS			(LPCSTR name)
 		if (strstr(data,"main_ps_2_0"))			{ c_target = "ps_2_0"; c_entry = "main_ps_2_0";	}
 
 		Msg						( "compiling shader %s", name );
-		HRESULT const _hr		= ::Render->shader_compile( name, (DWORD const*)data, size, c_entry, c_target, D3DXSHADER_DEBUG | D3DXSHADER_PACKMATRIX_ROWMAJOR, (void*&)_ps);
+//		HRESULT const _hr		= ::Render->shader_compile( name, (DWORD const*)data, size, c_entry, c_target, D3DXSHADER_DEBUG | D3DXSHADER_PACKMATRIX_ROWMAJOR, (void*&)_ps);
 
+		std::thread thread_ps([name, data, size, c_entry, c_target, _ps]()
+			{
+				HRESULT const _hr = Render->shader_compile(name, (DWORD const*)data, size, c_entry, c_target, D3DXSHADER_DEBUG | D3DXSHADER_PACKMATRIX_ROWMAJOR, (void*&)_ps);
+
+				if (FAILED(_hr))
+				{
+					FlushLog();
+				}
+
+				CHECK_OR_EXIT(!FAILED(_hr), make_string("Your video card doesn't meet game requirements.\n\nTry to lower game settings."));
+			}
+		);
+
+		thread_ps.join(); //We are waiting while it is being created
+
+/*
 		if ( FAILED(_hr) ) {
 			FlushLog();
 		}
@@ -264,7 +299,7 @@ SPS*	CResourceManager::_CreatePS			(LPCSTR name)
 			!FAILED(_hr),
 			make_string("Your video card doesn't meet game requirements.\n\nTry to lower game settings.")
 		);
-
+*/
 		return					_ps;
 	}
 }
