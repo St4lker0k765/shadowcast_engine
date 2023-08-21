@@ -15,12 +15,11 @@ void CKinematics::CalculateBones			(BOOL bForceExact)
 	// early out.
 	// check if the info is still relevant
 	// skip all the computations - assume nothing changes in a small period of time :)
-	if		(RDEVICE.dwTimeGlobal == UCalc_Time)										
+	if		(RDEVICE.dwTimeGlobal == UCalc_Time)
 		return;	// early out for "fast" update
 
-	UCalc_Mutex.Enter();
-
 	protectKinematics_.Enter();
+	GetDrawingLock().Enter();
 
 	OnCalculateBones		();
 
@@ -28,7 +27,7 @@ void CKinematics::CalculateBones			(BOOL bForceExact)
 	{
 		protectKinematics_.Leave();
 
-		UCalc_Mutex.Leave();
+		GetDrawingLock().Leave();
 
 		return;
 
@@ -106,13 +105,12 @@ void CKinematics::CalculateBones			(BOOL bForceExact)
 #endif
 	}
 
-	protectKinematics_.Leave();
-
-	UCalc_Mutex.Leave();
-
 	//
 	if (Update_Callback)	
 		Update_Callback(this);
+
+	protectKinematics_.Leave();
+	GetDrawingLock().Leave();
 }
 
 #ifdef DEBUG

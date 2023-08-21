@@ -31,11 +31,16 @@ void __fastcall mapNormal_Render	(mapNormalItems& N)
 	_NormalItem				*I=&*N.begin(), *E = &*N.end();
 	for (; I!=E; I++)		{
 		_NormalItem&		Ni	= *I;
+
+		Ni.pVisual->GetDrawingLock().Enter();
+
 		float LOD = calcLOD(Ni.ssa,Ni.pVisual->vis.sphere.R);
 #ifdef USE_DX11
 		RCache.LOD.set_LOD(LOD);
 #endif
 		Ni.pVisual->Render	(LOD);
+
+		Ni.pVisual->GetDrawingLock().Leave();
 	}
 }
 
@@ -50,6 +55,9 @@ void __fastcall mapMatrix_Render	(mapMatrixItems& N)
 	_MatrixItem				*I=&*N.begin(), *E = &*N.end();
 	for (; I!=E; I++)		{
 		_MatrixItem&	Ni				= *I;
+
+		Ni.pVisual->GetDrawingLock().Enter();
+
 		RCache.set_xform_world			(Ni.Matrix);
 		RImplementation.apply_object	(Ni.pObject);
 		RImplementation.apply_lmaterial	();
@@ -59,6 +67,8 @@ void __fastcall mapMatrix_Render	(mapMatrixItems& N)
 		RCache.LOD.set_LOD(LOD);
 #endif
 		Ni.pVisual->Render(LOD);
+
+		Ni.pVisual->GetDrawingLock().Leave();
 	}
 	N.clear	();
 }
@@ -70,12 +80,17 @@ void __fastcall sorted_L1		(const T& N)
 {
 	VERIFY (&N);
 	dxRender_Visual *V				= N.second.pVisual;
+
+	V->GetDrawingLock().Enter();
+
 	VERIFY (V && V->shader._get());
 	RCache.set_Element				(N.second.se);
 	RCache.set_xform_world			(N.second.Matrix);
 	RImplementation.apply_object	(N.second.pObject);
 	RImplementation.apply_lmaterial	();
 	V->Render						(calcLOD(N.first,V->vis.sphere.R));
+
+	V->GetDrawingLock().Leave();
 }
 
 IC	bool	cmp_vs_nrm			(mapNormalVS::value_type* N1, mapNormalVS::value_type* N2)

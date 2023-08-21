@@ -48,6 +48,9 @@ public:
 	virtual shared_str	_BCL	getDebugName() { return dbg_name; }
 #endif
 public:
+	IRenderVisual* parent_holder;
+	AccessLock bone_mutex;
+
 	// Common data for rendering
 	u32							Type		;				// visual's type
 	vis_data					vis			;				// visibility-data
@@ -59,6 +62,10 @@ public:
 	virtual void				Copy						(dxRender_Visual* from);
 	virtual void				Spawn						()				{};
 	virtual void				Depart						()				{};
+
+	AccessLock& GetDrawingLock() {
+		if (parent_holder) return ((dxRender_Visual*)parent_holder)->GetDrawingLock(); return bone_mutex;
+	}
 
 //	virtual	CKinematics*		dcast_PKinematics			()				{ return 0;	}
 //	virtual	CKinematicsAnimated*dcast_PKinematicsAnimated	()				{ return 0;	}

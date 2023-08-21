@@ -27,6 +27,8 @@ dxRender_Visual::dxRender_Visual		()
 	Type				= 0;
 	shader				= 0;
 	vis.clear			();
+
+	parent_holder = nullptr;
 }
 
 dxRender_Visual::~dxRender_Visual		()

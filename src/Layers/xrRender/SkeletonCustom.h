@@ -7,7 +7,7 @@
 #include		"../../Include/xrRender/Kinematics.h"
 
 // consts
-extern	xrCriticalSection	UCalc_Mutex			;
+//extern	xrCriticalSection	UCalc_Mutex			;
 
 // refs
 class	 CKinematics;
@@ -16,10 +16,10 @@ class	 CBoneData;
 struct	SEnumVerticesCallback;
 
 // MT-locker
-struct	UCalc_mtlock	{
-	UCalc_mtlock()		{ UCalc_Mutex.Enter(); }
-	~UCalc_mtlock()		{ UCalc_Mutex.Leave(); }
-};
+//struct	UCalc_mtlock	{
+//	UCalc_mtlock()		{ UCalc_Mutex.Enter(); }
+//	~UCalc_mtlock()		{ UCalc_Mutex.Leave(); }
+//};
 
 #pragma warning(push)
 #pragma warning(disable:4275)

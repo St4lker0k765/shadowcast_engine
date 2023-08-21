@@ -623,7 +623,7 @@ ENGINE_API extern BOOL debugSecondVP;
 void CRender::AfterWorldRender()
 {
 	if (currentViewPort == SECONDARY_WEAPON_SCOPE)
-	{
+	{   
 		ID3DResource* res;
 		HW.pBaseRT->GetResource(&res);
 		HW.pContext->CopyResource(Target->rt_secondVP->pSurface, res); // rt sizes must match, to be able to copy
