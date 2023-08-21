@@ -371,8 +371,8 @@ void CIKLimbsController::UpdateIK()
 	if (ph_dbg_draw_mask1.test(phDbgIKOff))
 		return;
 #endif
-//	if (!m_object->Visual() && !m_object->Visual()->dcast_PKinematics()) //lancerKot: I don`t know. is it reasonable? 
-//		return;
+    if (!m_object->Visual()) //lancerKot: I don`t know. is it reasonable? 
+	return;
 
 	CFrustum& viem_frust = ::Render->ViewBase;
 	vis_data& vis = m_object->Visual()->getVisData();

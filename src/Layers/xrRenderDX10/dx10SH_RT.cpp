@@ -224,9 +224,10 @@ void CRT::destroy		()
 	if (pTexture._get())	{
 		//pTexture->surface_set	(0);
 		pTexture->surface_null();
-		pTexture				= NULL;
+		pTexture.destroy();
+		pTexture= nullptr;
 	}
-	for (auto it = viewPortStuff.begin(); it != viewPortStuff.end(); it++)
+	for (auto it = viewPortStuff.begin(); it != viewPortStuff.end(); ++it)
 	{
 		_RELEASE(it->second.renderTargetInstance);
 		_RELEASE(it->second.zBufferInstance);

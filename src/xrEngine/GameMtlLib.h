@@ -152,6 +152,7 @@ public:
 };
 DEFINE_VECTOR(SGameMtl*, GameMtlVec, GameMtlIt);
 
+#pragma pack(push, 8)
 struct MTL_EXPORT_API SGameMtlPair
 {
     friend class CGameMtlLibrary;
@@ -230,6 +231,7 @@ public:
     LPCSTR dbg_Name();
 #endif
 };
+#pragma pack(pop)
 
 DEFINE_VECTOR(SGameMtlPair*, GameMtlPairVec, GameMtlPairIt);
 
@@ -319,7 +321,7 @@ public:
 
     IC GameMtlIt FirstMaterial() { return materials.begin(); }
     IC GameMtlIt LastMaterial () {return materials.end();}
-    IC u32 CountMaterial () {return materials.size();}
+    IC u32 CountMaterial () {return static_cast<u32>(materials.size());}
 
     // material pair routine
 #ifdef _EDITOR

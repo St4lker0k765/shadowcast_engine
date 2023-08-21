@@ -15,12 +15,12 @@
 #include "sh_constant.h"
 #include "sh_rt.h"
 
-typedef xr_vector<shared_str>	sh_list;
+using sh_list = xr_vector<shared_str>;
 class					CBlender_Compile;
 class					IBlender;
 #define	SHADER_PASSES_MAX		2
 
-#pragma pack(push,4)
+#pragma pack(push,8)
 
 //////////////////////////////////////////////////////////////////////////
 struct	 ECORE_API		STextureList	: public xr_resource_flagged, public xr_vector<std::pair<u32,ref_texture> >	{
@@ -42,17 +42,20 @@ struct	 ECORE_API		STextureList	: public xr_resource_flagged, public xr_vector<s
 	//	If possible use precompiled texture list.
 	u32		find_texture_stage(const shared_str &TexName) const;
 };
-typedef	resptr_core<STextureList,resptr_base<STextureList> >								ref_texture_list;
+
+using ref_texture_list = resptr_core<STextureList,resptr_base<STextureList> >;
 //////////////////////////////////////////////////////////////////////////
 struct	 ECORE_API		SMatrixList		: public xr_resource_flagged, public svector<ref_matrix,4>		{
 						~SMatrixList	();
 };
-typedef	resptr_core<SMatrixList,resptr_base<SMatrixList> >									ref_matrix_list;
+
+using ref_matrix_list = resptr_core<SMatrixList,resptr_base<SMatrixList> >;
 //////////////////////////////////////////////////////////////////////////
 struct	 ECORE_API		SConstantList	: public xr_resource_flagged, public svector<ref_constant_obsolette,4>	{
 						~SConstantList	();
 };
-typedef	resptr_core<SConstantList,resptr_base<SConstantList> >								ref_constant_list;
+
+using ref_constant_list = resptr_core<SConstantList,resptr_base<SConstantList> >;
 
 //////////////////////////////////////////////////////////////////////////
 struct	 ECORE_API		SGeometry		: public xr_resource_flagged									{
@@ -71,7 +74,7 @@ struct 	ECORE_API	resptrcode_geom	: public resptr_base<SGeometry>
 	u32					stride			()	const	{ return _get()->vb_stride;	}
 };
 
-typedef	resptr_core<SGeometry,resptrcode_geom>												ref_geom;
+using ref_geom = resptr_core<SGeometry,resptrcode_geom>;
 
 //////////////////////////////////////////////////////////////////////////
 struct	  ECORE_API		SPass			: public xr_resource_flagged									{
@@ -98,7 +101,8 @@ struct	  ECORE_API		SPass			: public xr_resource_flagged									{
 
 	BOOL equal(const SPass& other);
 };
-typedef	resptr_core<SPass,resptr_base<SPass> >												ref_pass;
+
+using ref_pass = resptr_core<SPass,resptr_base<SPass> >;
 
 //////////////////////////////////////////////////////////////////////////
 struct 	 ECORE_API	ShaderElement	: public xr_resource_flagged									{
@@ -120,7 +124,8 @@ public:
 	BOOL				equal			(ShaderElement& S);
 	BOOL				equal			(ShaderElement* S);
 };
-typedef	resptr_core<ShaderElement,resptr_base<ShaderElement> >								ref_selement;
+
+using ref_selement = resptr_core<ShaderElement,resptr_base<ShaderElement> >;
 
 //////////////////////////////////////////////////////////////////////////
 struct 	 ECORE_API	Shader			: public xr_resource_flagged									{
@@ -137,7 +142,8 @@ struct 	 ECORE_API	resptrcode_shader	: public resptr_base<Shader>
 	void				create			(IBlender*	B,	LPCSTR s_shader=0, LPCSTR s_textures=0, LPCSTR s_constants=0, LPCSTR s_matrices=0);
 	void				destroy			()	{ _set(NULL);		}
 };
-typedef	resptr_core<Shader,resptrcode_shader>												ref_shader;
+
+using ref_shader = resptr_core<Shader,resptrcode_shader>;
 
 enum	SE_R1				{
 	SE_R1_NORMAL_HQ			= 0,	// high quality/detail

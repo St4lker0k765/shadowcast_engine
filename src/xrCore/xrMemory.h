@@ -25,6 +25,8 @@ extern XRCORE_API void dump_phase ();
 # define DUMP_PHASE do {} while (0)
 #endif // DEBUG_MEMORY_MANAGER
 
+#pragma warning(disable : 4595)
+
 #include "xrMemory_pso.h"
 #include "xrMemory_POOL.h"
 
@@ -126,9 +128,9 @@ IC void operator delete[](void* p) { xr_free(p); }
 # endif
 #else // DEBUG_MEMORY_NAME
 # if !(defined(__BORLANDC__) || defined(NO_XRNEW))
-IC void* operator new (size_t size) { return Memory.mem_alloc(size?size:1); }
+[[nodiscard]] IC void* operator new (size_t size) { return Memory.mem_alloc(size?size:1); }
 IC void operator delete (void* p) { xr_free(p); }
-IC void* operator new[] (size_t size) { return Memory.mem_alloc(size?size:1); }
+[[nodiscard]] IC void* operator new[] (size_t size) { return Memory.mem_alloc(size?size:1); }
 IC void operator delete[] (void* p) { xr_free(p); }
 # endif
 #endif // DEBUG_MEMORY_MANAGER

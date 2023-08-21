@@ -20,12 +20,12 @@ class CPHAICharacter;
 namespace ALife {
 	enum EHitType;
 };
- static enum EEnvironment
-			{
-				peOnGround,
-				peAtWall,
-				peInAir
-			};
+enum EEnvironment
+{
+	peOnGround,
+	peAtWall,
+	peInAir
+};
 
 
 class CPHCharacter : 

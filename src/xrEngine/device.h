@@ -36,7 +36,7 @@ enum ViewPort;
 
 class engine_impl;
 
-#pragma pack(push,4)
+#pragma pack(push,8)
 
 class IRenderDevice
 {
@@ -251,7 +251,7 @@ public:
         m_bNearer = FALSE;
 		//--#SM+#-- +SecondVP+
 		m_SecondViewport.SetSVPActive(false);
-		m_SecondViewport.SetSVPFrameDelay(psSVPFrameDelay); // Change it to 2-3, if you want to save perfomance. Will cause skips in updating image in scope
+		m_SecondViewport.SetSVPFrameDelay(static_cast<u8>(psSVPFrameDelay)); // Change it to 2-3, if you want to save perfomance. Will cause skips in updating image in scope
 		m_SecondViewport.isCamReady = false;
 		m_SecondViewport.isR1 = false;
 
@@ -283,7 +283,7 @@ public:
 
     // Mode control
     void DumpFlags();
-    IC CTimer_paused* GetTimerGlobal() { return &TimerGlobal; }
+    IC __unaligned CTimer_paused* GetTimerGlobal() { return &TimerGlobal; }
     u32 TimerAsync() { return TimerGlobal.GetElapsed_ms(); }
     u32 TimerAsync_MMT() { return TimerMM.GetElapsed_ms() + Timer_MM_Delta; }
 

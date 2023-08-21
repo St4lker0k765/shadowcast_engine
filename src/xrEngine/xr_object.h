@@ -24,7 +24,7 @@ class CSE_Abstract;
 //-----------------------------------------------------------------------------------------------------------
 class IPhysicsShell;
 xr_pure_interface IObjectPhysicsCollision;
-#pragma pack(push,4)
+#pragma pack(push,8)
 class ENGINE_API CObject :
     public DLL_Pure,
     public ISpatial,
