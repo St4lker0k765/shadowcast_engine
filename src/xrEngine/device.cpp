@@ -673,7 +673,7 @@ void CLoadScreenRenderer::stop()
 {
     if (!b_registered) return;
     Device.seqRender.Remove(this);
-    pApp->DestroyLoadingScreen();
+    pApp->destroy_loading_shaders();
     b_registered = false;
     b_need_user_input = false;
 }

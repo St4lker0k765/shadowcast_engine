@@ -59,8 +59,6 @@ public:
 						CGamePersistent			();
 	virtual				~CGamePersistent		();
 
-	void PreStart(LPCSTR op) override;
-
 	virtual void		Start					(LPCSTR op);
 	virtual void		Disconnect				();
 

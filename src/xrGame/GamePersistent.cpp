@@ -30,10 +30,6 @@
 #include "../xrServerEntities/xrServer_Object_Base.h"
 #include "UI/UIGameTutorial.h"
 
-#include "string_table.h"
-#include "../xrEngine/x_ray.h"
-#include "ui/UILoadingScreen.h"
-
 #ifndef MASTER_GOLD
 #	include "custommonster.h"
 #endif // MASTER_GOLD
@@ -111,12 +107,6 @@ CGamePersistent::~CGamePersistent(void)
 	Device.seqFrame.Remove		(this);
 	Engine.Event.Handler_Detach	(eDemoStart,this);
 	Engine.Event.Handler_Detach	(eQuickLoad,this);
-}
-
-void CGamePersistent::PreStart(LPCSTR op)
-{
-	pApp->SetLoadingScreen(xr_new<UILoadingScreen>());
-	__super::PreStart(op);
 }
 
 void CGamePersistent::RegisterModel(IRenderVisual* V)
@@ -816,7 +806,8 @@ void CGamePersistent::OnRenderPPUI_PP()
 {
 	MainMenu()->OnRenderPPUI_PP();
 }
-
+#include "string_table.h"
+#include "../xrEngine/x_ray.h"
 void CGamePersistent::LoadTitle(bool change_tip, shared_str map_name)
 {
 	pApp->LoadStage();

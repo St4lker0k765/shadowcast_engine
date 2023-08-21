@@ -2491,9 +2491,6 @@
     <Filter Include="Core\Client\Objects\items &amp; weapons\Weapons\Custom Weapon\Weapon Generic\Refactored">
       <UniqueIdentifier>{c1e5e685-0596-498f-be3a-ffe061f0dbce}</UniqueIdentifier>
     </Filter>
-    <Filter Include="AI\AScript\ScriptClasses\UI\LoadScreen">
-      <UniqueIdentifier>{f0e755f0-0c2d-4ba0-9888-44011c6f675a}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mt_config.h">
@@ -7360,9 +7357,6 @@
     <ClInclude Include="profile_data_types_script.h">
       <Filter>Core\Server\Games\PlayerAccounts</Filter>
     </ClInclude>
-    <ClInclude Include="ui\UILoadingScreen.h">
-      <Filter>AI\AScript\ScriptClasses\UI\LoadScreen</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="damage_manager.cpp">
@@ -10995,9 +10989,6 @@
     <ClCompile Include="AmebaZone.cpp" />
     <ClCompile Include="Weapon.cpp">
       <Filter>Core\Client\Objects\items &amp; weapons\Weapons\Custom Weapon\Weapon Generic\Refactored</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UILoadingScreen.cpp">
-      <Filter>AI\AScript\ScriptClasses\UI\LoadScreen</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
