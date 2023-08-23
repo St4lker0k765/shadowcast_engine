@@ -825,37 +825,7 @@ void CPhysicObject::CalculateInterpolationParams()
 
 void CPhysicObject::Interpolate()
 {
-	net_updatePhData* p = NetSync();
-	CPHSynchronize* pSyncObj = this->PHGetSyncItem(0);
-
-	//simple linear interpolation...
-	if (!this->H_Parent() &&
-		this->getVisible() &&
-		this->m_pPhysicsShell &&
-		!OnServer() &&
-		p->NET_IItem.size())
-	{
-		SPHNetState newState = p->NET_IItem.front().State;
-				
-		if (p->NET_IItem.size() >= 2)
-		{
-
-			float ret_interpolate = interpolate_states(p->NET_IItem.front(), p->NET_IItem.back(), newState);
-			//Msg("Interpolation factor is %0.4f", ret_interpolate);
-			//Msg("Current position is: x = %3.3f, y = %3.3f, z = %3.3f", newState.position.x, newState.position.y, newState.position.z);
-			if (ret_interpolate >= 1.f)
-			{
-				p->NET_IItem.pop_front();
-				if (m_activated)
-				{
-					Msg("Deactivating object [%d] after interpolation finish", ID());
-					processing_deactivate();
-					m_activated = false;
-				}
-			}
-		}
-		pSyncObj->set_State(newState);
-	}
+#pragma todo("morrazzzz: MP")	
 }
 
 float CPhysicObject::interpolate_states(net_update_PItem const & first, net_update_PItem const & last, SPHNetState & current)

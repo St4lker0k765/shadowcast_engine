@@ -381,10 +381,7 @@ void CExplosive::Explode()
 	//осколки
 	//////////////////////////////
 	//-------------------------------------
-	bool SendHits = false;
-	if (OnServer()) SendHits = true;
-	else SendHits = false;
-
+	bool SendHits = true;
 
 	for(int i = 0; i < m_iFragsNum; ++i){
 		frag_dir.random_dir	();
@@ -602,7 +599,7 @@ void CExplosive::ExplodeParams(const Fvector& pos,
 
 void CExplosive::GenExplodeEvent (const Fvector& pos, const Fvector& normal)
 {
-	if (OnClient() || cast_game_object()->Remote()) return;
+	if (cast_game_object()->Remote()) return;
 
 //	if( m_bExplodeEventSent ) 
 //		return;

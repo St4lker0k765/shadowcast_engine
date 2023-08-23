@@ -296,8 +296,6 @@ protected:
 
 public:
     IC CBulletManager& BulletManager() { return *m_pBulletManager; }
-    bool IsServer();
-    bool IsClient();
     CSE_Abstract* spawn_item(LPCSTR section, const Fvector& position, u32 level_vertex_id, u16 parent_id,
         bool return_item = false);
 
@@ -384,8 +382,6 @@ IC CPHCommander& CLevel::ph_commander_physics_worldstep()
     return *m_ph_commander_physics_worldstep;
 }
 
-IC bool OnServer() { return Level().IsServer(); }
-IC bool OnClient() { return Level().IsClient(); }
 IC bool IsGameTypeSingle() { return (g_pGamePersistent->GameType() == eGameIDSingle); }
 
 extern bool g_bDebugEvents;

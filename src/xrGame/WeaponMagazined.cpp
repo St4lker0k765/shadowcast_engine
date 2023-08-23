@@ -501,7 +501,7 @@ void CWeaponMagazined::ReloadMagazine()
 	VERIFY((u32)iAmmoElapsed == m_magazine.size());
 
 	//выкинуть коробку патронов, если она пустая
-	if(m_pCurrentAmmo && !m_pCurrentAmmo->m_boxCurr && OnServer()) 
+	if(m_pCurrentAmmo && !m_pCurrentAmmo->m_boxCurr) 
 		m_pCurrentAmmo->SetDropManual(TRUE);
 
 	if(iMagazineSize > iAmmoElapsed)
@@ -863,7 +863,7 @@ void CWeaponMagazined::switch2_Fire	()
 	m_bFireSingleShot = true;
 	m_iShotNum = 0;
 
-    if((OnClient() || Level().IsDemoPlay())&& !IsWorking())
+    if((Level().IsDemoPlay())&& !IsWorking())
 		FireStart();
 
 }
@@ -1138,7 +1138,7 @@ bool CWeaponMagazined::Attach(PIItem pIItem, bool b_send_event)
 			bNVsecondVPstatus = !!pSettings->line_exist(pIItem->object().cNameSect(), "scope_nightvision");
 		}
 
-		if (b_send_event && OnServer())
+		if (b_send_event)
 		{
 			//уничтожить подсоединенную вещь из инвентаря
 //.			pIItem->Drop					();

@@ -232,12 +232,7 @@ bool CLevel::net_start5				()
 		NP.w_begin		(M_CLIENTREADY);
 		Game().local_player->net_Export(NP, TRUE);
 		Send			(NP,net_flags(TRUE,TRUE));
-
-		if (OnClient() && Server)
-		{
-			Server->SLS_Clear();
-		};
-	};
+	}
 	return true;
 }
 bool CLevel::net_start6				()

@@ -86,8 +86,8 @@ extern	int		g_dwInputUpdateDelta	;
 extern	BOOL	g_ShowAnimationInfo		;
 #endif // DEBUG
 extern	BOOL	g_bShowHitSectors		;
-//extern	BOOL	g_bDebugDumpPhysicsStep	;
-extern	ESingleGameDifficulty g_SingleGameDifficulty;
+
+
 extern	BOOL	g_show_wnd_rect2			;
 //-----------------------------------------------------------
 extern	float	g_fTimeFactor;
@@ -105,8 +105,6 @@ float			g_aim_predict_time = 0.44f;
 int				g_keypress_on_start	= 1;
 
 ENGINE_API extern float	g_console_sensitive;
-
-void register_mp_console_commands();
 //-----------------------------------------------------------
 
 		BOOL	g_bCheckTime			= FALSE;
@@ -316,9 +314,6 @@ public:
 		if (id1 < EPS_L)
 			Msg("Invalid time factor! (%.4f)",id1);
 		else {
-			if (!OnServer())
-				return;
-
 			Level().SetGameTimeFactor(id1);
 		}
 	}
@@ -334,13 +329,11 @@ public:
 	}
 	virtual void	Info	(TInfo& I)
 	{	
-		if (!OnServer())	return;
 		float v = Level().GetGameTimeFactor();
 		xr_sprintf(I,sizeof(I)," value = %3.5f", v);
 	}
 	virtual void	fill_tips(vecTips& tips, u32 mode)
 	{
-		if (!OnServer())	return;
 		float v = Level().GetGameTimeFactor();
 
 		TStatus  str;
@@ -2316,5 +2309,4 @@ extern BOOL dbg_moving_bones_snd_player;
 	CMD3(CCC_String,    "slot_3",				g_quick_use_slots[3], 32);
 
 	CMD4(CCC_Integer,	"keypress_on_start",	&g_keypress_on_start, 0, 1);
-	register_mp_console_commands				();
 }

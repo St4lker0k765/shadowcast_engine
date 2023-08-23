@@ -150,7 +150,7 @@ public:
 	CWound*					AddWound				(float hit_power, ALife::EHitType hit_type, u16 element);
 
 	IC void 				SetCanBeHarmedState		(bool CanBeHarmed) 			{m_bCanBeHarmed = CanBeHarmed;}
-	IC bool					CanBeHarmed				() const					{return OnServer() && m_bCanBeHarmed;};
+	IC bool					CanBeHarmed				() const					{return m_bCanBeHarmed;};
 	virtual bool			ApplyInfluence			(const SMedicineInfluenceValues& V, const shared_str& sect);
 	virtual bool			ApplyBooster			(const SBooster& B, const shared_str& sect);
 	void					ClearWounds();

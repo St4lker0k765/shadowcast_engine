@@ -149,8 +149,6 @@ void CMissile::OnHiddenItem()
 
 void CMissile::spawn_fake_missile()
 {
-	if (OnClient()) return;
-
 	if (!getDestroy())
 	{
 		CSE_Abstract		*object = Level().spawn_item(
@@ -523,8 +521,6 @@ void CMissile::OnEvent(NET_Packet& P, u16 type)
 				break;
 			}
 			missile->H_SetParent(0,!P.r_eof() && P.r_u8());
-			if (IsFakeMissile && OnClient()) 
-				missile->set_destroy_time(m_dwDestroyTimeMax);
 			break;
 		}
 	}

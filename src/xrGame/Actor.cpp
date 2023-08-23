@@ -633,7 +633,7 @@ void	CActor::Hit(SHit* pHDS)
 		HDS.add_wound				= true;
 		inherited::Hit				(&HDS);
 
-		if(OnServer() && !g_Alive() && HDS.hit_type==ALife::eHitTypeExplosion)
+		if(!g_Alive() && HDS.hit_type==ALife::eHitTypeExplosion)
 		{
 			game_PlayerState* ps							= Game().GetPlayerByGameID(ID());
 			Game().m_WeaponUsageStatistic->OnExplosionKill	(ps, HDS);
@@ -740,73 +740,71 @@ void CActor::Die	(CObject* who)
 #endif // #ifdef DEBUG
 	inherited::Die		(who);
 
-	if (OnServer())
-	{	
-		u16 I = inventory().FirstSlot();
-		u16 E = inventory().LastSlot();
+	u16 I = inventory().FirstSlot();
+	u16 E = inventory().LastSlot();
 
-		for (; I <= E; ++I)
+	for (; I <= E; ++I)
+	{
+		PIItem item_in_slot = inventory().ItemFromSlot(I);
+		if (I == inventory().GetActiveSlot())
 		{
-			PIItem item_in_slot = inventory().ItemFromSlot(I);
-			if (I == inventory().GetActiveSlot()) 
+			if (item_in_slot)
 			{
-				if(item_in_slot)
+				if (IsGameTypeSingle())
 				{
-					if (IsGameTypeSingle())
+					CGrenade* grenade = smart_cast<CGrenade*>(item_in_slot);
+					if (grenade)
+						grenade->DropGrenade();
+					else
+						item_in_slot->SetDropManual(TRUE);
+				}
+				else
+				{
+					//This logic we do on a server site
+					/*
+					if ((*I).m_pIItem->object().CLS_ID != CLSID_OBJECT_W_KNIFE)
 					{
-						CGrenade* grenade = smart_cast<CGrenade*>(item_in_slot);
-						if (grenade)
-							grenade->DropGrenade();
-						else
-							item_in_slot->SetDropManual(TRUE);
-					}else
-					{
-						//This logic we do on a server site
-						/*
-						if ((*I).m_pIItem->object().CLS_ID != CLSID_OBJECT_W_KNIFE)
-						{
-							(*I).m_pIItem->SetDropManual(TRUE);
-						}*/							
-					}
-				};
-			continue;
-			}
-			else
-			{
-				CCustomOutfit *pOutfit = smart_cast<CCustomOutfit *> (item_in_slot);
-				if (pOutfit) continue;
+						(*I).m_pIItem->SetDropManual(TRUE);
+					}*/
+				}
 			};
-			if(item_in_slot) 
-				inventory().Ruck(item_in_slot);
-		};
-
-
-		///!!! чистка пояса
-		TIItemContainer &l_blist = inventory().m_belt;
-		while (!l_blist.empty())	
-			inventory().Ruck(l_blist.front());
-
-		if (!IsGameTypeSingle())
+			continue;
+		}
+		else
 		{
-			//if we are on server and actor has PDA - destroy PDA
-			TIItemContainer &l_rlist	= inventory().m_ruck;
-			for(TIItemContainer::iterator l_it = l_rlist.begin(); l_rlist.end() != l_it; ++l_it)
-			{
-				if (GameID() == eGameIDArtefactHunt)
-				{
-					CArtefact* pArtefact = smart_cast<CArtefact*> (*l_it);
-					if (pArtefact)
-					{
-						(*l_it)->SetDropManual(TRUE);
-						continue;
-					};
-				};
+			CCustomOutfit* pOutfit = smart_cast<CCustomOutfit*> (item_in_slot);
+			if (pOutfit) continue;
+		};
+		if (item_in_slot)
+			inventory().Ruck(item_in_slot);
+	};
 
-				if ((*l_it)->object().CLS_ID == CLSID_OBJECT_PLAYERS_BAG)
+
+	///!!! чистка пояса
+	TIItemContainer &l_blist = inventory().m_belt;
+	while (!l_blist.empty())	
+		inventory().Ruck(l_blist.front());
+
+	if (!IsGameTypeSingle())
+	{
+		//if we are on server and actor has PDA - destroy PDA
+		TIItemContainer& l_rlist = inventory().m_ruck;
+		for (TIItemContainer::iterator l_it = l_rlist.begin(); l_rlist.end() != l_it; ++l_it)
+		{
+			if (GameID() == eGameIDArtefactHunt)
+			{
+				CArtefact* pArtefact = smart_cast<CArtefact*> (*l_it);
+				if (pArtefact)
 				{
 					(*l_it)->SetDropManual(TRUE);
 					continue;
 				};
+			};
+
+			if ((*l_it)->object().CLS_ID == CLSID_OBJECT_PLAYERS_BAG)
+			{
+				(*l_it)->SetDropManual(TRUE);
+				continue;
 			};
 		};
 	};
@@ -1153,7 +1151,8 @@ void CActor::set_state_box(u32	mstate)
 }
 void CActor::shedule_Update	(u32 DT)
 {
-	setSVU							(OnServer());
+	setSVU							(true
+);
 //.	UpdateInventoryOwner			(DT);
 
 	if(IsFocused())
@@ -1203,7 +1202,6 @@ void CActor::shedule_Update	(u32 DT)
 	// Check controls, create accel, prelimitary setup "mstate_real"
 	
 	//----------- for E3 -----------------------------
-//	if (Local() && (OnClient() || Level().CurrentEntity()==this))
 	if (Level().CurrentControlEntity() == this && !Level().IsDemoPlay())
 	//------------------------------------------------
 	{
@@ -1712,7 +1710,6 @@ ALife::_TIME_ID	 CActor::TimePassedAfterDeath()	const
 void CActor::OnItemTake(CInventoryItem *inventory_item)
 {
 	CInventoryOwner::OnItemTake(inventory_item);
-	if (OnClient()) return;
 }
 
 void CActor::OnItemDrop(CInventoryItem *inventory_item, bool just_before_destroy)

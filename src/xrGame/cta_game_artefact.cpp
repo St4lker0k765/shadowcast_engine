@@ -129,16 +129,13 @@ void CtaGameArtefact::InitializeArtefactRPoint()
 
 void CtaGameArtefact::CreateArtefactActivation()
 {
-	if (OnServer())
-	{
-		NET_Packet						P;
-		CGameObject::u_EventGen			(P,GE_OWNERSHIP_REJECT, H_Parent()->ID());
-		P.w_u16							(ID());
-		P.w_u8(0);
-		P.w_vec3(*m_artefact_rpoint);
-		CGameObject::u_EventSend	(P);
-		MoveTo(*m_artefact_rpoint);	//for server net_Import
-	}
+	NET_Packet						P;
+	CGameObject::u_EventGen			(P,GE_OWNERSHIP_REJECT, H_Parent()->ID());
+	P.w_u16							(ID());
+	P.w_u8(0);
+	P.w_vec3(*m_artefact_rpoint);
+	CGameObject::u_EventSend	(P);
+	MoveTo(*m_artefact_rpoint);	//for server net_Import
 	//deactivate_physics_shell();
 }
 

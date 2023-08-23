@@ -133,7 +133,7 @@ void CHelicopter::OnShot		()
 		fire_dir.sub(enemy_pos,fire_pos).normalize_safe();
 	};
 
-	FireBullet(fire_pos, fire_dir, fireDispersionBase, m_CurrentAmmo, ID(), ID(), OnServer());
+	FireBullet(fire_pos, fire_dir, fireDispersionBase, m_CurrentAmmo, ID(), ID(), true);
 
 	StartShotParticles	();
 	if(m_bLightShotEnabled) 

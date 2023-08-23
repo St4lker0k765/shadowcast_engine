@@ -50,8 +50,7 @@ void CActorMP::cam_Set		(EActorCameras style)
 
 void CActorMP::use_booster(NET_Packet &packet)
 {
-	if (OnServer())
-		return;
+	return;
 
 	u16 tmp_booster_id;
 	packet.r_u16			(tmp_booster_id);

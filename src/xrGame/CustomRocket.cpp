@@ -352,7 +352,6 @@ void CCustomRocket::PlayContact()
 		m_pPhysicsShell->set_ObjectContactCallback(NULL);
 		m_pPhysicsShell->Disable();
 	}
-//	if (OnClient()) return;
 
 	Position().set(m_contact.pos);
 	m_contact.contact=false;
@@ -644,10 +643,6 @@ void	CCustomRocket::OnEvent(NET_Packet& P, u16 type)
 	{
 	case GE_GRENADE_EXPLODE:
 		{
-			if (m_eState != eCollide && OnClient())
-			{
-				CCustomRocket::Contact(Position(), Direction());
-			};
 		}break;
 	}
 	inherited::OnEvent(P,type);

@@ -432,11 +432,6 @@ void game_cl_GameState::set_type_name(LPCSTR s)
 { 
 	EGameIDs gid =			ParseStringToGameType	(s);
 	m_game_type_name		= GameTypeToString		(gid, false); 
-	if(OnClient())
-	{
-		xr_strcpy					(g_pGamePersistent->m_game_params.m_game_type, m_game_type_name.c_str());
-		g_pGamePersistent->OnGameStart();
-	}
 };
 
 void game_cl_GameState::OnConnected()

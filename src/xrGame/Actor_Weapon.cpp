@@ -152,8 +152,6 @@ void CActor::SelectBestWeapon	(CObject* O)
 {
 	if (!O) return;
 	if ( IsGameTypeSingle() ) return;
-	//if (Level().CurrentControlEntity() != this) return;
-	//if (OnClient()) return;
 	//-------------------------------------------------
 	CWeapon* pWeapon			= smart_cast<CWeapon*>(O);
 	CGrenade* pGrenade			= smart_cast<CGrenade*>(O);
@@ -316,7 +314,6 @@ Fvector CActor::weapon_recoil_last_delta()
 
 void	CActor::SpawnAmmoForWeapon	(CInventoryItem *pIItem)
 {
-	if (OnClient()) return;
 	if (!pIItem) return;
 
 	CWeaponMagazined* pWM = smart_cast<CWeaponMagazined*> (pIItem);
@@ -329,7 +326,6 @@ void	CActor::SpawnAmmoForWeapon	(CInventoryItem *pIItem)
 
 void	CActor::RemoveAmmoForWeapon	(CInventoryItem *pIItem)
 {
-	if (OnClient()) return;
 	if (!pIItem) return;
 
 	CWeaponMagazined* pWM = smart_cast<CWeaponMagazined*> (pIItem);

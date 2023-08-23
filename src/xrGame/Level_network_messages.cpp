@@ -138,8 +138,6 @@ void CLevel::ClientReceive()
 		case M_UPDATE_OBJECTS:
 			{
 				Objects.net_Import		(P);
-
-				if (OnClient()) UpdateDeltaUpd(timeServer());
 				IClientStatistic pStat = Level().GetStatistic();
 				u32 dTime = 0;
 				
@@ -165,7 +163,6 @@ void CLevel::ClientReceive()
 					Msg("! WARNING: ignoring game event [%d] - game not configured...", m_type);
 					break;
 				}*/
-				if (OnClient()) break;
 				P->r_u16		(ID);
 				u32 Ping = P->r_u32();
 				CGameObject*	O	= smart_cast<CGameObject*>(Objects.net_Find		(ID));
@@ -365,12 +362,6 @@ void CLevel::ClientReceive()
 			{
 				Msg("- M_CHANGE_LEVEL_GAME Received");
 
-				if (OnClient())
-				{
-					MakeReconnect();
-				}
-				else
-				{
 					const char* m_SO = m_caServerOptions.c_str();
 //					const char* m_CO = m_caClientOptions.c_str();
 
@@ -423,7 +414,6 @@ void CLevel::ClientReceive()
 					}
 					m_caServerOptions = NewServerOptions;
 					MakeReconnect();
-				};
 			}break;
 		case M_CHANGE_SELF_NAME:
 			{

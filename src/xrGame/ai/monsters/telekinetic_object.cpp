@@ -113,8 +113,7 @@ void CTelekineticObject::raise(float step)
 	float elem_size = float(object->m_pPhysicsShell->Elements().size());
 	dir.mul(elem_size*elem_size*strength);
 
-	if (OnServer()) 
-		(object->m_pPhysicsShell->get_ElementByStoreOrder(0))->applyGravityAccel(dir);
+	(object->m_pPhysicsShell->get_ElementByStoreOrder(0))->applyGravityAccel(dir);
 
 
 	update_hold_sound	();
@@ -163,8 +162,7 @@ void CTelekineticObject::keep()
 	//float elem_size = float(object->m_pPhysicsShell->Elements().size());
 	dir.mul(5.0f);
 
-	if (OnServer()) 
-		(object->m_pPhysicsShell->get_ElementByStoreOrder(0))->applyGravityAccel(dir);
+	(object->m_pPhysicsShell->get_ElementByStoreOrder(0))->applyGravityAccel(dir);
 
 	// установить время последнего обновления
 	time_keep_updated = Device.dwTimeGlobal;
@@ -182,11 +180,9 @@ void CTelekineticObject::release()
 
 		// включить гравитацию
 		object->m_pPhysicsShell->set_ApplyByGravity(TRUE);
-		if (OnServer()) 
-		{
+
 		// приложить небольшую силу для того, чтобы объект начал падать
 		object->m_pPhysicsShell->applyImpulse(dir_inv, 0.5f * object->m_pPhysicsShell->getMass());
-	}
 	//state = TS_None;
 	switch_state(TS_None);
 }
@@ -229,13 +225,10 @@ void CTelekineticObject::fire(const Fvector &target, float power)
 		// включить гравитацию
 		object->m_pPhysicsShell->set_ApplyByGravity(TRUE);
 
-		if (OnServer()) 
-		{
 		// выполнить бросок
-			for (u32 i=0;i<object->m_pPhysicsShell->get_ElementsNumber();i++) 
-				object->m_pPhysicsShell->get_ElementByStoreOrder(u16(i))->applyImpulse(dir, power * 20.f * object->m_pPhysicsShell->getMass() / object->m_pPhysicsShell->Elements().size());
-			
-		};
+	    for (u32 i=0;i<object->m_pPhysicsShell->get_ElementsNumber();i++) 
+	    	object->m_pPhysicsShell->get_ElementByStoreOrder(u16(i))->applyImpulse(dir, power * 20.f * object->m_pPhysicsShell->getMass() / object->m_pPhysicsShell->Elements().size());
+
 };
 
 bool CTelekineticObject::check_height()
@@ -268,7 +261,7 @@ void CTelekineticObject::rotate()
 	dir.random_dir();
 	dir.normalize();
 
-	if (OnServer()) object->m_pPhysicsShell->applyImpulse(dir, 2.5f * object->m_pPhysicsShell->getMass());
+	object->m_pPhysicsShell->applyImpulse(dir, 2.5f * object->m_pPhysicsShell->getMass());
 }
 
 bool CTelekineticObject::can_activate(CPhysicsShellHolder *obj)
