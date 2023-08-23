@@ -153,8 +153,8 @@ private:
 public:
 	bool			inertion_allowed	();
 private:
-	const Fvector&	attach_rot			() const;
-	const Fvector&	attach_pos			() const;
+	[[nodiscard]] Fvector attach_rot() const;
+	[[nodiscard]] Fvector attach_pos() const;
 
 	shared_str							m_sect_name;
 
