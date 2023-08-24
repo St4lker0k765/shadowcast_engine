@@ -1252,6 +1252,8 @@ void CInventory::Items_SetCurrentEntityHud(bool current_entity)
 //call this only via Actor()->SetWeaponHideState()
 void CInventory::SetSlotsBlocked(u16 mask, bool bBlock)
 {
+	R_ASSERT(Level().IsDemoPlayStarted());
+
 	for(u16 i = FirstSlot(), ie = LastSlot(); i <= ie; ++i)
 	{
 		if(mask & (1<<i))
