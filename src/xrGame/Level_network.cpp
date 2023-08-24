@@ -39,8 +39,14 @@ void CLevel::remove_objects	()
 	int loop = 5;
 	while(loop)
 	{
-		R_ASSERT				(Server);
-		Server->SLS_Clear		();
+		if (OnServer()) 
+		{
+			R_ASSERT				(Server);
+			Server->SLS_Clear		();
+		}
+
+		if (OnClient())
+			ClearAllObjects			();
 
 		for (int i=0; i<20; ++i) 
 		{
@@ -171,10 +177,17 @@ void CLevel::net_Stop		()
 
 void CLevel::ClientSend()
 {
+	if (GameID() != eGameIDSingle && OnClient())
+	{
+		if ( !net_HasBandwidth() ) return;
+	};
+
 	NET_Packet				P;
 	u32						start	= 0;
-	
+	//----------- for E3 -----------------------------
+//	if () 
 	{
+//		if (!(Game().local_player) || Game().local_player->testFlag(GAME_PLAYER_FLAG_VERY_VERY_DEAD)) return;
 		if (CurrentControlEntity()) 
 		{
 			CObject* pObj = CurrentControlEntity();
@@ -187,14 +200,24 @@ void CLevel::ClientSend()
 				P.w_u32			(0);	//reserved place for client's ping
 
 				pObj->net_Export			(P);
+
+				if (P.B.count>9)				
+				{
+					if (!OnServer())
+						Send	(P, net_flags(FALSE));
+				}				
 			}			
 		}		
-	}
-
+	};
 	if (m_file_transfer)
 	{
 		m_file_transfer->update_transfer();
 		m_file_transfer->stop_obsolete_receivers();
+	}
+	if (OnClient()) 
+	{
+		Flush_Send_Buffer();
+		return;
 	}
 	//-------------------------------------------------
 	while (1)
@@ -272,7 +295,7 @@ void CLevel::Send		(NET_Packet& P, u32 dwFlags, u32 dwTimeout)
 		_clid.set	(1);
 		Server->OnMessage		(P,	_clid );
 	}else
-	if (Server && game_configured)
+	if (Server && game_configured && OnServer() )
 	{
 #ifdef DEBUG
 		VERIFY2(Server->IsPlayersMonitorLockedByMe() == false, "potential deadlock detected");
@@ -297,7 +320,7 @@ void CLevel::net_Update	()
 		Device.Statistic->netClient2.End		();
 	}
 	// If server - perform server-update
-	if (Server)	{
+	if (Server && OnServer())	{
 		Device.Statistic->netServer.Begin();
 		Server->Update					();
 		Device.Statistic->netServer.End	();

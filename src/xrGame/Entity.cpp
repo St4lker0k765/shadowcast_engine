@@ -275,9 +275,16 @@ void CEntity::KillEntity(u16 whoID)
 		u_EventGen		(P,GE_DIE,ID());
 		P.w_u16			(u16(whoID));
 		P.w_u32			(0);
-		u_EventSend	(P, net_flags(TRUE, TRUE, FALSE, TRUE));
+		if (OnServer())
+			u_EventSend	(P, net_flags(TRUE, TRUE, FALSE, TRUE));
 	}
 };
+
+//void CEntity::KillEntity(CObject* who)
+//{
+//	VERIFY			(who);
+//	if (who) KillEntity(who->ID());	
+//}
 
 void CEntity::reinit			()
 {

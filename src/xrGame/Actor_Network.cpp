@@ -122,6 +122,9 @@ void CActor::net_Export	(NET_Packet& P)					// export to server
 	/////////////////////////////////////////////////
 	u16 NumItems		= PHGetSyncItemsNumber();
 	
+	if (H_Parent() || (GameID() == eGameIDSingle) || ((NumItems > 1) && OnClient()))
+		NumItems = 0;
+	
 	if (!g_Alive()) NumItems = 0;
 	
 	P.w_u16				(NumItems);
@@ -304,6 +307,9 @@ void		CActor::net_Import_Base				( NET_Packet& P)
 	//CSE_ALifeCreatureAbstract
 	float health;
 	P.r_float			(health);
+	//----------- for E3 -----------------------------
+	if (OnClient())SetfHealth(health);
+	//------------------------------------------------
 	P.r_u32				(N.dwTimeStamp	);
 	//---------------------------------------------
 	
@@ -322,8 +328,12 @@ void		CActor::net_Import_Base				( NET_Packet& P)
 	id_Squad			= P.r_u8();
 	id_Group			= P.r_u8();
 	
-
+	
+	//----------- for E3 -----------------------------
+//	if (OnClient())
+	//------------------------------------------------
 	{
+//		if (OnServer() || Remote())
 		if (Level().IsDemoPlay())
 		{
 			unaffected_r_torso.yaw		= N.o_torso.yaw;
@@ -332,8 +342,8 @@ void		CActor::net_Import_Base				( NET_Packet& P)
 
 			cam_Active()->yaw	= -N.o_torso.yaw;
 			cam_Active()->pitch = N.o_torso.pitch;
-		}
-	}
+		};
+	};
 
 	//CSE_ALifeCreatureTrader
 //	P.r_float			(fDummy);
@@ -345,11 +355,32 @@ void		CActor::net_Import_Base				( NET_Packet& P)
 	P.r_sdir			(N.p_velocity	);
 	float				fRRadiation;
 	P.r_float			(fRRadiation);
+	//----------- for E3 -----------------------------
+	if (OnClient())		
+	{
+//		fArmor = fRArmor;
+		SetfRadiation(fRRadiation);
+	};
 	//------------------------------------------------
 
 	u8					ActiveSlot;
 	P.r_u8				(ActiveSlot);
+	
+	//----------- for E3 -----------------------------
+	if (OnClient())
+	//------------------------------------------------
+	{
+		if (ActiveSlot == NO_ACTIVE_SLOT) inventory().SetActiveSlot(NO_ACTIVE_SLOT);
+		else 
+		{
+			if (inventory().GetActiveSlot() != u16(ActiveSlot))
+				inventory().Activate(ActiveSlot);
+		};
+	}
 
+	//----------- for E3 -----------------------------
+	if (Local() && OnClient()) return;
+	//-------------------------------------------------
 	if (!NET.empty() && N.dwTimeStamp < NET.back().dwTimeStamp) return;
 
 	if (!NET.empty() && N.dwTimeStamp == NET.back().dwTimeStamp)
@@ -439,7 +470,8 @@ void		CActor::net_Import_Physic			( NET_Packet& P)
 		N_A.State.previous_position	= N_A.State.position;
 		N_A.State.previous_quaternion = N_A.State.quaternion;
 		//----------- for E3 -----------------------------
-		if (!g_Alive()) return;
+		if (Local() && OnClient() || !g_Alive()) return;
+//		if (g_Alive() && (Remote() || OnServer()))
 		{
 			//-----------------------------------------------
 			if (!NET_A.empty() && N_A.dwTimeStamp < NET_A.back().dwTimeStamp) return;
@@ -484,7 +516,10 @@ BOOL CActor::net_Spawn		(CSE_Abstract* DC)
 	//force actor to be local on server client
 	CSE_Abstract			*e	= (CSE_Abstract*)(DC);
 	CSE_ALifeCreatureActor	*E	= smart_cast<CSE_ALifeCreatureActor*>(e);	
-	E->s_flags.set(M_SPAWN_OBJECT_LOCAL, TRUE);
+	if (OnServer())
+	{
+		E->s_flags.set(M_SPAWN_OBJECT_LOCAL, TRUE);
+	}
 	
 	if(	TRUE == E->s_flags.test(M_SPAWN_OBJECT_LOCAL) && TRUE == E->s_flags.is(M_SPAWN_OBJECT_ASPLAYER))
 		g_actor = this;
@@ -589,7 +624,27 @@ BOOL CActor::net_Spawn		(CSE_Abstract* DC)
 	LastPosH.clear();
 	LastPosL.clear();
 #endif
-
+//*
+	
+//	if (OnServer())// && E->s_flags.is(M_SPAWN_OBJECT_LOCAL))
+/*	
+	if (OnClient())
+	{
+		if (!pStatGraph)
+		{
+			static g_Y = 0;
+			pStatGraph = xr_new<CStatGraph>();
+			pStatGraph->SetRect(0, g_Y, Device.dwWidth, 100, 0xff000000, 0xff000000);
+			g_Y += 110;
+			if (g_Y > 700) g_Y = 100;
+			pStatGraph->SetGrid(0, 0.0f, 10, 1.0f, 0xff808080, 0xffffffff);
+			pStatGraph->SetMinMax(0, 10, 300);
+			pStatGraph->SetStyle(CStatGraph::stBar);
+			pStatGraph->AppendSubGraph(CStatGraph::stCurve);
+			pStatGraph->AppendSubGraph(CStatGraph::stCurve);
+		}
+	}
+*/	
 	SetDefaultVisualOutfit(cNameVisual());
 
 	smart_cast<IKinematics*>(Visual())->CalculateBones();
@@ -599,7 +654,7 @@ BOOL CActor::net_Spawn		(CSE_Abstract* DC)
 
 
 	//-------------------------------------
-	m_States.clear();
+	m_States.empty();
 	//-------------------------------------
 	if (!g_Alive())
 	{
@@ -641,7 +696,11 @@ BOOL CActor::net_Spawn		(CSE_Abstract* DC)
 	spatial.type |=STYPE_REACTTOSOUND;
 	psHUD_Flags.set(HUD_WEAPON_RT,TRUE);
 	psHUD_Flags.set(HUD_WEAPON_RT2,TRUE);
-
+	
+	if (Level().IsDemoPlay() && OnClient())
+	{
+		setLocal(FALSE);
+	};
 	return					TRUE;
 }
 
@@ -726,8 +785,15 @@ void CActor::net_Relcase	(CObject* O)
 }
 
 BOOL	CActor::net_Relevant		()				// relevant for export to server
-{
-	return getSVU() | getLocal(); 
+{ 
+	if (OnServer())
+	{
+		return getSVU() | getLocal(); 
+	}
+	else
+	{
+		return Local() & g_Alive();
+	};
 };
 
 void	CActor::SetCallbacks()
@@ -870,6 +936,15 @@ void CActor::PH_B_CrPr		()	// actions & operations before physic correction-pred
 		pSyncObj->get_State(LastState);
 		///////////////////////////////////////////////
 
+		//----------- for E3 -----------------------------
+		if (Local() && OnClient())
+			//------------------------------------------------
+		{
+			PHUnFreeze();
+
+			pSyncObj->set_State(NET_A.back().State);			
+		}
+		else
 		{
 			net_update_A N_A = NET_A.back();
 			net_update N = NET.back();
@@ -889,8 +964,8 @@ void CActor::PH_B_CrPr		()	// actions & operations before physic correction-pred
 				
 				g_Physics(N.p_accel, 0.0f, 0.0f);				
 				Position().set(IStart.Pos);
-			}
-		}
+			};
+		};
 	}
 	else
 	{
@@ -1705,13 +1780,113 @@ void				CActor::SetHitInfo				(CObject* who, CObject* weapon, s16 element, Fvect
 
 void				CActor::OnHitHealthLoss					(float NewHealth)
 {
-#pragma todo("morrazzzz: eGameIDSingle")
+	if (!m_bWasHitted) return;
+	if (GameID() == eGameIDSingle || !OnServer()) return;
+	float fNewHealth = NewHealth;
+	m_bWasHitted = false;
+	
+	if (m_iLastHitterID != u16(-1))
+	{
+#ifndef MASTER_GOLD
+		Msg("On hit health loss of actor[%d], last hitter[%d]", ID(), m_iLastHitterID);
+#endif // #ifndef MASTER_GOLD
+		NET_Packet P;
+		u_EventGen		(P,GE_GAME_EVENT,ID());
+		P.w_u16(GAME_EVENT_PLAYER_HITTED);
+		P.w_u16(u16(ID()&0xffff));
+		P.w_u16 (u16(m_iLastHitterID&0xffff));
+		P.w_float(m_fLastHealth - fNewHealth);		
+		u_EventSend(P);
+	}	
 };
 
 
 void				CActor::OnCriticalHitHealthLoss			()
 {
-#pragma todo("morrazzzz: eGameIDSingle")
+	if (GameID() == eGameIDSingle || !OnServer()) return;
+
+	CObject* pLastHitter = Level().Objects.net_Find(m_iLastHitterID);
+	CObject* pLastHittingWeapon = Level().Objects.net_Find(m_iLastHittingWeaponID);
+
+#ifdef DEBUG
+	Msg("%s killed by hit from %s %s", 
+		*cName(),
+		(pLastHitter ? *(pLastHitter->cName()) : ""), 
+		((pLastHittingWeapon && pLastHittingWeapon != pLastHitter) ? *(pLastHittingWeapon->cName()) : ""));
+#endif
+	//-------------------------------------------------------------------
+	if (m_iLastHitterID != u16(-1))
+	{
+#ifndef MASTER_GOLD
+		Msg("On hit of actor[%d], last hitter[%d]", ID(), m_iLastHitterID);
+#endif // #ifndef MASTER_GOLD
+		NET_Packet P;
+		u_EventGen		(P,GE_GAME_EVENT,ID());
+		P.w_u16(GAME_EVENT_PLAYER_HITTED);
+		P.w_u16(u16(ID()&0xffff));
+		P.w_u16 (u16(m_iLastHitterID&0xffff));
+		P.w_float(m_fLastHealth);
+		u_EventSend(P);
+	}	
+	//-------------------------------------------------------------------
+	SPECIAL_KILL_TYPE SpecialHit = SKT_NONE;
+	if ( smart_cast<CWeaponKnife*>(pLastHittingWeapon) )
+	{
+		SpecialHit = SKT_KNIFEKILL;
+	}
+	if (m_s16LastHittedElement > 0)
+	{
+		if (m_s16LastHittedElement == m_head)
+		{
+			CWeaponMagazined* pWeaponMagazined = smart_cast<CWeaponMagazined*>(pLastHittingWeapon);
+			if (pWeaponMagazined)
+			{
+				SpecialHit = SKT_HEADSHOT;
+				//-------------------------------
+				NET_Packet P;
+				u_EventGen(P, GEG_PLAYER_PLAY_HEADSHOT_PARTICLE, ID());
+				P.w_s16(m_s16LastHittedElement);
+				P.w_dir(m_vLastHitDir);
+				P.w_vec3(m_vLastHitPos);
+				u_EventSend(P);
+				//-------------------------------
+			}
+		} else if ((m_s16LastHittedElement == m_eye_left) || (m_s16LastHittedElement == m_eye_right))
+		{
+			SpecialHit = SKT_EYESHOT;
+			//may be in future playing some particles..
+		}
+		else
+		{
+			IKinematics* pKinematics		= smart_cast<IKinematics*>(Visual());
+			VERIFY				(pKinematics);
+			u16 ParentBone = u16(m_s16LastHittedElement);
+			while (ParentBone)
+			{
+				ParentBone = pKinematics->LL_GetData(ParentBone).GetParentID();
+				if (ParentBone && ParentBone == m_head)
+				{
+					SpecialHit = SKT_HEADSHOT;
+					break;
+				};
+			}
+		};
+	};
+	//-------------------------------
+	if (m_bWasBackStabbed) SpecialHit = SKT_BACKSTAB;
+	//-------------------------------
+	NET_Packet P;
+	u_EventGen		(P,GE_GAME_EVENT,ID());
+	P.w_u16(GAME_EVENT_PLAYER_KILLED);
+	P.w_u16(u16(ID()&0xffff));
+	P.w_u8	(KT_HIT);
+	P.w_u16 ((m_iLastHitterID) ? u16(m_iLastHitterID&0xffff) : 0);
+	P.w_u16 ((m_iLastHittingWeaponID && m_iLastHitterID != m_iLastHittingWeaponID) ? u16(m_iLastHittingWeaponID&0xffff) : 0);
+	P.w_u8	(u8(SpecialHit));
+	u_EventSend(P);
+	//-------------------------------------------
+	if (GameID() != eGameIDSingle)
+		Game().m_WeaponUsageStatistic->OnBullet_Check_Result(true);
 };
 
 void				CActor::OnPlayHeadShotParticle (NET_Packet P)
@@ -1735,12 +1910,36 @@ void				CActor::OnPlayHeadShotParticle (NET_Packet P)
 
 void				CActor::OnCriticalWoundHealthLoss		() 
 {
-#pragma todo("morrazzzz: eGameIDSingle")
+	if (GameID() == eGameIDSingle || !OnServer()) return;
+#ifdef DEBUG
+	Msg("--- %s is bleed out", *cName());
+#endif // #ifdef DEBUG
+	//-------------------------------
+	NET_Packet P;
+	u_EventGen		(P,GE_GAME_EVENT,ID());
+	P.w_u16(GAME_EVENT_PLAYER_KILLED);
+	P.w_u16(u16(ID()&0xffff));
+	P.w_u8	(KT_BLEEDING);
+	P.w_u16 ((m_iLastHitterID) ? u16(m_iLastHitterID&0xffff) : 0);
+	P.w_u16	((m_iLastHittingWeaponID && m_iLastHitterID != m_iLastHittingWeaponID) ? u16(m_iLastHittingWeaponID&0xffff) : 0);
+	P.w_u8	(SKT_NONE);
+	u_EventSend(P);
 };
 
 void				CActor::OnCriticalRadiationHealthLoss	() 
 {
-#pragma todo("morrazzzz: eGameIDSingle")
+	if (GameID() == eGameIDSingle || !OnServer()) return;
+	//-------------------------------
+	Msg("%s killed by radiation", *cName());
+	NET_Packet P;
+	u_EventGen		(P,GE_GAME_EVENT,ID());
+	P.w_u16(GAME_EVENT_PLAYER_KILLED);
+	P.w_u16(u16(ID()&0xffff));
+	P.w_u8	(KT_RADIATION);
+	P.w_u16	(0);
+	P.w_u16	(0);
+	P.w_u8	(SKT_NONE);
+	u_EventSend(P);
 };
 
 bool				CActor::Check_for_BackStab_Bone			(u16 element)

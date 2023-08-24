@@ -273,6 +273,7 @@ void CInventoryItem::OnEvent (NET_Packet& P, u16 type)
 //объекте, поэтому функция должна быть переопределена
 bool CInventoryItem::Detach(const char* item_section_name, bool b_spawn_item) 
 {
+	if (OnClient()) return true;
 	if(b_spawn_item)
 	{
 		CSE_Abstract*		D	= F_entity_Create(item_section_name);
@@ -1116,7 +1117,39 @@ void CInventoryItem::make_Interpolation	()
 
 void CInventoryItem::Interpolate()
 {
-#pragma  todo("morrazzzz: MP")
+	net_updateInvData* p = NetSync();
+	CPHSynchronize* pSyncObj = object().PHGetSyncItem(0);
+
+	//simple linear interpolation...
+	if (!object().H_Parent() &&
+		object().getVisible() &&
+		object().m_pPhysicsShell &&
+		!OnServer() &&
+		p->NET_IItem.size())
+	{
+		SPHNetState newState = p->NET_IItem.front().State;
+				
+		if (p->NET_IItem.size() >= 2)
+		{
+
+			float ret_interpolate = interpolate_states(p->NET_IItem.front(), p->NET_IItem.back(), newState);
+			//Msg("Interpolation factor is %0.4f", ret_interpolate);
+			//Msg("Current position is: x = %3.3f, y = %3.3f, z = %3.3f", newState.position.x, newState.position.y, newState.position.z);
+			if (ret_interpolate >= 1.f)
+			{
+				p->NET_IItem.pop_front();
+				if (m_activated)
+				{
+#ifdef DEBUG
+					Msg("Deactivating object [%d] after interpolation finish", object().ID());
+#endif // #ifdef DEBUG
+					object().processing_deactivate();
+					m_activated = false;
+				}
+			}
+		}
+		pSyncObj->set_State(newState);
+	}
 }
 float CInventoryItem::interpolate_states(net_update_IItem const & first, net_update_IItem const & last, SPHNetState & current)
 {

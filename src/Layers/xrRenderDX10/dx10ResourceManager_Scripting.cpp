@@ -154,6 +154,24 @@ static void lua_cast_failed(lua_State* L, LUABIND_TYPE_INFO info)
 	Debug.fatal(DEBUG_INFO, "LUA error: %s", lua_tostring(L, -1));
 }
 
+#ifndef PURE_ALLOC
+//#	ifndef USE_MEMORY_MONITOR
+#		define USE_DL_ALLOCATOR
+//#	endif // USE_MEMORY_MONITOR
+#endif // PURE_ALLOC
+
+static void* lua_alloc(void* ud, void* ptr, size_t osize, size_t nsize) {
+	(void)ud;
+	(void)osize;
+	if (!nsize)
+	{
+		xr_free(ptr);
+		return	NULL;
+	}
+	else
+		return xr_realloc(ptr, nsize);
+}
+
 // export
 void	CResourceManager::LS_Load			()
 {

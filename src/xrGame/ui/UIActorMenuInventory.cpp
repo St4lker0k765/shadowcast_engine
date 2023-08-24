@@ -351,6 +351,13 @@ void CUIActorMenu::AttachAddon(PIItem item_to_upgrade)
 {
 	PlaySnd										(eAttachAddon);
 	R_ASSERT									(item_to_upgrade);
+	if (OnClient())
+	{
+		NET_Packet								P;
+		CGameObject::u_EventGen					(P, GE_ADDON_ATTACH, item_to_upgrade->object().ID());
+		P.w_u16									(CurrentIItem()->object().ID());
+		CGameObject::u_EventSend				(P);
+	};
 
 	item_to_upgrade->Attach						(CurrentIItem(), true);
 
@@ -360,7 +367,18 @@ void CUIActorMenu::AttachAddon(PIItem item_to_upgrade)
 void CUIActorMenu::DetachAddon(LPCSTR addon_name, PIItem itm)
 {
 	PlaySnd										(eDetachAddon);
+	if (OnClient())
+	{
+		NET_Packet								P;
+		if(itm==NULL)
+			CGameObject::u_EventGen				(P, GE_ADDON_DETACH, CurrentIItem()->object().ID());
+		else
+			CGameObject::u_EventGen				(P, GE_ADDON_DETACH, itm->object().ID());
 
+		P.w_stringZ								(addon_name);
+		CGameObject::u_EventSend				(P);
+		return;
+	}
 	if(itm==NULL)
 		CurrentIItem()->Detach					(addon_name, true);
 	else

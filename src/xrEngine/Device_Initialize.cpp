@@ -1,11 +1,42 @@
 #include "stdafx.h"
 #include "resource.h"
+#include "dedicated_server_only.h"
+
+#ifdef INGAME_EDITOR
+# include "../include/editor/ide.hpp"
+# include "engine_impl.hpp"
+#endif // #ifdef INGAME_EDITOR
 
 extern LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-void CRenderDevice::Initialize()
+#ifdef INGAME_EDITOR
+void CRenderDevice::initialize_editor()
 {
-    Log("Initializing Device...");
+    m_editor_module = LoadLibrary("editor.dll");
+    if (!m_editor_module)
+    {
+        Msg("! cannot load library \"editor.dll\"");
+        return;
+    }
+
+    m_editor_initialize = (initialize_function_ptr)GetProcAddress(m_editor_module, "initialize");
+    VERIFY(m_editor_initialize);
+
+    m_editor_finalize = (finalize_function_ptr)GetProcAddress(m_editor_module, "finalize");
+    VERIFY(m_editor_finalize);
+
+    m_engine = xr_new<engine_impl>();
+    m_editor_initialize(m_editor, m_engine);
+    VERIFY(m_editor);
+
+    m_hWnd = m_editor->view_handle();
+    VERIFY(m_hWnd != INVALID_HANDLE_VALUE);
+}
+#endif // #ifdef INGAME_EDITOR
+
+PROTECT_API void CRenderDevice::Initialize()
+{
+    Log("Initializing Engine...");
     TimerGlobal.Start();
     TimerMM.Start();
 
@@ -43,7 +74,7 @@ void CRenderDevice::Initialize()
         ChangeDisplaySettings(&screen_settings, CDS_FULLSCREEN);
 
         // Create the render window
-        m_hWnd = CreateWindow(wndclass, "Shadow Engine x64", m_dwWindowStyle,
+        m_hWnd = CreateWindow(wndclass, "Shadow Engine", m_dwWindowStyle,
             /*rc.left, rc.top, */0, 0,
             screen_width, screen_height, 0L,
             0, hInstance, 0L);

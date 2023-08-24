@@ -156,6 +156,9 @@ void stop_weather_fx()
 
 void set_time_factor(float time_factor)
 {
+	if (!OnServer())
+		return;
+
 #ifdef INGAME_EDITOR
 	if (Device.editor())
 		return;

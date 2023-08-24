@@ -23,8 +23,6 @@
 #include "game_sv_mp_vote_flags.h"
 #include "player_name_modifyer.h"
 
-#pragma todo("morrazzzz: MP DELETE ALL!!!!!")
-
 u32		g_dwMaxCorpses = 10;
 //-----------------------------------------------------------------
 BOOL		g_sv_mp_bSpectator_FreeFly		= FALSE;
@@ -1060,8 +1058,8 @@ void game_sv_mp::OnVoteStart				(LPCSTR VoteCommand, ClientID sender)
 			xr_sprintf(resVoteCommand, "%s %s", votecommands[i].name, WeatherName);
 		} else if (!stricmp(votecommands[i].name, "changemap"))
 		{
-//			string256 LevelName;
-/*			string256 LevelVersion;
+			string256 LevelName;
+			string256 LevelVersion;
 			sscanf_s(CommandParams, "%255s %255s",
 				LevelName, sizeof(LevelName),
 				LevelVersion, sizeof(LevelVersion)
@@ -1071,7 +1069,6 @@ void game_sv_mp::OnVoteStart				(LPCSTR VoteCommand, ClientID sender)
 #endif // #ifdef DEBUG
 			LevelName[255] = 0;
 			LevelVersion[255] = 0;
-
 			
 			LPCSTR sv_vote_command = NULL;
 			STRCONCAT(sv_vote_command, votecommands[i].command, " ", LevelName, " ", LevelVersion);
@@ -1082,7 +1079,6 @@ void game_sv_mp::OnVoteStart				(LPCSTR VoteCommand, ClientID sender)
 				LevelName,
 				LevelVersion
 			);
-	*/		
 		} else if (!stricmp(votecommands[i].name, "kick"))
 		{
 			SearcherClientByName tmp_predicate(CommandParams);

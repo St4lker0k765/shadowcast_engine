@@ -52,7 +52,7 @@ void CtaArtefactActivation::UpdateActivation()
 		ChangeEffects				();
 
 
-	if(m_cur_activation_state==eSpawnZone)
+	if(m_cur_activation_state==eSpawnZone && OnServer())
 		SpawnAnomaly	();
 
 	}

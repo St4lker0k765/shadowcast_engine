@@ -1131,13 +1131,14 @@ void CCustomZone::OnStateSwitch	(EZoneState new_state)
 
 void CCustomZone::SwitchZoneState(EZoneState new_state)
 {
-	
-	// !!! Just single entry for given state !!!
-	NET_Packet		P;
-	u_EventGen		(P,GE_ZONE_STATE_CHANGE,ID());
-	P.w_u8			(u8(new_state));
-	u_EventSend		(P);
-	
+	if (OnServer())
+	{
+		// !!! Just single entry for given state !!!
+		NET_Packet		P;
+		u_EventGen		(P,GE_ZONE_STATE_CHANGE,ID());
+		P.w_u8			(u8(new_state));
+		u_EventSend		(P);
+	};
 
 	m_iPreviousStateTime = m_iStateTime = 0;
 }
@@ -1253,17 +1254,20 @@ void CCustomZone::CreateHit	(	u16 id_to,
 								float hit_impulse, 
 								ALife::EHitType hit_type)
 {
-	if(m_owner_id != u32(-1) )
-		id_from	= (u16)m_owner_id;
+	if (OnServer())
+	{
+		if(m_owner_id != u32(-1) )
+			id_from	= (u16)m_owner_id;
 
-	NET_Packet			l_P;
-	Fvector hdir		= hit_dir;
-	SHit Hit			= SHit(hit_power, hdir, this, bone_id, pos_in_bone, hit_impulse, hit_type, 0.0f, false);		
-	Hit.GenHeader		(GE_HIT, id_to);
-	Hit.whoID			= id_from;
-	Hit.weaponID		= this->ID();
-	Hit.Write_Packet	(l_P);
-	u_EventSend			(l_P);
+		NET_Packet			l_P;
+		Fvector hdir		= hit_dir;
+		SHit Hit			= SHit(hit_power, hdir, this, bone_id, pos_in_bone, hit_impulse, hit_type, 0.0f, false);		
+		Hit.GenHeader		(GE_HIT, id_to);
+		Hit.whoID			= id_from;
+		Hit.weaponID		= this->ID();
+		Hit.Write_Packet	(l_P);
+		u_EventSend			(l_P);
+	};
 }
 
 void CCustomZone::net_Relcase(CObject* O)

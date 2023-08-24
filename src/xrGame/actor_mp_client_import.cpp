@@ -19,9 +19,44 @@ void CActorMP::net_Import	( NET_Packet &P)
 	/*if (m_i_am_dead)
 		return;*/
 
+	if (OnClient())
+	{
+/*#ifdef DEBUG
+		if (GetfHealth() != m_state_holder.state().health)
+			Msg("net_Import: [%d][%s], is going to set health to %2.04f", this->ID(), Name(), m_state_holder.state().health);
+#endif*/
+		
+		game_PlayerState* ps = Game().GetPlayerByGameID(this->object_id());
+		float new_health = m_state_holder.state().health;
+		if (GetfHealth() < new_health)
+		{
+			SetfHealth(new_health);
+		} else
+		{
+			if (!ps || !ps->testFlag(GAME_PLAYER_FLAG_INVINCIBLE))
+			{
+				SetfHealth(new_health);
+			}
+		}
+	}
+
 	if (PPhysicsShell() != NULL)
 	{
 		return;
+	}
+	
+
+	if (OnClient())
+		SetfRadiation	(m_state_holder.state().radiation*100.0f);
+
+	u16		ActiveSlot = m_state_holder.state().inventory_active_slot;
+
+	if (OnClient() && (inventory().GetActiveSlot()!=ActiveSlot) )
+	{
+#ifdef DEBUG
+		Msg("Client-SetActiveSlot[%d][%d]",ActiveSlot, Device.dwFrame);
+#endif // #ifdef DEBUG
+		inventory().SetActiveSlot(ActiveSlot);
 	}
 
 	N.mstate			= m_state_holder.state().body_state_flags;
@@ -38,6 +73,7 @@ void CActorMP::net_Import	( NET_Packet &P)
 		N.o_torso.roll	-= PI_MUL_2;
 
 	{
+		if (Level().IsDemoPlay() || OnServer() || Remote())
 		{
 			unaffected_r_torso.yaw		= N.o_torso.yaw;
 			unaffected_r_torso.pitch	= N.o_torso.pitch;
@@ -79,7 +115,7 @@ void CActorMP::postprocess_packet	(net_update_A &N_A)
 	N_A.State.previous_position	= N_A.State.position;
 	N_A.State.previous_quaternion = N_A.State.quaternion;
 
-	if (!g_Alive()) return;
+	if (Local() && OnClient() || !g_Alive()) return;
 
 	{
 		//-----------------------------------------------
@@ -105,6 +141,9 @@ void CActorMP::postprocess_packet	(net_update_A &N_A)
 
 void CActorMP::process_packet		(net_update &N)
 {
+	if (Local() && OnClient())
+		return;
+
 	if (!NET.empty() && (N.dwTimeStamp < NET.back().dwTimeStamp))
 		return;
 

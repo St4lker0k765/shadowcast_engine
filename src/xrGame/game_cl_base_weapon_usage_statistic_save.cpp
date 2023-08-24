@@ -10,6 +10,7 @@
 
 void WeaponUsageStatistic::SaveDataLtx(CInifile& ini)
 {
+	if (OnClient())					return;
 	if (!CollectData())				return;
 	if (aPlayersStatistic.empty())	return;
 
@@ -58,6 +59,8 @@ void WeaponUsageStatistic::WriteLtx(CInifile& ini)
 
 void WeaponUsageStatistic::SaveData()
 {
+
+	if (OnClient()) return;
 	if (!CollectData()) return;
 	if (aPlayersStatistic.empty()) return;
 

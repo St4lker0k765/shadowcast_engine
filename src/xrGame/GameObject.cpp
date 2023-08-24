@@ -320,7 +320,7 @@ BOOL CGameObject::net_Spawn		(CSE_Abstract*	DC)
 
 	// Net params
 	setLocal						(E->s_flags.is(M_SPAWN_OBJECT_LOCAL));
-	if (Level().IsDemoPlay())
+	if (Level().IsDemoPlay()) //&& OnClient())
 	{
 		if (!demo_spectator)
 		{

@@ -9699,6 +9699,9 @@
     <ClCompile Include="console_commands.cpp">
       <Filter>Core\Common\Console Commands</Filter>
     </ClCompile>
+    <ClCompile Include="console_commands_mp.cpp">
+      <Filter>Core\Common\Console Commands</Filter>
+    </ClCompile>
     <ClCompile Include="date_time.cpp">
       <Filter>Core\Common\DateTime</Filter>
     </ClCompile>

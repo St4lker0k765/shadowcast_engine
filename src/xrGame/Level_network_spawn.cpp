@@ -36,7 +36,9 @@ void CLevel::cl_Process_Spawn(NET_Packet& P)
 //.	Msg ("M_SPAWN - %s[%d][%x] - %d %d", *s_name,  E->ID, E,E->ID_Parent, Device.dwFrame);
 //-------------------------------------------------
 	//force object to be local for server client
-	E->s_flags.set(M_SPAWN_OBJECT_LOCAL, TRUE);
+	if (OnServer())		{
+		E->s_flags.set(M_SPAWN_OBJECT_LOCAL, TRUE);
+	};
 
 	/*
 	game_spawn_queue.push_back(E);

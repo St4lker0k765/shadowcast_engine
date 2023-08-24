@@ -63,12 +63,15 @@ void CPHDestroyable::GenSpawnReplace(u16 ref_id,LPCSTR section,shared_str visual
 	D->s_name			= section;//*cNameSect()
 	D->ID_Parent		= u16(-1);
 	InitServerObject	(D);
-	NET_Packet			P;
-	D->Spawn_Write		(P,TRUE);
-	Level().Send		(P,net_flags(TRUE));
-	// Destroy
-	F_entity_Destroy	(D);
-	m_depended_objects++;
+	if (OnServer())
+	{
+		NET_Packet			P;
+		D->Spawn_Write		(P,TRUE);
+		Level().Send		(P,net_flags(TRUE));
+		// Destroy
+		F_entity_Destroy	(D);
+		m_depended_objects++;
+	};
 };
 
 void CPHDestroyable::InitServerObject(CSE_Abstract* D)

@@ -408,16 +408,30 @@ void CShootingObject::RenderLight()
 bool CShootingObject::SendHitAllowed		(CObject* pUser)
 {
 	if (Game().IsServerControlHits())
-		return true;
+		return OnServer();
 
-	if (smart_cast<CActor*>(pUser))
+	if (OnServer())
 	{
-		if (Level().CurrentControlEntity() != pUser)
+		if (smart_cast<CActor*>(pUser))
 		{
-			return false;
+			if (Level().CurrentControlEntity() != pUser)
+			{
+				return false;
+			}
 		}
+		return true;
 	}
-	return true;
+	else
+	{
+		if (smart_cast<CActor*>(pUser))
+		{
+			if (Level().CurrentControlEntity() == pUser)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 };
 
 extern void random_dir(Fvector& tgt_dir, const Fvector& src_dir, float dispersion);

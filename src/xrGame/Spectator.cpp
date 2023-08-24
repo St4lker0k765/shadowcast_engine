@@ -493,8 +493,10 @@ BOOL			CSpectator::net_Spawn				( CSE_Abstract*	DC )
 	cameras[cam_active]->Set(-E->o_Angle.y, -E->o_Angle.x, tmp_roll);// set's camera orientation
 	cameras[cam_active]->vPosition.set(E->o_Position);
 
-	E->s_flags.set(M_SPAWN_OBJECT_LOCAL, TRUE);
-
+	if (OnServer())
+	{
+		E->s_flags.set(M_SPAWN_OBJECT_LOCAL, TRUE);
+	};
 	return TRUE;
 };
 

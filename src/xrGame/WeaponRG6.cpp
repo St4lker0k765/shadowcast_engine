@@ -125,11 +125,13 @@ void CWeaponRG6::FireStart ()
 		VERIFY(pGrenade);
 		pGrenade->SetInitiator(H_Parent()->ID());
 
-		NET_Packet P;
-		u_EventGen(P,GE_LAUNCH_ROCKET,ID());
-		P.w_u16(u16(getCurrentRocket()->ID()));
-		u_EventSend(P);
-		
+		if (OnServer())
+		{
+			NET_Packet P;
+			u_EventGen(P,GE_LAUNCH_ROCKET,ID());
+			P.w_u16(u16(getCurrentRocket()->ID()));
+			u_EventSend(P);
+		}
 		dropCurrentRocket();
 	}
 }

@@ -50,6 +50,7 @@ void CLevel::ProcessCompressedUpdate(NET_Packet& P, u8 const compress_type)
 	}
 	Device.Statistic->netClientCompressor.End();
 
+	if (OnClient()) UpdateDeltaUpd(timeServer());
 	IClientStatistic pStat = Level().GetStatistic();
 	u32 dTime = 0;
 	
