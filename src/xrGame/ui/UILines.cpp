@@ -88,10 +88,12 @@ void CUILines::SetText(const char* text){
 		Reset();
 	}
 }
+#pragma optimize("", off)
 void CUILines::SetTextST(LPCSTR str_id)
 {
 	SetText	(*CStringTable().translate(str_id));
 }
+#pragma optimize("", on)
 
 
 LPCSTR CUILines::GetText()
