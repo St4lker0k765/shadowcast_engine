@@ -97,9 +97,6 @@
     <Filter Include="Addons">
       <UniqueIdentifier>{f98805c3-427e-4f61-acf3-d33852f0adbe}</UniqueIdentifier>
     </Filter>
-    <Filter Include="StackWalker">
-      <UniqueIdentifier>{1ee19259-e412-471a-8746-830aef76b9a7}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FTimer.cpp">
@@ -305,9 +302,6 @@
     </ClCompile>
     <ClCompile Include="Threading\Event.cpp">
       <Filter>thread</Filter>
-    </ClCompile>
-    <ClCompile Include="StackWalker.cpp">
-      <Filter>StackWalker</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -661,9 +655,6 @@
     </ClInclude>
     <ClInclude Include="xr_detail_collision.h">
       <Filter>Addons</Filter>
-    </ClInclude>
-    <ClInclude Include="StackWalker.h">
-      <Filter>StackWalker</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -34,28 +34,6 @@
 #include <signal.h>							// for signals
 #include <Shellapi.h>
 
-#include "StackWalker.h"
-
-class StackWalkerDebug : public StackWalker
-{
-	bool copy{};
-public:
-	StackWalkerDebug(bool m_copy = false) :copy(m_copy) {}
-protected:
-	virtual void OnOutput(LPCSTR text)
-	{
-		Msg("%s", text);
-		if (copy)
-		{
-			string4096 buffer{};
-			xr_sprintf(buffer, sizeof(buffer), "%s\r\n", text);
-
-			os_clipboard::update_clipboard(buffer);
-		}
-	}
-};
-
-
 #ifdef DEBUG
 #	define USE_OWN_ERROR_MESSAGE_WINDOW
 #else // DEBUG
@@ -66,6 +44,9 @@ XRCORE_API xrDebug Debug;
 
 static bool	error_after_dialog = false;
 
+extern void BuildStackTrace();
+extern char g_stackTrace[100][4096];
+extern int	g_stackTraceCount;
 extern bool shared_str_initialized;
 
 void LogStackTrace(LPCSTR header)
@@ -73,10 +54,14 @@ void LogStackTrace(LPCSTR header)
 	if (!shared_str_initialized)
 		return;
 
-	Msg("%s", header);
-	StackWalkerDebug stack_walker;
+	BuildStackTrace();		
 
-	stack_walker.ShowCallstack();
+	Msg("%s", header);
+
+	for (int i = 1; i < g_stackTraceCount; ++i)
+	{
+		Msg("%s", g_stackTrace[i]);
+	}
 }
 
 void xrDebug::gather_info(const char *expression, const char *description, const char *argument0, const char *argument1, const char *file, int line, const char *function, LPSTR assertion_info)
@@ -154,9 +139,19 @@ void xrDebug::gather_info(const char *expression, const char *description, const
 		buffer			+= sprintf(buffer,"stack trace:%s%s",endline,endline);
 #endif // USE_OWN_ERROR_MESSAGE_WINDOW
 
-		StackWalkerDebug stack_walker;
+		BuildStackTrace	();		
 
-		stack_walker.ShowCallstack();
+		for (int i = 2; i < g_stackTraceCount; ++i)
+		{
+			if (shared_str_initialized)
+			{
+				Msg("%s", g_stackTrace[i]);
+			}
+
+#ifdef USE_OWN_ERROR_MESSAGE_WINDOW
+			buffer		+= sprintf(buffer,"%s%s",g_stackTrace[i],endline);
+#endif // USE_OWN_ERROR_MESSAGE_WINDOW
+		}
 
 		if (shared_str_initialized)
 			FlushLog	();
@@ -464,7 +459,7 @@ please save report and send it to developer.\
 #endif // USE_BUG_TRAP
 
 #if 1
-//extern void BuildStackTrace(struct _EXCEPTION_POINTERS *pExceptionInfo);
+extern void BuildStackTrace(struct _EXCEPTION_POINTERS *pExceptionInfo);
 typedef LONG WINAPI UnhandledExceptionFilterType(struct _EXCEPTION_POINTERS *pExceptionInfo);
 typedef LONG ( __stdcall *PFNCHFILTFN ) ( EXCEPTION_POINTERS * pExPtrs ) ;
 extern "C" BOOL __stdcall SetCrashHandlerFilter ( PFNCHFILTFN pFn );
@@ -620,6 +615,7 @@ LONG WINAPI UnhandledFilter(_EXCEPTION_POINTERS* pExceptionInfo)
 
 	if (!error_after_dialog && !strstr(GetCommandLine(), "-no_call_stack_assert")) {
 		CONTEXT save = *pExceptionInfo->ContextRecord;
+		BuildStackTrace(pExceptionInfo);
 		*pExceptionInfo->ContextRecord = save;
 
 		if (shared_str_initialized)
@@ -633,9 +629,18 @@ LONG WINAPI UnhandledFilter(_EXCEPTION_POINTERS* pExceptionInfo)
 		}
 
 		string4096			buffer;
-		StackWalkerDebug stack_walker;
-
-		stack_walker.ShowCallstack();
+		for (int i = 0; i < g_stackTraceCount; ++i)
+		{
+			if (shared_str_initialized)
+			{
+				Msg("%s", g_stackTrace[i]);
+			}
+			sprintf(buffer, "%s\r\n", g_stackTrace[i]);
+#ifdef DEBUG
+			if (!IsDebuggerPresent())
+				os_clipboard::update_clipboard(buffer);
+#endif // #ifdef DEBUG
+	}
 
 		if (*error_message)
 		{
