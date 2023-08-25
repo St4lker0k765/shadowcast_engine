@@ -530,7 +530,7 @@ void	CHW::updateWindowProps(HWND m_hWnd)
 	// Set window properties depending on what mode were in.
 	if (bWindowed) {
 		if (m_move_window) {
-			dwWindowStyle = WS_BORDER | WS_VISIBLE;
+			dwWindowStyle = WS_VISIBLE;
 			if (!strstr(Core.Params, "-no_dialog_header"))
 				dwWindowStyle |= WS_DLGFRAME | WS_SYSMENU | WS_MINIMIZEBOX;
 			SetWindowLongPtr(m_hWnd, GWL_STYLE, dwWindowStyle);

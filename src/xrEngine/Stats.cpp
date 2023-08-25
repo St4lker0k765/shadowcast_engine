@@ -334,7 +334,7 @@ void CStats::Show()
     {
         _draw_cam_pos(pFont);
         pFont->OnRender();
-    };
+    }
 #ifdef DEBUG
     //////////////////////////////////////////////////////////////////////////
     // PERF ALERT
@@ -454,7 +454,7 @@ void CStats::OnDeviceCreate()
     g_bDisableRedText = strstr(Core.Params, "-xclsx") ? TRUE : FALSE;
 
     pFont = xr_new<CGameFont>("stat_font", CGameFont::fsDeviceIndependent);
-    fpsFont = xr_new<CGameFont>("hud_font_di", CGameFont::fsDeviceIndependent);
+    fpsFont = xr_new<CGameFont>("hud_font_di2", CGameFont::fsDeviceIndependent);
 
     //
 #ifdef DEBUG
