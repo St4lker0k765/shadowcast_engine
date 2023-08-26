@@ -972,6 +972,7 @@ void CWeapon::OnEvent(NET_Packet& P, u16 type)
 		P.r_u8(m_sub_state);
 		//			u8 NewAmmoType = 
 		P.r_u8();
+		P.r_u8();
 		u8 NextAmmo = P.r_u8();
 		if (NextAmmo == undefined_ammo_type)
 			m_set_next_ammoType_on_reload = undefined_ammo_type;
