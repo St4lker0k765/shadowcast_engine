@@ -1927,7 +1927,6 @@ void CCC_RegisterCommands()
 	CMD3(CCC_Mask,				"mt_level_sounds",		&g_mt_config,	mtLevelSounds);
 	CMD3(CCC_Mask,				"mt_alife",				&g_mt_config,	mtALife);
 	CMD3(CCC_Mask,				"mt_map",				&g_mt_config,	mtMap);
-	CMD3(CCC_Mask,              "mt_ikinematics",       &g_mt_config,   mtIKinematics);
 //#endif // MASTER_GOLD
 
 #ifndef MASTER_GOLD

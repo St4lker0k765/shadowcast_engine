@@ -371,13 +371,6 @@ void CIKLimbsController::UpdateIK()
 	if (ph_dbg_draw_mask1.test(phDbgIKOff))
 		return;
 #endif
-
-	if(!m_object)
-		return;
-
-	if (!m_object->Visual()) //lancerKot: I don`t know. is it reasonable? 
-		return;
-
 	CFrustum& viem_frust = ::Render->ViewBase;
 	vis_data& vis = m_object->Visual()->getVisData();
 
@@ -416,8 +409,5 @@ void CIKLimbsController::UpdateIK()
 
 void	CIKLimbsController::Update()
 {
-	if (g_mt_config.test(mtIKinematics))
-		Device.seqParallel.push_back(fastdelegate::FastDelegate0<>(this, &CIKLimbsController::UpdateIK));
-	else
-		UpdateIK();
+	UpdateIK();
 }

@@ -140,9 +140,6 @@ public:
 
 	xr_vector<sun::cascade>										m_sun_cascades;
 
-	xr_vector<CKinematics*>                                     m_bones_vector;
-	xr_vector<CKinematics*>                                     m_wallmarks_vector;
-
 private:
 	// Loading / Unloading
 	void							LoadBuffers					(CStreamReader	*fs,	BOOL	_alternative);
@@ -306,7 +303,7 @@ public:
 	virtual void					model_Logging				(BOOL bEnable)				{ Models->Logging(bEnable);	}
 	virtual void					models_Prefetch				();
 	virtual void					models_Clear				(BOOL b_complete);
-	virtual void                    clear_renderer() {} //Доделать для r2
+
 	// Occlusion culling
 	virtual BOOL					occ_visible					(vis_data&	V);
 	virtual BOOL					occ_visible					(Fbox&		B);

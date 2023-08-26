@@ -36,8 +36,6 @@ void CLevel::remove_objects	()
 	
 	//Lights.ldbTargetViewPortBuffer->rawPackage_.clear();
 
-	::Render->clear_renderer();
-
 	int loop = 5;
 	while(loop)
 	{

@@ -1330,7 +1330,6 @@ void CCharacterPhysicsSupport::PHGetLinearVell(Fvector &velocity)
 
 void CCharacterPhysicsSupport::CreateIKController()
 {
-
 	VERIFY(!m_ik_controller);
 	m_ik_controller=xr_new<CIKLimbsController>();
 	m_ik_controller->Create(&m_EntityAlife);

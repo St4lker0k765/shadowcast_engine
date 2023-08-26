@@ -5,7 +5,6 @@
 #include "../../xrEngine/xr_object.h"
 #include "tbb/parallel_sort.h"
 #include "../xrRender/QueryHelper.h"
-#include "../xrRender/SkeletonCustom.h"
 
 #include "tbb/task.h"
 #include "tbb/task_group.h"
@@ -378,8 +377,6 @@ void CRender::Render		()
 
 	CPU_wait_GPU_lastFrame_ = T1.GetElapsed_sec() * 1000.f;
 
-	calculate_bone_wallmarks();
-
 	//******* Main calc - DEFERRER RENDERER
 	// Main calc
 	Device.Statistic->RenderCALC.Begin			();
@@ -650,22 +647,4 @@ void CRender::AfterWorldRender()
 
 		HW.pContext->CopySubresourceRegion(res2, 0, 0, 0, 0, res, 0, &sourceRegion);
 	}
-}
-
-void CRender::calculate_bone_wallmarks()
-{
-	for (u32 i = 0; i < m_bones_vector.size(); i++)
-	{
-		if (m_bones_vector[i])
-			m_bones_vector[i]->CalculateBones(TRUE);
-	}
-
-	for (u32 i = 0; i < m_wallmarks_vector.size(); i++)
-	{
-		if (m_wallmarks_vector[i])
-			m_wallmarks_vector[i]->CalculateWallmarks();
-	}
-
-	m_bones_vector.clear();
-	m_wallmarks_vector.clear();
 }
