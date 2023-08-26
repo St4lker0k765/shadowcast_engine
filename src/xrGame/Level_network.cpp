@@ -350,7 +350,7 @@ bool			CLevel::Connect2Server				(const char* options)
 		xr_auth_strings_t	tmp_ignore;
 		xr_auth_strings_t	tmp_check;
 		fill_auth_check_params	(tmp_ignore, tmp_check);
-		FS.auth_generate		(tmp_ignore, tmp_check);
+//		FS.auth_generate		(tmp_ignore, tmp_check);
 	}
 
 	if (!Connect(options))		return	FALSE;
@@ -428,7 +428,7 @@ void			CLevel::OnBuildVersionChallenge		()
 	u64 auth = MP_DEBUG_AUTH;
 	Msg("* Sending auth value ...");
 #else
-	u64 auth = FS.auth_get();
+	u64 auth = 0;
 #endif //#ifdef DEBUG
 	P.w_u64					(auth);
 	SecureSend				(P, net_flags(TRUE, TRUE, TRUE, TRUE));

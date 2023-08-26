@@ -14,7 +14,7 @@ class XRCORE_API pauseMngr
 	BOOL						m_paused;
 public:
 	pauseMngr();
-	BOOL	Paused() { return m_paused; };
+	BOOL	Paused() { return m_paused; }
 	void	Pause(BOOL b);
 	void	Register(CTimer_paused* t);
 	void	UnRegister(CTimer_paused* t);

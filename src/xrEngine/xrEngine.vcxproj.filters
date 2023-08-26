@@ -10,9 +10,6 @@
     <Filter Include="Interfaces">
       <UniqueIdentifier>{fad49c5d-63ff-41cf-acdd-a213a33d84e0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Interfaces\Sound">
-      <UniqueIdentifier>{58ed43ab-d3e8-455d-a859-ee009d07d3ba}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Interfaces\Input">
       <UniqueIdentifier>{0b1e83d9-fa8b-4384-a88c-5860f6cdf71f}</UniqueIdentifier>
     </Filter>
@@ -21,9 +18,6 @@
     </Filter>
     <Filter Include="Interfaces\Render">
       <UniqueIdentifier>{b512001a-02d0-4c4d-819e-a54399380b8b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Interfaces\SPATIAL">
-      <UniqueIdentifier>{f7f04070-84c2-470b-b745-a38c4eba228a}</UniqueIdentifier>
     </Filter>
     <Filter Include="Interfaces\Collidable">
       <UniqueIdentifier>{105b295b-4c65-4e36-9195-9b8d16f98cc8}</UniqueIdentifier>
@@ -861,9 +855,6 @@
       <Filter>RenderRef\Execution &amp; 3D\Device</Filter>
     </ClCompile>
     <ClCompile Include="Device_overdraw.cpp">
-      <Filter>RenderRef\Execution &amp; 3D\Device</Filter>
-    </ClCompile>
-    <ClCompile Include="Device_wndproc.cpp">
       <Filter>RenderRef\Execution &amp; 3D\Device</Filter>
     </ClCompile>
     <ClCompile Include="StatGraph.cpp">

@@ -77,7 +77,6 @@ inline_ BOOL planeBoxOverlap(const Point& normal, const float d, const Point& ma
 // - axis vector3 discarded, possibly saves useless movs
 #define IMPLEMENT_CLASS3_TESTS						\
 	float rad;										\
-	float min, max;									\
 													\
 	const float fey0 = _abs(e0.y);					\
 	const float fez0 = _abs(e0.z);					\

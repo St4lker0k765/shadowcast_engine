@@ -3,15 +3,6 @@
 
 #include "cpuid.h"
 
-namespace FPU
-{
-XRCORE_API void m24(void);
-XRCORE_API void m24r(void);
-XRCORE_API void m53(void);
-XRCORE_API void m53r(void);
-XRCORE_API void m64(void);
-XRCORE_API void m64r(void);
-};
 namespace CPU
 {
 XRCORE_API extern u64 clk_per_second;
@@ -47,9 +38,6 @@ IC u64 GetCLK()
 #endif
 #endif
 
-#ifdef M_BORLAND
-XRCORE_API u64 __fastcall GetCLK (void);
-#endif
 };
 
 extern XRCORE_API void _initialize_cpu();

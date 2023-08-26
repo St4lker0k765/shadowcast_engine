@@ -96,7 +96,6 @@ void CRenderTarget::draw_rain( light &RainSetup )
 		};
 
 		// compute xforms
-		FPU::m64r			();
 		Fmatrix				xf_invview;		xf_invview.invert	(Device.mView)	;
 
 		// shadow xform
@@ -104,38 +103,7 @@ void CRenderTarget::draw_rain( light &RainSetup )
 		{
 			Fmatrix			xf_project;		xf_project.mul		(m_TexelAdjust,RainSetup.X.D.combine);
 			m_shadow.mul	(xf_project,	xf_invview);
-
-			FPU::m24r		();
 		}
-
-		/*
-		// texture adjustment matrix
-		//float			fRange				= (SE_SUN_NEAR==sub_phase)?ps_r2_sun_depth_near_scale:ps_r2_sun_depth_far_scale;
-		float			fRange				=  1;
-		//float			fBias				= (SE_SUN_NEAR==sub_phase)?ps_r2_sun_depth_near_bias:ps_r2_sun_depth_far_bias;
-		//	TODO: DX10: Remove this when fix inverse culling for far region
-		float			fBias				= 0;
-		Fmatrix			m_TexelAdjust		= 
-		{
-			0.5f,				0.0f,				0.0f,			0.0f,
-			0.0f,				-0.5f,				0.0f,			0.0f,
-			0.0f,				0.0f,				fRange,			0.0f,
-			0.5f,				0.5f,				fBias,			1.0f
-		};
-
-		// compute xforms
-		FPU::m64r			();
-		Fmatrix				xf_invview;		xf_invview.invert	(Device.mView)	;
-
-		// shadow xform
-		Fmatrix				m_shadow;
-		{
-			Fmatrix			xf_project;		xf_project.mul		(m_TexelAdjust,RainSetup.X.D.combine);
-			m_shadow.mul	(xf_project,	xf_invview);
-
-			FPU::m24r		();
-		}
-		*/
 
 		// clouds xform
 		Fmatrix				m_clouds_shadow;

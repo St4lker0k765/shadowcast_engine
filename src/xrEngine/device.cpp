@@ -92,7 +92,6 @@ BOOL CRenderDevice::Begin()
     if (HW.Caps.SceneMode) overdrawBegin ();
     */
 
-    FPU::m24r();
     g_bRendering = TRUE;
 #endif
     return TRUE;

@@ -31,15 +31,6 @@
     <Filter Include="Memory manager">
       <UniqueIdentifier>{11d9158f-7330-4434-81b2-684eebee4c83}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Memory manager\dlmalloc">
-      <UniqueIdentifier>{4705fd61-ddd0-41fa-bc61-dd6c3614dba5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Memory manager\dlmalloc\allocator">
-      <UniqueIdentifier>{246cd5dd-abec-4430-8eba-4018828784a7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Memory manager\dlmalloc\wrapper">
-      <UniqueIdentifier>{5f3b8536-3170-4e5e-90f1-222d3a4a144a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Debug core">
       <UniqueIdentifier>{fb17db11-1c85-43ab-9226-0c82ece07b51}</UniqueIdentifier>
     </Filter>
@@ -147,9 +138,6 @@
     <ClCompile Include="LocatorAPI.cpp">
       <Filter>FS</Filter>
     </ClCompile>
-    <ClCompile Include="LocatorAPI_auth.cpp">
-      <Filter>FS</Filter>
-    </ClCompile>
     <ClCompile Include="LocatorAPI_defs.cpp">
       <Filter>FS</Filter>
     </ClCompile>
@@ -197,15 +185,6 @@
     </ClCompile>
     <ClCompile Include="xrMemory_subst_msvc.cpp">
       <Filter>Memory manager</Filter>
-    </ClCompile>
-    <ClCompile Include="ptmalloc3\malloc.c">
-      <Filter>Memory manager\dlmalloc\allocator</Filter>
-    </ClCompile>
-    <ClCompile Include="ptmalloc3\sysdeps\win32\win32.c">
-      <Filter>Memory manager\dlmalloc\allocator</Filter>
-    </ClCompile>
-    <ClCompile Include="doug_lea_allocator.cpp">
-      <Filter>Memory manager\dlmalloc\wrapper</Filter>
     </ClCompile>
     <ClCompile Include="xrDebug.cpp">
       <Filter>Debug core</Filter>
@@ -484,15 +463,6 @@
     </ClInclude>
     <ClInclude Include="xrMemory_subst_msvc.h">
       <Filter>Memory manager</Filter>
-    </ClInclude>
-    <ClInclude Include="ptmalloc3\malloc-2.8.3.h">
-      <Filter>Memory manager\dlmalloc\allocator</Filter>
-    </ClInclude>
-    <ClInclude Include="doug_lea_allocator.h">
-      <Filter>Memory manager\dlmalloc\wrapper</Filter>
-    </ClInclude>
-    <ClInclude Include="memory_allocator_options.h">
-      <Filter>Memory manager\dlmalloc\wrapper</Filter>
     </ClInclude>
     <ClInclude Include="xrDebug.h">
       <Filter>Debug core</Filter>

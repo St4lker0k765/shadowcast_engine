@@ -10,7 +10,6 @@
 #include "script_storage.h"
 #include "script_thread.h"
 #include <stdarg.h>
-#include "../xrCore/doug_lea_allocator.h"
 
 #ifndef DEBUG
 #	include "opt.lua.h"
@@ -84,24 +83,8 @@ static void *lua_alloc		(void *ud, void *ptr, size_t osize, size_t nsize) {
 	  return xr_realloc(ptr, nsize);
 }
 
-#include "../xrCore/memory_allocator_options.h"
-
-#ifdef USE_ARENA_ALLOCATOR
-static const u32			s_arena_size = 96*1024*1024;
-static char					s_fake_array[s_arena_size];
-static doug_lea_allocator	s_allocator( s_fake_array, s_arena_size, "lua" );
-#else // #ifdef USE_ARENA_ALLOCATOR
-static doug_lea_allocator	s_allocator( 0, 0, "lua" );
-#endif // #ifdef USE_ARENA_ALLOCATOR
-
 
 BOOL escapeSequences = false;
-
-
-u32 game_lua_memory_usage	()
-{
-	return					(s_allocator.get_allocated_size());
-}
 
 static LPVOID __cdecl luabind_allocator	(
 		luabind::memory_allocation_function_parameter const,

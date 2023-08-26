@@ -1,10 +1,4 @@
-#ifndef _INCDEF_XRMESSAGES_H_
-#define _INCDEF_XRMESSAGES_H_
-
 #pragma once
-
-// CL	== client 2 server message
-// SV	== server 2 client message
 
 enum {
 	M_UPDATE			= 0,	// DUAL: Update state
@@ -13,11 +7,6 @@ enum {
 	M_SV_CONFIG_NEW_CLIENT,
 	M_SV_CONFIG_GAME,
 	M_SV_CONFIG_FINISHED,
-
-	M_MIGRATE_DEACTIVATE,		// TO:   Changing server, just deactivate
-	M_MIGRATE_ACTIVATE,			// TO:   Changing server, full state
-
-	M_CHAT,						// DUAL:
 
 	M_EVENT,					// Game Event
 	M_CL_INPUT,					// Client Input Data
@@ -47,9 +36,6 @@ enum {
 	M_CLIENT_WARN,
 	M_CHANGE_LEVEL_GAME,
 	//-----------------------------------------------------
-	M_CL_PING_CHALLENGE,
-	M_CL_PING_CHALLENGE_RESPOND,
-	//-----------------------------------------------------
 	M_AUTH_CHALLENGE,
 	M_CL_AUTH,
 	M_BULLET_CHECK_RESPOND,
@@ -63,16 +49,13 @@ enum {
 	M_MOVE_ARTEFACTS,
 	M_MOVE_PLAYERS_RESPOND,
 	//-----------------------------------------------------
-	M_CHANGE_SELF_NAME,
 	M_REMOTE_CONTROL_AUTH,
 	M_REMOTE_CONTROL_CMD,
-	M_BATTLEYE,
 
 	M_SV_MAP_NAME,				//request and responce
 	M_SV_DIGEST,				//request and responce
 
 	M_FILE_TRANSFER,
-	M_MAKE_SCREENSHOT,
 	M_SECURE_KEY_SYNC,
 	M_SECURE_MESSAGE,
 	M_CREATE_PLAYER_STATE,
@@ -82,9 +65,7 @@ enum {
 };
 
 enum {
-	GE_RESPAWN,
 	GE_OWNERSHIP_TAKE,			// DUAL: Client request for ownership of an item
-	GE_OWNERSHIP_TAKE_MP_FORCED,
 	GE_OWNERSHIP_REJECT,		// DUAL: Client request ownership rejection
 	GE_TRANSFER_AMMO,			// DUAL: Take ammo out of weapon for our weapon
 	GE_HIT,						//
@@ -98,15 +79,11 @@ enum {
 	GE_REMOVE_RESTRICTION,
 	GE_REMOVE_ALL_RESTRICTIONS,
 
-	GE_BUY,
-
-
 	GE_INFO_TRANSFER,			//transfer _new_ info on PDA
 	
 	GE_TRADE_SELL,
 	GE_TRADE_BUY,
 
-	GE_WPN_AMMO_ADD,
 	GE_WPN_STATE_CHANGE,
 
 	GE_ADDON_ATTACH,
@@ -254,6 +231,3 @@ enum enum_connection_results
 	ecr_have_been_banned,
 	ecr_profile_error,
 };//enum enum_connection_results
-
-
-#endif /*_INCDEF_XRMESSAGES_H_*/

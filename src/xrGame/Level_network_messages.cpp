@@ -259,28 +259,6 @@ void CLevel::ClientReceive()
 					SpawnDemoSpectator();
 				}
 			}break;
-		case M_MIGRATE_DEACTIVATE:	// TO:   Changing server, just deactivate
-			{
-				NODEFAULT;
-			}
-			break;
-		case M_MIGRATE_ACTIVATE:	// TO:   Changing server, full state
-			{
-				NODEFAULT;
-			}
-			break;
-		case M_CHAT:
-			{
-				/*if (!game_configured)
-				{
-					Msg("! WARNING: ignoring game event [%d] - game not configured...", m_type);
-					break;
-				}*/
-				char	buffer[256];
-				P->r_stringZ(buffer);
-				Msg		("- %s",buffer);
-			}
-			break;
 		case M_GAMEMESSAGE:
 			{
 				/*if (!game_configured)
@@ -424,10 +402,6 @@ void CLevel::ClientReceive()
 					m_caServerOptions = NewServerOptions;
 					MakeReconnect();
 				};
-			}break;
-		case M_CHANGE_SELF_NAME:
-			{
-				net_OnChangeSelfName(P);
 			}break;
 		case M_BULLET_CHECK_RESPOND:
 			{

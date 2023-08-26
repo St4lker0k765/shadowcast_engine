@@ -18,121 +18,6 @@ XRCORE_API CRandom Random;
 
 #ifdef _M_AMD64
 u16 getFPUsw() { return 0; }
-
-namespace FPU
-{
-XRCORE_API void m24(void)
-{
-    _control87(_PC_24, MCW_PC);
-    _control87(_RC_CHOP, MCW_RC);
-}
-XRCORE_API void m24r(void)
-{
-    _control87(_PC_24, MCW_PC);
-    _control87(_RC_NEAR, MCW_RC);
-}
-XRCORE_API void m53(void)
-{
-    _control87(_PC_53, MCW_PC);
-    _control87(_RC_CHOP, MCW_RC);
-}
-XRCORE_API void m53r(void)
-{
-    _control87(_PC_53, MCW_PC);
-    _control87(_RC_NEAR, MCW_RC);
-}
-XRCORE_API void m64(void)
-{
-    _control87(_PC_64, MCW_PC);
-    _control87(_RC_CHOP, MCW_RC);
-}
-XRCORE_API void m64r(void)
-{
-    _control87(_PC_64, MCW_PC);
-    _control87(_RC_NEAR, MCW_RC);
-}
-
-void initialize() {}
-};
-#else
-u16 getFPUsw()
-{
-    u16 SW;
-    __asm fstcw SW;
-    return SW;
-}
-
-namespace FPU
-{
-u16 _24 = 0;
-u16 _24r = 0;
-u16 _53 = 0;
-u16 _53r = 0;
-u16 _64 = 0;
-u16 _64r = 0;
-
-XRCORE_API void m24()
-{
-    u16 p = _24;
-    __asm fldcw p;
-}
-XRCORE_API void m24r()
-{
-    u16 p = _24r;
-    __asm fldcw p;
-}
-XRCORE_API void m53()
-{
-    u16 p = _53;
-    __asm fldcw p;
-}
-XRCORE_API void m53r()
-{
-    u16 p = _53r;
-    __asm fldcw p;
-}
-XRCORE_API void m64()
-{
-    u16 p = _64;
-    __asm fldcw p;
-}
-XRCORE_API void m64r()
-{
-    u16 p = _64r;
-    __asm fldcw p;
-}
-
-void initialize()
-{
-    _clear87();
-
-    _control87(_PC_24, MCW_PC);
-    _control87(_RC_CHOP, MCW_RC);
-    _24 = getFPUsw(); // 24, chop
-    _control87(_RC_NEAR, MCW_RC);
-    _24r = getFPUsw(); // 24, rounding
-
-    _control87(_PC_53, MCW_PC);
-    _control87(_RC_CHOP, MCW_RC);
-    _53 = getFPUsw(); // 53, chop
-    _control87(_RC_NEAR, MCW_RC);
-    _53r = getFPUsw(); // 53, rounding
-
-    _control87(_PC_64, MCW_PC);
-    _control87(_RC_CHOP, MCW_RC);
-    _64 = getFPUsw(); // 64, chop
-    _control87(_RC_NEAR, MCW_RC);
-    _64r = getFPUsw(); // 64, rounding
-
-#ifndef XRCORE_STATIC
-
-    m24r();
-
-#endif //XRCORE_STATIC
-
-    ::Random.seed(u32(CPU::GetCLK() % (1i64 << 32i64)));
-}
-};
 #endif
 
 namespace CPU
@@ -234,7 +119,6 @@ void _initialize_cpu(void)
     Fidentity.identity(); // Identity matrix
     Didentity.identity(); // Identity matrix
     pvInitializeStatics(); // Lookup table for compressed normals
-    FPU::initialize();
     _initialize_cpu_thread();
 
     g_initialize_cpu_called = true;
@@ -260,10 +144,6 @@ void debug_on_thread_spawn();
 void _initialize_cpu_thread()
 {
     debug_on_thread_spawn();
-#ifndef XRCORE_STATIC
-    // fpu & sse
-    FPU::m24r();
-#endif // XRCORE_STATIC
     if (CPU::ID.feature&_CPU_FEATURE_SSE)
     {
         //_mm_setcsr ( _mm_getcsr() | (_MM_FLUSH_ZERO_ON+_MM_DENORMALS_ZERO_ON) );

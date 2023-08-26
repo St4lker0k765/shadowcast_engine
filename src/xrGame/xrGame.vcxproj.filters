@@ -7350,7 +7350,6 @@
     <ClInclude Include="ui\ChangeWeatherDialog.hpp">
       <Filter>UI\Multiplayer\Voting</Filter>
     </ClInclude>
-    <ClInclude Include="AmebaZone.h" />
     <ClInclude Include="Weapon.h">
       <Filter>Core\Client\Objects\items &amp; weapons\Weapons\Custom Weapon\Weapon Generic\Refactored</Filter>
     </ClInclude>
@@ -10986,7 +10985,6 @@
     <ClCompile Include="ui\ChangeWeatherDialog.cpp">
       <Filter>UI\Multiplayer\Voting</Filter>
     </ClCompile>
-    <ClCompile Include="AmebaZone.cpp" />
     <ClCompile Include="Weapon.cpp">
       <Filter>Core\Client\Objects\items &amp; weapons\Weapons\Custom Weapon\Weapon Generic\Refactored</Filter>
     </ClCompile>

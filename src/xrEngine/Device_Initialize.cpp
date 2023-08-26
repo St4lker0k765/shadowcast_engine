@@ -2,41 +2,11 @@
 #include "resource.h"
 #include "dedicated_server_only.h"
 
-#ifdef INGAME_EDITOR
-# include "../include/editor/ide.hpp"
-# include "engine_impl.hpp"
-#endif // #ifdef INGAME_EDITOR
-
 extern LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-
-#ifdef INGAME_EDITOR
-void CRenderDevice::initialize_editor()
-{
-    m_editor_module = LoadLibrary("editor.dll");
-    if (!m_editor_module)
-    {
-        Msg("! cannot load library \"editor.dll\"");
-        return;
-    }
-
-    m_editor_initialize = (initialize_function_ptr)GetProcAddress(m_editor_module, "initialize");
-    VERIFY(m_editor_initialize);
-
-    m_editor_finalize = (finalize_function_ptr)GetProcAddress(m_editor_module, "finalize");
-    VERIFY(m_editor_finalize);
-
-    m_engine = xr_new<engine_impl>();
-    m_editor_initialize(m_editor, m_engine);
-    VERIFY(m_editor);
-
-    m_hWnd = m_editor->view_handle();
-    VERIFY(m_hWnd != INVALID_HANDLE_VALUE);
-}
-#endif // #ifdef INGAME_EDITOR
 
 PROTECT_API void CRenderDevice::Initialize()
 {
-    Log("Initializing Engine...");
+    Log("Initializing Device...");
     TimerGlobal.Start();
     TimerMM.Start();
 
@@ -84,14 +54,55 @@ PROTECT_API void CRenderDevice::Initialize()
     m_dwWindowStyle = GetWindowLongPtr(m_hWnd, GWL_STYLE);
     GetWindowRect(m_hWnd, &m_rcWindowBounds);
     GetClientRect(m_hWnd, &m_rcWindowClient);
-
-    /*
-    if (strstr(lpCmdLine,"-gpu_sw")!=NULL) HW.Caps.bForceGPU_SW = TRUE;
-    else HW.Caps.bForceGPU_SW = FALSE;
-    if (strstr(lpCmdLine,"-gpu_nopure")!=NULL) HW.Caps.bForceGPU_NonPure = TRUE;
-    else HW.Caps.bForceGPU_NonPure = FALSE;
-    if (strstr(lpCmdLine,"-gpu_ref")!=NULL) HW.Caps.bForceGPU_REF = TRUE;
-    else HW.Caps.bForceGPU_REF = FALSE;
-    */
 }
 
+bool CRenderDevice::on_message(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, LRESULT& result)
+{
+    switch (uMsg)
+    {
+    case WM_SYSKEYDOWN:
+    {
+        return true;
+    }
+    case WM_ACTIVATE:
+    {
+        OnWM_Activate(wParam, lParam);
+        return (false);
+    }
+    case WM_SETCURSOR:
+    {
+        result = 1;
+        return (true);
+    }
+    case WM_SYSCOMMAND:
+    {
+        // Prevent moving/sizing and power loss in fullscreen mode
+        switch (wParam)
+        {
+        case SC_MOVE:
+        case SC_SIZE:
+        case SC_MAXIMIZE:
+        case SC_MONITORPOWER:
+            result = 1;
+            return (true);
+        }
+        return (false);
+    }
+    case WM_CLOSE:
+    {
+        result = 0;
+        return (true);
+    }
+    }
+
+    return (false);
+}
+
+LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+    LRESULT result;
+    if (Device.on_message(hWnd, uMsg, wParam, lParam, result))
+        return (result);
+
+    return (DefWindowProc(hWnd, uMsg, wParam, lParam));
+}

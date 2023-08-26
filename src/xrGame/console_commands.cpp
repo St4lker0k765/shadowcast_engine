@@ -148,10 +148,6 @@ CUIOptConCom g_OptConCom;
 //#	endif // USE_MEMORY_MONITOR
 #endif // PURE_ALLOC
 
-#ifdef SEVERAL_ALLOCATORS
-	extern		u32 game_lua_memory_usage	();
-#endif // SEVERAL_ALLOCATORS
-
 typedef void (*full_memory_stats_callback_type) ( );
 XRCORE_API full_memory_stats_callback_type g_full_memory_stats_callback;
 
@@ -159,10 +155,6 @@ static void full_memory_stats	( )
 {
 	Memory.mem_compact		();
 	size_t	_process_heap	= ::Memory.mem_usage();
-#ifdef SEVERAL_ALLOCATORS
-	//u32		_game_lua		= game_lua_memory_usage();
-	//u32		_render			= ::Render->memory_usage();
-#endif // SEVERAL_ALLOCATORS
 	int		_eco_strings	= (int)g_pStringContainer->stat_economy			();
 	int		_eco_smem		= (int)g_pSharedMemoryContainer->stat_economy	();
 	u32		m_base=0,c_base=0,m_lmaps=0,c_lmaps=0;

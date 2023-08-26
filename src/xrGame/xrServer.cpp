@@ -668,9 +668,6 @@ u32 xrServer::OnMessage	(NET_Packet& P, ClientID sender)			// Non-Zero means bro
 		{
 			AddDelayedPacket(P, sender);
 		}break;
-	case M_BATTLEYE:
-		{
-		}break;
 	case M_FILE_TRANSFER:
 		{
 			AddDelayedPacket(P, sender);

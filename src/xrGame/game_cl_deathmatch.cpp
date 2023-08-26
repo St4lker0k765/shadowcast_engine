@@ -1207,10 +1207,10 @@ void game_cl_Deathmatch::OnPlayerFlagsChanged(game_PlayerState* ps)
 
 void game_cl_Deathmatch::SendPickUpEvent(u16 ID_who, u16 ID_what)
 {
-	NET_Packet						P;
-	u_EventGen						(P,	GE_OWNERSHIP_TAKE_MP_FORCED, ID_who);
-	P.w_u16							(ID_what);
-	u_EventSend						(P);
+//	NET_Packet						P;
+//	u_EventGen						(P,	GE_OWNERSHIP_TAKE_MP_FORCED, ID_who);
+//	P.w_u16							(ID_what);
+//	u_EventSend						(P);
 };
 
 const shared_str game_cl_Deathmatch::GetTeamMenu(s16 team)
