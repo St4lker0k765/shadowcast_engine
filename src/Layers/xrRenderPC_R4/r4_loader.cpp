@@ -432,3 +432,9 @@ void CRender::Load3DFluid()
 		FS.r_close(F);
 	}
 }
+
+void CRender::clear_renderer()
+{
+	m_bones_vector.clear();
+	m_wallmarks_vector.clear();
+}

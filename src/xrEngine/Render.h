@@ -283,6 +283,7 @@ public:
     virtual void model_Logging(BOOL bEnable) = 0;
     virtual void models_Prefetch() = 0;
     virtual void models_Clear(BOOL b_complete) = 0;
+    virtual void clear_renderer() = 0;
 
     virtual bool texture_is_exist(LPCSTR texture_name) = 0;
 
