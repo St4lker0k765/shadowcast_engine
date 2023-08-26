@@ -4,8 +4,6 @@
 #include "xrsharedmem.h"
 #include "xrMemory_pure.h"
 
-#include <malloc.h>
-
 xrMemory Memory;
 BOOL mem_initialized = FALSE;
 bool shared_str_initialized = false;
