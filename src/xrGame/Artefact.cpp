@@ -441,16 +441,11 @@ void CArtefact::OnAnimationEnd(u32 state)
 		}break;
 	case eActivating:
 		{
-			if(Local())
-			{
-				SwitchState		(eHiding);
-				NET_Packet		P;
-				u_EventGen		(P, GEG_PLAYER_ACTIVATEARTEFACT, H_Parent()->ID());
-				P.w_u16			(ID());
-				u_EventSend		(P);	
-			}
-		}break;
-	};
+			SwitchState		(eHiding);
+			ActivateArtefact();
+		}
+		break;
+	}
 }
 
 void CArtefact::FollowByPath(LPCSTR path_name, int start_idx, Fvector magic_force)

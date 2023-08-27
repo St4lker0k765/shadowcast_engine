@@ -9,7 +9,6 @@ enum {
 	M_SV_CONFIG_FINISHED,
 
 	M_EVENT,					// Game Event
-	M_CL_INPUT,					// Client Input Data
 	//----------- for E3 -----------------------------
 	M_CL_UPDATE,
 	M_UPDATE_OBJECTS,
@@ -18,7 +17,6 @@ enum {
 	
 	M_CHANGE_LEVEL,				// changing level
 	M_LOAD_GAME,
-	M_RELOAD_GAME,
 	M_SAVE_GAME,
 	M_SAVE_PACKET,
 
@@ -34,7 +32,6 @@ enum {
 
 	M_CHAT_MESSAGE,
 	M_CLIENT_WARN,
-	M_CHANGE_LEVEL_GAME,
 	//-----------------------------------------------------
 	M_AUTH_CHALLENGE,
 	M_CL_AUTH,
@@ -43,11 +40,7 @@ enum {
 	M_STATISTIC_UPDATE,
 	M_STATISTIC_UPDATE_RESPOND,
 	//-----------------------------------------------------
-	M_PLAYER_FIRE,
-	//-----------------------------------------------------
-	M_MOVE_PLAYERS,
 	M_MOVE_ARTEFACTS,
-	M_MOVE_PLAYERS_RESPOND,
 	//-----------------------------------------------------
 	M_REMOTE_CONTROL_AUTH,
 	M_REMOTE_CONTROL_CMD,
@@ -67,7 +60,6 @@ enum {
 enum {
 	GE_OWNERSHIP_TAKE,			// DUAL: Client request for ownership of an item
 	GE_OWNERSHIP_REJECT,		// DUAL: Client request ownership rejection
-	GE_TRANSFER_AMMO,			// DUAL: Take ammo out of weapon for our weapon
 	GE_HIT,						//
 	GE_DIE,						//
 	GE_ASSIGN_KILLER,			//
@@ -85,11 +77,6 @@ enum {
 	GE_TRADE_BUY,
 
 	GE_WPN_STATE_CHANGE,
-
-	GE_ADDON_ATTACH,
-	GE_ADDON_DETACH,
-	GE_ADDON_CHANGE,
-	GE_INSTALL_UPGRADE,
 	
 	GE_GRENADE_EXPLODE,
 	GE_INV_ACTION,				//a action beign taken on inventory
@@ -107,31 +94,22 @@ enum {
 
 	GE_GAME_EVENT,
 
-	GE_CHANGE_VISUAL,
-	GE_MONEY,
-
 	GEG_PLAYER_ACTIVATE_SLOT,
 	GEG_PLAYER_ITEM2SLOT,
 	GEG_PLAYER_ITEM2BELT,
 	GEG_PLAYER_ITEM2RUCK,
 	GEG_PLAYER_ITEM_EAT,
 	GEG_PLAYER_ITEM_SELL,
-	GEG_PLAYER_ACTIVATEARTEFACT,
 
 	GEG_PLAYER_WEAPON_HIDE_STATE,
 	GEG_PLAYER_DISABLE_SPRINT,
-	
-
-	GEG_PLAYER_ATTACH_HOLDER,
-	GEG_PLAYER_DETACH_HOLDER,
 
 	GEG_PLAYER_PLAY_HEADSHOT_PARTICLE,
 	//-------------------------------------
 	GE_HIT_STATISTIC,
 	//-------------------------------------
-	GE_KILL_SOMEONE,
+	GE_KILL_SOMEONE, //morrazzzz: Check if this can be replaced by a direct call
 
-	GE_FREEZE_OBJECT,
 	GE_LAUNCH_ROCKET,
 	
 	GEG_PLAYER_USE_BOOSTER,

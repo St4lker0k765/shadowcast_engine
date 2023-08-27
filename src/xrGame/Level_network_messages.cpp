@@ -195,16 +195,6 @@ void CLevel::ClientReceive()
 				AddActor_To_Actors4CrPr(O);
 
 			}break;
-		case M_MOVE_PLAYERS:
-			{
-				/*if (!game_configured)
-				{
-					Msg("! WARNING: ignoring game event [%d] - game not configured...", m_type);
-					break;
-				}*/
-				game_events->insert		(*P);
-				if (g_bDebugEvents)		ProcessGameEvents();
-			}break;
 		// [08.11.07] Alexander Maniluk: added new message handler for moving artefacts.
 		case M_MOVE_ARTEFACTS:
 			{
@@ -228,20 +218,7 @@ void CLevel::ClientReceive()
 				PRespond.w_begin(M_MOVE_ARTEFACTS_RESPOND);
 				Send(PRespond, net_flags(TRUE, TRUE));*/
 			}break;
-		//------------------------------------------------
-		case M_CL_INPUT:
-			{
-				/*if (!game_configured)
-				{
-					Msg("! WARNING: ignoring game event [%d] - game not configured...", m_type);
-					break;
-				}*/
-				P->r_u16		(ID);
-				CObject*	O	= Objects.net_Find		(ID);
-				if (0 == O)		break;
-				O->net_ImportInput(*P);
-			}break;
-		//---------------------------------------------------
+		//-----------------------------------------------------------------------------------
 		case M_SV_CONFIG_NEW_CLIENT:
 			InitializeClientGame	(*P);
 			break;
@@ -270,7 +247,6 @@ void CLevel::ClientReceive()
 				game_events->insert		(*P);
 				if (g_bDebugEvents)		ProcessGameEvents();
 			}break;
-		case M_RELOAD_GAME:
 		case M_LOAD_GAME:
 		case M_CHANGE_LEVEL:
 			{
@@ -338,70 +314,6 @@ void CLevel::ClientReceive()
 		case M_SV_DIGEST:
 			{
 				SendClientDigestToServer();
-			}break;
-		case M_CHANGE_LEVEL_GAME:
-			{
-				Msg("- M_CHANGE_LEVEL_GAME Received");
-
-				if (OnClient())
-				{
-					MakeReconnect();
-				}
-				else
-				{
-					const char* m_SO = m_caServerOptions.c_str();
-//					const char* m_CO = m_caClientOptions.c_str();
-
-					m_SO = strchr(m_SO, '/'); if (m_SO) m_SO++;
-					m_SO = strchr(m_SO, '/'); 
-
-					shared_str LevelName;
-					shared_str LevelVersion;
-					shared_str GameType;
-
-					P->r_stringZ(LevelName);
-					P->r_stringZ(LevelVersion);
-					P->r_stringZ(GameType);
-
-					/*
-					u32 str_start = P->r_tell();
-					P->skip_stringZ();
-					u32 str_end = P->r_tell();
-
-					u32 temp_str_size = str_end - str_start;
-					R_ASSERT2(temp_str_size < 256, "level name too big");
-					LevelName = static_cast<char*>(_alloca(temp_str_size + 1));
-					P->r_seek(str_start);
-					P->r_stringZ(LevelName);
-
-										
-					str_start = P->r_tell();
-					P->skip_stringZ();
-					str_end = P->r_tell();
-					temp_str_size = str_end - str_start;
-					R_ASSERT2(temp_str_size < 256, "incorect game type");
-					GameType = static_cast<char*>(_alloca(temp_str_size + 1));
-					P->r_seek(str_start);
-					P->r_stringZ(GameType);*/
-
-					string4096 NewServerOptions = "";
-					xr_sprintf(NewServerOptions, "%s/%s/%s%s",
-						LevelName.c_str(),
-						GameType.c_str(),
-						map_ver_string,
-						LevelVersion.c_str()
-					);
-
-					if (m_SO)
-					{
-						string4096 additional_options;
-						xr_strcat(NewServerOptions, sizeof(NewServerOptions),
-							remove_version_option(m_SO, additional_options, sizeof(additional_options))
-						);
-					}
-					m_caServerOptions = NewServerOptions;
-					MakeReconnect();
-				};
 			}break;
 		case M_BULLET_CHECK_RESPOND:
 			{

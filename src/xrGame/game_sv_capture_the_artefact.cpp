@@ -2015,12 +2015,6 @@ void game_sv_CaptureTheArtefact::MoveLifeActors()
 	};
 	players_teleporter tmp_functor;
 	m_server->ForEachClientDo(tmp_functor);
-
-	NET_Packet MovePacket;
-	MovePacket.w_begin(M_MOVE_PLAYERS);
-	MovePacket.w_u8(tmp_functor.lifeActors);
-	MovePacket.w(tmp_functor.tempPacket.B.data, tmp_functor.tempPacket.B.count);
-	m_server->SendBroadcast(BroadcastCID, MovePacket, net_flags(TRUE, TRUE));
 }
 
 void game_sv_CaptureTheArtefact::RespawnClient(xrClientData const * pclient)

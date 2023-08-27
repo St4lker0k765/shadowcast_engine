@@ -14,6 +14,7 @@
 #include "object_broker.h"
 
 #include "ai_space.h"
+#include "alife_object_registry.h"
 #include "alife_simulator.h"
 #include "inventory_upgrade_manager.h"
 #include "inventory_upgrade.h"
@@ -51,10 +52,10 @@ void CInventoryItem::add_upgrade( const shared_str& upgrade_id, bool loading )
 
 		if ( !loading )
 		{
-			NET_Packet					P;
-			CGameObject::u_EventGen		( P, GE_INSTALL_UPGRADE, object_id() );
-			P.w_stringZ					( upgrade_id );
-			CGameObject::u_EventSend	( P );
+			CSE_ALifeDynamicObject* se_obj = ai().alife().objects().object(object().ID());
+			auto se_item = smart_cast<CSE_ALifeInventoryItem*>(se_obj);
+
+			se_item->add_upgrade(upgrade_id);
 		}
 	}
 }

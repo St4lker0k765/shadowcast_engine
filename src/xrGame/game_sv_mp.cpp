@@ -435,11 +435,6 @@ void game_sv_mp::ReconnectPlayer(ClientID const & clientID)
 #ifdef DEBUG
 	Msg("--- Reconnecting player 0x%08x", clientID);
 #endif // #ifdef DEBUG
-	NET_Packet			P;
-	P.w_begin			(M_CHANGE_LEVEL_GAME);
-	P.w_stringZ			(Level().name().c_str());
-	P.w_stringZ			(GameTypeToString(Type(),true));
-	m_server->SendTo(clientID, P, net_flags(TRUE, TRUE));
 }
 
 bool g_bConsoleCommandsCreated = false;

@@ -1197,13 +1197,6 @@ void	game_sv_ArtefactHunt::MoveAllAlivePlayers			()
 	m_server->ForEachClientDoSender(tmp_functor);
 	
 	if (tmp_functor.AliveCount == 0) return;
-
-	NET_Packet MovePacket;
-	MovePacket.w_begin(M_MOVE_PLAYERS);
-	MovePacket.w_u8(tmp_functor.AliveCount);
-	MovePacket.w(&tmp_functor.tmpP.B.data, tmp_functor.tmpP.B.count);
-
-	m_server->SendBroadcast		(BroadcastCID,MovePacket, net_flags(TRUE, TRUE));	
 };
 
 void	game_sv_ArtefactHunt::UpdatePlayersNotSendedMoveRespond()
@@ -1266,13 +1259,6 @@ void	game_sv_ArtefactHunt::ReplicatePlayersStateToPlayer(ClientID CID)
 	};
 	player_replicator tmp_functor;
 	m_server->ForEachClientDo(tmp_functor);
-
-	NET_Packet MovePacket;
-	MovePacket.w_begin(M_MOVE_PLAYERS);
-	MovePacket.w_u8(tmp_functor.AliveCount);
-	MovePacket.w(&tmp_functor.tmpP.B.data, tmp_functor.tmpP.B.count);
-	
-	m_server->SendTo	(CID,MovePacket, net_flags(TRUE, TRUE));	
 };
 
 void	game_sv_ArtefactHunt::CheckForTeamElimination()

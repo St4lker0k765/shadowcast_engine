@@ -331,25 +331,6 @@ void CLevel::ProcessGameEvents()
                 cl_Process_Event(dest, type, P);
                 break;
             }
-            case M_MOVE_PLAYERS:
-            {
-                u8 Count = P.r_u8();
-                for (u8 i = 0; i < Count; i++)
-                {
-                    u16 ID = P.r_u16();
-                    Fvector NewPos, NewDir;
-                    P.r_vec3(NewPos);
-                    P.r_vec3(NewDir);
-                    CActor*	OActor = smart_cast<CActor*>(Objects.net_Find(ID));
-                    if (0 == OActor)
-                        break;
-                    OActor->MoveActor(NewPos, NewDir);
-                }
-                NET_Packet PRespond;
-                PRespond.w_begin(M_MOVE_PLAYERS_RESPOND);
-                Send(PRespond, net_flags(TRUE, TRUE));
-                break;
-            }
             case M_STATISTIC_UPDATE:
             {
                 if (GameID() != eGameIDSingle)

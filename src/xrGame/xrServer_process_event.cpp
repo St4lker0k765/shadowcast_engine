@@ -49,8 +49,6 @@ void xrServer::Process_event	(NET_Packet& P, ClientID sender)
 	case GE_ZONE_STATE_CHANGE:
 	case GE_ACTOR_JUMPING:
 	case GEG_PLAYER_PLAY_HEADSHOT_PARTICLE:
-	case GEG_PLAYER_ATTACH_HOLDER:
-	case GEG_PLAYER_DETACH_HOLDER:
 	case GEG_PLAYER_ITEM2SLOT:
 	case GEG_PLAYER_ITEM2BELT:
 	case GEG_PLAYER_ITEM2RUCK:
@@ -58,11 +56,6 @@ void xrServer::Process_event	(NET_Packet& P, ClientID sender)
 		{
 		SendBroadcast			(BroadcastCID,P,MODE);
 		}break;
-	case GEG_PLAYER_ACTIVATEARTEFACT:
-		{
-			Process_event_activate	(P,sender,timestamp,destination,P.r_u16(), true);
-			break;
-		};
 	case GE_INV_ACTION:
 		{
 			xrClientData* CL		= ID_to_client(sender);
@@ -86,26 +79,6 @@ void xrServer::Process_event	(NET_Packet& P, ClientID sender)
 		{
 			Process_event_destroy	(P,sender,timestamp,destination, NULL);
 			VERIFY					(verify_entities());
-		}
-		break;
-	case GE_TRANSFER_AMMO:
-		{
-			u16					id_entity;
-			P.r_u16				(id_entity);
-			CSE_Abstract*		e_parent	= receiver;	// кто забирает (для своих нужд)
-			CSE_Abstract*		e_entity	= game->get_entity_from_eid	(id_entity);	// кто отдает
-			if (!e_entity)		break;
-			if (0xffff != e_entity->ID_Parent)	break;						// this item already taken
-			xrClientData*		c_parent	= e_parent->owner;
-			xrClientData*		c_from		= ID_to_client	(sender);
-			R_ASSERT			(c_from == c_parent);						// assure client ownership of event
-
-			// Signal to everyone (including sender)
-			SendBroadcast		(BroadcastCID,P,MODE);
-
-			// Perfrom real destroy
-			entity_Destroy		(e_entity	);
-			VERIFY				(verify_entities());
 		}
 		break;
 	case GE_HIT:
@@ -136,13 +109,6 @@ void xrServer::Process_event	(NET_Packet& P, ClientID sender)
 
 		break;
 	}
-	case GE_CHANGE_VISUAL:
-		{
-			CSE_Visual* visual		= smart_cast<CSE_Visual*>(receiver); VERIFY(visual);
-			string256 tmp;
-			P.r_stringZ				(tmp);
-			visual->set_visual		(tmp);
-		}break;
 	case GE_DIE:
 		{
 			// Parse message
@@ -217,25 +183,9 @@ void xrServer::Process_event	(NET_Packet& P, ClientID sender)
 			VERIFY					(verify_entities());
 		}
 		break;
-	case GE_ADDON_ATTACH:
-	case GE_ADDON_DETACH:
-		{
-			SendBroadcast	(BroadcastCID, P, net_flags(TRUE, TRUE));
-		}break;
 	case GE_CHANGE_POS:
 		{			
 			SendTo		(SV_Client->ID, P, net_flags(TRUE, TRUE));
-		}break;
-	case GE_INSTALL_UPGRADE:
-		{
-			shared_str				upgrade_id;
-			P.r_stringZ				( upgrade_id );
-			CSE_ALifeInventoryItem* iitem = smart_cast<CSE_ALifeInventoryItem*>( receiver );
-			if ( !iitem )
-			{
-				break;
-			}
-			iitem->add_upgrade		( upgrade_id );
 		}break;
 	case GE_INV_BOX_STATUS:
 		{
@@ -315,15 +265,6 @@ void xrServer::Process_event	(NET_Packet& P, ClientID sender)
 		{
 			game->remove_all_restrictions(P,destination);
 		}break;
-	case GE_MONEY:
-		{
-			CSE_Abstract				*e_dest = receiver;
-			CSE_ALifeTraderAbstract*	pTa = smart_cast<CSE_ALifeTraderAbstract*>(e_dest);
-			pTa->m_dwMoney				= P.r_u32();
-						
-		}break;
-	case GE_FREEZE_OBJECT:
-		break;
 	case GE_REQUEST_PLAYERS_INFO:
 		{
 			SendPlayersInfo(sender);

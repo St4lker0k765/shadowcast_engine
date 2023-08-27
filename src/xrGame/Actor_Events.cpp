@@ -175,7 +175,6 @@ void CActor::OnEvent(NET_Packet& P, u16 type)
 	case GEG_PLAYER_ITEM2BELT:
 	case GEG_PLAYER_ITEM2RUCK:
 	case GEG_PLAYER_ITEM_EAT:
-	case GEG_PLAYER_ACTIVATEARTEFACT:
 {
 			P.r_u16		(id);
 			CObject* Obj	= Level().Objects.net_Find	(id);
@@ -199,20 +198,6 @@ void CActor::OnEvent(NET_Packet& P, u16 type)
 				Msg("! WARNING: dead player [%d][%s] can't use items [%d][%s]",
 					ID(), Name(), Obj->ID(), Obj->cNameSect().c_str());
 				break;
-			}
-
-			if ( type == GEG_PLAYER_ACTIVATEARTEFACT )
-			{
-				CArtefact* pArtefact = smart_cast<CArtefact*>(Obj);
-	//			R_ASSERT2( pArtefact, make_string("GEG_PLAYER_ACTIVATEARTEFACT: Artefact not found. artefact_id = [%d]", id).c_str() );
-				VERIFY2  ( pArtefact, make_string("GEG_PLAYER_ACTIVATEARTEFACT: Artefact not found. artefact_id = [%d]", id).c_str() );
-				if ( !pArtefact ) {
-					Msg                       ( "! GEG_PLAYER_ACTIVATEARTEFACT: Artefact not found. artefact_id = [%d]", id );
-					break;//1
-				}
-				
-				pArtefact->ActivateArtefact	();
-				break;//1
 			}
 			
 			PIItem iitem = smart_cast<CInventoryItem*>(Obj);
@@ -280,27 +265,6 @@ void CActor::OnEvent(NET_Packet& P, u16 type)
 	case GE_ACTOR_MAX_HEALTH:
 		{
 			SetfHealth(GetMaxHealth());
-		}break;
-	case GEG_PLAYER_ATTACH_HOLDER:
-		{
-			u16 id = P.r_u16();
-			CObject* O	= Level().Objects.net_Find	(id);
-			if (!O){
-				Msg("! Error: No object to attach holder [%d]", id);
-				break;
-			}
-			VERIFY(m_holder==NULL);
-			CHolderCustom*	holder = smart_cast<CHolderCustom*>(O);
-			if(!holder->Engaged())	use_Holder		(holder);
-
-		}break;
-	case GEG_PLAYER_DETACH_HOLDER:
-		{
-			if			(!m_holder)	break;
-			u16 id			= P.r_u16();
-			CGameObject*	GO	= smart_cast<CGameObject*>(m_holder);
-			VERIFY			(id==GO->ID());
-			use_Holder		(NULL);
 		}break;
 	case GEG_PLAYER_PLAY_HEADSHOT_PARTICLE:
 		{

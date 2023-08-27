@@ -65,11 +65,6 @@ BOOL CPhantom::net_Spawn(CSE_Abstract* DC)
 		u32 cnt			= _GetItemCount(visuals);
 		string256 tmp;
 		OBJ->set_visual	(_GetItem(visuals,Random.randI(cnt),tmp));
-		// inform server
-		NET_Packet		P;
-		u_EventGen		(P, GE_CHANGE_VISUAL, OBJ->ID);
-		P.w_stringZ		(tmp);
-		u_EventSend		(P);
 	}
 
 	SwitchToState		(stBirth);			// initial state (changed on load method in inherited::)

@@ -1355,13 +1355,6 @@ public:
 			Msg("! Level [%s][%s] not found for [%s]!", LevelName, LevelVersion, GameType);
 			return;
 		}
-
-		NET_Packet			P;
-		P.w_begin			(M_CHANGE_LEVEL_GAME);
-		P.w_stringZ			(LevelName);
-		P.w_stringZ			(LevelVersion);
-		P.w_stringZ			(GameType);
-		Level().Send		(P);
 	};
 
 	virtual void	Info	(TInfo& I)	{xr_strcpy(I,"Changing level, version and game type. Arguments: <level name> <level version> <game type>"); }

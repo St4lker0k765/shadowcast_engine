@@ -237,20 +237,6 @@ void CInventoryItem::OnEvent (NET_Packet& P, u16 type)
 {
 	switch (type)
 	{
-	case GE_ADDON_ATTACH:
-		{
-			u16 ItemID;
-			P.r_u16			(ItemID);
-			CInventoryItem*	 ItemToAttach	= smart_cast<CInventoryItem*>(Level().Objects.net_Find(ItemID));
-			if (!ItemToAttach) break;
-			Attach(ItemToAttach,true);
-		}break;
-	case GE_ADDON_DETACH:
-		{
-			string64			i_name;
-			P.r_stringZ			(i_name);
-			Detach(i_name, true);
-		}break;	
 	case GE_CHANGE_POS:
 		{
 			Fvector p; 

@@ -897,11 +897,6 @@ void game_sv_Deathmatch::CheckItem(game_PlayerState* ps, PIItem pItem, xr_vector
 					pSWeapon->m_addon_flags.zero();
 					pSWeapon->m_addon_flags.set(NewAddons, TRUE);
 				}
-
-				NET_Packet	P;
-				u_EventGen(P, GE_ADDON_CHANGE, pWeapon->ID());
-				P.w_u8(NewAddons);
-				u_EventSend(P);
 			}
 		};
 		//---------------------------------------------------

@@ -595,11 +595,11 @@ void CInventoryOwner::set_money		(u32 amount, bool bSendEvent)
 
 	if(bSendEvent)
 	{
-		CGameObject				*object = smart_cast<CGameObject*>(this);
-		NET_Packet				packet;
-		object->u_EventGen		(packet,GE_MONEY,object->ID());
-		packet.w_u32			(m_money);
-		object->u_EventSend		(packet);
+		const auto object = smart_cast<CGameObject*>(this);
+		CSE_ALifeDynamicObject* se_obj = ai().alife().objects().object(object->ID());
+		const auto se_trader = smart_cast<CSE_ALifeTraderAbstract*>(se_obj);
+
+		se_trader->m_dwMoney = m_money;
 	}
 }
 

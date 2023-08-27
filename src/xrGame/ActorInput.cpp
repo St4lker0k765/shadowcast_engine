@@ -74,14 +74,6 @@ void CActor::IR_OnKeyboardPress(int cmd)
 			u16 slot = inventory().GetActiveSlot();
 			if(inventory().ActiveItem() && (slot==INV_SLOT_3 || slot==INV_SLOT_2) )
 				mstate_wishful &=~mcSprint;
-			//-----------------------------
-			if (OnServer())
-			{
-				NET_Packet P;
-				P.w_begin(M_PLAYER_FIRE); 
-				P.w_u16(ID());
-				u_EventSend(P);
-			}
 		}break;
 	default:
 		{
@@ -457,11 +449,8 @@ void CActor::ActorUse()
 {
 	if (m_holder)
 	{
-		CGameObject*	GO			= smart_cast<CGameObject*>(m_holder);
-		NET_Packet		P;
-		CGameObject::u_EventGen		(P, GEG_PLAYER_DETACH_HOLDER, ID());
-		P.w_u16						(GO->ID());
-		CGameObject::u_EventSend	(P);
+		use_Holder(NULL);
+
 		return;
 	}
 				
@@ -541,11 +530,9 @@ void CActor::ActorUse()
 		{
 			if (object && smart_cast<CHolderCustom*>(object))
 			{
-					NET_Packet		P;
-					CGameObject::u_EventGen		(P, GEG_PLAYER_ATTACH_HOLDER, ID());
-					P.w_u16						(object->ID());
-					CGameObject::u_EventSend	(P);
-					return;
+				use_Holder(smart_cast<CHolderCustom*>(object));
+
+				return;
 			}
 
 		}
