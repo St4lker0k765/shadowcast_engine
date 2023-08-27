@@ -117,25 +117,22 @@ void CActor::IR_OnKeyboardPress(int cmd)
 	case kCAM_3:	cam_Set			(eacFreeLook);				break;
 	case kCAM_4:
 	{
-		m_cam_active++;
+		++m_cam_active;
 
-		if (m_cam_active == 1)
+		//morrazzzz: In no case do not add case 0!	
+		switch (m_cam_active)
 		{
+		case 1:
 			cam_Set(eacFreeLook);
 			break;
-		}
-
-		if (m_cam_active == 2)
-		{
+		case 2:
 			cam_Set(eacLookAt);
 			break;
-		}
-
-		if (m_cam_active == 3)
-		{
+		case 3:
 			cam_Set(eacFirstEye);
 			m_cam_active = 0;
 			break;
+		default: ;
 		}
 	}break;
 	case kNIGHT_VISION:

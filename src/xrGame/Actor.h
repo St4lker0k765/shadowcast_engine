@@ -330,6 +330,7 @@ protected:
 	float					fCurAVelocity;
 	CEffectorBobbing*		pCamBobbing;
 
+	int m_cam_active{}; //Supported 3 mode cameras(1, 2, 3)
 
 	//менеджер эффекторов, есть у каждого актера
 	CActorCameraManager*	m_pActorEffector;
@@ -487,11 +488,6 @@ protected:
 	int									m_spine1;
 	int									m_spine;
 	int									m_neck;
-
-
-protected:
-	//CamActive
-	int                                 m_cam_active{};
 
 	//////////////////////////////////////////////////////////////////////////
 	// Network
