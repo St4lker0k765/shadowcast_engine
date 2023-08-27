@@ -489,6 +489,9 @@ protected:
 	int									m_neck;
 
 
+protected:
+	//CamActive
+	int                                 m_cam_active{};
 
 	//////////////////////////////////////////////////////////////////////////
 	// Network

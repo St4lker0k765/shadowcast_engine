@@ -9,27 +9,28 @@
 _binding	g_key_bindings		[bindings_count]; 
 _key_group	g_current_keygroup	= _sp;
 
-_action  actions[]		= {
-	{ "left",				kLEFT					,_both},	
-	{ "right",				kRIGHT					,_both},	
-	{ "up",					kUP						,_both},	
-	{ "down",				kDOWN					,_both},	
-	{ "jump",				kJUMP					,_both},	
-	{ "crouch",				kCROUCH					,_both},	
-	{ "accel",				kACCEL					,_both},	
-	{ "sprint_toggle",  	kSPRINT_TOGGLE  		,_both},	
-																
-	{ "forward",			kFWD					,_both},	
-	{ "back",				kBACK					,_both},	
-	{ "lstrafe",			kL_STRAFE				,_both},	
-	{ "rstrafe",			kR_STRAFE				,_both},	
-																
-	{ "llookout",			kL_LOOKOUT				,_both},	
-	{ "rlookout",			kR_LOOKOUT				,_both},	
-																
-	{ "cam_1",				kCAM_1					,_both},	
-	{ "cam_2",				kCAM_2					,_both},	
-	{ "cam_3",				kCAM_3					,_both},	
+_action  actions[] = {
+	{ "left",				kLEFT					,_both},
+	{ "right",				kRIGHT					,_both},
+	{ "up",					kUP						,_both},
+	{ "down",				kDOWN					,_both},
+	{ "jump",				kJUMP					,_both},
+	{ "crouch",				kCROUCH					,_both},
+	{ "accel",				kACCEL					,_both},
+	{ "sprint_toggle",  	kSPRINT_TOGGLE  		,_both},
+
+	{ "forward",			kFWD					,_both},
+	{ "back",				kBACK					,_both},
+	{ "lstrafe",			kL_STRAFE				,_both},
+	{ "rstrafe",			kR_STRAFE				,_both},
+
+	{ "llookout",			kL_LOOKOUT				,_both},
+	{ "rlookout",			kR_LOOKOUT				,_both},
+
+	{ "cam_1",				kCAM_1					,_both},
+	{ "cam_2",				kCAM_2					,_both},
+	{ "cam_3",				kCAM_3					,_both},
+	{"cam_4", kCAM_4, _both},
 	{ "cam_zoom_in",		kCAM_ZOOM_IN			,_both},	
 	{ "cam_zoom_out",		kCAM_ZOOM_OUT			,_both},	
 															
