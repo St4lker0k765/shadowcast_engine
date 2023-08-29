@@ -17,7 +17,6 @@
 #include "Artefact.h"
 #include "MPPlayersBag.h"
 #include "WeaponKnife.h"
-#include "game_cl_base_weapon_usage_statistic.h"
 #include "xrGameSpyServer.h"
 
 #include "game_sv_mp_vote_flags.h"
@@ -123,7 +122,6 @@ void game_sv_mp::OnRoundStart()
 	
 	if( g_pGameLevel && Level().game )
 	{
-		Game().m_WeaponUsageStatistic->Clear();
 		StartToDumpStatistics();
 	}
 	
@@ -574,8 +572,6 @@ void	game_sv_mp::SpawnPlayer(ClientID id, LPCSTR N)
 			OnPlayerEnteredGame(id);
 		};
 		ps_who->RespawnTime = Device.dwTimeGlobal;
-
-		Game().m_WeaponUsageStatistic->OnPlayerSpawned(ps_who);
 	}
 	else
 		if (pS)
@@ -1425,7 +1421,6 @@ void game_sv_mp::OnPlayerKilled(NET_Packet P)
 	OnPlayerKillPlayer(ps_killer, ps_killed, KillType, SpecialKill, pWeaponA);
 	if (KillType == KT_BLEEDING)
 	{
-		Game().m_WeaponUsageStatistic->OnBleedKill(ps_killer, ps_killed, WeaponID);
 	}
 	//---------------------------------------------------
 	SendPlayerKilledMessage((ps_killed)?ps_killed->GameID:KilledID, KillType, (ps_killer)?ps_killer->GameID:KillerID, WeaponID, SpecialKill);
@@ -1723,7 +1718,6 @@ void	game_sv_mp::Player_AddMoney			(game_PlayerState* ps, s32 MoneyAmount)
 
 	ps->money_for_round = s32(TotalMoney);
 	//---------------------------------------
-	Game().m_WeaponUsageStatistic->OnPlayerAddMoney(ps, MoneyAmount);
 	//---------------------------------------	
 };
 //---------------------------------------------------------------------
@@ -1947,20 +1941,6 @@ void game_sv_mp::WritePlayerStats(CInifile& ini, LPCSTR sect, xrClientData* pCl)
 	ini.w_u32	(sect,"ping",			pCl->ps->ping);
 	ini.w_u32	(sect,"money",			pCl->ps->money_for_round);
 	ini.w_u32	(sect,"online_time_sec",(Level().timeServer()-pCl->ps->m_online_time)/1000);
-
-	if(Game().m_WeaponUsageStatistic->CollectData())
-	{
-		Player_Statistic& plstats		= *(Game().m_WeaponUsageStatistic->FindPlayer(pCl->ps->getName()));
-		u32 hs		= plstats.m_dwSpecialKills[0];
-		u32 bks		= plstats.m_dwSpecialKills[1];
-		u32 knf		= plstats.m_dwSpecialKills[2];
-		u32 es		= plstats.m_dwSpecialKills[3];
-
-		ini.w_u32	(sect,"headshots_kills",	hs);
-		ini.w_u32	(sect,"backstab_kills",		bks);
-		ini.w_u32	(sect,"knife_kills",		knf);
-		ini.w_u32	(sect,"eye_kills",			es);
-	}
 }
 
 void game_sv_mp::WriteGameState(CInifile& ini, LPCSTR sect, bool bRoundResult)
@@ -2123,7 +2103,6 @@ void game_sv_mp::DumpRoundStatistics()
 	
 	WriteGameState					(ini,current_section.c_str(), true);
 
-	Game().m_WeaponUsageStatistic->SaveDataLtx(ini);
 	//Game().m_WeaponUsageStatistic->Clear();
 }
 
@@ -2283,8 +2262,6 @@ void	game_sv_mp::OnPlayerChangeName		(NET_Packet& P, ClientID sender)
 		//---------------------------------------------------
 		pClient->owner->set_name_replace(ps->getName());
 	};
-
-	Game().m_WeaponUsageStatistic->ChangePlayerName( old_name.c_str(), ps->getName() );
 
 	signal_Syncronize();
 };

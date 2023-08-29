@@ -13,7 +13,6 @@
 #include "weapon.h"
 #include "eatable_item_object.h" 
 #include "Missile.h"
-#include "game_cl_base_weapon_usage_statistic.h"
 #include "clsid_game.h"
 using namespace std::placeholders;
 //#define DELAYED_ROUND_TIME	7000
@@ -209,8 +208,6 @@ void game_sv_Deathmatch::OnPlayerKillPlayer(game_PlayerState* ps_killer, game_Pl
 	KILL_RES KillRes					= GetKillResult (ps_killer, ps_killed);
 	bool CanGiveBonus					= OnKillResult		(KillRes, ps_killer, ps_killed);
 
-	Game().m_WeaponUsageStatistic->OnPlayerKillPlayer		(ps_killer,KillType,SpecialKillType);
-
 	if (CanGiveBonus) 
 		OnGiveBonus						(KillRes, ps_killer, ps_killed, KillType, SpecialKillType, pWeaponA);
 }
@@ -232,7 +229,6 @@ void game_sv_Deathmatch::Processing_Victim(game_PlayerState* pVictim, game_Playe
 	SetPlayersDefItems					(pVictim);
 
 	Victim_Exp							(pVictim);
-	Game().m_WeaponUsageStatistic->OnPlayerKilled(pVictim);
 };
 
 void game_sv_Deathmatch::Victim_Exp(game_PlayerState* pVictim)

@@ -38,7 +38,6 @@
 #include "../3rd party/crypto/crypto.h"
 
 #include "reward_event_generator.h"
-#include "game_cl_base_weapon_usage_statistic.h"
 #include "reward_manager.h"
 #include "login_manager.h"
 #include "stats_submitter.h"

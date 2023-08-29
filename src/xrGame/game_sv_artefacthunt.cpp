@@ -11,7 +11,6 @@
 #include "MPPlayersBag.h"
 #include "WeaponKnife.h"
 #include "ui\UIBuyWndShared.h"
-#include "game_cl_base_weapon_usage_statistic.h"
 
 BOOL	g_SV_Force_Artefact_Spawn = FALSE;
 
@@ -618,7 +617,6 @@ void		game_sv_ArtefactHunt::OnObjectEnterTeamBase	(u16 id, u16 zone_team)
 			if (C.end()!=c)
 			{
 				OnArtefactOnBase		(eActor->owner->ID);
-				Game().m_WeaponUsageStatistic->OnPlayerBringArtefact(ps);
 			};
 		}
 	};
