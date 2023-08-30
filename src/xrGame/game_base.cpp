@@ -30,20 +30,6 @@ game_PlayerState::game_PlayerState(NET_Packet* account_info)
 	m_bPayForSpawn		= false;
 
 	clear				();
-
-	if (account_info)
-	{
-		net_Import(*account_info);
-	} else
-	{
-		if (g_dedicated_server)
-		{
-			setFlag(GAME_PLAYER_FLAG_SKIP);
-		} else
-		{
-			m_account.load_account();
-		}
-	}
 }
 
 void game_PlayerState::clear()
@@ -114,10 +100,6 @@ void	game_PlayerState::net_Export(NET_Packet& P, BOOL Full)
 	P.w_u8			(	m_bCurrentVoteAgreed	);
 
 	P.w_u32			(Device.dwTimeGlobal - DeathTime);
-	if (Full)
-	{
-		m_account.net_Export(P);
-	}
 };
 
 void	game_PlayerState::net_Import(NET_Packet& P)
@@ -142,10 +124,6 @@ void	game_PlayerState::net_Import(NET_Packet& P)
 	P.r_u8			(	m_bCurrentVoteAgreed	);
 
 	DeathTime = P.r_u32();
-	if (bFullUpdate)
-	{
-		m_account.net_Import(P);
-	}
 };
 
 void	game_PlayerState::skip_Import(NET_Packet& P)

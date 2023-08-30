@@ -824,29 +824,6 @@ bool game_sv_GameState::CheckNewPlayer(xrClientData* CL)
 	
 	char const *			error_msg = NULL;
 	ClientID				tmp_client_id(CL->ID);
-	
-	if (gs_server->IsPublicServer())
-	{
-		if (!CL->ps->m_account.is_online())
-		{
-			error_msg = "mp_please_login";
-		} else
-		{
-			if (FindPlayerName(CL->ps->getName(), CL))
-			{
-				error_msg = "mp_already_logged_in";
-			}
-		}
-	} else
-	{
-		if (CL->ps->m_account.is_online())
-		{
-			error_msg = "mp_use_offline_mode";
-		} else
-		{
-			CheckPlayerName(CL);
-		}
-	}
 
 	if (error_msg)
 	{
@@ -1300,29 +1277,4 @@ void game_sv_GameState::GenerateNewName			(char const * old_name, char * dest, u
 
 void game_sv_GameState::CheckPlayerName(xrClientData* CL)
 {
-	R_ASSERT	(CL && CL->ps);
-	R_ASSERT	(!CL->ps->m_account.is_online());
-
-	char const *	current_name = NULL;
-	if (CL->ps->m_account.name().size())	//in case of logging from gamespy login page
-	{
-		current_name = CL->ps->getName();
-	} else
-	{
-		current_name = CL->name.c_str();
-		CL->ps->m_account.set_player_name(current_name);
-	}
-	u32				current_name_length = xr_strlen(current_name);
-
-
-	u32				new_name_dest_size = current_name_length + 16;
-	char *			new_name_dest = static_cast<char*>(
-		_alloca(new_name_dest_size));
-
-	while (FindPlayerName(current_name, CL))
-	{
-		GenerateNewName(current_name, new_name_dest, new_name_dest_size);
-		CL->ps->m_account.set_player_name(new_name_dest);
-		current_name = new_name_dest;
-	}
 }

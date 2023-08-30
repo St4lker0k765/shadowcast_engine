@@ -1292,9 +1292,6 @@
     <ClInclude Include="command_switch_counter.h" />
     <ClInclude Include="condition_state.h" />
     <ClInclude Include="condition_state_inline.h" />
-    <ClInclude Include="configs_common.h" />
-    <ClInclude Include="configs_dumper.h" />
-    <ClInclude Include="configs_dump_verifyer.h" />
     <ClInclude Include="console_registrator.h" />
     <ClInclude Include="controller_state_panic_inline.h" />
     <ClInclude Include="control_action.h" />
@@ -1637,7 +1634,6 @@
     <ClInclude Include="moving_objects_inline.h" />
     <ClInclude Include="moving_object_inline.h" />
     <ClInclude Include="MPPlayersBag.h" />
-    <ClInclude Include="mp_config_sections.h" />
     <ClInclude Include="mt_config.h" />
     <ClInclude Include="Needles.h" />
     <ClInclude Include="NET_Queue.h" />
@@ -2980,14 +2976,10 @@
       <PrecompiledHeaderOutputFile>$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
     <ClCompile Include="ClimableObject.cpp" />
-    <ClCompile Include="configs_common.cpp" />
-    <ClCompile Include="configs_dumper.cpp" />
-    <ClCompile Include="configs_dump_verifyer.cpp" />
     <ClCompile Include="console_commands.cpp">
       <PrecompiledHeaderFile>pch_script.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
-    <ClCompile Include="console_commands_mp.cpp" />
     <ClCompile Include="console_registrator_script.cpp">
       <PrecompiledHeaderFile>pch_script.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
@@ -3438,7 +3430,6 @@
     <ClCompile Include="moving_objects_static.cpp" />
     <ClCompile Include="mpactor_dump_impl.cpp" />
     <ClCompile Include="MPPlayersBag.cpp" />
-    <ClCompile Include="mp_config_sections.cpp" />
     <ClCompile Include="Needles.cpp" />
     <ClCompile Include="NoGravityZone.cpp" />
     <ClCompile Include="object_actions.cpp" />

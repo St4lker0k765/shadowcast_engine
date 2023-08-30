@@ -106,12 +106,9 @@ int				g_keypress_on_start	= 1;
 
 ENGINE_API extern float	g_console_sensitive;
 
-void register_mp_console_commands();
-//-----------------------------------------------------------
-
-		BOOL	g_bCheckTime			= FALSE;
-		int		net_cl_inputupdaterate	= 50;
-		Flags32	g_mt_config				= {mtLevelPath | mtDetailPath | mtObjectHandler | mtSoundPlayer | mtAiVision | mtBullets | mtLUA_GC | mtLevelSounds | mtALife | mtMap};
+BOOL	g_bCheckTime			= FALSE;
+int		net_cl_inputupdaterate	= 50;
+Flags32	g_mt_config				= {mtLevelPath | mtDetailPath | mtObjectHandler | mtSoundPlayer | mtAiVision | mtBullets | mtLUA_GC | mtLevelSounds | mtALife | mtMap};
 #ifdef DEBUG
 		Flags32	dbg_net_Draw_Flags		= {0};
 #endif
@@ -2307,5 +2304,4 @@ extern BOOL dbg_moving_bones_snd_player;
 	CMD3(CCC_String,    "slot_3",				g_quick_use_slots[3], 32);
 
 	CMD4(CCC_Integer,	"keypress_on_start",	&g_keypress_on_start, 0, 1);
-	register_mp_console_commands				();
 }

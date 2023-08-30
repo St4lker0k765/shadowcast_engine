@@ -35,27 +35,6 @@
 
 //#define DEMO_BUILD
 
-string128	ErrMsgBoxTemplate	[]	= {
-		"message_box_invalid_pass",
-		"message_box_invalid_host",
-		"message_box_session_full",
-		"message_box_server_reject",
-		"message_box_cdkey_in_use",
-		"message_box_cdkey_disabled",
-		"message_box_cdkey_invalid",
-		"message_box_different_version",
-		"message_box_gs_service_not_available",
-		"message_box_sb_master_server_connect_failed",
-		"msg_box_no_new_patch",
-		"msg_box_new_patch",
-		"msg_box_patch_download_error",		
-		"msg_box_patch_download_success",
-		"msg_box_connect_to_master_server",
-		"msg_box_kicked_by_server",
-		"msg_box_error_loading",
-		"message_box_download_level"
-};
-
 extern bool b_shniaganeed_pp;
 
 CMainMenu*	MainMenu()	{return (CMainMenu*)g_pGamePersistent->m_pMainMenu; };
@@ -100,26 +79,6 @@ CMainMenu::CMainMenu	()
 	{
 		g_btnHint						= xr_new<CUIButtonHint>();
 		g_statHint						= xr_new<CUIButtonHint>();
-		m_pGameSpyFull					= xr_new<CGameSpy_Full>();
-		
-		for (u32 i=0; i<u32(ErrMax); i++)
-		{
-			CUIMessageBoxEx*			pNewErrDlg;
-			INIT_MSGBOX					(pNewErrDlg, ErrMsgBoxTemplate[i]);
-			m_pMB_ErrDlgs.push_back		(pNewErrDlg);
-		}
-
-		m_pMB_ErrDlgs[PatchDownloadSuccess]->AddCallbackStr("button_yes", MESSAGE_BOX_YES_CLICKED, CUIWndCallback::void_function(this, &CMainMenu::OnRunDownloadedPatch));
-		m_pMB_ErrDlgs[PatchDownloadSuccess]->AddCallbackStr("button_yes", MESSAGE_BOX_OK_CLICKED, CUIWndCallback::void_function(this, &CMainMenu::OnConnectToMasterServerOkClicked));
-
-		m_pMB_ErrDlgs[DownloadMPMap]->AddCallbackStr("button_copy", MESSAGE_BOX_COPY_CLICKED, CUIWndCallback::void_function(this, &CMainMenu::OnDownloadMPMap_CopyURL));
-		m_pMB_ErrDlgs[DownloadMPMap]->AddCallbackStr("button_yes", MESSAGE_BOX_YES_CLICKED, CUIWndCallback::void_function(this, &CMainMenu::OnDownloadMPMap));
-
-		m_account_mngr			= xr_new<gamespy_gp::account_manager>		(m_pGameSpyFull->GetGameSpyGP());
-		m_login_mngr			= xr_new<gamespy_gp::login_manager>			(m_pGameSpyFull);
-		m_profile_store			= xr_new<gamespy_profile::profile_store>	(m_pGameSpyFull);
-		m_stats_submitter		= xr_new<gamespy_profile::stats_submitter>	(m_pGameSpyFull);
-		m_atlas_submit_queue	= xr_new<atlas_submit_queue>				(m_stats_submitter);
 	}
 	
 	Device.seqFrame.Add		(this,REG_PRIORITY_LOW-1000);
@@ -132,14 +91,6 @@ CMainMenu::~CMainMenu	()
 	xr_delete						(g_statHint);
 	xr_delete						(m_startDialog);
 	g_pGamePersistent->m_pMainMenu	= NULL;
-	
-	xr_delete						(m_account_mngr);
-	xr_delete						(m_login_mngr);
-	xr_delete						(m_profile_store);
-	xr_delete						(m_stats_submitter);
-	xr_delete						(m_atlas_submit_queue);
-	
-	xr_delete						(m_pGameSpyFull);
 
 	xr_delete						(m_demo_info_loader);
 	delete_data						(m_pMB_ErrDlgs);	
@@ -471,12 +422,6 @@ void CMainMenu::OnFrame()
 			Console->Show			();
 	}
 
-	if(IsActive() || m_sPDProgress.IsInProgress)
-	{
-		m_pGameSpyFull->Update();
-		m_atlas_submit_queue->update();
-	}
-
 	if(IsActive())
 	{
 		CheckForErrorDlg();
@@ -793,20 +738,7 @@ LPCSTR CMainMenu::GetGSVer()
 
 LPCSTR CMainMenu::GetPlayerName()
 {
-	gamespy_gp::login_manager* l_mngr		= GetLoginMngr();
-	gamespy_gp::profile const * tmp_prof	= l_mngr ? 
-		l_mngr->get_current_profile() : NULL;
-
-	if (tmp_prof)
-	{
-		m_player_name = tmp_prof->unique_nick();
-	} else
-	{
-		string512 name;
-		GetPlayerName_FromRegistry( name, sizeof(name) );
-		m_player_name = name;
-	}
-	return m_player_name.c_str();
+	return "single_player";
 }
 
 LPCSTR CMainMenu::GetCDKeyFromRegistry()
