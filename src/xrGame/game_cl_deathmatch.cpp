@@ -138,11 +138,6 @@ void game_cl_Deathmatch::net_import_state	(NET_Packet& P)
 			{
 				PlaySndMessage(ID_YOU_WON);
 			}
-			if (NeedSndMessage && m_reward_generator)
-			{
-				m_reward_generator->OnRoundEnd();
-				m_reward_generator->CommitBestResults();
-			}
 		}break;
 	}
 }
@@ -1010,12 +1005,6 @@ void game_cl_Deathmatch::OnSpawn(CObject* pObj)
 		if (xr_strlen(Actor_Spawn_Effect))
 			PlayParticleEffect(Actor_Spawn_Effect.c_str(), pObj->Position());
 		game_PlayerState *ps = GetPlayerByGameID(pActor->ID());
-		
-		if (ps && m_reward_generator)
-		{
-			m_reward_generator->OnPlayerSpawned(ps);
-			m_reward_generator->init_bone_groups(pActor);
-		}
 	};
 	if (smart_cast<CWeapon*>(pObj))
 	{

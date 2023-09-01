@@ -93,7 +93,6 @@ game_cl_mp::game_cl_mp()
 		abs(m_iSpawn_Cost));
 	pBuySpawnMsgBox->SetText(BuySpawnText);
 */	//-----------------------------------------------------------
-	m_reward_generator			= NULL;
 	m_ready_to_open_buy_menu	= true;
 	crypto::xr_crypto_init();
 };
@@ -143,7 +142,6 @@ game_cl_mp::~game_cl_mp()
 	xr_delete(m_pAdminMenuWindow);
 	xr_delete(m_pMessageBox);
 
-	xr_delete(m_reward_generator);
 	local_player = NULL;
 };
 
@@ -422,10 +420,6 @@ void game_cl_mp::TranslateGameMessage	(u32 msg, NET_Packet& P)
 			string1024 mess;
 			P.r_stringZ(mess);
 			Msg( mess );
-			if ( MainMenu() && !g_dedicated_server )
-			{
-				MainMenu()->OnSessionTerminate( mess );
-			}
 		}break;
 	case GAME_EVENT_MAKE_DATA:
 		{
@@ -557,9 +551,6 @@ void game_cl_mp::shedule_Update(u32 dt)
 	//-----------------------------------------
 
 	if(g_dedicated_server)	return;
-
-	if (m_reward_generator)
-		m_reward_generator->update();
 
 	switch (Phase())
 	{
@@ -708,8 +699,6 @@ void game_cl_mp::OnSwitchPhase			(u32 old_phase, u32 new_phase)
 	{
 	case GAME_PHASE_INPROGRESS:
 		{
-			if (m_reward_generator)
-				m_reward_generator->OnRoundStart();
 
 			m_bSpectatorSelected = FALSE;
 
@@ -808,8 +797,6 @@ void game_cl_mp::OnPlayerKilled			(NET_Packet& P)
 	u16 KillerID = P.r_u16();
 	u16	WeaponID = P.r_u16();
 	SPECIAL_KILL_TYPE SpecialKill = SPECIAL_KILL_TYPE(P.r_u8());
-	if (m_reward_generator)
-		m_reward_generator->OnPlayerKilled(KillerID, KilledID, WeaponID, std::make_pair(KillType, SpecialKill));
 	//-----------------------------------------------------------
 	CObject* pOKiller = Level().Objects.net_Find(KillerID);
 	CObject* pWeapon = Level().Objects.net_Find(WeaponID);
@@ -1090,8 +1077,6 @@ void	game_cl_mp::OnRankChanged	(u8 OldRank)
 #ifdef DEBUG
 	Msg("- %s", RankStr);
 #endif
-	if (m_reward_generator)
-		m_reward_generator->OnPlayerRankdChanged();
 };
 
 void	game_cl_mp::net_import_update		(NET_Packet& P)
@@ -1912,11 +1897,6 @@ void game_cl_mp::AddRewardTask(u32 const award_id)
 
 void game_cl_mp::ReInitRewardGenerator(game_PlayerState* local_ps)
 {
-	if (!m_reward_generator)
-	{
-		m_reward_generator	= xr_new<award_system::reward_event_generator>(u32(-1));
-	}
-	m_reward_generator->init_player(local_ps);
 }
 
 bool game_cl_mp::IsLocalPlayerInitialized() const

@@ -115,8 +115,6 @@ void				game_cl_TeamDeathmatch::net_import_state		(NET_Packet& P)
 			(new_phase == GAME_PHASE_TEAM2_SCORES)
 		))
 	{
-		if (m_reward_generator)
-			m_reward_generator->OnRoundEnd();
 	}
 }
 void game_cl_TeamDeathmatch::TranslateGameMessage	(u32 msg, NET_Packet& P)
@@ -764,8 +762,6 @@ void				game_cl_TeamDeathmatch::OnGameMenuRespond_ChangeTeam	(NET_Packet& P)
 	if (OldTeam != local_player->team)
 	{
 		OnTeamChanged();
-		if (m_reward_generator)
-			m_reward_generator->OnPlayerChangeTeam(local_player->team);
 	}
 
 	SetCurrentSkinMenu();

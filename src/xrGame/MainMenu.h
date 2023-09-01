@@ -16,33 +16,6 @@ class demo_info_loader;
 #include "ui_base.h"
 #include "DemoInfo.h"
 
-namespace gamespy_gp
-{
-
-class account_manager;
-class login_manager;
-
-} //namespace gamespy_gp
-namespace gamespy_profile
-{
-	class profile_store;
-	class stats_submitter;
-} //namespace gamespy_profile
-
-class atlas_submit_queue;
-
-struct  Patch_Dawnload_Progress{
-	bool		IsInProgress;
-	float		Progress;
-	shared_str	Status;
-	shared_str	FileName;
-
-	bool		GetInProgress	(){return IsInProgress;};
-	float		GetProgress		(){return Progress;};
-	LPCSTR		GetStatus		(){return Status.c_str();};
-	LPCSTR		GetFlieName		(){return FileName.c_str();};
-};
-
 class CMainMenu :
 	public IMainMenu,
 	public IInputReceiver,
@@ -73,56 +46,11 @@ class CMainMenu :
 
 	xr_vector<CUIWindow*>				m_pp_draw_wnds;
 
-	CGameSpy_Full*						m_pGameSpyFull;
-	gamespy_gp::account_manager*		m_account_mngr;
-	gamespy_gp::login_manager*			m_login_mngr;
-	gamespy_profile::profile_store*		m_profile_store;
-	gamespy_profile::stats_submitter*	m_stats_submitter;
-	atlas_submit_queue*					m_atlas_submit_queue;
-
 	demo_info_loader*					m_demo_info_loader;
-public:
-	enum	EErrorDlg 
-	{
-		ErrInvalidPassword,
-		ErrInvalidHost,
-		ErrSessionFull,
-		ErrServerReject,
-		ErrCDKeyInUse,
-		ErrCDKeyDisabled,
-		ErrCDKeyInvalid,
-		ErrDifferentVersion,
-		ErrGSServiceFailed,
-		ErrMasterServerConnectFailed,
-		NoNewPatch,
-		NewPatchFound,
-		PatchDownloadError,
-		PatchDownloadSuccess,
-		ConnectToMasterServer,
-		SessionTerminate,
-		LoadingError,
-		DownloadMPMap,
-		ErrMax,
-		ErrNoError = ErrMax,
-	};
-
-	Patch_Dawnload_Progress		m_sPDProgress;
-	Patch_Dawnload_Progress*	GetPatchProgress	() {return &m_sPDProgress;}
-	void						CancelDownload		();
-	
-	CGameSpy_Full*						GetGS			()	{return m_pGameSpyFull;};
-	gamespy_gp::account_manager*		GetAccountMngr	()	{ return m_account_mngr; };
-	gamespy_gp::login_manager*			GetLoginMngr	()	{ return m_login_mngr; };
-	gamespy_profile::profile_store*		GetProfileStore	()	{ return m_profile_store; };
-	gamespy_profile::stats_submitter*	GetStatsSubmitter()	{ return m_stats_submitter; };
-	atlas_submit_queue*					GetSubmitQueue	()	{ return m_atlas_submit_queue; };
 protected:
-	EErrorDlg		m_NeedErrDialog;	
 	u32				m_start_time;
 
-	shared_str		m_sPatchURL;
 	shared_str		m_sPatchFileName;
-	shared_str		m_downloaded_mp_map_url;
 	shared_str		m_player_name;
 	shared_str		m_cdkey;
 	
@@ -169,36 +97,19 @@ public:
 	void			RegisterPPDraw					(CUIWindow* w);
 	void			UnregisterPPDraw				(CUIWindow* w);
 
-	void			SetErrorDialog					(EErrorDlg ErrDlg);
-	EErrorDlg		GetErrorDialogType				() const { return m_NeedErrDialog; } ;
-	void			CheckForErrorDlg				();
 	void			SwitchToMultiplayerMenu			();
-	void			OnNewPatchFound					(LPCSTR VersionName, LPCSTR URL);
-	void			OnNoNewPatchFound				();
-	void xr_stdcall OnDownloadPatch					(CUIWindow*, void*);
 	void xr_stdcall OnConnectToMasterServerOkClicked(CUIWindow*, void*);
 
 	void			Show_DownloadMPMap				(LPCSTR text, LPCSTR url);
 	void xr_stdcall OnDownloadMPMap_CopyURL			(CUIWindow*, void*);
 	void xr_stdcall OnDownloadMPMap					(CUIWindow*, void*);
 
-	void			OnSessionTerminate				(LPCSTR reason);
-	void			OnLoadError						(LPCSTR module);
-	void			OnDownloadPatchError			();
-	void			OnDownloadPatchSuccess			();
-	void			OnDownloadPatchProgress			(u64 bytesReceived, u64 totalSize);
 	void xr_stdcall OnRunDownloadedPatch			(CUIWindow*, void*);
 	void			Show_CTMS_Dialog				();
 	void			Hide_CTMS_Dialog				();
 	void			SetNeedVidRestart				();
 	virtual void	OnDeviceReset					();
 	LPCSTR			GetGSVer						();
-
-			bool	IsCDKeyIsValid					();
-			bool	ValidateCDKey					();
-
-	LPCSTR			GetPlayerName					();
-	LPCSTR			GetCDKeyFromRegistry			();
 	
 	demo_info const *	GetDemoInfo					(LPCSTR file_name);
 };

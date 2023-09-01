@@ -422,82 +422,17 @@ void stats_submitter::terminate_session()
 
 void stats_submitter::quick_reward_with_award(enum_awards_t award_id, gamespy_gp::profile const * profile)
 {
-	profile_store*	tmp_prof_store = MainMenu()->GetProfileStore();
-	VERIFY(tmp_prof_store);
-	awards_store*	tmp_awards_store = tmp_prof_store->get_awards_store();
-	VERIFY(tmp_awards_store);
-	
-	all_awards_t&	tmp_awards = tmp_awards_store->get_player_awards();
-
-	all_awards_t::iterator award_iter = tmp_awards.find(award_id);
-	R_ASSERT(award_iter != tmp_awards.end());
-	++award_iter->second.m_count;
-	__time32_t tmp_time		= 0;
-	_time32					(&tmp_time);
-	award_iter->second.m_last_reward_date = static_cast<u32>(tmp_time);
-	save_file(profile);
 }
 
 void stats_submitter::quick_set_best_scores(all_best_scores_t const * scores, gamespy_gp::profile const * profile)
 {
 	VERIFY(scores);
-	profile_store*		tmp_prof_store = MainMenu()->GetProfileStore();
-	VERIFY(tmp_prof_store);
-	best_scores_store*	tmp_bs_store = tmp_prof_store->get_best_scores_store();
-	VERIFY(tmp_bs_store);
 
-	all_best_scores_t&	tmp_best_scores = tmp_bs_store->get_player_best_scores();
-	
-	for (all_best_scores_t::iterator i = tmp_best_scores.begin(),
-		ie = tmp_best_scores.end(); i != ie; ++i)
-	{
-		all_best_scores_t::const_iterator tmp_iter = scores->find(i->first);
-		if (tmp_iter == scores->end())
-			continue;
-		i->second = std::max(i->second, tmp_iter->second);				
-	}
 	save_file(profile);
 }
 
 void stats_submitter::save_file(gamespy_gp::profile const * profile)
 {
-	profile_store*		tmp_prof_store = MainMenu()->GetProfileStore();
-	VERIFY(tmp_prof_store);
-	awards_store*		tmp_awards_store = tmp_prof_store->get_awards_store();
-	VERIFY(tmp_awards_store);
-	best_scores_store*	tmp_bs_store = tmp_prof_store->get_best_scores_store();
-	VERIFY(tmp_prof_store);
-
-	all_awards_t&		tmp_awards = tmp_awards_store->get_player_awards();
-	all_best_scores_t&	tmp_best_scores = tmp_bs_store->get_player_best_scores();
-	
-	CInifile& ltx_to_write = m_ltx_file.get_ltx();
-	ltx_to_write.sections().clear();
-	
-	for (all_awards_t::const_iterator i = tmp_awards.begin(),
-		ie = tmp_awards.end(); i != ie; ++i)
-	{
-		LPCSTR tmp_award_name = get_award_name(i->first);
-		ltx_to_write.w_u16(tmp_award_name, award_count_line, i->second.m_count);
-		ltx_to_write.w_u32(tmp_award_name, award_rdate_line, i->second.m_last_reward_date);
-	}
-	
-	for (all_best_scores_t::const_iterator i = tmp_best_scores.begin(),
-		ie = tmp_best_scores.end(); i != ie; ++i)
-	{
-		LPCSTR tmp_bs_name = get_best_score_name(i->first);
-		ltx_to_write.w_u32(tmp_bs_name, best_score_value_line, i->second);
-	}
-
-	__time32_t tmp_time	= 0;
-	_time32				(&tmp_time);
-	
-	ltx_to_write.w_s32(profile_data_section, profile_id_line, profile->m_profile_id);
-	ltx_to_write.w_u32(profile_data_section, profile_last_submit_time, static_cast<u32>(tmp_time));
-
-	IWriter* tmp_writer = FS.w_open("$app_data_root$", profile_store_file_name);
-	m_ltx_file.sign_and_save(*tmp_writer);
-	FS.w_close(tmp_writer);
 }
 
 

@@ -766,7 +766,6 @@
     <ClInclude Include="abstract_path_manager.h" />
     <ClInclude Include="abstract_path_manager_inline.h" />
     <ClInclude Include="account_manager.h" />
-    <ClInclude Include="account_manager_console.h" />
     <ClInclude Include="accumulative_states.h" />
     <ClInclude Include="action_base.h" />
     <ClInclude Include="action_base_inline.h" />
@@ -1241,7 +1240,6 @@
     <ClInclude Include="Artefact.h" />
     <ClInclude Include="artefact_activation.h" />
     <ClInclude Include="atlas_stalkercoppc_v1.h" />
-    <ClInclude Include="atlas_submit_queue.h" />
     <ClInclude Include="attachable_item.h" />
     <ClInclude Include="attachable_item_inline.h" />
     <ClInclude Include="attachment_owner.h" />
@@ -1731,7 +1729,6 @@
     <ClInclude Include="physics_world_scripted.h" />
     <ClInclude Include="physic_item.h" />
     <ClInclude Include="physic_item_inline.h" />
-    <ClInclude Include="player_account.h" />
     <ClInclude Include="player_hud.h" />
     <ClInclude Include="player_name_modifyer.h" />
     <ClInclude Include="player_spot_params.h" />
@@ -1763,7 +1760,6 @@
     <ClInclude Include="profiler_inline.h" />
     <ClInclude Include="profile_data_types.h" />
     <ClInclude Include="profile_data_types_script.h" />
-    <ClInclude Include="profile_store.h" />
     <ClInclude Include="PropertiesListHelper.h" />
     <ClInclude Include="property_evaluator.h" />
     <ClInclude Include="property_evaluator_const.h" />
@@ -1796,7 +1792,6 @@
     <ClInclude Include="restricted_object_obstacle.h" />
     <ClInclude Include="rewarding_events_handlers.h" />
     <ClInclude Include="rewarding_state_events.h" />
-    <ClInclude Include="reward_event_generator.h" />
     <ClInclude Include="reward_event_handler.h" />
     <ClInclude Include="reward_manager.h" />
     <ClInclude Include="reward_snd_messages.h" />
@@ -2470,7 +2465,6 @@
     </ClCompile>
     <ClCompile Include="..\xrServerEntities\xrServer_Object_Base.cpp" />
     <ClCompile Include="account_manager.cpp" />
-    <ClCompile Include="account_manager_console.cpp" />
     <ClCompile Include="account_manager_script.cpp" />
     <ClCompile Include="action_base_script.cpp">
       <PrecompiledHeaderFile>pch_script.h</PrecompiledHeaderFile>
@@ -2922,7 +2916,6 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="atlas_submit_queue.cpp" />
     <ClCompile Include="attachable_item.cpp" />
     <ClCompile Include="attachment_owner.cpp" />
     <ClCompile Include="autosave_manager.cpp" />
@@ -3534,7 +3527,6 @@
       <PrecompiledHeaderOutputFile>$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
     <ClCompile Include="physic_item.cpp" />
-    <ClCompile Include="player_account.cpp" />
     <ClCompile Include="player_hud.cpp" />
     <ClCompile Include="player_hud_tune.cpp" />
     <ClCompile Include="player_name_modifyer.cpp" />
@@ -3570,8 +3562,6 @@
     </ClCompile>
     <ClCompile Include="profile_data_types.cpp" />
     <ClCompile Include="profile_data_types_script.cpp" />
-    <ClCompile Include="profile_store.cpp" />
-    <ClCompile Include="profile_store_script.cpp" />
     <ClCompile Include="property_evaluator_script.cpp">
       <PrecompiledHeaderFile>pch_script.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
@@ -3597,7 +3587,6 @@
     <ClCompile Include="restricted_object_obstacle.cpp" />
     <ClCompile Include="rewarding_events_handlers.cpp" />
     <ClCompile Include="rewarding_state_events.cpp" />
-    <ClCompile Include="reward_event_generator.cpp" />
     <ClCompile Include="reward_manager.cpp" />
     <ClCompile Include="RGD5.cpp">
       <PrecompiledHeaderFile>pch_script.h</PrecompiledHeaderFile>

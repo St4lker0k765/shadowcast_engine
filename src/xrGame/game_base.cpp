@@ -148,10 +148,6 @@ void	game_PlayerState::skip_Import(NET_Packet& P)
 	P.r_u8			();//	m_bCurrentVoteAgreed	);
 
 	P.r_u32(); //DeathTime
-	if (bFullUpdate)
-	{
-		player_account::skip_Import(P);
-	}
 }
 
 void	game_PlayerState::SetGameID				(u16 NewID)

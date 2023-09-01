@@ -20,6 +20,7 @@
 #include "inventory_upgrade.h"
 #include "inventory_upgrade_property.h"
 
+#include "script_engine.h"
 
 UIInvUpgradeInfo::UIInvUpgradeInfo()
 {

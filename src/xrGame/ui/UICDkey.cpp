@@ -169,9 +169,6 @@ void CUICDkey::SaveOptValue()
 
 	xr_strcpy( gsCDKey, sizeof(gsCDKey), AddHyphens(inherited::GetText()) );
 	WriteCDKey_ToRegistry( gsCDKey );
-
-	if ( MainMenu()->IsCDKeyIsValid() )
-		m_view_access = false;
 }
 
 void CUICDkey::SaveBackUpOptValue()	// current->backup

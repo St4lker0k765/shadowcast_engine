@@ -70,8 +70,6 @@ void		CGameSpy_HTTP::Think		()
 }
 void __cdecl ProgressCallback ( GHTTPRequest request, GHTTPState state, const char * buffer, GHTTPByteCount bufferLen, GHTTPByteCount bytesReceived, GHTTPByteCount totalSize, void * param )
 {
-	if (state == GHTTPReceivingFile && totalSize != 0)
-		MainMenu()->OnDownloadPatchProgress(bytesReceived, totalSize);
 }
 
 string128	GHTTPResultStr	[] =  {
@@ -98,18 +96,6 @@ string128	GHTTPResultStr	[] =  {
 
 GHTTPBool	__cdecl	CompletedCallBack	(GHTTPRequest request, GHTTPResult result, char * buffer, GHTTPByteCount bufferLen, void * param )
 {
-	switch (result)
-	{
-	case GHTTPSuccess:
-		MainMenu()->OnDownloadPatchSuccess();
-		break;
-	default:
-		Msg ("! CompletedCallBack Result - %s", GHTTPResultStr[result]);
-		MainMenu()->OnDownloadPatchError();
-		break;
-
-	}
-	
 //	CGameSpy_HTTP* pGSHTTP = (CGameSpy_HTTP*) param;
 //	if (pGSHTTP) pGSHTTP->StopDownload();
 	return GHTTPTrue;
@@ -123,10 +109,6 @@ void		CGameSpy_HTTP::DownloadFile(LPCSTR URL, LPCSTR FileName)
 	Msg		("File: %s",FileName);
 	m_LastRequest = xrGS_ghttpSaveExA(URL, FileName, "", NULL, GHTTPFalse, GHTTPFalse, ProgressCallback, CompletedCallBack, this);
 	Msg		("Code: %d",m_LastRequest);
-	if (m_LastRequest < 0)
-	{
-		MainMenu()->OnDownloadPatchError();
-	}
 }
 
 void		CGameSpy_HTTP::StopDownload	()
