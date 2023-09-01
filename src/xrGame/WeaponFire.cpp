@@ -14,7 +14,6 @@
 #include "level_bullet_manager.h"
 
 #include "game_cl_mp.h"
-#include "reward_event_generator.h"
 
 #define FLAME_TIME 0.05f
 

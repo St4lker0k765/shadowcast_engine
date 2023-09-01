@@ -37,7 +37,6 @@
 #include "game_cl_mp_snd_messages.h"
 #include "../3rd party/crypto/crypto.h"
 
-#include "reward_event_generator.h"
 #include "reward_manager.h"
 #include "login_manager.h"
 #include "stats_submitter.h"

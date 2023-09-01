@@ -4,8 +4,6 @@ class CUIWindow;
 class CUIDialogWnd;
 class CUICursor;
 class CUIMessageBoxEx;
-class CGameSpy_HTTP;
-class CGameSpy_Full;
 
 class demo_info_loader;
 
@@ -50,11 +48,6 @@ class CMainMenu :
 protected:
 	u32				m_start_time;
 
-	shared_str		m_sPatchFileName;
-	shared_str		m_player_name;
-	shared_str		m_cdkey;
-	
-	xr_vector<CUIMessageBoxEx*>	m_pMB_ErrDlgs;
 	bool			ReloadUI						();
 public:
 	u32				m_deactivated_frame;
@@ -97,19 +90,9 @@ public:
 	void			RegisterPPDraw					(CUIWindow* w);
 	void			UnregisterPPDraw				(CUIWindow* w);
 
-	void			SwitchToMultiplayerMenu			();
-	void xr_stdcall OnConnectToMasterServerOkClicked(CUIWindow*, void*);
-
-	void			Show_DownloadMPMap				(LPCSTR text, LPCSTR url);
-	void xr_stdcall OnDownloadMPMap_CopyURL			(CUIWindow*, void*);
-	void xr_stdcall OnDownloadMPMap					(CUIWindow*, void*);
-
-	void xr_stdcall OnRunDownloadedPatch			(CUIWindow*, void*);
-	void			Show_CTMS_Dialog				();
-	void			Hide_CTMS_Dialog				();
 	void			SetNeedVidRestart				();
 	virtual void	OnDeviceReset					();
-	LPCSTR			GetGSVer						();
+	static LPCSTR			GetGSVer						();
 	
 	demo_info const *	GetDemoInfo					(LPCSTR file_name);
 };

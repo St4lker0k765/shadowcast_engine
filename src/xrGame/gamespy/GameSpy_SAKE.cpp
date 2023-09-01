@@ -3,7 +3,6 @@
 #include "GameSpy_SAKE.h"
 #include "../MainMenu.h"
 #include "profile_data_types_script.h"
-#include "../profile_store.h"
 
 shared_str const CGameSpy_SAKE::TryToTranslate(SAKERequestResult const & request_result)
 {

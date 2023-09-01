@@ -3,7 +3,6 @@
 #include "gamespy/GameSpy_Full.h"
 #include "login_manager.h"
 #include "MainMenu.h"
-#include "profile_store.h"
 #include "awards_store.h"
 #include "best_scores_store.h"
 
