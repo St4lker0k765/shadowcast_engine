@@ -241,48 +241,6 @@ void item_respawn_manager::clear_respawn_sections()
 }
 
 
-void item_respawn_manager::add_new_rpoint(shared_str profile_sect, RPoint const & point)
-{
-	respawn_section_iter	tmp_resp_sect = m_respawn_sections_cache.find(profile_sect);
-	
-	if (tmp_resp_sect == m_respawn_sections_cache.end())
-	{
-		tmp_resp_sect = load_respawn_section(profile_sect);
-		if (tmp_resp_sect == m_respawn_sections_cache.end())
-		{
-#ifndef MASTER_GOLD
-			Msg("! ERROR: not found section %s in respawn_items.ltx", profile_sect.c_str());
-#endif // #ifndef MASTER_GOLD
-			return;
-		}
-	}
-	R_ASSERT2(tmp_resp_sect->second, 
-		make_string("collection of respawn items section (%s) is NULL",
-		profile_sect.c_str()).c_str());
-	
-	section_items_iter		iter_ie = tmp_resp_sect->second->end();
-	for (section_items_iter	iter_rsect = tmp_resp_sect->second->begin();
-		iter_rsect != iter_ie; ++iter_rsect)
-	{
-		spawn_item				new_item(iter_rsect->respawn_time);
-		new_item.item_object	=  make_respawn_entity(
-				iter_rsect->section_name,
-				iter_rsect->addons,
-				iter_rsect->count_of_ammo);
-		if (new_item.item_object)
-		{
-			new_item.item_object->o_Position.set(point.P);
-			new_item.item_object->o_Angle.set(point.A);
-			m_respawns.push_back(new_item);
-		} else
-		{
-#ifndef MASTER_GOLD
-			Msg("! ERROR: failed to create entity [%s] with addons [%d]", iter_rsect->section_name, iter_rsect->addons);
-#endif // #ifndef MASTER_GOLD
-		}
-	}
-}
-
 void item_respawn_manager::check_to_delete(u16 item_id)
 {
 	respawn_iter temp_iter = std::find_if(m_respawns.begin(), m_respawns.end(),

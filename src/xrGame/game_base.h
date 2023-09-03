@@ -10,18 +10,6 @@
 struct	game_PlayerState;//fw
 class	NET_Packet;
 
-struct		RPoint
-{
-	Fvector	P;
-	Fvector A;
-	u32		TimeToUnfreeze;
-	bool	bBlocked;
-	u16		BlockedByID;
-	u32		BlockTime;
-	RPoint(){P.set(.0f,0.f,.0f);A.set(.0f,0.f,.0f); TimeToUnfreeze = 0; bBlocked = false;}
-	bool	operator ==		(const u16& ID)	const			{ return (bBlocked && BlockedByID == ID);		}
-};
-
 struct Bonus_Money_Struct {
 	s32		Money;
 	u8		Reason;
@@ -32,9 +20,6 @@ struct Bonus_Money_Struct {
 
 struct game_PlayerState 
 {
-	//string64	name;
-	u8			team;
-	
 	//for statistics
 	s16			m_iRivalKills;
 	s16			m_iSelfKills;
@@ -135,21 +120,18 @@ class	game_GameState : public DLL_Pure
 {
 protected:
 	EGameIDs						m_type;
-	u16								m_phase;
 	s32								m_round;
 	u32								m_start_time;
 
 	u32								m_round_start_time;
 	string64						m_round_start_time_str;
 protected:
-	virtual		void				switch_Phase			(u32 new_phase);
 	virtual		void				OnSwitchPhase			(u32 old_phase, u32 new_phase)	{};	
 
 public:
 									game_GameState			();
 	virtual							~game_GameState			()								{}
 	IC			EGameIDs const&		Type					() const						{return m_type;};
-				u16					Phase					() const						{return m_phase;};
 				s32					Round					() const						{return m_round;};
 				u32					StartTime				() const						{return m_start_time;};
 	virtual		void				Create					(shared_str& options)				{};
