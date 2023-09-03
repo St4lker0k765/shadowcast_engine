@@ -1,7 +1,3 @@
-// WeaponFire.cpp: implementation of the CWeapon class.
-// function responsible for firing with CWeapon
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "Weapon.h"
 #include "ParticlesObject.h"
@@ -12,8 +8,6 @@
 #include "effectorshot.h"
 
 #include "level_bullet_manager.h"
-
-#include "game_cl_mp.h"
 
 #define FLAME_TIME 0.05f
 

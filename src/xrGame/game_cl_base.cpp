@@ -10,7 +10,6 @@
 #include "UI/UIMessagesWindow.h"
 #include "UI/UIDialogWnd.h"
 #include "string_table.h"
-#include "game_sv_mp_vote_flags.h"
 
 EGameIDs ParseStringToGameType	(LPCSTR str);
 LPCSTR GameTypeToString			(EGameIDs gt, bool bShort);

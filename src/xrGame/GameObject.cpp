@@ -24,7 +24,6 @@
 #include "level.h"
 #include "script_callback_ex.h"
 #include "../xrphysics/MathUtils.h"
-#include "game_cl_mp.h"
 #include "game_level_cross_table.h"
 #include "ai_obstacle.h"
 #include "magic_box3.h"

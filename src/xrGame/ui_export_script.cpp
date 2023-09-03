@@ -13,7 +13,6 @@
 #include "UI/UITabControl.h"
 #include "UI/UIComboBox.h"
 #include "ui/UIOptionsManagerScript.h"
-#include "ui/UIMapInfo.h"
 #include "ScriptXmlInit.h"
 
 #include "login_manager.h"
@@ -36,7 +35,6 @@ void UIRegistrator::script_register(lua_State *L)
 	CUIDialogWndEx::script_register(L);
 	CUIPropertiesBox::script_register(L);
 	CUIOptionsManagerScript::script_register(L);
-	CUIMapInfo::script_register(L);
 	CScriptXmlInit::script_register(L);
 	CUIGameCustom::script_register(L);
 
