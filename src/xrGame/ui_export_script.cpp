@@ -15,9 +15,6 @@
 #include "ui/UIOptionsManagerScript.h"
 #include "ScriptXmlInit.h"
 
-#include "login_manager.h"
-#include "account_manager.h"
-
 using namespace luabind;
 
 #pragma optimize("s",on)
