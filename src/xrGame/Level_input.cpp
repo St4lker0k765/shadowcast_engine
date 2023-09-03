@@ -100,21 +100,12 @@ void CLevel::IR_OnKeyboardPress	(int key)
 	if(Device.dwPrecacheFrame)
 		return;
 
-#ifdef INGAME_EDITOR
-	if (Device.editor() && (pInput->iGetAsyncKeyState(DIK_LALT) || pInput->iGetAsyncKeyState(DIK_RALT)))
-		return;
-#endif // #ifdef INGAME_EDITOR
-
 	bool b_ui_exist = (!!CurrentGameUI());
 
 	EGameActions _curr = get_binded_action(key);
 
 	if(_curr==kPAUSE)
 	{
-		#ifdef INGAME_EDITOR
-			if (Device.editor())	return;
-		#endif // INGAME_EDITOR
-
 		if (!g_block_pause && (IsGameTypeSingle() || IsDemoPlay()))
 		{
 #ifdef DEBUG

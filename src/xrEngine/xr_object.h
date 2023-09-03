@@ -3,10 +3,9 @@
 
 #include "../xrcdb/ispatial.h"
 #include "isheduled.h"
-//#include "iinputreceiver.h"
 #include "irenderable.h"
 #include "icollidable.h"
-#include "engineapi.h"
+#include "engine.h"
 #include "device.h"
 // refs
 //class ENGINE_API IRender_Visual;

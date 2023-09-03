@@ -655,39 +655,10 @@ copy /Y "$(xrSdkDir)binaries\x64\BugTrap-x64.dll" "$(OutputPath)BugTrap-x64.dll"
     <ClInclude Include="dedicated_server_only.h" />
     <ClInclude Include="defines.h" />
     <ClInclude Include="device.h" />
-    <ClInclude Include="doug_lea_memory_allocator.h" />
-    <ClInclude Include="editor_environment_ambients_ambient.hpp" />
-    <ClInclude Include="editor_environment_ambients_effect_id.hpp" />
-    <ClInclude Include="editor_environment_ambients_manager.hpp" />
-    <ClInclude Include="editor_environment_ambients_sound_id.hpp" />
-    <ClInclude Include="editor_environment_detail.hpp" />
-    <ClInclude Include="editor_environment_effects_effect.hpp" />
-    <ClInclude Include="editor_environment_effects_manager.hpp" />
-    <ClInclude Include="editor_environment_levels_manager.hpp" />
-    <ClInclude Include="editor_environment_manager.hpp" />
-    <ClInclude Include="editor_environment_sound_channels_channel.hpp" />
-    <ClInclude Include="editor_environment_sound_channels_manager.hpp" />
-    <ClInclude Include="editor_environment_sound_channels_source.hpp" />
-    <ClInclude Include="editor_environment_suns_blend.hpp" />
-    <ClInclude Include="editor_environment_suns_flare.hpp" />
-    <ClInclude Include="editor_environment_suns_flares.hpp" />
-    <ClInclude Include="editor_environment_suns_gradient.hpp" />
-    <ClInclude Include="editor_environment_suns_manager.hpp" />
-    <ClInclude Include="editor_environment_suns_sun.hpp" />
-    <ClInclude Include="editor_environment_thunderbolts_collection.hpp" />
-    <ClInclude Include="editor_environment_thunderbolts_gradient.hpp" />
-    <ClInclude Include="editor_environment_thunderbolts_manager.hpp" />
-    <ClInclude Include="editor_environment_thunderbolts_thunderbolt.hpp" />
-    <ClInclude Include="editor_environment_thunderbolts_thunderbolt_id.hpp" />
-    <ClInclude Include="editor_environment_weathers_manager.hpp" />
-    <ClInclude Include="editor_environment_weathers_time.hpp" />
-    <ClInclude Include="editor_environment_weathers_weather.hpp" />
     <ClInclude Include="edit_actions.h" />
     <ClInclude Include="Effector.h" />
     <ClInclude Include="EffectorPP.h" />
     <ClInclude Include="Engine.h" />
-    <ClInclude Include="EngineAPI.h" />
-    <ClInclude Include="engine_impl.hpp" />
     <ClInclude Include="EnnumerateVertices.h" />
     <ClInclude Include="envelope.h" />
     <ClInclude Include="Environment.h" />
@@ -701,7 +672,6 @@ copy /Y "$(xrSdkDir)binaries\x64\BugTrap-x64.dll" "$(OutputPath)BugTrap-x64.dll"
     <ClInclude Include="GameFont.h" />
     <ClInclude Include="GameMtlLib.h" />
     <ClInclude Include="ICollidable.h" />
-    <ClInclude Include="ide.hpp" />
     <ClInclude Include="IGame_Level.h" />
     <ClInclude Include="IGame_ObjectPool.h" />
     <ClInclude Include="IGame_Persistent.h" />
@@ -723,9 +693,6 @@ copy /Y "$(xrSdkDir)binaries\x64\BugTrap-x64.dll" "$(OutputPath)BugTrap-x64.dll"
     <ClInclude Include="ObjectDump.h" />
     <ClInclude Include="perlin.h" />
     <ClInclude Include="Properties.h" />
-    <ClInclude Include="property_collection.hpp" />
-    <ClInclude Include="property_collection_forward.hpp" />
-    <ClInclude Include="property_collection_inline.hpp" />
     <ClInclude Include="psystem.h" />
     <ClInclude Include="PS_instance.h" />
     <ClInclude Include="pure.h" />
@@ -753,7 +720,6 @@ copy /Y "$(xrSdkDir)binaries\x64\BugTrap-x64.dll" "$(OutputPath)BugTrap-x64.dll"
     <ClInclude Include="xrSheduler.h" />
     <ClInclude Include="xrTheora_Stream.h" />
     <ClInclude Include="xrTheora_Surface.h" />
-    <ClInclude Include="xrTheora_Surface_mmx.h" />
     <ClInclude Include="xr_collide_form.h" />
     <ClInclude Include="xr_efflensflare.h" />
     <ClInclude Include="xr_input.h" />
@@ -790,74 +756,10 @@ copy /Y "$(xrSdkDir)binaries\x64\BugTrap-x64.dll" "$(OutputPath)BugTrap-x64.dll"
     <ClCompile Include="Device_Initialize.cpp" />
     <ClCompile Include="Device_Misc.cpp" />
     <ClCompile Include="Device_overdraw.cpp" />
-    <ClCompile Include="doug_lea_memory_allocator.c">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-      </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      </PrecompiledHeader>
-      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4127; 4267;%(DisableSpecificWarnings)</DisableSpecificWarnings>
-      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4127; 4267;%(DisableSpecificWarnings)</DisableSpecificWarnings>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-      </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release_AVX|Win32'">
-      </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Mixed|Win32'">
-      </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-      </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release_AVX|x64'">
-      </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Mixed|x64'">
-      </PrecompiledHeader>
-      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4127; 4267;%(DisableSpecificWarnings)</DisableSpecificWarnings>
-      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release_AVX|Win32'">4127; 4267;%(DisableSpecificWarnings)</DisableSpecificWarnings>
-      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Mixed|Win32'">4127; 4267;%(DisableSpecificWarnings)</DisableSpecificWarnings>
-      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4127; 4267;%(DisableSpecificWarnings)</DisableSpecificWarnings>
-      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release_AVX|x64'">4127; 4267;%(DisableSpecificWarnings)</DisableSpecificWarnings>
-      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Mixed|x64'">4127; 4267;%(DisableSpecificWarnings)</DisableSpecificWarnings>
-    </ClCompile>
-    <ClCompile Include="editor_environment_ambients_ambient.cpp" />
-    <ClCompile Include="editor_environment_ambients_effect_id.cpp" />
-    <ClCompile Include="editor_environment_ambients_manager.cpp" />
-    <ClCompile Include="editor_environment_ambients_sound_id.cpp" />
-    <ClCompile Include="editor_environment_detail.cpp" />
-    <ClCompile Include="editor_environment_effects_effect.cpp" />
-    <ClCompile Include="editor_environment_effects_manager.cpp" />
-    <ClCompile Include="editor_environment_levels_manager.cpp" />
-    <ClCompile Include="editor_environment_manager.cpp" />
-    <ClCompile Include="editor_environment_manager_properties.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_AVX|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Mixed|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_AVX|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Mixed|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="editor_environment_sound_channels_channel.cpp" />
-    <ClCompile Include="editor_environment_sound_channels_manager.cpp" />
-    <ClCompile Include="editor_environment_sound_channels_source.cpp" />
-    <ClCompile Include="editor_environment_suns_blend.cpp" />
-    <ClCompile Include="editor_environment_suns_flare.cpp" />
-    <ClCompile Include="editor_environment_suns_flares.cpp" />
-    <ClCompile Include="editor_environment_suns_gradient.cpp" />
-    <ClCompile Include="editor_environment_suns_manager.cpp" />
-    <ClCompile Include="editor_environment_suns_sun.cpp" />
-    <ClCompile Include="editor_environment_thunderbolts_collection.cpp" />
-    <ClCompile Include="editor_environment_thunderbolts_gradient.cpp" />
-    <ClCompile Include="editor_environment_thunderbolts_manager.cpp" />
-    <ClCompile Include="editor_environment_thunderbolts_thunderbolt.cpp" />
-    <ClCompile Include="editor_environment_thunderbolts_thunderbolt_id.cpp" />
-    <ClCompile Include="editor_environment_weathers_manager.cpp" />
-    <ClCompile Include="editor_environment_weathers_time.cpp" />
-    <ClCompile Include="editor_environment_weathers_weather.cpp" />
     <ClCompile Include="edit_actions.cpp" />
     <ClCompile Include="Effector.cpp" />
     <ClCompile Include="EffectorPP.cpp" />
     <ClCompile Include="Engine.cpp" />
-    <ClCompile Include="EngineAPI.cpp" />
-    <ClCompile Include="engine_impl.cpp" />
     <ClCompile Include="Envelope.cpp" />
     <ClCompile Include="Environment.cpp" />
     <ClCompile Include="Environment_misc.cpp" />
@@ -918,7 +820,6 @@ copy /Y "$(xrSdkDir)binaries\x64\BugTrap-x64.dll" "$(OutputPath)BugTrap-x64.dll"
     <ClCompile Include="xrSheduler.cpp" />
     <ClCompile Include="xrTheora_Stream.cpp" />
     <ClCompile Include="xrTheora_Surface.cpp" />
-    <ClCompile Include="xrTheora_Surface_mmx.cpp" />
     <ClCompile Include="xr_collide_form.cpp" />
     <ClCompile Include="xr_efflensflare.cpp" />
     <ClCompile Include="Xr_input.cpp" />
@@ -948,11 +849,6 @@ copy /Y "$(xrSdkDir)binaries\x64\BugTrap-x64.dll" "$(OutputPath)BugTrap-x64.dll"
     <None Include="My Amplifier Results\r000hs\r000hs.ampl" />
     <None Include="My Amplifier Results\r001hs\r001hs.ampl" />
     <None Include="My Amplifier Results\r002cc\r002cc.ampl" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="ClientServer.txt" />
-    <Text Include="Effects description.txt" />
-    <Text Include="features.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="$(SolutionDir)xrSound\xrSound.vcxproj">

@@ -2,26 +2,12 @@
 #pragma hdrstop
 
 #include "IGame_Persistent.h"
-
-#ifndef _EDITOR
 #include "environment.h"
-# include "x_ray.h"
-# include "IGame_Level.h"
-# include "XR_IOConsole.h"
 # include "Render.h"
 # include "ps_instance.h"
 # include "CustomHUD.h"
-#endif
 
-#ifdef _EDITOR
-bool g_dedicated_server = false;
-#endif
-
-#ifdef INGAME_EDITOR
-# include "editor_environment_manager.hpp"
-#endif // INGAME_EDITOR
-
-ENGINE_API IGame_Persistent* g_pGamePersistent = NULL;
+ENGINE_API IGame_Persistent* g_pGamePersistent = nullptr;
 
 IGame_Persistent::IGame_Persistent()
 {
@@ -35,16 +21,7 @@ IGame_Persistent::IGame_Persistent()
 
 	m_pGShaderConstants = new ShadersExternalData(); //--#SM+#--
 
-#ifndef INGAME_EDITOR
-#ifndef _EDITOR
     pEnvironment = xr_new<CEnvironment>();
-#endif
-#else // #ifdef INGAME_EDITOR
-    if (RDEVICE.editor())
-        pEnvironment = xr_new<editor::environment::manager>();
-    else
-        pEnvironment = xr_new<CEnvironment>();
-#endif // #ifdef INGAME_EDITOR
 }
 
 IGame_Persistent::~IGame_Persistent()

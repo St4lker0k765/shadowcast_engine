@@ -15,12 +15,6 @@ class ENGINE_API CLAItem;
 #include "../Include/xrRender/ThunderboltDescRender.h"
 #include "../Include/xrRender/ThunderboltRender.h"
 
-#ifdef INGAME_EDITOR
-# define INGAME_EDITOR_VIRTUAL virtual
-#else // #ifdef INGAME_EDITOR
-# define INGAME_EDITOR_VIRTUAL
-#endif // #ifdef INGAME_EDITOR
-
 class CEnvironment;
 
 struct SThunderboltDesc
@@ -47,13 +41,11 @@ struct SThunderboltDesc
     CLAItem* color_anim;
 public:
     SThunderboltDesc();
-    INGAME_EDITOR_VIRTUAL ~SThunderboltDesc();
+	~SThunderboltDesc();
     void load(CInifile& pIni, shared_str const& sect);
-    INGAME_EDITOR_VIRTUAL void create_top_gradient(CInifile& pIni, shared_str const& sect);
-    INGAME_EDITOR_VIRTUAL void create_center_gradient(CInifile& pIni, shared_str const& sect);
+	void create_top_gradient(CInifile& pIni, shared_str const& sect);
+	void create_center_gradient(CInifile& pIni, shared_str const& sect);
 };
-
-#undef INGAME_EDITOR_VIRTUAL
 
 struct SThunderboltCollection
 {

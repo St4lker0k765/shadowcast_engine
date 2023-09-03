@@ -479,7 +479,7 @@ void xrSASH::TryInitEngine(bool bNoRun)
 
     InitInput();
 
-    Engine.External.Initialize();
+    Engine.Initialize_dll();
 
     if (bNoRun)
         InitSound1();

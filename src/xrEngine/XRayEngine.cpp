@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "igame_level.h"
 #include "igame_persistent.h"
-#include "dedicated_server_only.h"
 #include "../xrNetServer/NET_AuthCheck.h"
 
 #include "xr_input.h"
@@ -12,33 +11,37 @@
 #include "resource.h"
 #include "LightAnimLibrary.h"
 #include "../xrcdb/ispatial.h"
-#include "CopyProtection.h"
-#include <locale.h>
+#include <clocale>
 
 #include "xrSash.h"
 
-//#include "securom_api.h"
+ENGINE_API CInifile* pGameIni = nullptr;
+ENGINE_API CApplication* pApp = NULL;
+ENGINE_API bool g_bBenchmark = false;
+ENGINE_API string512 g_sLaunchOnExit_params;
+ENGINE_API string512 g_sLaunchOnExit_app;
+ENGINE_API string_path g_sLaunchWorkingFolder;
 
-//---------------------------------------------------------------------
-ENGINE_API CInifile* pGameIni = NULL;
+XRCORE_API LPCSTR build_date;
+XRCORE_API u32 build_id
+;
+string512 g_sBenchmarkName;
+
 BOOL g_bIntroFinished = FALSE;
+static HWND logoWindow = NULL;
+
 extern void Intro(void* fn);
 extern void Intro_DSHOW(void* fn);
 extern int PASCAL IntroDSHOW_wnd(HINSTANCE hInstC, HINSTANCE hInstP, LPSTR lpCmdLine, int nCmdShow);
-//int max_load_stage = 0;
+void doBenchmark(LPCSTR name);
 
 const TCHAR* c_szSplashClass = _T("SplashWindow");
-
-// computing build id
-XRCORE_API LPCSTR build_date;
-XRCORE_API u32 build_id;
 
 #ifdef MASTER_GOLD
 # define NO_MULTI_INSTANCES
 #endif // #ifdef MASTER_GOLD
 
-
-static LPSTR month_id[12] =
+static const char* month_id[12] =
 {
     "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 };
@@ -48,14 +51,12 @@ static int days_in_month[12] =
     31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
 };
 
-static int start_day = 10; // 31
-static int start_month = 6; // January
-static int start_year = 2023; // 1999
+static int start_day = 10; 
+static int start_month = 6;
+static int start_year = 2023;
 
 // binary hash, mainly for copy-protection
-#include <ctype.h>
-
-//#include <wincodec.h>
+#include <cctype>
 #include <thread>
 
 void compute_build_id()
@@ -72,7 +73,7 @@ void compute_build_id()
 
     for (int i = 0; i < 12; i++)
     {
-        if (_stricmp(month_id[i], month))
+        if (_stricmp(month_id[i], month) != 0)
             continue;
 
         months = i;
@@ -87,13 +88,10 @@ void compute_build_id()
     for (int i = 0; i < start_month - 1; ++i)
         build_id -= days_in_month[i];
 }
-//---------------------------------------------------------------------
-// 2446363
-// umbt@ukr.net
-//////////////////////////////////////////////////////////////////////////
-struct _SoundProcessor : public pureFrame
+
+struct _SoundProcessor: pureFrame
 {
-    virtual void _BCL OnFrame()
+    virtual void xr_stdcall OnFrame()
     {
         //Msg ("------------- sound: %d [%3.2f,%3.2f,%3.2f]",u32(Device.dwFrame),VPUSH(Device.vCameraPosition));
         Device.Statistic->Sound.Begin();
@@ -102,22 +100,6 @@ struct _SoundProcessor : public pureFrame
     }
 } SoundProcessor;
 
-//////////////////////////////////////////////////////////////////////////
-// global variables
-ENGINE_API CApplication* pApp = NULL;
-static HWND logoWindow = NULL;
-
-int doLauncher();
-void doBenchmark(LPCSTR name);
-ENGINE_API bool g_bBenchmark = false;
-string512 g_sBenchmarkName;
-
-
-ENGINE_API string512 g_sLaunchOnExit_params;
-ENGINE_API string512 g_sLaunchOnExit_app;
-ENGINE_API string_path g_sLaunchWorkingFolder;
-// -------------------------------------------
-// startup point
 void InitEngine()
 {
     Engine.Initialize();
@@ -154,7 +136,7 @@ void InitConfig(T& config, pcstr name, bool fatal = true,
 		make_string("Cannot find file %s.\nReinstalling application may fix this problem.", fname));
 }
 
-PROTECT_API void InitSettings()
+void InitSettings()
 {
     string_path fname;
     FS.update_path(fname, "$game_config$", "system.ltx");
@@ -172,18 +154,10 @@ PROTECT_API void InitSettings()
 	InitConfig(pFFSettings, "stcop_config.ltx", false, true, true, false);
 	InitConfig(pGameIni, "game.ltx");
 }
-PROTECT_API void InitConsole()
+void InitConsole()
 {
-#ifdef DEDICATED_SERVER
-    {
-        Console = xr_new<CTextConsole>();
-    }
-#else
-    // else
-    {
-        Console = xr_new<CConsole>();
-    }
-#endif
+    Console = xr_new<CConsole>();
+    
     Console->Initialize();
 
     xr_strcpy(Console->ConfigFile, "user.ltx");
@@ -195,7 +169,7 @@ PROTECT_API void InitConsole()
     }
 }
 
-PROTECT_API void InitInput()
+void InitInput()
 {
     BOOL bCaptureInput = !strstr(Core.Params, "-i");
 
@@ -206,12 +180,12 @@ void destroyInput()
     xr_delete(pInput);
 }
 
-PROTECT_API void InitSound1()
+void InitSound1()
 {
     CSound_manager_interface::_create(0);
 }
 
-PROTECT_API void InitSound2()
+void InitSound2()
 {
     CSound_manager_interface::_create(1);
 }
@@ -223,7 +197,7 @@ void destroySound()
 
 void destroySettings()
 {
-    CInifile** s = (CInifile**)(&pSettings);
+    auto s = const_cast<CInifile**>(&pSettings);
     xr_delete(*s);
     xr_delete(pGameIni);
 }
@@ -298,7 +272,7 @@ void Startup()
     //#endif
     LALib.OnCreate();
     pApp = xr_new<CApplication>();
-    g_pGamePersistent = (IGame_Persistent*)NEW_INSTANCE(CLSID_GAME_PERSISTANT);
+    g_pGamePersistent = static_cast<IGame_Persistent*>(NEW_INSTANCE(CLSID_GAME_PERSISTANT));
     g_SpatialSpace = xr_new<ISpatial_DB>();
     g_SpatialSpacePhysic = xr_new<ISpatial_DB>();
 
@@ -307,19 +281,17 @@ void Startup()
     logoWindow = NULL;
 
     // Main cycle
-    CheckCopyProtection();
     Memory.mem_usage();
     Device.Run();
 
     // Destroy APP
     xr_delete(g_SpatialSpacePhysic);
     xr_delete(g_SpatialSpace);
-    DEL_INSTANCE(g_pGamePersistent);
+    DEL_INSTANCE(g_pGamePersistent)
     xr_delete(pApp);
     Engine.Event.Dump();
 
     // Destroying
-    //. destroySound();
     destroyInput();
 
     if (!g_bBenchmark && !g_SASH.IsRunning())
@@ -439,7 +411,7 @@ HWND WINAPI ShowSplash(HINSTANCE hInstance, int nCmdShow)
     HDC hDC = CreateCompatibleDC(hdcScreen);
 
     HBITMAP hBmp = CreateCompatibleBitmap(hdcScreen, splashWidth, splashHeight);
-    HBITMAP hBmpOld = (HBITMAP)SelectObject(hDC, hBmp);
+    HBITMAP hBmpOld = static_cast<HBITMAP>(SelectObject(hDC, hBmp));
 
     BLENDFUNCTION blend = { 0 };
     blend.SourceConstantAlpha = 255;
@@ -454,7 +426,7 @@ HWND WINAPI ShowSplash(HINSTANCE hInstance, int nCmdShow)
         {
             for (int j = 0; j < img.GetHeight(); j++)
             {
-                BYTE* ptr = (BYTE*)img.GetPixelAddress(i, j);
+                auto ptr = static_cast<BYTE*>(img.GetPixelAddress(i, j));
                 ptr[0] = ((ptr[0] * ptr[3]) + 127) / 255;
                 ptr[1] = ((ptr[1] * ptr[3]) + 127) / 255;
                 ptr[2] = ((ptr[2] * ptr[3]) + 127) / 255;
@@ -509,7 +481,7 @@ void SetSplashImage(HWND hwndSplash, HBITMAP hbmpSplash)
 
     HDC hdcScreen = GetDC(NULL);
     HDC hdcMem = CreateCompatibleDC(hdcScreen);
-    HBITMAP hbmpOld = (HBITMAP)SelectObject(hdcMem, hbmpSplash);
+    HBITMAP hbmpOld = static_cast<HBITMAP>(SelectObject(hdcMem, hbmpSplash));
 
     // use the source image's alpha channel for blending
 
@@ -549,73 +521,7 @@ static INT_PTR CALLBACK logDlgProc(HWND hw, UINT msg, WPARAM wp, LPARAM lp)
     }
     return TRUE;
 }
-/*
-void test_rtc ()
-{
-CStatTimer tMc,tM,tC,tD;
-u32 bytes=0;
-tMc.FrameStart ();
-tM.FrameStart ();
-tC.FrameStart ();
-tD.FrameStart ();
-::Random.seed (0x12071980);
-for (u32 test=0; test<10000; test++)
-{
-u32 in_size = ::Random.randI(1024,256*1024);
-u32 out_size_max = rtc_csize (in_size);
-u8* p_in = xr_alloc<u8> (in_size);
-u8* p_in_tst = xr_alloc<u8> (in_size);
-u8* p_out = xr_alloc<u8> (out_size_max);
-for (u32 git=0; git<in_size; git++) p_in[git] = (u8)::Random.randI (8); // garbage
-bytes += in_size;
 
-tMc.Begin ();
-memcpy (p_in_tst,p_in,in_size);
-tMc.End ();
-
-tM.Begin ();
-CopyMemory(p_in_tst,p_in,in_size);
-tM.End ();
-
-tC.Begin ();
-u32 out_size = rtc_compress (p_out,out_size_max,p_in,in_size);
-tC.End ();
-
-tD.Begin ();
-u32 in_size_tst = rtc_decompress(p_in_tst,in_size,p_out,out_size);
-tD.End ();
-
-// sanity check
-R_ASSERT (in_size == in_size_tst);
-for (u32 tit=0; tit<in_size; tit++) R_ASSERT(p_in[tit] == p_in_tst[tit]); // garbage
-
-xr_free (p_out);
-xr_free (p_in_tst);
-xr_free (p_in);
-}
-tMc.FrameEnd (); float rMc = 1000.f*(float(bytes)/tMc.result)/(1024.f*1024.f);
-tM.FrameEnd (); float rM = 1000.f*(float(bytes)/tM.result)/(1024.f*1024.f);
-tC.FrameEnd (); float rC = 1000.f*(float(bytes)/tC.result)/(1024.f*1024.f);
-tD.FrameEnd (); float rD = 1000.f*(float(bytes)/tD.result)/(1024.f*1024.f);
-Msg ("* memcpy: %5.2f M/s (%3.1f%%)",rMc,100.f*rMc/rMc);
-Msg ("* mm-memcpy: %5.2f M/s (%3.1f%%)",rM,100.f*rM/rMc);
-Msg ("* compression: %5.2f M/s (%3.1f%%)",rC,100.f*rC/rMc);
-Msg ("* decompression: %5.2f M/s (%3.1f%%)",rD,100.f*rD/rMc);
-}
-*/
-extern void testbed(void);
-
-// video
-/*
-static HINSTANCE g_hInstance ;
-static HINSTANCE g_hPrevInstance ;
-static int g_nCmdShow ;
-void __cdecl intro_dshow_x (void*)
-{
-IntroDSHOW_wnd (g_hInstance,g_hPrevInstance,"GameData\\Stalker_Intro.avi",g_nCmdShow);
-g_bIntroFinished = TRUE ;
-}
-*/
 #define dwStickyKeysStructSize sizeof( STICKYKEYS )
 #define dwFilterKeysStructSize sizeof( FILTERKEYS )
 #define dwToggleKeysStructSize sizeof( TOGGLEKEYS )
@@ -626,9 +532,9 @@ struct damn_keys_filter
 
     // Sticky & Filter & Toggle keys
 
-    STICKYKEYS StickyKeysStruct;
-    FILTERKEYS FilterKeysStruct;
-    TOGGLEKEYS ToggleKeysStruct;
+    STICKYKEYS StickyKeysStruct{};
+    FILTERKEYS FilterKeysStruct{};
+    TOGGLEKEYS ToggleKeysStruct{};
 
     DWORD dwStickyKeysFlags;
     DWORD dwFilterKeysFlags;
@@ -724,88 +630,7 @@ struct damn_keys_filter
 #undef dwFilterKeysStructSize
 #undef dwToggleKeysStructSize
 
-// Фунция для тупых требований THQ и тупых американских пользователей
-BOOL IsOutOfVirtualMemory()
-{
-#define VIRT_ERROR_SIZE 256
-#define VIRT_MESSAGE_SIZE 512
-
-    MEMORYSTATUSEX statex;
-    DWORD dwPageFileInMB = 0;
-    DWORD dwPhysMemInMB = 0;
-    HINSTANCE hApp = 0;
-    char pszError[VIRT_ERROR_SIZE];
-    char pszMessage[VIRT_MESSAGE_SIZE];
-
-    ZeroMemory(&statex, sizeof(MEMORYSTATUSEX));
-    statex.dwLength = sizeof(MEMORYSTATUSEX);
-
-    if (!GlobalMemoryStatusEx(&statex))
-        return 0;
-
-    dwPageFileInMB = (DWORD)(statex.ullTotalPageFile / (1024 * 1024));
-    dwPhysMemInMB = (DWORD)(statex.ullTotalPhys / (1024 * 1024));
-
-    // Довольно отфонарное условие
-    if ((dwPhysMemInMB > 500) && ((dwPageFileInMB + dwPhysMemInMB) > 2500))
-        return 0;
-
-    hApp = GetModuleHandle(NULL);
-
-    if (!LoadString(hApp, RC_VIRT_MEM_ERROR, pszError, VIRT_ERROR_SIZE))
-        return 0;
-
-    if (!LoadString(hApp, RC_VIRT_MEM_TEXT, pszMessage, VIRT_MESSAGE_SIZE))
-        return 0;
-
-    MessageBox(NULL, pszMessage, pszError, MB_OK | MB_ICONHAND);
-
-    return 1;
-}
-
 #include "xr_ioc_cmd.h"
-
-//typedef void DUMMY_STUFF (const void*,const u32&,void*);
-//XRCORE_API DUMMY_STUFF *g_temporary_stuff;
-
-//#define TRIVIAL_ENCRYPTOR_DECODER
-//#include "trivial_encryptor.h"
-
-//#define RUSSIAN_BUILD
-
-#if 0
-void foo()
-{
-    typedef std::map<int, int> TEST_MAP;
-    TEST_MAP temp;
-    temp.insert(std::make_pair(0, 0));
-    TEST_MAP::const_iterator I = temp.upper_bound(2);
-    if (I == temp.end())
-        OutputDebugString("end() returned\r\n");
-    else
-        OutputDebugString("last element returned\r\n");
-
-    typedef void* pvoid;
-
-    LPCSTR path = "d:\\network\\stalker_net2";
-    FILE* f = fopen(path, "rb");
-    int file_handle = _fileno(f);
-    u32 buffer_size = _filelength(file_handle);
-    pvoid buffer = xr_malloc(buffer_size);
-    size_t result = fread(buffer, buffer_size, 1, f);
-    R_ASSERT3(!buffer_size || (result && (buffer_size >= result)), "Cannot read from file", path);
-    fclose(f);
-
-    u32 compressed_buffer_size = rtc_csize(buffer_size);
-    pvoid compressed_buffer = xr_malloc(compressed_buffer_size);
-    u32 compressed_size = rtc_compress(compressed_buffer, compressed_buffer_size, buffer, buffer_size);
-
-    LPCSTR compressed_path = "d:\\network\\stalker_net2.rtc";
-    FILE* f1 = fopen(compressed_path, "wb");
-    fwrite(compressed_buffer, compressed_size, 1, f1);
-    fclose(f1);
-}
-#endif // 0
 
 ENGINE_API bool g_dedicated_server = false;
 
@@ -814,21 +639,15 @@ ENGINE_API bool g_dedicated_server = false;
 BOOL IsPCAccessAllowed();
 #endif // DEDICATED_SERVER
 
-int APIENTRY WinMain_impl(HINSTANCE hInstance,
-                          HINSTANCE hPrevInstance,
-                          char* lpCmdLine,
-                          int nCmdShow)
+int APIENTRY WinMain_impl(HINSTANCE hInstance, HINSTANCE, char* lpCmdLine, int nCmdShow)
 {
     Debug._initialize(false);
-    
-    // foo();
-#ifndef DEDICATED_SERVER
 
     // Check for another instance
 #ifdef NO_MULTI_INSTANCES
 #define STALKER_PRESENCE_MUTEX "Local\\STALKER-COP"
 
-    HANDLE hCheckPresenceMutex = INVALID_HANDLE_VALUE;
+    HANDLE hCheckPresenceMutex;
     hCheckPresenceMutex = OpenMutex(READ_CONTROL, FALSE, STALKER_PRESENCE_MUTEX);
     if (hCheckPresenceMutex == NULL)
     {
@@ -845,61 +664,12 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
         return 1;
     }
 #endif
-#else // DEDICATED_SERVER
-    g_dedicated_server = true;
-#endif // DEDICATED_SERVER
-
-    //if (strstr(Core.Params, "-cpu_test_fix"))
-        //SetThreadAffinityMask(GetCurrentThread(), 1);
-    //SetThreadAffinityMask(GetCurrentThread(), 1);
-
-    // Title window
-
-
-
-    //IStream* pStream = CreateStreamOnResource(MAKEINTRESOURCE(IDB_PNG1), _T("PNG"));
-
-    //WICBitmapSource* res = LoadBitmapFromStream(CreateStreamOnResource(MAKEINTRESOURCE(IDB_PNG1), _T("PNG")));
-
-    //HBITMAP img = LoadSplashImage();
-    //image.
 
     RegisterWindowClass(hInstance);
     //logoWindow = CreateSplashWindow(hInstance);
     logoWindow = ShowSplash(hInstance, nCmdShow);
 
     SendMessage(logoWindow, WM_DESTROY, 0, 0);
-
-    //SendMessageTimeout(logoWindow, WM_DESTROY,3)
-    //SetSplashImage(logoWindow, image);
-
-    //logoWindow = CreateDialog(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_STARTUP), 0, logDlgProc);
-
-
-    //HWND logoPicture = GetDlgItem(logoWindow, IDC_STATIC_LOGO);
-    //HWND logoPicture2 = GetDlgItem(logoWindow, IDD_STARTUP);
-    //RECT logoRect;
-    //GetWindowRect(logoPicture, &logoRect);
-
-    //SetWindowLong(logoWindow, GetWindowLong(logoWindow, GWL_EXSTYLE), GetWindowLong(logoWindow, GWL_EXSTYLE) | WS_EX_TRANSPARENT);
-    //SetWindowLong(logoPicture, GetWindowLong(logoPicture, GWL_EXSTYLE), GetWindowLong(logoPicture, GWL_EXSTYLE) | WS_EX_TRANSPARENT);
-
-    //SetLayeredWindowAttributes(logoPicture, 0, 0, LWA_ALPHA);
-
-    /*SetWindowPos(
-        logoWindow,
-#ifndef DEBUG
-        HWND_TOPMOST,
-#else
-        HWND_NOTOPMOST,
-#endif // NDEBUG
-        0,
-        0,
-        logoRect.right - logoRect.left,
-        logoRect.bottom - logoRect.top,
-        SWP_NOMOVE | SWP_SHOWWINDOW// | SWP_NOSIZE
-    );
-    UpdateWindow(logoWindow);*/
 
     // AVI
     g_bIntroFinished = TRUE;
@@ -920,7 +690,7 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
     // g_temporary_stuff = &trivial_encryptor::decode;
 
     compute_build_id();
-    Core._initialize("xray", NULL, TRUE, fsgame[0] ? fsgame : NULL);
+    Core._initialize("XRay", nullptr, TRUE, fsgame[0] ? fsgame : nullptr);
 
     InitSettings();
 
@@ -931,11 +701,9 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
         xr_strcpy(Core.CompName, sizeof(Core.CompName), "Computer");
     }
 
-#ifndef DEDICATED_SERVER
     {
         damn_keys_filter filter;
         (void)filter;
-#endif // DEDICATED_SERVER
 
         InitEngine();
 
@@ -943,7 +711,7 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
 
         InitConsole();
 
-        Engine.External.CreateRendererList();
+        Engine.CreatingRenderList(); 
 
         LPCSTR benchName = "-batch_benchmark ";
         if (strstr(lpCmdLine, benchName))
@@ -968,14 +736,6 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
             return 0;
         }
 
-        if (strstr(lpCmdLine, "-launcher"))
-        {
-            int l_res = doLauncher();
-            if (l_res != 0)
-                return 0;
-        };
-
-#ifndef DEDICATED_SERVER
         if (strstr(Core.Params, "-r2a"))
             Console->Execute("renderer renderer_r2a");
         else if (strstr(Core.Params, "-r2"))
@@ -986,18 +746,15 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
             pTmp->Execute(Console->ConfigFile);
             xr_delete(pTmp);
         }
-#else
-        Console->Execute("renderer renderer_r1");
-#endif
-        //. InitInput ( );
-        Engine.External.Initialize();
+
+        Engine.Initialize_dll();
         Console->Execute("stat_memory");
 
         Startup();
         Core._destroy();
 
         // check for need to execute something external
-        if (/*xr_strlen(g_sLaunchOnExit_params) && */xr_strlen(g_sLaunchOnExit_app))
+        if (xr_strlen(g_sLaunchOnExit_app))
         {
             //CreateProcess need to return results to next two structures
             STARTUPINFO si;
@@ -1011,14 +768,12 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
                           temp_wf, &si, &pi);
 
         }
-#ifndef DEDICATED_SERVER
 #ifdef NO_MULTI_INSTANCES
         // Delete application presence mutex
         CloseHandle(hCheckPresenceMutex);
 #endif
     }
     // here damn_keys_filter class instanse will be destroyed
-#endif // DEDICATED_SERVER
 
     return 0;
 }
@@ -1039,27 +794,8 @@ int stack_overflow_exception_filter(int exception_code)
 
 #include <boost/crc.hpp>
 
-int APIENTRY WinMain(HINSTANCE hInstance,
-                     HINSTANCE hPrevInstance,
-                     char* lpCmdLine,
-                     int nCmdShow)
+int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, char* lpCmdLine, int nCmdShow)
 {
-    //FILE* file = 0;
-    //fopen_s ( &file, "z:\\development\\call_of_prypiat\\resources\\gamedata\\shaders\\r3\\objects\\r4\\accum_sun_near_msaa_minmax.ps\\2048__1___________4_11141_", "rb" );
-    //u32 const file_size = 29544;
-    //char* buffer = (char*)malloc(file_size);
-    //fread ( buffer, file_size, 1, file );
-    //fclose ( file );
-
-    //u32 const& crc = *(u32*)buffer;
-
-    //boost::crc_32_type processor;
-    //processor.process_block ( buffer + 4, buffer + file_size );
-    //u32 const new_crc = processor.checksum( );
-    //VERIFY ( new_crc == crc );
-
-    //free (buffer);
-
     __try
     {
         WinMain_impl(hInstance, hPrevInstance, lpCmdLine, nCmdShow);
@@ -1070,28 +806,20 @@ int APIENTRY WinMain(HINSTANCE hInstance,
         FATAL("stack overflow");
     }
 
-    return (0);
+    return 0;
 }
 
 LPCSTR _GetFontTexName(LPCSTR section)
 {
-    static char* tex_names[] = {"texture800", "texture", "texture1600"};
+    static const char* tex_names[] = {"texture800", "texture", "texture1600"};
     int def_idx = 1;//default 1024x768
-    int idx = def_idx;
+    int idx;
 
-#if 0
-    u32 w = Device.dwWidth;
-
-    if (w <= 800) idx = 0;
-    else if (w <= 1280)idx = 1;
-    else idx = 2;
-#else
     u32 h = Device.dwHeight;
 
     if (h <= 600) idx = 0;
     else if (h < 1024) idx = 1;
     else idx = 2;
-#endif
 
     while (idx >= 0)
     {
@@ -1102,7 +830,7 @@ LPCSTR _GetFontTexName(LPCSTR section)
     return pSettings->r_string(section, tex_names[def_idx]);
 }
 
-void _InitializeFont(CGameFont*& F, LPCSTR section, u32 flags)
+void InitializeFont(CGameFont*& F, LPCSTR section, u32 flags)
 {
     LPCSTR font_tex_name = _GetFontTexName(section);
     R_ASSERT(font_tex_name);
@@ -1141,11 +869,11 @@ CApplication::CApplication()
     eStartMPDemo = Engine.Event.Handler_Attach("KERNEL:start_mp_demo", this);
 
     // levels
-    Level_Current = u32(-1);
+    Level_Current = static_cast<u32>(-1);
     Level_Scan();
 
     // Font
-    pFontSystem = NULL;
+    pFontSystem = nullptr;
 
     // Register us
     Device.seqFrame.Add(this, REG_PRIORITY_HIGH + 1000);
@@ -1156,7 +884,6 @@ CApplication::CApplication()
     Console->Show();
 
     // App Title
-    // app_title[ 0 ] = '\0';
     ls_header[0] = '\0';
     ls_tip_number[0] = '\0';
     ls_tip[0] = '\0';
@@ -1184,8 +911,6 @@ CApplication::~CApplication()
 
 }
 
-extern CRenderDevice Device;
-
 void CApplication::OnEvent(EVENT E, u64 P1, u64 P2)
 {
     if (E == eQuit)
@@ -1202,26 +927,12 @@ void CApplication::OnEvent(EVENT E, u64 P1, u64 P2)
     }
     else if (E == eStart)
     {
-        LPSTR op_server = LPSTR(P1);
-        LPSTR op_client = LPSTR(P2);
-        Level_Current = u32(-1);
-        R_ASSERT(0 == g_pGameLevel);
-        R_ASSERT(0 != g_pGamePersistent);
+        auto op_server = reinterpret_cast<LPSTR>(P1);
+        auto op_client = reinterpret_cast<LPSTR>(P2);
+        Level_Current = static_cast<u32>(-1);
+        R_ASSERT(nullptr == g_pGameLevel);
+        R_ASSERT(nullptr != g_pGamePersistent);
 
-#ifdef NO_SINGLE
-        Console->Execute("main_menu on");
-        if ((op_server == NULL) ||
-                (!xr_strlen(op_server)) ||
-                (
-                    (strstr(op_server, "/dm") || strstr(op_server, "/deathmatch") ||
-                     strstr(op_server, "/tdm") || strstr(op_server, "/teamdeathmatch") ||
-                     strstr(op_server, "/ah") || strstr(op_server, "/artefacthunt") ||
-                     strstr(op_server, "/cta") || strstr(op_server, "/capturetheartefact")
-                    ) &&
-                    !strstr(op_server, "/alife")
-                )
-           )
-#endif // #ifdef NO_SINGLE
         {
             Console->Execute("main_menu off");
             Console->Hide();
@@ -1231,7 +942,7 @@ void CApplication::OnEvent(EVENT E, u64 P1, u64 P2)
             //-----------------------------------------------------------
             g_pGamePersistent->PreStart(op_server);
             //-----------------------------------------------------------
-            g_pGameLevel = (IGame_Level*)NEW_INSTANCE(CLSID_GAME_LEVEL);
+            g_pGameLevel = static_cast<IGame_Level*>(NEW_INSTANCE(CLSID_GAME_LEVEL));
             pApp->LoadBegin();
             g_pGamePersistent->Start(op_server);
             g_pGameLevel->net_Start(op_server, op_client);
@@ -1250,8 +961,7 @@ void CApplication::OnEvent(EVENT E, u64 P1, u64 P2)
         {
             Console->Hide();
             g_pGameLevel->net_Stop();
-            DEL_INSTANCE(g_pGameLevel);
-            Console->Show();
+            DEL_INSTANCE(g_pGameLevel)
 
             if ((FALSE == Engine.Event.Peek("KERNEL:quit")) && (FALSE == Engine.Event.Peek("KERNEL:start")))
             {
@@ -1264,13 +974,13 @@ void CApplication::OnEvent(EVENT E, u64 P1, u64 P2)
     }
     else if (E == eConsole)
     {
-        LPSTR command = (LPSTR)P1;
+        auto command = reinterpret_cast<LPSTR>(P1);
         Console->ExecuteCommand(command, false);
         xr_free(command);
     }
     else if (E == eStartMPDemo)
     {
-        LPSTR demo_file = LPSTR(P1);
+        auto demo_file = reinterpret_cast<LPSTR>(P1);
 
         R_ASSERT(0 == g_pGameLevel);
         R_ASSERT(0 != g_pGamePersistent);
@@ -1279,7 +989,7 @@ void CApplication::OnEvent(EVENT E, u64 P1, u64 P2)
         Console->Hide();
         Device.Reset(false);
 
-        g_pGameLevel = (IGame_Level*)NEW_INSTANCE(CLSID_GAME_LEVEL);
+        g_pGameLevel = static_cast<IGame_Level*>(NEW_INSTANCE(CLSID_GAME_LEVEL));
         shared_str server_options = g_pGameLevel->OpenDemoFile(demo_file);
 
         //-----------------------------------------------------------
@@ -1296,25 +1006,21 @@ void CApplication::OnEvent(EVENT E, u64 P1, u64 P2)
 }
 
 static CTimer phase_timer;
-extern ENGINE_API BOOL g_appLoaded = FALSE;
+ENGINE_API BOOL g_appLoaded = FALSE;
 
 void CApplication::LoadBegin()
 {
     ll_dwReference++;
     if (1 == ll_dwReference)
     {
-
         g_appLoaded = FALSE;
 
-#ifndef DEDICATED_SERVER
-        _InitializeFont(pFontSystem, "ui_font_letterica18_russian", 0);
+        InitializeFont(pFontSystem, "ui_font_letterica18_russian", 0);
 
         m_pRender->LoadBegin();
-#endif
+
         phase_timer.Start();
         load_stage = 0;
-
-        CheckCopyProtection();
     }
 }
 
@@ -1334,16 +1040,11 @@ void CApplication::LoadEnd()
 void CApplication::destroy_loading_shaders()
 {
     m_pRender->destroy_loading_shaders();
-    //hLevelLogo.destroy ();
-    //sh_progress.destroy ();
-    //. ::Sound->mute (false);
 }
-
-//u32 calc_progress_color(u32, u32, int, int);
 
 #include "Render.h"
 
-PROTECT_API void CApplication::LoadDraw()
+void CApplication::LoadDraw()
 {
     if (g_appLoaded) return;
 
@@ -1362,7 +1063,6 @@ PROTECT_API void CApplication::LoadDraw()
         load_draw_internal();
 
     Device.End();
-    CheckCopyProtection();
 }
 
 void CApplication::LoadTitleInt(LPCSTR str1, LPCSTR str2, LPCSTR str3)
@@ -1415,7 +1115,7 @@ void CApplication::Level_Append(LPCSTR folder)
         FS.exist("$game_levels$", N4)
     )
     {
-        sLevelInfo LI;
+        sLevelInfo LI{};
         LI.folder = xr_strdup(folder);
         LI.name = 0;
         Levels.push_back(LI);
@@ -1424,10 +1124,10 @@ void CApplication::Level_Append(LPCSTR folder)
 
 void CApplication::Level_Scan()
 {
-    for (u32 i = 0; i < Levels.size(); i++)
+    for (auto& Level : Levels)
     {
-        xr_free(Levels[i].folder);
-        xr_free(Levels[i].name);
+        xr_free(Level.folder);
+        xr_free(Level.name);
     }
     Levels.clear();
 
@@ -1487,8 +1187,6 @@ void CApplication::Level_Set(u32 L)
 
     if (path[0])
         m_pRender->setLevelLogo(path);
-
-    CheckCopyProtection();
 }
 
 int CApplication::Level_ID(LPCSTR name, LPCSTR ver, bool bSet)
@@ -1523,7 +1221,7 @@ int CApplication::Level_ID(LPCSTR name, LPCSTR ver, bool bSet)
     {
         if (0 == stricmp(buffer, Levels[I].folder))
         {
-            result = int(I);
+            result = static_cast<int>(I);
             break;
         }
     }
@@ -1539,8 +1237,8 @@ int CApplication::Level_ID(LPCSTR name, LPCSTR ver, bool bSet)
 
 CInifile* CApplication::GetArchiveHeader(LPCSTR name, LPCSTR ver)
 {
-    CLocatorAPI::archives_it it = FS.m_archives.begin();
-    CLocatorAPI::archives_it it_e = FS.m_archives.end();
+	auto it = FS.m_archives.begin();
+	auto it_e = FS.m_archives.end();
 
     for (; it != it_e; ++it)
     {
@@ -1553,7 +1251,7 @@ CInifile* CApplication::GetArchiveHeader(LPCSTR name, LPCSTR ver)
             return A.header;
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 void CApplication::LoadAllArchives()
@@ -1690,7 +1388,7 @@ void doBenchmark(LPCSTR name)
 
         test_command = ini.r_string_wb("benchmark", test_name);
         u32 cmdSize = test_command.size() + 1;
-        Core.Params = (char*)xr_realloc(Core.Params, cmdSize);
+        Core.Params = static_cast<char*>(xr_realloc(Core.Params, cmdSize));
         xr_strcpy(Core.Params, cmdSize, test_command.c_str());
         xr_strlwr(Core.Params);
 
@@ -1704,7 +1402,7 @@ void doBenchmark(LPCSTR name)
         }
 
 
-        Engine.External.Initialize();
+        Engine.Initialize_dll();
 
         xr_strcpy(Console->ConfigFile, "user.ltx");
         if (strstr(Core.Params, "-ltx "))
@@ -1717,7 +1415,7 @@ void doBenchmark(LPCSTR name)
         Startup();
     }
 }
-#pragma optimize("g", off)
+#pragma optimize("", off)
 void CApplication::load_draw_internal()
 {
     m_pRender->load_draw_internal(*this);

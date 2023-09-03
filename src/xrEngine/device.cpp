@@ -16,15 +16,6 @@
 #include "x_ray.h"
 #include "render.h"
 
-// must be defined before include of FS_impl.h
-#define INCLUDE_FROM_ENGINE
-#include "../xrCore/FS_impl.h"
-
-#ifdef INGAME_EDITOR
-# include "../include/editor/ide.hpp"
-# include "engine_impl.hpp"
-#endif // #ifdef INGAME_EDITOR
-
 #include "xrSash.h"
 #include "igame_persistent.h"
 
@@ -42,25 +33,6 @@ ref_light precache_light = 0;
 BOOL CRenderDevice::Begin()
 {
 #ifndef DEDICATED_SERVER
-
-    /*
-    HW.Validate ();
-    HRESULT _hr = HW.pDevice->TestCooperativeLevel();
-    if (FAILED(_hr))
-    {
-    // If the device was lost, do not render until we get it back
-    if (D3DERR_DEVICELOST==_hr) {
-    Sleep (33);
-    return FALSE;
-    }
-
-    // Check if the device is ready to be reset
-    if (D3DERR_DEVICENOTRESET==_hr)
-    {
-    Reset ();
-    }
-    }
-    */
 
     switch (m_pRender->GetDeviceState())
     {
@@ -105,14 +77,8 @@ void CRenderDevice::Clear()
 extern void CheckPrivilegySlowdown();
 
 
-void CRenderDevice::End(void)
+void CRenderDevice::End()
 {
-#ifndef DEDICATED_SERVER
-
-
-#ifdef INGAME_EDITOR
-    bool load_finished = false;
-#endif // #ifdef INGAME_EDITOR
     if (dwPrecacheFrame)
     {
         ::Sound->set_master_volume(0.f);
@@ -124,10 +90,6 @@ void CRenderDevice::End(void)
 
         if (0 == dwPrecacheFrame)
         {
-
-#ifdef INGAME_EDITOR
-            load_finished = true;
-#endif // #ifdef INGAME_EDITOR
             //Gamma.Update ();
             m_pRender->updateGamma();
 
@@ -163,18 +125,6 @@ void CRenderDevice::End(void)
     if (g_SASH.IsBenchmarkRunning())
         g_SASH.DisplayFrame(Device.fTimeGlobal);
     m_pRender->End();
-    //RCache.OnFrameEnd ();
-    //Memory.dbg_check ();
-    //CHK_DX (HW.pDevice->EndScene());
-
-    //HRESULT _hr = HW.pDevice->Present( NULL, NULL, NULL, NULL );
-    //if (D3DERR_DEVICELOST==_hr) return; // we will handle this later
-    //R_ASSERT2 (SUCCEEDED(_hr), "Presentation failed. Driver upgrade needed?");
-# ifdef INGAME_EDITOR
-    if (load_finished && m_editor)
-        m_editor->on_load_finished();
-# endif // #ifdef INGAME_EDITOR
-#endif
 }
 
 
@@ -618,19 +568,7 @@ void CRenderDevice::OnWM_Activate(WPARAM wParam, LPARAM lParam)
         {
             Device.seqAppActivate.Process(rp_AppActivate);
             app_inactive_time += TimerMM.GetElapsed_ms() - app_inactive_time_start;
-
-#ifndef DEDICATED_SERVER
-# ifdef INGAME_EDITOR
-            if (!editor())
-# endif // #ifdef INGAME_EDITOR
-                ShowCursor(FALSE);
-				/*if (m_hWnd)
-				{
-					RECT winRect;
-					GetWindowRect(m_hWnd, &winRect);
-					ClipCursor(&winRect);
-				}*/
-#endif // #ifndef DEDICATED_SERVER
+        	ShowCursor(FALSE);
         }
         else
         {

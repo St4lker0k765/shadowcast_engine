@@ -30,8 +30,8 @@ public:
     }
 
     BOOL enabled() { return enabled_; }
-    void enable() { if (!enabled_) { Engine.External.tune_resume(); enabled_ = TRUE; } }
-    void disable() { if (enabled_) { Engine.External.tune_pause(); enabled_ = FALSE; } }
+    void enable() { if (!enabled_) { enabled_ = TRUE; } }
+    void disable() { if (enabled_) { enabled_ = FALSE; } }
     void update(float value)
     {
         if (value < average_*0.7f)

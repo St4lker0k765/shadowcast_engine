@@ -53,12 +53,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "Underground Collective"
             VALUE "FileDescription", "Shadow Engine"
-            VALUE "FileVersion", "1.0.0.0"
+            VALUE "FileVersion", "1.0.0.3"
             VALUE "InternalName", "xrEngine"
             VALUE "LegalCopyright", "Underground Collective, 2023"
             VALUE "OriginalFilename", "xrEngine.exe"
             VALUE "ProductName", "S.T.A.L.K.E.R.: The Shadow Way"
-            VALUE "ProductVersion", "1.0.0.0"
+            VALUE "ProductVersion", "1.0.0.3"
         END
     END
     BLOCK "VarFileInfo"
@@ -73,7 +73,7 @@ END
 // PNG
 //
 
-IDB_PNG1                PNG                     "stcop engine splash.png"
+IDB_PNG1                PNG                     "shadow_engine_logo.png"
 
 #endif    // Russian (Russia) resources
 /////////////////////////////////////////////////////////////////////////////

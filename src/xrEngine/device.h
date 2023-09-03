@@ -30,10 +30,6 @@ enum ViewPort;
 #include "../Include/xrRender/RenderDeviceRender.h"
 #include "xrCore/Threading/Event.hpp"
 
-#ifdef INGAME_EDITOR
-# include "../Include/editor/interfaces.hpp"
-#endif // #ifdef INGAME_EDITOR
-
 class engine_impl;
 
 #pragma pack(push,8)
@@ -232,13 +228,6 @@ public:
     CRenderDevice()
         :
         m_pRender(0)
-#ifdef INGAME_EDITOR
-        , m_editor_module(0),
-        m_editor_initialize(0),
-        m_editor_finalize(0),
-        m_editor(0),
-        m_engine(0)
-#endif // #ifdef INGAME_EDITOR
 #ifdef PROFILE_CRITICAL_SECTIONS
         ,mt_csEnter(MUTEX_PROFILE_ID(CRenderDevice::mt_csEnter))
         ,mt_csLeave(MUTEX_PROFILE_ID(CRenderDevice::mt_csLeave))
@@ -335,25 +324,6 @@ private:
     virtual void _BCL AddSeqFrame(pureFrame* f, bool mt);
     virtual void _BCL RemoveSeqFrame(pureFrame* f);
     virtual CStatsPhysics* _BCL StatPhysics() { return Statistic; }
-#ifdef INGAME_EDITOR
-public:
-    IC editor::ide* editor() const { return m_editor; }
-
-private:
-    void initialize_editor();
-    void message_loop_editor();
-
-private:
-    typedef editor::initialize_function_ptr initialize_function_ptr;
-    typedef editor::finalize_function_ptr finalize_function_ptr;
-
-private:
-    HMODULE m_editor_module;
-    initialize_function_ptr m_editor_initialize;
-    finalize_function_ptr m_editor_finalize;
-    editor::ide* m_editor;
-    engine_impl* m_engine;
-#endif // #ifdef INGAME_EDITOR
 };
 
 extern ENGINE_API CRenderDevice Device;
