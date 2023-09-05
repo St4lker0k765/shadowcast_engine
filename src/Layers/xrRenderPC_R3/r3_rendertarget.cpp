@@ -398,12 +398,12 @@ CRenderTarget::CRenderTarget		()
 		// generic(LDR) RTs
 		rt_Generic_0.create		(r2_RT_generic0, vp_params_main_secondary,D3DFMT_A8R8G8B8, 1		);
 		rt_Generic_1.create		(r2_RT_generic1, vp_params_main_secondary,D3DFMT_A8R8G8B8, 1		);
+	    rt_Generic.create	 (r2_RT_generic, vp_params_main_secondary,   D3DFMT_A8R8G8B8, 1		);
 		rt_secondVP.create		(r2_RT_secondVP, RtCreationParams(Device.m_SecondViewport.screenWidth, Device.m_SecondViewport.screenHeight, MAIN_VIEWPORT),D3DFMT_A8R8G8B8, 1		); //--#SM+#-- +SecondVP+
 		if( RImplementation.o.dx10_msaa )
 		{
 			rt_Generic_0_r.create(r2_RT_generic0_r, vp_params_main_secondary,D3DFMT_A8R8G8B8, SampleCount	);
 			rt_Generic_1_r.create(r2_RT_generic1_r, vp_params_main_secondary,D3DFMT_A8R8G8B8, SampleCount		);
-			rt_Generic.create	 (r2_RT_generic, vp_params_main_secondary,   D3DFMT_A8R8G8B8, 1		);
 		}
 		//	Igor: for volumetric lights
 		//rt_Generic_2.create			(r2_RT_generic2,w,h,D3DFMT_A8R8G8B8		);
