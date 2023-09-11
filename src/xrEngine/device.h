@@ -159,6 +159,7 @@ private:
     //CTimer_paused Timer;
     //CTimer_paused TimerGlobal;
     CTimer TimerMM;
+    CTimer FreezeTimer;
 
     void _Create(LPCSTR shName);
     void _Destroy(BOOL bKeepTextures);
@@ -251,6 +252,7 @@ public:
 
 private:
         static void SecondaryThreadProc(void* context);
+	    static void FreezeThread(void*);
 public:
     // Scene control
     void PreCache(u32 amount, bool b_draw_loadscreen, bool b_wait_user_input);

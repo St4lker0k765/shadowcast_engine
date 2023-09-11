@@ -393,6 +393,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <UndefinePreprocessorDefinitions>USE_LUAJIT_ONE</UndefinePreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
+      <ConformanceMode>Default</ConformanceMode>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -618,6 +619,7 @@
       <WarningLevel>Level4</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>

@@ -6039,9 +6039,6 @@
     <ClInclude Include="..\xrServerEntities\DrawUtils.h">
       <Filter>Core\Server\Editor</Filter>
     </ClInclude>
-    <ClInclude Include="..\xrServerEntities\FastDelegate.h">
-      <Filter>Core\Server\Editor</Filter>
-    </ClInclude>
     <ClInclude Include="..\xrServerEntities\ItemListTypes.h">
       <Filter>Core\Server\Editor</Filter>
     </ClInclude>

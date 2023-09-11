@@ -18,6 +18,7 @@
 
 #include "xrSash.h"
 #include "igame_persistent.h"
+#include "xr_ioconsole.h"
 
 ENGINE_API CRenderDevice Device;
 ENGINE_API CLoadScreenRenderer load_screen_renderer;
@@ -140,11 +141,30 @@ void CRenderDevice::SecondaryThreadProc(void* context)
             device.syncThreadExit.Set();
             return;
         }
-        for (u32 pit = 0; pit < device.seqParallel.size(); pit++)
-            device.seqParallel[pit]();
+        for (auto& pit : device.seqParallel)
+	        pit();
         device.seqParallel.clear();
         device.seqFrameMT.Process(rp_Frame);
         device.syncFrameDone.Set();
+    }
+}
+
+void CRenderDevice::FreezeThread(void*) {
+    float freezetime;
+    float repeatcheck;
+    while (true) 
+    {
+        if (g_loading_events.size())
+            freezetime = 15000.0f;
+        else
+            freezetime = 5000.0f;
+        repeatcheck = 500.f;
+        if (Device.FreezeTimer.GetElapsed_sec() * 1000.f > freezetime) {
+            Msg("# [Freeze thread]: The engine is frozen, saving the log...");
+            Console->Execute("flush");
+            repeatcheck = 5000.f;
+        }
+        Sleep(static_cast<DWORD>(repeatcheck));
     }
 }
 
@@ -192,7 +212,9 @@ bool CRenderDevice::bMainMenuActive()
 
 void CRenderDevice::on_idle()
 {
-    if (!b_is_Ready)
+    Device.FreezeTimer.Start();
+
+	if (!b_is_Ready)
     {
         Sleep(100);
         return;
@@ -392,6 +414,7 @@ void CRenderDevice::Run()
     // Start all threads
     mt_bMustExit = FALSE;
     thread_spawn(SecondaryThreadProc, "X-RAY Secondary thread", 0, this);
+    thread_spawn(FreezeThread, "Freeze XRay Thread", 0, 0);
 
     // Message cycle
     seqAppStart.Process(rp_AppStart);

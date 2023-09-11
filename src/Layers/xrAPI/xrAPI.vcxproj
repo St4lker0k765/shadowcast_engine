@@ -205,6 +205,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -328,6 +329,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <MinimalRebuild>false</MinimalRebuild>
+      <ConformanceMode>Default</ConformanceMode>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

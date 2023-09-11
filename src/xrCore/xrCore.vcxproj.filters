@@ -129,9 +129,6 @@
     <ClCompile Include="FileSystem.cpp">
       <Filter>FS</Filter>
     </ClCompile>
-    <ClCompile Include="FileSystem_borland.cpp">
-      <Filter>FS</Filter>
-    </ClCompile>
     <ClCompile Include="FS.cpp">
       <Filter>FS</Filter>
     </ClCompile>

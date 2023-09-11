@@ -232,6 +232,7 @@
       <WarningLevel>Level4</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -400,6 +401,7 @@
       <MinimalRebuild>false</MinimalRebuild>
       <LanguageStandard_C>Default</LanguageStandard_C>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <ConformanceMode>Default</ConformanceMode>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -756,7 +758,6 @@
     <ClCompile Include="crc32.cpp" />
     <ClCompile Include="dump_string.cpp" />
     <ClCompile Include="FileSystem.cpp" />
-    <ClCompile Include="FileSystem_borland.cpp" />
     <ClCompile Include="file_stream_reader.cpp" />
     <ClCompile Include="FS.cpp" />
     <ClCompile Include="FTimer.cpp" />
