@@ -33,8 +33,6 @@ ref_light precache_light = 0;
 
 BOOL CRenderDevice::Begin()
 {
-#ifndef DEDICATED_SERVER
-
     switch (m_pRender->GetDeviceState())
     {
     case IRenderDeviceRender::dsOK:
@@ -57,16 +55,8 @@ BOOL CRenderDevice::Begin()
 
     m_pRender->Begin();
 
-    /*
-    CHK_DX (HW.pDevice->BeginScene());
-    RCache.OnFrameBegin ();
-    RCache.set_CullMode (CULL_CW);
-    RCache.set_CullMode (CULL_CCW);
-    if (HW.Caps.SceneMode) overdrawBegin ();
-    */
-
     g_bRendering = TRUE;
-#endif
+
     return TRUE;
 }
 
@@ -149,32 +139,37 @@ void CRenderDevice::SecondaryThreadProc(void* context)
     }
 }
 
+xrCriticalSection FreezeThreadSection_;
 void CRenderDevice::FreezeThread(void*) {
     float freezetime;
-    float repeatcheck;
+    u16 repeatcheck = 500;
+    Device.FreezeTimer.Start();
+
     while (true) 
     {
-        if (g_loading_events.size())
-            freezetime = 15000.0f;
+        if (!g_loading_events.empty())
+            freezetime = 7000.0f;
         else
             freezetime = 5000.0f;
-        repeatcheck = 500.f;
-        if (Device.FreezeTimer.GetElapsed_sec() * 1000.f > freezetime) {
+
+        FreezeThreadSection_.Enter();
+        float timer_elapsed_freeze = Device.FreezeTimer.GetElapsed_sec() * 1000.f;
+        Device.FreezeTimer.Start();
+        FreezeThreadSection_.Leave();
+
+        if (timer_elapsed_freeze > freezetime) {
             Msg("# [Freeze thread]: The engine is frozen, saving the log...");
-            Console->Execute("flush");
-            repeatcheck = 5000.f;
+            FlushLog();
         }
-        Sleep(static_cast<DWORD>(repeatcheck));
+        Sleep(repeatcheck);
     }
 }
 
 #include "igame_level.h"
 void CRenderDevice::PreCache(u32 amount, bool b_draw_loadscreen, bool b_wait_user_input)
 {
-    if (m_pRender->GetForceGPU_REF()) amount = 0;
-#ifdef DEDICATED_SERVER
-    amount = 0;
-#endif
+    if (m_pRender->GetForceGPU_REF()) 
+        amount = 0;
     // Msg ("* PCACHE: start for %d...",amount);
     dwPrecacheFrame = dwPrecacheTotal = amount;
     if (amount && !precache_light && g_pGameLevel && g_loading_events.empty())
@@ -198,9 +193,6 @@ int g_svDedicateServerUpdateReate = 100;
 
 ENGINE_API xr_list<LOADING_EVENT> g_loading_events;
 
-#include "render.h"
-#include "IGame_Level.h"
-
 //#define MOVE_CURRENT_FRAME_COUNTR // This is to determine, if the second vp bugs are happening because there were no frame step
 
 bool CRenderDevice::bMainMenuActive()
@@ -212,7 +204,9 @@ bool CRenderDevice::bMainMenuActive()
 
 void CRenderDevice::on_idle()
 {
+    FreezeThreadSection_.Enter();
     Device.FreezeTimer.Start();
+    FreezeThreadSection_.Leave();
 
 	if (!b_is_Ready)
     {
@@ -355,9 +349,7 @@ void CRenderDevice::on_idle()
 
     float fps_to_rate = fps_limit == 900? 0 : 1000.f / fps_limit;
 
-    u32 updateDelta = 1; // 1 ms
-
-    IMainMenu* pMainMenu = g_pGamePersistent ? g_pGamePersistent->m_pMainMenu : 0;
+    u32 updateDelta;
 
     if (Device.Paused() || bMainMenuActive())
         updateDelta = 16; // 16 ms, ~60 FPS max while paused
@@ -509,13 +501,6 @@ void CRenderDevice::Pause(BOOL bOn, BOOL bTimer, BOOL bSound, LPCSTR reason)
 
     if (g_bBenchmark) return;
 
-
-#ifdef DEBUG
-    // Msg("pause [%s] timer=[%s] sound=[%s] reason=%s",bOn?"ON":"OFF", bTimer?"ON":"OFF", bSound?"ON":"OFF", reason);
-#endif // DEBUG
-
-#ifndef DEDICATED_SERVER
-
     if (bOn)
     {
         if (!Paused())
@@ -534,17 +519,14 @@ void CRenderDevice::Pause(BOOL bOn, BOOL bTimer, BOOL bSound, LPCSTR reason)
 #endif // DEBUG
         }
 
-        if (bSound && ::Sound)
+        if (bSound && Sound)
         {
             snd_emitters_ = ::Sound->pause_emitters(true);
-#ifdef DEBUG
-            // Log("snd_emitters_[true]",snd_emitters_);
-#endif // DEBUG
         }
     }
     else
     {
-        if (bTimer && /*g_pGamePersistent->CanBePaused() &&*/ g_pauseMngr.Paused())
+        if (bTimer && g_pauseMngr.Paused())
         {
             fTimeDelta = EPS_S + EPS_S;
             g_pauseMngr.Pause(FALSE);
@@ -555,9 +537,6 @@ void CRenderDevice::Pause(BOOL bOn, BOOL bTimer, BOOL bSound, LPCSTR reason)
             if (snd_emitters_ > 0) //avoid crash
             {
                 snd_emitters_ = ::Sound->pause_emitters(false);
-#ifdef DEBUG
-                // Log("snd_emitters_[false]",snd_emitters_);
-#endif // DEBUG
             }
             else
             {
@@ -567,9 +546,6 @@ void CRenderDevice::Pause(BOOL bOn, BOOL bTimer, BOOL bSound, LPCSTR reason)
             }
         }
     }
-
-#endif
-
 }
 
 BOOL CRenderDevice::Paused()

@@ -198,26 +198,11 @@ SVS*	CResourceManager::_CreateVS		(LPCSTR _name)
 
 //		HRESULT	const _hr		= ::Render->shader_compile(name,(DWORD const*)data,size, c_entry, c_target, D3D10_SHADER_PACK_MATRIX_ROW_MAJOR, (void*&)_vs );
 
-		std::thread thread_vs([name, data, size, c_entry, c_target, _vs]()
-			{
-				HRESULT const _hr = Render->shader_compile(name, (DWORD const*)data, size, c_entry, c_target, D3D10_SHADER_PACK_MATRIX_ROW_MAJOR, (void*&)_vs);
+		HRESULT const _hr = Render->shader_compile(name, (DWORD const*)data, size, c_entry, c_target, D3D10_SHADER_PACK_MATRIX_ROW_MAJOR, (void*&)_vs);
 
-				VERIFY(SUCCEEDED(_hr));
-
-				CHECK_OR_EXIT(!FAILED(_hr), make_string("Your video card doesn't meet game requirements.\n\nTry to lower game settings."));
-			}
-		);
-
-		thread_vs.join();
-
-/*
 		VERIFY(SUCCEEDED(_hr));
 
-		CHECK_OR_EXIT			(
-			!FAILED(_hr),
-			make_string("Your video card doesn't meet game requirements.\n\nTry to lower game settings.")
-		);
-*/
+		CHECK_OR_EXIT(!FAILED(_hr), make_string("Your video card doesn't meet game requirements.\n\nTry to lower game settings."));
 
 		return					_vs;
 	}
@@ -328,28 +313,11 @@ SPS*	CResourceManager::_CreatePS			(LPCSTR _name)
 		if (strstr(data, "main_ps_5_0"))          { c_target = "ps_5_0"; c_entry = "main_ps_5_0"; }
 #endif
 
-		//HRESULT	const _hr		= ::Render->shader_compile(name,reinterpret_cast<DWORD const*>(data),size, c_entry, c_target, D3D10_SHADER_PACK_MATRIX_ROW_MAJOR, (void*&)_ps );
+		HRESULT const _hr = Render->shader_compile(name, reinterpret_cast<DWORD const*>(data), size, c_entry, c_target, D3D10_SHADER_PACK_MATRIX_ROW_MAJOR, (void*&)_ps);
 
-		std::thread thread_ps([name, data, size, c_entry, c_target, _ps]()
-			{
-				HRESULT const _hr = Render->shader_compile(name, reinterpret_cast<DWORD const*>(data), size, c_entry, c_target, D3D10_SHADER_PACK_MATRIX_ROW_MAJOR, (void*&)_ps);
-
-				VERIFY(SUCCEEDED(_hr));
-
-				CHECK_OR_EXIT(!FAILED(_hr), make_string("Your video card doesn't meet game requirements.\n\nTry to lower game settings."));
-			}
-		);
-
-		thread_ps.join();
-
-/*
 		VERIFY(SUCCEEDED(_hr));
 
-		CHECK_OR_EXIT		(
-			!FAILED(_hr),
-			make_string("Your video card doesn't meet game requirements.\n\nTry to lower game settings.")
-			);
-*/
+		CHECK_OR_EXIT(!FAILED(_hr), make_string("Your video card doesn't meet game requirements.\n\nTry to lower game settings."));
 
 		return			_ps;
 	}
