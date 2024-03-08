@@ -2114,6 +2114,7 @@
     <ClInclude Include="trajectories.h" />
     <ClInclude Include="UICursor.h" />
     <ClInclude Include="UIDialogHolder.h" />
+    <ClInclude Include="UIFontDefines.h" />
     <ClInclude Include="UIGameCustom.h" />
     <ClInclude Include="UIGameSP.h" />
     <ClInclude Include="UIStaticItem.h" />

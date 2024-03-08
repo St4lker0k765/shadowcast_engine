@@ -72,7 +72,6 @@ CStats::~CStats()
 void _draw_cam_pos(CGameFont* pFont)
 {
     float sz = pFont->GetHeight();
-    pFont->SetHeightI(0.02f);
     pFont->SetColor(0xffffffff);
     pFont->Out(10, 600, "CAMERA POSITION:  [%3.2f,%3.2f,%3.2f]", VPUSH(Device.vCameraPosition));
     pFont->SetHeight(sz);
@@ -167,12 +166,10 @@ void CStats::Show()
 
     CGameFont& F = *pFont;
     float  f_base_size = 0.01f;
-    F.SetHeightI(f_base_size);
 
     if (vtune.enabled())
     {
         float sz = pFont->GetHeight();
-        pFont->SetHeightI(0.02f);
         pFont->SetColor(0xFFFF0000);
         pFont->OutSet(Device.dwWidth / 2.0f + (pFont->SizeOf_("--= tune =--") / 2.0f), Device.dwHeight / 2.0f);
         pFont->OutNext("--= tune =--");
@@ -306,19 +303,16 @@ void CStats::Show()
         */
         //////////////////////////////////////////////////////////////////////////
         // Renderer specific
-        F.SetHeightI(f_base_size);
         F.OutSet(200, 0);
         Render->Statistics(&F);
 
         //////////////////////////////////////////////////////////////////////////
         // Game specific
-        F.SetHeightI(f_base_size);
         F.OutSet(400, 0);
         g_pGamePersistent->Statistics(&F);
 
         //////////////////////////////////////////////////////////////////////////
         // process PURE STATS
-        F.SetHeightI(f_base_size);
         seqStats.Process(rp_Stats);
         pFont->OnRender();
     };
@@ -453,8 +447,8 @@ void CStats::OnDeviceCreate()
 {
     g_bDisableRedText = strstr(Core.Params, "-xclsx") ? TRUE : FALSE;
 
-    pFont = xr_new<CGameFont>("stat_font", CGameFont::fsDeviceIndependent);
-    fpsFont = xr_new<CGameFont>("hud_font_di2", CGameFont::fsDeviceIndependent);
+    pFont = g_FontManager->GetFont("stat_font", CGameFont::fsDeviceIndependent);
+    fpsFont = g_FontManager->GetFont("stat_font", CGameFont::fsDeviceIndependent);
 
     //
 #ifdef DEBUG

@@ -19,9 +19,9 @@
 
 #include "inventory_item.h"
 #include "inventory.h"
+#include "UIFontDefines.h"
 
 #include <ai/monsters/poltergeist/poltergeist.h>
-
 
 u32 C_ON_ENEMY		D3DCOLOR_RGBA(0xff,0,0,0x80);
 u32 C_ON_NEUTRAL	D3DCOLOR_RGBA(0xff,0xff,0x80,0x80);
@@ -185,7 +185,7 @@ void CHUDTarget::Render()
 	pt.y = -pt.y;
 	float				di_size = C_SIZE/powf(pt.w,.2f);
 
-	CGameFont* F		= UI().Font().pFontGraffiti19Russian;
+	CGameFont* F		= UI().Font().GetFont(GRAFFITI19_FONT_NAME);
 	F->SetAligment		(CGameFont::alCenter);
 	F->OutSetI			(0.f,0.05f);
 

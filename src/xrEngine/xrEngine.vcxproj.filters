@@ -420,6 +420,12 @@
     <ClInclude Include="Properties.h">
       <Filter>General</Filter>
     </ClInclude>
+    <ClInclude Include="FontAtlas.h">
+      <Filter>Render\Font output</Filter>
+    </ClInclude>
+    <ClInclude Include="FontManager.h">
+      <Filter>Render\Font output</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="defines.cpp">
@@ -669,6 +675,12 @@
       <Filter>OpenAutomate</Filter>
     </ClCompile>
     <ClCompile Include="..\..\sdk\include\OpenAutomate\src\OpenAutomate.c" />
+    <ClCompile Include="FontAtlas.cpp">
+      <Filter>Render\Font output</Filter>
+    </ClCompile>
+    <ClCompile Include="FontManager.cpp">
+      <Filter>Render\Font output</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc">

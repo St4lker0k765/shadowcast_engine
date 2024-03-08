@@ -71,6 +71,7 @@
 #include "ui/uiMotionIcon.h"
 #include "ui/UIActorMenu.h"
 #include "ActorHelmet.h"
+#include "UIFontDefines.h"
 #include "UI/UIDragDropReferenceList.h"
 #include "../xrCore/xr_detail_collision.h"
 
@@ -1567,7 +1568,7 @@ void CActor::RenderText				(LPCSTR Text, Fvector dpos, float* pdup, u32 color)
 	Device.mFullTransform.transform(v0r,v0);
 	Device.mFullTransform.transform(v1r,v1);
 	float size = v1r.distance_to(v0r);
-	CGameFont* pFont = UI().Font().pFontArial14;
+	CGameFont* pFont = UI().Font().GetFont(ARIAL14_FONT_NAME);
 	if (!pFont) return;
 //	float OldFontSize = pFont->GetHeight	();	
 	float delta_up = 0.0f;

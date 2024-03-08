@@ -465,7 +465,7 @@ void CLevel::OnFrame()
             if (IsServer())
             {
                 const IServerStatistic* S = Server->GetStatistic();
-                F->SetHeightI(0.015f);
+                F->SetHeight(0.015f);
                 F->OutSetI(0.0f, 0.5f);
                 F->SetColor(D3DCOLOR_XRGB(0, 255, 0));
                 F->OutNext("IN:  %4d/%4d (%2.1f%%)", S->bytes_in_real, S->bytes_in,
@@ -502,7 +502,7 @@ void CLevel::OnFrame()
             if (IsClient())
             {
                 IPureClient::UpdateStatistic();
-                F->SetHeightI(0.015f);
+                F->SetHeight(0.015f);
                 F->OutSetI(0.0f, 0.5f);
                 F->SetColor(D3DCOLOR_XRGB(0, 255, 0));
                 F->OutNext("client_2_sever ping: %d", net_Statistic.getPing());

@@ -689,6 +689,7 @@ $game_textures$ = true | true | $game_data$ | textures\\ \n\
 $game_config$ = true | false | $game_data$ | configs\\ \n\
 $game_weathers$ = true | false | $game_config$ | environment\\weathers \n\
 $game_weather_effects$ = true | false | $game_config$ | environment\\weather_effects \n\
+$game_fonts$           = true|  false|  $game_data$|      fonts\\ \n\
 $textures$ = true | true | $game_data$ | textures\\ \n\
 $level$ = false | false | $game_levels$ \n\
 $game_scripts$ = true | false | $game_data$ | scripts\\ | *.script | Game script files \n\

@@ -12,7 +12,7 @@
 #include "UIXmlInit.h"
 #include "uilinestd.h"
 #include "../string_table.h"
-
+#include "UIFontDefines.h"
 
 CUILines::CUILines()
 {
@@ -73,7 +73,7 @@ void CUILines::SetUseNewLineMode(bool mode){
 void CUILines::SetText(const char* text){
 	
 	if (!m_pFont)
-        m_pFont = UI().Font().pFontLetterica16Russian;
+		m_pFont = UI().Font().GetFont(LETTERICA16_FONT_NAME);
 
 	if (text && text[0] != 0)
 	{

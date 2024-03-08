@@ -588,7 +588,7 @@
       <Culture>0x0422</Culture>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>dxguid.lib;d3dx9.lib;dinput8.lib;winmm.lib;psapi.lib;vfw32.lib;Windowscodecs.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>dxguid.lib;freetype.lib;d3dx9.lib;dinput8.lib;winmm.lib;psapi.lib;vfw32.lib;Windowscodecs.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>$(xr3rdPartyDir)tbb\lib\intel64\vc14;$(xr3rdPartyDir)\luajit-2\src\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
@@ -611,7 +611,7 @@
     <PostBuildEvent>
       <Command>copy /Y "$(xrSdkDir)binaries\x64\lua51.dll" "$(OutputPath)lua51.dll"
 copy /Y "$(xrSdkDir)binaries\x64\tbb.dll" "$(OutputPath)tbb.dll"
-
+copy /Y "$(xrSdkDir)binaries\x64\freetype.dll" "$(OutputPath)freetype.dll"
 copy /Y "$(xrSdkDir)binaries\x64\BugTrap-x64.dll" "$(OutputPath)BugTrap-x64.dll"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -624,7 +624,7 @@ copy /Y "$(xrSdkDir)binaries\x64\BugTrap-x64.dll" "$(OutputPath)BugTrap-x64.dll"
       <OmitFramePointers>true</OmitFramePointers>
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
       <WholeProgramOptimization>true</WholeProgramOptimization>
-      <AdditionalIncludeDirectories>.;$(SolutionDir)3rd party\tbb\include\;$(xrExternals)luajit\src;$(SolutionDir)3rd party\luabind\include;$(DXSDK_DIR)Include;$(XRAY_16X_LIBS)OpenAutomate\inc;$(XRAY_16X_LIBS)libogg-1.1.4\include;$(XRAY_16X_LIBS)libtheora-1.1.1\include;$(xrSdkDir)include;$(xrSdkDir)include\OpenAutomate;$(SolutionDir)3rd party\imdexlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;$(SolutionDir)3rd party\tbb\include\;$(xrExternals)luajit\src;$(SolutionDir)3rd party\luabind\include;$(DXSDK_DIR)Include;$(XRAY_16X_LIBS)OpenAutomate\inc;$(XRAY_16X_LIBS)libogg-1.1.4\include;$(XRAY_16X_LIBS)libtheora-1.1.1\include;$(xrSdkDir)include;$(xrSdkDir)include\OpenAutomate;$(SolutionDir)3rd party\imdexlib;$(xrSdkDir)include\freetype;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;WIN32;_WINDOWS;ENGINE_BUILD;_SECURE_SCL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>
       </StringPooling>
@@ -653,7 +653,7 @@ copy /Y "$(xrSdkDir)binaries\x64\BugTrap-x64.dll" "$(OutputPath)BugTrap-x64.dll"
       <Culture>0x0422</Culture>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>dxguid.lib;d3dx9.lib;dinput8.lib;winmm.lib;psapi.lib;vfw32.lib;Windowscodecs.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>dxguid.lib;freetype.lib;d3dx9.lib;dinput8.lib;winmm.lib;psapi.lib;vfw32.lib;Windowscodecs.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>$(xr3rdPartyDir)tbb\lib\intel64\vc14;$(xr3rdPartyDir)\luajit-2\src\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
@@ -832,6 +832,8 @@ copy /Y "$(xrSdkDir)binaries\x64\BugTrap-x64.dll" "$(OutputPath)BugTrap-x64.dll"
     <ClInclude Include="Feel_Touch.h" />
     <ClInclude Include="Feel_Vision.h" />
     <ClInclude Include="Fmesh.h" />
+    <ClInclude Include="FontAtlas.h" />
+    <ClInclude Include="FontManager.h" />
     <ClInclude Include="GameFont.h" />
     <ClInclude Include="GameMtlLib.h" />
     <ClInclude Include="ICollidable.h" />
@@ -935,6 +937,8 @@ copy /Y "$(xrSdkDir)binaries\x64\BugTrap-x64.dll" "$(OutputPath)BugTrap-x64.dll"
     <ClCompile Include="Feel_Touch.cpp" />
     <ClCompile Include="Feel_Vision.cpp" />
     <ClCompile Include="fmesh.cpp" />
+    <ClCompile Include="FontAtlas.cpp" />
+    <ClCompile Include="FontManager.cpp" />
     <ClCompile Include="GameFont.cpp" />
     <ClCompile Include="GameMtlLib.cpp" />
     <ClCompile Include="GameMtlLib_Engine.cpp" />

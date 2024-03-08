@@ -3,6 +3,7 @@
 #include "UIEditKeyBind.h"
 #include "../xr_level_controller.h"
 #include "object_broker.h"
+#include "UIFontDefines.h"
 #include "../../xrEngine/xr_ioconsole.h"
 
 CUIEditKeyBind::CUIEditKeyBind(bool bPrim)
@@ -62,7 +63,7 @@ void CUIEditKeyBind::InitKeyBind(Fvector2 pos, Fvector2 size)
 	CUIStatic::SetWndPos	(pos);
 	CUIStatic::SetWndSize	(size);
 	InitTexture				("ui_listline2");
-	TextItemControl()->SetFont	(UI().Font().pFontLetterica16Russian);
+	TextItemControl()->SetFont(UI().Font().GetFont(LETTERICA16_FONT_NAME));
 	SetStretchTexture		(true);
 	SetEditMode				(false);
 }
