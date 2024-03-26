@@ -373,8 +373,8 @@ void CUIHudStatesWnd::SetAmmoIcon(const shared_str& sect_name)
 	m_ui_weapon_icon->GetUIStaticItem().SetTextureRect(texture_rect);
 	m_ui_weapon_icon->SetStretchTexture(true);
 
-	float h = texture_rect.height() * 0.8f;
-	float w = texture_rect.width() * 0.8f;
+	float h = texture_rect.height() * 0.4f;
+	float w = texture_rect.width() * 0.4f;
 
 // now perform only width scale for ammo, which (W)size >2
 	if (texture_rect.width() > 2.01f*INV_GRID_WIDTH)
