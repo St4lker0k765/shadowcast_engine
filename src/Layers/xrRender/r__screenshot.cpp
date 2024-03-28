@@ -10,7 +10,7 @@
 using namespace XRay::Media;
 #endif	//	USE_DX10
 
-#define	GAMESAVE_SIZE	128
+#define	GAMESAVE_SIZE	512
 
 IC u32 convert				(float c)	{
 	u32 C=iFloor(c);

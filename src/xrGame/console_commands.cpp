@@ -519,8 +519,9 @@ public:
 			return;
 		}
 
+#ifdef DEBUG
 		Console->Execute("stat_memory");
-
+#endif
 		string_path				S, S1;
 		S[0] = 0;
 		strncpy_s(S, sizeof(S), args, _MAX_PATH - 1);
