@@ -261,6 +261,7 @@ void CRender::ScreenshotImpl	(ScreenshotMode mode, LPCSTR name, CMemoryWriter* m
 void CRender::ScreenshotImpl	(ScreenshotMode mode, LPCSTR name, CMemoryWriter* memory_writer)
 {
 	if (!Device.b_is_Ready)			return;
+	/*
 	if ((psDeviceFlags.test(rsFullscreen)) == 0) {
 		if(name && FS.exist(name))
 			FS.file_delete(0,name);
@@ -268,7 +269,7 @@ void CRender::ScreenshotImpl	(ScreenshotMode mode, LPCSTR name, CMemoryWriter* m
 		Log("~ Can't capture screen while in windowed mode...");
 		return;
 	}
-
+	*/
 	// Create temp-surface
 	IDirect3DSurface9*	pFB;
 	D3DLOCKED_RECT		D;

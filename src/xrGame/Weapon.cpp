@@ -177,7 +177,7 @@ int CWeapon::GetScopeX()
 	{
 		if (m_eScopeStatus != ALife::eAddonPermanent && IsScopeAttached())
 		{
-			return pSettings->r_s32(GetNameWithAttachment(), "scope_x");
+			return pSettings->r_s32(GetNameWithAttachment(), "scope_x")*2;
 		}
 		else
 		{
@@ -186,7 +186,7 @@ int CWeapon::GetScopeX()
 	}
 	else
 	{
-		return pSettings->r_s32(m_scopes[m_cur_scope], "scope_x");
+		return pSettings->r_s32(m_scopes[m_cur_scope], "scope_x")*2;
 	}
 }
 
@@ -196,7 +196,7 @@ int CWeapon::GetScopeY()
 	{
 		if (m_eScopeStatus != ALife::eAddonPermanent && IsScopeAttached())
 		{
-			return pSettings->r_s32(GetNameWithAttachment(), "scope_y");
+			return pSettings->r_s32(GetNameWithAttachment(), "scope_y")*2;
 		}
 		else
 		{
@@ -205,7 +205,7 @@ int CWeapon::GetScopeY()
 	}
 	else
 	{
-		return pSettings->r_s32(m_scopes[m_cur_scope], "scope_y");
+		return pSettings->r_s32(m_scopes[m_cur_scope], "scope_y")*2;
 	}
 }
 
@@ -537,15 +537,15 @@ void CWeapon::Load(LPCSTR section)
 	if (m_eSilencerStatus == ALife::eAddonAttachable)
 	{
 		m_sSilencerName = pSettings->r_string(section, "silencer_name");
-		m_iSilencerX = pSettings->r_s32(section, "silencer_x");
-		m_iSilencerY = pSettings->r_s32(section, "silencer_y");
+		m_iSilencerX = pSettings->r_s32(section, "silencer_x")*2;
+		m_iSilencerY = pSettings->r_s32(section, "silencer_y")*2;
 	}
 
 	if (m_eGrenadeLauncherStatus == ALife::eAddonAttachable)
 	{
 		m_sGrenadeLauncherName = pSettings->r_string(section, "grenade_launcher_name");
-		m_iGrenadeLauncherX = pSettings->r_s32(section, "grenade_launcher_x");
-		m_iGrenadeLauncherY = pSettings->r_s32(section, "grenade_launcher_y");
+		m_iGrenadeLauncherX = pSettings->r_s32(section, "grenade_launcher_x")*2;
+		m_iGrenadeLauncherY = pSettings->r_s32(section, "grenade_launcher_y")*2;
 	}
 	UpdateAltScope();
 	InitAddons();
