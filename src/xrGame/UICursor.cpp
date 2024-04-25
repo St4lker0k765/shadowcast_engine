@@ -45,8 +45,11 @@ void CUICursor::InitInternal()
 	m_static->SetWndSize(sz);
 	m_static->SetStretchTexture(true);
 
-	u32 screen_size_x = GetSystemMetrics(SM_CXSCREEN / 2.0) ;
-	u32 screen_size_y = GetSystemMetrics(SM_CYSCREEN / 2.0) ;
+//	Fvector2		scr_size;
+	//scr_size.set(float(::Render->getTarget()->get_width()), float(::Render->getTarget()->get_height()));
+
+	u32 screen_size_x = (::Render->getTarget()->get_width());// GetSystemMetrics(SM_CXSCREEN / 2.0) ;
+	u32 screen_size_y = (::Render->getTarget()->get_height());
 	m_b_use_win_cursor = (screen_size_y >= Device.dwHeight && screen_size_x >= Device.dwWidth);
 }
 

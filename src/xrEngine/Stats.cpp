@@ -320,7 +320,8 @@ void CStats::Show()
     if (psDeviceFlags.test(rsFPS))
     {
         const auto fps = u32(fFPS);
-        fpsFont->Out(Device.dwWidth - 40, 5, "%3d", fps);
+        fpsFont->SetColor(0xFF00FF00);
+        fpsFont->Out(Device.dwWidth - 60, 5, "%3d", fps);
         fpsFont->OnRender();
     }
 
@@ -448,7 +449,7 @@ void CStats::OnDeviceCreate()
     g_bDisableRedText = strstr(Core.Params, "-xclsx") ? TRUE : FALSE;
 
     pFont = g_FontManager->GetFont("stat_font", CGameFont::fsDeviceIndependent);
-    fpsFont = g_FontManager->GetFont("stat_font", CGameFont::fsDeviceIndependent);
+    fpsFont = g_FontManager->GetFont("fps_font", CGameFont::fsDeviceIndependent);
 
     //
 #ifdef DEBUG

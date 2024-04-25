@@ -1027,7 +1027,7 @@ public:
 	  }
 };
 
-#ifdef DEBUG
+
 class CCC_PHGravity : public IConsole_Command {
 public:
 		CCC_PHGravity(LPCSTR N) :
@@ -1056,7 +1056,7 @@ public:
 	}
 	
 };
-#endif // DEBUG
+
 
 class CCC_PHFps : public IConsole_Command {
 public:
@@ -1802,7 +1802,7 @@ void CCC_RegisterCommands()
 	CMD1(CCC_PHFps,				"ph_frequency"																					)
 	CMD1(CCC_PHIterations,		"ph_iterations"																					)
 
-#ifdef DEBUG
+
 	CMD1(CCC_PHGravity,			"ph_gravity"																					)
 	CMD4(CCC_FloatBlock,		"ph_timefactor",				&phTimefactor				,			0.000001f	,1000.f			)
 	CMD4(CCC_FloatBlock,		"ph_break_common_factor",		&ph_console::phBreakCommonFactor		,			0.f		,1000000000.f	)
@@ -1810,7 +1810,7 @@ void CCC_RegisterCommands()
 	CMD4(CCC_Integer,			"ph_tri_clear_disable_count",	&ph_console::ph_tri_clear_disable_count	,			0,		255				)
 	CMD4(CCC_FloatBlock,		"ph_tri_query_ex_aabb_rate",	&ph_console::ph_tri_query_ex_aabb_rate	,			1.01f	,3.f			)
 	CMD3(CCC_Mask,				"g_no_clip",					&psActorFlags,	AF_NO_CLIP	)
-#endif // DEBUG
+
 
 
 	CMD3(CCC_Mask, "g_god", &psActorFlags, AF_GODMODE)
