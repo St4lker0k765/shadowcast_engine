@@ -48,6 +48,9 @@ CGameFont::CGameFont(const char* section, u32 flags) : Name(section)
 	if (pSettings->line_exist(section, "size"))
 		Data.Size = (u16)pSettings->r_u32(section, "size");
 
+	if (pSettings->line_exist(section, "encoding"))
+		Data.Encoding = pSettings->r_bool(section, "encoding");
+
 	if (pSettings->line_exist(section, "letter_spacing"))
 		LetterSpacing = pSettings->r_float(section, "letter_spacing");
 
@@ -260,7 +263,9 @@ void CGameFont::Initialize2(const char* name, const char* shader, const char* st
 
 	for (u32 glyphID = FirstChar; glyphID <= LastChar; glyphID++)
 	{
-		//u32 TrueGlyph = TranslateSymbolUsingCP1251((char)glyphID);
+		u32 TrueGlyph = glyphID;
+		if (Data.Encoding)
+			TrueGlyph = TranslateSymbolUsingCP1251((char)glyphID);
 
 		FT_UInt FreetypeCharacter = FT_Get_Char_Index(OurFont, glyphID);
 

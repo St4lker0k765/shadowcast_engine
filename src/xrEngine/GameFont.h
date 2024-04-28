@@ -34,6 +34,7 @@ private:
 
 	struct BaseData
 	{
+		bool Encoding{};
 		u16 Size;
 		const char* Name;
 		const char* Shader;

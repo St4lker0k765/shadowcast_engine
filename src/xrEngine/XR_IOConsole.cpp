@@ -165,7 +165,7 @@ void CConsole::OutFont( LPCSTR text, float& pos_y )
 {
 	CGameFont* pFont = g_FontManager->GetFont(m_fontConsoleName);
 	float str_length = pFont->SizeOf_( text );
-	float scr_width  = 1.98f * Device.dwWidth;
+	float scr_width  = 1.98f * Device.fWidth_2;
 	if( str_length > scr_width ) //1024.0f
 	{
 		float f	= 0.0f;
@@ -244,7 +244,7 @@ void CConsole::OnRender()
 	float maxStrWidth = Device.dwWidth * 0.9f; // max cmd str width
 
 	float outY = fMaxY - m_line_height * 1.1f;
-	float relativeX = 1.0f / Device.dwWidth;
+	float relativeX = 1.0f / Device.fWidth_2;
 
 	const char* strBeforeCursor = ec().str_before_cursor();
 	const char* strBeforeSelected = ec().str_before_mark();
