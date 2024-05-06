@@ -694,7 +694,7 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance, HINSTANCE, char* lpCmdLine, int n
     // g_temporary_stuff = &trivial_encryptor::decode;
 
     compute_build_id();
-    Core._initialize("XRay", nullptr, TRUE, fsgame[0] ? fsgame : nullptr);
+//    Core._initialize("XRay", nullptr, TRUE, fsgame[0] ? fsgame : nullptr);
     if (strstr(lpCmdLine, "-launcher "))
     {
         HMODULE hLauncher = LoadLibrary("xrLauncher.dll");

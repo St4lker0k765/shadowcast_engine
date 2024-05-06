@@ -13,7 +13,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Russian (Russia) resources
+// Русский (Россия) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
 LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
@@ -53,9 +53,9 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "Underground Collective"
             VALUE "FileDescription", "Shadow Engine"
-            VALUE "FileVersion", "1.0.0.3"
+            VALUE "FileVersion", "Work in Progress"
             VALUE "InternalName", "xrEngine"
-            VALUE "LegalCopyright", "Underground Collective, 2023"
+            VALUE "LegalCopyright", "Underground Collective, 2024"
             VALUE "OriginalFilename", "xrEngine.exe"
             VALUE "ProductName", "S.T.A.L.K.E.R.: The Shadow Way"
             VALUE "ProductVersion", "1.0.0.3"
@@ -75,12 +75,12 @@ END
 
 IDB_PNG1                PNG                     "shadow_engine_logo.png"
 
-#endif    // Russian (Russia) resources
+#endif    // Русский (Россия) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
 /////////////////////////////////////////////////////////////////////////////
-// Ukrainian (Ukraine) resources
+// Украинский (Украина) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_UKR)
 LANGUAGE LANG_UKRAINIAN, SUBLANG_DEFAULT
@@ -111,12 +111,12 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
-#endif    // Ukrainian (Ukraine) resources
+#endif    // Украинский (Украина) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
 /////////////////////////////////////////////////////////////////////////////
-// English (United States) resources
+// Английский (США) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
@@ -162,7 +162,7 @@ BEGIN
     0
 END
 
-#endif    // English (United States) resources
+#endif    // Английский (США) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
