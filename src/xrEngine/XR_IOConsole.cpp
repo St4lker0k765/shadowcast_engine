@@ -224,7 +224,7 @@ void CConsole::OnRender()
 	m_prompt_width = pFont->WidthOf(ioc_prompt);
 	m_cursor_width = pFont->WidthOf(ch_cursor);
 
-	m_line_height = pFont->CurrentHeight_() / Device.dwHeight;
+	m_line_height = pFont->CurrentHeight_() / Device.fHeight_2;
 
 	bool bGame = false;	
 	if ( ( g_pGameLevel && g_pGameLevel->bReady ) ||
@@ -240,7 +240,7 @@ void CConsole::OnRender()
 	DrawBackgrounds( bGame );
 	
 	float fMaxY = bGame ? 0.0f : 1.0f;
-	float dwMaxY = (float)Device.dwHeight;
+	float dwMaxY = (float)Device.fHeight_2;
 	float maxStrWidth = Device.dwWidth * 0.9f; // max cmd str width
 
 	float outY = fMaxY - m_line_height * 1.1f;

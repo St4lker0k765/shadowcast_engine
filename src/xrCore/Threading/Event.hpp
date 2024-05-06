@@ -1,5 +1,5 @@
 #pragma once
-#include "xrCore/xrCore.h"
+#include "../xrCore/xrCore.h"
 
 class XRCORE_API Event
 {

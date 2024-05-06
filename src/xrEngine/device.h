@@ -28,7 +28,7 @@ enum ViewPort;
 
 #include "../Include/xrRender/FactoryPtr.h"
 #include "../Include/xrRender/RenderDeviceRender.h"
-#include "xrCore/Threading/Event.hpp"
+#include "../xrCore/Threading/Event.hpp"
 
 class engine_impl;
 

@@ -695,7 +695,27 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance, HINSTANCE, char* lpCmdLine, int n
 
     compute_build_id();
     Core._initialize("XRay", nullptr, TRUE, fsgame[0] ? fsgame : nullptr);
+    if (strstr(lpCmdLine, "-launcher "))
+    {
+        HMODULE hLauncher = LoadLibrary("xrLauncher.dll");
+        if (0 == hLauncher)
+        {
+            Core._initialize("XRay", nullptr, TRUE, fsgame[0] ? fsgame : nullptr);
+            Msg("Error: Unable to load %s, trying normal startup", hLauncher);
+        }
+        else
+        {
+            typedef int	  launcherFunc();
+            launcherFunc* pLauncher = (launcherFunc*)GetProcAddress(hLauncher, "RunXRLauncher");
+            // Console->Execute("snd_volume_eff 0.3");
+            int res = pLauncher();
 
+            FreeLibrary(hLauncher);
+        }
+    }
+    else {
+        Core._initialize("XRay", nullptr, TRUE, fsgame[0] ? fsgame : nullptr);
+    }
     InitSettings();
 
     // Adjust player & computer name for Asian

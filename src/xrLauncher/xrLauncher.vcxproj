@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Mixed|Win32">
+      <Configuration>Mixed</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Mixed|x64">
+      <Configuration>Mixed</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <ProjectGuid>{1C86CAB0-0F44-4D47-B8E1-333492359CCC}</ProjectGuid>
+    <RootNamespace>xrLauncher</RootNamespace>
+    <SccProjectName>SAK</SccProjectName>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccProvider>SAK</SccProvider>
+    <Keyword>ManagedCProj</Keyword>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Mixed|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <CLRSupport>OldSyntax</CLRSupport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Mixed|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <CLRSupport>OldSyntax</CLRSupport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <CLRSupport>OldSyntax</CLRSupport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <CLRSupport>OldSyntax</CLRSupport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <CLRSupport>OldSyntax</CLRSupport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <CLRSupport>OldSyntax</CLRSupport>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Mixed|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Mixed|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>17.0.34714.143</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>x:\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>x:\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(ProjectDir)..\..\bin\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)..\..\intermediate\$(Platform)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Mixed|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Mixed|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalOptions>/noentry %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>xrCore.lib;xr_3da.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>x:\xrLauncher.dll</OutputFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AssemblyDebug>true</AssemblyDebug>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalOptions>/noentry %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>xrCore.lib;xr_3da.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>x:\xrLauncher.dll</OutputFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AssemblyDebug>true</AssemblyDebug>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>Full</Optimization>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_USRDLL;dSINGLE;MSVC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ExceptionHandling />
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalOptions>/noentry %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>xrCore.lib;xr_3da.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>x:\xrLauncher.dll</OutputFile>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <Optimization>Full</Optimization>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_USRDLL;dSINGLE;MSVC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalOptions>/noentry %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>xrCore.lib;xr_3da.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <ImportLibrary>$(ProjectDir)..\..\lib\$(Platform)\$(Configuration)\$(TargetName).lib</ImportLibrary>
+      <LargeAddressAware>true</LargeAddressAware>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Mixed|Win32'">
+    <ClCompile>
+      <Optimization>Full</Optimization>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+      <PreprocessorDefinitions>DEBUG;MIXED;WIN32;NDEBUG;_WINDOWS;_USRDLL;dSINGLE;MSVC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <AssemblerListingLocation>Mixed\</AssemblerListingLocation>
+      <ObjectFileName>Mixed\</ObjectFileName>
+      <ProgramDataBaseFileName>$(OutDir)$(TargetName).pdb</ProgramDataBaseFileName>
+      <WarningLevel>Level4</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalOptions>/noentry %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>xrCore.lib;xr_3da.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>x:\xrLauncher.dll</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapFileName>.\Mixed/xrLauncher.map</MapFileName>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Mixed|x64'">
+    <ClCompile>
+      <Optimization>Full</Optimization>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+      <PreprocessorDefinitions>DEBUG;MIXED;WIN32;NDEBUG;_WINDOWS;_USRDLL;dSINGLE;MSVC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <AssemblerListingLocation>Mixed\</AssemblerListingLocation>
+      <ObjectFileName>Mixed\</ObjectFileName>
+      <ProgramDataBaseFileName>$(OutDir)$(TargetName).pdb</ProgramDataBaseFileName>
+      <WarningLevel>Level4</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalOptions>/noentry %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>xrCore.lib;xr_3da.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>x:\xrLauncher.dll</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapFileName>.\Mixed/xrLauncher.map</MapFileName>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+    </Reference>
+    <Reference Include="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+    </Reference>
+    <Reference Include="System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+    </Reference>
+    <Reference Include="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+    </Reference>
+    <Reference Include="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+    </Reference>
+    <Reference Include="System.Xml, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Mixed|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Mixed|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="xrLauncher.cpp" />
+    <ClCompile Include="xrLauncherControl.cpp" />
+    <ClCompile Include="xrLauncher_about_dlg.cpp" />
+    <ClCompile Include="xrLauncher_benchmark_frm.cpp" />
+    <ClCompile Include="xrLauncher_benchmark_res_frm.cpp" />
+    <ClCompile Include="xrLauncher_main_frm.cpp" />
+    <ClCompile Include="xrLauncher_utils.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="xrLauncher.h" />
+    <ClInclude Include="xrLauncherControl.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="xrLauncher_about_dlg.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="xrLauncher_benchmark_frm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="xrLauncher_benchmark_res_frm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="xrLauncher_main_frm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="xrLauncher_utils.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="app.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="app.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="xrLauncherControl.resX">
+      <DependentUpon>xrLauncherControl.h</DependentUpon>
+      <LogicalName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">xrLauncher.xrLauncherControl.resources</LogicalName>
+      <LogicalName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">xrLauncher.xrLauncherControl.resources</LogicalName>
+      <LogicalName Condition="'$(Configuration)|$(Platform)'=='Mixed|Win32'">xrLauncher.xrLauncherControl.resources</LogicalName>
+      <LogicalName Condition="'$(Configuration)|$(Platform)'=='Mixed|x64'">xrLauncher.xrLauncherControl.resources</LogicalName>
+      <LogicalName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">xrLauncher.xrLauncherControl.resources</LogicalName>
+      <LogicalName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">xrLauncher.xrLauncherControl.resources</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="xrLauncher_about_dlg.resX">
+      <DependentUpon>xrLauncher_about_dlg.h</DependentUpon>
+      <LogicalName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">xrLauncher.xrLauncher_about_dlg.resources</LogicalName>
+      <LogicalName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">xrLauncher.xrLauncher_about_dlg.resources</LogicalName>
+      <LogicalName Condition="'$(Configuration)|$(Platform)'=='Mixed|Win32'">xrLauncher.xrLauncher_about_dlg.resources</LogicalName>
+      <LogicalName Condition="'$(Configuration)|$(Platform)'=='Mixed|x64'">xrLauncher.xrLauncher_about_dlg.resources</LogicalName>
+      <LogicalName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">xrLauncher.xrLauncher_about_dlg.resources</LogicalName>
+      <LogicalName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">xrLauncher.xrLauncher_about_dlg.resources</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="xrLauncher_benchmark_frm.resX">
+      <DependentUpon>xrLauncher_benchmark_frm.h</DependentUpon>
+      <LogicalName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">xrLauncher.xrLauncher_benchmark_frm.resources</LogicalName>
+      <LogicalName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">xrLauncher.xrLauncher_benchmark_frm.resources</LogicalName>
+      <LogicalName Condition="'$(Configuration)|$(Platform)'=='Mixed|Win32'">xrLauncher.xrLauncher_benchmark_frm.resources</LogicalName>
+      <LogicalName Condition="'$(Configuration)|$(Platform)'=='Mixed|x64'">xrLauncher.xrLauncher_benchmark_frm.resources</LogicalName>
+      <LogicalName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">xrLauncher.xrLauncher_benchmark_frm.resources</LogicalName>
+      <LogicalName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">xrLauncher.xrLauncher_benchmark_frm.resources</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="xrLauncher_benchmark_res_frm.resX">
+      <DependentUpon>xrLauncher_benchmark_res_frm.h</DependentUpon>
+      <LogicalName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">xrLauncher.xrLauncher_benchmark_res_frm.resources</LogicalName>
+      <LogicalName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">xrLauncher.xrLauncher_benchmark_res_frm.resources</LogicalName>
+      <LogicalName Condition="'$(Configuration)|$(Platform)'=='Mixed|Win32'">xrLauncher.xrLauncher_benchmark_res_frm.resources</LogicalName>
+      <LogicalName Condition="'$(Configuration)|$(Platform)'=='Mixed|x64'">xrLauncher.xrLauncher_benchmark_res_frm.resources</LogicalName>
+      <LogicalName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">xrLauncher.xrLauncher_benchmark_res_frm.resources</LogicalName>
+      <LogicalName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">xrLauncher.xrLauncher_benchmark_res_frm.resources</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="xrLauncher_main_frm.resX">
+      <DependentUpon>xrLauncher_main_frm.h</DependentUpon>
+      <LogicalName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">xrLauncher.xrLauncher_main_frm.resources</LogicalName>
+      <LogicalName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">xrLauncher.xrLauncher_main_frm.resources</LogicalName>
+      <LogicalName Condition="'$(Configuration)|$(Platform)'=='Mixed|Win32'">xrLauncher.xrLauncher_main_frm.resources</LogicalName>
+      <LogicalName Condition="'$(Configuration)|$(Platform)'=='Mixed|x64'">xrLauncher.xrLauncher_main_frm.resources</LogicalName>
+      <LogicalName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">xrLauncher.xrLauncher_main_frm.resources</LogicalName>
+      <LogicalName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">xrLauncher.xrLauncher_main_frm.resources</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="app.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>
