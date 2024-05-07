@@ -279,6 +279,7 @@
     <ClCompile Include="Threading\Event.cpp">
       <Filter>thread</Filter>
     </ClCompile>
+    <ClCompile Include="FileSystem_borland.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FTimer.h">
@@ -623,6 +624,7 @@
     <ClInclude Include="xr_detail_collision.h">
       <Filter>Addons</Filter>
     </ClInclude>
+    <ClInclude Include="ChooseTypes.H" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="xrCore.rc">

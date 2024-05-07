@@ -274,7 +274,7 @@ class CanvasValue: public PropValue{
 	shared_str			value;
 public:
 	typedef fastdelegate::FastDelegate3<CanvasValue*,CanvasValue*,bool&>					TOnTestEqual;
-	typedef fastdelegate::FastDelegate3<CanvasValue*,void* /* TCanvas* */, const Irect&>	TOnDrawCanvasEvent;
+    typedef fastdelegate::FastDelegate1<CanvasValue*>	TOnDrawCanvasEvent;
 public:
     int					height;
     TOnTestEqual		OnTestEqual;

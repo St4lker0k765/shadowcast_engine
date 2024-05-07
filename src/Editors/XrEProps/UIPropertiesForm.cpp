@@ -541,7 +541,7 @@ void UIPropertiesForm::DrawEditText()
 		if (ImGui::Button("Load"))
 		{
 			xr_string fn;
-			if (EFS.GetOpenName(0, "$import$", fn, false, nullptr, 2)) {
+			if (EFS.GetOpenName("$import$", fn, false, NULL, 2)) {
 				xr_string		buf;
 				IReader* F = FS.r_open(fn.c_str());
 				F->r_stringZ(buf);

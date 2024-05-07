@@ -142,9 +142,8 @@ public:
 	virtual ListItem*			__stdcall	CreateItem			(ListItemsVec& items, LPCSTR key, int type, u32 item_flags=0, void* object=0)=0;
 };
 
-#ifdef __BORLANDC__
-	extern "C" XR_EPROPS_API IListHelper& LHelper ();
-#endif
+XR_EPROPS_API IListHelper& LHelper ();
+
 
 #endif
  

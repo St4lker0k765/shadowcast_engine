@@ -35,16 +35,20 @@ enum EChooseFlags
 
 struct SChooseItem
 {
+    SChooseItem() {}
     shared_str name;
     shared_str hint;
     SChooseItem(LPCSTR nm, LPCSTR ht) :name(nm), hint(ht) {}
 };
 DEFINE_VECTOR(SChooseItem, ChooseItemVec, ChooseItemVecIt);
-
+#ifndef ImTextureID
+using ImTextureID = void*;
+#endif
 // typedef
 typedef fastdelegate::FastDelegate2<ChooseItemVec&, void*> TOnChooseFillItems;
 typedef fastdelegate::FastDelegate2<SChooseItem*, PropItemVec&> TOnChooseSelectItem;
 typedef fastdelegate::FastDelegate3<LPCSTR, HDC, const Irect&> TOnDrawThumbnail;
+typedef fastdelegate::FastDelegate2<LPCSTR, ImTextureID&> 	TGetTexture;
 typedef fastdelegate::FastDelegate0<> TOnChooseClose;
 
 typedef void(*TOnChooseFillEvents)();
@@ -54,12 +58,14 @@ struct SChooseEvents
     enum
     {
         flAnimated = (1 << 0),
+        flClearTexture = (1 << 1),
     };
     shared_str caption;
     TOnChooseFillItems on_fill;
     TOnChooseSelectItem on_sel;
     TOnDrawThumbnail on_thm;
     TOnChooseClose on_close;
+    TGetTexture    on_get_texture;
     Flags32 flags;
     SChooseEvents() { caption = "Select Item"; flags.zero(); }
     SChooseEvents(LPCSTR capt, TOnChooseFillItems f, TOnChooseSelectItem s, TOnDrawThumbnail t, TOnChooseClose c, u32 fl)

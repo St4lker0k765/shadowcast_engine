@@ -185,7 +185,15 @@ extern "C"{
 
 	ETOOLS_API const char*  WINAPI DX_GetErrorDescription(HRESULT hr)
 	{
-		return DXGetErrorDescription(hr);
+		long code;
+		static string1024	desc_storage;
+		LPCSTR result = 0;
+		if (0 == result)
+		{
+			FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, 0, code, 0, desc_storage, sizeof(desc_storage) - 1, 0);
+			result = desc_storage;
+		}
+		return result;
 	}
 	ETOOLS_API D3DXMATRIX* WINAPI 
 		D3DX_MatrixInverse(          

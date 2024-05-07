@@ -5,10 +5,10 @@
 //	Author		: Dmitriy Iassenev
 //	Description : Script value container
 ////////////////////////////////////////////////////////////////////////////
-
+#include "../xrCore/xrstring.h"
 #pragma once
 
-#ifdef XRSE_FACTORY_EXPORTS
+#ifdef XRSEFACTORY_EXPORTS
 	class CScriptValue;
 #else
 	class CScriptValue {public: virtual ~CScriptValue(){}};
