@@ -26,6 +26,10 @@ struct ECORE_API STextureParams{
 		tfA8,
 		tfL8,
 		tfA8L8,
+		tfBC4,
+		tfBC5,
+		tfBC6,
+		tfBC7,
 		tfForceU32	= u32(-1)
 	};
     enum ETBumpMode{
@@ -158,6 +162,7 @@ struct ECORE_API STextureParams{
 		case tf4444:
 		case tf1555:
 		case tfRGBA:
+		case tfBC7:
 			return TRUE;
 		default:
 			return FALSE;

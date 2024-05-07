@@ -7,20 +7,23 @@
 class ListItem{
 	friend class		CListHelper;
     friend class		TItemList;
-    shared_str		  	key;
+    friend class		UIItemListForm;
     int					type;
 	void*				item;
 public:                        
-    typedef fastdelegate::FastDelegate1<ListItem*> 					TOnListItemFocused;   
+    typedef fastdelegate::FastDelegate1<ListItem*> 					TOnListItemFocused;
     typedef fastdelegate::FastDelegate1<ListItem*> 					TOnClick;
+    shared_str		  	key;
     TOnClick			OnClickEvent;
     TOnListItemFocused	OnItemFocused;
     TOnDrawThumbnail	OnDrawThumbnail;
 public:
+    UIItemListForm* Parent;
     int 				tag;
     LPVOID				m_Object;
     int					icon_index;
     u32					prop_color;
+    bool                selected;
 public:
     enum{
     	flShowCB		= (1<<0),

@@ -18,21 +18,17 @@ enum EItemType{
 	TYPE_OBJECT	= 1
 };
 
+typedef fastdelegate::FastDelegate2<LPCSTR, LPCSTR>	    TOnItemClone;
+typedef fastdelegate::FastDelegate1<LPCSTR>	            TOnItemCreate;
+
 typedef fastdelegate::FastDelegate1<ListItemsVec&> 				TOnILItemsFocused;
 typedef fastdelegate::FastDelegate0<>							TOnILCloseEvent;      
 typedef fastdelegate::FastDelegate3<LPCSTR, LPCSTR, EItemType>	TOnItemRename;
-typedef fastdelegate::FastDelegate3<LPCSTR, EItemType, bool&>	TOnItemRemove;
+typedef fastdelegate::FastDelegate2<LPCSTR, EItemType>	        TOnItemRemove;
 typedef fastdelegate::FastDelegate0<>							TOnItemAfterRemove;
 typedef fastdelegate::FastDelegate0<> 							TOnCloseEvent;
 typedef fastdelegate::FastDelegate0<>		  					TOnModifiedEvent;
-
-#ifdef __BORLANDC__
-#	include "mxPlacemnt.hpp"
-    typedef fastdelegate::FastDelegate1<TElTreeItem*>			TOnILItemFocused;
-	//---------------------------------------------------------------------------
-	void XR_EPROPS_API CheckWindowPos(TForm* form);
-	//---------------------------------------------------------------------------
-#endif
+typedef fastdelegate::FastDelegate1<ListItem*>			    TOnILItemFocused;
 
 //------------------------------------------------------------------------------
 // Prepare Key

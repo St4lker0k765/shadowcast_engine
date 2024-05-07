@@ -60,9 +60,9 @@ class PropValue
 	friend class		CPropHelper;
     friend class		PropItem;
 protected:
-	PropItem*			m_Owner;
 public:
 	u32					tag;
+    PropItem* m_Owner;
 public:
 	// base events
 	typedef fastdelegate::FastDelegate1<PropValue*> TOnChange;
@@ -126,6 +126,7 @@ class PropItem
 {
 	friend class		CPropHelper;
     friend class		TProperties;
+    friend class		UIPropertiesForm;
     shared_str			key;
     EPropType			type;
 	void*				item;
@@ -133,15 +134,16 @@ public:
 	DEFINE_VECTOR		(PropValue*,PropValueVec,PropValueIt);
 private:
     PropValueVec		values;
-    TProperties* 		m_Owner;
 // events
 public:
 	typedef fastdelegate::FastDelegate1<PropItem*> 	TOnPropItemFocused;
+    TProperties* 		m_Owner;
     TOnDrawTextEvent	OnDrawTextEvent;
     TOnPropItemFocused	OnItemFocused;
     TOnClick			OnClickEvent;
 public:
-	u32					prop_color;
+    UIPropertiesForm* m_Owner_;
+    u32					prop_color;
 	u32					val_color;
     Irect				draw_rect;
 public:
@@ -152,6 +154,7 @@ public:
         flMixed			= (1<<3),
         flDrawThumbnail	= (1<<4),
         flSorted		= (1<<5),
+        flIgnoreMixed   = (1<<6),
     };
     Flags32				m_Flags;
 public:
