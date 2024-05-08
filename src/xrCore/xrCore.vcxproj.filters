@@ -624,7 +624,6 @@
     <ClInclude Include="xr_detail_collision.h">
       <Filter>Addons</Filter>
     </ClInclude>
-    <ClInclude Include="ChooseTypes.H" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="xrCore.rc">

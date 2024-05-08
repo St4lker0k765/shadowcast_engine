@@ -9,6 +9,7 @@
 #pragma once
 
 #include "../../xrCore/xrCore.h"
+#include "../../xrEngine/stdafx.h"
 
 #define STRINGIZE(a)			#a
 #define UP(a)					STRINGIZE(../../##a)

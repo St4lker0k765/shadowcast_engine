@@ -107,5 +107,7 @@ namespace ImGui
 */
 #define IMGUI_API XREUI_API
 #define IMGUI_IMPL_API
+#ifndef ImTextureID
 using ImTextureID = IDirect3DBaseTexture9*;
+#endif
 #define ImTextureID ImTextureID 

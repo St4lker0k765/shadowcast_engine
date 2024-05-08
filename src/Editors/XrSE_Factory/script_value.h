@@ -12,7 +12,9 @@
 
 class CSE_Abstract;
 
-class CScriptValue {
+class CScriptValue;
+	/*
+{
 protected:
 	luabind::object			m_object;
 	shared_str					m_name;
@@ -22,5 +24,5 @@ public:
 	virtual	void			assign			() = 0;
 	IC		shared_str			name			();
 };
-
+*/
 #include "script_value_inline.h"

@@ -7,6 +7,9 @@
 //----------------------------------------------------
 // Utilities
 //----------------------------------------------------
+#ifdef XRSEFACTORY_EXPORTS
+#include "bone.h"
+#endif
 class ECORE_API CDUInterface
 {
 public:

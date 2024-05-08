@@ -210,7 +210,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;XRSEFACTORY_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>..\..\xrCore;..\..\..\sdk\include\lua-old;..\..\xrGame;..\..\..\Externals\LuaJIT\src;./;..\..\xrServerEntities;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\3rd party\cximage;..\..\3rd party\luabind\include;..\..\xrCore;..\..\..\sdk\include;..\..\..\sdk\include\lua-old;..\..\xrGame;..\..\..\Externals\LuaJIT\src;./;..\..\xrServerEntities;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions</EnableEnhancedInstructionSet>
       <ExceptionHandling />
     </ClCompile>
@@ -263,7 +263,6 @@
     <ClInclude Include="..\..\xrServerEntities\character_info.h" />
     <ClInclude Include="..\..\xrServerEntities\character_info_defs.h" />
     <ClInclude Include="..\..\xrServerEntities\clsid_game.h" />
-    <ClInclude Include="..\..\xrServerEntities\DrawUtils.h" />
     <ClInclude Include="..\..\xrServerEntities\FastDelegate.h" />
     <ClInclude Include="..\..\xrServerEntities\gametype_chooser.h" />
     <ClInclude Include="..\..\xrServerEntities\game_base_space.h" />
@@ -334,7 +333,6 @@
     <ClInclude Include="..\..\xrServerEntities\script_thread_inline.h" />
     <ClInclude Include="..\..\xrServerEntities\script_token_list.h" />
     <ClInclude Include="..\..\xrServerEntities\script_token_list_inline.h" />
-    <ClInclude Include="..\..\xrServerEntities\script_value_container.h" />
     <ClInclude Include="..\..\xrServerEntities\script_value_container_impl.h" />
     <ClInclude Include="..\..\xrServerEntities\ShapeData.h" />
     <ClInclude Include="..\..\xrServerEntities\shared_data.h" />

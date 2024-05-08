@@ -7,6 +7,7 @@
 ////////////////////////////////////////////////////////////////////////////
 #include "script_value.h"
 #pragma once
+#include "xrstring.h"
 
 IC	CScriptValue::CScriptValue	(luabind::object object, LPCSTR name)
 {

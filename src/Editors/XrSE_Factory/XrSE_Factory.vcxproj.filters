@@ -171,9 +171,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\xrServerEntities\DrawUtils.h">
-      <Filter>Core</Filter>
-    </ClInclude>
+
     <ClInclude Include="..\..\xrServerEntities\pch_script.h">
       <Filter>Core</Filter>
     </ClInclude>
@@ -551,9 +549,6 @@
     </ClInclude>
     <ClInclude Include="script_value_wrapper_inline.h">
       <Filter>ServerStuff\ServerEntities\scripts\script_value_wrapper</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xrServerEntities\script_value_container.h">
-      <Filter>ServerStuff\ServerEntities\scripts\script_value_container</Filter>
     </ClInclude>
     <ClInclude Include="..\..\xrServerEntities\script_value_container_impl.h">
       <Filter>ServerStuff\ServerEntities\scripts\script_value_container</Filter>

@@ -6,7 +6,7 @@
 #include <lwrender.h>
 #include <lwhost.h>
 #endif
-
+#include "stdafx.h"
 // refs
 class CBone;
 

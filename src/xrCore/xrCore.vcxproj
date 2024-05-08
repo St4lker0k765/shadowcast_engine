@@ -1088,7 +1088,6 @@
     <ClInclude Include="blackbox\WarningsOn.h" />
     <ClInclude Include="buffer_vector.h" />
     <ClInclude Include="buffer_vector_inline.h" />
-    <ClInclude Include="ChooseTypes.H" />
     <ClInclude Include="clsid.h" />
     <ClInclude Include="Coder.hpp" />
     <ClInclude Include="compression_ppmd_stream.h" />

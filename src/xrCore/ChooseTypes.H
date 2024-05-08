@@ -42,7 +42,7 @@ struct SChooseItem
 };
 DEFINE_VECTOR(SChooseItem, ChooseItemVec, ChooseItemVecIt);
 #ifndef ImTextureID
-using ImTextureID = void*;
+using ImTextureID = IDirect3DBaseTexture9*;
 #endif
 // typedef
 typedef fastdelegate::FastDelegate2<ChooseItemVec&, void*> TOnChooseFillItems;

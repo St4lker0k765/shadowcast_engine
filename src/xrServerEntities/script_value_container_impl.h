@@ -9,7 +9,7 @@
 #pragma once
 
 #include "object_broker.h"
-#ifdef XRSE_FACTORY_EXPORTS
+#ifdef XRSEFACTORY_EXPORTS
 #	include "script_value.h"
 #endif
 
