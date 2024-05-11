@@ -410,9 +410,9 @@ if(!g_dedicated_server)
 	}
 
 }
-	if( psActorFlags.test(AF_PSP) )
-		cam_Set					(eacLookAt);
-	else
+//	if( psActorFlags.test(AF_PSP) )
+	//	cam_Set					(eacLookAt);
+	//else
 		cam_Set					(eacFirstEye);
 
 	// sheduler
