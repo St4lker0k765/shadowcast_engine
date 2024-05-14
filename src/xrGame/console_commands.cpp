@@ -614,9 +614,9 @@ public:
 
 		if (MainMenu()->IsActive())
 			MainMenu()->Activate(false);
-
+#ifdef DEBUG
 		Console->Execute("stat_memory");
-
+#endif
 		if (Device.Paused())
 			Device.Pause(FALSE, TRUE, TRUE, "CCC_ALifeLoadFrom");
 

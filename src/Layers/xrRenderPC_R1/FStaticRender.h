@@ -36,6 +36,7 @@ public:
 		u32		forceskinw			: 1;	// config
 		u32		no_detail_textures	: 1;	// config
 		u32		managed_tex_disabled : 1;	// don't keep textures in RAM
+		u32		smapsize : 16; // for compatibility
 	}			o;
 	struct		_stats		{
 		u32		o_queries,	o_culled;

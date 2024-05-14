@@ -695,27 +695,7 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance, HINSTANCE, char* lpCmdLine, int n
 
     compute_build_id();
 //    Core._initialize("XRay", nullptr, TRUE, fsgame[0] ? fsgame : nullptr);
-    if (strstr(lpCmdLine, "-launcher "))
-    {
-        HMODULE hLauncher = LoadLibrary("xrLauncher.dll");
-        if (0 == hLauncher)
-        {
-            Core._initialize("XRay", nullptr, TRUE, fsgame[0] ? fsgame : nullptr);
-            Msg("Error: Unable to load %s, trying normal startup", hLauncher);
-        }
-        else
-        {
-            typedef int	  launcherFunc();
-            launcherFunc* pLauncher = (launcherFunc*)GetProcAddress(hLauncher, "RunXRLauncher");
-            // Console->Execute("snd_volume_eff 0.3");
-            int res = pLauncher();
-
-            FreeLibrary(hLauncher);
-        }
-    }
-    else {
-        Core._initialize("XRay", nullptr, TRUE, fsgame[0] ? fsgame : nullptr);
-    }
+    Core._initialize("XRay", nullptr, TRUE, fsgame[0] ? fsgame : nullptr);
     InitSettings();
 
     // Adjust player & computer name for Asian
@@ -764,6 +744,12 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance, HINSTANCE, char* lpCmdLine, int n
             Console->Execute("renderer renderer_r2a");
         else if (strstr(Core.Params, "-r2"))
             Console->Execute("renderer renderer_r2");
+        else if (strstr(Core.Params, "-r2.5"))
+            Console->Execute("renderer renderer_r2.5");
+        else if (strstr(Core.Params, "-r3"))
+            Console->Execute("renderer renderer_r3");
+        else if (strstr(Core.Params, "-r4"))
+            Console->Execute("renderer renderer_r4");
         else
         {
             CCC_LoadCFG_custom* pTmp = xr_new<CCC_LoadCFG_custom>("renderer ");
@@ -772,8 +758,9 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance, HINSTANCE, char* lpCmdLine, int n
         }
 
         Engine.Initialize_dll();
+#ifdef DEBUG
         Console->Execute("stat_memory");
-
+#endif
         Startup();
         Core._destroy();
 
@@ -1019,6 +1006,7 @@ void CApplication::LoadBegin()
 void CApplication::LoadEnd()
 {
     ll_dwReference--;
+#ifdef DEBUG
     if (0 == ll_dwReference)
     {
         Msg("* phase time: %d ms", phase_timer.GetElapsed_ms());
@@ -1027,6 +1015,7 @@ void CApplication::LoadEnd()
         g_appLoaded = TRUE;
         // DUMP_PHASE;
     }
+#endif
 }
 
 void CApplication::destroy_loading_shaders()

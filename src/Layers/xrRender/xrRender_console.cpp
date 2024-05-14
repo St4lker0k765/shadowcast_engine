@@ -23,6 +23,17 @@ xr_token							qssao_mode_token						[ ]={
 	{ 0,							0											}
 };
 
+u32			ps_r_smap_quality = 2;
+xr_token							qsmap_quality_token[] = {
+	{ "smap1024",					0											},
+	{ "smap1536",					1											},
+	{ "smap2048",						2											},
+	{ "smap2560",						3											},
+	{ "smap3072",						4											},
+	{ "smap4096",						5											},
+	{ 0,							0											}
+};
+
 u32			ps_r_sun_shafts				=	2;
 xr_token							qsun_shafts_token							[ ]={
 	{ "st_opt_off",					0												},
@@ -415,6 +426,50 @@ public:
 				ps_r2_ls_flags_ext.set(R2FLAGEXT_SSAO_OPT_DATA, 1);
 				break;
 			}
+		}
+	}
+};
+
+class	CCC_SMAP_Quality : public CCC_Token
+{
+public:
+	CCC_SMAP_Quality(LPCSTR N, u32* V, xr_token* T) : CCC_Token(N, V, T) {};
+
+	virtual void	Execute(LPCSTR args) {
+		CCC_Token::Execute(args);
+		CRender::_options o;
+		switch (*value)
+		{
+		case 0:
+		{
+			o.smapsize = 1024;
+			break;
+		}
+		case 1:
+		{
+			o.smapsize = 1536;
+			break;
+		}
+		case 2:
+		{
+			o.smapsize = 2048;
+			break;
+		}
+		case 3:
+		{
+			o.smapsize = 2560;
+			break;
+		}
+		case 4:
+		{
+			o.smapsize = 3072;
+			break;
+		}
+		case 5:
+		{
+			o.smapsize = 4096;
+			break;
+		}
 		}
 	}
 };
@@ -890,6 +945,7 @@ void		xrRender_initconsole	()
 //	CMD3(CCC_Mask,		"r2_sun_shafts",				&ps_r2_ls_flags,			R2FLAG_SUN_SHAFTS);
 	CMD3(CCC_Token,		"r2_sun_shafts",				&ps_r_sun_shafts,			qsun_shafts_token);
 	CMD3(CCC_SSAO_Mode,	"r2_ssao_mode",					&ps_r_ssao_mode,			qssao_mode_token);
+	CMD3(CCC_SMAP_Quality, "r2_smap_quality", &ps_r_smap_quality, qsmap_quality_token);
 	CMD3(CCC_Token,		"r2_ssao",						&ps_r_ssao,					qssao_token);
 	CMD3(CCC_Mask,		"r2_ssao_blur",                 &ps_r2_ls_flags_ext,		R2FLAGEXT_SSAO_BLUR);//Need restart
 	CMD3(CCC_Mask,		"r2_ssao_opt_data",				&ps_r2_ls_flags_ext,		R2FLAGEXT_SSAO_OPT_DATA);//Need restart
