@@ -266,8 +266,8 @@ void CGameFont::Initialize2(const char* name, const char* shader, const char* st
 		u32 TrueGlyph = glyphID;
 		if (Data.Encoding)
 			TrueGlyph = TranslateSymbolUsingCP1251((char)glyphID);
-
-		FT_UInt FreetypeCharacter = FT_Get_Char_Index(OurFont, glyphID);
+		
+		FT_UInt FreetypeCharacter = FT_Get_Char_Index(OurFont, TrueGlyph);
 
 		FTError = FT_Load_Glyph(OurFont, FreetypeCharacter, FT_LOAD_RENDER);
 		R_ASSERT3(FTError == 0, "FT_Load_Glyph return error", FullPath);
@@ -573,6 +573,38 @@ wchar_t CP1251ConvertationTable[] =
 	0x0405, // Ѕ
 	0x0455, // ѕ
 	0x0457, // ї
+	0x0410, // А
+	0x0411, // Б
+	0x0412, // В
+	0x0413, // Г
+	0x0414, // Д
+	0x0415, // Е
+	0x0416, // Ж
+	0x0417, // З
+	0x0418, // И
+	0x0419, // Й
+	0x041A, // К
+	0x041B, // Л
+	0x041C, // М
+	0x041D, // Н
+	0x041E, // О
+	0x041F, // П
+	0x0420, // Р
+	0x0421, // С
+	0x0422, // Т
+	0x0423, // У
+	0x0424, // Ф
+	0x0425, // Х
+	0x0426, // Ц
+	0x0427, // Ч
+	0x0428, // Ш
+	0x0429, // Щ
+	0x042A, // Ъ
+	0x042B, // Ы
+	0x042C, // Ь
+	0x042D, // Э
+	0x042E, // Ю
+	0x042F, // Я
 };
 
 wchar_t TranslateSymbolUsingCP1251(char Symbol)

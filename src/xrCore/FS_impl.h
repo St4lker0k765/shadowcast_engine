@@ -167,7 +167,9 @@ IC u32 IReaderBase<T>::find_chunk (u32 ID, BOOL* bCompressed)
 								if (pos + length <= size - 8 && (r_u32() & 0x7ffffff0) == 0x810) break; // found start of next section
 								length++;
 							}
+#ifdef DEBUG
 							Msg("THM chunk %d fixed, wrong size = %d, correct size = %d", ID, dwSize, length);
+#endif
 						}
 					}
 
