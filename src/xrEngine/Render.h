@@ -170,8 +170,8 @@ class ENGINE_API IRender_interface
 public:
     enum GenerationLevel
     {
-        GENERATION_R1 = 81,
-        GENERATION_DX81 = 81,
+  //      GENERATION_R1 = 81,
+   //     GENERATION_DX81 = 81,
         GENERATION_R2 = 90,
         GENERATION_DX90 = 90,
         GENERATION_forcedword = u32(-1)

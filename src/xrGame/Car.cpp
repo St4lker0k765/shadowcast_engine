@@ -3,7 +3,7 @@
 //#if 0
 
 #include "ParticlesObject.h"
-#include "Physics.h"
+//#include "Physics.h"
 
 #ifdef DEBUG
 #	include "../xrEngine/StatGraph.h"
@@ -27,7 +27,7 @@
 #include "CarWeapon.h"
 #include "game_object_space.h"
 #include "../xrEngine/gamemtllib.h"
-#include "PHActivationShape.h"
+//#include "PHActivationShape.h"
 #include "CharacterPhysicsSupport.h"
 #include "car_memory.h"
 #include "../xrphysics/IPHWorld.h"
@@ -327,7 +327,7 @@ void CCar::RestoreNetState(CSE_PHSkeleton* po)
 			i->second.RestoreNetState(*ii);
 		}
 	}
-
+/*
 	//as later may kill diable/enable state save it;
 	bool enable = PPhysicsShell()->isEnabled();
 /////////////////////////////////////////////////////////////////////////
@@ -363,11 +363,11 @@ void CCar::RestoreNetState(CSE_PHSkeleton* po)
 	}
 ////////////////////////////////////////////////////////////////////
 	replace.mul(sof,inv);
-	PPhysicsShell()->TransformPosition(replace, mh_clear);
+	PPhysicsShell()->TransformPosition(replace);
 	if(enable)PPhysicsShell()->Enable();
 	else PPhysicsShell()->Disable();
 	PPhysicsShell()->GetGlobalTransformDynamic(&XFORM());
-	
+	*/
 }
 void CCar::SetDefaultNetState(CSE_PHSkeleton* po)
 {
