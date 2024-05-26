@@ -11,7 +11,7 @@
 #include "firedeps.h"
 #include "game_cl_single.h"
 #include "first_bullet_controller.h"
-
+#include "Actor.h"
 #include "CameraRecoil.h"
 
 class CEntity;
@@ -23,6 +23,7 @@ class CParticlesObject;
 class CUIWindow;
 class CBinocularsVision;
 class CNightVisionEffector;
+class CActor;
 
 class CWeapon : public CHudItemObject,
 	public CShootingObject

@@ -3,7 +3,7 @@
 //#if 0
 
 #include "ParticlesObject.h"
-//#include "Physics.h"
+#include "Physics.h"
 
 #ifdef DEBUG
 #	include "../xrEngine/StatGraph.h"
@@ -27,7 +27,7 @@
 #include "CarWeapon.h"
 #include "game_object_space.h"
 #include "../xrEngine/gamemtllib.h"
-//#include "PHActivationShape.h"
+#include "PHActivationShape.h"
 #include "CharacterPhysicsSupport.h"
 #include "car_memory.h"
 #include "../xrphysics/IPHWorld.h"
@@ -327,7 +327,7 @@ void CCar::RestoreNetState(CSE_PHSkeleton* po)
 			i->second.RestoreNetState(*ii);
 		}
 	}
-/*
+
 	//as later may kill diable/enable state save it;
 	bool enable = PPhysicsShell()->isEnabled();
 /////////////////////////////////////////////////////////////////////////
@@ -363,11 +363,11 @@ void CCar::RestoreNetState(CSE_PHSkeleton* po)
 	}
 ////////////////////////////////////////////////////////////////////
 	replace.mul(sof,inv);
-	PPhysicsShell()->TransformPosition(replace);
+	PPhysicsShell()->TransformPosition(replace, mh_clear);
 	if(enable)PPhysicsShell()->Enable();
 	else PPhysicsShell()->Disable();
 	PPhysicsShell()->GetGlobalTransformDynamic(&XFORM());
-	*/
+	
 }
 void CCar::SetDefaultNetState(CSE_PHSkeleton* po)
 {
@@ -467,14 +467,14 @@ void CCar::UpdateCL				( )
 // 			OwnerActor()->Cameras().ApplyDevice();
 // 		}
 // 
-/*		if(CurrentGameUI())//
+		if(CurrentGameUI())//
 		{
 			CurrentGameUI()->UIMainIngameWnd->CarPanel().Show(true);
 			CurrentGameUI()->UIMainIngameWnd->CarPanel().SetCarHealth(GetfHealth());
 			CurrentGameUI()->UIMainIngameWnd->CarPanel().SetSpeed(lin_vel.magnitude()/1000.f*3600.f/100.f);
 			CurrentGameUI()->UIMainIngameWnd->CarPanel().SetRPM(m_current_rpm/m_max_rpm/2.f);
 		}
-*/
+
 	}
 
 	UpdateExhausts	();
@@ -544,8 +544,8 @@ void	CCar::Hit							(SHit* pHDS)
 		CDelayedActionFuse::CheckCondition(GetfHealth());
 	}
 	CDamagableItem::HitEffect();
-//	if(Owner()&&Owner()->ID()==Level().CurrentEntity()->ID())
-//		CurrentGameUI()->UIMainIngameWnd->CarPanel().SetCarHealth(GetfHealth());
+	if(Owner()&&Owner()->ID()==Level().CurrentEntity()->ID())
+		CurrentGameUI()->UIMainIngameWnd->CarPanel().SetCarHealth(GetfHealth());
 }
 
 void CCar::ChangeCondition	(float fDeltaCondition)	
@@ -555,8 +555,8 @@ void CCar::ChangeCondition	(float fDeltaCondition)
 	CDamagableItem::HitEffect();
 	if (Local() && !g_Alive() && !AlreadyDie())
 		KillEntity	(Initiator());
-//	if(Owner()&&Owner()->ID()==Level().CurrentEntity()->ID())
-//		CurrentGameUI()->UIMainIngameWnd->CarPanel().SetCarHealth(GetfHealth());
+	if(Owner()&&Owner()->ID()==Level().CurrentEntity()->ID())
+		CurrentGameUI()->UIMainIngameWnd->CarPanel().SetCarHealth(GetfHealth());
 }
 
 void CCar::PHHit(SHit &H)
@@ -612,7 +612,7 @@ void CCar::detach_Actor()
 	Unclutch();
 	ResetKeys();
 	m_current_rpm=m_min_rpm;
-//	CurrentGameUI()->UIMainIngameWnd->CarPanel().Show(false);
+	CurrentGameUI()->UIMainIngameWnd->CarPanel().Show(false);
 	///Break();
 	//H_SetParent(NULL);
 	HandBreak();

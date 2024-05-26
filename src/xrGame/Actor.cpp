@@ -190,7 +190,7 @@ CActor::CActor() : CEntityAlive(),current_ik_cam_shift(0)
 
 
 	m_anims					= xr_new<SActorMotions>();
-//.	m_vehicle_anims			= xr_new<SActorVehicleAnims>();
+	m_vehicle_anims			= xr_new<SActorVehicleAnims>();
 	m_entity_condition		= nullptr;
 	m_iLastHitterID			= u16(-1);
 	m_iLastHittingWeaponID	= u16(-1);
@@ -234,7 +234,7 @@ CActor::~CActor()
 	xr_delete				(m_pPhysics_support);
 
 	xr_delete				(m_anims);
-//.	xr_delete				(m_vehicle_anims);
+	xr_delete				(m_vehicle_anims);
 }
 
 void CActor::reinit	()
@@ -893,7 +893,7 @@ float CActor::currentFOV()
 
 	CWeapon* pWeapon = smart_cast<CWeapon*>(inventory().ActiveItem());	
 
-	if (eacFirstEye == cam_active && pWeapon &&
+	if (/*eacFirstEye == cam_active &&*/ pWeapon &&
 		pWeapon->IsZoomed() && 
 		( !pWeapon->ZoomTexture() || (!pWeapon->IsRotatingToZoom() && pWeapon->ZoomTexture()) )
 		 )

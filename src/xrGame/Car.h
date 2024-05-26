@@ -20,6 +20,7 @@
 #include "Explosive.h"
 #include "PHDestroyable.h"
 #include "DelayedActionFuse.h"
+#include "UIGameCustom.h"
 // refs
 class ENGINE_API			CBoneInstance;
 class						CActor;

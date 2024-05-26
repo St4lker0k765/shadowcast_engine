@@ -2254,6 +2254,7 @@
     <ClInclude Include="WeaponLR300.h" />
     <ClInclude Include="WeaponMagazined.h" />
     <ClInclude Include="WeaponMagazinedWGrenade.h" />
+    <ClInclude Include="WeaponMounted.h" />
     <ClInclude Include="WeaponPistol.h" />
     <ClInclude Include="WeaponPM.h" />
     <ClInclude Include="WeaponRG6.h" />
@@ -4265,6 +4266,7 @@
       <PrecompiledHeaderOutputFile>$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
     <ClCompile Include="WeaponMagazinedWGrenade.cpp" />
+    <ClCompile Include="WeaponMounted.cpp" />
     <ClCompile Include="WeaponPistol.cpp" />
     <ClCompile Include="WeaponPM.cpp">
       <PrecompiledHeaderFile>pch_script.h</PrecompiledHeaderFile>

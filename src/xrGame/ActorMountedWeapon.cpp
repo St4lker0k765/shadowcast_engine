@@ -5,10 +5,11 @@
 #include "../xrEngine/CameraBase.h"
 #include "ActorEffector.h"
 #include "CharacterPhysicsSupport.h"
+#include "holder_custom.h"
 
 bool CActor::use_MountedWeapon(CHolderCustom* object)
 {
-/*
+
 	CHolderCustom* wpn	=object;
 	if(m_holder){
 		if(!wpn||(m_holder==wpn)){
@@ -24,7 +25,6 @@ bool CActor::use_MountedWeapon(CHolderCustom* object)
 				if(wpn->attach_Actor(this)){
 					// destroy actor character
 					character_physics_support()->movement()->DestroyCharacter();
-					PickupModeOff();
 					m_holder=wpn;
 					if (pCamBobbing){
 						Cameras().RemoveCamEffector(eCEBobbing);
@@ -35,6 +35,6 @@ bool CActor::use_MountedWeapon(CHolderCustom* object)
 			}
 		}
 	}
-*/
+
 	return false;
 }

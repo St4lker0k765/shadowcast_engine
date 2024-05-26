@@ -4,6 +4,7 @@
 #include "../hudsound.h"
 #include "../../xrServerEntities/alife_space.h"
 #include "../EntityCondition.h"
+#include "UICarPanel.h"
 
 class	CUIPdaMsgListItem;
 class	CLAItem;
@@ -32,6 +33,7 @@ protected:
 	CUITextWnd*			UIStaticQuickHelp;
 	CUIMotionIcon*		UIMotionIcon;
 	CUIZoneMap*			UIZoneMap;
+	CUICarPanel			UICarPanel;
 
 	CUIHudStatesWnd*	m_ui_hud_states;
 
@@ -154,6 +156,7 @@ protected:
 	void				RenderQuickInfos();
 
 public:
+	CUICarPanel&		CarPanel							(){return UICarPanel;};
 	CUIMotionIcon*		MotionIcon							(){return UIMotionIcon;}
 	void				OnConnected							();
 	void				reset_ui							();

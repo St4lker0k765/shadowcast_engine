@@ -61,7 +61,6 @@ void CEngine::Initialize()
 
 void CEngine::Initialize_dll()
 {
-    LPCSTR r1_name = "xrRender_R1.dll";
     LPCSTR r2_name = "xrRender_R2.dll";
     LPCSTR r3_name = "xrRender_R3.dll";
     LPCSTR r4_name = "xrRender_R4.dll";
@@ -115,11 +114,11 @@ void CEngine::Initialize_dll()
         // try to load R1
         psDeviceFlags.set(rsR4, FALSE);
         psDeviceFlags.set(rsR3, FALSE);
-        psDeviceFlags.set(rsR2, FALSE);
-        renderer_value = 0; //con cmd
+        psDeviceFlags.set(rsR2, TRUE);
+        renderer_value = 1; //con cmd
 
-        Log("# [Engine]: Loading DLL:", r1_name);
-        h_render = LoadLibrary(r1_name);
+        Log("# [Engine]: Loading DLL:", r2_name);
+        h_render = LoadLibrary(r2_name);
         if (!h_render) R_CHK(GetLastError());
         R_ASSERT(h_render);
         g_current_renderer = 1;
@@ -227,23 +226,23 @@ void CEngine::CreatingRenderList()
     xr_vector<LPCSTR> _tmp;
     u32 i = 0;
     bool bBreakLoop = false;
-    for (; i < 6; ++i)
+    for (; i < 5; ++i)
     {
         switch (i)
         {
-        case 1:
+        case 0:
             if (!bSupports_r2)
                 bBreakLoop = true;
             break;
-        case 3: //"renderer_r2.5"
+        case 2: //"renderer_r2.5"
             if (!bSupports_r2_5)
                 bBreakLoop = true;
             break;
-        case 4: //"renderer_r_dx10"
+        case 3: //"renderer_r_dx10"
             if (!bSupports_r3)
                 bBreakLoop = true;
             break;
-        case 5: //"renderer_r_dx11"
+        case 4: //"renderer_r_dx11"
             if (!bSupports_r4)
                 bBreakLoop = true;
             break;
@@ -258,21 +257,18 @@ void CEngine::CreatingRenderList()
         switch (i)
         {
         case 0:
-            val = "renderer_r1";
-            break;
-        case 1:
             val = "renderer_r2a";
             break;
-        case 2:
+        case 1:
             val = "renderer_r2";
             break;
-        case 3:
+        case 2:
             val = "renderer_r2.5";
             break;
-        case 4:
+        case 3:
             val = "renderer_r3";
             break; // -)
-        case 5:
+        case 4:
             val = "renderer_r4";
             break; // -)
         default:

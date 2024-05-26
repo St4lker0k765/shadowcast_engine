@@ -81,7 +81,7 @@ void CActor::g_fireParams	(const CHudItem* pHudItem, Fvector &fire_pos, Fvector 
 
 	if (weapon && psHUD_Flags.test(HUD_CROSSCHAIR_NEW) && !pKnife)
 	{
-		if (eacFirstEye == cam_active && !(weapon->IsZoomed() && weapon->ZoomTexture()))
+		if (/*eacFirstEye == cam_active &&*/ !(weapon->IsZoomed() && weapon->ZoomTexture()))
 		{
 			fire_pos = weapon->get_LastFP();
 			fire_dir = weapon->get_LastFD();

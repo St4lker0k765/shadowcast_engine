@@ -6663,6 +6663,7 @@
     <ClInclude Include="UIFontDefines.h">
       <Filter>UI</Filter>
     </ClInclude>
+    <ClInclude Include="WeaponMounted.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="damage_manager.cpp">
@@ -9773,6 +9774,7 @@
     <ClCompile Include="ui\UIGameLog.cpp">
       <Filter>UI\Common\MainIngame</Filter>
     </ClCompile>
+    <ClCompile Include="WeaponMounted.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ai\monsters\chimera\chimera_attack_state.h">

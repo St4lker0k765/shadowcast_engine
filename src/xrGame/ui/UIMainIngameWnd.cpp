@@ -136,6 +136,9 @@ void CUIMainIngameWnd::Init()
 
 	uiXml.SetLocalRoot			(uiXml.GetRoot());
 
+	AttachChild					(&UICarPanel);
+	xml_init.InitWindow			(uiXml, "car_panel", 0, &UICarPanel);
+
 	m_UIIcons					= xr_new<CUIScrollView>(); m_UIIcons->SetAutoDelete(true);
 	xml_init.InitScrollView		(uiXml, "icons_scroll_view", 0, m_UIIcons);
 	AttachChild					(m_UIIcons);

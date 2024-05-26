@@ -1921,7 +1921,9 @@ void CWeapon::reload(LPCSTR section)
 
 	if(m_ai_weapon_rank == static_cast<u32>(-1))
 	{
+#ifdef DEBUG
 		Msg("# Weapon rank not set for weapon: [%s]. Using default set rank(0)", section);
+#endif
 		m_ai_weapon_rank = 0;
 	}
 }

@@ -4,7 +4,7 @@
 
 #include "holder_custom.h"
 #include "shootingobject.h"
-
+#include "hud_item_object.h"
 #include "hudsound.h"
 #include "weaponammo.h"
 #include "physicsshellholder.h"
@@ -30,6 +30,7 @@ private:
 	Fvector2				m_dAngle;
 	static void 			BoneCallbackX		(CBoneInstance *B);
 	static void				BoneCallbackY		(CBoneInstance *B);
+	HUD_SOUND_COLLECTION	m_sounds;
 public:
 							CWeaponMounted		();
 	virtual					~CWeaponMounted		();
@@ -53,7 +54,7 @@ protected:
 	CCartridge				m_CurrentAmmo;
 
 	//звук стрельбы
-	HUD_SOUND				sndShot;
+//	ESoundTypes				sndShot;
 
 	//для отдачи
 	float					camRelaxSpeed;

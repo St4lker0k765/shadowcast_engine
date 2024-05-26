@@ -15,6 +15,7 @@
 #include "xr_level_controller.h"
 #include "../Include/xrRender/Kinematics.h"
 #include "game_object_space.h"
+#include "huditem.h"
 
 //----------------------------------------------------------------------------------------
 
@@ -55,7 +56,7 @@ void	CWeaponMounted::Load(LPCSTR section)
 	inherited::Load(section);
 	CShootingObject::Load	(section);
 
-	HUD_SOUND::LoadSound(section,"snd_shoot", sndShot, SOUND_TYPE_WEAPON_SHOOTING);
+	m_sounds.LoadSound(section, "snd_shoot", "sndShot", false, SOUND_TYPE_WEAPON_SHOOTING);
 
 	//тип используемых патронов
 	m_sAmmoType = pSettings->r_string(section, "ammo_class");
@@ -320,7 +321,7 @@ void CWeaponMounted::OnShot		()
 	OnShellDrop(fire_pos, zero_vel);
 
 	bool b_hud_mode = (Level().CurrentEntity() == smart_cast<CObject*>(Owner()));
-	HUD_SOUND::PlaySound(sndShot, fire_pos, Owner(), b_hud_mode);
+//	m_sounds.PlaySound("sndShot", fire_pos, Owner(), b_hud_mode);
 
 	//добавить эффектор стрельбы
 	AddShotEffector		();
@@ -330,7 +331,7 @@ void CWeaponMounted::OnShot		()
 
 void CWeaponMounted::UpdateFire()
 {
-	fTime -= Device.fTimeDelta;
+	float fTime = Device.fTimeDelta;
 	
 
 	CShootingObject::UpdateFlameParticles();
@@ -343,7 +344,7 @@ void CWeaponMounted::UpdateFire()
 
 	if(fTime<=0){
 		OnShot();
-		fTime += fTimeToFire;
+		fTime += fOneShotTime;
 	}else{
 		angle_lerp		(m_dAngle.x,0.f,5.f,Device.fTimeDelta);
 		angle_lerp		(m_dAngle.y,0.f,5.f,Device.fTimeDelta);
@@ -357,17 +358,18 @@ const Fmatrix&	 CWeaponMounted::get_ParticlesXFORM	()
 
 void CWeaponMounted::AddShotEffector				()
 {
-	if(OwnerActor())
+/*	if (OwnerActor())
 	{
 		CCameraShotEffector* S	= smart_cast<CCameraShotEffector*>(OwnerActor()->Cameras().GetCamEffector(eCEShot)); 
 		if (!S)	S				= (CCameraShotEffector*)OwnerActor()->Cameras().AddCamEffector(xr_new<CCameraShotEffector> (camMaxAngle,camRelaxSpeed, 0.25f, 0.01f, 0.7f));
+		CWeapon* wp;
 		R_ASSERT				(S);
-		S->Shot					(0.01f);
-	}
+		S->Shot					(wp);
+	}*/
 }
 
 void  CWeaponMounted::RemoveShotEffector	()
 {
-	if(OwnerActor())
-		OwnerActor()->Cameras().RemoveCamEffector	(eCEShot);
+/*	if (OwnerActor())
+		OwnerActor()->Cameras().RemoveCamEffector	(eCEShot);*/
 }
