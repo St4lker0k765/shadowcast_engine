@@ -48,6 +48,7 @@ protected:
 	xr_vector<CSoundRender_Target*>		s_targets;
 	xr_vector<CSoundRender_Target*>		s_targets_defer;
 	u32									s_targets_pu;			// parameters update
+	virtual void						refresh_sources			();
 	SoundEnvironment_LIB*				s_environment;
 	CSoundRender_Environment			s_user_environment;
 

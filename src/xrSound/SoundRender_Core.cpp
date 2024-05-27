@@ -531,8 +531,17 @@ void CSoundRender_Core::object_relcase( CObject* obj )
         }
     }
 }
-
-
-
+#ifdef _EDITOR
+void						CSoundRender_Core::refresh_sources()
+{
+	for (u32 eit = 0; eit < s_emitters.size(); eit++)
+		s_emitters[eit]->stop(FALSE);
+	for (u32 sit = 0; sit < s_sources.size(); sit++) {
+		CSoundRender_Source* s = s_sources[sit];
+		s->unload();
+		s->load(*s->fname);
+	}
+}
+#endif
 
 

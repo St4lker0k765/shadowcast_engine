@@ -75,7 +75,7 @@ DEFINE_VECTOR		(xr_string*,LPAStringVec,LPAStringIt);
 
 #include "../../xrphysics/xrphysics.h"
 #include "..\..\Layers\XrRender\FVF.h"
-
+#include "Editor\ELog.h"
 struct str_pred 
 {
     IC bool operator()(LPCSTR x, LPCSTR y) const

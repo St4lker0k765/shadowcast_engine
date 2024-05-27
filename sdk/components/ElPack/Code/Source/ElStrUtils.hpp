@@ -6,20 +6,21 @@
 
 #ifndef ElStrUtilsHPP
 #define ElStrUtilsHPP
-
+#include <string>
+#include <xrCore/_vector3d.h>
 #pragma delphiheader begin
 #pragma option push -w-
 #pragma option push -Vx
 //#include <SysInit.hpp>	// Pascal unit
 //#include <System.hpp>	// Pascal unit
-
+#include <vector>
 //-- user supplied -----------------------------------------------------------
-typedef WideString TElFString;
+typedef std::wstring TElFString;
 
 namespace Elstrutils
 {
 //-- type declarations -------------------------------------------------------
-typedef WideString TElFString;
+typedef std::wstring TElFString;
 
 typedef wchar_t TElFChar;
 
@@ -29,112 +30,112 @@ typedef wchar_t *PElFChar;
 enum ElStrUtils__1 { wrfReplaceAll, wrfIgnoreCase };
 #pragma option pop
 
-typedef Set<ElStrUtils__1, wrfReplaceAll, wrfIgnoreCase>  TWideReplaceFlags;
+enum TWideReplaceFlags { ElStrUtils__1, wrfReplaceAll, wrfIgnoreCase };
 
 //-- var, const, procedure ---------------------------------------------------
 #define oleaut "oleaut32.dll"
 extern "C" wchar_t * __stdcall SysAllocStringLen(wchar_t * P, int Len);
 extern "C" void __stdcall SysFreeString(wchar_t * S);
 extern "C" int __stdcall SysStringLen(wchar_t * S);
-extern PACKAGE bool doti;
+extern  bool doti;
 #define SPathDelimiters "/\\"
 #define SWidePathDelimiters L"/\\"
-extern PACKAGE AnsiString __fastcall IntToStrFmt(int value);
-extern PACKAGE AnsiString __fastcall FloatToStrFmt(Extended value, int decims);
-extern PACKAGE AnsiString __fastcall IntToStrPad(int value, int MinSize);
-extern PACKAGE AnsiString __fastcall CenterStr(AnsiString Str, int len);
-extern PACKAGE AnsiString __fastcall OEMToStr(AnsiString S);
-extern PACKAGE AnsiString __fastcall StrToOEM(AnsiString S);
-extern PACKAGE int __fastcall MessageRes(int Txt, char * Title, Word TextType, bool Sounds);
-extern PACKAGE bool __fastcall replace(AnsiString &Str, AnsiString SourceString, AnsiString DestString);
-extern PACKAGE AnsiString __fastcall ExtractWord(AnsiString str, int n);
-extern PACKAGE int __fastcall FstNonSpace(AnsiString str);
-extern PACKAGE int __fastcall NextWordBegin(AnsiString str, int CurrentPos);
-extern PACKAGE int __fastcall LastPos(AnsiString SubStr, AnsiString Strn);
-extern PACKAGE bool __fastcall LineIsEmpty(AnsiString str);
-extern PACKAGE AnsiString __fastcall CompleteLine(AnsiString Str, int FLen, char symb);
-extern PACKAGE AnsiString __fastcall PrefixLine(AnsiString Str, int FLen, char symb);
-extern PACKAGE AnsiString __fastcall MakeString(int FLen, AnsiString Seq);
-extern PACKAGE int __fastcall H2D(AnsiString S);
-extern PACKAGE int __fastcall H2DDef(const AnsiString S, int Def);
-extern PACKAGE int __fastcall Bin2Int(AnsiString S);
-extern PACKAGE int __fastcall Bin2IntDef(AnsiString S, int Default);
-extern PACKAGE AnsiString __fastcall Data2Str(void * Buffer, int BufLen);
-extern PACKAGE bool __fastcall Str2Data(AnsiString S, void * &Buffer, int &BufLen);
-extern PACKAGE bool __fastcall IsDigit(char ch);
-extern PACKAGE bool __fastcall IsDigitStr(const AnsiString S);
-extern PACKAGE bool __fastcall IsAlpha(char ch);
-extern PACKAGE bool __fastcall IsAlphaOrDigit(char ch);
-extern PACKAGE bool __fastcall IsAlphaStr(const AnsiString S);
-extern PACKAGE bool __fastcall IsIdentStr(const AnsiString S);
-extern PACKAGE AnsiString __fastcall ExtractStr(AnsiString &S, int SPos, int SLen);
-extern PACKAGE int __fastcall LeftBreak(AnsiString S, int Pos);
-extern PACKAGE AnsiString __fastcall EscapeString(AnsiString aString, AnsiString UnsafeChars, char EscapeChar);
-extern PACKAGE AnsiString __fastcall UnEscapeString(AnsiString aString, char EscapeChar);
-extern PACKAGE bool __fastcall StrStartsWith(char * Source, char * Seq);
-extern PACKAGE bool __fastcall ContainsAt(AnsiString Source, int Index, AnsiString Seq);
-extern PACKAGE bool __fastcall FileNameLike(AnsiString FileName, AnsiString Mask);
-extern PACKAGE bool __fastcall AnsiSameText(const AnsiString S1, const AnsiString S2);
-extern PACKAGE AnsiString __fastcall CurrToPrettyStr(const System::Currency Value);
-extern PACKAGE System::Currency __fastcall PrettyStrToCurr(const AnsiString Value);
-extern PACKAGE int __fastcall CurrSign(const System::Currency Value);
-extern PACKAGE char * __fastcall StringDup(AnsiString S);
-extern PACKAGE WideString __fastcall uni2uppers(WideString s);
-extern PACKAGE WideString __fastcall uni2lowers(WideString s);
-extern PACKAGE WideString __fastcall uni2upperf(WideString s);
-extern PACKAGE WideString __fastcall uni2lowerf(WideString s);
-extern PACKAGE wchar_t * __fastcall WideStringDup(WideString S);
-extern PACKAGE int __fastcall WidePos(const WideString Substr, const WideString S);
-extern PACKAGE wchar_t * __fastcall WideStrScan(const wchar_t * Str, wchar_t Chr);
-extern PACKAGE wchar_t * __fastcall WideStrRScan(const wchar_t * Str, wchar_t Chr);
-extern PACKAGE WideString __fastcall WideQuotedStr(const WideString S, wchar_t Quote);
-extern PACKAGE WideString __fastcall WideExtractQuotedStr(wchar_t * &Src, wchar_t Quote);
-extern PACKAGE wchar_t * __fastcall WideStrEnd(const wchar_t * Str);
-extern PACKAGE bool __fastcall WideSameText(const WideString S1, const WideString S2);
-extern PACKAGE int __fastcall WideCompareText(const WideString S1, const WideString S2);
-extern PACKAGE WideString __fastcall WideExtractStr(WideString &S, int SPos, int SLen);
-extern PACKAGE wchar_t * __fastcall WideStrCopy(wchar_t * Target, wchar_t * Source);
-extern PACKAGE wchar_t * __fastcall WideStrPCopy(wchar_t * Target, const WideString Source);
-extern PACKAGE int __fastcall WideStrComp(const wchar_t * S1, const wchar_t * S2);
-extern PACKAGE int __fastcall WideStrLComp(const wchar_t * Str1, const wchar_t * Str2, unsigned MaxLen);
-extern PACKAGE unsigned __fastcall WideStrLen(const wchar_t * Str);
-extern PACKAGE WideString __fastcall WideStrPas(const wchar_t * Source);
-extern PACKAGE void __fastcall WideMove(const void *Source, void *Dest, int Count);
-extern PACKAGE void __fastcall FillWord(void *X, int Count, Word Value);
-extern PACKAGE void __fastcall FillWideChar(void *X, int Count, wchar_t Value);
-extern PACKAGE wchar_t * __fastcall WideStrMove(wchar_t * Dest, const wchar_t * Source, unsigned Count);
-extern PACKAGE wchar_t * __fastcall WideStrECopy(wchar_t * Dest, const wchar_t * Source);
-extern PACKAGE wchar_t * __fastcall WideStrLCopy(wchar_t * Dest, const wchar_t * Source, unsigned MaxLen);
-extern PACKAGE wchar_t * __fastcall WideStrLCat(wchar_t * Dest, const wchar_t * Source, unsigned MaxLen);
-extern PACKAGE wchar_t * __fastcall WideStrCat(wchar_t * Dest, const wchar_t * Source);
-extern PACKAGE void __fastcall SetWideString(WideString &S, wchar_t * Buffer, int Len);
-extern PACKAGE int __fastcall CompareWideStr(const WideString S1, const WideString S2);
-extern PACKAGE bool __fastcall SameWideStr(const WideString S1, const WideString S2);
-extern PACKAGE wchar_t * __fastcall WideLastChar(const WideString S);
-extern PACKAGE wchar_t * __fastcall WideStrAlloc(unsigned Size);
-extern PACKAGE unsigned __fastcall WideStrBufSize(const wchar_t * Str);
-extern PACKAGE wchar_t * __fastcall WideStrNew(const wchar_t * Str);
-extern PACKAGE void __fastcall WideStrDispose(wchar_t * Str);
-extern PACKAGE WideString __fastcall WideUpperCase(const WideString S);
-extern PACKAGE WideString __fastcall WideLowerCase(const WideString S);
-extern PACKAGE bool __fastcall IsWideDelimiter(const WideString Delimiters, const WideString S, int Index);
-extern PACKAGE bool __fastcall IsWidePathDelimiter(const WideString S, int Index);
-extern PACKAGE WideString __fastcall IncludeWideTrailingDelimiter(const WideString S);
-extern PACKAGE WideString __fastcall ExcludeWideTrailingDelimiter(const WideString S);
-extern PACKAGE WideString __fastcall GetWideCharRangeString(wchar_t FirstChar, wchar_t LastChar);
-extern PACKAGE WideString __fastcall GetWideStringOf(wchar_t Char, unsigned Len);
-extern PACKAGE WideString __fastcall WideStringReplace(const WideString S, const WideString OldPattern, const WideString NewPattern, TWideReplaceFlags Flags);
-extern PACKAGE bool __fastcall WideReplace(WideString &Str, WideString SourceString, WideString DestString);
-extern PACKAGE wchar_t * __fastcall WideStrPos(const wchar_t * Str1, const wchar_t * Str2);
-extern PACKAGE WideString __fastcall WideCopy(WideString S, int SPos, int SLen);
-extern PACKAGE void __fastcall WideInsert(WideString Text, WideString &S, int SPos);
-extern PACKAGE void __fastcall WideDelete(WideString &S, int SPos, int SLen);
-extern PACKAGE WideString __fastcall WideMakeString(int FLen, WideString Seq);
-extern PACKAGE int __fastcall WideLastPos(WideString SubStr, WideString Strn);
-extern PACKAGE void __fastcall TStrDelete(WideString &S, int SPos, int SLen);
-extern PACKAGE WideString __fastcall TStrExtractStr(WideString &S, int SPos, int SLen);
-extern PACKAGE void __fastcall SetTStr(WideString &S, PElFChar Buffer, int Len);
-extern PACKAGE AnsiString __fastcall GetCharRangeString(char FirstChar, char LastChar);
+extern  std::string __fastcall IntToStrFmt(int value);
+extern  std::string __fastcall FloatToStrFmt(int value, int decims);
+extern  std::string __fastcall IntToStrPad(int value, int MinSize);
+extern  std::string __fastcall CenterStr(std::string Str, int len);
+extern  std::string __fastcall OEMToStr(std::string S);
+extern  std::string __fastcall StrToOEM(std::string S);
+extern  int __fastcall MessageRes(int Txt, char * Title, char TextType, bool Sounds);
+extern  bool __fastcall replace(std::string &Str, std::string SourceString, std::string DestString);
+extern  std::string __fastcall ExtractWord(std::string str, int n);
+extern  int __fastcall FstNonSpace(std::string str);
+extern  int __fastcall NextWordBegin(std::string str, int CurrentPos);
+extern  int __fastcall LastPos(std::string SubStr, std::string Strn);
+extern  bool __fastcall LineIsEmpty(std::string str);
+extern  std::string __fastcall CompleteLine(std::string Str, int FLen, char symb);
+extern  std::string __fastcall PrefixLine(std::string Str, int FLen, char symb);
+extern  std::string __fastcall MakeString(int FLen, std::string Seq);
+extern  int __fastcall H2D(std::string S);
+extern  int __fastcall H2DDef(const std::string S, int Def);
+extern  int __fastcall Bin2Int(std::string S);
+extern  int __fastcall Bin2IntDef(std::string S, int Default);
+extern  std::string __fastcall Data2Str(void * Buffer, int BufLen);
+extern  bool __fastcall Str2Data(std::string S, void * &Buffer, int &BufLen);
+extern  bool __fastcall IsDigit(char ch);
+extern  bool __fastcall IsDigitStr(const std::string S);
+extern  bool __fastcall IsAlpha(char ch);
+extern  bool __fastcall IsAlphaOrDigit(char ch);
+extern  bool __fastcall IsAlphaStr(const std::string S);
+extern  bool __fastcall IsIdentStr(const std::string S);
+extern  std::string __fastcall ExtractStr(std::string &S, int SPos, int SLen);
+extern  int __fastcall LeftBreak(std::string S, int Pos);
+extern  std::string __fastcall EscapeString(std::string aString, std::string UnsafeChars, char EscapeChar);
+extern  std::string __fastcall UnEscapeString(std::string aString, char EscapeChar);
+extern  bool __fastcall StrStartsWith(char * Source, char * Seq);
+extern  bool __fastcall ContainsAt(std::string Source, int Index, std::string Seq);
+extern  bool __fastcall FileNameLike(std::string FileName, std::string Mask);
+extern  bool __fastcall AnsiSameText(const std::string S1, const std::string S2);
+extern  std::string __fastcall CurrToPrettyStr(const char Value);
+extern  char * __fastcall PrettyStrToCurr(std::string Value);
+extern  int __fastcall CurrSign(const char Value);
+extern  char * __fastcall StringDup(std::string S);
+extern  std::wstring __fastcall uni2uppers(std::wstring s);
+extern  std::wstring __fastcall uni2lowers(std::wstring s);
+extern  std::wstring __fastcall uni2upperf(std::wstring s);
+extern  std::wstring __fastcall uni2lowerf(std::wstring s);
+extern  wchar_t * __fastcall WideStringDup(std::wstring S);
+extern  int __fastcall WidePos(const std::wstring Substr, const std::wstring S);
+extern  wchar_t * __fastcall WideStrScan(const wchar_t * Str, wchar_t Chr);
+extern  wchar_t * __fastcall WideStrRScan(const wchar_t * Str, wchar_t Chr);
+extern  std::wstring __fastcall WideQuotedStr(const std::wstring S, wchar_t Quote);
+extern  std::wstring __fastcall WideExtractQuotedStr(wchar_t * &Src, wchar_t Quote);
+extern  wchar_t * __fastcall WideStrEnd(const wchar_t * Str);
+extern  bool __fastcall WideSameText(const std::wstring S1, const std::wstring S2);
+extern  int __fastcall WideCompareText(const std::wstring S1, const std::wstring S2);
+extern  std::wstring __fastcall WideExtractStr(std::wstring &S, int SPos, int SLen);
+extern  wchar_t * __fastcall WideStrCopy(wchar_t * Target, wchar_t * Source);
+extern  wchar_t * __fastcall WideStrPCopy(wchar_t * Target, const std::wstring Source);
+extern  int __fastcall WideStrComp(const wchar_t * S1, const wchar_t * S2);
+extern  int __fastcall WideStrLComp(const wchar_t * Str1, const wchar_t * Str2, unsigned MaxLen);
+extern  unsigned __fastcall WideStrLen(const wchar_t * Str);
+extern  std::wstring __fastcall WideStrPas(const wchar_t * Source);
+extern  void __fastcall WideMove(const void *Source, void *Dest, int Count);
+extern  void __fastcall FillWord(void *X, int Count, char Value);
+extern  void __fastcall FillWideChar(void *X, int Count, wchar_t Value);
+extern  wchar_t * __fastcall WideStrMove(wchar_t * Dest, const wchar_t * Source, unsigned Count);
+extern  wchar_t * __fastcall WideStrECopy(wchar_t * Dest, const wchar_t * Source);
+extern  wchar_t * __fastcall WideStrLCopy(wchar_t * Dest, const wchar_t * Source, unsigned MaxLen);
+extern  wchar_t * __fastcall WideStrLCat(wchar_t * Dest, const wchar_t * Source, unsigned MaxLen);
+extern  wchar_t * __fastcall WideStrCat(wchar_t * Dest, const wchar_t * Source);
+extern  void __fastcall SetWideString(std::wstring &S, wchar_t * Buffer, int Len);
+extern  int __fastcall CompareWideStr(const std::wstring S1, const std::wstring S2);
+extern  bool __fastcall SameWideStr(const std::wstring S1, const std::wstring S2);
+extern  wchar_t * __fastcall WideLastChar(const std::wstring S);
+extern  wchar_t * __fastcall WideStrAlloc(unsigned Size);
+extern  unsigned __fastcall WideStrBufSize(const wchar_t * Str);
+extern  wchar_t * __fastcall WideStrNew(const wchar_t * Str);
+extern  void __fastcall WideStrDispose(wchar_t * Str);
+extern  std::wstring __fastcall WideUpperCase(const std::wstring S);
+extern  std::wstring __fastcall WideLowerCase(const std::wstring S);
+extern  bool __fastcall IsWideDelimiter(const std::wstring Delimiters, const std::wstring S, int Index);
+extern  bool __fastcall IsWidePathDelimiter(const std::wstring S, int Index);
+extern  std::wstring __fastcall IncludeWideTrailingDelimiter(const std::wstring S);
+extern  std::wstring __fastcall ExcludeWideTrailingDelimiter(const std::wstring S);
+extern  std::wstring __fastcall GetWideCharRangeString(wchar_t FirstChar, wchar_t LastChar);
+extern  std::wstring __fastcall GetWideStringOf(wchar_t Char, unsigned Len);
+extern  std::wstring __fastcall WideStringReplace(const std::wstring S, const std::wstring OldPattern, const std::wstring NewPattern, TWideReplaceFlags Flags);
+extern  bool __fastcall WideReplace(std::wstring &Str, std::wstring SourceString, std::wstring DestString);
+extern  wchar_t * __fastcall WideStrPos(const wchar_t * Str1, const wchar_t * Str2);
+extern  std::wstring __fastcall WideCopy(std::wstring S, int SPos, int SLen);
+extern  void __fastcall WideInsert(std::wstring Text, std::wstring &S, int SPos);
+extern  void __fastcall WideDelete(std::wstring &S, int SPos, int SLen);
+extern  std::wstring __fastcall WideMakeString(int FLen, std::wstring Seq);
+extern  int __fastcall WideLastPos(std::wstring SubStr, std::wstring Strn);
+extern  void __fastcall TStrDelete(std::wstring &S, int SPos, int SLen);
+extern  std::wstring __fastcall TStrExtractStr(std::wstring &S, int SPos, int SLen);
+extern  void __fastcall SetTStr(std::wstring &S, PElFChar Buffer, int Len);
+extern  std::string __fastcall GetCharRangeString(char FirstChar, char LastChar);
 
 }	/* namespace Elstrutils */
 using namespace Elstrutils;

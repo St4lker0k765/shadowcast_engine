@@ -339,6 +339,7 @@
     <ClInclude Include="WildMagic\WmlWinSystem.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="cpp.hint" />
     <None Include="Editor\ImageEditor.ddp" />
     <None Include="Editor\ImageEditor.dfm" />
     <None Include="Editor\LogForm.dfm" />
@@ -569,7 +570,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>_EDITOR;NDEBUG;XRECORE_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>..\XrETools;..\..\..\sdk\include\loki;..\..\..\sdk\include;..\..\..\sdk\include\dxsdk;..\..\;..\..\..\Externals\RedImage;..\..\3rd party\DXERR;.;..\..\XrEngine\;..\..\Layers\xrRender;..\..\XrRender\Public;..\FreeMagic</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\3rd party\tbb\include;..\..\..\sdk\include\freetype;..\XrETools;..\..\..\sdk\include\loki;..\..\..\sdk\include;..\..\..\sdk\include\dxsdk;..\..\;..\..\..\Externals\RedImage;..\..\3rd party\DXERR;.;..\..\XrEngine\;..\..\Layers\xrRender;..\..\XrRender\Public;..\FreeMagic</AdditionalIncludeDirectories>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions</EnableEnhancedInstructionSet>
       <ExceptionHandling />
     </ClCompile>

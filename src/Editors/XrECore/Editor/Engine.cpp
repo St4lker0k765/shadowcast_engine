@@ -38,28 +38,12 @@ LPCSTR CEngine::LastWindowsError()
     return err;
 }
 
-extern void  xrSkin1W_x86	(vertRender* D, vertBoned1W* S, u32 vCount, CBoneInstance* Bones);
-extern void  xrSkin2W_x86	(vertRender* D, vertBoned2W* S, u32 vCount, CBoneInstance* Bones);
-
 void CEngine::Initialize(void)
 {
 	// Other stuff
 	string_path              fn;
     strconcat               (sizeof(fn),fn,UI->EditorName(),".log");
-    FS.update_path			(fn,_local_root_,fn);
-
-#ifdef _EDITOR
-	// Bind PSGP
-	ZeroMemory				(&PSGP,sizeof(PSGP));
-	hPSGP		            = LoadLibrary("xrCPU_Pipe.dll");
-	R_ASSERT2	            (hPSGP,"Can't find 'xrCPU_Pipe.dll'");
-
-	xrBinder* bindCPU	    = (xrBinder*)GetProcAddress(hPSGP,"xrBind_PSGP");	R_ASSERT(bindCPU);
-	bindCPU		            (&PSGP, CPU::ID.feature /*& CPU::ID.os_support*/);
-    // for compliance with editor
-    PSGP.skin1W				= xrSkin1W_x86;
-    PSGP.skin2W				= xrSkin2W_x86;
-#endif
+    FS.update_path			(fn,"$local_root$", fn);
 
 	ReloadSettings			();
 }
@@ -76,5 +60,4 @@ void CEngine::ReloadSettings()
 void CEngine::Destroy()
 {
     xr_delete				(pSettings);
-	if (hPSGP)	{ FreeLibrary(hPSGP); hPSGP=0; }
 }

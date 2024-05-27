@@ -24,12 +24,13 @@ public:
 	virtual u32			get_height			()				{ return EDevice.m_RenderHeight;	}
 };
 
+
 class IRender_interface{
 public:
 	enum GenerationLevel
 	{
-		GENERATION_R1				= 81,
-		GENERATION_DX81				= 81,
+//		GENERATION_R1				= 81,
+//		GENERATION_DX81				= 81,
 		GENERATION_R2				= 90,
 		GENERATION_DX90				= 90,
 		GENERATION_forcedword		= u32(-1)
@@ -103,7 +104,7 @@ public:
     }
 	void 					model_Render			(IRenderVisual* m_pVisual, const Fmatrix& mTransform, int priority, bool strictB2F, float m_fLOD);
 	void 					model_RenderSingle		(IRenderVisual* m_pVisual, const Fmatrix& mTransform, float m_fLOD);
-	virtual	GenerationLevel	get_generation			(){return GENERATION_R1;}
+	virtual	GenerationLevel	get_generation			(){return GENERATION_R2;}
 	virtual bool			is_sun_static			() {return true;};
 
 	virtual void			add_SkeletonWallmark	(intrusive_ptr<CSkeletonWallmark> wm){};

@@ -135,16 +135,16 @@ namespace ChoseEvents
     {
         /*
         //.
-            AnsiString fn					= ChangeFileExt(item->name.c_str(),".ogf");
+            xr_string fn					= ChangeFileExt(item->name.c_str(),".ogf");
             IRender_Visual* visual			= ::Render->model_Create(fn.c_str());
             if (visual){
                 PHelper().CreateCaption	(info_items,	"Source",	*visual->desc.source_file?*visual->desc.source_file:"unknown");
                 PHelper().CreateCaption	(info_items, 	"Creator N",*visual->desc.create_name?*visual->desc.create_name:"unknown");
-                PHelper().CreateCaption	(info_items,	"Creator T",Trim(AnsiString(ctime(&visual->desc.create_time))).c_str());
+                PHelper().CreateCaption	(info_items,	"Creator T",Trim(xr_string(ctime(&visual->desc.create_time))).c_str());
                 PHelper().CreateCaption	(info_items,	"Modif N",	*visual->desc.modif_name ?*visual->desc.modif_name :"unknown");
-                PHelper().CreateCaption	(info_items,	"Modif T",	Trim(AnsiString(ctime(&visual->desc.modif_time))).c_str());
+                PHelper().CreateCaption	(info_items,	"Modif T",	Trim(xr_string(ctime(&visual->desc.modif_time))).c_str());
                 PHelper().CreateCaption	(info_items,	"Build N",	*visual->desc.build_name ?*visual->desc.build_name :"unknown");
-                PHelper().CreateCaption	(info_items,	"Build T",	Trim(AnsiString(ctime(&visual->desc.build_time))).c_str());
+                PHelper().CreateCaption	(info_items,	"Build T",	Trim(xr_string(ctime(&visual->desc.build_time))).c_str());
             }
             ::Render->model_Delete(visual);
         */

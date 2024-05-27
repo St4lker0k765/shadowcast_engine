@@ -10,6 +10,11 @@
 #include "HW.h"
 #include "../../xrEngine/XR_IOConsole.h"
 
+#ifdef _EDITOR
+#include <FLOD.h>
+#endif
+#include <IGame_Persistent.h>
+#include <Editor/render.h>
 void	fill_vid_mode_list(CHW* _hw);
 void	free_vid_mode_list();
 

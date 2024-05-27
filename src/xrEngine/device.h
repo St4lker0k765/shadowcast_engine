@@ -96,6 +96,9 @@ public:
     CRegistrator <pureAppEnd > seqAppEnd;
     CRegistrator <pureFrame > seqFrame;
     CRegistrator <pureScreenResolutionChanged> seqResolutionChanged;
+#ifdef _EDITOR
+    CRegistrator	<pureDrawUI			>			seqDrawUI;
+#endif
 
     // returns the aproximate, adjusted by camera fov, distance 
     IC float GetDistFromCamera(const Fvector& from_position) const

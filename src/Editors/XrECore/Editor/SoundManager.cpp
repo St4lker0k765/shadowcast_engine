@@ -3,6 +3,7 @@
 
 #include "SoundManager.h"
 #include "../../../xrSound/soundrender_environment.h"
+#include "../../../xrSound/soundrender_core.h"
 #include "EThumbnail.h"
 #include "ui_main.h"
 

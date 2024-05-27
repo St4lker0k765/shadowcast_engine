@@ -30,7 +30,9 @@
 #include "../xrRender/resourcemanager.h"
 
 #include "../../xrEngine/vis_common.h"
+#ifndef _EDITOR
 #include "../../xrEngine/render.h"
+#endif
 #include "../../xrEngine/_d3d_extensions.h"
 #include "../../xrEngine/igame_level.h"
 #include "../xrRender/blenders\blender.h"
