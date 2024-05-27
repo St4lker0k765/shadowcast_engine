@@ -9,7 +9,7 @@
 #pragma once
 
 #include "script_export_space.h"
-
+#include "stdafx.h"
 typedef class_exporter<IReader> CScriptReader;
 add_to_type_list(CScriptReader)
 #undef script_type_list

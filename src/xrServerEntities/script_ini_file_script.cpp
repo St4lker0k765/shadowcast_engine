@@ -8,7 +8,9 @@
 
 #include "pch_script.h"
 #include "script_ini_file.h"
-
+#ifdef XRSEFACTORY_EXPORTS
+#include "../XrSE_Factory/stdafx.h"
+#endif
 using namespace luabind;
 
 CScriptIniFile *get_system_ini()

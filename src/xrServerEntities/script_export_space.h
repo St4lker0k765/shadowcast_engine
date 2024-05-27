@@ -5,7 +5,9 @@
 //	Author		: Dmitriy Iassenev
 //	Description : XRay Script export space 
 ////////////////////////////////////////////////////////////////////////////
-
+#ifdef XRSEFACTORY_EXPORTS
+#include "../XrSE_Factory/stdafx.h"
+#endif
 #ifndef script_export_spaceH
 #define script_export_spaceH
 

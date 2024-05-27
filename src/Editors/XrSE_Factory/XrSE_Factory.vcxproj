@@ -210,7 +210,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;XRSEFACTORY_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>..\..\3rd party\cximage;..\..\3rd party\luabind\include;..\..\xrCore;..\..\..\sdk\include;..\..\..\sdk\include\lua-old;..\..\xrGame;..\..\..\Externals\LuaJIT\src;./;..\..\xrServerEntities;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\sdk\include\loki;..\..\3rd party\cximage;..\..\3rd party\luabind\include;..\..\xrCore;..\..\..\sdk\include;..\..\..\sdk\include\lua-old;..\..\xrGame;..\..\..\Externals\LuaJIT\src;./;..\..\xrServerEntities;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions</EnableEnhancedInstructionSet>
       <ExceptionHandling />
     </ClCompile>
@@ -220,10 +220,10 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>lua51.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>luabind.lib;xrCore.lib;xrGame.lib;lua51.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>XCOPY $(SolutionDir)..\SDK\Bin\$(Platform)\lua51.dll $(OutDir)  /Y</Command>
+      <Command>XCOPY $(SolutionDir)..\SDK\binaries\$(Platform)\lua51.dll $(OutDir)  /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Development|x64'">
@@ -249,6 +249,9 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\xrEngine\defines.h" />
+    <ClInclude Include="..\..\xrGame\ai_space.h" />
+    <ClInclude Include="..\..\xrGame\ai_space_inline.h" />
     <ClInclude Include="..\..\xrServerEntities\ai_sounds.h" />
     <ClInclude Include="..\..\xrServerEntities\alife_human_brain.h" />
     <ClInclude Include="..\..\xrServerEntities\alife_human_brain_inline.h" />
@@ -355,13 +358,10 @@
     <ClInclude Include="..\..\xrServerEntities\xrServer_Object_Base.h" />
     <ClInclude Include="..\..\xrServerEntities\xrServer_script_macroses.h" />
     <ClInclude Include="..\..\xrServerEntities\xrServer_Space.h" />
-    <ClInclude Include="ai_space.h" />
-    <ClInclude Include="ai_space_inline.h" />
     <ClInclude Include="alife_artefact_order.h" />
     <ClInclude Include="bone.h" />
     <ClInclude Include="ChooseTypes.h" />
     <ClInclude Include="client_id.h" />
-    <ClInclude Include="defines.h" />
     <ClInclude Include="NET_Compressor.h" />
     <ClInclude Include="NET_utils.h" />
     <ClInclude Include="script_debugger_utils.h" />

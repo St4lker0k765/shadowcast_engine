@@ -5,9 +5,8 @@
 //	Author		: Dmitriy Iassenev
 //	Description : Script value inline functions
 ////////////////////////////////////////////////////////////////////////////
-#include "script_value.h"
+
 #pragma once
-#include "xrstring.h"
 
 IC	CScriptValue::CScriptValue	(luabind::object object, LPCSTR name)
 {
@@ -18,5 +17,4 @@ IC	CScriptValue::CScriptValue	(luabind::object object, LPCSTR name)
 IC	shared_str	CScriptValue::name		()
 {
 	return		(m_name);
-	
 }

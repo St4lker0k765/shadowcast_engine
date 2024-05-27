@@ -1,3 +1,4 @@
+#include <d3d9.h>
 #ifndef ChooseTypesH
 #define ChooseTypesH
 

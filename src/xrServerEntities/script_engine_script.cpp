@@ -10,7 +10,9 @@
 #include "script_engine.h"
 #include "ai_space.h"
 #include "script_debugger.h"
-
+#ifdef XRSEFACTORY_EXPORTS
+#include "../XrSE_Factory/stdafx.h"
+#endif
 using namespace luabind;
 
 void LuaLog(LPCSTR caMessage)

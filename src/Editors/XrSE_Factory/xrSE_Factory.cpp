@@ -14,6 +14,7 @@
 #include "xrEProps.h"
 #include "xrSE_Factory_import_export.h"
 #include "script_properties_list_helper.h"
+#include "../xrServerEntities/xrServer_space.h"
 
 #include "character_info.h"
 #include "specific_character.h"

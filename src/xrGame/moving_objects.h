@@ -11,11 +11,19 @@
 
 #include "quadtree.h"
 #include "obstacles_query.h"
-
+#ifdef XRSEFACTORY_EXPORTS
+#include <xrCore/_vector3d.h>
+#include <xrCDB/ISpatial.h>
+#endif
 class moving_object;
 class CObject;
 class MagicBox3;
 struct boxes;
+
+#ifdef XRSEFACTORY_EXPORTS
+template <typename T, typename allocator = xalloc<T> >
+using xr_vector = std::vector<T, allocator>;
+#endif
 
 class moving_objects {
 private:
@@ -28,7 +36,7 @@ public:
 		possible_action_2_can_wait_1					= u32(1) << 1,
 		possible_action_invalid							= u32(-1),
 	};
-	
+
 public:
 	typedef xr_vector<moving_object*>					NEAREST_MOVING;
 	typedef std::pair<moving_object*,moving_object*>	COLLISION;

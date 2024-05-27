@@ -171,7 +171,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-
     <ClInclude Include="..\..\xrServerEntities\pch_script.h">
       <Filter>Core</Filter>
     </ClInclude>
@@ -190,20 +189,11 @@
     <ClInclude Include="..\..\xrServerEntities\FastDelegate.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="defines.h">
-      <Filter>Common</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\xrServerEntities\restriction_space.h">
       <Filter>Common\AComponents\SpaceRestrictionManager</Filter>
     </ClInclude>
     <ClInclude Include="..\..\xrServerEntities\ai_sounds.h">
       <Filter>Common\ASound</Filter>
-    </ClInclude>
-    <ClInclude Include="ai_space.h">
-      <Filter>Common\ASpace</Filter>
-    </ClInclude>
-    <ClInclude Include="ai_space_inline.h">
-      <Filter>Common\ASpace</Filter>
     </ClInclude>
     <ClInclude Include="..\..\xrServerEntities\object_broker.h">
       <Filter>Common\ObjectBroker</Filter>
@@ -562,6 +552,15 @@
     <ClInclude Include="..\..\xrServerEntities\alife_movement_manager_holder.h">
       <Filter>ServerStuff\ServerEntities\movement_manager_holder</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\xrGame\ai_space.h">
+      <Filter>Common\ASpace</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xrGame\ai_space_inline.h">
+      <Filter>Common\ASpace</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xrEngine\defines.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\xrServerEntities\pch_script.cpp">
@@ -575,9 +574,6 @@
     </ClCompile>
     <ClCompile Include="xrSE_Factory.cpp">
       <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="ai_space.cpp">
-      <Filter>Common\ASpace</Filter>
     </ClCompile>
     <ClCompile Include="..\..\xrServerEntities\object_factory.cpp">
       <Filter>Common\ObjectFactory</Filter>
@@ -774,5 +770,6 @@
     <ClCompile Include="..\..\xrServerEntities\xrServer_Objects_Alife_Smartcovers_script.cpp">
       <Filter>ServerStuff\ServerEntities\objects_alife_smartcover</Filter>
     </ClCompile>
+    <ClCompile Include="ai_space.cpp" />
   </ItemGroup>
 </Project>
