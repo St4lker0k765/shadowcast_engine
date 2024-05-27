@@ -7,8 +7,8 @@
 #include "CustomObject.h"
 #include "SpawnPoint.h"
 
-#include "..\..\xrRender\Private\ParticleEffect.h"
-#include "..\..\xrRender\Private\ParticleGroup.h"
+#include "..\..\Layers\xrRender\ParticleEffect.h"
+#include "..\..\Layers\xrRender\ParticleGroup.h"
 
 class EParticlesObject: public CCustomObject
 {

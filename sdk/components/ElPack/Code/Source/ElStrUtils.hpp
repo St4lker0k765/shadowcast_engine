@@ -10,8 +10,8 @@
 #pragma delphiheader begin
 #pragma option push -w-
 #pragma option push -Vx
-#include <SysInit.hpp>	// Pascal unit
-#include <System.hpp>	// Pascal unit
+//#include <SysInit.hpp>	// Pascal unit
+//#include <System.hpp>	// Pascal unit
 
 //-- user supplied -----------------------------------------------------------
 typedef WideString TElFString;

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "UIParticlesTool.h"
-#include "..\..\xrRender\Private\PSLibrary.h"
+#include "..\..\Layers\xrRender\PSLibrary.h"
 #include "Scene.h"
 #include "EParticlesObject.h"
 UIParticlesTool::UIParticlesTool()

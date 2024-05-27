@@ -22,7 +22,7 @@
 #include "ui_toolscustom.h"
 
 #endif
-//#include "../../../xrRender/Private/SkeletonAnimated.h"
+//#include "../../../Layers/xrRender/SkeletonAnimated.h"
 
 
 ECORE_API BOOL g_force16BitTransformQuant = FALSE;

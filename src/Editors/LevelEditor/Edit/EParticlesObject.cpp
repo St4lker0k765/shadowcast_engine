@@ -5,7 +5,7 @@
 #pragma hdrstop
 
 #include "EParticlesObject.h"
-#include "..\..\xrRender\Private\PSLibrary.h"
+#include "..\..\Layers\xrRender\PSLibrary.h"
 #include "../XrECore/Editor/ui_main.h"
 
 #define CPSOBJECT_VERSION  				0x0013

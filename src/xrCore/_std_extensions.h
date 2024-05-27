@@ -5,7 +5,7 @@
 #ifndef DEBUG
 #undef BREAK_AT_STRCMP
 #endif
-#ifdef _EDITOR
+#if 0
 #undef BREAK_AT_STRCMP
 #endif
 
@@ -29,7 +29,7 @@
 #undef max
 #endif
 
-#ifdef _EDITOR
+#if 0
 IC char* strncpy_s(char* strDestination, size_t sizeInBytes, const char* strSource, size_t count)
 {
     return strncpy(strDestination, strSource, count);
@@ -62,12 +62,12 @@ IC char* xr_strcat(char* strDestination, const char* strSource)
 
 IC int xr_sprintf(char* dest, size_t sizeOfBuffer, const char* format, ...)
 {
-    va_list mark;
+    va_list 	mark;
     va_start(mark, format);
     int sz = _vsnprintf(dest, sizeOfBuffer, format, mark);
     dest[sizeOfBuffer - 1] = 0;
     va_end(mark);
-    return sz;
+    return 		sz;
 }
 #endif
 
@@ -203,7 +203,7 @@ IC int xr_strcmp(const char* S1, const char* S2)
 }
 #endif
 
-#ifndef _EDITOR
+#if 1
 #ifndef MASTER_GOLD
 
 inline errno_t xr_strcpy(LPSTR destination, size_t const destination_size, LPCSTR source)
@@ -279,7 +279,7 @@ inline errno_t xr_strcat(char(&destination)[count], LPCSTR source)
 {
     return xr_strcat(destination, count, source);
 }
-#endif // #ifndef _EDITOR
+#endif // #if 1
 
 XRCORE_API char* timestamp(string64& dest);
 

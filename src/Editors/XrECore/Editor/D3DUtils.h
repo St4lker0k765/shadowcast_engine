@@ -5,7 +5,7 @@
 #ifndef D3DUtilsH_included
 #define D3DUtilsH_included
 	
-#include "..\..\..\xrRender\Public\DrawUtils.h"
+#include "..\..\..\Include\xrRender\DrawUtils.h"
 //----------------------------------------------------
 
 #ifdef _EDITOR

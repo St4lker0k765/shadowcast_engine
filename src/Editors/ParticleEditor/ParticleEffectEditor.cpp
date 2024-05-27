@@ -4,7 +4,7 @@
 
 #ifdef _PARTICLE_EDITOR
 
-#include "..\..\xrRender\Private\ParticleEffect.h"
+#include "..\..\Layers\xrRender\ParticleEffect.h"
 #include "..\XrEcore\Editor\ParticleEffectActions.h"
 #include "../../xrServerEntities/PropertiesListHelper.h"
 #include "ui_particletools.h"

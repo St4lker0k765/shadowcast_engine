@@ -12,7 +12,7 @@
 #include "../XrECore/Editor/Library.h"
 #include "../XrECore/Editor/ui_main.h"
 
-#include "..\..\xrRender\Private\DetailFormat.h"
+#include "..\..\Layers\xrRender\DetailFormat.h"
 #include "../XrECore/Editor/ImageManager.h"
 #include "../XrETools/ETools.h"
 

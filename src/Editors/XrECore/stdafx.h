@@ -55,8 +55,8 @@
 
 // DirectX headers
 #include <d3d9.h>
-#include "directx\d3dx9.h"
-#include "..\..\XrRender\Private\xrD3dDefs.h"
+#include "d3dx9.h"
+#include "..\..\Layers\XrRender\xrD3dDefs.h"
 
 #include <dinput.h>
 //#include <dsound.h>
@@ -70,11 +70,11 @@ DEFINE_VECTOR		(xr_string*,LPAStringVec,LPAStringIt);
 
 #include "..\..\xrServerEntities\xrEProps.h"
 #include "..\..\xrCore\Log.h"
-#include "editor\engine.h"
+#include "..\..\xrEngine\engine.h"
 #include "..\..\XrEngine\defines.h"
 
 #include "../../xrphysics/xrphysics.h"
-#include "..\..\XrRender\Private\FVF.h"
+#include "..\..\Layers\XrRender\FVF.h"
 
 struct str_pred 
 {
@@ -128,8 +128,8 @@ struct astr_pred
 #define		TEX_POINT_ATT	"internal\\internal_light_attpoint"
 #define		TEX_SPOT_ATT	"internal\\internal_light_attclip"
 
-#include "..\..\XrRender\Private\ETextureParams.h"
-#include "..\..\XrRender\Private\ResourceManager.h"
+#include "..\..\Layers\XrRender\ETextureParams.h"
+#include "..\..\Layers\XrRender\ResourceManager.h"
 #include "Editor/ImageManager.h"
 
 inline xr_string ChangeFileExt(const char* name, const char* e)

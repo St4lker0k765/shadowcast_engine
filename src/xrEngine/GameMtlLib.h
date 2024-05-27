@@ -51,7 +51,7 @@
 
 #ifndef MTL_EXPORT_API
 #ifdef _EDITOR
-#include "ElTree.hpp"
+//#include "ElTree.hpp"
 #define MTL_EXPORT_API ECORE_API
 #else
 #define MTL_EXPORT_API ENGINE_API

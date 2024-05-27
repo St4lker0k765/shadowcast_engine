@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #pragma hdrstop
 
-#include "..\..\XrRender\Private\PSLibrary.h"
-#include "..\..\XrRender\Private\ParticleEffect.h"
-#include "..\..\XrRender\Private\ParticleGroup.h"
+#include "..\..\Layers\xrRender\PSLibrary.h"
+#include "..\..\Layers\xrRender\ParticleEffect.h"
+#include "..\..\Layers\xrRender\ParticleGroup.h"
 //------------------------------------------------------------------------------
 
 void  CPSLibrary::FindByName(LPCSTR new_name, bool& res)

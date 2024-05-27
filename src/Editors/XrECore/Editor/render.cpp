@@ -2,8 +2,8 @@
 #pragma hdrstop
 
 #include "render.h"
-#include "ResourceManager.h"
-#include "../../../xrAPI/xrAPI.h"
+#include "../../../Layers/xrRender/ResourceManager.h"
+#include "../../../Include/xrAPI/xrAPI.h"
 //---------------------------------------------------------------------------
 float ssaDISCARD		= 4.f;
 float ssaDONTSORT		= 32.f;

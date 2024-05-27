@@ -7,7 +7,7 @@
 #include "ui_main.h"
 #include "render.h"
 #include "GameMtlLib.h"
-#include "ResourceManager.h"
+#include "../../../Layers/xrRender/ResourceManager.h"
 #pragma package(smart_init)
 
 CEditorRenderDevice 		EDevice;
@@ -65,8 +65,8 @@ CEditorRenderDevice::~CEditorRenderDevice(){
 }
 
 //extern void Surface_Init();
-#include "../../../xrAPI/xrAPI.h"
-#include "../../../xrRender/Private/dxRenderFactory.h"
+#include "../../../Include/xrAPI/xrAPI.h"
+#include "../../../Layers/xrRender/dxRenderFactory.h"
 void CEditorRenderDevice::Initialize()
 {
 //	m_Camera.Reset();

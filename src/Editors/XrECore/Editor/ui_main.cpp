@@ -9,7 +9,7 @@
 #include "UI_Main.h"
 #include "d3dutils.h"
 #include "SoundManager.h"
-#include "PSLibrary.h"
+#include "../Layers/xrRender/PSLibrary.h"
 
 #include "UIEditLightAnim.h"
 #include "UIImageEditorForm.h"
@@ -423,7 +423,7 @@ void TUI::Redraw()
                     Tools->Render();
                 }
                 catch (...) {
-                    ELog.DlgMsg(mtError, "Please notify AlexMX!!! Critical error has occured in render routine!!! [Type B]");
+                    FATAL("Please notify AlexMX!!! Critical error has occured in render routine!!! [Type B]");
                 }
 
                 // draw selection rect
@@ -452,12 +452,12 @@ void TUI::Redraw()
                 EDevice.End();
             }
             catch (...) {
-                ELog.DlgMsg(mtError, "Please notify AlexMX!!! Critical error has occured in render routine!!! [Type C]");
+                FATAL("Please notify AlexMX!!! Critical error has occured in render routine!!! [Type C]");
             }
 
         }
     }catch(...){
-    	ELog.DlgMsg(mtError, "Please notify AlexMX!!! Critical error has occured in render routine!!! [Type A]");
+    	FATAL("Please notify AlexMX!!! Critical error has occured in render routine!!! [Type A]");
 //		_clear87();
 //		FPU::m24r();
 //    	ELog.DlgMsg(mtError, "Critical error has occured in render routine.\nEditor may work incorrectly.");
@@ -574,7 +574,7 @@ bool TUI::OnCreate()
         VerifyPath(log_path);
     }
     if (!FS.path_exist(_local_root_)){
-    	ELog.DlgMsg	(mtError,"Undefined Editor local directory.");
+    	FATAL("Undefined Editor local directory.");
         return 		false;
     }
 

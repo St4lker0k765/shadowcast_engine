@@ -3,14 +3,14 @@
 
 #include "../../../xrengine/device.h"
 #include "ui_camera.h"
-#include "../../../xrRender/Private/hwcaps.h"
-#include "../../../xrRender/Private/hw.h"
+#include "../../../Layers/xrRender/hwcaps.h"
+#include "../../../Layers/xrRender/hw.h"
 #include "../../../xrEngine/pure.h"
 #include "../../../xrCore/ftimer.h"
 #include "estats.h"
 #include "../../../xrEngine/shader_xrlc.h"
-#include "../../../xrRender/Private/shader.h"
-#include "../../../xrRender/Private/R_Backend.h"
+#include "../../../Layers/xrRender/shader.h"
+#include "../../../Layers/xrRender/R_Backend.h"
 
 
 //---------------------------------------------------------------------------
@@ -197,9 +197,6 @@ enum {
 #define		REQ_CREATE()	if (!EDevice.bReady)	return;
 #define		REQ_DESTROY()	if (EDevice.bReady)	return;
 
-#include "../../../xrCPU_Pipe/xrCPU_Pipe.h"
-ENGINE_API extern xrDispatchTable	PSGP;
-
-#include "../../../xrRender/Private/R_Backend_Runtime.h"
+#include "../../../Layers/xrRender/R_Backend_Runtime.h"
 
 #endif

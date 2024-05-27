@@ -10,7 +10,7 @@
 #pragma delphiheader begin
 #pragma option push -w-
 #pragma option push -Vx
-#include <ActiveX.hpp>	// Pascal unit
+//#include <ActiveX.hpp>	// Pascal unit
 #include <ElVCLUtils.hpp>	// Pascal unit
 #include <ElExtBkgnd.hpp>	// Pascal unit
 #include <ElDragDrop.hpp>	// Pascal unit

@@ -2,6 +2,7 @@
 #define EditObjectH
 
 #include "Bone.h"
+#include "xrCore/bone.h"
 #include "Motion.h"
 #ifdef _EDITOR
 #	include "../../../xrServerEntities/PropertiesListTypes.h"
@@ -9,7 +10,7 @@
 #	include "GameMtlLib.h"
 #	include "pick_defs.h"
 #endif
-#	include "..\..\..\xrRender\Public\kinematics.h"
+#	include "..\..\..\Include\xrRender\kinematics.h"
 
 #include "physicsshellholdereditorbase.h"
 //----------------------------------------------------

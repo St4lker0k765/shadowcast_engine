@@ -5,15 +5,15 @@
 #include "..\..\..\xrCDB\frustum.h"
 #include "..\..\..\XrEngine\vis_common.h"
 
-#include "../../../xrRender/Private/blenders\blender.h"
-#include "../../../xrRender/Private/blenders\blender_clsid.h"
-#include "../../../xrRender/Private/xrRender_console.h"
-#include "../../../xrRender/Private/PSLibrary.h"
-#include "../../../xrRender/Private/IRenderDetailModel.H"
-#include "../../../xrRender/Private/DetailModel.H"
-#include "../../../xrRender/Private/ModelPool.h"
-#include "../../../xrRender/Private/SkeletonCustom.h"
-#include "../../../xrAPI/xrAPI.h"
+#include "../../../Layers/xrRender/blenders\blender.h"
+#include "../../../Layers/xrRender/blenders\blender_clsid.h"
+#include "../../../Layers/xrRender/xrRender_console.h"
+#include "../../../Layers/xrRender/PSLibrary.h"
+#include "../../../Layers/xrRender/IRenderDetailModel.H"
+#include "../../../Layers/xrRender/DetailModel.H"
+#include "../../../Layers/xrRender/ModelPool.h"
+#include "../../../Layers/xrRender/SkeletonCustom.h"
+#include "../../../include/xrAPI/xrAPI.h"
 
 
 // definition (Renderer)

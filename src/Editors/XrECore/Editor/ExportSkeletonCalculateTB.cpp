@@ -11,8 +11,8 @@
 //
 #include "../../xrCore/xrCore.h"
 
-#include "../../../xrRender/Private/hwcaps.h"
-#include "../../../xrRender/Private/hw.h"
+#include "../../../Layers/xrRender/hwcaps.h"
+#include "../../../Layers/xrRender/hw.h"
 #include "../../../xrEngine/pure.h"
 class CGameFont;
 #include "..\..\include\xrRender\drawutils.h"

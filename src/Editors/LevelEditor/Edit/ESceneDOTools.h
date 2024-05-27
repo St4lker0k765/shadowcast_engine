@@ -2,11 +2,11 @@
 #ifndef ESceneDOToolsH
 #define ESceneDOToolsH
 
-#include "..\..\xrRender\Private\DetailFormat.h"
+#include "..\..\Layers\xrRender\DetailFormat.h"
 #include "../XrECore/Editor/EDetailModel.h"
 #include "../XrECore/Editor/Library.h"
 #include "customobject.h"
-#include "..\..\xrRender\Private\DetailManager.h"
+#include "..\..\Layers\xrRender\DetailManager.h"
 #include "Custom2DProjector.h"
 #include "ESceneCustomMTools.H"
 

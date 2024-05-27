@@ -43,7 +43,9 @@
 #pragma warning(disable:4005)
 #include <windows.h>
 #include <atlstr.h>
+#ifndef _EDITOR
 #include <atlimage.h>
+#endif
 #ifndef __BORLANDC__
 #include <windowsx.h>
 #endif

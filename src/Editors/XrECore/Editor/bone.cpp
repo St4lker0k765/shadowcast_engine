@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #pragma hdrstop
 
-#include "bone.h"
+#include "../xrSE_Factory/bone.h"
 #include "envelope.h"
 
 #define BONE_VERSION					0x0002

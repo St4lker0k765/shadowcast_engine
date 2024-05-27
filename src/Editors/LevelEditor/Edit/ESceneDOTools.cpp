@@ -12,7 +12,7 @@
 #include "../XrECore/Editor/Library.h"
 #include "ui_levelmain.h"
 
-#include "..\..\xrRender\Private\DetailFormat.h"
+#include "..\..\Layers\xrRender\DetailFormat.h"
 #include "../XrECore/Editor/ImageManager.h"
 
 static const u32 DETMGR_VERSION = 0x0003ul;

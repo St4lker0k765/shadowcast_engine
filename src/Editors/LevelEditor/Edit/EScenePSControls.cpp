@@ -3,7 +3,7 @@
 
 #include "EScenePSControls.h"
 #include "ui_leveltools.h"
-#include "..\..\xrRender\Private\PSLibrary.h"
+#include "..\..\Layers\xrRender\PSLibrary.h"
 #include "EParticlesObject.h"
 #include "scene.h"
 #include "../XrECore/Editor/ui_main.h"

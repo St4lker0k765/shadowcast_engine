@@ -8,7 +8,7 @@
 #include "Engine.h"
 #include "ui_main.h"
 
-xrDispatchTable	PSGP;                
+//xrDispatchTable	PSGP;                
 CEngine	Engine;
 
 //////////////////////////////////////////////////////////////////////

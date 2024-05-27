@@ -10,10 +10,10 @@
 
 #include "guid_generator.h"
 
-#ifdef WINVER
-#	include <rpcdce.h>
-#	include <rpc.h>
-#endif
+#include <rpcdce.h>
+#include <rpc.h>
+#include "stdafx.h"
+#include <static_check.h>
 
 xrGUID generate_guid()
 {
