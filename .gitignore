@@ -10,6 +10,9 @@
 *.pdb
 *.exp
 *.exe
+*.obj
+*.tlog
+*.recipe
 
 # exclude binaries and temporary files
 bin/

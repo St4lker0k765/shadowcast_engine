@@ -132,8 +132,9 @@ public:
     virtual bool CanSkipSceneRendering() = 0;
     virtual void DestroyInternal(bool bForce) = 0;
 };
-
+#ifndef _EDITOR
 extern ENGINE_API bool g_dedicated_server;
+#endif
 extern ENGINE_API IGame_Persistent* g_pGamePersistent;
 #endif //IGame_PersistentH
 

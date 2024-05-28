@@ -133,7 +133,11 @@ void CGameFont::Initialize2(const char* name, const char* shader, const char* st
 	}
 
 	constexpr u32 TextureDimension = 2048; //#TODO calculate size based on font size
-	u32* FontBitmap = (u32*)Memory.mem_alloc((TextureDimension * TextureDimension) * 4);
+	u32* FontBitmap = (u32*)Memory.mem_alloc((TextureDimension * TextureDimension) * 4
+#ifdef DEBUG
+		,  "FILE in memory"
+#endif
+	);
 
 	// есть кучу способов высчитать размер шрифта для скейлинга
 	// 1. основываясь на DPI(PPI), однако, как не вычисляй его он всегда считается исходя из разрешения моника(системы) и 23 дюймов(мб с дровами на моник - из реальных дюймов)

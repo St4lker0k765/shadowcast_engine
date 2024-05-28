@@ -17,6 +17,7 @@ enum {
 	
 	M_CHANGE_LEVEL,				// changing level
 	M_LOAD_GAME,
+	M_RELOAD_GAME,
 	M_SAVE_GAME,
 	M_SAVE_PACKET,
 

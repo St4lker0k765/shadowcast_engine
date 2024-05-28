@@ -115,7 +115,7 @@ void CEngine::Initialize_dll()
         psDeviceFlags.set(rsR4, FALSE);
         psDeviceFlags.set(rsR3, FALSE);
         psDeviceFlags.set(rsR2, TRUE);
-        renderer_value = 1; //con cmd
+        renderer_value = 0; //con cmd
 
         Log("# [Engine]: Loading DLL:", r2_name);
         h_render = LoadLibrary(r2_name);
@@ -284,14 +284,14 @@ void CEngine::CreatingRenderList()
     vid_quality_token[_cnt - 1].name = nullptr;
 
 #ifdef DEBUG
-    Msg("Available render modes[%d]:", _tmp.size());
+//    Msg("Available render modes[%d]:", _tmp.size());
 #endif // DEBUG
     for (u32 i_render = 0; i_render < _tmp.size(); ++i_render)
     {
         vid_quality_token[i_render].id = static_cast<int>(i_render);
         vid_quality_token[i_render].name = _tmp[i_render];
 #ifdef DEBUG
-        Msg("[%s]", _tmp[i]);
+//       Msg("[%s]", _tmp[i]);
 #endif // DEBUG
     }
 }

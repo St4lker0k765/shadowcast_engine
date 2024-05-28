@@ -15,6 +15,7 @@
 #include "../../../Layers/xrRender/SkeletonCustom.h"
 #include "../../../include/xrAPI/xrAPI.h"
 #include "../../../xrEngine/Render.h"
+#include <Layers/xrRender/HOM.h>
 
 // definition (Renderer)
 /*

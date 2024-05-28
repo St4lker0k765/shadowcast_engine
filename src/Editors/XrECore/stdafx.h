@@ -14,7 +14,7 @@
 
 #define         R_R1    1
 #define         R_R2    2
-#define         RENDER  R_R1
+#define         RENDER  R_R2
 
 // Std C++ headers
 

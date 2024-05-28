@@ -247,6 +247,7 @@ void CLevel::ClientReceive()
 				if (g_bDebugEvents)		ProcessGameEvents();
 			}break;
 		case M_LOAD_GAME:
+		case M_RELOAD_GAME:
 		case M_CHANGE_LEVEL:
 			{
 #ifdef DEBUG
