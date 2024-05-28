@@ -14,11 +14,18 @@
 #pragma warning(default:4995)
 
 #include "x_ray.h"
+#ifndef _EDITOR
 #include "render.h"
-
+#else
+#include <xrEngine/Render.h>
+#endif
 #include "xrSash.h"
 #include "igame_persistent.h"
 #include "xr_ioconsole.h"
+
+#ifdef _EDITOR
+#include <Layers/xrRenderPC_R2/r2.h>
+#endif
 
 ENGINE_API CRenderDevice Device;
 ENGINE_API CLoadScreenRenderer load_screen_renderer;
@@ -346,13 +353,14 @@ void CRenderDevice::on_idle()
     
     const u64 frameEndTime = TimerGlobal.GetElapsed_ms();
     const u64 frameTime = frameEndTime - frameStartTime;
-
+#ifndef _EDITOR
     float fps_to_rate = fps_limit == 900? 0 : 1000.f / fps_limit;
-
+#endif
     u32 updateDelta;
 
     if (Device.Paused() || bMainMenuActive())
         updateDelta = 16; // 16 ms, ~60 FPS max while paused
+#ifndef _EDITOR   
     else
         updateDelta = fps_to_rate;
         
@@ -361,7 +369,7 @@ void CRenderDevice::on_idle()
         if (frameTime < updateDelta)
             Sleep(updateDelta - frameTime);
     }
-
+#endif
     syncFrameDone.Wait(); // wait until secondary thread finish its job
     if (!b_is_Active)
         Sleep(1);
@@ -628,5 +636,9 @@ void CSecondVPParams::SetSVPActive(bool bState) //--#SM+#-- +SecondVP+
 
 bool CSecondVPParams::IsSVPFrame() //--#SM+#-- +SecondVP+
 {
+#ifndef _EDITOR
 	return (Device.dwFrame % GetSVPFrameDelay() == 0);
+#else
+    return false;
+#endif
 }

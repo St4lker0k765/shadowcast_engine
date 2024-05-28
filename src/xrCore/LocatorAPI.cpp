@@ -1755,3 +1755,20 @@ BOOL CLocatorAPI::can_modify_file(LPCSTR path, LPCSTR name)
     update_path(temp, path, name);
     return can_modify_file(temp);
 }
+
+BOOL CLocatorAPI::file_find(LPCSTR full_name, FS_File& f)
+{
+    intptr_t hFile;
+    _FINDDATA_T sFile;
+    // find all files
+    if (-1 != (hFile = _findfirst((LPSTR)full_name, &sFile)))
+    {
+        f = FS_File(sFile);
+        _findclose(hFile);
+        return TRUE;
+    }
+    else
+    {
+        return FALSE;
+    }
+}

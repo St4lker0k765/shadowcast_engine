@@ -18,8 +18,9 @@
 
 extern ENGINE_API float VIEWPORT_NEAR;
 #define VIEWPORT_NEAR_HUD 0.01f
+#ifndef _EDITOR
 extern ENGINE_API int psSVPFrameDelay;
-
+#endif
 enum ViewPort;
 
 //#define VIEWPORT_NEAR 0.05f //--#SM+#-- (Old: 0.2f)
@@ -136,7 +137,7 @@ public:
     u32 screenHeight;
 
 	bool isR1;
-
+#ifndef _EDITOR
 	IC bool IsSVPActive() { return isActive; }
 	IC void SetSVPActive(bool bState);
 	bool    IsSVPFrame();
@@ -147,6 +148,7 @@ public:
 		frameDelay = iDelay;
 		clamp<u8>(frameDelay, 1, u8(-1));
 	}
+#endif
 };
 
 #pragma pack(pop)
@@ -244,11 +246,12 @@ public:
         Timer.Start();
         m_bNearer = FALSE;
 		//--#SM+#-- +SecondVP+
+#ifndef _EDITOR
 		m_SecondViewport.SetSVPActive(false);
 		m_SecondViewport.SetSVPFrameDelay(static_cast<u8>(psSVPFrameDelay)); // Change it to 2-3, if you want to save perfomance. Will cause skips in updating image in scope
 		m_SecondViewport.isCamReady = false;
 		m_SecondViewport.isR1 = false;
-
+#endif
     };
 
     void Pause(BOOL bOn, BOOL bTimer, BOOL bSound, LPCSTR reason);

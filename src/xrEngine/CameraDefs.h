@@ -36,7 +36,7 @@ struct ENGINE_API SCamEffectorInfo
         return *this;
     }
 };
-
+#ifndef _EDITOR
 enum ECameraStyle
 {
     csCamDebug,
@@ -46,7 +46,7 @@ enum ECameraStyle
     csFixed,
     cs_forcedword = u32(-1)
 };
-
+#endif
 enum ECamEffectorType
 {
     cefDemo = 0,

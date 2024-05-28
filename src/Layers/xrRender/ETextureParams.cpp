@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #pragma hdrstop          
-
+#ifdef _EDITOR
+#include <Editors/Public/xrEProps.h>
+#endif
 #include "ETextureParams.h"
 
 xr_token					tparam_token							[ ]={

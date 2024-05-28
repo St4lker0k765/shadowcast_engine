@@ -171,6 +171,8 @@ public:
     FS_Path* append_path(LPCSTR path_alias, LPCSTR root, LPCSTR add, BOOL recursive);
     LPCSTR update_path(string_path& dest, LPCSTR initial, LPCSTR src);
 
+    BOOL file_find(LPCSTR full_name, FS_File& f);
+
     int file_list(FS_FileSet& dest, LPCSTR path, u32 flags = FS_ListFiles, LPCSTR mask = 0);
 
     bool load_all_unloaded_archives();

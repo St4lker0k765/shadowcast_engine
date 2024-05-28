@@ -6,6 +6,10 @@
 #include "../Include/xrRender/FontRender.h"
 #include <freetype/freetype.h>
 
+#ifdef _EDITOR
+#include <xrEngine/device.h>
+ENGINE_API CRenderDevice Device;
+#endif
 FT_Library FreetypeLib = nullptr;
 
 bool CGameFont::bFreetypeInitialized = false;

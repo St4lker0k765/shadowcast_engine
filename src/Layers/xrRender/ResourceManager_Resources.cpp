@@ -6,6 +6,10 @@
 #ifndef _EDITOR
 	#pragma comment(lib, "d3dx9.lib")
 #include "../../xrEngine/render.h"
+#else
+#pragma comment(lib, "d3dx9.lib")
+#include "../../xrEngine/render.h"
+#include <Layers/xrRenderPC_R2/r2.h>
 #endif
 #pragma warning(default:4995)
 
@@ -136,7 +140,6 @@ void		CResourceManager::_DeleteDecl		(const SDeclaration* dcl)
 }
 
 //--------------------------------------------------------------------------------------------------------------
-#ifndef _EDITOR
 SVS*	CResourceManager::_CreateVS		(LPCSTR _name)
 {
 	string_path			name;
@@ -198,7 +201,6 @@ SVS*	CResourceManager::_CreateVS		(LPCSTR _name)
 		return					_vs;
 	}
 }
-#endif
 
 void	CResourceManager::_DeleteVS			(const SVS* vs)
 {
@@ -212,7 +214,6 @@ void	CResourceManager::_DeleteVS			(const SVS* vs)
 	Msg	("! ERROR: Failed to find compiled vertex-shader '%s'",*vs->cName);
 }
 
-#ifndef _EDITOR
 //--------------------------------------------------------------------------------------------------------------
 SPS*	CResourceManager::_CreatePS			(LPCSTR name)
 {
@@ -266,7 +267,6 @@ SPS*	CResourceManager::_CreatePS			(LPCSTR name)
 		return					_ps;
 	}
 }
-#endif
 
 void	CResourceManager::_DeletePS			(const SPS* ps)
 {

@@ -17,7 +17,9 @@
 #include <IGame_Persistent.h>
 #include <Editor/render.h>
 #endif
+#ifndef _EDITOR
 void	fill_vid_mode_list(CHW* _hw);
+#endif
 void	free_vid_mode_list();
 
 void	fill_render_mode_list();
@@ -50,9 +52,10 @@ void CHW::Reset(HWND hwnd)
 	_RELEASE(pBaseRT);
 
 	BOOL	bWindowed = TRUE;
+#ifndef _EDITOR
 	if (!g_dedicated_server)
 		bWindowed = !psDeviceFlags.is(rsFullscreen);
-
+#endif
 	selectResolution(DevPP.BackBufferWidth, DevPP.BackBufferHeight, bWindowed);
 	// Windoze
 	DevPP.SwapEffect = bWindowed ? D3DSWAPEFFECT_COPY : D3DSWAPEFFECT_DISCARD;
@@ -180,7 +183,9 @@ void	CHW::DestroyDevice()
 }
 void	CHW::selectResolution(u32 &dwWidth, u32 &dwHeight, BOOL bWindowed)
 {
+#ifndef _EDITOR
 	fill_vid_mode_list(this);
+#endif
 #ifndef _EDITOR
 	if (g_dedicated_server)
 	{
@@ -415,7 +420,9 @@ void		CHW::CreateDevice(HWND m_hWnd, bool move_window)
 	Msg("*          DDI-level: %2.1f", float(D3DXGetDriverLevel(pDevice)) / 100.f);
 
 	updateWindowProps(m_hWnd);
+#ifndef _EDITOR
 	fill_vid_mode_list(this);
+#endif
 }
 
 u32	CHW::selectPresentInterval()

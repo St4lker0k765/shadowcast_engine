@@ -15,6 +15,10 @@
 
 #include "xr_object.h"
 
+#ifdef _EDITOR
+#include <xrEngine/Render.h>
+#include <Layers/xrRenderPC_R2/r2.h>
+#endif
 xr_token* vid_quality_token = NULL;
 
 xr_token vid_bpp_token[] =
@@ -460,7 +464,9 @@ public:
     {
         xr_sprintf(S, sizeof(S), "%dx%d", psCurrentVidMode[0], psCurrentVidMode[1]);
     }
+#ifndef _EDITOR
     virtual xr_token* GetToken() { return vid_mode_token; }
+#endif
     virtual void Info(TInfo& I)
     {
         xr_strcpy(I, sizeof(I), "change screen resolution WxH");
@@ -689,8 +695,9 @@ ENGINE_API float adj_delta_pos = 0.0005f;
 ENGINE_API float adj_delta_rot = 0.05f;
 
 ENGINE_API float psSVPImageSizeK = 0.7f;
+#ifndef _EDTIOR
 ENGINE_API int psSVPFrameDelay = 1;
-
+#endif
 ENGINE_API float devfloat1 = 0.0f;
 ENGINE_API float devfloat2 = 0.0f;
 ENGINE_API float devfloat3 = 0.0f;
@@ -806,7 +813,9 @@ void CCC_Register()
     CMD3(CCC_Mask, "rs_fullscreen", &psDeviceFlags, rsFullscreen);
     CMD3(CCC_Mask, "rs_refresh_60hz", &psDeviceFlags, rsRefresh60hz);
     CMD4(CCC_Float, "rs_cap_frame_rate", &fps_limit, 10.f, 900.00f);
+#ifndef _EDTIOR
     CMD4(CCC_Integer, "svp_frame_delay", &psSVPFrameDelay, 1, 3);
+#endif
     CMD3(CCC_Mask, "rs_stats", &psDeviceFlags, rsStatistic);
     CMD3(CCC_Mask, "rs_fps", &psDeviceFlags, rsFPS);
     CMD4(CCC_Float, "rs_vis_distance", &psVisDistance, 0.4f, 1.5f);

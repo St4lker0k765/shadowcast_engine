@@ -1,7 +1,9 @@
 #pragma once
 #include "MbHelpers.h"
 #include "../Include/xrRender/FontRender.h"
-
+#ifdef _EDITOR
+#include "Render.h"
+#endif
 class ENGINE_API CGameFont
 {
 	friend class dxFontRender;

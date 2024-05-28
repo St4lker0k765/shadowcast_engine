@@ -4,7 +4,9 @@
 
 #ifndef D3DUtilsH_included
 #define D3DUtilsH_included
-	
+
+#include <xrCore/fastdelegate.h>
+#include <Editor\device.h>
 #include "..\..\..\Include\xrRender\DrawUtils.h"
 //----------------------------------------------------
 

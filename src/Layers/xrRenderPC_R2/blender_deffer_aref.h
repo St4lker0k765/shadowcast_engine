@@ -3,6 +3,7 @@
 #ifdef _EDITOR
 #include "r2_types.h"
 #include "Layers/xrRenderPC_R2/stdafx.h"
+#include <Layers/xrRender/blenders/Blender_Recorder.h>
 #endif
 
 class CBlender_deffer_aref : public IBlender  

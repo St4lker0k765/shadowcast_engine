@@ -5,10 +5,14 @@
 //#include "skeletoncustom.h"
 #include "bone.h"
 #include "skeletonmotiondefs.h"
+#ifdef _EDITOR
+#include <xrCore\xr_ini.h>
+#endif
 // refs
 class CKinematicsAnimated;
 class CBlend;
 class IKinematics;
+class CIniFIle;
 
 // callback
 typedef void(*PlayCallback) (CBlend* P);

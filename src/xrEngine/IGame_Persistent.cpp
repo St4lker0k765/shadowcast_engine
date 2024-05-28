@@ -3,7 +3,11 @@
 
 #include "IGame_Persistent.h"
 #include "environment.h"
+#ifndef _EDITOR
 # include "Render.h"
+#else
+#include <xrEngine/Render.h>
+#endif
 # include "ps_instance.h"
 # include "CustomHUD.h"
 

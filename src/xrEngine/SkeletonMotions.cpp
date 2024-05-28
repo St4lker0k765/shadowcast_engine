@@ -7,7 +7,9 @@
 #include "Fmesh.h"
 #include "motion.h"
 #include "..\Include\xrRender\Kinematics.h"
-
+#ifdef _EDITOR
+#include <xrCore\xr_ini.h>
+#endif
 motions_container* g_pMotionsContainer = 0;
 
 u16 CPartition::part_id(const shared_str& name) const

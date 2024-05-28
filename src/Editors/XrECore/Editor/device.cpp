@@ -9,9 +9,11 @@
 #include "GameMtlLib.h"
 #include "../../../Layers/xrRender/ResourceManager.h"
 #include "Layers/xrRenderPC_R2/r2.h"
+#include "device.h"
+#include <xrCore/LocatorAPI.h>
 #pragma package(smart_init)
 
-CEditorRenderDevice 		EDevice;
+extern ECORE_API CEditorRenderDevice 		EDevice;
 
 extern int	rsDVB_Size;
 extern int	rsDIB_Size;
