@@ -1,9 +1,10 @@
 #include "stdafx.h"
 #pragma hdrstop
 
-#include "render.h"
+#include "Layers/xrRenderPC_R2/r2.h"
 #include "../../../Layers/xrRender/ResourceManager.h"
 #include "../../../Include/xrAPI/xrAPI.h"
+#include <xrEngine/Render.h>
 //---------------------------------------------------------------------------
 float ssaDISCARD		= 4.f;
 float ssaDONTSORT		= 32.f;
@@ -110,19 +111,19 @@ IRenderVisual*			CRender::model_CreateParticles	(LPCSTR name)
 
 void	CRender::rmNear		()
 {
-	CRenderTarget* T	=	getTarget	();
+	IRender_Target* T	=	getTarget	();
 	D3DVIEWPORT9 VP		=	{0,0,T->get_width(),T->get_height(),0,0.02f };
 	CHK_DX				(HW.pDevice->SetViewport(&VP));
 }
 void	CRender::rmFar		()
 {
-	CRenderTarget* T	=	getTarget	();
+	IRender_Target* T	=	getTarget	();
 	D3DVIEWPORT9 VP		=	{0,0,T->get_width(),T->get_height(),0.99999f,1.f };
 	CHK_DX				(HW.pDevice->SetViewport(&VP));
 }
 void	CRender::rmNormal	()
 {
-	CRenderTarget* T	=	getTarget	();
+	IRender_Target* T	=	getTarget	();
 	D3DVIEWPORT9 VP		= {0,0,T->get_width(),T->get_height(),0,1.f };
 	CHK_DX				(HW.pDevice->SetViewport(&VP));
 }
@@ -138,7 +139,7 @@ IRenderVisual*	CRender::model_CreateChild	(LPCSTR name, IReader* data)		{ return
 void 			CRender::model_Delete(IRenderVisual*& V, BOOL bDiscard) { auto v = dynamic_cast<dxRender_Visual*>(V); Models->Delete(v, bDiscard); if (v == nullptr)V = nullptr; }
 IRenderVisual*	CRender::model_Duplicate	(IRenderVisual* V)					{ return Models->Instance_Duplicate(dynamic_cast<dxRender_Visual*>(V));	}
 void 			CRender::model_Render		(IRenderVisual* m_pVisual, const Fmatrix& mTransform, int priority, bool strictB2F, float m_fLOD){Models->Render(dynamic_cast<dxRender_Visual*>(m_pVisual), mTransform, priority, strictB2F, m_fLOD);}
-void 			CRender::model_RenderSingle	(IRenderVisual* m_pVisual, const Fmatrix& mTransform, float m_fLOD){Models->RenderSingle(dynamic_cast<dxRender_Visual*>(m_pVisual), mTransform, m_fLOD);}
+void 			CRender::model_RenderSingle	(IRenderVisual* m_pVisual, const Fmatrix& mTransform, float m_fLOD){CRender::Models->RenderSingle(dynamic_cast<dxRender_Visual*>(m_pVisual), mTransform, m_fLOD);}
 
 //#pragma comment(lib,"d3dx_r1")
 HRESULT	CRender::CompileShader			(

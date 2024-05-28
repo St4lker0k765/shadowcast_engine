@@ -46,7 +46,7 @@
     <ClCompile Include="..\..\XrEngine\xrTheora_Stream.cpp" />
     <ClCompile Include="..\..\XrEngine\xrTheora_Surface.cpp" />
     <ClCompile Include="..\..\XrEngine\Xr_input.cpp" />
-    <ClCompile Include="..\..\XrRender\DX9\dx9r_constants_cache.cpp" />
+    <ClCompile Include="..\..\Layers\xrRenderDX9\dx9r_constants_cache.cpp" />
     <ClCompile Include="..\..\Layers\xrRender\Animation.cpp" />
     <ClCompile Include="..\..\Layers\xrRender\blenders\Blender.cpp" />
     <ClCompile Include="..\..\Layers\xrRender\blenders\Blender_Palette.cpp" />

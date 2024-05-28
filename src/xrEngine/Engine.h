@@ -38,7 +38,11 @@ public:
 
     void Initialize();
     void Destroy();
+#ifdef _EDITOR
+    LPCSTR              LastWindowsError();
 
+    void				ReloadSettings();
+#endif
     void Initialize_dll();
     void CreatingRenderList();
 

@@ -3,6 +3,9 @@
 #include "TextureDescrManager.h"
 #include "ETextureParams.h"
 #include <tbb/parallel_for_each.h>
+#ifdef _EDITOR
+#include "xrCore/Utils.hpp"
+#endif
 
 // eye-params
 float					r__dtex_range	= 50;

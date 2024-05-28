@@ -1,5 +1,10 @@
 #pragma once
 
+#ifdef _EDITOR
+#include "r2_types.h"
+#include "Layers/xrRenderPC_R2/stdafx.h"
+#endif
+
 class CBlender_deffer_model : public IBlender  
 {
 public:

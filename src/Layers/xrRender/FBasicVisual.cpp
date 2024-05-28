@@ -7,6 +7,9 @@
 
 #ifndef _EDITOR
 #	include "../../xrEngine/render.h"
+#else
+#include "xrEngine/Render.h"
+#include "Layers/xrRenderPC_R2/r2.h"
 #endif // #ifndef _EDITOR
 
 #include "fbasicvisual.h"

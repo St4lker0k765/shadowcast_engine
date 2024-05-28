@@ -2,6 +2,7 @@
 #include "stdafx.h"
 #include "UIImageEditorForm.h"
 #include "EThumbnail.h"
+#include "Layers/xrRenderPC_R2/r2.h"
 UIImageEditorForm* UIImageEditorForm::Form = nullptr;
 UIImageEditorForm::UIImageEditorForm()
 {

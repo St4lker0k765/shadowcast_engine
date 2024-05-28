@@ -13,6 +13,8 @@
 	#include	"../../xrEngine/Render.h"
 #else
 	#include "../../Include/xrAPI/xrAPI.h"
+#include	"../../xrEngine/Render.h"
+#include "../../Layers/xrRenderPC_R2/r2.h"
 #endif
 
 #include "SkeletonX.h"

@@ -5,6 +5,9 @@
 
 #include "../../xrEngine/IGame_Persistent.h"
 
+#ifdef _EDITOR
+#include <xrCDB/xrXRC.h>
+#endif
 class occTri;
 
 class CHOM  

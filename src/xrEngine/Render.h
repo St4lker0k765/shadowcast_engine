@@ -170,7 +170,6 @@ enum ViewPort
 //////////////////////////////////////////////////////////////////////////
 // definition (Renderer)
 
-#ifndef _EDITOR
 class ENGINE_API IRender_interface
 {
 public:
@@ -331,7 +330,7 @@ public:
 protected:
     virtual void ScreenshotImpl(ScreenshotMode mode, LPCSTR name, CMemoryWriter* memory_writer) = 0;
 };
-#endif
+
 //extern ENGINE_API IRender_interface* Render;
 
 #endif

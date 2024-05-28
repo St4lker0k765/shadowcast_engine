@@ -5,7 +5,7 @@
 #include "stdafx.h"
 #pragma hdrstop
 
-#include "Engine.h"
+#include "xrEngine/Engine.h"
 #include "ui_main.h"
 
 //xrDispatchTable	PSGP;                

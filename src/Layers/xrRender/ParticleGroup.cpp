@@ -5,6 +5,9 @@
 
 #ifndef _EDITOR
 #include "../../xrServerEntities/smart_cast.h"
+#else
+#include "xrEngine/Render.h"
+#include "Layers/xrRenderPC_R2/r2.h"
 #endif
 
 #include "ParticleGroup.h"

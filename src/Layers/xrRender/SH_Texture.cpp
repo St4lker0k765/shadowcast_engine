@@ -3,10 +3,10 @@
 
 #include "ResourceManager.h"
 
-#ifndef _EDITOR
-#include "../../xrEngine/render.h"
+#include "xrEngine/Render.h"
+#ifdef _EDITOR
+#include "Layers/xrRenderPC_R2/r2.h"
 #endif
-
 #include "../../xrEngine/tntQAVI.h"
 #include "../../xrEngine/xrTheora_Surface.h"
 

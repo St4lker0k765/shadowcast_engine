@@ -5,6 +5,8 @@
 #ifndef XR_EPROPS_EXPORTS
 	#include "ImageManager.h"
 #endif
+#include "xrEngine/Render.h"
+#include "Layers/xrRenderPC_R2/r2.h"
 #pragma package(smart_init)
 
 //------------------------------------------------------------------------------

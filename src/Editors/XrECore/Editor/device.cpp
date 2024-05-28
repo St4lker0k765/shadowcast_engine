@@ -8,6 +8,7 @@
 #include "xrEngine/render.h"
 #include "GameMtlLib.h"
 #include "../../../Layers/xrRender/ResourceManager.h"
+#include "Layers/xrRenderPC_R2/r2.h"
 #pragma package(smart_init)
 
 CEditorRenderDevice 		EDevice;

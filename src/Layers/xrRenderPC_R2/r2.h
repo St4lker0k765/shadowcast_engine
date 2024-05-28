@@ -22,6 +22,11 @@
 #include "../../xrEngine/irenderable.h"
 #include "../../xrEngine/fmesh.h"
 
+#ifdef _EDITOR
+#include <xrCore/stream_reader.h>
+#include "xrXRC.h"
+#include <../../../xrEngine/Render.h>
+#endif
 
 class dxRender_Visual;
 
@@ -140,6 +145,44 @@ public:
 
 	xr_vector<sun::cascade>										m_sun_cascades;
 
+#ifdef _EDITOR
+
+	void					set_Transform(Fmatrix* M);
+	void 					model_Render(IRenderVisual* m_pVisual, const Fmatrix& mTransform, int priority, bool strictB2F, float m_fLOD);
+	void 					model_RenderSingle(IRenderVisual* m_pVisual, const Fmatrix& mTransform, float m_fLOD);
+
+	virtual HRESULT			CompileShader(
+		LPCSTR          	pSrcData,
+		UINT                SrcDataLen,
+		void* pDefines,
+		void* pInclude,
+		LPCSTR              pFunctionName,
+		LPCSTR              pTarget,
+		DWORD               Flags,
+		void* ppShader,
+		void* ppErrorMsgs,
+		void* ppConstantTable);
+
+	Fmatrix					current_matrix;
+	virtual HRESULT					shader_compile(
+		LPCSTR							name,
+		LPCSTR                          pSrcData,
+		UINT                            SrcDataLen,
+		void* pDefines,
+		void* pInclude,
+		LPCSTR                          pFunctionName,
+		LPCSTR                          pTarget,
+		DWORD                           Flags,
+		void* ppShader,
+		void* ppErrorMsgs,
+		void* ppConstantTable);
+
+	void 					Initialize();
+	void 					ShutDown();
+
+	void					OnDeviceCreate();
+	void					OnDeviceDestroy();
+#endif
 private:
 	// Loading / Unloading
 	void							LoadBuffers					(CStreamReader	*fs,	BOOL	_alternative);
@@ -337,4 +380,12 @@ private:
 	FS_FileSet						m_file_set;
 };
 
+#ifdef _EDITOR
+
+IC  float   CalcSSA(Fvector& C, float R)
+{
+	float distSQ = EDevice.m_Camera.GetPosition().distance_to_sqr(C);
+	return  R * R / distSQ;
+}
+#endif
 extern CRender						RImplementation;

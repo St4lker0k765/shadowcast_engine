@@ -6,6 +6,9 @@
 #include "r__sector.h"
 #include "tbb/concurrent_vector.h"
 
+#ifdef _EDITOR
+#include <xrEngine/Render.h>
+#endif
 class light;
 
 //////////////////////////////////////////////////////////////////////////

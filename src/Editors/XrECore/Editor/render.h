@@ -17,7 +17,8 @@
 
 
 // definition (Renderer)
-class CRenderTarget /*:public IRender_Target*/
+/*
+class CRenderTarget
 {
 public:
 	virtual u32			get_width			()				{ return EDevice.m_RenderWidth;	}
@@ -163,5 +164,5 @@ IC  float   CalcSSA(Fvector& C, float R)
 }
 extern ECORE_API CRender  	RImplementation;
 //.extern ECORE_API CRender*	Render;
-
+*/
 #endif

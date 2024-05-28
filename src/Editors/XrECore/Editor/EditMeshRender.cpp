@@ -10,7 +10,8 @@
 #include "EditObject.h"
 #include "ui_main.h"
 #include "d3dutils.h"
-#include "render.h"
+#include "xrEngine/render.h"
+#include "Layers/xrRenderPC_R2/r2.h"
 //----------------------------------------------------
 #define F_LIM (10000)
 #define V_LIM (F_LIM*3)

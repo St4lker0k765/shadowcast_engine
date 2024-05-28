@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "UIMinimapEditorForm.h"
+#include <Layers\xrRenderPC_R2\r2.h>
+#include <Editors/XrEUI/imgui.h>
 UIMinimapEditorForm*    UIMinimapEditorForm::Form = nullptr;
 bool                    UIMinimapEditorForm::bOpen = false;
 UIMinimapEditorForm::UIMinimapEditorForm()

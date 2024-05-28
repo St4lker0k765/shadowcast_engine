@@ -25,6 +25,8 @@
     #include "fhierrarhyvisual.h"
     #include "SkeletonAnimated.h"
 	#include "IGame_Persistent.h"
+#include "xrEngine/Render.h"
+#include "Layers/xrRenderPC_R2/r2.h"
 #endif
 
 dxRender_Visual*	CModelPool::Instance_Create(u32 type)

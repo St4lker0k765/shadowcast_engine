@@ -5,9 +5,8 @@
 #include 	"SkeletonCustom.h"
 #include	"SkeletonX.h"
 #include	"../../xrEngine/fmesh.h"
-#ifndef _EDITOR
 #include	"../../xrEngine/Render.h"
-#endif
+#include "Layers/xrRenderPC_R2/r2.h"
 int			psSkeletonUpdate	= 32;
 xrCriticalSection	UCalc_Mutex
 #ifdef PROFILE_CRITICAL_SECTIONS

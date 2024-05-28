@@ -13,6 +13,8 @@
 
 #ifndef _EDITOR
 #include "dxRenderDeviceRender.h"
+#else
+#include "../../Layers/xrRenderPC_R2/r2.h"
 #endif
 
 // #include "std_classes.h"

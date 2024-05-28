@@ -13,6 +13,11 @@
 #include "FSkinned.h"
 #include "SkeletonX.h"
 
+#ifdef _EDITOR
+#include "xrEngine/Render.h"
+#include "Layers/xrRenderPC_R2/r2.h"
+#endif
+
 #include "../xrRenderDX10/dx10BufferUtils.h"
 
 #include "../../xrEngine/EnnumerateVertices.h"
