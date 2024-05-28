@@ -4,7 +4,7 @@
 #include "Layers/xrRenderPC_R2/r2.h"
 #include "../../../Layers/xrRender/ResourceManager.h"
 #include "../../../Include/xrAPI/xrAPI.h"
-#include <xrEngine/Render.h>
+#include <../../../xrEngine/Render.h>
 //---------------------------------------------------------------------------
 float ssaDISCARD		= 4.f;
 float ssaDONTSORT		= 32.f;

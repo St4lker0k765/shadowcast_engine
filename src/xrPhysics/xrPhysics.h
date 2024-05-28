@@ -7,7 +7,7 @@
 	#ifndef	_EDITOR
 		#pragma comment( lib, "xrPhysics.lib"	)
 	#else
-		#pragma comment( lib, "xrPhysicsB.lib"	)
+		#pragma comment( lib, "xrPhysics.lib"	)
 	#endif
 #endif
 

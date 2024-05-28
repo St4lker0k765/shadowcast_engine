@@ -221,6 +221,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
       <AdditionalDependencies>luabind.lib;xrCore.lib;xrGame.lib;lua51.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ImportLibrary>$(SolutionDir)..\lib\$(Platform)\$(Configuration)\$(TargetName).lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
       <Command>XCOPY $(SolutionDir)..\SDK\binaries\$(Platform)\lua51.dll $(OutDir)  /Y</Command>

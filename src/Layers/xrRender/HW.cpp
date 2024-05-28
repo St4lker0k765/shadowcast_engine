@@ -14,9 +14,9 @@
 #include <FLOD.h>
 #include "xrEngine/Render.h"
 #include "Layers/xrRenderPC_R2/r2.h"
-#endif
 #include <IGame_Persistent.h>
 #include <Editor/render.h>
+#endif
 void	fill_vid_mode_list(CHW* _hw);
 void	free_vid_mode_list();
 

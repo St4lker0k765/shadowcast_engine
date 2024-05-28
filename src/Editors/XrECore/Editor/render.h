@@ -14,7 +14,7 @@
 #include "../../../Layers/xrRender/ModelPool.h"
 #include "../../../Layers/xrRender/SkeletonCustom.h"
 #include "../../../include/xrAPI/xrAPI.h"
-
+#include "../../../xrEngine/Render.h"
 
 // definition (Renderer)
 /*

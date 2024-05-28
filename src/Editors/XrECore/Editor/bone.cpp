@@ -2,7 +2,7 @@
 #pragma hdrstop
 #pragma once
 
-#include "../xrSE_Factory/bone.h"
+#include "../xrEngine/bone.h"
 #include "envelope.h"
 
 #define BONE_VERSION					0x0002
@@ -29,6 +29,7 @@ const	Fobb&		CBone::	get_obb				( )			const
 {
 	return dummy;
 }
+/*
 const IBoneData&	CBoneData::GetChild		( u16 id )const
 {
 	return *children[id];
@@ -41,7 +42,7 @@ IBoneData&	CBoneData::GetChild		( u16 id )
 u16	CBoneData::GetNumChildren	( )const
 {
 	return (u16)children.size();
-}
+}*/
 
 CBone::CBone()
 {

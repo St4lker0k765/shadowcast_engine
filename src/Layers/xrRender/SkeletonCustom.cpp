@@ -6,7 +6,6 @@
 #include	"SkeletonX.h"
 #include	"../../xrEngine/fmesh.h"
 #include	"../../xrEngine/Render.h"
-#include "Layers/xrRenderPC_R2/r2.h"
 int			psSkeletonUpdate	= 32;
 xrCriticalSection	UCalc_Mutex
 #ifdef PROFILE_CRITICAL_SECTIONS
@@ -18,6 +17,7 @@ xrCriticalSection	UCalc_Mutex
 #include "../../xrServerEntities/smart_cast.h"
 #else
 #include "../../Include/xrAPI/xrAPI.h"
+#include "Layers/xrRenderPC_R2/r2.h"
 #endif
 
 //////////////////////////////////////////////////////////////////////

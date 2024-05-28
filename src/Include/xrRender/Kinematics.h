@@ -27,6 +27,7 @@ public:
 		Fvector	tri[3];
 	};
 public:
+	
 	AccessLock protectKinematics_;
 
 	virtual		void					Bone_Calculate		(CBoneData* bd, Fmatrix* parent) = 0;

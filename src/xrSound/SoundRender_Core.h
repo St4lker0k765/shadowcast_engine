@@ -48,7 +48,7 @@ protected:
 	xr_vector<CSoundRender_Target*>		s_targets;
 	xr_vector<CSoundRender_Target*>		s_targets_defer;
 	u32									s_targets_pu;			// parameters update
-	virtual void						refresh_sources			();
+//	virtual void						refresh_sources			();
 	SoundEnvironment_LIB*				s_environment;
 	CSoundRender_Environment			s_user_environment;
 
@@ -106,7 +106,7 @@ public:
 	virtual SoundEnvironment_LIB*		get_env_library			()																{ return s_environment; }
 	virtual void						refresh_env_library		();
 	virtual void						set_user_env			(CSound_environment* E);
-//	virtual void						refresh_sources			();
+	virtual void						refresh_sources			();
     virtual void						set_environment			(u32 id, CSound_environment** dst_env);
     virtual void						set_environment_size	(CSound_environment* src_env, CSound_environment** dst_env);
 #endif

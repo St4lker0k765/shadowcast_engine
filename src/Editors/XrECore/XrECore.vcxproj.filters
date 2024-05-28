@@ -311,9 +311,6 @@
     <ClCompile Include="..\..\XrEngine\xrHemisphere.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\XrRender\DX9\dx9r_constants_cache.cpp">
-      <Filter>Render</Filter>
-    </ClCompile>
     <ClCompile Include="Editor\UIRenderForm.cpp">
       <Filter>Editor</Filter>
     </ClCompile>
@@ -409,6 +406,7 @@
     <ClCompile Include="..\..\Layers\xrRenderPC_R2\blender_light_spot.cpp" />
     <ClCompile Include="..\..\Layers\xrRenderPC_R2\blender_luminance.cpp" />
     <ClCompile Include="..\..\Layers\xrRenderPC_R2\blender_ssao.cpp" />
+    <ClCompile Include="..\..\Layers\xrRenderDX9\dx9r_constants_cache.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WildMagic\WmlMath.h">
