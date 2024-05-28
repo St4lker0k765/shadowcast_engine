@@ -116,7 +116,7 @@ bool ETextureThumbnail::Load(LPCSTR src_name, LPCSTR path)
     m_Type		= THMType(F->r_u32());
     R_ASSERT		(m_Type==ETTexture);
 
-    m_TexParams.Load(*F, src_name);
+    m_TexParams.Load(*F);
     m_Age 			= FS.get_file_age(fn);
 
     FS.r_close		(F);

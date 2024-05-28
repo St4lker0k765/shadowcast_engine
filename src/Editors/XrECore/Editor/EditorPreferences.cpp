@@ -105,7 +105,7 @@ void CCustomPreferences::OnKeyboardCommonFileClick(ButtonValue* B, bool& bModif,
     xr_string fn;
 	switch(B->btn_num){
     case 0:
-        if(EFS.GetOpenName(EDevice.m_hWnd,"$import$", fn, false, NULL, 6)){
+        if(EFS.GetOpenName("$import$", fn, false, NULL, 6)){
             CInifile* 	I 	= xr_new<CInifile>(fn.c_str(), TRUE, TRUE, TRUE);
 		    LoadShortcuts	(I);
             xr_delete		(I);

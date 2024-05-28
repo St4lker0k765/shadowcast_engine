@@ -137,7 +137,7 @@ private:
 // events
 public:
 	typedef fastdelegate::FastDelegate1<PropItem*> 	TOnPropItemFocused;
-    TProperties* 		m_Owner;
+    UIPropertiesForm* 		m_Owner;
     TOnDrawTextEvent	OnDrawTextEvent;
     TOnPropItemFocused	OnItemFocused;
     TOnClick			OnClickEvent;
@@ -164,7 +164,7 @@ public:
     	for (PropValueIt it=values.begin(); values.end() != it; ++it)
         	xr_delete	(*it);
     };
-    IC TProperties*		Owner			(){return m_Owner;}
+    IC UIPropertiesForm*		Owner			(){return m_Owner;}
     void				SetName			(const shared_str& name)
     {
     	key=name;

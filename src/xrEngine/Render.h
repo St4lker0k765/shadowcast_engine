@@ -1,6 +1,10 @@
 #ifndef _RENDER_H_
 #define _RENDER_H_
 
+#ifdef _EDITOR
+#pragma once
+#endif
+
 #include "../xrCDB/frustum.h"
 #include "vis_common.h"
 //#include "IRenderDetailModel.h"
@@ -165,6 +169,8 @@ enum ViewPort
 
 //////////////////////////////////////////////////////////////////////////
 // definition (Renderer)
+
+#ifndef _EDITOR
 class ENGINE_API IRender_interface
 {
 public:
@@ -325,7 +331,7 @@ public:
 protected:
     virtual void ScreenshotImpl(ScreenshotMode mode, LPCSTR name, CMemoryWriter* memory_writer) = 0;
 };
-
+#endif
 //extern ENGINE_API IRender_interface* Render;
 
 #endif

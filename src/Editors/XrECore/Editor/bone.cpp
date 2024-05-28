@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #pragma hdrstop
+#pragma once
 
 #include "../xrSE_Factory/bone.h"
 #include "envelope.h"

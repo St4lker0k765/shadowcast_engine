@@ -314,7 +314,6 @@
     <ClCompile Include="..\..\XrRender\DX9\dx9r_constants_cache.cpp">
       <Filter>Render</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\XrCPU_Pipe\xrSkin2W.cpp" />
     <ClCompile Include="Editor\UIRenderForm.cpp">
       <Filter>Editor</Filter>
     </ClCompile>

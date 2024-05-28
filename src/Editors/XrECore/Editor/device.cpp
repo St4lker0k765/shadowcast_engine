@@ -5,7 +5,7 @@
 #include <sal.h>
 #include "ImageManager.h"
 #include "ui_main.h"
-#include "render.h"
+#include "xrEngine/render.h"
 #include "GameMtlLib.h"
 #include "../../../Layers/xrRender/ResourceManager.h"
 #pragma package(smart_init)

@@ -46,12 +46,13 @@ class ENGINE_API CRenderDeviceData
 {
 
 public:
-    u32 dwWidth;
-    u32 dwHeight;
+    bool	dwMaximized;
+    u32     dwWidth;
+    u32     dwHeight;
 
-    u32 dwPrecacheFrame;
-    BOOL b_is_Ready;
-    BOOL b_is_Active;
+    u32     dwPrecacheFrame;
+    bool    b_is_Ready;
+    bool    b_is_Active;
 public:
 
     // Engine flow-control

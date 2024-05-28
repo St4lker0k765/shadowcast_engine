@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 #ifndef renderH
 #define renderH
-
+#pragma once
 #include "..\..\..\xrCDB\frustum.h"
 #include "..\..\..\XrEngine\vis_common.h"
 
@@ -23,7 +23,6 @@ public:
 	virtual u32			get_width			()				{ return EDevice.m_RenderWidth;	}
 	virtual u32			get_height			()				{ return EDevice.m_RenderHeight;	}
 };
-
 
 class IRender_interface{
 public:
@@ -120,7 +119,7 @@ public:
 	virtual LPCSTR			getShaderPath()
 	{
 #ifndef _EDITOR
-		return "R1\\";
+		return "R2\\";
 #else
 		return "editor\\";
 #endif

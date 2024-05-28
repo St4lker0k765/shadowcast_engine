@@ -639,7 +639,7 @@ CCommandVar 	CommandAssignMacro(CCommandVar p1, CCommandVar p2)
 	    ECommands[COMMAND_RUN_MACRO]->sub_commands[p1]->p0 = fn;
 	    return 			TRUE;
     }else{
-    	if (EFS.GetOpenName(EDevice.m_hWnd, _import_,fn,false,NULL,2))
+    	if (EFS.GetOpenName(_import_,fn,false,NULL,2))
         	return 		ExecCommand	(COMMAND_ASSIGN_MACRO,p1,fn);
     }
     return FALSE;

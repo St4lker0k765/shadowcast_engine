@@ -27,7 +27,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\XrCPU_Pipe\xrSkin2W.cpp" />
     <ClCompile Include="..\..\XrEngine\defines.cpp" />
     <ClCompile Include="..\..\XrEngine\Envelope.cpp" />
     <ClCompile Include="..\..\XrEngine\fmesh.cpp" />
