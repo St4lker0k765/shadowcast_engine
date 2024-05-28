@@ -3,8 +3,8 @@
 #pragma once
 
 #include "..\xrServerEntities\gametype_chooser.h"
-#ifndef _EDITOR
 #include "Environment.h"
+#ifndef _EDITOR
 #include "IGame_ObjectPool.h"
 #endif
 
@@ -68,10 +68,10 @@ public:
     virtual void Disconnect();
 #ifndef _EDITOR
     IGame_ObjectPool ObjectPool;
-    CEnvironment* pEnvironment;
-    CEnvironment& Environment() { return *pEnvironment; };
     void Prefetch();
 #endif
+    CEnvironment* pEnvironment;
+    CEnvironment& Environment() { return *pEnvironment; };
     IMainMenu* m_pMainMenu;
 
 	ShadersExternalData* m_pGShaderConstants; //--#SM+#--

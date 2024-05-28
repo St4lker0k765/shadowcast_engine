@@ -28,7 +28,7 @@ FHierrarhyVisual::~FHierrarhyVisual()
 {
 	if (!bDontDelete) {
 		for (u32 i=0; i<children.size(); i++)	
-			::Render->model_Delete((IRenderVisual *&)children[i]);
+			::Render->model_Delete((IRenderVisual *&)children[i], false);
 	}
 	children.clear();
 }
