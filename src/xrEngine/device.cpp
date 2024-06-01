@@ -561,6 +561,7 @@ BOOL CRenderDevice::Paused()
     return g_pauseMngr.Paused();
 };
 
+#include <xinput.h>
 void CRenderDevice::OnWM_Activate(WPARAM wParam, LPARAM lParam)
 {
     u16 fActive = LOWORD(wParam);
@@ -576,12 +577,14 @@ void CRenderDevice::OnWM_Activate(WPARAM wParam, LPARAM lParam)
             Device.seqAppActivate.Process(rp_AppActivate);
             app_inactive_time += TimerMM.GetElapsed_ms() - app_inactive_time_start;
         	ShowCursor(FALSE);
+            XInputEnable(TRUE);
         }
         else
         {
             app_inactive_time_start = TimerMM.GetElapsed_ms();
             Device.seqAppDeactivate.Process(rp_AppDeactivate);
             ShowCursor(TRUE);
+            XInputEnable(FALSE);
 			//ClipCursor(NULL);
         }
     }
@@ -617,7 +620,7 @@ void CLoadScreenRenderer::stop()
 {
     if (!b_registered) return;
     Device.seqRender.Remove(this);
-    pApp->destroy_loading_shaders();
+    pApp->DestroyLoadingScreen();
     b_registered = false;
     b_need_user_input = false;
 }

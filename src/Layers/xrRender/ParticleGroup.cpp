@@ -8,6 +8,11 @@
 #else
 #include "xrEngine/Render.h"
 #include "Layers/xrRenderPC_R2/r2.h"
+IRenderVisual* CRender::model_CreatePE(LPCSTR name)
+{
+    PS::CPEDef* SE = PSLibrary.FindPED(name);		R_ASSERT3(SE, "Particle effect doesn't exist", name);
+    return					Models->CreatePE(SE);
+}
 #endif
 
 #include "ParticleGroup.h"

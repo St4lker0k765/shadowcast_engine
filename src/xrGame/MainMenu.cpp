@@ -9,6 +9,7 @@
 #include "ui\UITextureMaster.h"
 #include "ui\UIXmlInit.h"
 #include <dinput.h>
+#include <xinput.h>
 #include "ui\UIBtnHint.h"
 #include "UICursor.h"
 #include "string_table.h"

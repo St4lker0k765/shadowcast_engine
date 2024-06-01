@@ -407,6 +407,8 @@
     <ClCompile Include="..\..\Layers\xrRenderPC_R2\blender_luminance.cpp" />
     <ClCompile Include="..\..\Layers\xrRenderPC_R2\blender_ssao.cpp" />
     <ClCompile Include="..\..\Layers\xrRenderDX9\dx9r_constants_cache.cpp" />
+    <ClCompile Include="..\..\xrEngine\Render.cpp" />
+    <ClCompile Include="..\..\Layers\xrRender\uber_deffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WildMagic\WmlMath.h">
@@ -642,6 +644,8 @@
     <ClInclude Include="Editor\UIEditLightAnim.h">
       <Filter>Editor</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\xrEngine\Render.h" />
+    <ClInclude Include="..\..\Layers\xrRender\uber_deffer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="WildMagic\WmlMath.inl">

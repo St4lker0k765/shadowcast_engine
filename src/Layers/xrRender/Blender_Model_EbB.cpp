@@ -5,6 +5,10 @@
 #include "stdafx.h"
 #pragma hdrstop
 
+#ifdef _EDITOR
+#include <Layers/xrRenderPC_R2/r2.h>
+//#include <xrEngine/Render.h>
+#endif
 #include "blender_Model_EbB.h"
 
 //////////////////////////////////////////////////////////////////////

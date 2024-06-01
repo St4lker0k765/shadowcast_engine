@@ -2,9 +2,9 @@
 #pragma hdrstop
 
 #include "IGame_Persistent.h"
-#include "environment.h"
 #ifndef _EDITOR
 # include "Render.h"
+#include "environment.h"
 #else
 #include <xrEngine/Render.h>
 #endif
@@ -24,8 +24,9 @@ IGame_Persistent::IGame_Persistent()
     m_pMainMenu = NULL;
 
 	m_pGShaderConstants = new ShadersExternalData(); //--#SM+#--
-
+#ifndef _EDITOR
     pEnvironment = xr_new<CEnvironment>();
+#endif
 }
 
 IGame_Persistent::~IGame_Persistent()
@@ -117,7 +118,7 @@ void IGame_Persistent::Disconnect()
 void IGame_Persistent::OnGameStart()
 {
 #ifndef _EDITOR
-    // LoadTitle("st_prefetching_objects");
+    SetLoadStageTitle("st_prefetching_objects");
     LoadTitle();
     if (!strstr(Core.Params, "-noprefetch"))
         Prefetch();

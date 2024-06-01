@@ -27,6 +27,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Layers\xrRender\uber_deffer.cpp" />
     <ClCompile Include="..\..\XrEngine\defines.cpp" />
     <ClCompile Include="..\..\XrEngine\Envelope.cpp" />
     <ClCompile Include="..\..\XrEngine\fmesh.cpp" />
@@ -39,6 +40,7 @@
     <ClCompile Include="..\..\XrEngine\motion.cpp" />
     <ClCompile Include="..\..\XrEngine\perlin.cpp" />
     <ClCompile Include="..\..\XrEngine\pure.cpp" />
+    <ClCompile Include="..\..\xrEngine\Render.cpp" />
     <ClCompile Include="..\..\XrEngine\SkeletonMotions.cpp" />
     <ClCompile Include="..\..\XrEngine\tntQAVI.cpp" />
     <ClCompile Include="..\..\XrEngine\xrHemisphere.cpp" />
@@ -255,6 +257,8 @@
     <ClCompile Include="WildMagic\WmlWinSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Layers\xrRender\uber_deffer.h" />
+    <ClInclude Include="..\..\xrEngine\Render.h" />
     <ClInclude Include="Editor\ArbitraryList.h" />
     <ClInclude Include="Editor\ColorPicker.h" />
     <ClInclude Include="Editor\D3DUtils.h" />
@@ -567,7 +571,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>_EDITOR;NDEBUG;XRECORE_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_EDITOR;NDEBUG;XRECORE_EXPORTS;XRCORE_STATIC;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>..\..\..\sdk\include\OpenAutomate;..\..\3rd party\tbb\include;..\..\..\sdk\include\freetype;..\XrETools;..\..\..\sdk\include\loki;..\..\..\sdk\include;..\..\..\sdk\include\dxsdk;..\..\;..\..\..\Externals\RedImage;..\..\3rd party\DXERR;.;..\..\XrEngine\;..\..\Layers\xrRender;..\..\XrRender\Public;..\FreeMagic</AdditionalIncludeDirectories>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions</EnableEnhancedInstructionSet>
@@ -579,7 +583,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>d3d9.lib;d3dx9.lib;vfw32.lib;Winmm.lib;dxguid.lib;dinput8.lib;Rpcrt4.lib;xrRender_R2.lib;xrEngine.lib;freetype.lib;libogg_static.lib;libtheora_static.lib;xrCore.lib;xrAPI.lib;xrGame.lib;RedImageTool.lib;nvtt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d9.lib;d3dx9.lib;vfw32.lib;Winmm.lib;dxguid.lib;dinput8.lib;Rpcrt4.lib;xrRender_R2.lib;xrEngine.lib;freetype.lib;libogg_static.lib;libtheora_static.lib;xrCore.lib;xrAPI.lib;xrGame.lib;RedImageTool.lib;nvtt.lib;ispc_texcomp.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\3rd party\tbb\lib\intel64\vc14;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>

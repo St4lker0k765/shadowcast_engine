@@ -59,6 +59,7 @@ public:
 						CGamePersistent			();
 	virtual				~CGamePersistent		();
 
+	void PreStart(LPCSTR op) override;
 	virtual void		Start					(LPCSTR op);
 	virtual void		Disconnect				();
 
@@ -83,6 +84,7 @@ public:
 	virtual void		OnRenderPPUI_main		();
 	virtual void		OnRenderPPUI_PP			();
 	virtual	void		LoadTitle				(bool change_tip = false, shared_str map_name = "");
+    void SetLoadStageTitle(pcstr ls_title = nullptr) override;
 
 	virtual bool		CanBePaused				();
 

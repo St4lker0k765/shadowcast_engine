@@ -22,9 +22,9 @@ DECLARE_MESSAGE(AppStart);
 DECLARE_MESSAGE(AppEnd);
 DECLARE_MESSAGE(DeviceReset);
 DECLARE_MESSAGE(ScreenResolutionChanged);
-#ifdef _EDITOR
+//#ifdef _EDITOR
 DECLARE_MESSAGE(DrawUI);
-#endif
+//#endif
 
 
 

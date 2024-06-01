@@ -1,5 +1,5 @@
 #pragma once
-/*
+
 #include <xinput.h>
 
 struct DXUT_GAMEPAD;
@@ -49,4 +49,3 @@ bool bLastRightTrigger;
 };
 
 extern DXUT_GAMEPAD g_GamePads[DXUT_MAX_CONTROLLERS];
-*/

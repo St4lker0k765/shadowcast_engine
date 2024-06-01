@@ -723,6 +723,7 @@ extern Flags32 psEnvFlags;
 //extern float r__dtex_range;
 
 extern int g_ErrorLineCount;
+extern int ps_rs_loading_stages;
 
 ENGINE_API BOOL debugSecondVP = FALSE;
 
@@ -808,6 +809,7 @@ void CCC_Register()
     	//#|DCS++|
     }
 
+    CMD4(CCC_Integer, "rs_loadingstages", &ps_rs_loading_stages, 0, 1);
     CMD3(CCC_Mask, "rs_v_sync", &psDeviceFlags, rsVSync);
     // CMD3(CCC_Mask, "rs_disable_objects_as_crows",&psDeviceFlags, rsDisableObjectsAsCrows );
     CMD3(CCC_Mask, "rs_fullscreen", &psDeviceFlags, rsFullscreen);

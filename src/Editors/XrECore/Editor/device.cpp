@@ -11,6 +11,29 @@
 #include "Layers/xrRenderPC_R2/r2.h"
 #include "device.h"
 #include <xrCore/LocatorAPI.h>
+
+#ifdef _EDITOR
+
+void					CRender::Initialize()
+{
+	PSLibrary.OnCreate();
+}
+void					CRender::ShutDown()
+{
+	PSLibrary.OnDestroy();
+}
+
+void					CRender::OnDeviceCreate()
+{
+	Models = xr_new<CModelPool>();
+	Models->Logging(FALSE);
+}
+void					CRender::OnDeviceDestroy()
+{
+	xr_delete(Models);
+}
+#endif // _EDITOR
+
 #pragma package(smart_init)
 
 extern ECORE_API CEditorRenderDevice 		EDevice;

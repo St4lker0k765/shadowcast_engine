@@ -10,6 +10,8 @@
 #else
 #include "xrEngine/Render.h"
 #include "Layers/xrRenderPC_R2/r2.h"
+
+ref_shader	CRender::getShader(int id) { return 0; }//VERIFY(id<int(Shaders.size()));	return Shaders[id];	}
 #endif // #ifndef _EDITOR
 
 #include "fbasicvisual.h"

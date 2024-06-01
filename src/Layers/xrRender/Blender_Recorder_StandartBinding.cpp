@@ -11,8 +11,9 @@
 #include "blenders\Blender.h"
 
 #include "../../xrEngine/igame_persistent.h"
+#ifndef _EDITOR
 #include "../../xrEngine/environment.h"
-
+#endif
 #include "dxRenderDeviceRender.h"
 
 // matrices

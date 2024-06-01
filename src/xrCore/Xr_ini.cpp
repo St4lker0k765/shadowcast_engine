@@ -3,6 +3,11 @@
 
 #include "fs_internal.h"
 
+#ifdef _EDITOR
+#include <xrCore/xr_ini.h>
+#endif
+
+
 XRCORE_API CInifile const* pSettings = NULL;
 XRCORE_API CInifile const* pSettingsAuth = NULL;
 XRCORE_API CInifile const* pFFSettings = NULL;

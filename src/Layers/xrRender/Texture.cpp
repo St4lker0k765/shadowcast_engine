@@ -14,7 +14,10 @@
 #ifndef _EDITOR
 #include "dxRenderDeviceRender.h"
 #else
-#include "../../Layers/xrRenderPC_R2/r2.h"
+#include "Layers/xrRenderPC_R2/r2.h"
+#include "Layers/xrRender/dxRenderDeviceRender.h"
+#include "xrEngine/Render.h"
+
 #endif
 
 // #include "std_classes.h"

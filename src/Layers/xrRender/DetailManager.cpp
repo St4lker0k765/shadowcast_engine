@@ -9,8 +9,8 @@
 #include "cl_intersect.h"
 
 #ifdef _EDITOR
-#	include "ESceneClassList.h"
-#	include "Scene.h"
+#	include "Editors\LevelEditor\Edit\ESceneClassList.h"
+#	include "Editors\LevelEditor\Edit\Scene.h"
 #	include "SceneObject.h"
 #	include "igame_persistent.h"
 #	include "environment.h"
@@ -411,7 +411,9 @@ void CDetailManager::StartCalcAsync()
 {
 	m_CalcAsync.run([this]()
 		{
+#ifndef _EDITOR
 			MT_CALC();
+#endif
 		});
 }
 
@@ -419,7 +421,7 @@ void CDetailManager::WaitForCalc()
 {
 	m_CalcAsync.wait();
 }
-
+#ifndef _EDITOR
 void __stdcall	CDetailManager::MT_CALC		()
 {
 	if (0 == RImplementation.Details)	return;	// possibly deleted
@@ -442,3 +444,4 @@ void __stdcall	CDetailManager::MT_CALC		()
 	}
 	MT.Leave();
 }
+#endif

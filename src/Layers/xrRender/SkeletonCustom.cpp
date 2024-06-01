@@ -18,6 +18,10 @@ xrCriticalSection	UCalc_Mutex
 #else
 #include "../../Include/xrAPI/xrAPI.h"
 #include "Layers/xrRenderPC_R2/r2.h"
+void					CRender::add_SkeletonWallmark(intrusive_ptr<CSkeletonWallmark> wm)
+{
+//	Wallmarks->AddSkeletonWallmark(wm);
+}
 #endif
 
 //////////////////////////////////////////////////////////////////////

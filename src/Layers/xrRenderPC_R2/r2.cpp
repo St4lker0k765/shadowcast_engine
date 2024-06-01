@@ -12,6 +12,9 @@
 #include "../xrRender/dxUIShader.h"
 //#include "../../xrServerEntities/smart_cast.h"
 
+#ifdef _EDITOR
+#include <Layers/xrRender/DetailManager.h>
+#endif
 CRender										RImplementation;
 
 //////////////////////////////////////////////////////////////////////////
@@ -380,12 +383,13 @@ void CRender::OnFrame()
 	{
 		Details->StartCalcAsync();
 	}
-
+#ifndef _EDITOR
 	if (ps_r2_ls_flags.test(R2FLAG_EXP_MT_CALC))	{
 		// MT-HOM (@front)
 		Device.seqParallel.insert	(Device.seqParallel.begin(),
 			fastdelegate::FastDelegate0<>(&HOM,&CHOM::MT_RENDER));
 	}
+#endif
 }
 
 bool CRender::texture_is_exist(LPCSTR texture_name)

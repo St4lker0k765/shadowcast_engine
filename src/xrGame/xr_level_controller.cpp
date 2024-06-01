@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include <dinput.h>
+#include <xinput.h>
 #include "../xrEngine/xr_ioconsole.h"
 #include "../xrEngine/xr_input.h"
 #include "../xrEngine/xr_ioc_cmd.h"
@@ -160,7 +161,40 @@ _keyboard keyboards[] = {
 	{ "mouse2",			MOUSE_2			},	{ "mouse3",			MOUSE_3			},
 	{ "mouse4",			MOUSE_4			},	{ "mouse5",			MOUSE_5			},
 	{ "mouse6",			MOUSE_6			},	{ "mouse7",			MOUSE_7			},
-	{ "mouse8",			MOUSE_8			},	{ NULL, 			0				}
+	{ "mouse8",			MOUSE_8			},	
+	{"gA",				VK_PAD_A},
+	{ "gB",				VK_PAD_B				},
+	{ "gX",				VK_PAD_X				},
+	{ "gY",				VK_PAD_Y				},
+	{ "gRSHOULDER",		VK_PAD_RSHOULDER		},
+	{ "gLSHOULDER",		VK_PAD_LSHOULDER		},
+	{ "gLTRIGGER",		VK_PAD_LTRIGGER			},
+	{ "gRTRIGGER",		VK_PAD_RTRIGGER			},
+	{ "gDPADUP",		VK_PAD_DPAD_UP			},
+	{ "gDPADDOWN",		VK_PAD_DPAD_DOWN		},
+	{ "gDPADLEFT",		VK_PAD_DPAD_LEFT		},
+	{ "gDPADRIGHT",		VK_PAD_DPAD_RIGHT		},
+	{ "gSTART",			VK_PAD_START			},
+	{ "gBACK",			VK_PAD_BACK				},
+	{ "gLTHUMBPRESS",	VK_PAD_LTHUMB_PRESS		},
+	{ "gRTHUMBPRESS",	VK_PAD_RTHUMB_PRESS		},
+	{ "gLTHUMBUP",		VK_PAD_LTHUMB_UP		},
+	{ "gLTHUMBDOWN",	VK_PAD_LTHUMB_DOWN		},
+	{ "gLTHUMBLEFT",	VK_PAD_LTHUMB_LEFT		},
+	{ "gLTHUMBRIGHT",	VK_PAD_LTHUMB_RIGHT		},
+	{ "gLTHUMBUPLEFT",	VK_PAD_LTHUMB_UPLEFT	},
+	{ "gLTHUMBUPRIGHT",	VK_PAD_LTHUMB_UPRIGHT	},
+	{ "gLTHUMBDOWNRIGHT",	VK_PAD_LTHUMB_DOWNRIGHT	},
+	{ "gLTHUMBDOWNLEFT",VK_PAD_LTHUMB_DOWNLEFT	},
+	{ "gRTHUMBUP",		VK_PAD_RTHUMB_UP		},
+	{ "gRTHUMBDOWN",	VK_PAD_RTHUMB_DOWN		},
+	{ "gRTHUMBLEFT",	VK_PAD_RTHUMB_LEFT		},
+	{ "gRTHUMBRIGHT",	VK_PAD_RTHUMB_RIGHT		},
+	{ "gRTHUMBUPLEFT",	VK_PAD_RTHUMB_UPLEFT		},
+	{ "gRTHUMBUPRIGHT",	VK_PAD_RTHUMB_UPRIGHT		},
+	{ "gRTHUMBDOWNRIGHT",	VK_PAD_RTHUMB_DOWNRIGHT		},
+	{ "gRTHUMBDOWNLEFT",	VK_PAD_RTHUMB_DOWNLEFT		},
+	{ NULL, 			0				}
 };
 
 void initialize_bindings()

@@ -2,6 +2,7 @@
 #ifndef renderH
 #define renderH
 #pragma once
+
 #include "..\..\..\xrCDB\frustum.h"
 #include "..\..\..\XrEngine\vis_common.h"
 
@@ -14,8 +15,8 @@
 #include "../../../Layers/xrRender/ModelPool.h"
 #include "../../../Layers/xrRender/SkeletonCustom.h"
 #include "../../../include/xrAPI/xrAPI.h"
-#include "../../../xrEngine/Render.h"
-#include <Layers/xrRender/HOM.h>
+//#include "../../../xrEngine/Render.h"
+//#include <Layers/xrRender/HOM.h>
 
 // definition (Renderer)
 /*

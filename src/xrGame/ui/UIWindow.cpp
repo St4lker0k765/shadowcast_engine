@@ -446,6 +446,34 @@ bool CUIWindow::OnKeyboardAction(int dik, EUIMessages keyboard_action)
 	return false;
 }
 
+//реакция на геймпад
+bool CUIWindow::OnGamepadAction(int vk, EUIMessages gamepad_action)
+{
+	bool result;
+
+	//если есть дочернее окно,захватившее геймпад, то
+	//сообщение направляем ему сразу
+	if (NULL != m_pGamepadCapturer)
+	{
+		result = m_pGamepadCapturer->OnGamepadAction(vk, gamepad_action);
+
+		if (result) return true;
+	}
+
+	WINDOW_LIST::reverse_iterator it = m_ChildWndList.rbegin();
+
+	for (; it != m_ChildWndList.rend(); ++it)
+	{
+		if ((*it)->IsEnabled())
+		{
+			result = (*it)->OnGamepadAction(vk, gamepad_action);
+
+			if (result)	return true;
+		}
+	}
+	return false;
+}
+
 bool CUIWindow::OnKeyboardHold(int dik)
 {
 	bool result;

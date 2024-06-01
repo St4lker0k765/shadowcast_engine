@@ -18,6 +18,7 @@
 #include "..\XrETools\ETools.h"
 #include "UILogForm.h"
 #include "gamefont.h"
+#include "pure.h"
 TUI* 	UI			= 0;
 
 TUI::TUI()

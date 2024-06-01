@@ -587,7 +587,7 @@
       <Culture>0x0422</Culture>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>dxguid.lib;freetype.lib;d3dx9.lib;dinput8.lib;winmm.lib;psapi.lib;vfw32.lib;Windowscodecs.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>dxguid.lib;freetype.lib;d3dx9.lib;dinput8.lib;winmm.lib;psapi.lib;vfw32.lib;Windowscodecs.lib;XInput.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>$(xr3rdPartyDir)tbb\lib\intel64\vc14;$(xr3rdPartyDir)\luajit-2\src\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
@@ -839,6 +839,7 @@ copy /Y "$(xrSdkDir)binaries\x64\BugTrap-x64.dll" "$(OutputPath)BugTrap-x64.dll"
     <ClInclude Include="IGame_ObjectPool.h" />
     <ClInclude Include="IGame_Persistent.h" />
     <ClInclude Include="IInputReceiver.h" />
+    <ClInclude Include="ILoadingScreen.h" />
     <ClInclude Include="IObjectPhysicsCollision.h" />
     <ClInclude Include="IPHdebug.h" />
     <ClInclude Include="IPhysicsGeometry.h" />

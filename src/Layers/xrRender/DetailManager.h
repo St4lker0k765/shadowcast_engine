@@ -205,13 +205,15 @@ public:
 	xrCriticalSection				MT;
 	volatile u32					m_frame_calc;
 	volatile u32					m_frame_rendered;
-
+#ifndef _EDITOR
 	void	__stdcall				MT_CALC			() ;
+#endif
 	ICF	void						MT_SYNC			() {
 		if (m_frame_calc == RDEVICE.dwFrame)
 			return;
-
+#ifndef _EDITOR
 		MT_CALC						(); 
+#endif
 	}
 
 	tbb::task_group m_CalcAsync;

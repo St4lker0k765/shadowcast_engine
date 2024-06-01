@@ -4,6 +4,7 @@
 #include "UIMessageBoxEx.h"
 #include "../UIDialogHolder.h"
 #include <dinput.h>
+#include <xinput.h>
 
 CUIMessageBoxEx::CUIMessageBoxEx(){
 	m_pMessageBox = xr_new<CUIMessageBox>();

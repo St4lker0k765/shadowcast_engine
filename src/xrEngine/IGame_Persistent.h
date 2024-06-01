@@ -3,9 +3,10 @@
 #pragma once
 
 #include "..\xrServerEntities\gametype_chooser.h"
-#include "Environment.h"
 #ifndef _EDITOR
 #include "IGame_ObjectPool.h"
+#include "Environment.h"
+
 #endif
 
 #include "ShadersExternalData.h" //--#SM+#--
@@ -69,9 +70,9 @@ public:
 #ifndef _EDITOR
     IGame_ObjectPool ObjectPool;
     void Prefetch();
-#endif
     CEnvironment* pEnvironment;
     CEnvironment& Environment() { return *pEnvironment; };
+#endif
     IMainMenu* m_pMainMenu;
 
 	ShadersExternalData* m_pGShaderConstants; //--#SM+#--
@@ -120,6 +121,7 @@ public:
     {}
 #endif
     virtual void LoadTitle(bool change_tip = false, shared_str map_name = "") {}
+    virtual void SetLoadStageTitle(pcstr /*ls_title*/) {}
     virtual bool CanBePaused() { return true; }
 };
 

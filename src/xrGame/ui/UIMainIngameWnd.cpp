@@ -6,6 +6,7 @@
 
 
 #include <dinput.h>
+#include <xinput.h>
 #include "../actor.h"
 #include "../ActorCondition.h"
 #include "../EntityCondition.h"

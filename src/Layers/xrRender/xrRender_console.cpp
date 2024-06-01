@@ -155,7 +155,10 @@ Flags32		ps_r2_ls_flags				= { R2FLAG_SUN
 	//| R2FLAG_SUN_IGNORE_PORTALS
 	| R2FLAG_EXP_DONT_TEST_UNSHADOWED 
 	| R2FLAG_USE_NVSTENCIL /*| R2FLAG_EXP_SPLIT_SCENE*/ 
-	| R2FLAG_EXP_MT_CALC | R3FLAG_DYN_WET_SURF
+#ifndef _EDITOR
+	| R2FLAG_EXP_MT_CALC 
+#endif
+	| R3FLAG_DYN_WET_SURF
 	| R3FLAG_VOLUMETRIC_SMOKE
 	//| R3FLAG_MSAA 
 	//| R3FLAG_MSAA_OPT
@@ -862,8 +865,9 @@ void		xrRender_initconsole	()
 	//- Mad Max
 
 	CMD3(CCC_Mask,		"r2_use_nvdbt",			&ps_r2_ls_flags,			R2FLAG_USE_NVDBT);
+#ifndef _EDITOR
 	CMD3(CCC_Mask,		"r2_mt",				&ps_r2_ls_flags,			R2FLAG_EXP_MT_CALC);
-
+#endif
 	CMD3(CCC_Mask,		"r2_sun",				&ps_r2_ls_flags,			R2FLAG_SUN		);
 	CMD3(CCC_Mask,		"r2_sun_details",		&ps_r2_ls_flags,			R2FLAG_SUN_DETAILS);
 	CMD3(CCC_Mask,		"r2_sun_focus",			&ps_r2_ls_flags,			R2FLAG_SUN_FOCUS);

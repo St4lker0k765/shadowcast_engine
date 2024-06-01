@@ -2,7 +2,7 @@
 
 #ifdef _EDITOR
 #include "r2_types.h"
-#include "Layers/xrRenderPC_R2/stdafx.h"
+#include "Layers/xrRenderPC_R2/r2.h"
 #endif
 
 class CBlender_deffer_model : public IBlender  

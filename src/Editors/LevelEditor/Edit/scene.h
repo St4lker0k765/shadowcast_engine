@@ -5,7 +5,7 @@
 #define SceneH
 
 #include "SceneGraph.h"
-#include "Communicate.h"
+#include "Editors\LevelEditor\Engine\Communicate.h"
 #include "pure.h"
 
 #include "ESceneCustomMTools.h"

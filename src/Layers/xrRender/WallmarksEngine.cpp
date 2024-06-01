@@ -9,6 +9,9 @@
 #include "../../xrEngine/x_ray.h"
 #include "../../xrEngine/GameFont.h"
 #include "SkeletonCustom.h"
+#ifdef _EDITOR
+#include <xrEngine/IGame_Level.h>
+#endif
 
 u32 g_r = 1;
 

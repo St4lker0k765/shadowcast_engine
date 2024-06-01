@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include <dinput.h>
+#include <xinput.h>
 #include "../xrEngine/xr_ioconsole.h"
 #include "entity_alive.h"
 #include "game_sv_single.h"

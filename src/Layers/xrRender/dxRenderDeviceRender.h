@@ -8,7 +8,7 @@
 	#define DEV EDevice.Resources
 #endif
 
-#ifndef _EDITOR
+//#ifndef _EDITOR
 
 #include "..\..\Include\xrRender\RenderDeviceRender.h"
 #include "xr_effgamma.h"
@@ -81,7 +81,7 @@ private:
 	CGammaControl		m_Gamma;
 };
 
-#endif //ifndef _EDITOR
+//#endif //ifndef _EDITOR
 
 
 #endif	//	RenderDeviceRender_included

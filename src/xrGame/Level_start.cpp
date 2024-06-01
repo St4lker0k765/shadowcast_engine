@@ -97,7 +97,7 @@ bool CLevel::net_start1				()
 	// morrazzzz: Please, figure out what's here and how, and fix it!
 	if (m_caServerOptions.size())
 	{
-		//		g_pGamePersistent->LoadTitle("st_server_starting");
+		g_pGamePersistent->SetLoadStageTitle("st_server_starting");
 
 		using params = IGame_Persistent::params;
 		params& p = g_pGamePersistent->m_game_params;

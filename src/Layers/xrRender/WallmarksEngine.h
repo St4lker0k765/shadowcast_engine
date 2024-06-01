@@ -3,6 +3,11 @@
 //////////////////////////////////////////////////////////////////////
 #pragma once
 
+#ifdef _EDITOR
+#include <xrCDB/xrXRC.h>
+#include <Layers/xrRenderPC_R2/r2.h>
+#include <xrEngine/Render.h>
+#endif
 namespace WallmarksEngine {
 	struct wm_slot;
 }

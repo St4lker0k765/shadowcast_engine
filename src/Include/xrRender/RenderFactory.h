@@ -8,6 +8,10 @@ class IWallMarkArray;
 	class IObjectSpaceRender;
 #endif // DEBUG
 
+#ifdef _EDITOR
+#include <Include/xrRender/StatsRender.h>
+#endif
+
 class IFontRender;
 class IApplicationRender;
 class IEnvDescriptorRender;
@@ -16,15 +20,16 @@ class IFlareRender;
 class ILensFlareRender;
 class IRainRender;
 class IThunderboltRender;
-class IEnvironmentRender;
-class IStatsRender;
 class IRenderDeviceRender;
 class IEnvDescriptorRender;
 class IThunderboltRender;
 class IThunderboltDescRender;
 class IRainRender;
 class ILensFlareRender;
+#ifndef _EDITOR
 class IEnvironmentRender;
+class IStatsRender;
+#endif
 class IEnvDescriptorMixerRender;
 class IStatGraphRender;
 class IFlareRender;
@@ -53,7 +58,6 @@ public:
 #	ifdef DEBUG
 		RENDER_FACTORY_INTERFACE(ObjectSpaceRender)
 #	endif // DEBUG
-	RENDER_FACTORY_INTERFACE(ApplicationRender)
 	RENDER_FACTORY_INTERFACE(WallMarkArray)
 	RENDER_FACTORY_INTERFACE(StatsRender)
 #endif // _EDITOR

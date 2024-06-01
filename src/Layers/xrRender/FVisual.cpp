@@ -14,6 +14,24 @@
 
 #include "../xrRenderDX10/dx10BufferUtils.h"
 
+#ifdef _EDITOR
+#include <Layers/xrRenderPC_R2/r2.h>
+#include <xrEngine/Render.h>
+
+IDirect3DVertexBuffer9* CRender::getVB(int id, BOOL	_alt) {
+	if (_alt) { VERIFY(id<int(xVB.size()));	return xVB[id]; }
+	else { VERIFY(id<int(nVB.size()));	return nVB[id]; }
+}
+IDirect3DIndexBuffer9* CRender::getIB(int id, BOOL	_alt) {
+	if (_alt) { VERIFY(id<int(xIB.size()));	return xIB[id]; }
+	else { VERIFY(id<int(nIB.size()));	return nIB[id]; }
+}
+D3DVERTEXELEMENT9* CRender::getVB_Format(int id, BOOL	_alt) {
+	if (_alt) { VERIFY(id<int(xDC.size()));	return xDC[id].begin(); }
+	else { VERIFY(id<int(nDC.size()));	return nDC[id].begin(); }
+}
+#endif
+
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -45,7 +63,7 @@ void Fvisual::Load		(const char* N, IReader *data, u32 dwFlags)
 	BOOL				loaded_v=false;
 
 	if (data->find_chunk(OGF_GCONTAINER)) {
-#ifndef _EDITOR
+//#ifndef _EDITOR
 		// verts
 		u32 ID				= data->r_u32					();
 		vBase				= data->r_u32					();
@@ -67,7 +85,7 @@ void Fvisual::Load		(const char* N, IReader *data, u32 dwFlags)
 		VERIFY				(NULL==p_rm_Indices);
 		p_rm_Indices		= RImplementation.getIB		(ID);
 		p_rm_Indices->AddRef();
-#endif
+//#endif
 #if (RENDER==R_R2) || (RENDER==R_R3) || (RENDER==R_R4)
 		// check for fast-vertices
 		if (data->find_chunk(OGF_FASTPATH))		{

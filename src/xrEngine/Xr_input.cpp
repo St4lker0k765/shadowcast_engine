@@ -255,7 +255,7 @@ void CInput::KeyUpdate()
     if (b_alt_tab)
         SendMessage(Device.m_hWnd, WM_SYSCOMMAND, SC_MINIMIZE, 0);
 #endif
-    /*
+    
     #ifndef _EDITOR
     //update xinput if exist
     for( DWORD iUserIndex=0; iUserIndex<DXUT_MAX_CONTROLLERS; iUserIndex++ )
@@ -290,7 +290,7 @@ void CInput::KeyUpdate()
     }
     //xinput
     #endif
-    */
+    
 }
 bool CInput::get_dik_name(int dik, LPSTR dest_str, int dest_sz)
 {

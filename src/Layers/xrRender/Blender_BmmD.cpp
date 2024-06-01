@@ -7,6 +7,12 @@
 
 #include "blender_BmmD.h"
 
+#ifdef _EDITOR
+#include "blenders\Blender.h"
+#include <Layers/xrRenderPC_R2/r2.h>
+//#include <xrEngine/Render.h>
+class CRender RImplementation;
+#endif
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////

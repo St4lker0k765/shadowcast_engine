@@ -1,5 +1,5 @@
 #include "stdafx.h"
-/*
+
 #include "xr_input_xinput.h"
 #include <xinput.h>
 
@@ -125,4 +125,3 @@ vibration.wLeftMotorSpeed = s1;
 vibration.wRightMotorSpeed = s2;
 s_pXInputSetState ( 0, &vibration );
 }
-*/

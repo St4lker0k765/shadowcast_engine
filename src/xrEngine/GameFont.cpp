@@ -9,6 +9,7 @@
 #ifdef _EDITOR
 #include <xrEngine/device.h>
 ENGINE_API CRenderDevice Device;
+IRenderFactory* RenderFactory = NULL;
 #endif
 FT_Library FreetypeLib = nullptr;
 

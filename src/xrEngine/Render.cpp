@@ -1,5 +1,9 @@
 #include "stdafx.h"
 #include "render.h"
+#ifdef _EDITOR
+#include "Include/xrAPI/xrAPI.h"
+#include <Layers/xrRenderPC_R2/r2.h>
+#endif
 
 IRender_interface::~IRender_interface() {};
 

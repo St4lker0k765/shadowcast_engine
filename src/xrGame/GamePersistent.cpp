@@ -28,6 +28,8 @@
 #include "xrserver_objects_alife_monsters.h"
 #include "../xrServerEntities/xrServer_Object_Base.h"
 #include "UI/UIGameTutorial.h"
+#include "xrEngine/x_ray.h"
+#include "ui/UILoadingScreen.h"
 
 #ifndef MASTER_GOLD
 #	include "custommonster.h"
@@ -106,6 +108,12 @@ CGamePersistent::~CGamePersistent(void)
 	Device.seqFrame.Remove		(this);
 	Engine.Event.Handler_Detach	(eDemoStart,this);
 	Engine.Event.Handler_Detach	(eQuickLoad,this);
+}
+
+void CGamePersistent::PreStart(LPCSTR op)
+{
+	pApp->SetLoadingScreen(new UILoadingScreen());
+	IGame_Persistent::PreStart(op);
 }
 
 void CGamePersistent::RegisterModel(IRenderVisual* V)
@@ -483,6 +491,7 @@ void CGamePersistent::game_loaded()
 			load_screen_renderer.b_need_user_input	&& 
 			m_game_params.m_e_game_type == eGameIDSingle)
 		{
+			pApp->SetLoadStageTitle("");
 			VERIFY				(NULL==m_intro);
 			m_intro				= xr_new<CUISequencer>();
 			m_intro->Start		("game_loaded");
@@ -829,6 +838,18 @@ void CGamePersistent::LoadTitle(bool change_tip, shared_str map_name)
 
 		pApp->LoadTitleInt		(CStringTable().translate("ls_header").c_str(), tmp.c_str(), CStringTable().translate(buff).c_str());
 	}
+}
+
+void CGamePersistent::SetLoadStageTitle(pcstr ls_title)
+{
+	string256 buff;
+	if (ls_title)
+	{
+		xr_sprintf(buff, "%s%s", CStringTable().translate(ls_title).c_str(), "...");
+		pApp->SetLoadStageTitle(buff);
+	}
+	else
+		pApp->SetLoadStageTitle("");
 }
 
 bool CGamePersistent::CanBePaused()

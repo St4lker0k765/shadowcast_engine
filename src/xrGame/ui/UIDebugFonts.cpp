@@ -2,7 +2,7 @@
 #include "UIDebugFonts.h"
 #include "UIDialogHolder.h"
 #include "dinput.h"
-
+#include "xinput.h"
 
 CUIDebugFonts::CUIDebugFonts()
 {
@@ -25,7 +25,7 @@ void CUIDebugFonts::InitDebugFonts(Frect r)
 }
 
 bool CUIDebugFonts::OnKeyboardAction(int dik, EUIMessages keyboard_action){
-	if (DIK_ESCAPE == dik)
+	if (DIK_ESCAPE == dik || VK_PAD_B == dik)
 		HideDialog();
 
 	if (DIK_F12 == dik)

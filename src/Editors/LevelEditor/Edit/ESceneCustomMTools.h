@@ -2,6 +2,7 @@
 #define ESceneCustomMToolsH
 
 #include "ESceneClassList.h"
+#include "Editors/LevelEditor/UI/Tools/UIToolCustom.h"
 // refs
 struct SSceneSummary;
 class TUI_CustomControl;

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #pragma warning(disable:4995)
-#include <d3dx9.h>
+//#include <d3dx9.h>
 #pragma warning(default:4995)
 #include "../xrRender/HW.h"
 #include "../../xrEngine/XR_IOConsole.h"
@@ -169,7 +169,8 @@ void CHW::CreateDevice( HWND m_hWnd, bool move_window )
     D3D_FEATURE_LEVEL pFeatureLevels[] =
     {
         D3D_FEATURE_LEVEL_11_0,
-//        D3D_FEATURE_LEVEL_10_1,
+		D3D_FEATURE_LEVEL_11_1,
+		//        D3D_FEATURE_LEVEL_10_1,
 //        D3D_FEATURE_LEVEL_10_0,
     };
 

@@ -12,6 +12,15 @@ struct CWrapperBase : public T, public luabind::wrap_base {
 		return ptr->self_type::inherited::OnKeyboardAction(dik,keyboard_action );
 	}
 
+	virtual bool OnGamepadAction(int vk, EUIMessages gamepad_action)
+	{
+		return call_member<bool>(this, "OnGamepad", vk, gamepad_action);
+	}
+	static bool OnGamepad_static(inherited* ptr, int vk, EUIMessages gamepad_action)
+	{
+		return ptr->self_type::inherited::OnGamepadAction(vk, gamepad_action);
+	}
+
 	virtual void Update()
 	{ call_member<void>(this,"Update");}
 	static void Update_static(inherited* ptr)
