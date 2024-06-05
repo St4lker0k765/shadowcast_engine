@@ -1,6 +1,7 @@
 # exclude binaries and temporary files
 ipch/
 x64/
+editors_legacy/
 
 # User-specific files
 *.suo
