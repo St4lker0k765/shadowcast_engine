@@ -832,12 +832,8 @@ void CActor::g_Physics			(Fvector& _accel, float jump, float dt)
 		{
 			SwitchOutBorder(new_border_state);
 		}
-#ifdef DEBUG
 		if(!psActorFlags.test(AF_NO_CLIP))
 			character_physics_support()->movement()->GetPosition		(Position());
-#else //DEBUG
-		character_physics_support()->movement()->GetPosition		(Position());
-#endif //DEBUG
 		character_physics_support()->movement()->bSleep				=false;
 	}
 

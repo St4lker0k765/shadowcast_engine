@@ -681,9 +681,7 @@ public:
 	virtual void				OnPrevWeaponSlot				();
 			void				SwitchNightVision				();
 			void				SwitchTorch						();
-#ifdef DEBUG
 			void				NoClipFly						(int cmd);
-#endif //DEBUG
 
 public:
 	

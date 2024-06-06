@@ -50,9 +50,7 @@ public:
     void Process();
     void Update();
 
-#ifdef DEBUG
     bool Registered(ISheduled* object) const;
-#endif // DEBUG
     void Register(ISheduled* A, BOOL RT = FALSE);
     void Unregister(ISheduled* A);
     void EnsureOrder(ISheduled* Before, ISheduled* After);

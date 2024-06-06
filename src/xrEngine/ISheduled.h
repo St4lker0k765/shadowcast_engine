@@ -14,8 +14,8 @@ public:
 
 #ifdef DEBUG
     u32 dbg_startframe;
+ #endif
     u32 dbg_update_shedule;
-#endif
 
     ISheduled();
     virtual ~ISheduled();
