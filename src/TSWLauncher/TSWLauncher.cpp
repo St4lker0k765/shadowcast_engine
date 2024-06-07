@@ -4,6 +4,8 @@
 #include "framework.h"
 #include "TSWLauncher.h"
 
+class TSWLauncher;
+
 #define MAX_LOADSTRING 100
 
 // Global Variables:
@@ -30,6 +32,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     // Initialize global strings
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
     LoadStringW(hInstance, IDC_TSWLAUNCHER, szWindowClass, MAX_LOADSTRING);
+
     MyRegisterClass(hInstance);
 
     // Perform application initialization:
@@ -106,10 +109,22 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    {
       return FALSE;
    }
- //  HWND Button = nullptr;
-//   Button_Enable(Button, TRUE);
    UpdateWindow(hWnd);
- 
+   HWND StartGameButton = CreateWindow(
+       L"BUTTON",
+       L"OK",
+       WS_TABSTOP | WS_VISIBLE | BS_DEFPUSHBUTTON,
+       10,
+       10,
+       100,
+       100,
+       hWnd,
+       NULL,
+       (HINSTANCE)GetWindowLongPtr(hWnd, GWLP_HINSTANCE),
+       NULL
+   );
+   UpdateWindow(StartGameButton);
+
    return TRUE;
 }
 
@@ -125,6 +140,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+
     switch (message)
     {
     case WM_COMMAND:
@@ -177,6 +193,16 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
             return (INT_PTR)TRUE;
         }
         break;
+    case WM_PAINT:
+        {
+            PAINTSTRUCT ps;
+            HDC hdc = BeginPaint(hDlg, &ps);
+            // TODO: Add any drawing code that uses hdc here...
+            EndPaint(hDlg, &ps);
+        }
+        break;
     }
+
     return (INT_PTR)FALSE;
 }
+
