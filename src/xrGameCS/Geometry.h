@@ -1,6 +1,6 @@
 #ifndef GEOMETRY_H
 #define GEOMETRY_H 
-#include "PhysicsCommon.h"
+#include "../xrPhysics/PhysicsCommon.h"
 #include "ExtendedGeom.h"
 
 #include "../xrEngine/iphysicsgeometry.h"

@@ -2,7 +2,7 @@
 
 #include "PHWorld.h"
 #include "tri-colliderknoopc/dTriList.h"
-#include "PhysicsCommon.h"
+#include "../xrPhysics/PhysicsCommon.h"
 #include "Level.h"
 #include "ExtendedGeom.h"
 #include "draymotions.h"

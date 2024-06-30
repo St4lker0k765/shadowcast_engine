@@ -5,7 +5,7 @@
 #include "gamepersistent.h"
 #include "Extendedgeom.h"
 #include "PhysicsGamePars.h"
-#include "PhysicsCommon.h"
+#include "../xrPhysics/PhysicsCommon.h"
 #include "PhSoundPlayer.h"
 #include "PhysicsShellHolder.h"
 #include "PHCommander.h"

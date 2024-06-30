@@ -4,7 +4,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 #include "Geometry.h"
 #include "phdefs.h"
-#include "PhysicsCommon.h"
+#include "../xrPhysics/PhysicsCommon.h"
 #include "PHSynchronize.h"
 #include "PHDisabling.h"
 #include "PHGeometryOwner.h"

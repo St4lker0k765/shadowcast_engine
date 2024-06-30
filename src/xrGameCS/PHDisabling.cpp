@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "PHDisabling.h"
-#include "PhysicsCommon.h"
+#include "../xrPhysics/PhysicsCommon.h"
 #include "Physics.h"
 #include "mathutils.h"
 #ifdef	DEBUG

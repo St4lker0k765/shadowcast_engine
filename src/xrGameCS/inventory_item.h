@@ -142,12 +142,12 @@ public:
 	shared_str					m_nameShort;
 	shared_str					m_nameComplex;
 
-	EItemPlace					m_eItemCurrPlace;
+	SInvItemPlace					m_eItemCurrPlace;
 
 
 	virtual void				OnMoveToSlot		() {};
 	virtual void				OnMoveToBelt		() {};
-	virtual void				OnMoveToRuck		(EItemPlace prev) {};
+	virtual void				OnMoveToRuck		(const SInvItemPlace& prev) {};
 					
 			Irect			GetInvGridRect		() const;
 			const shared_str&	GetIconName			() const		{return m_icon_name;};

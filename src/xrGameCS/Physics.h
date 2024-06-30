@@ -8,7 +8,7 @@
 #include "PHInterpolation.h"
 #include "../xrcore/_cylinder.h"
 #include "BlockAllocator.h"
-#include "PhysicsCommon.h"
+#include "../xrPhysics/PhysicsCommon.h"
 #include "PHWorld.h"
 #include "PHContactBodyEffector.h"
 #include "phvalide.h"

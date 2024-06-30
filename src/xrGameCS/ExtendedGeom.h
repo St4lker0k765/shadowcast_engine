@@ -2,7 +2,7 @@
 #define EXTENDED_GEOM
 #include "PHObject.h"
 #include "ode_include.h"
-#include "physicscommon.h"
+#include "../xrPhysics/PhysicsCommon.h"
 #include "MathUtils.h"
 
 

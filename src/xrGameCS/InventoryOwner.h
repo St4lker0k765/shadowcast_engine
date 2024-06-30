@@ -65,7 +65,7 @@ public:
 	////////////////////////////////////
 	//торговля и общение с персонажем
 
-	virtual bool	AllowItemToTrade 	(CInventoryItem const * item, EItemPlace place) const;
+	virtual bool	AllowItemToTrade 	(CInventoryItem const * item, SInvItemPlace place) const;
 	virtual void	OnFollowerCmd		(int cmd)		{};//redefine for CAI_Stalkker
 	//инициализация объекта торговли
 	CTrade* GetTrade();
@@ -175,9 +175,9 @@ public:
 	virtual void			renderable_Render		();
 	virtual void			OnItemTake				(CInventoryItem *inventory_item);
 	
-	virtual void			OnItemBelt				(CInventoryItem *inventory_item, EItemPlace previous_place);
-	virtual void			OnItemRuck				(CInventoryItem *inventory_item, EItemPlace previous_place);
-	virtual void			OnItemSlot				(CInventoryItem *inventory_item, EItemPlace previous_place);
+	virtual void			OnItemBelt				(CInventoryItem *inventory_item, SInvItemPlace previous_place);
+	virtual void			OnItemRuck				(CInventoryItem *inventory_item, SInvItemPlace previous_place);
+	virtual void			OnItemSlot				(CInventoryItem *inventory_item, SInvItemPlace previous_place);
 	
 	virtual void			OnItemDrop				(CInventoryItem *inventory_item);
 	virtual void			OnItemDropUpdate		();

@@ -5,7 +5,7 @@
 #include "UI.h"
 
 class CHUDTarget;
-
+/* it's already in xrEngine; no need for this
 struct CFontManager :public pureDeviceReset			{
 							CFontManager			();
 							~CFontManager			();
@@ -35,7 +35,7 @@ struct CFontManager :public pureDeviceReset			{
 
 	virtual void			OnDeviceReset			();
 };
-
+*/
 class CHUDManager :
 	public CCustomHUD
 {

@@ -110,7 +110,7 @@ protected:
 class CAfList  :public CDetectList<CArtefact>
 {
 protected:
-	virtual BOOL 	feel_touch_contact	(CObject* O);
+	virtual bool 	feel_touch_contact	(CObject* O);
 public:
 					CAfList		():m_af_rank(0){}
 	int				m_af_rank;
@@ -141,7 +141,7 @@ public:
 			bool 	IsWorking			();
 
 	virtual void 	OnMoveToSlot		();
-	virtual void 	OnMoveToRuck		(EItemPlace prev);
+	virtual void 	OnMoveToRuck		(SInvItemPlace prev);
 
 	virtual void	OnActiveItem		();
 	virtual void	OnHiddenItem		();

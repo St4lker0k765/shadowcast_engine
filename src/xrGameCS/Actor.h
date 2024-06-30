@@ -165,8 +165,8 @@ public:
 
 	virtual void OnItemTake		(CInventoryItem *inventory_item);
 	
-	virtual void OnItemRuck		(CInventoryItem *inventory_item, EItemPlace previous_place);
-	virtual void OnItemBelt		(CInventoryItem *inventory_item, EItemPlace previous_place);
+	virtual void OnItemRuck		(CInventoryItem *inventory_item, SInvItemPlace previous_place);
+	virtual void OnItemBelt		(CInventoryItem *inventory_item, SInvItemPlace previous_place);
 	
 	virtual void OnItemDrop		(CInventoryItem *inventory_item);
 	virtual void OnItemDropUpdate ();
@@ -345,7 +345,7 @@ protected:
 public:
 	virtual void			feel_touch_new				(CObject* O);
 	virtual void			feel_touch_delete			(CObject* O);
-	virtual BOOL			feel_touch_contact			(CObject* O);
+	virtual bool			feel_touch_contact			(CObject* O);
 	virtual BOOL			feel_touch_on_contact		(CObject* O);
 
 	CGameObject*			ObjectWeLookingAt			() {return m_pObjectWeLookingAt;}

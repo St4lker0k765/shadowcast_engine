@@ -55,10 +55,10 @@ namespace GameObject {
 		eDummy = u32(-1),
 	};
 };
-
+/* it's already in xrEngine
 enum EBoneCallbackType{
 	bctDummy			= u32(0),	// 0 - required!!!
 	bctPhysics,
 	bctCustom,
 	bctForceU32			= u32(-1),
-};
+};*/

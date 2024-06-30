@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "PHJointDestroyInfo.h"
-#include "PhysicsCommon.h"
+#include "../xrPhysics/PhysicsCommon.h"
 #include "MathUtils.h"
 CPHJointDestroyInfo::CPHJointDestroyInfo(float break_force,float break_torque)
 {

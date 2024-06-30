@@ -7,7 +7,7 @@
 #include "../3rd party/ode/ode/src/joint.h"
 #pragma warning(default:4995)
 #pragma warning(default:4267)
-#include "PhysicsCommon.h"
+#include "../xrPhysics/PhysicsCommon.h"
 
 
 class CPHIslandFlags
