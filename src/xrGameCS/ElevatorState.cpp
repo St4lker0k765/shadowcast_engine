@@ -2,7 +2,7 @@
 #include "ElevatorState.h"
 #include "ClimableObject.h"
 #include "PHCharacter.h"
-#include "MathUtils.h"
+#include "../../xrphysics/MathUtils.h"
 #include "PHWorld.h"
 #ifdef DEBUG
 #include "../xrEngine/Statgraph.h"

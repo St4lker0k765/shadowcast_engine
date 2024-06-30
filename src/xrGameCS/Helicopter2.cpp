@@ -9,7 +9,7 @@
 #include "script_callback_ex.h"
 #include "ai/stalker/ai_stalker.h"
 #include "CustomZone.h"
-#include "MathUtils.h"
+#include "../../xrphysics/MathUtils.h"
 #include "actor.h"
 
 bool CHelicopter::isObjectVisible			(CObject* O)

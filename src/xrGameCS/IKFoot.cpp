@@ -7,7 +7,7 @@
 
 
 #include "ode_include.h"
-#include "MathUtils.h"
+#include "../../xrphysics/MathUtils.h"
 #include "../include/xrrender/Kinematics.h"
 #include "../xrEngine/bone.h"
 #include "../xrEngine/ennumerateVertices.h"

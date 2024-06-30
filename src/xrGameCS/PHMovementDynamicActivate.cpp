@@ -4,7 +4,7 @@
 #include "phmovementcontrol.h"
 
 #include "ExtendedGeom.h"
-#include "MathUtils.h"
+#include "../../xrphysics/MathUtils.h"
 #include "Physics.h"
 #include "Level.h"
 #include "../xrEngine/gamemtllib.h"

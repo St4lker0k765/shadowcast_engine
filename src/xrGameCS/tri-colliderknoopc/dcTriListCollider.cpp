@@ -5,7 +5,7 @@
 #include "dTriCollideK.h"
 #include "dSortTriPrimitive.h"
 #include "../dCylinder/dCylinder.h"
-#include "../MathUtils.h"
+#include "../../xrphysics/MathUtils.h"
 #include "../level.h"
 #ifdef	DEBUG
 #include "../phdebug.h"

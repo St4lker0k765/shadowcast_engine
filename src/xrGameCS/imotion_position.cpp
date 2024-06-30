@@ -3,7 +3,7 @@
 #include "imotion_position.h"
 
 #include "physicsshell.h"
-#include "MathUtils.h"
+#include "../../xrphysics/MathUtils.h"
 
 #include "../Include/xrRender/Kinematics.h"
 #include <boost/noncopyable.hpp>

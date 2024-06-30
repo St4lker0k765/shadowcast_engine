@@ -4,7 +4,7 @@
 
 #include "dCylinder/dCylinder.h"
 #include "PhysicsShell.h"
-#include "PHObject.h"
+#include "../xrPhysics/PHObject.h"
 #include "PHInterpolation.h"
 #include "../xrcore/_cylinder.h"
 #include "BlockAllocator.h"

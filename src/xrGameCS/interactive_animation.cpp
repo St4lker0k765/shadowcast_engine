@@ -4,8 +4,8 @@
 
 #include	"physicsshell.h"
 #include	"ExtendedGeom.h"
-#include	"mathutils.h"
-#include	"phobject.h"
+#include "../../xrphysics/MathUtils.h"
+#include "../xrPhysics/PHObject.h"
 
 #include	"../Include/xrRender/KinematicsAnimated.h"
 

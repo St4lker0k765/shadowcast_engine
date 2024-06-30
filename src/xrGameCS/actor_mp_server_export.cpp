@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "actor_mp_server.h"
 #include "Physics.h"
-#include "mathutils.h"
+#include "../../xrphysics/MathUtils.h"
 
 
 void CSE_ActorMP::fill_state	(actor_mp_state &state)

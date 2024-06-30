@@ -1,9 +1,9 @@
 #ifndef EXTENDED_GEOM
 #define EXTENDED_GEOM
-#include "PHObject.h"
+#include "../xrPhysics/PHObject.h"
 #include "ode_include.h"
 #include "../xrPhysics/PhysicsCommon.h"
-#include "MathUtils.h"
+#include "../../xrphysics/MathUtils.h"
 
 
 

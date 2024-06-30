@@ -1,5 +1,5 @@
 #pragma once
-#include "PHObject.h"
+#include "../xrPhysics/PHObject.h"
 #include "PHInterpolation.h"
 #include "PHSynchronize.h"
 #include "PHDisabling.h"

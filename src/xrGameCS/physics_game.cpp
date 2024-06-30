@@ -9,7 +9,7 @@
 #include "PhSoundPlayer.h"
 #include "PhysicsShellHolder.h"
 #include "PHCommander.h"
-#include "MathUtils.h"
+#include "../../xrphysics/MathUtils.h"
 #include "PHWorld.h"
 
 #include "../Include/xrRender/FactoryPtr.h"

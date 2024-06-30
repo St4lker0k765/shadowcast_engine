@@ -6,7 +6,7 @@
 #pragma once
 
 #include "physic_item.h"
-#include "PHObject.h"
+#include "../xrPhysics/PHObject.h"
 
 class CRocketLauncher;
 

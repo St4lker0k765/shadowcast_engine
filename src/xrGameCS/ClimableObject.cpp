@@ -3,7 +3,7 @@
 #include "PHStaticGeomShell.h"
 #include "xrServer_Objects_ALife.h"
 #include "PHCharacter.h"
-#include "MathUtils.h"
+#include "../../xrphysics/MathUtils.h"
 
 #ifdef DEBUG
 #	include "debug_renderer.h"

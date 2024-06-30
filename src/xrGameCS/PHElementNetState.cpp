@@ -2,7 +2,7 @@
 #include "physicsshell.h"
 #include "phinterpolation.h"
 #include "phelement.h"
-#include "phobject.h"
+#include "../xrPhysics/PHObject.h"
 #include "phworld.h"
 #include "phshell.h"
 

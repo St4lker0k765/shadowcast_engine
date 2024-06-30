@@ -9,7 +9,7 @@
 #include "ui/uistatic.h"
 #include "SpaceUtils.h"
 #include "PhysicsGamePars.h"
-#include "MathUtils.h" 
+#include "../../xrphysics/MathUtils.h"
 #include "level.h"
 #include "../xrEngine/gamemtllib.h"
 #include "gameobject.h"

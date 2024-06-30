@@ -2,7 +2,7 @@
 #include "PHDisabling.h"
 #include "../xrPhysics/PhysicsCommon.h"
 #include "Physics.h"
-#include "mathutils.h"
+#include "../../xrphysics/MathUtils.h"
 #ifdef	DEBUG
 #include "phdebug.h"
 #endif

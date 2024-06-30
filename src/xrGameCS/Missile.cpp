@@ -11,7 +11,7 @@
 #include "../Include/xrRender/Kinematics.h"
 #include "ai_object_location.h"
 #include "ExtendedGeom.h"
-#include "MathUtils.h"
+#include "../../xrphysics/MathUtils.h"
 #include "characterphysicssupport.h"
 #include "inventory.h"
 #include "../xrEngine/IGame_Persistent.h"

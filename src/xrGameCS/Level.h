@@ -62,6 +62,7 @@ namespace file_transfer
 class CLevel					: public IGame_Level, public IPureClient
 {
 	#include "Level_network_Demo.h"
+#include <xrEngine/CustomHUD.h>
 	void						ClearAllObjects			();
 private:
 #ifdef DEBUG

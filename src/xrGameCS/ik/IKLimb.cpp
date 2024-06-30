@@ -11,7 +11,7 @@
 #include "../ik_anim_state.h"
 
 #include "../ode_include.h"
-#include "../MathUtils.h"
+#include "../../xrphysics/MathUtils.h"
 #include "../matrix_utils.h"
 #include "../pose_extrapolation.h"
 #ifdef DEBUG

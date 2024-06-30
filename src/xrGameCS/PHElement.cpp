@@ -4,7 +4,7 @@
 #include "tri-colliderknoopc/dTriList.h"
 #include "PHFracture.h"
 #include "PHContactBodyEffector.h"
-#include "MathUtils.h"
+#include "../../xrphysics/MathUtils.h"
 #include "matrix_utils.h"
 #include "PhysicsShellHolder.h"
 #include "game_object_space.h"

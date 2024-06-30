@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "physicsshell.h"
 #include "phinterpolation.h"
-#include "phobject.h"
+#include "../xrPhysics/PHObject.h"
 #include "phworld.h"
 #include "phshell.h"
 

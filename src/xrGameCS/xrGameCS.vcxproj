@@ -406,7 +406,7 @@
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <AdditionalIncludeDirectories>.;$(xrExternals)luajit\src;$(SolutionDir)xrServerEntities;$(xr3rdPartyDir)CxImage;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;XRGAME_EXPORTS;dSINGLE;MSVC;_SECURE_SCL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;XRGAME_EXPORTS;dSINGLE;MSVC;_SECURE_SCL=0;XRGAMECS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <ExceptionHandling>
       </ExceptionHandling>
@@ -1358,7 +1358,9 @@
     <ClInclude Include="map_spot.h" />
     <ClInclude Include="material_manager.h" />
     <ClInclude Include="material_manager_inline.h" />
-    <ClInclude Include="MathUtils.h" />
+    <ClInclude Include="MathUtils.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="matrix_utils.h" />
     <ClInclude Include="medkit.h" />
     <ClInclude Include="member_corpse.h" />
@@ -1481,13 +1483,11 @@
     <ClInclude Include="PHGeometryOwner.h" />
     <ClInclude Include="PHImpact.h" />
     <ClInclude Include="PHInterpolation.h" />
-    <ClInclude Include="PHIsland.h" />
     <ClInclude Include="PHItemList.h" />
     <ClInclude Include="PHJoint.h" />
     <ClInclude Include="PHJointDestroyInfo.h" />
     <ClInclude Include="PHMovementControl.h" />
     <ClInclude Include="PHMoveStorage.h" />
-    <ClInclude Include="PHObject.h" />
     <ClInclude Include="Phrase.h" />
     <ClInclude Include="PhraseDialog.h" />
     <ClInclude Include="PhraseDialogDefs.h" />
@@ -4799,7 +4799,9 @@
     </ClCompile>
     <ClCompile Include="map_spot.cpp" />
     <ClCompile Include="material_manager.cpp" />
-    <ClCompile Include="MathUtils.cpp" />
+    <ClCompile Include="MathUtils.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="medkit.cpp" />
     <ClCompile Include="memory_manager.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch_script.h</PrecompiledHeaderFile>
@@ -5011,13 +5013,11 @@
     <ClCompile Include="PHFracture.cpp" />
     <ClCompile Include="PHGeometryOwner.cpp" />
     <ClCompile Include="PHInterpolation.cpp" />
-    <ClCompile Include="PHIsland.cpp" />
     <ClCompile Include="PHJoint.cpp" />
     <ClCompile Include="PHJointDestroyInfo.cpp" />
     <ClCompile Include="PHMovementControl.cpp" />
     <ClCompile Include="PHMovementDynamicActivate.cpp" />
     <ClCompile Include="PHMoveStorage.cpp" />
-    <ClCompile Include="PHObject.cpp" />
     <ClCompile Include="Phrase.cpp" />
     <ClCompile Include="PhraseDialog.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch_script.h</PrecompiledHeaderFile>

@@ -8,7 +8,7 @@
 #include "PHFracture.h"
 #include "PHJointDestroyInfo.h"
 #include "SpaceUtils.h"
-#include "MathUtils.h"
+#include "../../xrphysics/MathUtils.h"
 #include "PhysicsShellHolder.h"
 #include "../Include/xrRender/Kinematics.h"
 #include "PHCollideValidator.h"
