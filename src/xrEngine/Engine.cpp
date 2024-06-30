@@ -128,11 +128,24 @@ void CEngine::Initialize_dll()
 
     // game
     {
-        LPCSTR g_name = "xrGame.dll";
+        LPCSTR g_name;
+        if (TheShadowWayMode || CallOfPripyatMode)
+        {
+            g_name = "xrGame.dll";
+        }
+        else if (ClearSkyMode)
+        {
+            g_name = "xrGameCS.dll";
+        }
+        else if (ShadowOfChernobylMode)
+        {
+            g_name = "xrGameSOC.dll";
+        }
+
         Log("Loading DLL:", g_name);
         h_game = LoadLibrary(g_name);
         if (!h_game) R_CHK(GetLastError());
-        R_ASSERT2(h_game, "Game DLL raised exception during loading or there is no game DLL at all");
+        R_ASSERT2(h_game, "Game DLL raised exception during loading or there is no game DLL at all. Did you forgot to compile xrGame for other games?");
         pCreate = (Factory_Create*)(GetProcAddress(h_game, "xrFactory_Create"));
         R_ASSERT(pCreate);
         pDestroy = (Factory_Destroy*)(GetProcAddress(h_game, "xrFactory_Destroy"));

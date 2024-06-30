@@ -32,15 +32,29 @@ void UILoadingScreen::Initialize()
     CUIXml uiXml;
     uiXml.Load(CONFIG_PATH, UI_PATH, "ui_mm_loading_screen.xml");
 
-    CUIXmlInit::InitWindow(uiXml, "background", 0, this);
-    loadingLogo = UIHelper::CreateStatic(uiXml, "loading_logo", this);
-    loadingProgressBackground = UIHelper::CreateStatic(uiXml, "loading_progress_background", this);
-    loadingProgress = UIHelper::CreateProgressBar(uiXml, "loading_progress", this);
-    loadingProgressPercent = UIHelper::CreateStatic(uiXml, "loading_progress_percent", this);
-    loadingStage = UIHelper::CreateStatic(uiXml, "loading_stage", this);
-    loadingHeader = UIHelper::CreateStatic(uiXml, "loading_header", this);
-    loadingTipNumber = UIHelper::CreateStatic(uiXml, "loading_tip_number", this);
-    loadingTip = UIHelper::CreateStatic(uiXml, "loading_tip", this);
+    if (TheShadowWayMode)
+    {
+        CUIXmlInit::InitWindow(uiXml, "background", 0, this);
+        loadingLogo = UIHelper::CreateStatic(uiXml, "loading_logo", this);
+        loadingProgressBackground = UIHelper::CreateStatic(uiXml, "loading_progress_background", this);
+        loadingProgress = UIHelper::CreateProgressBar(uiXml, "loading_progress", this);
+        loadingProgressPercent = UIHelper::CreateStatic(uiXml, "loading_progress_percent", this);
+        loadingStage = UIHelper::CreateStatic(uiXml, "loading_stage", this);
+        loadingHeader = UIHelper::CreateStatic(uiXml, "loading_header", this);
+        loadingTipNumber = UIHelper::CreateStatic(uiXml, "loading_tip_number", this);
+        loadingTip = UIHelper::CreateStatic(uiXml, "loading_tip", this);
+    }
+    else {
+        loadingProgressBackground = UIHelper::CreateStatic(uiXml, "loading_progress_background", this);
+        loadingProgress = UIHelper::CreateProgressBar(uiXml, "loading_progress", this);
+        CUIXmlInit::InitWindow(uiXml, "background", 0, this);
+        loadingLogo = UIHelper::CreateStatic(uiXml, "loading_logo", this);
+        loadingProgressPercent = UIHelper::CreateStatic(uiXml, "loading_progress_percent", this);
+        loadingStage = UIHelper::CreateStatic(uiXml, "loading_stage", this);
+        loadingHeader = UIHelper::CreateStatic(uiXml, "loading_header", this);
+        loadingTipNumber = UIHelper::CreateStatic(uiXml, "loading_tip_number", this);
+        loadingTip = UIHelper::CreateStatic(uiXml, "loading_tip", this);
+    }
 }
 
 void UILoadingScreen::Update(const int stagesCompleted, const int stagesTotal)

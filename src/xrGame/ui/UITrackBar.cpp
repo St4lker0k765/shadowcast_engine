@@ -92,19 +92,34 @@ void CUITrackBar::InitTrackBar(Fvector2 pos, Fvector2 size)
 	float				item_width;
 
 	InitIB				(pos, size);
+	if (TheShadowWayMode)
+	{
+		InitState(S_Enabled, "ui_slider_e");
+		InitState(S_Disabled, "ui_slider_d");
 
-	InitState(S_Enabled, "ui_slider_e");
-	InitState(S_Disabled, "ui_slider_d");
+		item_width = CUITextureMaster::GetTextureWidth("ui_slider_button_e");
+		item_height = CUITextureMaster::GetTextureHeight("ui_slider_button_e");
 
-	item_width = CUITextureMaster::GetTextureWidth("ui_slider_button_e");
-	item_height = CUITextureMaster::GetTextureHeight("ui_slider_button_e");
+		item_width *= UI().get_current_kx();
 
-	item_width *= UI().get_current_kx();
+		m_pSlider->InitButton(Fvector2().set(0.0f, 0.0f) /*(size.y - item_height)/2.0f)*/,
+			Fvector2().set(item_width / 2.0f, item_height / 2.0f));			//size
+		m_pSlider->InitTexture("ui_slider_button");
+	}
+	else {
 
-	m_pSlider->InitButton(Fvector2().set(0.0f, 0.0f) /*(size.y - item_height)/2.0f)*/,
-		Fvector2().set(item_width / 2.0f, item_height / 2.0f));			//size
-	m_pSlider->InitTexture("ui_slider_button");
+		InitState(S_Enabled, "ui_inGame2_opt_slider_bar");
+		InitState(S_Disabled, "ui_inGame2_opt_slider_bar");
 
+		item_width = CUITextureMaster::GetTextureWidth("ui_inGame2_opt_slider_box_e");
+		item_height = CUITextureMaster::GetTextureHeight("ui_inGame2_opt_slider_box_e");
+
+		item_width *= UI().get_current_kx();
+
+		m_pSlider->InitButton(Fvector2().set(0.0f, 0.0f) /*(size.y - item_height)/2.0f)*/,
+			Fvector2().set(item_width, item_height));			//size
+		m_pSlider->InitTexture("ui_inGame2_opt_slider_box");
+	}
 	SetCurrentState(S_Enabled);
 }	
 

@@ -501,7 +501,7 @@ LPCSTR DelHyphens( LPCSTR c )
 
 LPCSTR CMainMenu::GetGSVer()
 {
-	return "Developer Test 1.0.0.3";
+	return "1.7.0.0";
 }
 
 demo_info const * CMainMenu::GetDemoInfo(LPCSTR file_name)
