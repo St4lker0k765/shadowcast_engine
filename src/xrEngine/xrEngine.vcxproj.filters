@@ -696,8 +696,6 @@
       <Filter>General\Resources</Filter>
     </Image>
     <Image Include="stcop engine splash.png" />
-    <Image Include="forward_frontier_splash.bmp" />
-    <Image Include="icon2.ico" />
     <Image Include="shadow_engine_logo.png" />
   </ItemGroup>
   <ItemGroup>

@@ -15,6 +15,11 @@ ENGINE_API float psMouseSens = 1.f;
 ENGINE_API float psMouseSensScale = 1.f;
 ENGINE_API Flags32 psMouseInvert = {FALSE};
 
+ENGINE_API float psXInputSens = 1.f;
+ENGINE_API float psXInputSensScale = 1.f;
+ENGINE_API Flags32 psXInputInvert = { FALSE };
+ENGINE_API DWORD iUserIndex=0;
+
 float stop_vibration_time = flt_max;
 
 #define MOUSEBUFFERSIZE 64
@@ -119,7 +124,7 @@ CInput::~CInput(void)
 // Name: CreateInputDevice()
 // Desc: Create a DirectInput device.
 //-----------------------------------------------------------------------------
-HRESULT CInput::CreateInputDevice(LPDIRECTINPUTDEVICE8* device, GUID guidDevice, const DIDATAFORMAT* pdidDataFormat, u32 dwFlags, u32 buf_size)
+HRESULT CInput::CreateInputDevice(LPDIRECTINPUTDEVICE* device, GUID guidDevice, const DIDATAFORMAT* pdidDataFormat, u32 dwFlags, u32 buf_size)
 {
     // Obtain an interface to the input device
     //. CHK_DX( pDI->CreateDeviceEx( guidDevice, IID_IDirectInputDevice8, (void**)device, NULL ) );
@@ -258,7 +263,7 @@ void CInput::KeyUpdate()
     
     #ifndef _EDITOR
     //update xinput if exist
-    for( DWORD iUserIndex=0; iUserIndex<DXUT_MAX_CONTROLLERS; iUserIndex++ )
+    for( iUserIndex; iUserIndex< XUSER_MAX_COUNT; iUserIndex++ )
     {
     DXUTGetGamepadState( iUserIndex, &g_GamePads[iUserIndex], true, false );
 
@@ -266,8 +271,8 @@ void CInput::KeyUpdate()
     continue; // unplugged?
 
     bool new_b, old_b;
-    new_b = !!(g_GamePads[iUserIndex].wPressedButtons & XINPUT_GAMEPAD_A);
-    old_b = !!(g_GamePads[iUserIndex].wLastButtons & XINPUT_GAMEPAD_A);
+    new_b = !!(g_GamePads[iUserIndex].wPressedButtons & XINPUT_GAMEPAD_A & XINPUT_GAMEPAD_DPAD_DOWN);
+    old_b = !!(g_GamePads[iUserIndex].wLastButtons & XINPUT_GAMEPAD_A & XINPUT_GAMEPAD_DPAD_DOWN);
 
     if(new_b != old_b)
     {
@@ -629,10 +634,10 @@ bool CInput::get_exclusive_mode()
     return g_exclusive;
 }
 
-void CInput::feedback(u16 s1, u16 s2, float time)
+void CInput::feedback(float s1, float s2, float time)
 {
     stop_vibration_time = RDEVICE.fTimeGlobal + time;
 #ifndef _EDITOR
-    //. set_vibration (s1, s2);
+    set_vibration (s1, s2);
 #endif
 }

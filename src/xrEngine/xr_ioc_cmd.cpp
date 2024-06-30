@@ -724,6 +724,7 @@ extern Flags32 psEnvFlags;
 
 extern int g_ErrorLineCount;
 extern int ps_rs_loading_stages;
+extern int psXInputEnable;
 
 ENGINE_API BOOL debugSecondVP = FALSE;
 
@@ -873,6 +874,12 @@ void CCC_Register()
     CMD3(CCC_Mask, "mouse_invert", &psMouseInvert, 1);
     psMouseSens = 0.12f;
     CMD4(CCC_Float, "mouse_sens", &psMouseSens, 0.001f, 0.6f);
+
+    // Controller
+    CMD3(CCC_Mask, "xinput_invert", &psXInputInvert, 1);
+    psXInputSens = 0.12f;
+    CMD4(CCC_Float, "xinput_sens", &psXInputSens, 0.001f, 0.6f);
+    CMD4(CCC_Integer, "xinput_enable", &psXInputEnable, 0, 1);
 
     // Camera
     CMD2(CCC_Float, "cam_inert", &psCamInert);

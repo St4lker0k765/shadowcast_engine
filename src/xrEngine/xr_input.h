@@ -43,9 +43,9 @@ public:
     };
 private:
     BENCH_SEC_SCRAMBLEMEMBER1
-    LPDIRECTINPUT8 pDI; // The DInput object
-    LPDIRECTINPUTDEVICE8 pMouse; // The DIDevice7 interface
-    LPDIRECTINPUTDEVICE8 pKeyboard; // The DIDevice7 interface
+    LPDIRECTINPUT pDI; // The DInput object
+    LPDIRECTINPUTDEVICE pMouse; // The DIDevice7 interface
+    LPDIRECTINPUTDEVICE pKeyboard; // The DIDevice7 interface
     //----------------------
     u32 timeStamp[COUNT_MOUSE_AXIS];
     u32 timeSave[COUNT_MOUSE_AXIS];
@@ -55,7 +55,7 @@ private:
     //----------------------
     BOOL KBState[COUNT_KB_BUTTONS];
 
-    HRESULT CreateInputDevice(LPDIRECTINPUTDEVICE8* device, GUID guidDevice,
+    HRESULT CreateInputDevice(LPDIRECTINPUTDEVICE* device, GUID guidDevice,
                               const DIDATAFORMAT* pdidDataFormat, u32 dwFlags,
                               u32 buf_size);
 
@@ -96,7 +96,7 @@ public:
     void acquire(const bool& exclusive);
     bool get_dik_name(int dik, LPSTR dest, int dest_sz);
 
-    void feedback(u16 s1, u16 s2, float time);
+    void feedback(float s1, float s2, float time);
 };
 
 extern ENGINE_API CInput* pInput;

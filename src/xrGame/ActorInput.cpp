@@ -10,6 +10,7 @@
 #	include "PHDebug.h"
 #endif
 
+extern enum E_COMMON_FLAGS;
 #include "hit.h"
 #include "PHDestroyable.h"
 #include "Car.h"
@@ -29,6 +30,7 @@
 #include "InventoryBox.h"
 #include "player_hud.h"
 #include "../xrEngine/xr_input.h"
+#include "../xrEngine/xr_input_xinput.h"
 #include "flare.h"
 #include "CustomDetector.h"
 #include "clsid_game.h"
@@ -410,6 +412,7 @@ void CActor::IR_OnMouseMove(int dx, int dy)
 
 	CCameraBase* C	= cameras	[cam_active];
 	float scale		= (C->f_fov/g_fov)*psMouseSens * psMouseSensScale/50.f  / LookFactor;
+	float scale_gpad= (C->f_fov/g_fov)  / LookFactor;
 	if (dx){
 		float d = float(dx)*scale;
 		cam_Active()->Move((d<0)?kLEFT:kRIGHT, _abs(d));
@@ -649,7 +652,6 @@ float	CActor::GetLookFactor()
 	if (m_input_external_handler) 
 		return m_input_external_handler->mouse_scale_factor();
 
-	
 	float factor	= 1.f;
 
 	PIItem pItem	= inventory().ActiveItem();

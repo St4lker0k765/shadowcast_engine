@@ -23,7 +23,14 @@ ENGINE_API string512 g_sLaunchOnExit_params;
 ENGINE_API string512 g_sLaunchOnExit_app;
 ENGINE_API string_path g_sLaunchWorkingFolder;
 
-ENGINE_API int ps_rs_loading_stages = 0;
+ENGINE_API bool TheShadowWayMode = false;
+ENGINE_API bool CallOfPripyatMode = false;
+ENGINE_API bool ClearSkyMode = false;
+ENGINE_API bool ShadowOfChernobylMode = false;
+
+ENGINE_API int ps_rs_loading_stages = 1;
+
+ENGINE_API int psXInputEnable = 1;
 
 XRCORE_API LPCSTR build_date;
 XRCORE_API u32 build_id
@@ -154,8 +161,39 @@ void InitSettings()
 
 	InitConfig(pSettings, "system.ltx");
 	InitConfig(pSettingsAuth, "system.ltx", true, true, true, false, 0, includeFilter);
-	InitConfig(pFFSettings, "stcop_config.ltx", false, true, true, false);
+	InitConfig(pFFSettings, "shadowcast_config.ltx", false, true, true, false);
 	InitConfig(pGameIni, "game.ltx");
+
+    pcstr gameMode = READ_IF_EXISTS(pFFSettings, r_string, "compatibility", "game_mode", "cop");
+
+    if (strcmpi("cop", gameMode) == 0)
+    {
+        TheShadowWayMode = false;
+        CallOfPripyatMode = true;
+        ShadowOfChernobylMode = false;
+        ClearSkyMode = false;
+    }
+    else if (strcmpi("cs", gameMode) == 0)
+    {
+        TheShadowWayMode = false;
+        CallOfPripyatMode = false;
+        ShadowOfChernobylMode = false;
+        ClearSkyMode = true;
+    }
+    else if (strcmpi("soc", gameMode) == 0)
+    {
+        TheShadowWayMode = false;
+        CallOfPripyatMode = false;
+        ShadowOfChernobylMode = true;
+        ClearSkyMode = false;
+    }
+    else if (strcmpi("tsw", gameMode) == 0)
+    {
+        TheShadowWayMode = true;
+        CallOfPripyatMode = false;
+        ShadowOfChernobylMode = false;
+        ClearSkyMode = false;
+    }
 }
 void InitConsole()
 {

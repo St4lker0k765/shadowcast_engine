@@ -1008,8 +1008,6 @@ copy /Y "$(xrSdkDir)binaries\x64\BugTrap-x64.dll" "$(OutputPath)BugTrap-x64.dll"
     <ResourceCompile Include="resource.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="forward_frontier_splash.bmp" />
-    <Image Include="icon2.ico" />
     <Image Include="shadow_engine_logo.png" />
     <Image Include="splash_xrcs_en.bmp" />
     <Image Include="stalker_cs.ico" />

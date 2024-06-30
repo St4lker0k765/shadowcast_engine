@@ -113,7 +113,7 @@ void xrCore::_initialize(LPCSTR _ApplicationName, LogCallback cb, BOOL init_fs, 
 #endif
 #endif
         FS._initialize(flags, 0, fs_fname);
-		Msg("Shadow Engine build %d, %s\n", build_id, build_date);
+		Msg("Shadowcast Engine build %d, %s\n", build_id, build_date);
 		Msg("Underground Collective Discord: https://discord.gg/Z2YuvKmHhf");
         EFS._initialize();
 #ifdef DEBUG

@@ -352,6 +352,7 @@ void CUIMMShniaga::OnBtnClick(){
 
 #include <dinput.h>
 #include <xinput.h>
+#include <xrEngine/xr_input.h>
 bool CUIMMShniaga::OnKeyboardAction(int dik, EUIMessages keyboard_action)
 {
 
@@ -380,7 +381,7 @@ bool CUIMMShniaga::OnKeyboardAction(int dik, EUIMessages keyboard_action)
 
 	return CUIWindow::OnKeyboardAction(dik, keyboard_action);
 }
-/*
+
 bool CUIMMShniaga::OnGamepadAction(int vk, EUIMessages gamepad_action)
 {
 
@@ -388,18 +389,21 @@ bool CUIMMShniaga::OnGamepadAction(int vk, EUIMessages gamepad_action)
 	{
 		switch (vk)
 		{
-		case VK_PAD_DPAD_UP:
+		case XINPUT_GAMEPAD_DPAD_UP:
 			if (m_selected_btn > 0)
 				SelectBtn(m_selected_btn - 1);
 			return true;
-		case VK_PAD_DPAD_DOWN:
+		case XINPUT_GAMEPAD_DPAD_DOWN:
 			if (m_selected_btn < BtnCount() - 1)
 				SelectBtn(m_selected_btn + 1);
 			return true;
-		case VK_PAD_A:
+		case XINPUT_GAMEPAD_A:
 			OnBtnClick();
+			// debugging purposes only
+			CInput* xr_input;
+			xr_input->feedback(0.5f, 0.5f, 0.1f);
 			return true;
-		case VK_PAD_B:
+		case XINPUT_GAMEPAD_B:
 			if (m_page != epi_main)
 				ShowMain();
 			return true;
@@ -409,7 +413,7 @@ bool CUIMMShniaga::OnGamepadAction(int vk, EUIMessages gamepad_action)
 
 	return CUIWindow::OnGamepadAction(vk, gamepad_action);
 }
-*/
+
 int CUIMMShniaga::BtnCount()
 {
 	R_ASSERT(-1);

@@ -52,13 +52,13 @@ BEGIN
         BLOCK "000004b0"
         BEGIN
             VALUE "CompanyName", "Underground Collective"
-            VALUE "FileDescription", "Shadow Engine"
+            VALUE "FileDescription", "Shadowcast Engine"
             VALUE "FileVersion", "Work in Progress"
             VALUE "InternalName", "xrEngine"
             VALUE "LegalCopyright", "Underground Collective, 2024"
             VALUE "OriginalFilename", "xrEngine.exe"
-            VALUE "ProductName", "S.T.A.L.K.E.R.: The Shadow Way"
-            VALUE "ProductVersion", "1.0.0.3"
+            VALUE "ProductName", "Shadowcast Engine"
+            VALUE "ProductVersion", "1.7.00"
         END
     END
     BLOCK "VarFileInfo"
