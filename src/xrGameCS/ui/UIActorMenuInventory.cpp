@@ -244,7 +244,7 @@ void CUIActorMenu::OnInventoryAction(PIItem pItem, u16 action_type)
 				bool b_already	= false;
 
 				CUIDragDropListEx* lst_to_add		= NULL;
-				EItemPlace pl						= pItem->m_eItemCurrPlace;
+				SInvItemPlace pl						= pItem->m_eItemCurrPlace;
 				if ( pItem->GetSlot() == GRENADE_SLOT )
 				{
 					pl = eItemPlaceRuck;

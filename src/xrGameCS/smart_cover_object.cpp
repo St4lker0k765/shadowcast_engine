@@ -17,6 +17,7 @@
 #include "smart_cover.h"
 #include "smart_cover_description.h"
 #include "smart_cover_loophole.h"
+#include "../xrEngine/xr_collide_form.h"
 
 using smart_cover::object;
 

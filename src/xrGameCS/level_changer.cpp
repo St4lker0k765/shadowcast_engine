@@ -19,6 +19,8 @@
 
 #include "HudManager.h"
 #include "UIGameSP.h"
+#include "../xrEngine/xr_collide_form.h"
+
 
 xr_vector<CLevelChanger*>	g_lchangers;
 
@@ -109,6 +111,7 @@ void CLevelChanger::shedule_Update(u32 dt)
 }
 #include "patrol_path.h"
 #include "patrol_path_storage.h"
+#include <xrGameCS\HUDManager.h>
 void CLevelChanger::feel_touch_new	(CObject *tpObject)
 {
 	CActor*			l_tpActor = smart_cast<CActor*>(tpObject);
