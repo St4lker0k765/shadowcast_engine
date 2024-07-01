@@ -7,7 +7,6 @@
 #include "UIFrameLineWnd.h"
 #include "UIEditBox.h"
 #include "UI3tButton.h"
-#include "../battleye.h"
 
 
 class CUIXml;

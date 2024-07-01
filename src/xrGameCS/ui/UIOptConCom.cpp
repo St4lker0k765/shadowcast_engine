@@ -6,8 +6,6 @@
 //#include "game_base_space.h"
 #include "gametype_chooser.h"
 #include "../RegistryFuncs.h"
-#include "../../xrGameSpy/xrGameSpy_MainDefs.h"
-#include "../battleye.h"
 #include "player_name_modifyer.h"
 
 extern	void	GetCDKey_FromRegistry		(char* cdkey);
