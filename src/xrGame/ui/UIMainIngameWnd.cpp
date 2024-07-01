@@ -553,10 +553,10 @@ void CUIMainIngameWnd::UpdatePickUpItem	()
 	int m_iYPos			= pSettings->r_u32(sect_name, "inv_grid_y");
 
 	float scale_x = m_iPickUpItemIconWidth/
-		float(m_iGridWidth*INV_GRID_WIDTH);
+		float(m_iGridWidth*INV_GRID_WIDTH/2);
 
 	float scale_y = m_iPickUpItemIconHeight/
-		float(m_iGridHeight*INV_GRID_HEIGHT);
+		float(m_iGridHeight*INV_GRID_HEIGHT/2);
 
 	scale_x = (scale_x>1) ? 1.0f : scale_x;
 	scale_y = (scale_y>1) ? 1.0f : scale_y;
@@ -571,8 +571,8 @@ void CUIMainIngameWnd::UpdatePickUpItem	()
 	UIPickUpItemIcon->SetStretchTexture(true);
 
 
-	UIPickUpItemIcon->SetWidth(m_iGridWidth*INV_GRID_WIDTH*scale*UI().get_current_kx());
-	UIPickUpItemIcon->SetHeight(m_iGridHeight*INV_GRID_HEIGHT*scale);
+	UIPickUpItemIcon->SetWidth(m_iGridWidth*INV_GRID_WIDTH/2*scale*UI().get_current_kx());
+	UIPickUpItemIcon->SetHeight(m_iGridHeight*INV_GRID_HEIGHT/2*scale);
 
 	UIPickUpItemIcon->SetWndPos(Fvector2().set(	m_iPickUpItemIconX+(m_iPickUpItemIconWidth-UIPickUpItemIcon->GetWidth())/2.0f,
 												m_iPickUpItemIconY+(m_iPickUpItemIconHeight-UIPickUpItemIcon->GetHeight())/2.0f) );
