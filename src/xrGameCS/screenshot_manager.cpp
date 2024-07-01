@@ -10,8 +10,8 @@
 #endif
 
 #include <ddraw.h>
-#include "../3rd party/cximage/cximage/ximage.h"
-#include "../3rd party/cximage/cximage/xmemfile.h"
+#include "../3rd party/cximage/ximage.h"
+#include "../3rd party/cximage/xmemfile.h"
 
 #pragma comment(lib,"cximage.lib")
 #pragma comment(lib,"jpeg.lib")
@@ -206,8 +206,8 @@ void screenshot_manager::shedule_Update(u32 dt)
 			}
 		}
 #endif //#ifdef DEBUG*/
-		DWORD	process_affinity_mask;
-		DWORD	tmp_dword;
+		DWORD_PTR	process_affinity_mask;
+		DWORD_PTR	tmp_dword;
 		GetProcessAffinityMask(
 			GetCurrentProcess(),
 			&process_affinity_mask,

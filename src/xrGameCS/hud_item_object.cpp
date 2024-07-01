@@ -39,7 +39,7 @@ void CHudItemObject::OnStateSwitch		(u32 S)
 	CHudItem::OnStateSwitch		(S);
 }
 
-void CHudItemObject::OnMoveToRuck(EItemPlace prev)
+void CHudItemObject::OnMoveToRuck(SInvItemPlace prev)
 {
 	CInventoryItemObject::OnMoveToRuck(prev);
 	CHudItem::OnMoveToRuck			(prev);

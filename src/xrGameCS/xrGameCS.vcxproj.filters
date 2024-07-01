@@ -1462,9 +1462,6 @@
     <Filter Include="Core\Client\Effects\Core">
       <UniqueIdentifier>{5a4b3b98-12e2-4c50-98c3-43359799dd84}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Client\BattlEye_Client">
-      <UniqueIdentifier>{a8973d62-c7c8-4aa5-b15f-265b66c1f9cb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core\Client\Game Persistent">
       <UniqueIdentifier>{31e1be8d-054a-4c7a-9a88-0a3af73a18a4}</UniqueIdentifier>
     </Filter>
@@ -2068,59 +2065,20 @@
     <Filter Include="Core\Server\Games\client">
       <UniqueIdentifier>{8d8986f3-b187-47f0-9ec5-8ee87cb52ac7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Server\Games\client\artefact_hunt">
-      <UniqueIdentifier>{5af03ece-463f-47e5-ad3e-0d99a067b33c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Server\Games\client\deathmatch">
-      <UniqueIdentifier>{568ac6ba-9f88-4d0e-beb5-c50b0a9dc6aa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Server\Games\client\team_deathmatch">
-      <UniqueIdentifier>{d526b1d4-c9b4-4524-814b-733c857bc96c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core\Server\Games\client\single">
       <UniqueIdentifier>{4ddd025c-dd5f-4807-8dad-41409b248506}</UniqueIdentifier>
     </Filter>
     <Filter Include="Core\Server\Games\client\base">
       <UniqueIdentifier>{2d9944d2-f6da-4ff7-bf04-11c13209bb43}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Server\Games\client\mp">
-      <UniqueIdentifier>{1ae0ec9b-5d99-4c1a-9e59-f86c2697e69a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Server\Games\client\mp\screenshots">
-      <UniqueIdentifier>{4ec89f8d-4013-45b3-9ae0-e9559b21664e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Server\Games\client\mp_script">
-      <UniqueIdentifier>{28bf7d60-a61a-4855-adc5-b42aea0a2d18}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Server\Games\client\capture_the_artefact">
-      <UniqueIdentifier>{4942e2c4-ba2c-43b4-a272-ef436c105f4c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core\Server\Games\server">
       <UniqueIdentifier>{eb374eef-eabf-445d-8639-d8a3c0837998}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Server\Games\server\artefact_hunt">
-      <UniqueIdentifier>{47b08d51-b21b-4ada-b7a8-5193c85713ea}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Server\Games\server\deathmatch">
-      <UniqueIdentifier>{fe7e3227-15c0-4e08-985e-f97069a77c18}</UniqueIdentifier>
     </Filter>
     <Filter Include="Core\Server\Games\server\single">
       <UniqueIdentifier>{fa4d07d8-fbb7-4c7c-97e4-16ad0d242a0b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Core\Server\Games\server\single\ServerConnect">
       <UniqueIdentifier>{a9456428-36ea-47ae-92c7-4b69afda8f35}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Server\Games\server\team_deathmatch">
-      <UniqueIdentifier>{2c840b6f-a0e0-4299-a2af-9c430738015c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Server\Games\server\mp">
-      <UniqueIdentifier>{8fb74cbe-8a73-400c-91a5-8b0348ab5192}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Server\Games\server\mp_script">
-      <UniqueIdentifier>{251fe045-32ae-4a61-b16f-5d2e2025aee4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Server\Games\server\capture_the_artefact">
-      <UniqueIdentifier>{c47ae685-a3ba-421f-8bc8-2c664e16183d}</UniqueIdentifier>
     </Filter>
     <Filter Include="Core\Server\GameSpy">
       <UniqueIdentifier>{ab3e8a3b-e7cc-425b-9964-86478bcbe6df}</UniqueIdentifier>
@@ -2154,12 +2112,6 @@
     </Filter>
     <Filter Include="Core\Server\ServerProcess">
       <UniqueIdentifier>{1f120b36-df46-4141-85e2-7e82e8fa18c9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Server\xrGameSpyServer">
-      <UniqueIdentifier>{bd457ce0-8e68-4598-8570-5927f52761d2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Server\BattlEye_Server">
-      <UniqueIdentifier>{71a15b6d-04e1-4247-9cef-e9215b32da05}</UniqueIdentifier>
     </Filter>
     <Filter Include="Physics">
       <UniqueIdentifier>{41dc342b-e748-44b5-8038-0ae67f8249ad}</UniqueIdentifier>
@@ -5361,9 +5313,6 @@
     <ClInclude Include="DynamicHeightMap.h">
       <Filter>Core\Client\Effects\Core</Filter>
     </ClInclude>
-    <ClInclude Include="xr_Client_BattlEye.h">
-      <Filter>Core\Client\BattlEye_Client</Filter>
-    </ClInclude>
     <ClInclude Include="GamePersistent.h">
       <Filter>Core\Client\Game Persistent</Filter>
     </ClInclude>
@@ -6309,24 +6258,6 @@
     <ClInclude Include="..\xrServerEntities\game_base_space.h">
       <Filter>Core\Server\Games</Filter>
     </ClInclude>
-    <ClInclude Include="game_cl_artefacthunt.h">
-      <Filter>Core\Server\Games\client\artefact_hunt</Filter>
-    </ClInclude>
-    <ClInclude Include="game_cl_artefacthunt_snd_msg.h">
-      <Filter>Core\Server\Games\client\artefact_hunt</Filter>
-    </ClInclude>
-    <ClInclude Include="game_cl_deathmatch.h">
-      <Filter>Core\Server\Games\client\deathmatch</Filter>
-    </ClInclude>
-    <ClInclude Include="game_cl_deathmatch_snd_messages.h">
-      <Filter>Core\Server\Games\client\deathmatch</Filter>
-    </ClInclude>
-    <ClInclude Include="game_cl_teamdeathmatch.h">
-      <Filter>Core\Server\Games\client\team_deathmatch</Filter>
-    </ClInclude>
-    <ClInclude Include="game_cl_teamdeathmatch_snd_messages.h">
-      <Filter>Core\Server\Games\client\team_deathmatch</Filter>
-    </ClInclude>
     <ClInclude Include="game_cl_single.h">
       <Filter>Core\Server\Games\client\single</Filter>
     </ClInclude>
@@ -6335,36 +6266,6 @@
     </ClInclude>
     <ClInclude Include="game_cl_base_weapon_usage_statistic.h">
       <Filter>Core\Server\Games\client\base</Filter>
-    </ClInclude>
-    <ClInclude Include="game_cl_mp.h">
-      <Filter>Core\Server\Games\client\mp</Filter>
-    </ClInclude>
-    <ClInclude Include="game_cl_mp_messages_menu.h">
-      <Filter>Core\Server\Games\client\mp</Filter>
-    </ClInclude>
-    <ClInclude Include="game_cl_mp_snd_messages.h">
-      <Filter>Core\Server\Games\client\mp</Filter>
-    </ClInclude>
-    <ClInclude Include="screenshot_manager.h">
-      <Filter>Core\Server\Games\client\mp\screenshots</Filter>
-    </ClInclude>
-    <ClInclude Include="screenshots_common.h">
-      <Filter>Core\Server\Games\client\mp\screenshots</Filter>
-    </ClInclude>
-    <ClInclude Include="screenshots_writer.h">
-      <Filter>Core\Server\Games\client\mp\screenshots</Filter>
-    </ClInclude>
-    <ClInclude Include="game_cl_mp_script.h">
-      <Filter>Core\Server\Games\client\mp_script</Filter>
-    </ClInclude>
-    <ClInclude Include="game_cl_capture_the_artefact.h">
-      <Filter>Core\Server\Games\client\capture_the_artefact</Filter>
-    </ClInclude>
-    <ClInclude Include="game_cl_capture_the_artefact_captions_manager.h">
-      <Filter>Core\Server\Games\client\capture_the_artefact</Filter>
-    </ClInclude>
-    <ClInclude Include="game_cl_capturetheartefact_snd_msg.h">
-      <Filter>Core\Server\Games\client\capture_the_artefact</Filter>
     </ClInclude>
     <ClInclude Include="game_sv_base.h">
       <Filter>Core\Server\Games\server</Filter>
@@ -6381,35 +6282,8 @@
     <ClInclude Include="xr_time.h">
       <Filter>Core\Server\Games\server</Filter>
     </ClInclude>
-    <ClInclude Include="game_sv_artefacthunt.h">
-      <Filter>Core\Server\Games\server\artefact_hunt</Filter>
-    </ClInclude>
-    <ClInclude Include="game_sv_deathmatch.h">
-      <Filter>Core\Server\Games\server\deathmatch</Filter>
-    </ClInclude>
     <ClInclude Include="game_sv_single.h">
       <Filter>Core\Server\Games\server\single</Filter>
-    </ClInclude>
-    <ClInclude Include="game_sv_teamdeathmatch.h">
-      <Filter>Core\Server\Games\server\team_deathmatch</Filter>
-    </ClInclude>
-    <ClInclude Include="cdkey_ban_list.h">
-      <Filter>Core\Server\Games\server\mp</Filter>
-    </ClInclude>
-    <ClInclude Include="game_sv_mp.h">
-      <Filter>Core\Server\Games\server\mp</Filter>
-    </ClInclude>
-    <ClInclude Include="game_sv_mp_team.h">
-      <Filter>Core\Server\Games\server\mp</Filter>
-    </ClInclude>
-    <ClInclude Include="game_sv_mp_vote_flags.h">
-      <Filter>Core\Server\Games\server\mp</Filter>
-    </ClInclude>
-    <ClInclude Include="game_sv_mp_script.h">
-      <Filter>Core\Server\Games\server\mp_script</Filter>
-    </ClInclude>
-    <ClInclude Include="game_sv_capture_the_artefact.h">
-      <Filter>Core\Server\Games\server\capture_the_artefact</Filter>
     </ClInclude>
     <ClInclude Include="GameSpy\GameSpy_Available.h">
       <Filter>Core\Server\GameSpy</Filter>
@@ -6498,12 +6372,6 @@
     <ClInclude Include="xrServer_svclient_validation.h">
       <Filter>Core\Server\ServerProcess</Filter>
     </ClInclude>
-    <ClInclude Include="xrGameSpyServer.h">
-      <Filter>Core\Server\xrGameSpyServer</Filter>
-    </ClInclude>
-    <ClInclude Include="xrGameSpyServer_callbacks.h">
-      <Filter>Core\Server\xrGameSpyServer</Filter>
-    </ClInclude>
     <ClInclude Include="CalculateTriangle.h">
       <Filter>Physics\Base</Filter>
     </ClInclude>
@@ -6517,9 +6385,6 @@
       <Filter>Physics\Base</Filter>
     </ClInclude>
     <ClInclude Include="phvalide.h">
-      <Filter>Physics\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="PHWorld.h">
       <Filter>Physics\Base</Filter>
     </ClInclude>
     <ClInclude Include="Physics.h">
@@ -8913,9 +8778,6 @@
     <ClCompile Include="DynamicHeightMap.cpp">
       <Filter>Core\Client\Effects\Core</Filter>
     </ClCompile>
-    <ClCompile Include="xr_Client_BattlEye.cpp">
-      <Filter>Core\Client\BattlEye_Client</Filter>
-    </ClCompile>
     <ClCompile Include="GamePersistent.cpp">
       <Filter>Core\Client\Game Persistent</Filter>
     </ClCompile>
@@ -9837,18 +9699,6 @@
     <ClCompile Include="game_base_script.cpp">
       <Filter>Core\Server\Games</Filter>
     </ClCompile>
-    <ClCompile Include="game_cl_artefacthunt.cpp">
-      <Filter>Core\Server\Games\client\artefact_hunt</Filter>
-    </ClCompile>
-    <ClCompile Include="game_cl_deathmatch.cpp">
-      <Filter>Core\Server\Games\client\deathmatch</Filter>
-    </ClCompile>
-    <ClCompile Include="game_cl_deathmatch_buywnd.cpp">
-      <Filter>Core\Server\Games\client\deathmatch</Filter>
-    </ClCompile>
-    <ClCompile Include="game_cl_teamdeathmatch.cpp">
-      <Filter>Core\Server\Games\client\team_deathmatch</Filter>
-    </ClCompile>
     <ClCompile Include="game_cl_single.cpp">
       <Filter>Core\Server\Games\client\single</Filter>
     </ClCompile>
@@ -9863,39 +9713,6 @@
     </ClCompile>
     <ClCompile Include="game_cl_base_weapon_usage_statistic_save.cpp">
       <Filter>Core\Server\Games\client\base</Filter>
-    </ClCompile>
-    <ClCompile Include="game_cl_mp.cpp">
-      <Filter>Core\Server\Games\client\mp</Filter>
-    </ClCompile>
-    <ClCompile Include="game_cl_mp_messages_menu.cpp">
-      <Filter>Core\Server\Games\client\mp</Filter>
-    </ClCompile>
-    <ClCompile Include="game_cl_mp_snd_messages.cpp">
-      <Filter>Core\Server\Games\client\mp</Filter>
-    </ClCompile>
-    <ClCompile Include="screenshot_manager.cpp">
-      <Filter>Core\Server\Games\client\mp\screenshots</Filter>
-    </ClCompile>
-    <ClCompile Include="screenshots_common.cpp">
-      <Filter>Core\Server\Games\client\mp\screenshots</Filter>
-    </ClCompile>
-    <ClCompile Include="screenshots_writer.cpp">
-      <Filter>Core\Server\Games\client\mp\screenshots</Filter>
-    </ClCompile>
-    <ClCompile Include="game_cl_mp_script.cpp">
-      <Filter>Core\Server\Games\client\mp_script</Filter>
-    </ClCompile>
-    <ClCompile Include="game_cl_capture_the_artefact.cpp">
-      <Filter>Core\Server\Games\client\capture_the_artefact</Filter>
-    </ClCompile>
-    <ClCompile Include="game_cl_capture_the_artefact_captions_manager.cpp">
-      <Filter>Core\Server\Games\client\capture_the_artefact</Filter>
-    </ClCompile>
-    <ClCompile Include="game_cl_capture_the_artefact_messages_menu.cpp">
-      <Filter>Core\Server\Games\client\capture_the_artefact</Filter>
-    </ClCompile>
-    <ClCompile Include="game_cl_capturetheartefact_buywnd.cpp">
-      <Filter>Core\Server\Games\client\capture_the_artefact</Filter>
     </ClCompile>
     <ClCompile Include="game_sv_base.cpp">
       <Filter>Core\Server\Games\server</Filter>
@@ -9915,21 +9732,6 @@
     <ClCompile Include="xr_time.cpp">
       <Filter>Core\Server\Games\server</Filter>
     </ClCompile>
-    <ClCompile Include="game_sv_artefacthunt.cpp">
-      <Filter>Core\Server\Games\server\artefact_hunt</Filter>
-    </ClCompile>
-    <ClCompile Include="game_sv_artefacthunt_process_event.cpp">
-      <Filter>Core\Server\Games\server\artefact_hunt</Filter>
-    </ClCompile>
-    <ClCompile Include="game_sv_deathmatch.cpp">
-      <Filter>Core\Server\Games\server\deathmatch</Filter>
-    </ClCompile>
-    <ClCompile Include="game_sv_deathmatch_process_event.cpp">
-      <Filter>Core\Server\Games\server\deathmatch</Filter>
-    </ClCompile>
-    <ClCompile Include="game_sv_deathmatch_script.cpp">
-      <Filter>Core\Server\Games\server\deathmatch</Filter>
-    </ClCompile>
     <ClCompile Include="game_sv_single.cpp">
       <Filter>Core\Server\Games\server\single</Filter>
     </ClCompile>
@@ -9944,33 +9746,6 @@
     </ClCompile>
     <ClCompile Include="xrServer_Disconnect.cpp">
       <Filter>Core\Server\Games\server\single\ServerConnect</Filter>
-    </ClCompile>
-    <ClCompile Include="game_sv_teamdeathmatch.cpp">
-      <Filter>Core\Server\Games\server\team_deathmatch</Filter>
-    </ClCompile>
-    <ClCompile Include="game_sv_teamdeathmatch_process_event.cpp">
-      <Filter>Core\Server\Games\server\team_deathmatch</Filter>
-    </ClCompile>
-    <ClCompile Include="cdkey_ban_list.cpp">
-      <Filter>Core\Server\Games\server\mp</Filter>
-    </ClCompile>
-    <ClCompile Include="game_sv_mp.cpp">
-      <Filter>Core\Server\Games\server\mp</Filter>
-    </ClCompile>
-    <ClCompile Include="game_sv_mp_script.cpp">
-      <Filter>Core\Server\Games\server\mp_script</Filter>
-    </ClCompile>
-    <ClCompile Include="game_sv_capture_the_artefact.cpp">
-      <Filter>Core\Server\Games\server\capture_the_artefact</Filter>
-    </ClCompile>
-    <ClCompile Include="game_sv_capture_the_artefact_buy_event.cpp">
-      <Filter>Core\Server\Games\server\capture_the_artefact</Filter>
-    </ClCompile>
-    <ClCompile Include="game_sv_capture_the_artefact_myteam_impl.cpp">
-      <Filter>Core\Server\Games\server\capture_the_artefact</Filter>
-    </ClCompile>
-    <ClCompile Include="game_sv_capture_the_artefact_process_event.cpp">
-      <Filter>Core\Server\Games\server\capture_the_artefact</Filter>
     </ClCompile>
     <ClCompile Include="GameSpy\GameSpy_Available.cpp">
       <Filter>Core\Server\GameSpy</Filter>
@@ -10116,22 +9891,7 @@
     <ClCompile Include="xrServer_svclient_validation.cpp">
       <Filter>Core\Server\ServerProcess</Filter>
     </ClCompile>
-    <ClCompile Include="xrGameSpy_GameSpyFuncs.cpp">
-      <Filter>Core\Server\xrGameSpyServer</Filter>
-    </ClCompile>
-    <ClCompile Include="xrGameSpyServer.cpp">
-      <Filter>Core\Server\xrGameSpyServer</Filter>
-    </ClCompile>
-    <ClCompile Include="xrGameSpyServer_callbacks.cpp">
-      <Filter>Core\Server\xrGameSpyServer</Filter>
-    </ClCompile>
     <ClCompile Include="phvalide.cpp">
-      <Filter>Physics\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="PHWorld.cpp">
-      <Filter>Physics\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="PHWorldScript.cpp">
       <Filter>Physics\Base</Filter>
     </ClCompile>
     <ClCompile Include="Physics.cpp">

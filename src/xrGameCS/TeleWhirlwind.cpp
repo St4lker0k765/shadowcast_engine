@@ -8,8 +8,8 @@
 #include "xrmessages.h"
 #include "../Include/xrRender/Kinematics.h"
 #include "../Include/xrRender/KinematicsAnimated.h"
-#include "PHWorld.h"
-CTeleWhirlwind ::CTeleWhirlwind () 
+#include "../xrphysics/IPHWorld.h"
+CTeleWhirlwind ::CTeleWhirlwind ()
 {
 	m_owner_object=NULL;
 	m_center.set(0.f,0.f,0.f);

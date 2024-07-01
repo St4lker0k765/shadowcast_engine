@@ -19,7 +19,7 @@
 #include "level.h"
 #include "ai_object_location.h"
 #include "xrServer_Objects_ALife_Monsters.h"
-#include "phworld.h"
+#include "../xrphysics/IPHWorld.h"
 #include "restriction_space.h"
 #include "../xrEngine/IGame_Persistent.h"
 

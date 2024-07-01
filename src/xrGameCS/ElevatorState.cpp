@@ -3,7 +3,7 @@
 #include "ClimableObject.h"
 #include "PHCharacter.h"
 #include "../../xrphysics/MathUtils.h"
-#include "PHWorld.h"
+#include "../xrphysics/IPHWorld.h"
 #ifdef DEBUG
 #include "../xrEngine/Statgraph.h"
 #include "PHDebug.h"

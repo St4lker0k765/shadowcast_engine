@@ -17,7 +17,7 @@
 #include "PHShell.h"
 #include "../../xrphysics/MathUtils.h"
 #ifdef DEBUG
-#include "PHWorld.h"
+#include "../xrphysics/IPHWorld.h"
 #endif
 
 #include "../Include/xrRender/Kinematics.h"

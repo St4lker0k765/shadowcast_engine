@@ -9,7 +9,7 @@
 #include "../../xrphysics/MathUtils.h"
 #include "../xrEngine/gamemtllib.h"
 #include "Level.h"
-#include "PHWorld.h"
+#include "../xrphysics/IPHWorld.h"
 #include "../3rd party/ode/ode/src/util.h"
 
 #ifdef DEBUG

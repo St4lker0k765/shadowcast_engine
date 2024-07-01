@@ -10,7 +10,7 @@
 #include "PHDestroyable.h"
 #include "Car.h"
 #include "../Include/xrRender/Kinematics.h"
-#include "PHWorld.h"
+#include "../xrphysics/IPHWorld.h"
 extern CPHWorld*	ph_world;
 void read_bones(IKinematics *K, LPCSTR S , xr_vector<u16>& bones)
 {

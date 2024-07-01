@@ -9,7 +9,7 @@
 #include "../xrcore/_cylinder.h"
 #include "BlockAllocator.h"
 #include "../xrPhysics/PhysicsCommon.h"
-#include "PHWorld.h"
+#include "../xrphysics/IPHWorld.h"
 #include "PHContactBodyEffector.h"
 #include "phvalide.h"
 //#define ODE_SLOW_SOLVER

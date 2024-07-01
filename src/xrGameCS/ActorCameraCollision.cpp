@@ -5,7 +5,7 @@
 #include "../xrEngine/CameraBase.h"
 #include "../xrEngine/gamemtllib.h"
 
-#include "phworld.h"
+#include "../xrphysics/IPHWorld.h"
 #include "phcollidevalidator.h"
 #include "PHShell.h"
 #include "matrix_utils.h"

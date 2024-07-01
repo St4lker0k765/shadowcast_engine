@@ -27,7 +27,7 @@
 #include "map_manager.h"
 #include "map_spot.h"
 #include "map_location.h"
-#include "phworld.h"
+#include "../xrphysics/IPHWorld.h"
 #include "alife_simulator.h"
 #include "alife_time_manager.h"
 

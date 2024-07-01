@@ -2,7 +2,7 @@
 
 #include "GeometryBits.h"
 
-#include "phworld.h"
+#include "../xrphysics/IPHWorld.h"
 #include "geometry.h"
 
 static enum geom_category {

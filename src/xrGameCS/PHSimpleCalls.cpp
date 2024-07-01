@@ -2,7 +2,7 @@
 #include "../xrphysics/PhysicsShell.h"
 #include	"phsimplecalls.h"
 #include "../xrPhysics/PHObject.h"
-#include	"PHWorld.h"
+#include "../xrphysics/IPHWorld.h"
 extern		CPHWorld			*ph_world;
 
 

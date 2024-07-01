@@ -128,7 +128,7 @@ public:
 	}
 	virtual bool			natural_weapon			() const {return false;}
 	virtual bool			natural_detector		() const {return false;}
-	virtual bool			AllowItemToTrade 		(CInventoryItem const * item, EItemPlace place) const;
+	virtual bool			AllowItemToTrade 		(CInventoryItem const * item, SInvItemPlace place) const;
 
 			void			dialog_sound_start		(LPCSTR phrase);
 			void			dialog_sound_stop		();

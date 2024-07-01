@@ -14,7 +14,7 @@
 #include "script_game_object.h"
 #include "../xrphysics/PhysicsShell.h"
 #ifdef DEBUG
-#include "PHWorld.h"
+#include "../xrphysics/IPHWorld.h"
 extern CPHWorld			*ph_world;
 #endif
 CDestroyablePhysicsObject ::CDestroyablePhysicsObject()

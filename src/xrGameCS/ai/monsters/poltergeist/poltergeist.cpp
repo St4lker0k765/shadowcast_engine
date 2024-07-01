@@ -222,7 +222,7 @@ void CPoltergeist::net_Destroy()
 
 void CPoltergeist::Die(CObject* who)
 {
-	if (m_tele) {
+	/*if (m_tele) {
 		if (state_invisible) {
 			setVisible(true);
 
@@ -234,7 +234,7 @@ void CPoltergeist::Die(CObject* who)
 			} else 
 				Position() = m_current_position;
 		}
-	}
+	}*/
 
 	inherited::Die				(who);
 	Energy::disable				();

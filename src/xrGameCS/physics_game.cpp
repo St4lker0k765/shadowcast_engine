@@ -10,7 +10,7 @@
 #include "PhysicsShellHolder.h"
 #include "PHCommander.h"
 #include "../../xrphysics/MathUtils.h"
-#include "PHWorld.h"
+#include "../xrphysics/IPHWorld.h"
 
 #include "../Include/xrRender/FactoryPtr.h"
 #include "../Include/xrRender/WallMarkArray.h"
@@ -18,6 +18,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 static const float PARTICLE_EFFECT_DIST=70.f;
 static const float SOUND_EFFECT_DIST=70.f;
+const float			mass_limit = 10000.f;//some conventional value used as evaluative param (there is no code restriction on mass)
 //////////////////////////////////////////////////////////////////////////////////
 static const float SQUARE_PARTICLE_EFFECT_DIST=PARTICLE_EFFECT_DIST*PARTICLE_EFFECT_DIST;
 static const float SQUARE_SOUND_EFFECT_DIST=SOUND_EFFECT_DIST*SOUND_EFFECT_DIST;
@@ -111,7 +112,7 @@ void  TContactShotMark(CDB::TRI* T,dContactGeom* c)
 		if(mtl_pair)
 		{
 			//if(vel_cret>Pars.vel_cret_wallmark && !mtl_pair->CollideMarks.empty())
-			if(vel_cret>Pars.vel_cret_wallmark && !mtl_pair->m_pCollideMarks->empty())
+			if(vel_cret>Pars::vel_cret_wallmark && !mtl_pair->m_pCollideMarks->empty())
 			{
 				//ref_shader pWallmarkShader = mtl_pair->CollideMarks[::Random.randI(0,mtl_pair->CollideMarks.size())];
 				wm_shader WallmarkShader = mtl_pair->m_pCollideMarks->GenerateWallmark();
@@ -125,11 +126,11 @@ void  TContactShotMark(CDB::TRI* T,dContactGeom* c)
 				SGameMtl* static_mtl =  GMLib.GetMaterialByIdx(T->material);
 				if(!static_mtl->Flags.test(SGameMtl::flPassable))
 				{
-					if(vel_cret>Pars.vel_cret_sound)
+					if(vel_cret>Pars::vel_cret_sound)
 					{
 						if(!mtl_pair->CollideSounds.empty())
 						{
-							float volume=collide_volume_min+vel_cret*(collide_volume_max-collide_volume_min)/(_sqrt(mass_limit)*default_l_limit-Pars.vel_cret_sound);
+							float volume=collide_volume_min+vel_cret*(collide_volume_max-collide_volume_min)/(_sqrt(mass_limit)*default_l_limit-Pars::vel_cret_sound);
 							GET_RANDOM(mtl_pair->CollideSounds).play_no_feedback(0,0,0,((Fvector*)c->pos),&volume);
 						}
 					}
@@ -147,7 +148,7 @@ void  TContactShotMark(CDB::TRI* T,dContactGeom* c)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			if(square_cam_dist<SQUARE_PARTICLE_EFFECT_DIST)
 			{
-				if(vel_cret>Pars.vel_cret_particles && !mtl_pair->CollideParticles.empty())
+				if(vel_cret>Pars::vel_cret_particles && !mtl_pair->CollideParticles.empty())
 				{
 					LPCSTR ps_name = *mtl_pair->CollideParticles[::Random.randI(0,mtl_pair->CollideParticles.size())];
 					//отыграть партиклы столкновения материалов

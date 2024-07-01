@@ -2,7 +2,7 @@
 #include "../xrphysics/PhysicsShell.h"
 #include "phinterpolation.h"
 #include "../xrPhysics/PHObject.h"
-#include "phworld.h"
+#include "../xrphysics/IPHWorld.h"
 #include "phshell.h"
 
 void CPHShell::net_Import(NET_Packet& P)

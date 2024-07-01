@@ -10,7 +10,7 @@
 
 #include "ActorEffector.h"
 
-#include "PHWorld.h"
+#include "../xrphysics/IPHWorld.h"
 #include "level.h"
 #include "xr_level_controller.h"
 #include "game_cl_base.h"

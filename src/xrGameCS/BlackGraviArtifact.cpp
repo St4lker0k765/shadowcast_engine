@@ -13,7 +13,7 @@
 #include "xrmessages.h"
 #include "physicsshellholder.h"
 #include "explosive.h"
-#include "PHWorld.h"
+#include "../xrphysics/IPHWorld.h"
 #include "CharacterPhysicsSupport.h"
 extern CPHWorld*	ph_world;
 CBlackGraviArtefact::CBlackGraviArtefact(void) 

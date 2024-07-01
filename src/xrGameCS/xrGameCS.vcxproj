@@ -1048,7 +1048,6 @@
     <ClInclude Include="CarLights.h" />
     <ClInclude Include="CarWeapon.h" />
     <ClInclude Include="car_memory.h" />
-    <ClInclude Include="cdkey_ban_list.h" />
     <ClInclude Include="CharacterPhysicsSupport.h" />
     <ClInclude Include="character_community.h" />
     <ClInclude Include="character_hit_animations.h" />
@@ -1192,28 +1191,9 @@
     <ClInclude Include="game_base.h" />
     <ClInclude Include="game_base_kill_type.h" />
     <ClInclude Include="game_base_menu_events.h" />
-    <ClInclude Include="game_cl_artefacthunt.h" />
-    <ClInclude Include="game_cl_artefacthunt_snd_msg.h" />
     <ClInclude Include="game_cl_base.h" />
     <ClInclude Include="game_cl_base_weapon_usage_statistic.h" />
-    <ClInclude Include="game_cl_capturetheartefact_snd_msg.h" />
-    <ClInclude Include="game_cl_capture_the_artefact.h" />
-    <ClInclude Include="game_cl_capture_the_artefact_captions_manager.h" />
-    <ClInclude Include="game_cl_deathmatch.h" />
-    <ClInclude Include="game_cl_deathmatch_snd_messages.h" />
-    <ClInclude Include="game_cl_mp.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="game_cl_mp_messages_menu.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="game_cl_mp_script.h" />
-    <ClInclude Include="game_cl_mp_snd_messages.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ClInclude>
     <ClInclude Include="game_cl_single.h" />
-    <ClInclude Include="game_cl_teamdeathmatch.h" />
-    <ClInclude Include="game_cl_teamdeathmatch_snd_messages.h" />
     <ClInclude Include="game_graph.h" />
     <ClInclude Include="game_graph_inline.h" />
     <ClInclude Include="game_level_cross_table.h" />
@@ -1224,19 +1204,11 @@
     <ClInclude Include="game_object_space.h" />
     <ClInclude Include="game_path_manager.h" />
     <ClInclude Include="game_path_manager_inline.h" />
-    <ClInclude Include="game_sv_artefacthunt.h" />
     <ClInclude Include="game_sv_base.h" />
     <ClInclude Include="game_sv_base_console_vars.h" />
-    <ClInclude Include="game_sv_capture_the_artefact.h" />
-    <ClInclude Include="game_sv_deathmatch.h" />
     <ClInclude Include="game_sv_event_queue.h" />
     <ClInclude Include="game_sv_item_respawner.h" />
-    <ClInclude Include="game_sv_mp.h" />
-    <ClInclude Include="game_sv_mp_script.h" />
-    <ClInclude Include="game_sv_mp_team.h" />
-    <ClInclude Include="game_sv_mp_vote_flags.h" />
     <ClInclude Include="game_sv_single.h" />
-    <ClInclude Include="game_sv_teamdeathmatch.h" />
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="GeometryBits.h" />
     <ClInclude Include="GlobalFeelTouch.hpp" />
@@ -1508,7 +1480,6 @@
     <ClInclude Include="PHStaticGeomShell.h" />
     <ClInclude Include="phvalide.h" />
     <ClInclude Include="PHValideValues.h" />
-    <ClInclude Include="PHWorld.h" />
     <ClInclude Include="PhysicObject.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="PhysicsGamePars.h" />
@@ -1569,9 +1540,6 @@
     <ClInclude Include="saved_game_wrapper_inline.h" />
     <ClInclude Include="ScientificOutfit.h" />
     <ClInclude Include="Scope.h" />
-    <ClInclude Include="screenshots_common.h" />
-    <ClInclude Include="screenshots_writer.h" />
-    <ClInclude Include="screenshot_manager.h" />
     <ClInclude Include="screenshot_server.h" />
     <ClInclude Include="ScriptXMLInit.h" />
     <ClInclude Include="script_abstract_action.h" />
@@ -2069,12 +2037,9 @@
     <ClInclude Include="Wound.h" />
     <ClInclude Include="wrapper_abstract.h" />
     <ClInclude Include="wrapper_abstract_inline.h" />
-    <ClInclude Include="xrGameSpyServer.h" />
-    <ClInclude Include="xrGameSpyServer_callbacks.h" />
     <ClInclude Include="xrServer.h" />
     <ClInclude Include="xrServerMapSync.h" />
     <ClInclude Include="xrServer_svclient_validation.h" />
-    <ClInclude Include="xr_Client_BattlEye.h" />
     <ClInclude Include="xr_dsa_signer.h" />
     <ClInclude Include="xr_dsa_verifyer.h" />
     <ClInclude Include="xr_level_controller.h" />
@@ -3731,7 +3696,6 @@
     <ClCompile Include="CarWeapon.cpp" />
     <ClCompile Include="CarWheels.cpp" />
     <ClCompile Include="car_memory.cpp" />
-    <ClCompile Include="cdkey_ban_list.cpp" />
     <ClCompile Include="CharacterPhysicsSupport.cpp" />
     <ClCompile Include="character_community.cpp" />
     <ClCompile Include="character_hit_animations.cpp" />
@@ -4153,7 +4117,6 @@
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
-    <ClCompile Include="game_cl_artefacthunt.cpp" />
     <ClCompile Include="game_cl_base.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch_script.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pch_script.h</PrecompiledHeaderFile>
@@ -4184,35 +4147,6 @@
     </ClCompile>
     <ClCompile Include="game_cl_base_weapon_usage_statistic.cpp" />
     <ClCompile Include="game_cl_base_weapon_usage_statistic_save.cpp" />
-    <ClCompile Include="game_cl_capturetheartefact_buywnd.cpp" />
-    <ClCompile Include="game_cl_capture_the_artefact.cpp" />
-    <ClCompile Include="game_cl_capture_the_artefact_captions_manager.cpp" />
-    <ClCompile Include="game_cl_capture_the_artefact_messages_menu.cpp" />
-    <ClCompile Include="game_cl_deathmatch.cpp" />
-    <ClCompile Include="game_cl_deathmatch_buywnd.cpp" />
-    <ClCompile Include="game_cl_mp.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="game_cl_mp_messages_menu.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="game_cl_mp_script.cpp">
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch_script.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pch_script.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
-      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Mixed|Win32'">pch_script.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Mixed|x64'">pch_script.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Mixed|Win32'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
-      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Mixed|x64'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">pch_script.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pch_script.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
-      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
-    </ClCompile>
-    <ClCompile Include="game_cl_mp_snd_messages.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="game_cl_single.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch_script.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pch_script.h</PrecompiledHeaderFile>
@@ -4227,7 +4161,6 @@
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
-    <ClCompile Include="game_cl_teamdeathmatch.cpp" />
     <ClCompile Include="game_graph_script.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch_script.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pch_script.h</PrecompiledHeaderFile>
@@ -4243,8 +4176,6 @@
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
     <ClCompile Include="game_news.cpp" />
-    <ClCompile Include="game_sv_artefacthunt.cpp" />
-    <ClCompile Include="game_sv_artefacthunt_process_event.cpp" />
     <ClCompile Include="game_sv_base.cpp" />
     <ClCompile Include="game_sv_base_console_vars.cpp" />
     <ClCompile Include="game_sv_base_script.cpp">
@@ -4261,46 +4192,9 @@
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
-    <ClCompile Include="game_sv_capture_the_artefact.cpp" />
-    <ClCompile Include="game_sv_capture_the_artefact_buy_event.cpp" />
-    <ClCompile Include="game_sv_capture_the_artefact_myteam_impl.cpp" />
-    <ClCompile Include="game_sv_capture_the_artefact_process_event.cpp" />
-    <ClCompile Include="game_sv_deathmatch.cpp" />
-    <ClCompile Include="game_sv_deathmatch_process_event.cpp" />
-    <ClCompile Include="game_sv_deathmatch_script.cpp">
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch_script.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pch_script.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
-      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Mixed|Win32'">pch_script.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Mixed|x64'">pch_script.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Mixed|Win32'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
-      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Mixed|x64'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">pch_script.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pch_script.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
-      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
-    </ClCompile>
     <ClCompile Include="game_sv_event_queue.cpp" />
     <ClCompile Include="game_sv_item_respawner.cpp" />
-    <ClCompile Include="game_sv_mp.cpp" />
-    <ClCompile Include="game_sv_mp_script.cpp">
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch_script.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pch_script.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
-      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Mixed|Win32'">pch_script.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Mixed|x64'">pch_script.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Mixed|Win32'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
-      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Mixed|x64'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">pch_script.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pch_script.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
-      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
-    </ClCompile>
     <ClCompile Include="game_sv_single.cpp" />
-    <ClCompile Include="game_sv_teamdeathmatch.cpp" />
-    <ClCompile Include="game_sv_teamdeathmatch_process_event.cpp" />
     <ClCompile Include="Geometry.cpp" />
     <ClCompile Include="GeometryBits.cpp" />
     <ClCompile Include="GlobalFeelTouch.cpp" />
@@ -5103,21 +4997,6 @@
     <ClCompile Include="PHSplitedShell.cpp" />
     <ClCompile Include="PHStaticGeomShell.cpp" />
     <ClCompile Include="phvalide.cpp" />
-    <ClCompile Include="PHWorld.cpp" />
-    <ClCompile Include="PHWorldScript.cpp">
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch_script.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pch_script.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
-      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Mixed|Win32'">pch_script.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Mixed|x64'">pch_script.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Mixed|Win32'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
-      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Mixed|x64'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">pch_script.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pch_script.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
-      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
-    </ClCompile>
     <ClCompile Include="PhysicObject.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch_script.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pch_script.h</PrecompiledHeaderFile>
@@ -5278,9 +5157,6 @@
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
-    <ClCompile Include="screenshots_common.cpp" />
-    <ClCompile Include="screenshots_writer.cpp" />
-    <ClCompile Include="screenshot_manager.cpp" />
     <ClCompile Include="screenshot_server.cpp" />
     <ClCompile Include="ScriptXMLInit.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch_script.h</PrecompiledHeaderFile>
@@ -7884,9 +7760,6 @@
     <ClCompile Include="weapon_dump_impl.cpp" />
     <ClCompile Include="Wound.cpp" />
     <ClCompile Include="xrGame.cpp" />
-    <ClCompile Include="xrGameSpyServer.cpp" />
-    <ClCompile Include="xrGameSpyServer_callbacks.cpp" />
-    <ClCompile Include="xrGameSpy_GameSpyFuncs.cpp" />
     <ClCompile Include="xrgame_dll_detach.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch_script.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pch_script.h</PrecompiledHeaderFile>
@@ -7938,7 +7811,6 @@
     <ClCompile Include="xrServer_secure_messaging.cpp" />
     <ClCompile Include="xrServer_sls_clear.cpp" />
     <ClCompile Include="xrServer_svclient_validation.cpp" />
-    <ClCompile Include="xr_Client_BattlEye.cpp" />
     <ClCompile Include="xr_dsa_signer.cpp" />
     <ClCompile Include="xr_dsa_verifyer.cpp" />
     <ClCompile Include="xr_level_controller.cpp" />
