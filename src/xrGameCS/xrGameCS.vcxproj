@@ -1027,8 +1027,6 @@
     <ClInclude Include="base_client_classes.h" />
     <ClInclude Include="base_client_classes_wrappers.h" />
     <ClInclude Include="BastArtifact.h" />
-    <ClInclude Include="battleye.h" />
-    <ClInclude Include="battleye_system.h" />
     <ClInclude Include="BlackDrops.h" />
     <ClInclude Include="BlackGraviArtifact.h" />
     <ClInclude Include="BlockAllocator.h" />
@@ -1063,9 +1061,6 @@
     <ClInclude Include="ClimableObject.h" />
     <ClInclude Include="condition_state.h" />
     <ClInclude Include="condition_state_inline.h" />
-    <ClInclude Include="configs_common.h" />
-    <ClInclude Include="configs_dumper.h" />
-    <ClInclude Include="configs_dump_verifyer.h" />
     <ClInclude Include="console_registrator.h" />
     <ClInclude Include="controller_state_panic_inline.h" />
     <ClInclude Include="control_action.h" />
@@ -1206,10 +1201,16 @@
     <ClInclude Include="game_cl_capture_the_artefact_captions_manager.h" />
     <ClInclude Include="game_cl_deathmatch.h" />
     <ClInclude Include="game_cl_deathmatch_snd_messages.h" />
-    <ClInclude Include="game_cl_mp.h" />
-    <ClInclude Include="game_cl_mp_messages_menu.h" />
+    <ClInclude Include="game_cl_mp.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="game_cl_mp_messages_menu.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="game_cl_mp_script.h" />
-    <ClInclude Include="game_cl_mp_snd_messages.h" />
+    <ClInclude Include="game_cl_mp_snd_messages.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="game_cl_single.h" />
     <ClInclude Include="game_cl_teamdeathmatch.h" />
     <ClInclude Include="game_cl_teamdeathmatch_snd_messages.h" />
@@ -1391,7 +1392,6 @@
     <ClInclude Include="moving_objects_inline.h" />
     <ClInclude Include="moving_object_inline.h" />
     <ClInclude Include="MPPlayersBag.h" />
-    <ClInclude Include="mp_config_sections.h" />
     <ClInclude Include="mt_config.h" />
     <ClInclude Include="Needles.h" />
     <ClInclude Include="NET_Queue.h" />
@@ -2077,7 +2077,6 @@
     <ClInclude Include="xr_dsa_signer.h" />
     <ClInclude Include="xr_dsa_verifyer.h" />
     <ClInclude Include="xr_level_controller.h" />
-    <ClInclude Include="xr_Server_BattlEye.h" />
     <ClInclude Include="xr_time.h" />
     <ClInclude Include="ZoneCampfire.h" />
     <ClInclude Include="ZoneVisual.h" />
@@ -3697,7 +3696,6 @@
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
     <ClCompile Include="BastArtifact.cpp" />
-    <ClCompile Include="battleye_system.cpp" />
     <ClCompile Include="BlackDrops.cpp" />
     <ClCompile Include="BlackGraviArtifact.cpp" />
     <ClCompile Include="Bolt.cpp" />
@@ -3768,9 +3766,6 @@
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
     <ClCompile Include="ClimableObject.cpp" />
-    <ClCompile Include="configs_common.cpp" />
-    <ClCompile Include="configs_dumper.cpp" />
-    <ClCompile Include="configs_dump_verifyer.cpp" />
     <ClCompile Include="console_commands.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch_script.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pch_script.h</PrecompiledHeaderFile>
@@ -4194,8 +4189,12 @@
     <ClCompile Include="game_cl_capture_the_artefact_messages_menu.cpp" />
     <ClCompile Include="game_cl_deathmatch.cpp" />
     <ClCompile Include="game_cl_deathmatch_buywnd.cpp" />
-    <ClCompile Include="game_cl_mp.cpp" />
-    <ClCompile Include="game_cl_mp_messages_menu.cpp" />
+    <ClCompile Include="game_cl_mp.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="game_cl_mp_messages_menu.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="game_cl_mp_script.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch_script.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pch_script.h</PrecompiledHeaderFile>
@@ -4210,7 +4209,9 @@
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
-    <ClCompile Include="game_cl_mp_snd_messages.cpp" />
+    <ClCompile Include="game_cl_mp_snd_messages.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="game_cl_single.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch_script.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pch_script.h</PrecompiledHeaderFile>
@@ -4906,7 +4907,6 @@
     <ClCompile Include="moving_objects_static.cpp" />
     <ClCompile Include="mpactor_dump_impl.cpp" />
     <ClCompile Include="MPPlayersBag.cpp" />
-    <ClCompile Include="mp_config_sections.cpp" />
     <ClCompile Include="Needles.cpp" />
     <ClCompile Include="NoGravityZone.cpp" />
     <ClCompile Include="ObjectDump.cpp" />
@@ -7954,7 +7954,6 @@
     <ClCompile Include="xr_dsa_signer.cpp" />
     <ClCompile Include="xr_dsa_verifyer.cpp" />
     <ClCompile Include="xr_level_controller.cpp" />
-    <ClCompile Include="xr_Server_BattlEye.cpp" />
     <ClCompile Include="xr_time.cpp" />
     <ClCompile Include="ZoneCampfire.cpp" />
     <ClCompile Include="ZoneVisual.cpp" />

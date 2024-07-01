@@ -210,7 +210,7 @@ public:
 	virtual void						Exec_Look							(float dt);
 	virtual	void						Hit									(SHit* pHDS);
 	virtual	void						PHHit								(SHit &H);
-	virtual BOOL						feel_vision_isRelevant				(CObject* who);
+	virtual bool						feel_vision_isRelevant				(CObject* who);
 	virtual float						Radius								() const;
 #ifdef DEBUG
 	virtual void						OnHUDDraw							(CCustomHUD* hud);

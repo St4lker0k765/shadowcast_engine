@@ -2089,9 +2089,6 @@
     <Filter Include="Core\Server\Games\client\mp\screenshots">
       <UniqueIdentifier>{4ec89f8d-4013-45b3-9ae0-e9559b21664e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Server\Games\client\mp\anticheat">
-      <UniqueIdentifier>{8984d695-6f97-4bad-afe2-8329484219c1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core\Server\Games\client\mp_script">
       <UniqueIdentifier>{28bf7d60-a61a-4855-adc5-b42aea0a2d18}</UniqueIdentifier>
     </Filter>
@@ -5436,9 +5433,6 @@
     <ClInclude Include="Level_network_map_sync.h">
       <Filter>Core\Client\Level\LevelMapSync</Filter>
     </ClInclude>
-    <ClInclude Include="..\xrGameSpy\gamespy\md5.h">
-      <Filter>Core\Client\Level\ClientDigestComputer</Filter>
-    </ClInclude>
     <ClInclude Include="Level_network_Demo.h">
       <Filter>Core\Client\Level\LevelNetworkDemo</Filter>
     </ClInclude>
@@ -6360,18 +6354,6 @@
     <ClInclude Include="screenshots_writer.h">
       <Filter>Core\Server\Games\client\mp\screenshots</Filter>
     </ClInclude>
-    <ClInclude Include="configs_common.h">
-      <Filter>Core\Server\Games\client\mp\anticheat</Filter>
-    </ClInclude>
-    <ClInclude Include="configs_dump_verifyer.h">
-      <Filter>Core\Server\Games\client\mp\anticheat</Filter>
-    </ClInclude>
-    <ClInclude Include="configs_dumper.h">
-      <Filter>Core\Server\Games\client\mp\anticheat</Filter>
-    </ClInclude>
-    <ClInclude Include="mp_config_sections.h">
-      <Filter>Core\Server\Games\client\mp\anticheat</Filter>
-    </ClInclude>
     <ClInclude Include="game_cl_mp_script.h">
       <Filter>Core\Server\Games\client\mp_script</Filter>
     </ClInclude>
@@ -6522,15 +6504,6 @@
     <ClInclude Include="xrGameSpyServer_callbacks.h">
       <Filter>Core\Server\xrGameSpyServer</Filter>
     </ClInclude>
-    <ClInclude Include="battleye.h">
-      <Filter>Core\Server\BattlEye_Server</Filter>
-    </ClInclude>
-    <ClInclude Include="battleye_system.h">
-      <Filter>Core\Server\BattlEye_Server</Filter>
-    </ClInclude>
-    <ClInclude Include="xr_Server_BattlEye.h">
-      <Filter>Core\Server\BattlEye_Server</Filter>
-    </ClInclude>
     <ClInclude Include="CalculateTriangle.h">
       <Filter>Physics\Base</Filter>
     </ClInclude>
@@ -6550,9 +6523,6 @@
       <Filter>Physics\Base</Filter>
     </ClInclude>
     <ClInclude Include="Physics.h">
-      <Filter>Physics\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="PhysicsCommon.h">
       <Filter>Physics\Base</Filter>
     </ClInclude>
     <ClInclude Include="PhysicsGamePars.h">
@@ -6689,12 +6659,6 @@
     </ClInclude>
     <ClInclude Include="PHSplitedShell.h">
       <Filter>Physics\Base\Objects\SplitedShell</Filter>
-    </ClInclude>
-    <ClInclude Include="PHObject.h">
-      <Filter>Physics\Base\Objects\PHObject</Filter>
-    </ClInclude>
-    <ClInclude Include="PHIsland.h">
-      <Filter>Physics\Base\Objects\PHIsland</Filter>
     </ClInclude>
     <ClInclude Include="PHCommander.h">
       <Filter>Physics\Base\Objects\PHCommander</Filter>
@@ -7473,6 +7437,7 @@
     <ClInclude Include="ui\UIGameTutorial.h">
       <Filter>UI\Tutorial</Filter>
     </ClInclude>
+    <ClInclude Include="..\xrGame\UIFontDefines.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="damage_manager.cpp">
@@ -9050,9 +9015,6 @@
     <ClCompile Include="Level_network_digest_computer.cpp">
       <Filter>Core\Client\Level\ClientDigestComputer</Filter>
     </ClCompile>
-    <ClCompile Include="..\xrGameSpy\gamespy\md5c.c">
-      <Filter>Core\Client\Level\ClientDigestComputer</Filter>
-    </ClCompile>
     <ClCompile Include="Level_network_Demo.cpp">
       <Filter>Core\Client\Level\LevelNetworkDemo</Filter>
     </ClCompile>
@@ -9923,18 +9885,6 @@
     <ClCompile Include="screenshots_writer.cpp">
       <Filter>Core\Server\Games\client\mp\screenshots</Filter>
     </ClCompile>
-    <ClCompile Include="configs_common.cpp">
-      <Filter>Core\Server\Games\client\mp\anticheat</Filter>
-    </ClCompile>
-    <ClCompile Include="configs_dump_verifyer.cpp">
-      <Filter>Core\Server\Games\client\mp\anticheat</Filter>
-    </ClCompile>
-    <ClCompile Include="configs_dumper.cpp">
-      <Filter>Core\Server\Games\client\mp\anticheat</Filter>
-    </ClCompile>
-    <ClCompile Include="mp_config_sections.cpp">
-      <Filter>Core\Server\Games\client\mp\anticheat</Filter>
-    </ClCompile>
     <ClCompile Include="game_cl_mp_script.cpp">
       <Filter>Core\Server\Games\client\mp_script</Filter>
     </ClCompile>
@@ -10178,12 +10128,6 @@
     <ClCompile Include="xrGameSpyServer_callbacks.cpp">
       <Filter>Core\Server\xrGameSpyServer</Filter>
     </ClCompile>
-    <ClCompile Include="battleye_system.cpp">
-      <Filter>Core\Server\BattlEye_Server</Filter>
-    </ClCompile>
-    <ClCompile Include="xr_Server_BattlEye.cpp">
-      <Filter>Core\Server\BattlEye_Server</Filter>
-    </ClCompile>
     <ClCompile Include="phvalide.cpp">
       <Filter>Physics\Base</Filter>
     </ClCompile>
@@ -10309,12 +10253,6 @@
     </ClCompile>
     <ClCompile Include="PHSplitedShell.cpp">
       <Filter>Physics\Base\Objects\SplitedShell</Filter>
-    </ClCompile>
-    <ClCompile Include="PHObject.cpp">
-      <Filter>Physics\Base\Objects\PHObject</Filter>
-    </ClCompile>
-    <ClCompile Include="PHIsland.cpp">
-      <Filter>Physics\Base\Objects\PHIsland</Filter>
     </ClCompile>
     <ClCompile Include="PHCommander.cpp">
       <Filter>Physics\Base\Objects\PHCommander</Filter>
