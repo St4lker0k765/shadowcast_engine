@@ -5,7 +5,7 @@
 #include "CharacterPhysicsSupport.h"
 #include "PHMovementControl.h"
 #include "CustomMonster.h"
-#include "PhysicsShell.h"
+#include "../xrphysics/PhysicsShell.h"
 #include "../Include/xrRender/KinematicsAnimated.h"
 #include "Actor.h"
 

@@ -2,7 +2,7 @@
 
 #include "gravizone.h"
 
-#include "PhysicsShell.h"
+#include "../xrphysics/PhysicsShell.h"
 #include "entity_alive.h"
 #include "phmovementcontrol.h"
 #include "xrmessages.h"

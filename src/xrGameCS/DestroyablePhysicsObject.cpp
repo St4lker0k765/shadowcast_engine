@@ -12,7 +12,7 @@
 #include "game_object_space.h"
 #include "script_callback_ex.h"
 #include "script_game_object.h"
-#include "PhysicsShell.h"
+#include "../xrphysics/PhysicsShell.h"
 #ifdef DEBUG
 #include "PHWorld.h"
 extern CPHWorld			*ph_world;

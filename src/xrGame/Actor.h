@@ -311,6 +311,7 @@ public:
 	CActorCameraManager&	Cameras				() 	{VERIFY(m_pActorEffector); return *m_pActorEffector;}
 	IC CCameraBase*			cam_Active			()	{return cameras[cam_active];}
 	IC CCameraBase*			cam_FirstEye		()	{return cameras[eacFirstEye];}
+	IC CCameraBase*			cam_LookAt			()	{return cameras[eacLookAt];}
 	CCameraBase*			cameras[eacMaxCam];
 
 protected:

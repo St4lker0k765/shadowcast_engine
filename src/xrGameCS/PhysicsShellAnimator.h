@@ -1,6 +1,6 @@
 #pragma once
 
-#include "PhysicsShell.h"
+#include "../xrphysics/PhysicsShell.h"
 #include "PhysicsShellAnimatorBoneData.h"
 class animation_movement_controller;
 class CPhysicsShellAnimator

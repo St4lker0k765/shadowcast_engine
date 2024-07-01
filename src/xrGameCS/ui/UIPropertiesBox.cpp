@@ -4,6 +4,7 @@
 #include "../level.h"
 #include "UIListBoxItem.h"
 #include "UIXmlInit.h"
+#include "../xrGame/UIFontDefines.h"
 
 #define OFFSET_X (5.0f)
 #define OFFSET_Y (5.0f)
@@ -14,7 +15,7 @@
 
 CUIPropertiesBox::CUIPropertiesBox()
 {
-	SetFont								(HUD().Font().pFontArial14);
+	SetFont								(HUD().Font().GetFont(ARIAL14_FONT_NAME));
 	m_UIListWnd.SetImmediateSelection	(true);
 }
 

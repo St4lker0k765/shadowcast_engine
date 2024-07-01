@@ -5,7 +5,7 @@
 
 #include "stdafx.h"
 #include "FadedBall.h"
-#include "PhysicsShell.h"
+#include "../xrphysics/PhysicsShell.h"
 
 
 CFadedBall::CFadedBall(void) 

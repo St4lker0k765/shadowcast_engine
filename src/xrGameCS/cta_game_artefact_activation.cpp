@@ -8,7 +8,7 @@
 #include "stdafx.h"
 #include "cta_game_artefact_activation.h"
 
-#include "PhysicsShell.h"
+#include "../xrphysics/PhysicsShell.h"
 #include "PhysicsShellHolder.h"
 #include "game_cl_base.h"
 

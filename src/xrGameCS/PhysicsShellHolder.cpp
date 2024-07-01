@@ -1,6 +1,6 @@
 #include "pch_script.h"
 #include "PhysicsShellHolder.h"
-#include "PhysicsShell.h"
+#include "../xrphysics/PhysicsShell.h"
 #include "xrMessages.h"
 #include "ph_shell_interface.h"
 #include "../Include/xrRender/Kinematics.h"

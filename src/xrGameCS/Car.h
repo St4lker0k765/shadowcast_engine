@@ -4,7 +4,7 @@
 
 #include "entity.h"
 #include "PHDynamicData.h"
-#include "PhysicsShell.h"
+#include "../xrphysics/PhysicsShell.h"
 #include "script_entity.h"
 #include "CarLights.h"
 #include "../xrPhysics/PHObject.h"

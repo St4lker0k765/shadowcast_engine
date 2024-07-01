@@ -2,7 +2,7 @@
 #include "BreakableObject.h"
 #include "xrserver_objects_alife.h"
 #include "PHStaticGeomShell.h"
-#include "PhysicsShell.h"
+#include "../xrphysics/PhysicsShell.h"
 #include "Physics.h"
 #include "../xrEngine/xr_collide_form.h"
 #include "../Include/xrRender/Kinematics.h"

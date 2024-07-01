@@ -4,7 +4,7 @@
 #include "xrServer_Objects_ALife.h"
 #include "Level.h"
 #include "PHDefs.h"
-#include "PhysicsShell.h"
+#include "../xrphysics/PhysicsShell.h"
 #include "PHSynchronize.h"
 #include "../../xrphysics/MathUtils.h"
 #include "../Include/xrRender/Kinematics.h"

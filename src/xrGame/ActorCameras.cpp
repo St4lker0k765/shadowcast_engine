@@ -432,7 +432,7 @@ void CActor::update_camera (CCameraShotEffector* effector)
 	//	if (Level().CurrentViewEntity() != this) return;
 
 	CCameraBase* pACam = cam_FirstEye();
-	CCameraBase* p3rdCam = cameras[eacLookAt];
+	CCameraBase* p3rdCam = cam_LookAt();
 	if (!pACam || !p3rdCam) return;
 
 	if (pACam->bClampPitch)

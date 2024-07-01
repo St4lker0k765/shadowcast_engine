@@ -7,7 +7,7 @@
 #include "object_factory.h"
 #include "xrServer_Objects_ALife.h"
 #include "Level.h"
-#include "PhysicsShell.h"
+#include "../xrphysics/PhysicsShell.h"
 #include "Actor.h"
 #include "CharacterPhysicsSupport.h"
 #include "ai_object_location.h"

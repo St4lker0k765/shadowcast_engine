@@ -6,7 +6,7 @@
 
 #include "stdafx.h"
 #include "BlackGraviArtifact.h"
-#include "PhysicsShell.h"
+#include "../xrphysics/PhysicsShell.h"
 #include "entity_alive.h"
 #include "ParticlesObject.h"
 #include "phmovementcontrol.h"

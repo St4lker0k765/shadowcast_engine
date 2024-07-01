@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "../../physicsshellholder.h"
 #include "telekinetic_object.h"
-#include "../../PhysicsShell.h"
+#include "../../xrPhysics/PhysicsShell.h"
 #include "../../PHInterpolation.h"
 #include "../../PHElement.h"
 #include "../../level.h"

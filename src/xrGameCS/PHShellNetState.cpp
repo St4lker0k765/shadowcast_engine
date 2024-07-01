@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "physicsshell.h"
+#include "../xrphysics/PhysicsShell.h"
 #include "phinterpolation.h"
 #include "../xrPhysics/PHObject.h"
 #include "phworld.h"

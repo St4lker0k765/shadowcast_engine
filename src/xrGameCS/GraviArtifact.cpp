@@ -6,7 +6,7 @@
 
 #include "stdafx.h"
 #include "GraviArtifact.h"
-#include "PhysicsShell.h"
+#include "../xrphysics/PhysicsShell.h"
 #include "level.h"
 #include "xrmessages.h"
 #include "game_cl_base.h"

@@ -4,7 +4,7 @@
 #include "../xrcore/xr_ini.h"
 #include "../Include/xrRender/Kinematics.h"
 #include "geometry.h"
-#include "PhysicsShell.h"
+#include "../xrphysics/PhysicsShell.h"
 #include "../xrEngine/gamemtllib.h"
 #include "Physics.h"
 #include "xrMessages.h"

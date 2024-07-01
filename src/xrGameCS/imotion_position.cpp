@@ -2,7 +2,7 @@
 
 #include "imotion_position.h"
 
-#include "physicsshell.h"
+#include "../xrphysics/PhysicsShell.h"
 #include "../../xrphysics/MathUtils.h"
 
 #include "../Include/xrRender/Kinematics.h"

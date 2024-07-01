@@ -6,7 +6,7 @@
 
 #include "explosive.h"
 
-#include "PhysicsShell.h"
+#include "../xrphysics/PhysicsShell.h"
 #include "entity.h"
 //#include "PSObject.h"
 #include "ParticlesObject.h"

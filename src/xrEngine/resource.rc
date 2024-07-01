@@ -53,7 +53,7 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "Underground Collective"
             VALUE "FileDescription", "Shadowcast Engine"
-            VALUE "FileVersion", "Work in Progress"
+            VALUE "FileVersion", "1.7.00"
             VALUE "InternalName", "xrEngine"
             VALUE "LegalCopyright", "Underground Collective, 2024"
             VALUE "OriginalFilename", "xrEngine.exe"
@@ -73,7 +73,7 @@ END
 // PNG
 //
 
-IDB_PNG1                PNG                     "shadow_engine_logo.png"
+IDB_PNG1                PNG                     "shadowcast_engine_logo.png"
 
 #endif    // Русский (Россия) resources
 /////////////////////////////////////////////////////////////////////////////

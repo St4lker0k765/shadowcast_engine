@@ -6,7 +6,7 @@
 #include "stdafx.h"
 #include "customrocket.h"
 #include "ParticlesObject.h"
-#include "PhysicsShell.h"
+#include "../xrphysics/PhysicsShell.h"
 #include "extendedgeom.h"
 #include "level.h"
 #include "xrMessages.h"

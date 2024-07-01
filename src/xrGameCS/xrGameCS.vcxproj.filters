@@ -6621,9 +6621,6 @@
     <ClInclude Include="PHCharacter.h">
       <Filter>Physics\Base\Objects\PhyMove\BaseCharacter</Filter>
     </ClInclude>
-    <ClInclude Include="PhysicsShell.h">
-      <Filter>Physics\Base\Objects\BaseShell</Filter>
-    </ClInclude>
     <ClInclude Include="PhysicsShellAnimator.h">
       <Filter>Physics\Base\Objects\BaseShell\PhysicsShellAnimator</Filter>
     </ClInclude>
@@ -10205,12 +10202,6 @@
     </ClCompile>
     <ClCompile Include="PHCharacter.cpp">
       <Filter>Physics\Base\Objects\PhyMove\BaseCharacter</Filter>
-    </ClCompile>
-    <ClCompile Include="PhysicsShell.cpp">
-      <Filter>Physics\Base\Objects\BaseShell</Filter>
-    </ClCompile>
-    <ClCompile Include="PhysicsShellScript.cpp">
-      <Filter>Physics\Base\Objects\BaseShell</Filter>
     </ClCompile>
     <ClCompile Include="PhysicsShellAnimator.cpp">
       <Filter>Physics\Base\Objects\BaseShell\PhysicsShellAnimator</Filter>

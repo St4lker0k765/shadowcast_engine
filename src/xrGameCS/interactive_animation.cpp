@@ -2,7 +2,7 @@
 
 #include	"interactive_animation.h"
 
-#include	"physicsshell.h"
+#include "../xrphysics/PhysicsShell.h"
 #include	"ExtendedGeom.h"
 #include "../../xrphysics/MathUtils.h"
 #include "../xrPhysics/PHObject.h"

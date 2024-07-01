@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "missile.h"
 //.#include "WeaponHUD.h"
-#include "PhysicsShell.h"
+#include "../xrphysics/PhysicsShell.h"
 #include "actor.h"
 #include "../xrEngine/CameraBase.h"
 #include "xrserver_objects_alife.h"

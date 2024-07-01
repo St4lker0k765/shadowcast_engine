@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "telewhirlwind.h"
-#include "PhysicsShell.h"
+#include "../xrphysics/PhysicsShell.h"
 #include "PhysicsShellHolder.h"
 #include "level.h"
 #include "hit.h"

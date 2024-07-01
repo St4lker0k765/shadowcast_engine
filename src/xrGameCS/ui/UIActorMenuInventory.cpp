@@ -377,8 +377,8 @@ void CUIActorMenu::InitInventoryContents(CUIDragDropListEx* pBagList)
 
 	CUIDragDropListEx*			curr_list = NULL;
 	//Slots
-	InitCellForSlot				(PISTOL_SLOT);
-	InitCellForSlot				(RIFLE_SLOT);
+	InitCellForSlot				(INV_SLOT_2);
+	InitCellForSlot				(INV_SLOT_3);
 	InitCellForSlot				(OUTFIT_SLOT);
 	InitCellForSlot				(DETECTOR_SLOT);
 	InitCellForSlot				(GRENADE_SLOT);

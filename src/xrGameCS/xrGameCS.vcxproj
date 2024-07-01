@@ -1512,7 +1512,6 @@
     <ClInclude Include="PhysicObject.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="PhysicsGamePars.h" />
-    <ClInclude Include="PhysicsShell.h" />
     <ClInclude Include="PhysicsShellAnimator.h" />
     <ClInclude Include="PhysicsShellAnimatorBoneData.h" />
     <ClInclude Include="PhysicsShellHolder.h" />
@@ -1876,7 +1875,9 @@
     <ClInclude Include="ui\UIBuyWndShared.h" />
     <ClInclude Include="ui\UICarBodyWnd.h" />
     <ClInclude Include="ui\UICarPanel.h" />
-    <ClInclude Include="ui\UICDkey.h" />
+    <ClInclude Include="ui\UICDkey.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="ui\UICellCustomItems.h" />
     <ClInclude Include="ui\UICellItem.h" />
     <ClInclude Include="ui\UICellItemFactory.h" />
@@ -5147,23 +5148,8 @@
     </ClCompile>
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="PhysicsGamePars.cpp" />
-    <ClCompile Include="PhysicsShell.cpp" />
     <ClCompile Include="PhysicsShellAnimator.cpp" />
     <ClCompile Include="PhysicsShellHolder.cpp">
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch_script.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pch_script.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
-      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Mixed|Win32'">pch_script.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Mixed|x64'">pch_script.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Mixed|Win32'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
-      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Mixed|x64'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">pch_script.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pch_script.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
-      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
-    </ClCompile>
-    <ClCompile Include="PhysicsShellScript.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch_script.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pch_script.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
@@ -6875,7 +6861,9 @@
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
     <ClCompile Include="ui\UICarPanel.cpp" />
-    <ClCompile Include="ui\UICDkey.cpp" />
+    <ClCompile Include="ui\UICDkey.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="ui\UICellCustomItems.cpp" />
     <ClCompile Include="ui\UICellItem.cpp" />
     <ClCompile Include="ui\UICellItemFactory.cpp" />

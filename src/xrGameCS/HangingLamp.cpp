@@ -2,7 +2,7 @@
 #include "HangingLamp.h"
 #include "../xrEngine/LightAnimLibrary.h"
 #include "../xrEngine/xr_collide_form.h"
-#include "PhysicsShell.h"
+#include "../xrphysics/PhysicsShell.h"
 #include "Physics.h"
 #include "xrserver_objects_alife.h"
 #include "PHElement.h"
