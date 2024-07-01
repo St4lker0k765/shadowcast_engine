@@ -432,7 +432,8 @@ void CActor::update_camera (CCameraShotEffector* effector)
 	//	if (Level().CurrentViewEntity() != this) return;
 
 	CCameraBase* pACam = cam_FirstEye();
-	if (!pACam) return;
+	CCameraBase* p3rdCam = cameras[eacLookAt];
+	if (!pACam || !p3rdCam) return;
 
 	if (pACam->bClampPitch)
 	{
@@ -446,6 +447,20 @@ void CActor::update_camera (CCameraShotEffector* effector)
 
 	if (pACam->bClampYaw)	clamp(pACam->yaw,pACam->lim_yaw[0],pACam->lim_yaw[1]);
 	if (pACam->bClampPitch)	clamp(pACam->pitch,pACam->lim_pitch[0],pACam->lim_pitch[1]);
+
+	//3rd person
+	if (p3rdCam->bClampPitch)
+	{
+		while (p3rdCam->pitch < p3rdCam->lim_pitch[0])
+			p3rdCam->pitch += PI_MUL_2;
+		while (p3rdCam->pitch > p3rdCam->lim_pitch[1])
+			p3rdCam->pitch -= PI_MUL_2;
+	}
+
+	effector->ChangeHP(&(p3rdCam->pitch), &(p3rdCam->yaw));
+
+	if (p3rdCam->bClampYaw)	clamp(p3rdCam->yaw, p3rdCam->lim_yaw[0], p3rdCam->lim_yaw[1]);
+	if (p3rdCam->bClampPitch)	clamp(p3rdCam->pitch, p3rdCam->lim_pitch[0], p3rdCam->lim_pitch[1]);
 
 	if (effector && !effector->IsActive())
 	{

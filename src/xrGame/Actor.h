@@ -311,6 +311,7 @@ public:
 	CActorCameraManager&	Cameras				() 	{VERIFY(m_pActorEffector); return *m_pActorEffector;}
 	IC CCameraBase*			cam_Active			()	{return cameras[cam_active];}
 	IC CCameraBase*			cam_FirstEye		()	{return cameras[eacFirstEye];}
+	CCameraBase*			cameras[eacMaxCam];
 
 protected:
 	virtual	void			cam_Set					(EActorCameras style);
@@ -322,7 +323,6 @@ protected:
 	float					currentFOV				();
 
 	// Cameras
-	CCameraBase*			cameras[eacMaxCam];
 	EActorCameras			cam_active;
 	float					fPrevCamPos;
 	float					current_ik_cam_shift;
