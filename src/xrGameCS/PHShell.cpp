@@ -4,7 +4,7 @@
 #include "PHDynamicData.h"
 #include "Physics.h"
 #include "tri-colliderknoopc/dTriList.h"
-#include "PHShellSplitter.h"
+#include "../xrPhysics/PHShellSplitter.h"
 #include "PHFracture.h"
 #include "PHJointDestroyInfo.h"
 #include "SpaceUtils.h"

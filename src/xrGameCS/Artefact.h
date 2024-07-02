@@ -35,7 +35,7 @@ public:
 
 	virtual BOOL					renderable_ShadowGenerate		()		{ return FALSE;	}
 	virtual BOOL					renderable_ShadowReceive		()		{ return TRUE;	}
-	virtual void					create_physic_shell				();
+//	virtual void					create_physic_shell				();
 
 	virtual CArtefact*				cast_artefact					()		{return this;}
 

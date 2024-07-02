@@ -213,7 +213,9 @@ virtual void ApplyDamage			(u16 level);
 		bool  limited;			//zero limited for idle steering drive
 		float GetSteerAngle()
 		{
-			return -pos_right*dJointGetHinge2Angle1 (pwheel->joint->GetDJoint());
+			VERIFY(pwheel);
+			VERIFY(pwheel->joint);
+			return -pos_right * pwheel->joint->GetAxisAngle(0);//dJointGetHinge2Angle1 (pwheel->joint->GetDJoint());
 		}
 		void	 Init		()						;
 		void	 SteerRight	()						;

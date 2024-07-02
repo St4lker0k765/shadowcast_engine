@@ -428,7 +428,7 @@
       <BrowseInformation>
       </BrowseInformation>
       <WarningLevel>Level4</WarningLevel>
-      <DisableSpecificWarnings>4237;4297;4589;4913;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4237;4297;4589;4913;4267;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -1470,7 +1470,6 @@
     <ClInclude Include="PHScriptCall.h" />
     <ClInclude Include="PHShell.h" />
     <ClInclude Include="PHShellCreator.h" />
-    <ClInclude Include="PHShellSplitter.h" />
     <ClInclude Include="PHSimpleCalls.h" />
     <ClInclude Include="PHSimpleCharacter.h" />
     <ClInclude Include="PHSimpleCharacterInline.h" />
@@ -1804,21 +1803,11 @@
     <ClInclude Include="UICursor.h" />
     <ClInclude Include="UICustomItem.h" />
     <ClInclude Include="UIDialogHolder.h" />
-    <ClInclude Include="UIDMStatisticWnd.h" />
     <ClInclude Include="UIFrameRect.h" />
-    <ClInclude Include="UIGameAHunt.h" />
-    <ClInclude Include="UIGameCTA.h" />
     <ClInclude Include="UIGameCustom.h" />
-    <ClInclude Include="UIGameDM.h" />
     <ClInclude Include="UIGameSP.h" />
-    <ClInclude Include="UIGameTDM.h" />
     <ClInclude Include="UIGame_custom_script.h" />
-    <ClInclude Include="UIPanelsClassFactory.h" />
-    <ClInclude Include="UIPlayerItem.h" />
     <ClInclude Include="UIStaticItem.h" />
-    <ClInclude Include="UITeamHeader.h" />
-    <ClInclude Include="UITeamPanels.h" />
-    <ClInclude Include="UITeamState.h" />
     <ClInclude Include="UIZoneMap.h" />
     <ClInclude Include="ui\ArtefactDetectorUI.h" />
     <ClInclude Include="ui\CExtraContentFilter.h" />
@@ -1870,8 +1859,6 @@
     <ClInclude Include="ui\UIEncyclopediaWnd.h" />
     <ClInclude Include="ui\UIEventsWnd.h" />
     <ClInclude Include="ui\UIFactionWarWnd.h" />
-    <ClInclude Include="ui\UIFrags.h" />
-    <ClInclude Include="ui\UIFrags2.h" />
     <ClInclude Include="ui\UIFrameLine.h" />
     <ClInclude Include="ui\UIFrameLineWnd.h" />
     <ClInclude Include="ui\UIFrameWindow.h" />
@@ -1941,7 +1928,6 @@
     <ClInclude Include="ui\UIPropertiesBox.h" />
     <ClInclude Include="ui\UIRadioButton.h" />
     <ClInclude Include="ui\UIRankFaction.h" />
-    <ClInclude Include="ui\UIRankIndicator.h" />
     <ClInclude Include="ui\UIRankingWnd.h" />
     <ClInclude Include="ui\UIScriptWnd.h" />
     <ClInclude Include="ui\uiscriptwnd_script.h" />
@@ -1979,7 +1965,6 @@
     <ClInclude Include="ui\UITradeWnd.h" />
     <ClInclude Include="ui\UITreeViewItem.h" />
     <ClInclude Include="ui\UIVote.h" />
-    <ClInclude Include="ui\UIVoteStatusWnd.h" />
     <ClInclude Include="ui\UIVotingCategory.h" />
     <ClInclude Include="ui\UIWarState.h" />
     <ClInclude Include="ui\UIWindow.h" />
@@ -4975,7 +4960,6 @@
     <ClCompile Include="PHShellActivate.cpp" />
     <ClCompile Include="PHShellCreator.cpp" />
     <ClCompile Include="PHShellNetState.cpp" />
-    <ClCompile Include="PHShellSplitter.cpp" />
     <ClCompile Include="PHSimpleCalls.cpp" />
     <ClCompile Include="PHSimpleCallsScript.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch_script.h</PrecompiledHeaderFile>
@@ -6576,10 +6560,7 @@
       <ShowIncludes Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ShowIncludes>
     </ClCompile>
     <ClCompile Include="UIDialogHolder.cpp" />
-    <ClCompile Include="UIDMStatisticWnd.cpp" />
     <ClCompile Include="UIFrameRect.cpp" />
-    <ClCompile Include="UIGameAHunt.cpp" />
-    <ClCompile Include="UIGameCTA.cpp" />
     <ClCompile Include="UIGameCustom.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch_script.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pch_script.h</PrecompiledHeaderFile>
@@ -6608,7 +6589,6 @@
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
-    <ClCompile Include="UIGameDM.cpp" />
     <ClCompile Include="UIGameSP.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch_script.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pch_script.h</PrecompiledHeaderFile>
@@ -6623,7 +6603,6 @@
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
-    <ClCompile Include="UIGameTDM.cpp" />
     <ClCompile Include="UIGame_custom_script.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch_script.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pch_script.h</PrecompiledHeaderFile>
@@ -6638,12 +6617,7 @@
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
-    <ClCompile Include="UIPanelsClassFactory.cpp" />
-    <ClCompile Include="UIPlayerItem.cpp" />
     <ClCompile Include="UIStaticItem.cpp" />
-    <ClCompile Include="UITeamHeader.cpp" />
-    <ClCompile Include="UITeamPanels.cpp" />
-    <ClCompile Include="UITeamState.cpp" />
     <ClCompile Include="UIZoneMap.cpp" />
     <ClCompile Include="ui\ArtefactDetectorUI.cpp" />
     <ClCompile Include="ui\CExtraContentFilter.cpp" />
@@ -6827,8 +6801,6 @@
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
-    <ClCompile Include="ui\UIFrags.cpp" />
-    <ClCompile Include="ui\UIFrags2.cpp" />
     <ClCompile Include="ui\UIFrameLine.cpp" />
     <ClCompile Include="ui\UIFrameLineWnd.cpp" />
     <ClCompile Include="ui\UIFrameWindow.cpp" />
@@ -7177,7 +7149,6 @@
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
-    <ClCompile Include="ui\UIRankIndicator.cpp" />
     <ClCompile Include="ui\UIRankingWnd.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch_script.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pch_script.h</PrecompiledHeaderFile>
@@ -7334,7 +7305,6 @@
     <ClCompile Include="ui\UITradeWnd.cpp" />
     <ClCompile Include="ui\UITreeViewItem.cpp" />
     <ClCompile Include="ui\UIVote.cpp" />
-    <ClCompile Include="ui\UIVoteStatusWnd.cpp" />
     <ClCompile Include="ui\UIVotingCategory.cpp" />
     <ClCompile Include="ui\UIWarState.cpp" />
     <ClCompile Include="ui\UIWindow.cpp" />

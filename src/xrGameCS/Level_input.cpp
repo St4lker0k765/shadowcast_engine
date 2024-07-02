@@ -77,7 +77,7 @@ void CLevel::IR_OnMouseMove( int dx, int dy )
 		if (IR)				IR->IR_OnMouseMove					(dx,dy);
 	}
 }
-
+/*
 class		vtune_		{
 	BOOL	enabled_	;
 public:
@@ -93,7 +93,7 @@ public:
 		Msg	("vtune : disabled");
 	}}
 }	vtune	;
-
+*/
 // Обработка нажатия клавиш
 extern bool g_block_pause;
 

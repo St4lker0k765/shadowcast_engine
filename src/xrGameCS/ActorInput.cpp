@@ -50,16 +50,16 @@ void CActor::IR_OnKeyboardPress(int cmd)
 			if( (mstate_wishful & mcLookout) && !IsGameTypeSingle() ) return;
 
 			u32 slot = inventory().GetActiveSlot();
-			if(inventory().ActiveItem() && (slot==RIFLE_SLOT || slot==PISTOL_SLOT) )
+			if(inventory().ActiveItem() && (slot==INV_SLOT_3 || slot==INV_SLOT_2) )
 				mstate_wishful &=~mcSprint;
 			//-----------------------------
-			if (OnServer())
+/*			if (OnServer())
 			{
 				NET_Packet P;
 				P.w_begin(M_PLAYER_FIRE); 
 				P.w_u16(ID());
 				u_EventSend(P);
-			}
+			}*/
 		}break;
 	default:
 		{
@@ -219,7 +219,7 @@ void CActor::IR_OnKeyboardRelease(int cmd)
 		switch(cmd)
 		{
 		case kJUMP:		mstate_wishful &=~mcJump;		break;
-		case kDROP:		if(GAME_PHASE_INPROGRESS == Game().Phase()) g_PerformDrop();				break;
+		case kDROP:		g_PerformDrop();				break;
 		case kCROUCH:	g_bAutoClearCrouch = true;
 		}
 	}
@@ -443,10 +443,9 @@ BOOL CActor::HUDview				( )const
 
 static	u32 SlotsToCheck [] = {
 		KNIFE_SLOT		,		// 0
-		PISTOL_SLOT		,		// 1
-		RIFLE_SLOT		,		// 2
+		INV_SLOT_2		,		// 1
+		INV_SLOT_3		,		// 2
 		GRENADE_SLOT	,		// 3
-		APPARATUS_SLOT	,		// 4
 		ARTEFACT_SLOT	,		// 10
 };
 

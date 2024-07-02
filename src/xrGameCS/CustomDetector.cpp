@@ -30,7 +30,7 @@ bool  CCustomDetector::CheckCompatibilityInt(CHudItem* itm)
 
 	CInventoryItem iitm				= itm->item();
 	u32 slot						= iitm.GetSlot();
-	bool bres = (slot==PISTOL_SLOT || slot==KNIFE_SLOT || slot==BOLT_SLOT);
+	bool bres = (slot==INV_SLOT_2 || slot==KNIFE_SLOT || slot==BOLT_SLOT);
 
 	if(itm->GetState()!=CHUDState::eShowing)
 		bres = bres && !itm->IsPending();
@@ -268,7 +268,7 @@ void CCustomDetector::OnH_B_Independent(bool just_before_destroy)
 }
 
 
-void CCustomDetector::OnMoveToRuck(EItemPlace prev)
+void CCustomDetector::OnMoveToRuck(SInvItemPlace prev)
 {
 	inherited::OnMoveToRuck	(prev);
 	if(GetState()==eIdle)
@@ -305,7 +305,7 @@ void CCustomDetector::UpdateNightVisionMode(bool b_on)
 {
 }
 
-BOOL CAfList::feel_touch_contact	(CObject* O)
+bool CAfList::feel_touch_contact	(CObject* O)
 {
 	CLASS_ID	clsid			= O->CLS_ID;
 	TypesMapIt it				= m_TypesMap.find(clsid);

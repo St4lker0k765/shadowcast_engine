@@ -2425,23 +2425,11 @@
     <Filter Include="UI\GameTypes\GameCustom">
       <UniqueIdentifier>{cc8ade1f-8b74-4ba3-89a8-423044208662}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UI\GameTypes\Deathmatch">
-      <UniqueIdentifier>{aa72cbea-37c8-4fac-bffa-b0c975e8b7dc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="UI\GameTypes\Single">
       <UniqueIdentifier>{1c33c022-710b-4433-b922-f65d92ccb455}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UI\GameTypes\TeamDeathmatch">
-      <UniqueIdentifier>{48f92917-ee90-4ce9-b341-5057b1545a6a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UI\GameTypes\ArtefactHunt">
-      <UniqueIdentifier>{6e087ac3-601b-4952-a8a7-ff52eeefa7ee}</UniqueIdentifier>
-    </Filter>
     <Filter Include="UI\GameTypes\Game_custom_script">
       <UniqueIdentifier>{190bef45-bd72-4e22-aa98-c08481430d4f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UI\GameTypes\CaptureTheArtefact">
-      <UniqueIdentifier>{a0b6883c-c646-432a-ad84-7aeeea07f42e}</UniqueIdentifier>
     </Filter>
     <Filter Include="UI\Multiplayer">
       <UniqueIdentifier>{95496364-a0dc-424c-963d-0920e59cf944}</UniqueIdentifier>
@@ -2470,14 +2458,8 @@
     <Filter Include="UI\Multiplayer\HUD\Stats\icons">
       <UniqueIdentifier>{2706f813-ef27-4dc8-a11e-fb7b696bc44b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UI\Multiplayer\HUD\Stats\frag_wnd">
-      <UniqueIdentifier>{05751421-d777-439b-ad4e-0eaa165461ca}</UniqueIdentifier>
-    </Filter>
     <Filter Include="UI\Multiplayer\HUD\Stats\old">
       <UniqueIdentifier>{d9d7e8bf-e9ff-4c0a-97cb-ebde9b02933f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UI\Multiplayer\HUD\Stats\TeamStates">
-      <UniqueIdentifier>{44bd5cbc-b6d9-4c98-b7c4-b549c7c8d4e9}</UniqueIdentifier>
     </Filter>
     <Filter Include="UI\Multiplayer\HUD\Chat">
       <UniqueIdentifier>{a593cc2f-eda9-437d-b1e2-f8b854d70e57}</UniqueIdentifier>
@@ -6516,9 +6498,6 @@
     <ClInclude Include="PHJointDestroyInfo.h">
       <Filter>Physics\Base\Objects\Breakable</Filter>
     </ClInclude>
-    <ClInclude Include="PHShellSplitter.h">
-      <Filter>Physics\Base\Objects\Breakable</Filter>
-    </ClInclude>
     <ClInclude Include="PHSplitedShell.h">
       <Filter>Physics\Base\Objects\SplitedShell</Filter>
     </ClInclude>
@@ -7134,32 +7113,11 @@
     <ClInclude Include="UIGameCustom.h">
       <Filter>UI\GameTypes\GameCustom</Filter>
     </ClInclude>
-    <ClInclude Include="UIDMStatisticWnd.h">
-      <Filter>UI\GameTypes\Deathmatch</Filter>
-    </ClInclude>
-    <ClInclude Include="UIGameDM.h">
-      <Filter>UI\GameTypes\Deathmatch</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UIRankIndicator.h">
-      <Filter>UI\GameTypes\Deathmatch</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UIVoteStatusWnd.h">
-      <Filter>UI\GameTypes\Deathmatch</Filter>
-    </ClInclude>
     <ClInclude Include="UIGameSP.h">
       <Filter>UI\GameTypes\Single</Filter>
     </ClInclude>
-    <ClInclude Include="UIGameTDM.h">
-      <Filter>UI\GameTypes\TeamDeathmatch</Filter>
-    </ClInclude>
-    <ClInclude Include="UIGameAHunt.h">
-      <Filter>UI\GameTypes\ArtefactHunt</Filter>
-    </ClInclude>
     <ClInclude Include="UIGame_custom_script.h">
       <Filter>UI\GameTypes\Game_custom_script</Filter>
-    </ClInclude>
-    <ClInclude Include="UIGameCTA.h">
-      <Filter>UI\GameTypes\CaptureTheArtefact</Filter>
     </ClInclude>
     <ClInclude Include="player_name_modifyer.h">
       <Filter>UI\Multiplayer\MM_MP\CDkey</Filter>
@@ -7194,29 +7152,8 @@
     <ClInclude Include="ui\UIStatsIcon.h">
       <Filter>UI\Multiplayer\HUD\Stats\icons</Filter>
     </ClInclude>
-    <ClInclude Include="ui\UIFrags.h">
-      <Filter>UI\Multiplayer\HUD\Stats\frag_wnd</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UIFrags2.h">
-      <Filter>UI\Multiplayer\HUD\Stats\frag_wnd</Filter>
-    </ClInclude>
     <ClInclude Include="ui\UIStatsWnd.h">
       <Filter>UI\Multiplayer\HUD\Stats\old</Filter>
-    </ClInclude>
-    <ClInclude Include="UIPanelsClassFactory.h">
-      <Filter>UI\Multiplayer\HUD\Stats\TeamStates</Filter>
-    </ClInclude>
-    <ClInclude Include="UIPlayerItem.h">
-      <Filter>UI\Multiplayer\HUD\Stats\TeamStates</Filter>
-    </ClInclude>
-    <ClInclude Include="UITeamHeader.h">
-      <Filter>UI\Multiplayer\HUD\Stats\TeamStates</Filter>
-    </ClInclude>
-    <ClInclude Include="UITeamPanels.h">
-      <Filter>UI\Multiplayer\HUD\Stats\TeamStates</Filter>
-    </ClInclude>
-    <ClInclude Include="UITeamState.h">
-      <Filter>UI\Multiplayer\HUD\Stats\TeamStates</Filter>
     </ClInclude>
     <ClInclude Include="ui\UIChatWnd.h">
       <Filter>UI\Multiplayer\HUD\Chat</Filter>
@@ -9999,9 +9936,6 @@
     <ClCompile Include="PHJointDestroyInfo.cpp">
       <Filter>Physics\Base\Objects\Breakable</Filter>
     </ClCompile>
-    <ClCompile Include="PHShellSplitter.cpp">
-      <Filter>Physics\Base\Objects\Breakable</Filter>
-    </ClCompile>
     <ClCompile Include="PHSplitedShell.cpp">
       <Filter>Physics\Base\Objects\SplitedShell</Filter>
     </ClCompile>
@@ -10626,32 +10560,11 @@
     <ClCompile Include="UIGameCustom_script.cpp">
       <Filter>UI\GameTypes\GameCustom</Filter>
     </ClCompile>
-    <ClCompile Include="UIDMStatisticWnd.cpp">
-      <Filter>UI\GameTypes\Deathmatch</Filter>
-    </ClCompile>
-    <ClCompile Include="UIGameDM.cpp">
-      <Filter>UI\GameTypes\Deathmatch</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UIRankIndicator.cpp">
-      <Filter>UI\GameTypes\Deathmatch</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UIVoteStatusWnd.cpp">
-      <Filter>UI\GameTypes\Deathmatch</Filter>
-    </ClCompile>
     <ClCompile Include="UIGameSP.cpp">
       <Filter>UI\GameTypes\Single</Filter>
     </ClCompile>
-    <ClCompile Include="UIGameTDM.cpp">
-      <Filter>UI\GameTypes\TeamDeathmatch</Filter>
-    </ClCompile>
-    <ClCompile Include="UIGameAHunt.cpp">
-      <Filter>UI\GameTypes\ArtefactHunt</Filter>
-    </ClCompile>
     <ClCompile Include="UIGame_custom_script.cpp">
       <Filter>UI\GameTypes\Game_custom_script</Filter>
-    </ClCompile>
-    <ClCompile Include="UIGameCTA.cpp">
-      <Filter>UI\GameTypes\CaptureTheArtefact</Filter>
     </ClCompile>
     <ClCompile Include="player_name_modifyer.cpp">
       <Filter>UI\Multiplayer\MM_MP\CDkey</Filter>
@@ -10689,29 +10602,8 @@
     <ClCompile Include="ui\UIStatsIcon.cpp">
       <Filter>UI\Multiplayer\HUD\Stats\icons</Filter>
     </ClCompile>
-    <ClCompile Include="ui\UIFrags.cpp">
-      <Filter>UI\Multiplayer\HUD\Stats\frag_wnd</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UIFrags2.cpp">
-      <Filter>UI\Multiplayer\HUD\Stats\frag_wnd</Filter>
-    </ClCompile>
     <ClCompile Include="ui\UIStatsWnd.cpp">
       <Filter>UI\Multiplayer\HUD\Stats\old</Filter>
-    </ClCompile>
-    <ClCompile Include="UIPanelsClassFactory.cpp">
-      <Filter>UI\Multiplayer\HUD\Stats\TeamStates</Filter>
-    </ClCompile>
-    <ClCompile Include="UIPlayerItem.cpp">
-      <Filter>UI\Multiplayer\HUD\Stats\TeamStates</Filter>
-    </ClCompile>
-    <ClCompile Include="UITeamHeader.cpp">
-      <Filter>UI\Multiplayer\HUD\Stats\TeamStates</Filter>
-    </ClCompile>
-    <ClCompile Include="UITeamPanels.cpp">
-      <Filter>UI\Multiplayer\HUD\Stats\TeamStates</Filter>
-    </ClCompile>
-    <ClCompile Include="UITeamState.cpp">
-      <Filter>UI\Multiplayer\HUD\Stats\TeamStates</Filter>
     </ClCompile>
     <ClCompile Include="ui\UIChatWnd.cpp">
       <Filter>UI\Multiplayer\HUD\Chat</Filter>

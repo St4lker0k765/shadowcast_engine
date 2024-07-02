@@ -61,7 +61,6 @@ public:
 
 	bool							NewPlayerName_Exists	(void* pClient, LPCSTR NewName);
 	void							NewPlayerName_Generate	(void* pClient, LPSTR NewPlayerName);
-	void							NewPlayerName_Replace	(void* pClient, LPCSTR NewPlayerName);
 
 	BOOL							sv_force_sync;
 	float							rpoints_MinDist [TEAM_COUNT];
@@ -121,7 +120,6 @@ public:
 				u32					getRPcount				(u16 team_idx);
 	// Signals
 	virtual		void				signal_Syncronize		();
-	virtual		void				assign_RP				(CSE_Abstract* E, game_PlayerState* ps_who);
 	virtual		bool				IsPointFreezed			(RPoint* rp);
 	virtual		void				SetPointFreezed			(RPoint* rp);
 

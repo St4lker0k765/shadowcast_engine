@@ -522,75 +522,6 @@ void	game_sv_GameState::ConsoleCommands_Clear	()
 {
 };
 
-void	game_sv_GameState::assign_RP				(CSE_Abstract* E, game_PlayerState* ps_who)
-{
-	VERIFY				(E);
-
-	u8					l_uc_team = u8(-1);
-	CSE_Spectator		*tpSpectator = smart_cast<CSE_Spectator*>(E);
-	if (tpSpectator)
-	{
-		l_uc_team = tpSpectator->g_team();
-#ifdef DEBUG
-		Msg("--- game_sv_GameState RPoint for Spectators uses team [%d]", l_uc_team);
-#endif // #ifdef DEBUG
-	} else
-	{
-		CSE_ALifeCreatureAbstract	*tpTeamed = smart_cast<CSE_ALifeCreatureAbstract*>(E);
-		if (tpTeamed)
-		{
-			l_uc_team = tpTeamed->g_team();
-#ifdef DEBUG
-		Msg("--- game_sv_GameState RPoint for AlifeCreature uses team [%d]", l_uc_team);
-#endif // #ifdef DEBUG
-		} else
-		{
-			R_ASSERT2(false/*tpTeamed*/,"Non-teamed object is assigning to respawn point!");
-		}
-	}
-	R_ASSERT2(l_uc_team < TEAM_COUNT, make_string("not found rpoint for team [%d]",
-		l_uc_team).c_str());
-	
-	xr_vector<RPoint>&	rp	= rpoints[l_uc_team];
-#ifdef DEBUG
-	Msg("---Size of rpoints of team [%d] is [%d]", l_uc_team, rp.size());
-#endif
-	//-----------------------------------------------------------
-	xr_vector<u32>	xrp;//	= rpoints[l_uc_team];
-	for (u32 i=0; i<rp.size(); i++)
-	{
-		if (rp[i].TimeToUnfreeze < Level().timeServer())
-			xrp.push_back(i);
-	}
-	u32 rpoint = 0;
-	if (xrp.size() && !tpSpectator)
-	{
-		rpoint = xrp[::Random.randI((int)xrp.size())];
-	}
-	else
-	{
-		if (!tpSpectator)
-		{
-			for (u32 i=0; i<rp.size(); i++)
-			{
-				rp[i].TimeToUnfreeze = 0;
-			};
-		};
-		rpoint = ::Random.randI((int)rp.size());
-	}
-	//-----------------------------------------------------------
-#ifdef DEBUG
-	Msg("--- Result rpoint is [%d]", rpoint);
-#endif // #ifdef DEBUG
-	RPoint&				r	= rp[rpoint];
-	if (!tpSpectator)
-	{
-		r.TimeToUnfreeze	= Level().timeServer() + g_sv_base_dwRPointFreezeTime;
-	};
-	E->o_Position.set	(r.P);
-	E->o_Angle.set		(r.A);
-}
-
 bool				game_sv_GameState::IsPointFreezed			(RPoint* rp)
 {
 	return rp->TimeToUnfreeze > Level().timeServer();
@@ -657,11 +588,7 @@ void game_sv_GameState::Update		()
 	};
 	ping_filler tmp_functor;
 	m_server->ForEachClientDo(tmp_functor);
-	
-	if (!IsGameTypeSingle() && (Phase() == GAME_PHASE_INPROGRESS))
-	{
-		m_item_respawner.update(Level().timeServer());
-	}
+
 	
 	if (!g_dedicated_server)
 	{
@@ -842,21 +769,6 @@ void game_sv_GameState::NewPlayerName_Generate( void* pClient, LPSTR NewPlayerNa
 			return;
 		}
 	}
-}
-
-void game_sv_GameState::NewPlayerName_Replace( void* pClient, LPCSTR NewPlayerName )
-{
-	if ( !pClient || !NewPlayerName ) return;
-	IClient* CL = (IClient*)pClient;
-	if ( !CL->name || xr_strlen( CL->name.c_str() ) == 0 ) return;
-	
-	CL->name._set( NewPlayerName );
-	
-	//---------------------------------------------------------
-	NET_Packet P;
-	P.w_begin( M_CHANGE_SELF_NAME );
-	P.w_stringZ( NewPlayerName );	
-	m_server->SendTo( CL->ID, P );
 }
 
 void game_sv_GameState::OnSwitchPhase(u32 old_phase, u32 new_phase)
