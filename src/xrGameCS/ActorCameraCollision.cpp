@@ -10,7 +10,7 @@
 #include "PHShell.h"
 #include "matrix_utils.h"
 #include "ai/stalker/ai_stalker.h"
-#include "GeometryBits.h"
+#include "../xrPhysics/GeometryBits.h"
 #include "characterphysicssupport.h"
 #ifdef DEBUG
 #include "phdebug.h"

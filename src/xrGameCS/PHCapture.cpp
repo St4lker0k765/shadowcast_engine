@@ -2,8 +2,8 @@
 #include "StdAfx.h"
 
 #include "PHCapture.h"
-#include "phcharacter.h"
-#include "Physics.h"
+#include "../xrPhysics/PHCharacter.h"
+#include "../xrPhysics/Physics.h"
 #include "ExtendedGeom.h"
 
 #include "entity_alive.h"

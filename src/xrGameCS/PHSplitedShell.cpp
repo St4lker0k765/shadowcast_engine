@@ -3,11 +3,11 @@
 #include "../xrPhysics/PHObject.h"
 #include "../xrphysics/IPHWorld.h"
 #include "PHInterpolation.h"
-#include "PHShell.h"
-#include "PHJoint.h"
-#include "PHElement.h"
+#include "../xrPhysics/PHShell.h"
+#include "../xrPhysics/PHJoint.h"
+#include "../xrPhysics/PHElement.h"
 #include "PHSplitedShell.h"
-#include "Physics.h"
+#include "../xrPhysics/Physics.h"
 #include "SpaceUtils.h"
 void CPHSplitedShell::Collide()
 {

@@ -1,8 +1,8 @@
 #include "stdafx.h"
 
-#include "phcharacter.h"
+#include "../xrPhysics/PHCharacter.h"
 #include "PHDynamicData.h"
-#include "Physics.h"
+#include "../xrPhysics/Physics.h"
 #include "ExtendedGeom.h"
 #include "physicsshellholder.h"
 

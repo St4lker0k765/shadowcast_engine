@@ -13,7 +13,7 @@
 #include "ai_space.h"
 #include "ai_debug.h"
 #include "PHdynamicdata.h"
-#include "Physics.h"
+#include "../xrPhysics/Physics.h"
 #include "ShootingObject.h"
 #include "GameTaskManager.h"
 #include "Level_Bullet_Manager.h"

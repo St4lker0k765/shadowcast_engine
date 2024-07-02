@@ -11,10 +11,6 @@
 #include <dinput.h>
 #include "ui\UIBtnHint.h"
 #include "UICursor.h"
-#include "gamespy/GameSpy_Full.h"
-#include "gamespy/GameSpy_HTTP.h"
-#include "gamespy/GameSpy_Available.h"
-#include "gamespy/CdkeyDecode/cdkeydecode.h"
 #include "string_table.h"
 #include "../xrCore/os_clipboard.h"
 
@@ -67,7 +63,6 @@ CMainMenu::CMainMenu	()
 	m_deactivated_frame				= 0;	
 	
 	m_sPatchURL						= "";
-	m_pGameSpyFull					= NULL;
 
 	m_sPDProgress.IsInProgress		= false;
 	m_downloaded_mp_map_url._set	("");
@@ -82,7 +77,6 @@ CMainMenu::CMainMenu	()
 	if(!g_dedicated_server)
 	{
 		g_btnHint						= xr_new<CUIButtonHint>();
-		m_pGameSpyFull					= xr_new<CGameSpy_Full>();
 		
 		for (u32 i=0; i<u32(ErrMax); i++)
 		{
@@ -104,7 +98,6 @@ CMainMenu::~CMainMenu	()
 	xr_delete						(g_btnHint);
 	xr_delete						(m_startDialog);
 	g_pGamePersistent->m_pMainMenu	= NULL;
-	xr_delete						(m_pGameSpyFull);
 	delete_data						(m_pMB_ErrDlgs);	
 }
 
@@ -437,8 +430,6 @@ void CMainMenu::OnFrame()
 			Console->Show			();
 	}
 
-	if(IsActive() || m_sPDProgress.IsInProgress)
-		m_pGameSpyFull->Update();
 
 	if(IsActive())
 	{
@@ -529,7 +520,7 @@ void CMainMenu::OnNewPatchFound(LPCSTR VersionName, LPCSTR URL)
 		INIT_MSGBOX(m_pMB_ErrDlgs[NewPatchFound], "msg_box_new_patch");
 
 		shared_str tmpText;
-		tmpText.sprintf(m_pMB_ErrDlgs[NewPatchFound]->GetText(), VersionName, URL);
+		tmpText.printf(m_pMB_ErrDlgs[NewPatchFound]->GetText(), VersionName, URL);
 		m_pMB_ErrDlgs[NewPatchFound]->SetText(*tmpText);		
 	}
 	m_sPatchURL = URL;
@@ -546,14 +537,8 @@ void CMainMenu::OnNoNewPatchFound				()
 
 void CMainMenu::OnDownloadPatch(CUIWindow*, void*)
 {
-	CGameSpy_Available GSA;
 	shared_str result_string;
-	if (!GSA.CheckAvailableServices(result_string))
-	{
-		Msg(*result_string);
-		return;
-	};
-	
+
 	LPCSTR fileName = *m_sPatchURL;
 	if (!fileName) return;
 
@@ -568,14 +553,13 @@ void CMainMenu::OnDownloadPatch(CUIWindow*, void*)
 		m_sPatchFileName = fname;
 	}
 	else
-		m_sPatchFileName.sprintf	("downloads\\%s", FileName);	
+		m_sPatchFileName.printf	("downloads\\%s", FileName);	
 	
 	m_sPDProgress.IsInProgress	= true;
 	m_sPDProgress.Progress		= 0;
 	m_sPDProgress.FileName		= m_sPatchFileName;
 	m_sPDProgress.Status		= "";
 
-	m_pGameSpyFull->m_pGS_HTTP->DownloadFile(*m_sPatchURL, *m_sPatchFileName);
 }
 
 void	CMainMenu::OnDownloadPatchError()
@@ -641,7 +625,6 @@ void	CMainMenu::OnRunDownloadedPatch			(CUIWindow*, void*)
 
 void CMainMenu::CancelDownload()
 {
-	m_pGameSpyFull->m_pGS_HTTP->StopDownload();
 	m_sPDProgress.IsInProgress	= false;
 }
 
@@ -704,22 +687,7 @@ extern	void	GetPlayerName_FromRegistry	(char* name, u32 const name_size);
 
 bool CMainMenu::IsCDKeyIsValid()
 {
-	if (!m_pGameSpyFull || !m_pGameSpyFull->m_pGS_HTTP) return false;
-	string64 CDKey = "";
-	GetCDKey_FromRegistry(CDKey);
-
-#ifndef DEMO_BUILD
-	if (!xr_strlen(CDKey)) return true;
-#endif
-
-	int GameID = 0;
-	for (int i=0; i<4; i++)
-	{
-		m_pGameSpyFull->m_pGS_HTTP->xrGS_GetGameID(&GameID, i);
-		if (VerifyClientCheck(CDKey, unsigned short (GameID)) == 1)
-			return true;
-	};	
-	return false;
+	return true;
 }
 
 bool		CMainMenu::ValidateCDKey					()
@@ -750,18 +718,7 @@ void CMainMenu::OnConnectToMasterServerOkClicked(CUIWindow*, void*)
 
 LPCSTR CMainMenu::GetGSVer()
 {
-	static string256	buff;
-	static string256	buff2;
-	if(m_pGameSpyFull)
-	{
-		strcpy_s(buff2, m_pGameSpyFull->GetGameVersion(buff));
-	}else
-	{
-		buff[0]		= 0;
-		buff2[0]	= 0;
-	}
-
-	return buff2;
+	return "1.7.00";
 }
 
 LPCSTR CMainMenu::GetPlayerNameFromRegistry()

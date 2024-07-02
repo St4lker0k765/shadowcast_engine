@@ -1,16 +1,20 @@
 #pragma once
 #include "physicsshellholder.h"
-class CPHLeaderGeomShell;
+#include "../xrphysics/iclimableobject.h"
+#include "../xrPhysics/IPHStaticGeomShell.h"
+class IPHStaticGeomShell;
 class CPHCharacter;
 struct dContact;
 struct SGameMtl;
-class CClimableObject: public CPhysicsShellHolder 
+class CClimableObject: 
+public CPhysicsShellHolder, 
+public IClimableObject
 #ifdef DEBUG
 ,public pureRender
 #endif
 {
 	typedef	CPhysicsShellHolder		inherited;
-	CPHLeaderGeomShell* m_pStaticShell;
+	IPHStaticGeomShell* m_pStaticShell;
 	Fobb				m_box;
 	Fvector				m_axis;
 	Fvector				m_side;

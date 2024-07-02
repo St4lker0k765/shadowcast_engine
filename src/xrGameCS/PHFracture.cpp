@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "PHFracture.h"
-#include "Physics.h"
-#include "PHElement.h"
-#include "PHShell.h"
+#include "../xrPhysics/Physics.h"
+#include "../xrPhysics/PHElement.h"
+#include "../xrPhysics/PHShell.h"
 #include "../Include/xrRender/Kinematics.h"
 
 #include "../xrEngine/bone.h"

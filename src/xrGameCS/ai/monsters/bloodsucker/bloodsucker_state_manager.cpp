@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "bloodsucker_state_manager.h"
 #include "bloodsucker.h"
-
+#include "../xrPhysics/PHCapture.h"
 #include "../control_animation_base.h"
 #include "../control_direction_base.h"
 #include "../control_movement_base.h"

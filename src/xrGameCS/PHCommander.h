@@ -2,6 +2,7 @@
 #define PH_COMMANDER_H
 class CPHReqBase;
 class CPHReqComparerV;
+#include "../xrphysics/iphworld.h"
 
 class CPHReqBase
 {
@@ -60,7 +61,8 @@ public:
 };
 
 DEFINE_VECTOR(CPHCall*,PHCALL_STORAGE,PHCALL_I);
-class CPHCommander
+class CPHCommander:
+	public IPHWorldUpdateCallbck
 {
 	
 	PHCALL_STORAGE	m_calls;

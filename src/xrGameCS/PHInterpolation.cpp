@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "PHInterpolation.h"
 #include "PHDynamicData.h"
-#include "Physics.h"
+#include "../xrPhysics/Physics.h"
 #include "../../xrphysics/MathUtils.h"
 
 extern CPHWorld		*ph_world;

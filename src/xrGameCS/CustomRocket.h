@@ -7,8 +7,12 @@
 
 #include "physic_item.h"
 #include "../xrPhysics/PHUpdateObject.h"
+#include "ode/include/ode/common.h"
+#include "ode/include/ode/contact.h"
+#include "../xrEngine/GameMtlLib.h"
 
 class CRocketLauncher;
+class SGameMtl;
 
 struct SRoketContact
 {

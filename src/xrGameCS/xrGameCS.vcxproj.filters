@@ -1837,9 +1837,6 @@
     <Filter Include="Core\Client\Objects\items &amp; weapons\Artifacts\GalantineArtifact">
       <UniqueIdentifier>{30a42432-6552-4bb9-a664-4dcb544d49cc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Client\Objects\items &amp; weapons\Artifacts\CtaGameArtefact">
-      <UniqueIdentifier>{cccb6bf6-8f84-4d2c-9432-bcbcf521acf7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core\Client\Objects\items &amp; weapons\Devices">
       <UniqueIdentifier>{925e7d4b-9f73-4c8f-918a-28c1f2632280}</UniqueIdentifier>
     </Filter>
@@ -2080,12 +2077,6 @@
     <Filter Include="Core\Server\Games\server\single\ServerConnect">
       <UniqueIdentifier>{a9456428-36ea-47ae-92c7-4b69afda8f35}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Server\GameSpy">
-      <UniqueIdentifier>{ab3e8a3b-e7cc-425b-9964-86478bcbe6df}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Server\GameSpy\CdkeyDecode">
-      <UniqueIdentifier>{2b63cd49-b39b-4dfc-9356-96a882e686a2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core\Server\ID_Generator">
       <UniqueIdentifier>{f47da63e-f1bb-437e-bcf8-b61a7b0020f0}</UniqueIdentifier>
     </Filter>
@@ -2151,9 +2142,6 @@
     </Filter>
     <Filter Include="Physics\Base\Objects\PhyMove\MovementControl">
       <UniqueIdentifier>{3dbed1cf-e710-4254-9b97-6b12a9a99e1f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Physics\Base\Objects\PhyMove\SipmpleCharacter">
-      <UniqueIdentifier>{b86256e0-c763-47fa-9ab4-31b866dd0d9e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Physics\Base\Objects\PhyMove\BaseCharacter">
       <UniqueIdentifier>{ef328643-017c-41bf-afe0-5568b591dc19}</UniqueIdentifier>
@@ -5478,9 +5466,6 @@
     <ClInclude Include="UsableScriptObject.h">
       <Filter>Core\Client\Objects\base\UsableScriptObject</Filter>
     </ClInclude>
-    <ClInclude Include="GeometryBits.h">
-      <Filter>Core\Client\Objects\base\CollideValidator</Filter>
-    </ClInclude>
     <ClInclude Include="PHCollideValidator.h">
       <Filter>Core\Client\Objects\base\CollideValidator</Filter>
     </ClInclude>
@@ -5864,12 +5849,6 @@
     </ClInclude>
     <ClInclude Include="GalantineArtifact.h">
       <Filter>Core\Client\Objects\items &amp; weapons\Artifacts\GalantineArtifact</Filter>
-    </ClInclude>
-    <ClInclude Include="cta_game_artefact.h">
-      <Filter>Core\Client\Objects\items &amp; weapons\Artifacts\CtaGameArtefact</Filter>
-    </ClInclude>
-    <ClInclude Include="cta_game_artefact_activation.h">
-      <Filter>Core\Client\Objects\items &amp; weapons\Artifacts\CtaGameArtefact</Filter>
     </ClInclude>
     <ClInclude Include="ui\ArtefactDetectorUI.h">
       <Filter>Core\Client\Objects\items &amp; weapons\Devices\Detectors</Filter>
@@ -6267,48 +6246,6 @@
     <ClInclude Include="game_sv_single.h">
       <Filter>Core\Server\Games\server\single</Filter>
     </ClInclude>
-    <ClInclude Include="GameSpy\GameSpy_Available.h">
-      <Filter>Core\Server\GameSpy</Filter>
-    </ClInclude>
-    <ClInclude Include="GameSpy\GameSpy_Base_Defs.h">
-      <Filter>Core\Server\GameSpy</Filter>
-    </ClInclude>
-    <ClInclude Include="GameSpy\GameSpy_Browser.h">
-      <Filter>Core\Server\GameSpy</Filter>
-    </ClInclude>
-    <ClInclude Include="gamespy\GameSpy_Full.h">
-      <Filter>Core\Server\GameSpy</Filter>
-    </ClInclude>
-    <ClInclude Include="GameSpy\GameSpy_FuncDefs.h">
-      <Filter>Core\Server\GameSpy</Filter>
-    </ClInclude>
-    <ClInclude Include="GameSpy\GameSpy_GCD_Client.h">
-      <Filter>Core\Server\GameSpy</Filter>
-    </ClInclude>
-    <ClInclude Include="GameSpy\GameSpy_GCD_Server.h">
-      <Filter>Core\Server\GameSpy</Filter>
-    </ClInclude>
-    <ClInclude Include="gamespy\GameSpy_HTTP.h">
-      <Filter>Core\Server\GameSpy</Filter>
-    </ClInclude>
-    <ClInclude Include="GameSpy\GameSpy_Keys.h">
-      <Filter>Core\Server\GameSpy</Filter>
-    </ClInclude>
-    <ClInclude Include="GameSpy\GameSpy_Patching.h">
-      <Filter>Core\Server\GameSpy</Filter>
-    </ClInclude>
-    <ClInclude Include="GameSpy\GameSpy_QR2.h">
-      <Filter>Core\Server\GameSpy</Filter>
-    </ClInclude>
-    <ClInclude Include="GameSpy\GameSpy_QR2_callbacks.h">
-      <Filter>Core\Server\GameSpy</Filter>
-    </ClInclude>
-    <ClInclude Include="gamespy\CdkeyDecode\base32.h">
-      <Filter>Core\Server\GameSpy\CdkeyDecode</Filter>
-    </ClInclude>
-    <ClInclude Include="gamespy\CdkeyDecode\cdkeydecode.h">
-      <Filter>Core\Server\GameSpy\CdkeyDecode</Filter>
-    </ClInclude>
     <ClInclude Include="id_generator.h">
       <Filter>Core\Server\ID_Generator</Filter>
     </ClInclude>
@@ -6366,12 +6303,6 @@
     <ClInclude Include="ode_redefine.h">
       <Filter>Physics\Base</Filter>
     </ClInclude>
-    <ClInclude Include="phvalide.h">
-      <Filter>Physics\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Physics.h">
-      <Filter>Physics\Base</Filter>
-    </ClInclude>
     <ClInclude Include="PhysicsGamePars.h">
       <Filter>Physics\Base</Filter>
     </ClInclude>
@@ -6408,16 +6339,10 @@
     <ClInclude Include="PHItemList.h">
       <Filter>Physics\Base\Objects\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="PHValideValues.h">
-      <Filter>Physics\Base\Objects\Utils</Filter>
-    </ClInclude>
     <ClInclude Include="SpaceUtils.h">
       <Filter>Physics\Base\Objects\Utils</Filter>
     </ClInclude>
     <ClInclude Include="PHBaseBodyEffector.h">
-      <Filter>Physics\Base\Objects\BodyEffectors</Filter>
-    </ClInclude>
-    <ClInclude Include="PHContactBodyEffector.h">
       <Filter>Physics\Base\Objects\BodyEffectors</Filter>
     </ClInclude>
     <ClInclude Include="..\xrServerEntities\PHNetState.h">
@@ -6435,17 +6360,8 @@
     <ClInclude Include="PHDisabling.h">
       <Filter>Physics\Base\Objects\Disabling</Filter>
     </ClInclude>
-    <ClInclude Include="PHActorCharacter.h">
-      <Filter>Physics\Base\Objects\PhyMove\ActorCaracter</Filter>
-    </ClInclude>
-    <ClInclude Include="PHActorCharacterInline.h">
-      <Filter>Physics\Base\Objects\PhyMove\ActorCaracter</Filter>
-    </ClInclude>
     <ClInclude Include="PHAICharacter.h">
       <Filter>Physics\Base\Objects\PhyMove\AICharacter</Filter>
-    </ClInclude>
-    <ClInclude Include="PHCapture.h">
-      <Filter>Physics\Base\Objects\PhyMove\Capture</Filter>
     </ClInclude>
     <ClInclude Include="CaptureBoneCallback.h">
       <Filter>Physics\Base\Objects\PhyMove\MovementControl</Filter>
@@ -6453,50 +6369,11 @@
     <ClInclude Include="PHMovementControl.h">
       <Filter>Physics\Base\Objects\PhyMove\MovementControl</Filter>
     </ClInclude>
-    <ClInclude Include="ElevatorState.h">
-      <Filter>Physics\Base\Objects\PhyMove\SipmpleCharacter</Filter>
-    </ClInclude>
-    <ClInclude Include="PHSimpleCharacter.h">
-      <Filter>Physics\Base\Objects\PhyMove\SipmpleCharacter</Filter>
-    </ClInclude>
-    <ClInclude Include="PHSimpleCharacterInline.h">
-      <Filter>Physics\Base\Objects\PhyMove\SipmpleCharacter</Filter>
-    </ClInclude>
     <ClInclude Include="IColisiondamageInfo.h">
       <Filter>Physics\Base\Objects\PhyMove\BaseCharacter</Filter>
     </ClInclude>
-    <ClInclude Include="PHCharacter.h">
-      <Filter>Physics\Base\Objects\PhyMove\BaseCharacter</Filter>
-    </ClInclude>
-    <ClInclude Include="PhysicsShellAnimator.h">
-      <Filter>Physics\Base\Objects\BaseShell\PhysicsShellAnimator</Filter>
-    </ClInclude>
-    <ClInclude Include="PhysicsShellAnimatorBoneData.h">
-      <Filter>Physics\Base\Objects\BaseShell\PhysicsShellAnimator</Filter>
-    </ClInclude>
-    <ClInclude Include="PHElement.h">
-      <Filter>Physics\Base\Objects\Elemenet</Filter>
-    </ClInclude>
-    <ClInclude Include="PHElementInline.h">
-      <Filter>Physics\Base\Objects\Elemenet</Filter>
-    </ClInclude>
     <ClInclude Include="Geometry.h">
       <Filter>Physics\Base\Objects\Elemenet\Geom</Filter>
-    </ClInclude>
-    <ClInclude Include="PHGeometryOwner.h">
-      <Filter>Physics\Base\Objects\Elemenet\Geom</Filter>
-    </ClInclude>
-    <ClInclude Include="PHJoint.h">
-      <Filter>Physics\Base\Objects\Joint</Filter>
-    </ClInclude>
-    <ClInclude Include="PHShell.h">
-      <Filter>Physics\Base\Objects\Shell</Filter>
-    </ClInclude>
-    <ClInclude Include="PHFracture.h">
-      <Filter>Physics\Base\Objects\Breakable</Filter>
-    </ClInclude>
-    <ClInclude Include="PHJointDestroyInfo.h">
-      <Filter>Physics\Base\Objects\Breakable</Filter>
     </ClInclude>
     <ClInclude Include="PHSplitedShell.h">
       <Filter>Physics\Base\Objects\SplitedShell</Filter>
@@ -6608,9 +6485,6 @@
     </ClInclude>
     <ClInclude Include="PHSoundPlayer.h">
       <Filter>Physics\PhysicsSoundPlayer</Filter>
-    </ClInclude>
-    <ClInclude Include="PHActivationShape.h">
-      <Filter>Physics\ActivationBox</Filter>
     </ClInclude>
     <ClInclude Include="Hit.h">
       <Filter>Physics\Hit</Filter>
@@ -7128,9 +7002,6 @@
     <ClInclude Include="ui\UIMapList.h">
       <Filter>UI\Multiplayer\MM_MP\MapList</Filter>
     </ClInclude>
-    <ClInclude Include="ui\ServerList.h">
-      <Filter>UI\Multiplayer\MM_MP\ServerList</Filter>
-    </ClInclude>
     <ClInclude Include="ui\UIListItemAdv.h">
       <Filter>UI\Multiplayer\MM_MP\ServerList</Filter>
     </ClInclude>
@@ -7237,6 +7108,9 @@
       <Filter>UI\Tutorial</Filter>
     </ClInclude>
     <ClInclude Include="..\xrGame\UIFontDefines.h" />
+    <ClInclude Include="physics_game.h">
+      <Filter>Physics\Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="damage_manager.cpp">
@@ -8721,9 +8595,6 @@
     <ClCompile Include="Level.cpp">
       <Filter>Core\Client\Level</Filter>
     </ClCompile>
-    <ClCompile Include="Level_GameSpy_Funcs.cpp">
-      <Filter>Core\Client\Level</Filter>
-    </ClCompile>
     <ClCompile Include="Level_input.cpp">
       <Filter>Core\Client\Level</Filter>
     </ClCompile>
@@ -8808,9 +8679,6 @@
     <ClCompile Include="Level_network_map_sync.cpp">
       <Filter>Core\Client\Level\LevelMapSync</Filter>
     </ClCompile>
-    <ClCompile Include="Level_network_digest_computer.cpp">
-      <Filter>Core\Client\Level\ClientDigestComputer</Filter>
-    </ClCompile>
     <ClCompile Include="Level_network_Demo.cpp">
       <Filter>Core\Client\Level\LevelNetworkDemo</Filter>
     </ClCompile>
@@ -8875,9 +8743,6 @@
       <Filter>Core\Client\Objects\actor\base</Filter>
     </ClCompile>
     <ClCompile Include="ActorAnimation.cpp">
-      <Filter>Core\Client\Objects\actor\base</Filter>
-    </ClCompile>
-    <ClCompile Include="ActorCameraCollision.cpp">
       <Filter>Core\Client\Objects\actor\base</Filter>
     </ClCompile>
     <ClCompile Include="ActorCameras.cpp">
@@ -8945,9 +8810,6 @@
     </ClCompile>
     <ClCompile Include="UsableScriptObject.cpp">
       <Filter>Core\Client\Objects\base\UsableScriptObject</Filter>
-    </ClCompile>
-    <ClCompile Include="GeometryBits.cpp">
-      <Filter>Core\Client\Objects\base\CollideValidator</Filter>
     </ClCompile>
     <ClCompile Include="PHCollideValidator.cpp">
       <Filter>Core\Client\Objects\base\CollideValidator</Filter>
@@ -9300,12 +9162,6 @@
     <ClCompile Include="GalantineArtifact.cpp">
       <Filter>Core\Client\Objects\items &amp; weapons\Artifacts\GalantineArtifact</Filter>
     </ClCompile>
-    <ClCompile Include="cta_game_artefact.cpp">
-      <Filter>Core\Client\Objects\items &amp; weapons\Artifacts\CtaGameArtefact</Filter>
-    </ClCompile>
-    <ClCompile Include="cta_game_artefact_activation.cpp">
-      <Filter>Core\Client\Objects\items &amp; weapons\Artifacts\CtaGameArtefact</Filter>
-    </ClCompile>
     <ClCompile Include="ui\ArtefactDetectorUI.cpp">
       <Filter>Core\Client\Objects\items &amp; weapons\Devices\Detectors</Filter>
     </ClCompile>
@@ -9558,9 +9414,6 @@
     <ClCompile Include="console_commands.cpp">
       <Filter>Core\Common\Console Commands</Filter>
     </ClCompile>
-    <ClCompile Include="console_commands_mp.cpp">
-      <Filter>Core\Common\Console Commands</Filter>
-    </ClCompile>
     <ClCompile Include="date_time.cpp">
       <Filter>Core\Common\DateTime</Filter>
     </ClCompile>
@@ -9684,39 +9537,6 @@
     <ClCompile Include="xrServer_Disconnect.cpp">
       <Filter>Core\Server\Games\server\single\ServerConnect</Filter>
     </ClCompile>
-    <ClCompile Include="GameSpy\GameSpy_Available.cpp">
-      <Filter>Core\Server\GameSpy</Filter>
-    </ClCompile>
-    <ClCompile Include="GameSpy\GameSpy_Browser.cpp">
-      <Filter>Core\Server\GameSpy</Filter>
-    </ClCompile>
-    <ClCompile Include="gamespy\GameSpy_Full.cpp">
-      <Filter>Core\Server\GameSpy</Filter>
-    </ClCompile>
-    <ClCompile Include="GameSpy\GameSpy_GCD_Client.cpp">
-      <Filter>Core\Server\GameSpy</Filter>
-    </ClCompile>
-    <ClCompile Include="GameSpy\GameSpy_GCD_Server.cpp">
-      <Filter>Core\Server\GameSpy</Filter>
-    </ClCompile>
-    <ClCompile Include="gamespy\GameSpy_HTTP.cpp">
-      <Filter>Core\Server\GameSpy</Filter>
-    </ClCompile>
-    <ClCompile Include="GameSpy\GameSpy_Patching.cpp">
-      <Filter>Core\Server\GameSpy</Filter>
-    </ClCompile>
-    <ClCompile Include="GameSpy\GameSpy_QR2.cpp">
-      <Filter>Core\Server\GameSpy</Filter>
-    </ClCompile>
-    <ClCompile Include="GameSpy\GameSpy_QR2_callbacks.cpp">
-      <Filter>Core\Server\GameSpy</Filter>
-    </ClCompile>
-    <ClCompile Include="gamespy\CdkeyDecode\base32.c">
-      <Filter>Core\Server\GameSpy\CdkeyDecode</Filter>
-    </ClCompile>
-    <ClCompile Include="gamespy\CdkeyDecode\cdkeydecode.c">
-      <Filter>Core\Server\GameSpy\CdkeyDecode</Filter>
-    </ClCompile>
     <ClCompile Include="..\xrServerEntities\gametype_chooser.cpp">
       <Filter>Core\Server\ServerEntities</Filter>
     </ClCompile>
@@ -9828,12 +9648,6 @@
     <ClCompile Include="xrServer_svclient_validation.cpp">
       <Filter>Core\Server\ServerProcess</Filter>
     </ClCompile>
-    <ClCompile Include="phvalide.cpp">
-      <Filter>Physics\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Physics.cpp">
-      <Filter>Physics\Base</Filter>
-    </ClCompile>
     <ClCompile Include="physics_game.cpp">
       <Filter>Physics\Base</Filter>
     </ClCompile>
@@ -9855,9 +9669,6 @@
     <ClCompile Include="PHInterpolation.cpp">
       <Filter>Physics\Base\Objects\Utils</Filter>
     </ClCompile>
-    <ClCompile Include="PHContactBodyEffector.cpp">
-      <Filter>Physics\Base\Objects\BodyEffectors</Filter>
-    </ClCompile>
     <ClCompile Include="..\xrServerEntities\PHNetState.cpp">
       <Filter>Physics\Base\Objects\PHNet</Filter>
     </ClCompile>
@@ -9873,68 +9684,20 @@
     <ClCompile Include="PHDisabling.cpp">
       <Filter>Physics\Base\Objects\Disabling</Filter>
     </ClCompile>
-    <ClCompile Include="PHActorCharacter.cpp">
-      <Filter>Physics\Base\Objects\PhyMove\ActorCaracter</Filter>
-    </ClCompile>
     <ClCompile Include="PHMovementDynamicActivate.cpp">
       <Filter>Physics\Base\Objects\PhyMove\ActorCaracter</Filter>
     </ClCompile>
     <ClCompile Include="PHAICharacter.cpp">
       <Filter>Physics\Base\Objects\PhyMove\AICharacter</Filter>
     </ClCompile>
-    <ClCompile Include="PHCapture.cpp">
-      <Filter>Physics\Base\Objects\PhyMove\Capture</Filter>
-    </ClCompile>
-    <ClCompile Include="PHCaptureInit.cpp">
-      <Filter>Physics\Base\Objects\PhyMove\Capture</Filter>
-    </ClCompile>
     <ClCompile Include="PHMovementControl.cpp">
       <Filter>Physics\Base\Objects\PhyMove\MovementControl</Filter>
-    </ClCompile>
-    <ClCompile Include="ElevatorState.cpp">
-      <Filter>Physics\Base\Objects\PhyMove\SipmpleCharacter</Filter>
-    </ClCompile>
-    <ClCompile Include="PHSimpleCharacter.cpp">
-      <Filter>Physics\Base\Objects\PhyMove\SipmpleCharacter</Filter>
-    </ClCompile>
-    <ClCompile Include="PHCharacter.cpp">
-      <Filter>Physics\Base\Objects\PhyMove\BaseCharacter</Filter>
-    </ClCompile>
-    <ClCompile Include="PhysicsShellAnimator.cpp">
-      <Filter>Physics\Base\Objects\BaseShell\PhysicsShellAnimator</Filter>
-    </ClCompile>
-    <ClCompile Include="PHElement.cpp">
-      <Filter>Physics\Base\Objects\Elemenet</Filter>
-    </ClCompile>
-    <ClCompile Include="PHElementNetState.cpp">
-      <Filter>Physics\Base\Objects\Elemenet</Filter>
     </ClCompile>
     <ClCompile Include="Geometry.cpp">
       <Filter>Physics\Base\Objects\Elemenet\Geom</Filter>
     </ClCompile>
-    <ClCompile Include="PHGeometryOwner.cpp">
-      <Filter>Physics\Base\Objects\Elemenet\Geom</Filter>
-    </ClCompile>
-    <ClCompile Include="PHJoint.cpp">
-      <Filter>Physics\Base\Objects\Joint</Filter>
-    </ClCompile>
-    <ClCompile Include="PHShell.cpp">
-      <Filter>Physics\Base\Objects\Shell</Filter>
-    </ClCompile>
-    <ClCompile Include="PHShellActivate.cpp">
-      <Filter>Physics\Base\Objects\Shell</Filter>
-    </ClCompile>
-    <ClCompile Include="PHShellNetState.cpp">
-      <Filter>Physics\Base\Objects\Shell</Filter>
-    </ClCompile>
     <ClCompile Include="ShellHit.cpp">
       <Filter>Physics\Base\Objects\Shell</Filter>
-    </ClCompile>
-    <ClCompile Include="PHFracture.cpp">
-      <Filter>Physics\Base\Objects\Breakable</Filter>
-    </ClCompile>
-    <ClCompile Include="PHJointDestroyInfo.cpp">
-      <Filter>Physics\Base\Objects\Breakable</Filter>
     </ClCompile>
     <ClCompile Include="PHSplitedShell.cpp">
       <Filter>Physics\Base\Objects\SplitedShell</Filter>
@@ -10028,9 +9791,6 @@
     </ClCompile>
     <ClCompile Include="PHSoundPlayer.cpp">
       <Filter>Physics\PhysicsSoundPlayer</Filter>
-    </ClCompile>
-    <ClCompile Include="PHActivationShape.cpp">
-      <Filter>Physics\ActivationBox</Filter>
     </ClCompile>
     <ClCompile Include="Hit.cpp">
       <Filter>Physics\Hit</Filter>
@@ -10574,12 +10334,6 @@
     </ClCompile>
     <ClCompile Include="ui\UIMapList.cpp">
       <Filter>UI\Multiplayer\MM_MP\MapList</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\ServerList.cpp">
-      <Filter>UI\Multiplayer\MM_MP\ServerList</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\ServerList_GameSpy_func.cpp">
-      <Filter>UI\Multiplayer\MM_MP\ServerList</Filter>
     </ClCompile>
     <ClCompile Include="ui\UIListItemAdv.cpp">
       <Filter>UI\Multiplayer\MM_MP\ServerList</Filter>

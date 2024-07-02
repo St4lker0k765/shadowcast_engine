@@ -1070,8 +1070,6 @@
     <ClInclude Include="cover_manager_inline.h" />
     <ClInclude Include="cover_point.h" />
     <ClInclude Include="cover_point_inline.h" />
-    <ClInclude Include="cta_game_artefact.h" />
-    <ClInclude Include="cta_game_artefact_activation.h" />
     <ClInclude Include="CustomDetector.h" />
     <ClInclude Include="CustomMonster.h" />
     <ClInclude Include="CustomMonster_inline.h" />
@@ -1141,7 +1139,6 @@
     <ClInclude Include="ef_storage.h" />
     <ClInclude Include="ef_storage_inline.h" />
     <ClInclude Include="ElectricBall.h" />
-    <ClInclude Include="ElevatorState.h" />
     <ClInclude Include="EliteDetector.h" />
     <ClInclude Include="encyclopedia_article.h" />
     <ClInclude Include="encyclopedia_article_defs.h" />
@@ -1171,20 +1168,6 @@
     <ClInclude Include="GalantineArtifact.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GamePersistent.h" />
-    <ClInclude Include="gamespy\CdkeyDecode\base32.h" />
-    <ClInclude Include="gamespy\CdkeyDecode\cdkeydecode.h" />
-    <ClInclude Include="GameSpy\GameSpy_Available.h" />
-    <ClInclude Include="GameSpy\GameSpy_Base_Defs.h" />
-    <ClInclude Include="GameSpy\GameSpy_Browser.h" />
-    <ClInclude Include="gamespy\GameSpy_Full.h" />
-    <ClInclude Include="GameSpy\GameSpy_FuncDefs.h" />
-    <ClInclude Include="GameSpy\GameSpy_GCD_Client.h" />
-    <ClInclude Include="GameSpy\GameSpy_GCD_Server.h" />
-    <ClInclude Include="gamespy\GameSpy_HTTP.h" />
-    <ClInclude Include="GameSpy\GameSpy_Keys.h" />
-    <ClInclude Include="GameSpy\GameSpy_Patching.h" />
-    <ClInclude Include="GameSpy\GameSpy_QR2.h" />
-    <ClInclude Include="GameSpy\GameSpy_QR2_callbacks.h" />
     <ClInclude Include="GameTask.h" />
     <ClInclude Include="GameTaskDefs.h" />
     <ClInclude Include="GametaskManager.h" />
@@ -1210,7 +1193,6 @@
     <ClInclude Include="game_sv_item_respawner.h" />
     <ClInclude Include="game_sv_single.h" />
     <ClInclude Include="Geometry.h" />
-    <ClInclude Include="GeometryBits.h" />
     <ClInclude Include="GlobalFeelTouch.hpp" />
     <CustomBuild Include="graph_abstract.h" />
     <CustomBuild Include="graph_abstract_inline.h" />
@@ -1432,32 +1414,20 @@
     <ClInclude Include="PDA.h" />
     <ClInclude Include="PdaMsg.h" />
     <ClInclude Include="pda_space.h" />
-    <ClInclude Include="PHActivationShape.h" />
-    <ClInclude Include="PHActorCharacter.h" />
-    <ClInclude Include="PHActorCharacterInline.h" />
     <ClInclude Include="PHAICharacter.h" />
     <ClInclude Include="PHBaseBodyEffector.h" />
-    <ClInclude Include="PHCapture.h" />
-    <ClInclude Include="PHCharacter.h" />
     <ClInclude Include="PHCollideValidator.h" />
     <ClInclude Include="PHCollisionDamageReceiver.h" />
     <ClInclude Include="PHCommander.h" />
-    <ClInclude Include="PHContactBodyEffector.h" />
     <ClInclude Include="PHDebug.h" />
     <ClInclude Include="PHDefs.h" />
     <ClInclude Include="PHDestroyable.h" />
     <ClInclude Include="PHDestroyableNotificate.h" />
     <ClInclude Include="PHDisabling.h" />
     <ClInclude Include="PHDynamicData.h" />
-    <ClInclude Include="PHElement.h" />
-    <ClInclude Include="PHElementInline.h" />
-    <ClInclude Include="PHFracture.h" />
-    <ClInclude Include="PHGeometryOwner.h" />
     <ClInclude Include="PHImpact.h" />
     <ClInclude Include="PHInterpolation.h" />
     <ClInclude Include="PHItemList.h" />
-    <ClInclude Include="PHJoint.h" />
-    <ClInclude Include="PHJointDestroyInfo.h" />
     <ClInclude Include="PHMovementControl.h" />
     <ClInclude Include="PHMoveStorage.h" />
     <ClInclude Include="Phrase.h" />
@@ -1468,24 +1438,17 @@
     <ClInclude Include="PhraseScript.h" />
     <ClInclude Include="PHReqComparer.h" />
     <ClInclude Include="PHScriptCall.h" />
-    <ClInclude Include="PHShell.h" />
     <ClInclude Include="PHShellCreator.h" />
     <ClInclude Include="PHSimpleCalls.h" />
-    <ClInclude Include="PHSimpleCharacter.h" />
-    <ClInclude Include="PHSimpleCharacterInline.h" />
     <ClInclude Include="PHSkeleton.h" />
     <ClInclude Include="PHSoundPlayer.h" />
     <ClInclude Include="PHSplitedShell.h" />
     <ClInclude Include="PHStaticGeomShell.h" />
-    <ClInclude Include="phvalide.h" />
-    <ClInclude Include="PHValideValues.h" />
     <ClInclude Include="PhysicObject.h" />
-    <ClInclude Include="Physics.h" />
     <ClInclude Include="PhysicsGamePars.h" />
-    <ClInclude Include="PhysicsShellAnimator.h" />
-    <ClInclude Include="PhysicsShellAnimatorBoneData.h" />
     <ClInclude Include="PhysicsShellHolder.h" />
     <ClInclude Include="PhysicsSkeletonObject.h" />
+    <ClInclude Include="physics_game.h" />
     <ClInclude Include="physics_shell_animated.h" />
     <ClInclude Include="physic_item.h" />
     <ClInclude Include="physic_item_inline.h" />
@@ -1817,7 +1780,6 @@
     <ClInclude Include="ui\map_hint.h" />
     <ClInclude Include="ui\MMSound.h" />
     <ClInclude Include="ui\Restrictions.h" />
-    <ClInclude Include="ui\ServerList.h" />
     <ClInclude Include="ui\TeamInfo.h" />
     <ClInclude Include="ui\UI3tButton.h" />
     <ClInclude Include="ui\uiabstract.h" />
@@ -2639,7 +2601,6 @@
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
     <ClCompile Include="ActorAnimation.cpp" />
-    <ClCompile Include="ActorCameraCollision.cpp" />
     <ClCompile Include="ActorCameras.cpp" />
     <ClCompile Include="ActorCondition.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch_script.h</PrecompiledHeaderFile>
@@ -3730,7 +3691,6 @@
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
-    <ClCompile Include="console_commands_mp.cpp" />
     <ClCompile Include="console_registrator_script.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch_script.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pch_script.h</PrecompiledHeaderFile>
@@ -3761,8 +3721,6 @@
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
-    <ClCompile Include="cta_game_artefact.cpp" />
-    <ClCompile Include="cta_game_artefact_activation.cpp" />
     <ClCompile Include="CustomDetector.cpp" />
     <ClCompile Include="CustomMonster.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch_script.h</PrecompiledHeaderFile>
@@ -3880,7 +3838,6 @@
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
     <ClCompile Include="ElectricBall.cpp" />
-    <ClCompile Include="ElevatorState.cpp" />
     <ClCompile Include="EliteDetector.cpp" />
     <ClCompile Include="encyclopedia_article.cpp" />
     <ClCompile Include="enemy_manager.cpp">
@@ -3995,43 +3952,6 @@
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
-    <ClCompile Include="gamespy\CdkeyDecode\base32.c">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-      </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Mixed|Win32'">
-      </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Mixed|x64'">
-      </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-      </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-      </PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="gamespy\CdkeyDecode\cdkeydecode.c">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-      </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Mixed|Win32'">
-      </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Mixed|x64'">
-      </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-      </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-      </PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="GameSpy\GameSpy_Available.cpp" />
-    <ClCompile Include="GameSpy\GameSpy_Browser.cpp" />
-    <ClCompile Include="gamespy\GameSpy_Full.cpp" />
-    <ClCompile Include="GameSpy\GameSpy_GCD_Client.cpp" />
-    <ClCompile Include="GameSpy\GameSpy_GCD_Server.cpp" />
-    <ClCompile Include="gamespy\GameSpy_HTTP.cpp" />
-    <ClCompile Include="GameSpy\GameSpy_Patching.cpp" />
-    <ClCompile Include="GameSpy\GameSpy_QR2.cpp" />
-    <ClCompile Include="GameSpy\GameSpy_QR2_callbacks.cpp" />
     <ClCompile Include="GameTask.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch_script.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pch_script.h</PrecompiledHeaderFile>
@@ -4181,7 +4101,6 @@
     <ClCompile Include="game_sv_item_respawner.cpp" />
     <ClCompile Include="game_sv_single.cpp" />
     <ClCompile Include="Geometry.cpp" />
-    <ClCompile Include="GeometryBits.cpp" />
     <ClCompile Include="GlobalFeelTouch.cpp" />
     <ClCompile Include="GraviArtifact.cpp" />
     <ClCompile Include="GraviZone.cpp" />
@@ -4576,7 +4495,6 @@
     <ClCompile Include="Level_bullet_manager_firetrace.cpp" />
     <ClCompile Include="level_changer.cpp" />
     <ClCompile Include="level_debug.cpp" />
-    <ClCompile Include="Level_GameSpy_Funcs.cpp" />
     <ClCompile Include="level_graph.cpp" />
     <ClCompile Include="level_graph_debug.cpp" />
     <ClCompile Include="level_graph_debug2.cpp">
@@ -4615,7 +4533,6 @@
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
     <ClCompile Include="Level_network_Demo.cpp" />
-    <ClCompile Include="Level_network_digest_computer.cpp" />
     <ClCompile Include="Level_network_map_sync.cpp" />
     <ClCompile Include="Level_network_messages.cpp" />
     <ClCompile Include="Level_network_spawn.cpp">
@@ -4873,28 +4790,16 @@
     <ClCompile Include="patrol_path_storage.cpp" />
     <ClCompile Include="patrol_point.cpp" />
     <ClCompile Include="PDA.cpp" />
-    <ClCompile Include="PHActivationShape.cpp" />
-    <ClCompile Include="PHActorCharacter.cpp" />
     <ClCompile Include="PHAICharacter.cpp" />
-    <ClCompile Include="PHCapture.cpp" />
-    <ClCompile Include="PHCaptureInit.cpp" />
-    <ClCompile Include="PHCharacter.cpp" />
     <ClCompile Include="PHCollideValidator.cpp" />
     <ClCompile Include="PHCollisionDamageReceiver.cpp" />
     <ClCompile Include="PHCommander.cpp" />
-    <ClCompile Include="PHContactBodyEffector.cpp" />
     <ClCompile Include="PHDebug.cpp" />
     <ClCompile Include="PHDestroyable.cpp" />
     <ClCompile Include="PHDestroyableNotificate.cpp" />
     <ClCompile Include="PHDisabling.cpp" />
     <ClCompile Include="PHDynamicData.cpp" />
-    <ClCompile Include="PHElement.cpp" />
-    <ClCompile Include="PHElementNetState.cpp" />
-    <ClCompile Include="PHFracture.cpp" />
-    <ClCompile Include="PHGeometryOwner.cpp" />
     <ClCompile Include="PHInterpolation.cpp" />
-    <ClCompile Include="PHJoint.cpp" />
-    <ClCompile Include="PHJointDestroyInfo.cpp" />
     <ClCompile Include="PHMovementControl.cpp" />
     <ClCompile Include="PHMovementDynamicActivate.cpp" />
     <ClCompile Include="PHMoveStorage.cpp" />
@@ -4956,10 +4861,7 @@
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
-    <ClCompile Include="PHShell.cpp" />
-    <ClCompile Include="PHShellActivate.cpp" />
     <ClCompile Include="PHShellCreator.cpp" />
-    <ClCompile Include="PHShellNetState.cpp" />
     <ClCompile Include="PHSimpleCalls.cpp" />
     <ClCompile Include="PHSimpleCallsScript.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch_script.h</PrecompiledHeaderFile>
@@ -4975,12 +4877,10 @@
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
-    <ClCompile Include="PHSimpleCharacter.cpp" />
     <ClCompile Include="PHSkeleton.cpp" />
     <ClCompile Include="PHSoundPlayer.cpp" />
     <ClCompile Include="PHSplitedShell.cpp" />
     <ClCompile Include="PHStaticGeomShell.cpp" />
-    <ClCompile Include="phvalide.cpp" />
     <ClCompile Include="PhysicObject.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch_script.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pch_script.h</PrecompiledHeaderFile>
@@ -5009,9 +4909,7 @@
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
-    <ClCompile Include="Physics.cpp" />
     <ClCompile Include="PhysicsGamePars.cpp" />
-    <ClCompile Include="PhysicsShellAnimator.cpp" />
     <ClCompile Include="PhysicsShellHolder.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch_script.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pch_script.h</PrecompiledHeaderFile>
@@ -6638,8 +6536,6 @@
     <ClCompile Include="ui\map_hint.cpp" />
     <ClCompile Include="ui\MMSound.cpp" />
     <ClCompile Include="ui\Restrictions.cpp" />
-    <ClCompile Include="ui\ServerList.cpp" />
-    <ClCompile Include="ui\ServerList_GameSpy_func.cpp" />
     <ClCompile Include="ui\TeamInfo.cpp" />
     <ClCompile Include="ui\UI3tButton.cpp" />
     <ClCompile Include="ui\UIActorInfo.cpp" />

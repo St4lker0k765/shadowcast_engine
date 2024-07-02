@@ -2,7 +2,7 @@
 #include "climableobject.h "
 #include "PHStaticGeomShell.h"
 #include "xrServer_Objects_ALife.h"
-#include "PHCharacter.h"
+#include "../xrPhysics/PHCharacter.h"
 #include "../../xrphysics/MathUtils.h"
 
 #ifdef DEBUG
@@ -46,27 +46,6 @@ IC void OrientToNorm(const Fvector& normal,Fmatrix& form,Fobb& box)
 	}
 }
 
-class CPHLeaderGeomShell: public CPHStaticGeomShell
-{
-CClimableObject		*m_pClimable;
-public:
-						CPHLeaderGeomShell		(CClimableObject* climable);
-void					near_callback			(CPHObject* obj);
-};
-
-CPHLeaderGeomShell::CPHLeaderGeomShell(CClimableObject* climable)
-{
-	m_pClimable=climable;
-}
-void CPHLeaderGeomShell::near_callback	(CPHObject* obj)
-{
-	if(obj && obj->CastType()==CPHObject::tpCharacter)
-	{
-		CPHCharacter* ch=static_cast<CPHCharacter*>(obj);
-		ch->SetElevator(m_pClimable);
-	}
-}
-
 
 	CClimableObject::CClimableObject		()
 {
@@ -101,10 +80,9 @@ BOOL CClimableObject::	net_Spawn			( CSE_Abstract* DC)
 	XFORM().transform_dir(shift);
 	CObject::Position().sub(shift);
 	m_box.xform_set(Fidentity);
-	m_pStaticShell=xr_new<CPHLeaderGeomShell>(this);
-	P_BuildStaticGeomShell(smart_cast<CPHStaticGeomShell*>(m_pStaticShell),smart_cast<CGameObject*>(this),0,m_box);
-	m_pStaticShell->SetMaterial("materials\\fake_ladders");
-	
+
+	m_pStaticShell = P_BuildLeaderGeomShell(this, ObjectContactCallback, m_box);
+
 	if(m_axis.y<0.f)
 	{
 		m_axis.invert();
@@ -113,14 +91,12 @@ BOOL CClimableObject::	net_Spawn			( CSE_Abstract* DC)
 	}
 //	shedule_unregister();
 	processing_deactivate();
-	m_pStaticShell->set_ObjectContactCallback(ObjectContactCallback);
 	return ret;
 }
 void CClimableObject::	net_Destroy			()
 {
 	inherited::net_Destroy();
-	m_pStaticShell->Deactivate();
-	xr_delete(m_pStaticShell);
+	DestroyStaticGeomShell(m_pStaticShell);
 }
 void CClimableObject::	shedule_Update		( u32 dt)							// Called by shedule
 {

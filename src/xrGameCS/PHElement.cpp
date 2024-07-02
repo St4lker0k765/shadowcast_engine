@@ -1,9 +1,9 @@
 #include "StdAfx.h"
 #include "PHDynamicData.h"
-#include "Physics.h"
+#include "../xrPhysics/Physics.h"
 #include "tri-colliderknoopc/dTriList.h"
-#include "PHFracture.h"
-#include "PHContactBodyEffector.h"
+#include "../xrPhysics/PHFracture.h"
+#include "../xrPhysics/PHContactBodyEffector.h"
 #include "../../xrphysics/MathUtils.h"
 #include "matrix_utils.h"
 #include "PhysicsShellHolder.h"
@@ -30,7 +30,7 @@
 
 #include "ExtendedGeom.h"
 
-#include "PHShell.h"
+#include "../xrPhysics/PHShell.h"
 #include "PHElement.h"
 #include "PHElementInline.h"
 extern CPHWorld*				ph_world;

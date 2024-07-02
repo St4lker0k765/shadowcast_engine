@@ -16,6 +16,7 @@
 #include "level.h"
 #include "../xrEngine/cl_intersect.h"
 
+#include "../xrphysics/actorcameracollision.h"
 #include "elevatorstate.h"
 #include "CharacterPhysicsSupport.h"
 #include "EffectorShot.h"

@@ -7,7 +7,7 @@
 #include "actor.h"
 #include "game_base_space.h"
 #include "Hit.h"
-
+#include "../xrEngine/xr_collide_form.h"
 
 CRadioactiveZone::CRadioactiveZone(void) 
 {}
@@ -91,7 +91,7 @@ void CRadioactiveZone::feel_touch_new					(CObject* O	)
 };
 
 #include "actor.h"
-BOOL CRadioactiveZone::feel_touch_contact(CObject* O)
+bool CRadioactiveZone::feel_touch_contact(CObject* O)
 {
 
 	CActor* A = smart_cast<CActor*>(O);

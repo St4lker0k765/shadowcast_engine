@@ -38,7 +38,8 @@ struct SCollisionHitCallback
 };
 class CPhysicsShellHolder:  public CGameObject,
 							public CParticlesPlayer,
-							public IObjectPhysicsCollision
+							public IObjectPhysicsCollision,
+							public IPhysicsShellHolder
 	
 {
 	bool				b_sheduled;

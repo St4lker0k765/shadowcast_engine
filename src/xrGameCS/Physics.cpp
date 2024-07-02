@@ -2,7 +2,7 @@
 #include "PHDynamicData.h"
 #include "Physics.h"
 #include "tri-colliderknoopc/dTriList.h"
-#include "PHContactBodyEffector.h"
+#include "../xrPhysics/PHContactBodyEffector.h"
 #include "../xrEngine/gamemtllib.h"
 #include "gameobject.h"
 #include "PhysicsShellHolder.h"

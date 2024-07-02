@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../xrphysics/icollisiondamagereceiver.h"
+
 class CPhysicsShellHolder;
 struct dContact;
 struct SGameMtl;

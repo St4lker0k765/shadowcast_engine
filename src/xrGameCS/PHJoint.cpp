@@ -14,9 +14,9 @@
 
 #include "ExtendedGeom.h"
 
-#include "PHElement.h"
+#include "../xrPhysics/PHElement.h"
 #include "PHJoint.h"
-#include "PHShell.h"
+#include "../xrPhysics/PHShell.h"
 
 const float hinge2_spring=20000.f;
 const float hinge2_damping=1000.f;

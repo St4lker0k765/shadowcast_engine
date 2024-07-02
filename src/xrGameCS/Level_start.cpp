@@ -4,7 +4,6 @@
 #include "xrserver.h"
 #include "game_cl_base.h"
 #include "xrmessages.h"
-#include "xrGameSpyServer.h"
 #include "../xrEngine/x_ray.h"
 #include "../xrEngine/device.h"
 #include "../xrEngine/IGame_Persistent.h"
@@ -17,7 +16,7 @@ extern	void	GetPlayerName_FromRegistry	(char* name, u32 const name_size);
 #define DEMO_PLAY_OPT "mpdemoplay:"
 #define DEMO_SAVE_KEY "-mpdemosave"
 
-BOOL CLevel::net_Start	( LPCSTR op_server, LPCSTR op_client )
+bool CLevel::net_Start	( LPCSTR op_server, LPCSTR op_client )
 {
 	net_start_result_total				= TRUE;
 
@@ -112,10 +111,7 @@ bool CLevel::net_start1				()
 		typedef IGame_Persistent::params params;
 		params							&p = g_pGamePersistent->m_game_params;
 		// Connect
-		if (!xr_strcmp(p.m_game_type,"single"))
-			Server					= xr_new<xrServer>();		
-		else
-			Server					= xr_new<xrGameSpyServer>();
+		Server					= xr_new<xrServer>();		
 		
 		if (xr_strcmp(p.m_alife,"alife"))
 		{

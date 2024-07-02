@@ -2,10 +2,10 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #include "StdAfx.h"
 #include "PHDynamicData.h"
-#include "Physics.h"
+#include "../xrPhysics/Physics.h"
 #include "tri-colliderknoopc/dTriList.h"
 #include "../xrPhysics/PHShellSplitter.h"
-#include "PHFracture.h"
+#include "../xrPhysics/PHFracture.h"
 #include "PHJointDestroyInfo.h"
 #include "SpaceUtils.h"
 #include "../../xrphysics/MathUtils.h"

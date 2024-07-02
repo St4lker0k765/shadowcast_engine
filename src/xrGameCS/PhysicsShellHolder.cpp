@@ -11,13 +11,14 @@
 #include "CustomRocket.h"
 #include "Grenade.h"
 #include "../xrphysics/IPHWorld.h"
-#include "phactivationshape.h"
-#include "phvalide.h"
+#include "../xrPhysics/PHActivationShape.h"
+#include "../xrPhysics/phvalide.h"
 #include "characterphysicssupport.h"
 #include "phmovementcontrol.h"
 #include "physics_shell_animated.h"
 
 #include "../xrEngine/iphysicsshell.h"
+#include <xrPhysics/IActivationShape.h>
 
 CPhysicsShellHolder::CPhysicsShellHolder()
 {
@@ -138,57 +139,48 @@ void	CPhysicsShellHolder::on_child_shell_activate ( CPhysicsShellHolder* obj )
 }
 void CPhysicsShellHolder::correct_spawn_pos()
 {
-	VERIFY								(PPhysicsShell());
-	
-	if( H_Parent() )
+	VERIFY(PPhysicsShell());
+
+	if (H_Parent())
 	{
-		CPhysicsShellHolder	* P = smart_cast<CPhysicsShellHolder*>(H_Parent());
-		if( P && P->has_shell_collision_place(this) )
+		CPhysicsShellHolder* P = smart_cast<CPhysicsShellHolder*>(H_Parent());
+		if (P && P->has_shell_collision_place(this))
 			return;
 	}
 
 	Fvector								size;
 	Fvector								c;
-	get_box								(PPhysicsShell(),XFORM(),size,c);
+	get_box(PPhysicsShell(), XFORM(), size, c);
 
-	R_ASSERT2( _valid( c ), make_string( "object: %s model: %s ", cName().c_str(), cNameVisual().c_str() ) );
-	R_ASSERT2( _valid( size ), make_string( "object: %s model: %s ", cName().c_str(), cNameVisual().c_str() ) );
-	R_ASSERT2( _valid( XFORM() ), make_string( "object: %s model: %s ", cName().c_str(), cNameVisual().c_str() ) );
+	R_ASSERT2(_valid(c), make_string("object: %s model: %s ", cName().c_str(), cNameVisual().c_str()));
+	R_ASSERT2(_valid(size), make_string("object: %s model: %s ", cName().c_str(), cNameVisual().c_str()));
+	R_ASSERT2(_valid(XFORM()), make_string("object: %s model: %s ", cName().c_str(), cNameVisual().c_str()));
+	PPhysicsShell()->DisableCollision();
 
-	CPHActivationShape					activation_shape;
-	activation_shape.Create				(c,size,this);
-	activation_shape.set_rotation		(XFORM());
-	PPhysicsShell()->DisableCollision	();
-	activation_shape.Activate			(size,1,1.f,M_PI/8.f);
-////	VERIFY								(valid_pos(activation_shape.Position(),phBoundaries));
-//	if (!valid_pos(activation_shape.Position(),phBoundaries)) {
-//		CPHActivationShape				activation_shape;
-//		activation_shape.Create			(c,size,this);
-//		activation_shape.set_rotation	(XFORM());
-//		activation_shape.Activate		(size,1,1.f,M_PI/8.f);
-////		VERIFY							(valid_pos(activation_shape.Position(),phBoundaries));
-//	}
-	
-	PPhysicsShell()->EnableCollision	();
+	Fvector								ap = Fvector().set(0, 0, 0);
+	ActivateShapePhysShellHolder(this, XFORM(), size, c, ap);
 
-	Fvector								ap = activation_shape.Position();
-#ifdef DEBUG
-	if (!valid_pos(ap,phBoundaries)) {
-		Msg("not valid position	%f,%f,%f",ap.x,ap.y,ap.z);
-		Msg("size	%f,%f,%f",size.x,size.y,size.z);
-		Msg("Object: %s",Name());
-		Msg("Visual: %s",*(cNameVisual()));
-		Msg("Object	pos	%f,%f,%f",Position().x,Position().y,Position().z);
-	}
-#endif // DEBUG
-	VERIFY								(valid_pos(activation_shape.Position(),phBoundaries));
-	
+	////	VERIFY								(valid_pos(activation_shape.Position(),phBoundaries));
+	//	if (!valid_pos(activation_shape.Position(),phBoundaries)) {
+	//		CPHActivationShape				activation_shape;
+	//		activation_shape.Create			(c,size,this);
+	//		activation_shape.set_rotation	(XFORM());
+	//		activation_shape.Activate		(size,1,1.f,M_PI/8.f);
+	////		VERIFY							(valid_pos(activation_shape.Position(),phBoundaries));
+	//	}
+
+	PPhysicsShell()->EnableCollision();
+
+
+
+
+
 	Fmatrix								trans;
-	trans.identity						();
-	trans.c.sub							(ap,c);
-	PPhysicsShell()->TransformPosition	(trans);
+	trans.identity();
+	trans.c.sub(ap, c);
+	PPhysicsShell()->TransformPosition(trans, mh_clear);
 	PPhysicsShell()->GetGlobalTransformDynamic(&XFORM());
-	activation_shape.Destroy			();
+
 }
 
 void CPhysicsShellHolder::activate_physic_shell()
@@ -329,7 +321,7 @@ void CPhysicsShellHolder::UpdateCL	()
 }
 float CPhysicsShellHolder::EffectiveGravity()
 {
-	return ph_world->Gravity();
+	return physics_world()->Gravity();
 }
 
 void		CPhysicsShellHolder::	save				(NET_Packet &output_packet)

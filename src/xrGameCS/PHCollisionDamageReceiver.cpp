@@ -6,9 +6,10 @@
 #include "geometry.h"
 #include "../xrphysics/PhysicsShell.h"
 #include "../xrEngine/gamemtllib.h"
-#include "Physics.h"
+#include "../xrPhysics/Physics.h"
 #include "xrMessages.h"
 #include "CharacterPhysicsSupport.h"
+#include <xrPhysics/MathUtilsOde.h>
 void CPHCollisionDamageReceiver::BoneInsert(u16 id,float k)
 {
 	R_ASSERT2(FindBone(id)==m_controled_bones.end(),"duplicate bone!");
@@ -30,7 +31,8 @@ void CPHCollisionDamageReceiver::Init()
 			BoneInsert(index,float(atof(*item.second)));
 			CODEGeom* og= sh->PPhysicsShell()->get_GeomByID(index);
 			//R_ASSERT3(og, "collision damage bone has no physics collision", *item.first);
-			if(og)og->add_obj_contact_cb(CollisionCallback);
+			if(og)
+				og->add_obj_contact_cb(CollisionCallback);
 		}
 		
 	}

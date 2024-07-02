@@ -1,5 +1,5 @@
 #pragma once
-#include "phsimplecharacter.h"
+#include "../xrPhysics/PHSimpleCharacter.h"
 #include "PHActorCharacterInline.h"
 
 class CPhysicShellHolder;

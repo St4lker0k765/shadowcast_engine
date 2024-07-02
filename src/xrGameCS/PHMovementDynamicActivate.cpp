@@ -5,10 +5,11 @@
 
 #include "ExtendedGeom.h"
 #include "../../xrphysics/MathUtils.h"
-#include "Physics.h"
+#include "../xrPhysics/Physics.h"
 #include "Level.h"
 #include "../xrEngine/gamemtllib.h"
 #include "PhysicsShellHolder.h"
+#include <xrPhysics/ph_valid_ode.h>
 
 extern	class CPHWorld	*ph_world;
 ObjectContactCallbackFun* saved_callback		=	0	;
@@ -64,12 +65,12 @@ void TTestDepthCallback (bool& do_colide,bool bo1,dContact& c,SGameMtl* material
 	if(do_colide&&!material_1->Flags.test(SGameMtl::flPassable) &&!material_2->Flags.test(SGameMtl::flPassable))
 	{
 		float& depth=c.geom.depth;
-		float test_depth=depth-Pars.decrement_depth;
+		float test_depth=depth-Pars::decrement_depth;
 		save_max(max_depth,test_depth);
-		c.surface.mu*=Pars.calback_friction_factor;
-		if(test_depth>Pars.depth_to_use_force)
+		c.surface.mu*=Pars::calback_friction_factor;
+		if(test_depth>Pars::depth_to_use_force)
 		{
-			float force = Pars.callback_force_factor*ph_world->Gravity();
+			float force = Pars::callback_force_factor*ph_world->Gravity();
 			dBodyID b1=dGeomGetBody(c.geom.g1);
 			dBodyID b2=dGeomGetBody(c.geom.g2);
 			if(b1)dBodyAddForce(b1,c.geom.normal[0]*force,c.geom.normal[1]*force,c.geom.normal[2]*force);
@@ -92,12 +93,12 @@ void TTestDepthCallback (bool& do_colide,bool bo1,dContact& c,SGameMtl* material
 
 			do_colide=false;
 		}
-		else if(test_depth>Pars.depth_to_change_softness_pars)
+		else if(test_depth>Pars::depth_to_change_softness_pars)
 		{
-			c.surface.soft_cfm=Pars.callback_cfm_factor;
-			c.surface.soft_erp=Pars.callback_erp_factor;
+			c.surface.soft_cfm=Pars::callback_cfm_factor;
+			c.surface.soft_erp=Pars::callback_erp_factor;
 		}
-		limit_above(depth,Pars.max_real_depth);
+		limit_above(depth,Pars::max_real_depth);
 	}
 
 }
@@ -164,7 +165,7 @@ public:
 			return true;
 		}
 	}
-	virtual void PhDataUpdate(dReal step)
+	virtual void PhDataUpdate(float step)
 	{
 		const float		*linear_velocity		=dBodyGetLinearVel(m_body);
 
@@ -236,7 +237,7 @@ protected:
 		}
 	}
 
-	virtual void PhDataUpdate(dReal step)
+	virtual void PhDataUpdate(float step)
 	{
 		int num=dBodyGetNumJoints(m_body);
 		for(int i=0;i<num;i++)
@@ -301,7 +302,7 @@ bool CPHMovementControl:: ActivateBoxDynamic(DWORD id,int num_it/*=8*/,int num_s
 		if(Device.dwTimeGlobal-trying_times[id]<500&&dif.magnitude()<0.05f)
 																	return false;
 	}
-	if(!m_character||m_character->PhysicsRefObject()->PPhysicsShell())return false;
+	if(!m_character||m_character->PhysicsRefObject()->ObjectPPhysicsShell())return false;
 	DWORD old_id=BoxID();
 
 	bool  character_disabled=character_exist && !m_character->IsEnabled();
@@ -314,7 +315,7 @@ bool CPHMovementControl:: ActivateBoxDynamic(DWORD id,int num_it/*=8*/,int num_s
 
 	//m_PhysicMovementControl->ActivateBox(id);
 	m_character->CPHObject::activate();
-	ph_world->Freeze();
+	physics_world()->Freeze();
 	UnFreeze();
 
 	saved_callback=ObjectContactCallback();
@@ -365,14 +366,14 @@ bool CPHMovementControl:: ActivateBoxDynamic(DWORD id,int num_it/*=8*/,int num_s
 	{
 		Calculate(Fvector().set(0,0,0),Fvector().set(1,0,0),0,0,0,0);
 		EnableCharacter();
-		m_character->ApplyForce(0,ph_world->Gravity()*m_character->Mass(),0);
+		m_character->ApplyForce(0,physics_world()->Gravity() * m_character->Mass(), 0);
 		max_depth=0.f;
-		ph_world->Step();
+		physics_world()->Step();
 		if(max_depth	<	resolve_depth) 
 		{
 			break;
 		}	
-		ph_world->CutVelocity(max_vel,max_a_vel);
+		ph_world->CutVelocity(max_vel, max_a_vel);
 	}
 	vl.l_limit/=(fnum_it*fnum_steps/5.f);
 	vl.y_limit=vl.l_limit;
@@ -387,9 +388,9 @@ bool CPHMovementControl:: ActivateBoxDynamic(DWORD id,int num_it/*=8*/,int num_s
 			max_depth=0.f;
 			Calculate(Fvector().set(0,0,0),Fvector().set(1,0,0),0,0,0,0);
 			EnableCharacter();
-			m_character->ApplyForce(0,ph_world->Gravity()*m_character->Mass(),0);
-			ph_world->Step();
-			ph_world->CutVelocity(max_vel,max_a_vel);
+			m_character->ApplyForce(0,physics_world()->Gravity() * m_character->Mass(), 0);
+			physics_world()->Step();
+			ph_world->CutVelocity(max_vel, max_a_vel);
 			if(max_depth	<	resolve_depth) 
 			{
 				ret=true;
@@ -401,7 +402,7 @@ bool CPHMovementControl:: ActivateBoxDynamic(DWORD id,int num_it/*=8*/,int num_s
 	m_character->SwitchInInitContact();
 	vl.Deactivate();
 
-	ph_world->UnFreeze();
+	physics_world()->UnFreeze();
 	if(!ret)
 	{	
 		if(!character_exist)DestroyCharacter();

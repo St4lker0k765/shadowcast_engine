@@ -16,6 +16,7 @@
 #include "game_cl_base.h"
 #include "Level.h"
 #include "clsid_game.h"
+#include "../xrGame/UIFontDefines.h"
 
 #define PICKUP_INFO_COLOR 0xFFDDDDDD
 //AAAAAA
@@ -33,7 +34,7 @@ void CActor::feel_touch_delete	(CObject* O)
 	if(sh&&sh->character_physics_support()) m_feel_touch_characters--;
 }
 
-BOOL CActor::feel_touch_contact		(CObject *O)
+bool CActor::feel_touch_contact		(CObject *O)
 {
 	CInventoryItem	*item = smart_cast<CInventoryItem*>(O);
 	CInventoryOwner	*inventory_owner = smart_cast<CInventoryOwner*>(O);
@@ -260,9 +261,9 @@ void CActor::PickupInfoDraw(CObject* object)
 	float x = (1.f + v_res.x)/2.f * (Device.dwWidth);
 	float y = (1.f - v_res.y)/2.f * (Device.dwHeight);
 
-	HUD().Font().pFontLetterica16Russian->SetAligment	(CGameFont::alCenter);
-	HUD().Font().pFontLetterica16Russian->SetColor		(PICKUP_INFO_COLOR);
-	HUD().Font().pFontLetterica16Russian->Out			(x,y,draw_str);
+	HUD().Font().GetFont(LETTERICA16_FONT_NAME)->SetAligment(CGameFont::alCenter);
+	HUD().Font().GetFont(LETTERICA16_FONT_NAME)->SetColor		(PICKUP_INFO_COLOR);
+	HUD().Font().GetFont(LETTERICA16_FONT_NAME)->Out			(x,y,draw_str);
 }
 
 void CActor::feel_sound_new(CObject* who, int type, CSound_UserDataPtr user_data, const Fvector& Position, float power)

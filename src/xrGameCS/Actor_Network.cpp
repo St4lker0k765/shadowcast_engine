@@ -25,6 +25,7 @@
 #include "WeaponMagazined.h"
 #include "WeaponKnife.h"
 #include "CustomOutfit.h"
+#include "../xrphysics/actorcameracollision.h"
 
 #include "actor_anim_defs.h"
 
@@ -43,7 +44,7 @@
 
 #ifdef DEBUG
 #	include "debug_renderer.h"
-#	include "Physics.h"
+#include "../xrPhysics/Physics.h"
 #endif
 
 int			g_cl_InterpolationType		= 0;
@@ -737,12 +738,12 @@ void CActor::net_Destroy	()
 
 	Engine.Sheduler.Unregister	(this);
 
-	if(	CActor::actor_camera_shell && 
-		CActor::actor_camera_shell->get_ElementByStoreOrder( 0 )->PhysicsRefObject() 
+	if(	actor_camera_shell && 
+		actor_camera_shell->get_ElementByStoreOrder( 0 )->PhysicsRefObject() 
 			== 
 		this
 		) 
-		destroy_physics_shell( CActor::actor_camera_shell );
+		destroy_physics_shell( actor_camera_shell );
 }
 
 void CActor::net_Relcase	(CObject* O)
@@ -901,7 +902,7 @@ void CActor::PH_B_CrPr		()	// actions & operations before physic correction-pred
 	//just set last update data for now
 //	if (!m_bHasUpdate) return;	
 	if (CrPr_IsActivated()) return;
-	if (CrPr_GetActivationStep() > ph_world->m_steps_num) return;
+	if (CrPr_GetActivationStep() > physics_world()->StepsNum()) return;
 
 	if (g_Alive())
 	{
@@ -1124,7 +1125,7 @@ void	CActor::CalculateInterpolationParams()
 	float lV0 = State0.linear_vel.magnitude();
 	float lV1 = State1.linear_vel.magnitude();
 
-	u32		ConstTime = u32((fixed_step - ph_world->m_frame_time)*1000)+ Level().GetInterpolationSteps()*u32(fixed_step*1000);
+	u32		ConstTime = u32((fixed_step - physics_world()->FrameTime()) * 1000) + Level().GetInterpolationSteps() * u32(fixed_step * 1000);
 
 	m_dwIStartTime = m_dwILastUpdateTime;
 	

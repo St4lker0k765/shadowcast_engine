@@ -87,6 +87,7 @@ protected:
 
 	CPHCommander				*m_ph_commander;
 	CPHCommander				*m_ph_commander_scripts;
+    CPHCommander*				m_ph_commander_physics_worldstep = nullptr;
 	
 	// Local events
 	EVENT						eChangeRP;
@@ -173,7 +174,6 @@ private:
 	bool						m_bConnectResult;
 	xr_string					m_sConnectResult;
 public:	
-	void						OnGameSpyChallenge				(NET_Packet* P);
 	void						OnBuildVersionChallenge			();
 	void						OnConnectResult					(NET_Packet* P);
 public:

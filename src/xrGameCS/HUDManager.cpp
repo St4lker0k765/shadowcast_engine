@@ -10,9 +10,13 @@
 #include "spectator.h"
 #include "Car.h"
 #include "UIGameCustom.h"
+#include "../xrGame/UIFontDefines.h"
 #ifdef	DEBUG
 #include "phdebug.h"
 #endif
+
+extern CUIGameCustom* CurrentGameUI() { return HUD().GetGameUI(); }
+
 //--------------------------------------------------------------------
 CHUDManager::CHUDManager() : m_Renderable(true), pUI(NULL), m_pHUDTarget(xr_new<CHUDTarget>())
 { 
@@ -148,7 +152,7 @@ void  CHUDManager::RenderUI()
 
 
 	if( Device.Paused() && bShowPauseString){
-		CGameFont* pFont	= Font().pFontGraffiti50Russian;
+		CGameFont* pFont	= Font().GetFont(GRAFFITI50_FONT_NAME);
 		pFont->SetColor		(0x80FF0000	);
 		LPCSTR _str			= CStringTable().translate("st_game_paused").c_str();
 		

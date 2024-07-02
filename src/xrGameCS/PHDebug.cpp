@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #ifdef DEBUG
-#include "physics.h"
+#include "../xrPhysics/Physics.h"
 #include "../../xrphysics/MathUtils.h"
 #include "../xrEngine/StatGraph.h"
 #include "PHDebug.h"
@@ -16,7 +16,7 @@
 #include "../Include/xrRender/KinematicsAnimated.h"
 #include "../xrEngine/bone.h"
 #include "../xrEngine/iphdebug.h"
-#include "phelement.h"
+#include "../xrPhysics/PHElement.h"
 
 Flags32		ph_dbg_draw_mask						;
 Flags32		ph_dbg_draw_mask1						;

@@ -17,7 +17,6 @@
 #include "date_time.h"
 #include "game_cl_base_weapon_usage_statistic.h"
 #include "string_table.h"
-#include "../xrGameSpy/xrGameSpy_MainDefs.h"
 
 EGameIDs ParseStringToGameType(LPCSTR str);
 
@@ -1261,12 +1260,6 @@ public:
 			return;
 		}
 
-		u16 game_phase = Game().Phase();
-		if ((game_phase != GAME_PHASE_INPROGRESS) && (game_phase != GAME_PHASE_PENDING))
-		{
-			Msg("! Voting is allowed only when game is in progress!");
-			return;
-		};
 
 		Game().SendStartVoteMessage(args);		
 	};
@@ -1299,12 +1292,6 @@ public:
 			return;
 		}
 
-		if (Level().Server->game->Phase() != GAME_PHASE_INPROGRESS)
-		{
-			Msg("! Voting is allowed only when game is in progress!");
-			return;
-		};
-
 		Level().Server->game->OnVoteStop();
 	};
 
@@ -1334,12 +1321,6 @@ public:
 			return;
 		}
 
-		if (Game().Phase() != GAME_PHASE_INPROGRESS)
-		{
-			Msg("! Voting is allowed only when game is in progress!");
-			return;
-		};
-
 		Game().SendVoteYesMessage();
 	};
 
@@ -1368,12 +1349,6 @@ public:
 			Msg("! Currently there is no active voting!");
 			return;
 		}
-
-		if (Game().Phase() != GAME_PHASE_INPROGRESS)
-		{
-			Msg("! Voting is allowed only when game is in progress!");
-			return;
-		};
 
 		Game().SendVoteNoMessage();
 	};

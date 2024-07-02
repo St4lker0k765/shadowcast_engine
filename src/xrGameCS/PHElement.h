@@ -7,7 +7,7 @@
 #include "../xrPhysics/PhysicsCommon.h"
 #include "PHSynchronize.h"
 #include "PHDisabling.h"
-#include "PHGeometryOwner.h"
+#include "../xrPhysics/PHGeometryOwner.h"
 #include "PHInterpolation.h"
 #include "PHFracture.h"
 

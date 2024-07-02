@@ -1,5 +1,5 @@
 #pragma once
-#include "PHSimpleCharacter.h"
+#include "../xrPhysics/PHSimpleCharacter.h"
 class CPHAICharacter : public CPHSimpleCharacter
 {
 	typedef CPHSimpleCharacter	inherited;

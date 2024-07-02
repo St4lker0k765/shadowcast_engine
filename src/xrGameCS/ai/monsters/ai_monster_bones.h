@@ -1,10 +1,13 @@
 
 #pragma once
 
+#include "stdafx.h"
+
 #define AXIS_X	(1 << 0)
 #define AXIS_Y	(1 << 1)
 #define AXIS_Z	(1 << 2)
 
+class CBoneInstance;
 // параметры движения характерные для конкретной оси в боне
 struct bonesAxis {
 	float			cur_yaw;

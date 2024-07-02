@@ -11,10 +11,12 @@
 
 #include "../include/xrrender/animation_motion.h"
 #include <boost/noncopyable.hpp>
+#include "stdafx.h"
 
 class CGameObject;
 class IKinematics;
 class IKinematicsAnimated;
+class CBoneInstance;
 
 namespace aimers {
 

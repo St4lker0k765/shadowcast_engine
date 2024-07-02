@@ -2,7 +2,7 @@
 
 #include "../../../xrPhysics/PhysicsShell.h"
 #include "../../../PHInterpolation.h"
-#include "../../../PHElement.h"
+#include "../../../../xrPhysics/PHElement.h"
 
 #define TEMPLATE_SPECIALIZATION template <\
 	typename _Object\

@@ -1,7 +1,9 @@
 #pragma once
 #include "ShootingObject.h"
 #include "HudSound.h"
+#include "stdafx.h"
 
+class CBoneInstance;
 class CPhysicsShellHolder;
 
 class CCarWeapon :public CShootingObject

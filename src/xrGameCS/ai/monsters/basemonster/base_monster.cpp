@@ -430,7 +430,7 @@ BOOL CBaseMonster::feel_touch_on_contact	(CObject *O)
 	return		(inherited::feel_touch_on_contact(O));
 }
 
-BOOL CBaseMonster::feel_touch_contact(CObject *O)
+bool CBaseMonster::feel_touch_contact(CObject *O)
 {
 	m_anomaly_detector->on_contact(O);
 	return inherited::feel_touch_contact(O);
@@ -680,7 +680,7 @@ void CBaseMonster::OnEvent(NET_Packet& P, u16 type)
 			CGameObject			*GO = smart_cast<CGameObject*>(O);
 			CInventoryItem		*pIItem = smart_cast<CInventoryItem*>(GO);
 			VERIFY				(inventory().CanTakeItem(pIItem));
-			pIItem->m_eItemCurrPlace = eItemPlaceRuck;
+			pIItem->m_eItemCurrPlace.type = eItemPlaceRuck;
 
 			O->H_SetParent		(this);
 			inventory().Take	(GO, true, true);

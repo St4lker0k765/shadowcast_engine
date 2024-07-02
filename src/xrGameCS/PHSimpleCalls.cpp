@@ -3,6 +3,7 @@
 #include	"phsimplecalls.h"
 #include "../xrPhysics/PHObject.h"
 #include "../xrphysics/IPHWorld.h"
+#include "../xrPhysics/Physics.h"
 extern		CPHWorld			*ph_world;
 
 

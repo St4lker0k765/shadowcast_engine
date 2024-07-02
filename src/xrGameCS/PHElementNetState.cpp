@@ -4,7 +4,7 @@
 #include "phelement.h"
 #include "../xrPhysics/PHObject.h"
 #include "../xrphysics/IPHWorld.h"
-#include "phshell.h"
+#include "../xrPhysics/PHShell.h"
 
 void CPHElement::get_State(SPHNetState& state)
 {

@@ -27,6 +27,7 @@
 #include "game_cl_base_weapon_usage_statistic.h"
 #include "Grenade.h"
 #include "Torch.h"
+#include "../xrGame/UIFontDefines.h"
 
 // breakpoints
 #include "../xrEngine/xr_input.h"
@@ -39,7 +40,7 @@
 #include "ai_space.h"
 #include "trade.h"
 #include "inventory.h"
-#include "Physics.h"
+#include "../xrPhysics/Physics.h"
 #include "level.h"
 #include "GamePersistent.h"
 #include "game_cl_base.h"
@@ -1440,7 +1441,7 @@ void CActor::RenderText				(LPCSTR Text, Fvector dpos, float* pdup, u32 color)
 	Device.mFullTransform.transform(v0r,v0);
 	Device.mFullTransform.transform(v1r,v1);
 	float size = v1r.distance_to(v0r);
-	CGameFont* pFont = HUD().Font().pFontArial14;
+	CGameFont* pFont = HUD().Font().GetFont(ARIAL14_FONT_NAME);
 	if (!pFont) return;
 //	float OldFontSize = pFont->GetHeight	();	
 	float delta_up = 0.0f;
@@ -1549,11 +1550,11 @@ void CActor::OnItemDrop(CInventoryItem *inventory_item)
 	CInventoryOwner::OnItemDrop(inventory_item);
 
 	CArtefact* artefact = smart_cast<CArtefact*>(inventory_item);
-	if(artefact && artefact->m_eItemCurrPlace == eItemPlaceBelt)
+	if(artefact && artefact->m_eItemCurrPlace.type == eItemPlaceBelt)
 		MoveArtefactBelt(artefact, false);
 
 	CCustomOutfit* outfit		= smart_cast<CCustomOutfit*>(inventory_item);
-	if(outfit && inventory_item->m_eItemCurrPlace==eItemPlaceSlot)
+	if(outfit && inventory_item->m_eItemCurrPlace.type==eItemPlaceSlot)
 	{
 		outfit->ApplySkinModel	(this, false, false);
 	}
@@ -1575,15 +1576,11 @@ void CActor::OnItemDropUpdate ()
 }
 
 
-void CActor::OnItemRuck		(CInventoryItem *inventory_item, EItemPlace previous_place)
+void CActor::OnItemRuck		(CInventoryItem *inventory_item, SInvItemPlace previous_place)
 {
 	CInventoryOwner::OnItemRuck(inventory_item, previous_place);
-
-	CArtefact* artefact = smart_cast<CArtefact*>(inventory_item);
-	if(artefact && previous_place == eItemPlaceBelt)
-		MoveArtefactBelt(artefact, false);
 }
-void CActor::OnItemBelt		(CInventoryItem *inventory_item, EItemPlace previous_place)
+void CActor::OnItemBelt		(CInventoryItem *inventory_item, SInvItemPlace previous_place)
 {
 	CInventoryOwner::OnItemBelt(inventory_item, previous_place);
 

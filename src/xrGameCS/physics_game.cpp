@@ -11,6 +11,7 @@
 #include "PHCommander.h"
 #include "../../xrphysics/MathUtils.h"
 #include "../xrphysics/IPHWorld.h"
+#include "physics_game.h"
 
 #include "../Include/xrRender/FactoryPtr.h"
 #include "../Include/xrRender/WallMarkArray.h"

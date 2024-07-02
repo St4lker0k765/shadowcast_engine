@@ -3,7 +3,7 @@
 #include "telekinetic_object.h"
 #include "../../xrPhysics/PhysicsShell.h"
 #include "../../PHInterpolation.h"
-#include "../../PHElement.h"
+#include "../../../xrPhysics/PHElement.h"
 #include "../../level.h"
 #include "../../gameobject.h"
 
