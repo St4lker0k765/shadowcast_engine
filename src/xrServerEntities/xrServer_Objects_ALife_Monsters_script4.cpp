@@ -72,12 +72,12 @@ void current_level_travel_speed2	(CSE_ALifeMonsterAbstract *self, float travel_s
 {
 	self->m_fCurrentLevelGoingSpeed	= travel_speed;
 }
-
+#ifndef XRGAMECS_EXPORTS
 void ForceSetGoodwill(CSE_ALifeMonsterAbstract *self, int goodwill, ALife::_OBJECT_ID pWhoToSet)
 {
 	RELATION_REGISTRY().ForceSetGoodwill(self->ID, pWhoToSet, goodwill);
 }
-
+#endif
 
 
 #endif // #ifdef XRGAME_EXPORTS
@@ -106,8 +106,9 @@ void CSE_ALifeMonsterAbstract::script_register(lua_State *L)
 		.def("current_level_travel_speed",		&current_level_travel_speed2)		
 		.def("kill",							&CSE_ALifeMonsterAbstract::kill)
 		.def("has_detector",					&CSE_ALifeMonsterAbstract::has_detector)
-
+#ifndef XRGAMECS_EXPORTS
 		.def("force_set_goodwill",				&ForceSetGoodwill)
+#endif
 #endif // #ifdef XRGAME_EXPORTS
 	];
 }

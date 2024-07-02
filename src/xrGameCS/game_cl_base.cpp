@@ -316,11 +316,6 @@ void game_cl_GameState::shedule_Update		(u32 dt)
 	//---------------------------------------
 	switch (Phase())
 	{
-	case GAME_PHASE_INPROGRESS:
-		{
-			if (!IsGameTypeSingle())
-				m_WeaponUsageStatistic->Update();
-		}break;
 	default:
 		{
 		}break;
@@ -387,9 +382,6 @@ void				game_cl_GameState::OnSwitchPhase			(u32 old_phase, u32 new_phase)
 {
 	switch (old_phase)
 	{
-	case GAME_PHASE_INPROGRESS:
-		{
-		}break;
 	default:
 		{
 		}break;
@@ -397,10 +389,6 @@ void				game_cl_GameState::OnSwitchPhase			(u32 old_phase, u32 new_phase)
 
 	switch (new_phase)
 	{
-		case GAME_PHASE_INPROGRESS:
-			{
-				m_WeaponUsageStatistic->Clear();
-			}break;
 		default:
 			{
 			}break;

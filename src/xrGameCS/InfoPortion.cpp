@@ -10,7 +10,8 @@
 #include "script_engine.h"
 #include "ui\uixmlinit.h"
 #include "object_broker.h"
-
+#include "game_news.h"
+/*
 void INFO_DATA::load (IReader& stream) 
 {
 	load_data(info_id, stream); 
@@ -22,7 +23,7 @@ void INFO_DATA::save (IWriter& stream)
 	save_data(info_id, stream); 
 	save_data(receive_time, stream);
 }
-
+*/
 
 SInfoPortionData::SInfoPortionData ()
 {

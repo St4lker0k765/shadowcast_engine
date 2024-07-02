@@ -1249,7 +1249,7 @@ void		 CCharacterPhysicsSupport::in_NetRelcase(CObject* O)
 		m_sv_hit = SHit();
 }
  
-bool CCharacterPhysicsSupport::set_collision_hit_callback( SCollisionHitCallback* cc )
+bool CCharacterPhysicsSupport::set_collision_hit_callback( ICollisionHitCallback* cc )
 {
 	if(!cc)
 	{
@@ -1263,7 +1263,7 @@ bool CCharacterPhysicsSupport::set_collision_hit_callback( SCollisionHitCallback
 		return true;
 	}else return false;
 }
-SCollisionHitCallback * CCharacterPhysicsSupport::get_collision_hit_callback()
+ICollisionHitCallback * CCharacterPhysicsSupport::get_collision_hit_callback()
 {
 	return m_collision_hit_callback;
 }

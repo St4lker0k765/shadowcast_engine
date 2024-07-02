@@ -374,7 +374,7 @@ DLL_Pure *CAI_Trader::_construct	()
 	return						(this);
 }
 
-bool CAI_Trader::AllowItemToTrade 	(CInventoryItem const * item, EItemPlace place) const
+bool CAI_Trader::AllowItemToTrade 	(CInventoryItem const * item, SInvItemPlace place) const
 {
 	if (!g_Alive())
 		return					(true);

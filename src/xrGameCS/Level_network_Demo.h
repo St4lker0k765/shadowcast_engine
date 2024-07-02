@@ -67,6 +67,7 @@ private:
 	void						SimulateServerUpdate();
 	
 	DemoHeader					m_demo_header;
+    shared_str					m_demo_server_options;
 	IWriter*					m_writer;
 	CStreamReader*				m_reader;
 	

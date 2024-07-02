@@ -19,11 +19,13 @@
 #include "ui/UIInventoryUtilities.h"
 #include "file_transfer.h"
 #include "screenshot_server.h"
+#include <functional>
 
 #pragma warning(push)
 #pragma warning(disable:4995)
 #include <malloc.h>
 #pragma warning(pop)
+using namespace std::placeholders;
 
 xrClientData::xrClientData	():IClient(Device.GetTimerGlobal())
 {
@@ -74,12 +76,6 @@ xrServer::~xrServer()
 	{
 		client_Destroy(tmp_client);
 		tmp_client = net_players.GetFoundClient(&ClientDestroyer::true_generator);
-	}
-	tmp_client = net_players.GetFoundDisconnectedClient(&ClientDestroyer::true_generator);
-	while (tmp_client)
-	{
-		client_Destroy(tmp_client);
-		tmp_client = net_players.GetFoundDisconnectedClient(&ClientDestroyer::true_generator);
 	}
 	m_aUpdatePackets.clear();
 	m_aDelayedPackets.clear();
@@ -135,19 +131,6 @@ IClient*	xrServer::client_Find_Get	(ClientID ID)
 	else
 		search_predicate.m_cAddress.set( "127.0.0.1" );
 
-	if ( !psNET_direct_connect )
-	{	
-		IClient* disconnected_client = net_players.FindAndEraseDisconnectedClient(search_predicate);
-		if (disconnected_client)
-		{
-			disconnected_client->m_dwPort			= dwPort;
-			disconnected_client->flags.bReconnect	= TRUE;
-			disconnected_client->server				= this;
-			net_players.AddNewClient				(disconnected_client);
-			Msg( "# Player found" );
-			return disconnected_client;
-		}
-	};
 
 	IClient* newCL = client_Create();
 	newCL->ID = ID;
@@ -173,30 +156,13 @@ void		xrServer::client_Destroy	(IClient* C)
 	// Delete assosiated entity
 	// xrClientData*	D = (xrClientData*)C;
 	// CSE_Abstract* E = D->owner;
-	IClient* deleted_client = net_players.FindAndEraseDisconnectedClient(
-		std::bind1st(std::equal_to<IClient*>(), C)
-	);
-	if (deleted_client)
-	{
-		xr_delete(deleted_client);
-	}
 	IClient* alife_client = net_players.FindAndEraseClient(
-		std::bind1st(std::equal_to<IClient*>(), C)
+		std::bind(std::equal_to<IClient*>(), C, _1)
 	);
 	//VERIFY(alife_client);
 	if (alife_client)
 	{
 		CSE_Abstract* pOwner	= static_cast<xrClientData*>(alife_client)->owner;
-		CSE_Spectator* pS		= smart_cast<CSE_Spectator*>(pOwner);
-		if (pS)
-		{
-			NET_Packet			P;
-			P.w_begin			(M_EVENT);
-			P.w_u32				(Level().timeServer());//Device.TimerAsync());
-			P.w_u16				(GE_DESTROY);
-			P.w_u16				(pS->ID);
-			SendBroadcast		(C->ID,P,net_flags(TRUE,TRUE));
-		};
 
 		DelayedPacket pp;
 		pp.SenderID = alife_client->ID;
@@ -223,26 +189,13 @@ void		xrServer::client_Destroy	(IClient* C)
 		else
 		{
 			alife_client->dwTime_LastUpdate = Device.dwTimeGlobal;
-			net_players.AddNewDisconnectedClient(alife_client);
+			//net_players.AddNewDisconnectedClient(alife_client);
 			static_cast<xrClientData*>(alife_client)->Clear();
 		};
 	}
 }
 void xrServer::clear_DisconnectedClients()
 {
-	struct true_generator
-	{
-		bool operator()(IClient* client)
-		{
-			return true;
-		}
-	};
-	IClient* deleting_client = net_players.FindAndEraseDisconnectedClient(true_generator());
-	while (deleting_client)
-	{
-		xr_delete(deleting_client);
-		deleting_client = net_players.FindAndEraseDisconnectedClient(true_generator());
-	}
 }
 
 //--------------------------------------------------------------------
@@ -293,25 +246,6 @@ void xrServer::Update	()
 
 	VERIFY						(verify_entities());
 	//-----------------------------------------------------
-	//Remove any of long time disconnected players
-	struct LongTimeClient
-	{
-		static bool Searher(IClient* client)
-		{
-			if (client->dwTime_LastUpdate + (g_sv_Client_Reconnect_Time*60000) < Device.dwTimeGlobal)
-				return true;
-			return false;
-		}
-	};
-	IClient* tmp_client = net_players.GetFoundDisconnectedClient(
-		LongTimeClient::Searher);
-
-	while (tmp_client)
-	{
-		client_Destroy(tmp_client);
-		tmp_client = net_players.GetFoundDisconnectedClient(
-			LongTimeClient::Searher);
-	}
 
 	PerformCheckClientsForMaxPing	();
 
@@ -604,21 +538,6 @@ u32 xrServer::OnMessage	(NET_Packet& P, ClientID sender)			// Non-Zero means bro
 				SendTo	(SV_Client->ID, P, net_flags(TRUE, TRUE));
 			VERIFY					(verify_entities());
 		}break;
-	case M_MOVE_PLAYERS_RESPOND:
-		{
-			xrClientData* CL		= ID_to_client	(sender);
-			if (!CL)				break;
-			CL->net_Ready			= TRUE;
-			CL->net_PassUpdates		= TRUE;
-		}break;
-	//-------------------------------------------------------------------
-	case M_CL_INPUT:
-		{
-			xrClientData* CL		= ID_to_client	(sender);
-			if (CL)	CL->net_Ready	= TRUE;
-			if (SV_Client) SendTo	(SV_Client->ID, P, net_flags(TRUE, TRUE));
-			VERIFY					(verify_entities());
-		}break;
 	case M_GAMEMESSAGE:
 		{
 			SendBroadcast			(BroadcastCID,P,net_flags(TRUE,TRUE));
@@ -633,13 +552,6 @@ u32 xrServer::OnMessage	(NET_Packet& P, ClientID sender)			// Non-Zero means bro
 				CL->ps->DeathTime = Device.dwTimeGlobal;
 				game->OnPlayerConnectFinished(sender);
 				CL->ps->setName( CL->name.c_str() );
-				
-#ifdef BATTLEYE
-				if ( g_pGameLevel && Level().battleye_system.server )
-				{
-					Level().battleye_system.server->AddConnected_OnePlayer( CL );
-				}
-#endif // BATTLEYE
 			};
 			game->signal_Syncronize	();
 			VERIFY					(verify_entities());
@@ -697,11 +609,6 @@ u32 xrServer::OnMessage	(NET_Packet& P, ClientID sender)			// Non-Zero means bro
 			R_ASSERT(CL);
 			ProcessClientDigest			(CL, &P);
 		}break;
-	case M_CHANGE_LEVEL_GAME:
-		{
-			ClientID CID; CID.set		(0xffffffff);
-			SendBroadcast				(CID,P,net_flags(TRUE,TRUE));
-		}break;
 	case M_CL_AUTH:
 		{
 			game->AddDelayedEvent		(P,GAME_EVENT_PLAYER_AUTH, 0, sender);
@@ -729,11 +636,6 @@ u32 xrServer::OnMessage	(NET_Packet& P, ClientID sender)			// Non-Zero means bro
 				}
 			}			
 			//if (SV_Client) SendTo	(SV_Client->ID, P, net_flags(TRUE, TRUE));
-		}break;
-	case M_PLAYER_FIRE:
-		{
-			if (game)
-				game->OnPlayerFire(sender, P);
 		}break;
 	case M_REMOTE_CONTROL_AUTH:
 		{
@@ -767,15 +669,6 @@ u32 xrServer::OnMessage	(NET_Packet& P, ClientID sender)			// Non-Zero means bro
 	case M_REMOTE_CONTROL_CMD:
 		{
 			AddDelayedPacket(P, sender);
-		}break;
-	case M_BATTLEYE:
-		{
-#ifdef BATTLEYE
-			if ( g_pGameLevel )
-			{
-				Level().battleye_system.ReadPacketServer( sender.value(), &P );
-			}
-#endif // BATTLEYE
 		}break;
 	case M_FILE_TRANSFER:
 		{

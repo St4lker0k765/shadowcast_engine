@@ -268,6 +268,8 @@ public:
 	void						cl_Process_Spawn		(NET_Packet& P);
 	void						ProcessGameEvents		( );
 	void						ProcessGameSpawns		( );
+    virtual	shared_str OpenDemoFile(const char* demo_file_name);
+    virtual void net_StartPlayDemo();
 
 	// Input
 	virtual	void				IR_OnKeyboardPress		( int btn );

@@ -65,6 +65,7 @@ class CPHCommander:
 	public IPHWorldUpdateCallbck
 {
 	
+	xrCriticalSection	lock;
 	PHCALL_STORAGE	m_calls;
 	PHCALL_STORAGE	m_calls_as_add_buffer;
 	PHCALL_STORAGE	m_calls_as_remove_buffer;
@@ -80,7 +81,8 @@ public:
 	void				remove_calls				(CPHReqComparerV* cmp_object)									;
 
 	void				update  					()																;
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	void				update_threadsafety();
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	void				add_call_unique_as			(CPHCondition* condition,CPHReqComparerV* cmp_condition,CPHAction* action,CPHReqComparerV* cmp_action);
 	void				add_call_as					(CPHCondition* condition,CPHAction* action)						;
 
@@ -101,6 +103,8 @@ IC	void				remove_call					(PHCALL_I i,PHCALL_STORAGE& cs)													;
 IC	PHCALL_I			find_call					(CPHReqComparerV* cmp_condition,CPHReqComparerV* cmp_action,PHCALL_STORAGE& cs)	;				
 IC	void				remove_call					(CPHReqComparerV* cmp_condition,CPHReqComparerV* cmp_action,PHCALL_STORAGE& cs)	;
 IC	void				remove_calls				(CPHReqComparerV* cmp_object,PHCALL_STORAGE& cs)								;
-	
+private:
+	virtual	void		update_step() { update_threadsafety(); }
+	virtual	void		phys_shell_relcase(CPhysicsShell* sh);
 };
 #endif

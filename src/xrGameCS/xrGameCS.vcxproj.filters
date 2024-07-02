@@ -2203,9 +2203,6 @@
     <Filter Include="Physics\Colliders">
       <UniqueIdentifier>{f47643d4-017c-4394-9ec0-c36586cc70d1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Physics\Colliders\Tri-Collider">
-      <UniqueIdentifier>{7a66fe03-f584-4d0e-a6ea-f19a2297484c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Physics\Colliders\Cyl_Collider">
       <UniqueIdentifier>{9c2874e1-99d7-43c2-849c-93054e112340}</UniqueIdentifier>
     </Filter>
@@ -6435,45 +6432,6 @@
     <ClInclude Include="physics_shell_animated.h">
       <Filter>Physics\CharacterSupport\interactive_anims</Filter>
     </ClInclude>
-    <ClInclude Include="tri-colliderKNoOPC\__aabb_tri.h">
-      <Filter>Physics\Colliders\Tri-Collider</Filter>
-    </ClInclude>
-    <ClInclude Include="tri-colliderknoopc\dcTriangle.h">
-      <Filter>Physics\Colliders\Tri-Collider</Filter>
-    </ClInclude>
-    <ClInclude Include="tri-colliderKNoOPC\dcTriListCollider.h">
-      <Filter>Physics\Colliders\Tri-Collider</Filter>
-    </ClInclude>
-    <ClInclude Include="tri-colliderknoopc\dSortTriPrimitive.h">
-      <Filter>Physics\Colliders\Tri-Collider</Filter>
-    </ClInclude>
-    <ClInclude Include="tri-colliderknoopc\dTriBox.h">
-      <Filter>Physics\Colliders\Tri-Collider</Filter>
-    </ClInclude>
-    <ClInclude Include="tri-colliderKNoOPC\dTriCollideK.h">
-      <Filter>Physics\Colliders\Tri-Collider</Filter>
-    </ClInclude>
-    <ClInclude Include="tri-colliderknoopc\dTriColliderCommon.h">
-      <Filter>Physics\Colliders\Tri-Collider</Filter>
-    </ClInclude>
-    <ClInclude Include="tri-colliderknoopc\dTriColliderMath.h">
-      <Filter>Physics\Colliders\Tri-Collider</Filter>
-    </ClInclude>
-    <ClInclude Include="tri-colliderknoopc\dTriCylinder.h">
-      <Filter>Physics\Colliders\Tri-Collider</Filter>
-    </ClInclude>
-    <ClInclude Include="tri-colliderKNoOPC\dTriList.h">
-      <Filter>Physics\Colliders\Tri-Collider</Filter>
-    </ClInclude>
-    <ClInclude Include="tri-colliderknoopc\dTriSphere.h">
-      <Filter>Physics\Colliders\Tri-Collider</Filter>
-    </ClInclude>
-    <ClInclude Include="tri-colliderKNoOPC\dxTriList.h">
-      <Filter>Physics\Colliders\Tri-Collider</Filter>
-    </ClInclude>
-    <ClInclude Include="tri-colliderknoopc\TriPrimitiveCollideClassDef.h">
-      <Filter>Physics\Colliders\Tri-Collider</Filter>
-    </ClInclude>
     <ClInclude Include="dCylinder\dCylinder.h">
       <Filter>Physics\Colliders\Cyl_Collider</Filter>
     </ClInclude>
@@ -9755,27 +9713,6 @@
     </ClCompile>
     <ClCompile Include="physics_shell_animated.cpp">
       <Filter>Physics\CharacterSupport\interactive_anims</Filter>
-    </ClCompile>
-    <ClCompile Include="tri-colliderknoopc\dcTriListCollider.cpp">
-      <Filter>Physics\Colliders\Tri-Collider</Filter>
-    </ClCompile>
-    <ClCompile Include="tri-colliderknoopc\dSortTriPrimitive.cpp">
-      <Filter>Physics\Colliders\Tri-Collider</Filter>
-    </ClCompile>
-    <ClCompile Include="tri-colliderknoopc\dTriBox.cpp">
-      <Filter>Physics\Colliders\Tri-Collider</Filter>
-    </ClCompile>
-    <ClCompile Include="tri-colliderKNoOPC\dTriCallideK.cpp">
-      <Filter>Physics\Colliders\Tri-Collider</Filter>
-    </ClCompile>
-    <ClCompile Include="tri-colliderknoopc\dTriCylinder.cpp">
-      <Filter>Physics\Colliders\Tri-Collider</Filter>
-    </ClCompile>
-    <ClCompile Include="tri-colliderKNoOPC\dTriList.cpp">
-      <Filter>Physics\Colliders\Tri-Collider</Filter>
-    </ClCompile>
-    <ClCompile Include="tri-colliderknoopc\dTriSphere.cpp">
-      <Filter>Physics\Colliders\Tri-Collider</Filter>
     </ClCompile>
     <ClCompile Include="dCylinder\dCylinder.cpp">
       <Filter>Physics\Colliders\Cyl_Collider</Filter>

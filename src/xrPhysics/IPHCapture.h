@@ -6,7 +6,7 @@ public:
 	virtual bool				Failed			()	=0;
 	virtual void				RemoveConnection( IPhysicsShellHolder* O ) = 0;
 	virtual void				Release		()	=0;
-protected:
+//protected:
 	virtual						~IPHCapture() =0 {}
 };
 class	CPHCharacter;

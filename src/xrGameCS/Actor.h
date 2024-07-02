@@ -647,7 +647,11 @@ protected:
 		void							SelectBestWeapon				(CObject* O);
 public:
 		void							SetWeaponHideState				(u32 State, bool bSet);
-		void							SetCantRunState					(bool bSet);
+private://IPhysicsShellHolder
+
+	virtual	 void	_BCL	HideAllWeapons(bool v) { SetWeaponHideState(INV_STATE_BLOCK_ALL, v); }
+public:
+	void							SetCantRunState					(bool bSet);
 		virtual CCustomOutfit*			GetOutfit() const;
 private:
 	CActorCondition				*m_entity_condition;

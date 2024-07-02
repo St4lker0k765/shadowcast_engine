@@ -52,6 +52,7 @@
 #endif // DEBUG
 
 #include "hudmanager.h"
+#include "../xrPhysics/PHWorld.h"
 
 string_path		g_last_saved_game;
 
@@ -1010,7 +1011,7 @@ public:
 #ifndef		DEBUG
 		  clamp				(step_count,50.f,200.f);
 #endif
-		  CPHWorld::SetStep(1.f/step_count);
+		  CPHWorld().SetStep(1.f / step_count);
 	  }
 	  virtual void	Status	(TStatus& S)
 	  {	
@@ -1513,7 +1514,7 @@ public:
 		
 //		GameSpyPatching.CheckForPatch(InformOfNoPatch);
 		
-		MainMenu()->GetGS()->m_pGS_Patching->CheckForPatch(InformOfNoPatch);
+		//MainMenu()->GetGS()->m_pGS_Patching->CheckForPatch(InformOfNoPatch);
 	}
 };
 

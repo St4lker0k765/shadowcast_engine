@@ -18,6 +18,7 @@
 #include "PHScriptCall.h"
 #include "PHSimpleCalls.h"
 #include "../xrphysics/IPHWorld.h"
+#include "../xrPhysics/PHWorld.h"
 void CScriptGameObject::SetTipText (LPCSTR tip_text)
 {
 	CUsableScriptObject	*l_tpUseableScriptObject = smart_cast<CUsableScriptObject*>(&object());
@@ -223,6 +224,7 @@ void CScriptGameObject::set_const_force(const Fvector &dir,float value,u32 time_
 	CPHConstForceAction *a=	xr_new<CPHConstForceAction>(shell,force);
 	CPHExpireOnStepCondition *cn=xr_new<CPHExpireOnStepCondition>();
 	cn->set_time_interval(time_interval);
-	ph_world->AddCall(cn,a);
-	
+	CPHWorld* phw;
+	Level().ph_commander().add_call(cn, a);
+
 }

@@ -6,7 +6,8 @@ class CPhysicsShellHolder;
 struct dContact;
 struct SGameMtl;
 
-class CPHCollisionDamageReceiver
+class CPHCollisionDamageReceiver:
+	public ICollisionDamageReceiver
 {
 typedef std::pair<u16,float> SControledBone;
 DEFINE_VECTOR(SControledBone,DAMAGE_CONTROLED_BONES_V,DAMAGE_BONES_I);
@@ -25,5 +26,6 @@ private:
 	{
 		return std::find_if(m_controled_bones.begin(),m_controled_bones.end(),SFind(id));
 	}
-	static	void 						CollisionCallback			(bool& do_colide,bool bo1,dContact& c,SGameMtl* material_1,SGameMtl* material_2)	;
+//	static	void 						CollisionCallback			(bool& do_colide,bool bo1,dContact& c,SGameMtl* material_1,SGameMtl* material_2)	;
+			void						CollisionHit							(u16 source_id,u16 bone_id,float power,const Fvector &dir,Fvector &pos)	;
 };

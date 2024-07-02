@@ -127,6 +127,7 @@ bool CLevel::LoadDemoHeader	()
 {
 	R_ASSERT(m_reader);
 	m_reader->r(&m_demo_header, sizeof(m_demo_header));
+	m_reader->r_stringZ(m_demo_server_options);
 	return (m_reader->elapsed() >= sizeof(DemoPacket));
 }
 

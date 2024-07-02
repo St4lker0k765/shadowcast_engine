@@ -4,6 +4,7 @@
 
 #include "../xrPhysics/PHCharacter.h"
 #include "../../xrphysics/MathUtils.h"
+#include "CaptureBoneCallback.h"
 namespace ALife {
 	enum EHitType;
 };
@@ -16,6 +17,7 @@ class CPHCharacter;
 class CPHAICharacter;
 class CPHSimpleCharacter;
 class CPHCapture;
+class IPHCapture;
 class CPHSynchronize;
 class ICollisionDamageInfo;
 class CElevatorState;
@@ -32,7 +34,7 @@ CElevatorState			*ElevatorState		();
 void 					in_shedule_Update	( u32 DT );
 void					PHCaptureObject 	( CPhysicsShellHolder* object, CPHCaptureBoneCallback* cb =0 );
 void					PHCaptureObject 	( CPhysicsShellHolder* object, u16 element );
-CPHCapture*				PHCapture			( ){ return m_capture; }
+IPHCapture*				PHCapture			( ){ return m_capture; }
 CPHCharacter*			PHCharacter			( ){ return m_character; }
 const CPHCharacter*		PHCharacter			( )const{ return m_character; }
 const IPhysicsElement*	IElement			( )const;
@@ -90,7 +92,7 @@ private:
 
 	CharacterType		eCharacterType;
 	CPHCharacter*		m_character;
-	CPHCapture  *		m_capture;
+	IPHCapture  *		m_capture;
 
 	float				m_fGroundDelayFactor;
 	BOOL				bIsAffectedByGravity;

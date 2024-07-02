@@ -113,7 +113,7 @@ CLevel::CLevel():IPureClient	(Device.GetTimerGlobal())
 	m_dwDeltaUpdate				= u32(fixed_step*1000);
 	m_dwLastNetUpdateTime		= 0;
 
-	physics_step_time_callback	= (PhysicsStepTimeCallback*) &PhisStepsCallback;
+	//physics_step_time_callback	= (PhysicsStepTimeCallback*) &PhisStepsCallback;
 	m_seniority_hierarchy_holder= xr_new<CSeniorityHierarchyHolder>();
 
 	if(!g_dedicated_server)
@@ -467,25 +467,6 @@ void CLevel::ProcessGameEvents		()
 				{
 					cl_Process_Event(dest, type, P);
 				}break;
-			case M_MOVE_PLAYERS:
-				{
-					u8 Count = P.r_u8();
-					for (u8 i=0; i<Count; i++)
-					{
-						u16 ID = P.r_u16();					
-						Fvector NewPos, NewDir;
-						P.r_vec3(NewPos);
-						P.r_vec3(NewDir);
-
-						CActor*	OActor	= smart_cast<CActor*>(Objects.net_Find		(ID));
-						if (0 == OActor)		break;
-						OActor->MoveActor(NewPos, NewDir);
-					};
-
-					NET_Packet PRespond;
-					PRespond.w_begin(M_MOVE_PLAYERS_RESPOND);
-					Send(PRespond, net_flags(TRUE, TRUE));
-				}break;
 			case M_STATISTIC_UPDATE:
 				{
 					if (GameID() != eGameIDSingle)
@@ -629,7 +610,7 @@ void CLevel::OnFrame	()
 			if ( IsServer() )
 			{
 				const IServerStatistic* S = Server->GetStatistic();
-				F->SetHeightI	(0.015f);
+				F->SetHeight	(0.015f);
 				F->OutSetI	(0.0f,0.5f);
 				F->SetColor	(D3DCOLOR_XRGB(0,255,0));
 				F->OutNext	("IN:  %4d/%4d (%2.1f%%)",	S->bytes_in_real,	S->bytes_in,	100.f*float(S->bytes_in_real)/float(S->bytes_in));
@@ -668,7 +649,7 @@ void CLevel::OnFrame	()
 			{
 				IPureClient::UpdateStatistic();
 
-				F->SetHeightI(0.015f);
+				F->SetHeight(0.015f);
 				F->OutSetI	(0.0f,0.5f);
 				F->SetColor	(D3DCOLOR_XRGB(0,255,0));
 				F->OutNext	("client_2_sever ping: %d",	net_Statistic.getPing());
@@ -684,8 +665,7 @@ void CLevel::OnFrame	()
 					net_Statistic.getMPS_Send	(),
 					net_Statistic.getRetriedCount(),
 					net_Statistic.dwTimesBlocked,
-					net_Statistic.dwBytesSended,
-					net_Statistic.dwBytesPerSec
+					net_Statistic.dwBytesSended
 					);
 #ifdef DEBUG
 				if (!pStatGraphR)
@@ -1246,7 +1226,7 @@ CZoneList* CLevel::create_hud_zones_list()
 
 // -------------------------------------------------------------------------------------------------
 
-BOOL CZoneList::feel_touch_contact( CObject* O )
+bool CZoneList::feel_touch_contact( CObject* O )
 {
 	CLASS_ID clsid	= O->CLS_ID;
 	TypesMapIt it	= m_TypesMap.find(clsid);

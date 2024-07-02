@@ -20,6 +20,7 @@ public IClimableObject
 	Fvector				m_side;
 	Fvector				m_norm;
 	float				m_radius;
+	u16					m_material;
 public:
 					CClimableObject		();
 					~CClimableObject	();
@@ -30,6 +31,7 @@ public:
 	virtual void	UpdateCL			( );								// Called each frame, so no need for dt
 	virtual void	Center				(Fvector &C) const;
 	virtual float	Radius				() const;
+	virtual IPhysicsShellHolder			*cast_IPhysicsShellHolder	(){ return this; }
 #ifdef DEBUG
 	virtual void	OnRender			();
 #endif
@@ -62,6 +64,7 @@ public:
 	float			DDToPlain			(CPHCharacter	*actor,Fvector	&dir)const;
 	bool			InRange				(CPHCharacter	*actor)const;
 	bool			InTouch				(CPHCharacter	*actor)const;
+	virtual u16				Material			()const		{return m_material; }
 
 	void			LowerPoint			(Fvector	&P)const;
 	void			UpperPoint			(Fvector	&P)const;

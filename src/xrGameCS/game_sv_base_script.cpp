@@ -16,7 +16,7 @@
 #include "object_broker.h"
 
 using namespace luabind;
-
+using namespace std::placeholders;
 
 CUISequencer* g_tutorial = NULL;
 CUISequencer* g_tutorial2 = NULL;
@@ -82,7 +82,7 @@ void game_sv_GameState::script_register(lua_State *L)
 		.def("setHMS"				,&xrTime::setHMS)
 		.def("setHMSms"				,&xrTime::setHMSms)
 		.def("set"					,&xrTime::set)
-		.def("get"					,&xrTime::get, out_value(_2) + out_value(_3) + out_value(_4) + out_value(_5) + out_value(_6) + out_value(_7) + out_value(_8))
+		//.def("get"					,&xrTime::get, out_value(_2) + out_value(_3) + out_value(_4) + out_value(_5) + out_value(_6) + out_value(_7) + out_value(_8))
 		.def("dateToString"			,&xrTime::dateToString)
 		.def("timeToString"			,&xrTime::timeToString),
 		// declarations
@@ -129,19 +129,6 @@ void game_sv_GameState::script_register(lua_State *L)
 			value("GAME_PLAYER_FLAG_SPECTATOR",					int(GAME_PLAYER_FLAG_SPECTATOR)),
 			value("GAME_PLAYER_FLAG_SCRIPT_BEGINS_FROM",		int(GAME_PLAYER_FLAG_SCRIPT_BEGINS_FROM))
 		],
-
-	class_<enum_exporter<EGamePhases> >("game_phases")
-		.enum_("phases")
-		[
-			value("GAME_PHASE_NONE",							int(GAME_PHASE_NONE)),
-			value("GAME_PHASE_INPROGRESS",						int(GAME_PHASE_INPROGRESS)),
-			value("GAME_PHASE_PENDING",							int(GAME_PHASE_PENDING)),
-			value("GAME_PHASE_TEAM1_SCORES",					int(GAME_PHASE_TEAM1_SCORES)),
-			value("GAME_PHASE_TEAM2_SCORES",					int(GAME_PHASE_TEAM2_SCORES)),
-			value("GAME_PHASE_TEAMS_IN_A_DRAW",					int(GAME_PHASE_TEAMS_IN_A_DRAW)),
-			value("GAME_PHASE_SCRIPT_BEGINS_FROM",				int(GAME_PHASE_SCRIPT_BEGINS_FROM))
-		],
-
 	class_<enum_exporter<EGameMessages> >("game_messages")
 		.enum_("messages")
 		[

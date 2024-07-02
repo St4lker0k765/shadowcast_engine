@@ -12,7 +12,7 @@
 #include "../../../enemy_manager.h"
 #include "../../../../xrServerEntities/ai_sounds.h"
 
-BOOL CAI_Rat::feel_vision_isRelevant(CObject* O)
+bool CAI_Rat::feel_vision_isRelevant(CObject* O)
 {
 	CEntityAlive* E = smart_cast<CEntityAlive*> (O);
 	if (!E) return FALSE;

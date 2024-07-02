@@ -945,37 +945,40 @@ void	CPHMovementControl::AllocateCharacterObject(CharacterType type)
 #endif
 }
 
-void	CPHMovementControl::PHCaptureObject(CPhysicsShellHolder* object, CPHCaptureBoneCallback* cb /*=0*/ )
+void	CPHMovementControl::PHCaptureObject(CPhysicsShellHolder* object, CPHCaptureBoneCallback* cb /*=0*/)
 {
-if(m_capture)
+	if (m_capture)
 		return;
-if( !object||
-	!object->PPhysicsShell()||
-	!object->m_pPhysicsShell->isActive()
-	)
-	return;
+	if (!object ||
+		!object->PPhysicsShell() ||
+		!object->m_pPhysicsShell->isActive()
+		)
+		return;
 
-m_capture=xr_new<CPHCapture>(m_character,
-							 object,
-							 cb
-							 );
+	m_capture = phcapture_create(m_character, object, smart_cast<NearestToPointCallback*>(cb));
+
+	//m_capture=xr_new<CPHCapture>(m_character,
+	//							 object,
+	//							 cb
+	//							 );
 }
 
-void	CPHMovementControl::PHCaptureObject(CPhysicsShellHolder* object,u16 element)
+void	CPHMovementControl::PHCaptureObject(CPhysicsShellHolder* object, u16 element)
 {
-	if(m_capture) 
+	if (m_capture)
 		return;
 
-	if( !object||
-	    !object->PPhysicsShell()||
+	if (!object ||
+		!object->PPhysicsShell() ||
 		!object->PPhysicsShell()->isActive()
 		)
 		return;
 
-	m_capture=xr_new<CPHCapture>(m_character,
-		object,
-		element
-		);
+	//m_capture=xr_new<CPHCapture>(m_character,
+	//	object,
+	//	element
+	//	);
+	m_capture = phcapture_create(m_character, object, element);
 }
 
 Fvector CPHMovementControl::PHCaptureGetNearestElemPos(const CPhysicsShellHolder* object)

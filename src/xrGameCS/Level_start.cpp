@@ -11,6 +11,16 @@
 #include "MainMenu.h"
 #include "string_table.h"
 
+shared_str CLevel::OpenDemoFile(const char* demo_file_name)
+{
+	PrepareToPlayDemo(demo_file_name);
+	return m_demo_server_options;
+}
+void CLevel::net_StartPlayDemo()
+{
+	net_Start(m_demo_server_options.c_str(), "localhost");
+}
+
 extern	void	GetPlayerName_FromRegistry	(char* name, u32 const name_size);
 
 #define DEMO_PLAY_OPT "mpdemoplay:"

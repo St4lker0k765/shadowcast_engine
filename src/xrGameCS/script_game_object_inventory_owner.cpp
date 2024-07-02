@@ -44,6 +44,7 @@
 #include "ai/stalker/ai_stalker_impl.h"
 #include "smart_cover_object.h"
 #include "smart_cover.h"
+#include "game_news.h"
 
 bool CScriptGameObject::GiveInfoPortion(LPCSTR info_id)
 {
@@ -125,7 +126,7 @@ bool  CScriptGameObject::DontHasInfo			(LPCSTR info_id)
 
 	return !pInventoryOwner->HasInfo(info_id);
 }
-
+/*
 xrTime CScriptGameObject::GetInfoTime			(LPCSTR info_id)
 {
 	CInventoryOwner* pInventoryOwner = smart_cast<CInventoryOwner*>(&object());
@@ -136,7 +137,7 @@ xrTime CScriptGameObject::GetInfoTime			(LPCSTR info_id)
 		return xrTime(info_data.receive_time);
 	else
 		return xrTime(0);
-}
+}*/
 
 
 

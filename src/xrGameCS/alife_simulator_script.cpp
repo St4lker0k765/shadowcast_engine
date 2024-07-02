@@ -288,7 +288,7 @@ KNOWN_INFO_VECTOR *registry						(const CALifeSimulator *self, const ALife::_OBJ
 	THROW								(self);
 	return								(self->registry(info_portions).object(id, true));
 }
-
+/*
 class CFindByIDPred
 {
 public:
@@ -296,7 +296,7 @@ public:
 	bool operator () (const INFO_DATA& data) const {return data.info_id == element;}
 private:
 	shared_str element;
-};
+};*/
 
 bool has_info									(const CALifeSimulator *self, const ALife::_OBJECT_ID &id, LPCSTR info_id)
 {
@@ -383,9 +383,9 @@ void CALifeSimulator::script_register			(lua_State *L)
 		STORY_PAIRS::const_iterator	I = story_ids.begin();
 		STORY_PAIRS::const_iterator	E = story_ids.end();
 		for ( ; I != E; ++I)
-			instance.enum_		("_story_ids")[luabind::value(*(*I).first,(*I).second)];
+			instance = std::move(instance).enum_("_story_ids")[luabind::value(*(*I).first, (*I).second)];
 
-		luabind::module			(L)[instance];
+		luabind::module(L)[std::move(instance)];
 	}
 
 	{
@@ -405,9 +405,9 @@ void CALifeSimulator::script_register			(lua_State *L)
 		SPAWN_STORY_PAIRS::const_iterator	I = spawn_story_ids.begin();
 		SPAWN_STORY_PAIRS::const_iterator	E = spawn_story_ids.end();
 		for ( ; I != E; ++I)
-			instance.enum_		("_spawn_story_ids")[luabind::value(*(*I).first,(*I).second)];
+			instance = std::move(instance).enum_("_spawn_story_ids")[luabind::value(*(*I).first, (*I).second)];
 
-		luabind::module			(L)[instance];
+		luabind::module(L)[std::move(instance)];
 	}
 }
 
