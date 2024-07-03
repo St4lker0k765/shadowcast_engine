@@ -10,7 +10,6 @@
 #include "MainMenu.h"
 #include "../xrEngine/x_ray.h"
 #include "file_transfer.h"
-#include "screenshot_server.h"
 #include "player_name_modifyer.h"
 
 #pragma warning(push)

@@ -22,6 +22,5 @@
 #include "../xrEngine/xr_object.h"
 #include "../xrEngine/igame_level.h"
 #include "../xrphysics/xrphysics.h"
-#include "../xrPhysics/stdafx.h"
 #include "../xrEngine/bone.h"
 #include "smart_cast.h"

@@ -31,7 +31,6 @@
 #include "ai/monsters/BaseMonster/base_monster.h"
 #include "date_time.h"
 #include "mt_config.h"
-#include "ui/UIOptConCom.h"
 #include "UIGameSP.h"
 #include "ui/UIActorMenu.h"
 #include "zone_effector.h"
@@ -128,8 +127,6 @@ Flags32 g_uCommonFlags;
 enum E_COMMON_FLAGS{
 	flAiUseTorchDynamicLights = 1
 };
-
-CUIOptConCom g_OptConCom;
 
 #ifndef PURE_ALLOC
 #	ifndef USE_MEMORY_MONITOR
@@ -1551,7 +1548,6 @@ private:
 void CCC_RegisterCommands()
 {
 	// options
-	g_OptConCom.Init();
 
 	CMD1(CCC_MemStats,			"stat_memory"			);
 	// game

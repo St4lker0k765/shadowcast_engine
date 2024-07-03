@@ -14,7 +14,7 @@
 #include "level_sounds.h"
 #include "GamePersistent.h"
 
-ENGINE_API	bool g_dedicated_server;
+extern ENGINE_API	bool g_dedicated_server;
 
 bool CLevel::Load_GameSpecific_Before()
 {

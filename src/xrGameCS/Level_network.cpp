@@ -18,7 +18,7 @@
 #include "string_table.h"
 #include "file_transfer.h"
 
-ENGINE_API bool g_dedicated_server;
+extern ENGINE_API bool g_dedicated_server;
 
 const int max_objects_size			= 2*1024;
 const int max_objects_size_in_save	= 6*1024;
@@ -393,7 +393,7 @@ void			CLevel::OnBuildVersionChallenge		()
 #ifdef DEBUG
 	u64 auth = MP_DEBUG_AUTH;
 #else
-	u64 auth = FS.auth_get();
+	u64 auth = 0;
 #endif //#ifdef DEBUG
 	P.w_u64					(auth);
 	SecureSend				(P, net_flags(TRUE, TRUE, TRUE, TRUE));

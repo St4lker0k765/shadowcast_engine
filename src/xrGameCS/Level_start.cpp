@@ -21,8 +21,6 @@ void CLevel::net_StartPlayDemo()
 	net_Start(m_demo_server_options.c_str(), "localhost");
 }
 
-extern	void	GetPlayerName_FromRegistry	(char* name, u32 const name_size);
-
 #define DEMO_PLAY_OPT "mpdemoplay:"
 #define DEMO_SAVE_KEY "-mpdemosave"
 
@@ -33,7 +31,6 @@ bool CLevel::net_Start	( LPCSTR op_server, LPCSTR op_client )
 	pApp->LoadBegin				();
 
 	string64	player_name;
-	GetPlayerName_FromRegistry( player_name, sizeof(player_name) );
 
 	if ( xr_strlen(player_name) == 0 )
 	{

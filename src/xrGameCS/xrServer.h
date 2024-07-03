@@ -251,8 +251,6 @@ public:
 	virtual bool			HasProtected		()	{ return false; }
 			bool			HasBattlEye			();
 			void			AddCheater			(shared_str const & reason, ClientID const & cheaterID);
-			void			MakeScreenshot		(ClientID const & admin_id, ClientID const & cheater_id);
-			void			MakeConfigDump		(ClientID const & admin_id, ClientID const & cheater_id);
 
 	virtual void			GetServerInfo		( CServerInfo* si );
 public:

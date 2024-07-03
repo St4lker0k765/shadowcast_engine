@@ -4,7 +4,7 @@
 #include "inventory.h"
 #include "xrserver_objects_alife_monsters.h"
 #include "xrServer.h"
-
+#include "../xrEngine/CustomHUD.h"
 #include "CameraLook.h"
 #include "CameraFirstEye.h"
 

@@ -681,10 +681,6 @@ LPCSTR CMainMenu::DelHyphens( LPCSTR c )
 	return buf;
 }
 
-extern	void	GetCDKey_FromRegistry(char* CDKeyStr);
-extern	void	GetPlayerName_FromRegistry	(char* name, u32 const name_size);
-//extern	int VerifyClientCheck(const char *key, unsigned short cskey);
-
 bool CMainMenu::IsCDKeyIsValid()
 {
 	return true;
@@ -724,7 +720,6 @@ LPCSTR CMainMenu::GetGSVer()
 LPCSTR CMainMenu::GetPlayerNameFromRegistry()
 {
 	string512 name;
-	GetPlayerName_FromRegistry( name, sizeof(name) );
 	m_player_name._set( name );
 	return m_player_name.c_str();
 }
@@ -732,7 +727,6 @@ LPCSTR CMainMenu::GetPlayerNameFromRegistry()
 LPCSTR CMainMenu::GetCDKeyFromRegistry()
 {
 	string512 key;
-	GetCDKey_FromRegistry( key );
 	m_cdkey._set( key );
 	return m_cdkey.c_str();
 }

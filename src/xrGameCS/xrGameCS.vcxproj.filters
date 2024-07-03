@@ -2416,78 +2416,6 @@
     <Filter Include="UI\GameTypes\Game_custom_script">
       <UniqueIdentifier>{190bef45-bd72-4e22-aa98-c08481430d4f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UI\Multiplayer">
-      <UniqueIdentifier>{95496364-a0dc-424c-963d-0920e59cf944}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UI\Multiplayer\MM_MP">
-      <UniqueIdentifier>{dbc07e71-2aa3-4904-8dbd-91e2ce19c05f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UI\Multiplayer\MM_MP\CDkey">
-      <UniqueIdentifier>{aeb7dd38-498d-452a-8a40-09087360c367}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UI\Multiplayer\MM_MP\MapList">
-      <UniqueIdentifier>{f5443435-9e2e-46c0-a633-ccc2169b8f7c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UI\Multiplayer\MM_MP\ServerList">
-      <UniqueIdentifier>{7f60234a-5d86-48b5-8d54-a3a0daffef36}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UI\Multiplayer\MM_MP\TeamInfo">
-      <UniqueIdentifier>{2c5ad07d-d4c3-4938-bce4-1fd99c5a7682}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UI\Multiplayer\HUD">
-      <UniqueIdentifier>{cfb97e4b-82f3-4080-ace5-ecbf454b7e9d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UI\Multiplayer\HUD\Stats">
-      <UniqueIdentifier>{64ba75f8-231d-4305-b8ce-d506dabfdd46}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UI\Multiplayer\HUD\Stats\icons">
-      <UniqueIdentifier>{2706f813-ef27-4dc8-a11e-fb7b696bc44b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UI\Multiplayer\HUD\Stats\old">
-      <UniqueIdentifier>{d9d7e8bf-e9ff-4c0a-97cb-ebde9b02933f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UI\Multiplayer\HUD\Chat">
-      <UniqueIdentifier>{a593cc2f-eda9-437d-b1e2-f8b854d70e57}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UI\Multiplayer\HUD\GameLog">
-      <UniqueIdentifier>{3c7f7fbc-b92f-459d-a531-3c198276a6ba}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UI\Multiplayer\HUD\SpeechMenu">
-      <UniqueIdentifier>{5c1b354c-80fd-45fc-a6d0-934aefce0dc7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UI\Multiplayer\HUD\common">
-      <UniqueIdentifier>{609f75d1-cc5e-4d79-af72-750d098dcfb9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UI\Multiplayer\BuyWeaponWnd">
-      <UniqueIdentifier>{5a47af81-984e-4ffb-ad20-9759b2b9d812}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UI\Multiplayer\BuyWeaponWnd\rank_restrictions">
-      <UniqueIdentifier>{a86e76fe-346e-4f2e-a2fd-723c5aae0f98}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UI\Multiplayer\BuyWeaponWnd\TAB">
-      <UniqueIdentifier>{0233e3ea-c3e2-43a2-90a6-8fa8c0d0e1c3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UI\Multiplayer\BuyWeaponWnd\buy_wnd">
-      <UniqueIdentifier>{bc4047ba-4983-4dfb-879c-f03f0bced171}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UI\Multiplayer\team_skin_info">
-      <UniqueIdentifier>{470c5536-2e36-480f-8e93-f4dfb9f860fa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UI\Multiplayer\team_skin_info\MapDesc">
-      <UniqueIdentifier>{cdfe7cc3-3248-450b-bc9f-3373dcb2fa23}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UI\Multiplayer\team_skin_info\MapDesc\MapInfo">
-      <UniqueIdentifier>{cc16a705-b722-4d01-aa50-a5644ced7aec}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UI\Multiplayer\team_skin_info\Spawn">
-      <UniqueIdentifier>{adb72c34-ae0a-457b-9688-64daf014f898}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UI\Multiplayer\team_skin_info\SkinSelector">
-      <UniqueIdentifier>{aedca27f-cf8d-49cb-b79b-c92246212134}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UI\Multiplayer\Voting">
-      <UniqueIdentifier>{19dfa051-fbb4-4dbb-b1af-e26c7cb09b45}</UniqueIdentifier>
-    </Filter>
     <Filter Include="UI\Cursor">
       <UniqueIdentifier>{b9435360-df53-44ec-b26e-22f00d9e9e8f}</UniqueIdentifier>
     </Filter>
@@ -6030,12 +5958,6 @@
     <ClInclude Include="ParticlesObject.h">
       <Filter>Core\Client\Particles</Filter>
     </ClInclude>
-    <ClInclude Include="Spectator.h">
-      <Filter>Core\Client\Spectator</Filter>
-    </ClInclude>
-    <ClInclude Include="spectator_camera_first_eye.h">
-      <Filter>Core\Client\Spectator\Cameras</Filter>
-    </ClInclude>
     <ClInclude Include="date_time.h">
       <Filter>Core\Common\DateTime</Filter>
     </ClInclude>
@@ -6172,9 +6094,6 @@
       <Filter>Core\Common\debug\static_cast_checked</Filter>
     </ClInclude>
     <ClInclude Include="file_transfer.h">
-      <Filter>Core\Server</Filter>
-    </ClInclude>
-    <ClInclude Include="screenshot_server.h">
       <Filter>Core\Server</Filter>
     </ClInclude>
     <ClInclude Include="xrServer.h">
@@ -6350,12 +6269,6 @@
     </ClInclude>
     <ClInclude Include="PHMoveStorage.h">
       <Filter>Physics\Base\Objects\MoveStorage</Filter>
-    </ClInclude>
-    <ClInclude Include="DisablingParams.h">
-      <Filter>Physics\Base\Objects\Disabling</Filter>
-    </ClInclude>
-    <ClInclude Include="PHDisabling.h">
-      <Filter>Physics\Base\Objects\Disabling</Filter>
     </ClInclude>
     <ClInclude Include="PHAICharacter.h">
       <Filter>Physics\Base\Objects\PhyMove\AICharacter</Filter>
@@ -6708,9 +6621,6 @@
     <ClInclude Include="ui\UIOptionsManagerScript.h">
       <Filter>UI\Common\OptionsItem</Filter>
     </ClInclude>
-    <ClInclude Include="ui\UIOptConCom.h">
-      <Filter>UI\Common\OptionsConsoleCommands</Filter>
-    </ClInclude>
     <ClInclude Include="ui\MMSound.h">
       <Filter>UI\Common\MM</Filter>
     </ClInclude>
@@ -6950,108 +6860,6 @@
     </ClInclude>
     <ClInclude Include="UIGame_custom_script.h">
       <Filter>UI\GameTypes\Game_custom_script</Filter>
-    </ClInclude>
-    <ClInclude Include="player_name_modifyer.h">
-      <Filter>UI\Multiplayer\MM_MP\CDkey</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UICDkey.h">
-      <Filter>UI\Multiplayer\MM_MP\CDkey</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UIMapList.h">
-      <Filter>UI\Multiplayer\MM_MP\MapList</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UIListItemAdv.h">
-      <Filter>UI\Multiplayer\MM_MP\ServerList</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UIListItemServer.h">
-      <Filter>UI\Multiplayer\MM_MP\ServerList</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\TeamInfo.h">
-      <Filter>UI\Multiplayer\MM_MP\TeamInfo</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UIStats.h">
-      <Filter>UI\Multiplayer\HUD\Stats</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UIStatsPlayerInfo.h">
-      <Filter>UI\Multiplayer\HUD\Stats</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UIStatsPlayerList.h">
-      <Filter>UI\Multiplayer\HUD\Stats</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UIStatsIcon.h">
-      <Filter>UI\Multiplayer\HUD\Stats\icons</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UIStatsWnd.h">
-      <Filter>UI\Multiplayer\HUD\Stats\old</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UIChatWnd.h">
-      <Filter>UI\Multiplayer\HUD\Chat</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UIGameLog.h">
-      <Filter>UI\Multiplayer\HUD\GameLog</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UISpeechMenu.h">
-      <Filter>UI\Multiplayer\HUD\SpeechMenu</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\KillMessageStruct.h">
-      <Filter>UI\Multiplayer\HUD\common</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UIPdaKillMessage.h">
-      <Filter>UI\Multiplayer\HUD\common</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UIBuyWndBase.h">
-      <Filter>UI\Multiplayer\BuyWeaponWnd</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UIBuyWndShared.h">
-      <Filter>UI\Multiplayer\BuyWeaponWnd</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UIMpItemsStoreWnd.h">
-      <Filter>UI\Multiplayer\BuyWeaponWnd</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UIMpTradeWnd.h">
-      <Filter>UI\Multiplayer\BuyWeaponWnd</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\Restrictions.h">
-      <Filter>UI\Multiplayer\BuyWeaponWnd\rank_restrictions</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UIBuyWeaponTab.h">
-      <Filter>UI\Multiplayer\BuyWeaponWnd\TAB</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UITabButtonMP.h">
-      <Filter>UI\Multiplayer\BuyWeaponWnd\TAB</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UIMapDesc.h">
-      <Filter>UI\Multiplayer\team_skin_info\MapDesc</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UIMapInfo.h">
-      <Filter>UI\Multiplayer\team_skin_info\MapDesc\MapInfo</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UISpawnWnd.h">
-      <Filter>UI\Multiplayer\team_skin_info\Spawn</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UISkinSelector.h">
-      <Filter>UI\Multiplayer\team_skin_info\SkinSelector</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UIStatix.h">
-      <Filter>UI\Multiplayer\team_skin_info\SkinSelector</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UIChangeMap.h">
-      <Filter>UI\Multiplayer\Voting</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UIChangeWeather.h">
-      <Filter>UI\Multiplayer\Voting</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UIKickPlayer.h">
-      <Filter>UI\Multiplayer\Voting</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UITextVote.h">
-      <Filter>UI\Multiplayer\Voting</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UIVote.h">
-      <Filter>UI\Multiplayer\Voting</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UIVotingCategory.h">
-      <Filter>UI\Multiplayer\Voting</Filter>
     </ClInclude>
     <ClInclude Include="HUDCrosshair.h">
       <Filter>UI\Cursor</Filter>
@@ -9363,12 +9171,6 @@
     <ClCompile Include="ParticlesObject.cpp">
       <Filter>Core\Client\Particles</Filter>
     </ClCompile>
-    <ClCompile Include="Spectator.cpp">
-      <Filter>Core\Client\Spectator</Filter>
-    </ClCompile>
-    <ClCompile Include="spectator_camera_first_eye.cpp">
-      <Filter>Core\Client\Spectator\Cameras</Filter>
-    </ClCompile>
     <ClCompile Include="console_commands.cpp">
       <Filter>Core\Common\Console Commands</Filter>
     </ClCompile>
@@ -9426,9 +9228,6 @@
     <ClCompile Include="file_transfer.cpp">
       <Filter>Core\Server</Filter>
     </ClCompile>
-    <ClCompile Include="screenshot_server.cpp">
-      <Filter>Core\Server</Filter>
-    </ClCompile>
     <ClCompile Include="xrGame.cpp">
       <Filter>Core\Server</Filter>
     </ClCompile>
@@ -9466,9 +9265,6 @@
       <Filter>Core\Server\Games\server</Filter>
     </ClCompile>
     <ClCompile Include="game_sv_base_console_vars.cpp">
-      <Filter>Core\Server\Games\server</Filter>
-    </ClCompile>
-    <ClCompile Include="game_sv_base_script.cpp">
       <Filter>Core\Server\Games\server</Filter>
     </ClCompile>
     <ClCompile Include="game_sv_event_queue.cpp">
@@ -9635,12 +9431,6 @@
     </ClCompile>
     <ClCompile Include="PHMoveStorage.cpp">
       <Filter>Physics\Base\Objects\MoveStorage</Filter>
-    </ClCompile>
-    <ClCompile Include="DisablingParams.cpp">
-      <Filter>Physics\Base\Objects\Disabling</Filter>
-    </ClCompile>
-    <ClCompile Include="PHDisabling.cpp">
-      <Filter>Physics\Base\Objects\Disabling</Filter>
     </ClCompile>
     <ClCompile Include="PHMovementDynamicActivate.cpp">
       <Filter>Physics\Base\Objects\PhyMove\ActorCaracter</Filter>
@@ -9984,9 +9774,6 @@
     <ClCompile Include="ui\UIOptionsManagerScript.cpp">
       <Filter>UI\Common\OptionsItem</Filter>
     </ClCompile>
-    <ClCompile Include="ui\UIOptConCom.cpp">
-      <Filter>UI\Common\OptionsConsoleCommands</Filter>
-    </ClCompile>
     <ClCompile Include="ui\MMSound.cpp">
       <Filter>UI\Common\MM</Filter>
     </ClCompile>
@@ -10262,120 +10049,6 @@
     </ClCompile>
     <ClCompile Include="UIGame_custom_script.cpp">
       <Filter>UI\GameTypes\Game_custom_script</Filter>
-    </ClCompile>
-    <ClCompile Include="player_name_modifyer.cpp">
-      <Filter>UI\Multiplayer\MM_MP\CDkey</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UICDkey.cpp">
-      <Filter>UI\Multiplayer\MM_MP\CDkey</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UIMapList.cpp">
-      <Filter>UI\Multiplayer\MM_MP\MapList</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UIListItemAdv.cpp">
-      <Filter>UI\Multiplayer\MM_MP\ServerList</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UIListItemServer.cpp">
-      <Filter>UI\Multiplayer\MM_MP\ServerList</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\TeamInfo.cpp">
-      <Filter>UI\Multiplayer\MM_MP\TeamInfo</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UIStats.cpp">
-      <Filter>UI\Multiplayer\HUD\Stats</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UIStatsPlayerInfo.cpp">
-      <Filter>UI\Multiplayer\HUD\Stats</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UIStatsPlayerList.cpp">
-      <Filter>UI\Multiplayer\HUD\Stats</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UIStatsIcon.cpp">
-      <Filter>UI\Multiplayer\HUD\Stats\icons</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UIStatsWnd.cpp">
-      <Filter>UI\Multiplayer\HUD\Stats\old</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UIChatWnd.cpp">
-      <Filter>UI\Multiplayer\HUD\Chat</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UIGameLog.cpp">
-      <Filter>UI\Multiplayer\HUD\GameLog</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UISpeechMenu.cpp">
-      <Filter>UI\Multiplayer\HUD\SpeechMenu</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UIPdaKillMessage.cpp">
-      <Filter>UI\Multiplayer\HUD\common</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UIBuyWndShared.cpp">
-      <Filter>UI\Multiplayer\BuyWeaponWnd</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UIMpItemsStoreWnd.cpp">
-      <Filter>UI\Multiplayer\BuyWeaponWnd</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UIMpTradeWnd.cpp">
-      <Filter>UI\Multiplayer\BuyWeaponWnd</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UIMpTradeWnd_init.cpp">
-      <Filter>UI\Multiplayer\BuyWeaponWnd</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UIMpTradeWnd_items.cpp">
-      <Filter>UI\Multiplayer\BuyWeaponWnd</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UIMpTradeWnd_misc.cpp">
-      <Filter>UI\Multiplayer\BuyWeaponWnd</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UIMpTradeWnd_trade.cpp">
-      <Filter>UI\Multiplayer\BuyWeaponWnd</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UIMpTradeWnd_wpn.cpp">
-      <Filter>UI\Multiplayer\BuyWeaponWnd</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\Restrictions.cpp">
-      <Filter>UI\Multiplayer\BuyWeaponWnd\rank_restrictions</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UIBuyWeaponTab.cpp">
-      <Filter>UI\Multiplayer\BuyWeaponWnd\TAB</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UITabButtonMP.cpp">
-      <Filter>UI\Multiplayer\BuyWeaponWnd\TAB</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UIMapDesc.cpp">
-      <Filter>UI\Multiplayer\team_skin_info\MapDesc</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UIMapInfo.cpp">
-      <Filter>UI\Multiplayer\team_skin_info\MapDesc\MapInfo</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UIMapInfo_script.cpp">
-      <Filter>UI\Multiplayer\team_skin_info\MapDesc\MapInfo</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UISpawnWnd.cpp">
-      <Filter>UI\Multiplayer\team_skin_info\Spawn</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UISkinSelector.cpp">
-      <Filter>UI\Multiplayer\team_skin_info\SkinSelector</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UIStatix.cpp">
-      <Filter>UI\Multiplayer\team_skin_info\SkinSelector</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UIChangeMap.cpp">
-      <Filter>UI\Multiplayer\Voting</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UIChangeWeather.cpp">
-      <Filter>UI\Multiplayer\Voting</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UIKickPlayer.cpp">
-      <Filter>UI\Multiplayer\Voting</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UITextVote.cpp">
-      <Filter>UI\Multiplayer\Voting</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UIVote.cpp">
-      <Filter>UI\Multiplayer\Voting</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UIVotingCategory.cpp">
-      <Filter>UI\Multiplayer\Voting</Filter>
     </ClCompile>
     <ClCompile Include="HUDCrosshair.cpp">
       <Filter>UI\Cursor</Filter>

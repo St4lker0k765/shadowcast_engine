@@ -18,7 +18,6 @@
 //#include "script_engine.h"
 #include "ui/UIInventoryUtilities.h"
 #include "file_transfer.h"
-#include "screenshot_server.h"
 #include <functional>
 
 #pragma warning(push)
@@ -1125,56 +1124,4 @@ void xrServer::KickCheaters			()
 		Level().Server->SendBroadcast( tmp_client_id, P );
 	}
 	m_cheaters.clear();
-}
-
-void xrServer::MakeScreenshot(ClientID const & admin_id, ClientID const & cheater_id)
-{
-	if ((cheater_id == SV_Client->ID) && g_dedicated_server)
-	{
-		return;
-	}
-	for (int i = 0; i < sizeof(m_screenshot_proxies)/sizeof(clientdata_proxy*); ++i)
-	{
-		if (!m_screenshot_proxies[i]->is_active())
-		{
-			m_screenshot_proxies[i]->make_screenshot(admin_id, cheater_id);
-			Msg("* admin [%d] is making screeshot of client [%d]", admin_id, cheater_id);
-			return;
-		}
-	}
-	Msg("! ERROR: SV: not enough file transfer proxies for downloading screenshot, please try later ...");
-}
-
-void xrServer::MakeConfigDump(ClientID const & admin_id, ClientID const & cheater_id)
-{
-	if ((cheater_id == SV_Client->ID) && g_dedicated_server)
-	{
-		return;
-	}
-	for (int i = 0; i < sizeof(m_screenshot_proxies)/sizeof(clientdata_proxy*); ++i)
-	{
-		if (!m_screenshot_proxies[i]->is_active())
-		{
-			m_screenshot_proxies[i]->make_config_dump(admin_id, cheater_id);
-			Msg("* admin [%d] is making config dump of client [%d]", admin_id, cheater_id);
-			return;
-		}
-	}
-	Msg("! ERROR: SV: not enough file transfer proxies for downloading file, please try later ...");
-}
-
-
-void xrServer::initialize_screenshot_proxies()
-{
-	for (int i = 0; i < sizeof(m_screenshot_proxies)/sizeof(clientdata_proxy*); ++i)
-	{
-		m_screenshot_proxies[i] = xr_new<clientdata_proxy>(m_file_transfers);
-	}
-}
-void xrServer::deinitialize_screenshot_proxies()
-{
-	for (int i = 0; i < sizeof(m_screenshot_proxies)/sizeof(clientdata_proxy*); ++i)
-	{
-		xr_delete(m_screenshot_proxies[i]);
-	}
 }
