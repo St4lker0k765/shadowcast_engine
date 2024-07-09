@@ -7,8 +7,6 @@
 #include "UIMapInfo.h"
 #include "UIComboBox.h"
 
-using namespace std::placeholders;
-
 using namespace luabind;
 
 bool CUIListWnd::AddItem_script(CUIListItem* item){
@@ -30,7 +28,7 @@ void CUIListWnd::script_register(lua_State *L)
 		class_<CUIListWnd, CUIWindow>("CUIListWnd")
 		.def(							constructor<>())
 //		.def("AddText",					&CUIListWnd::AddText_script)
-		.def("AddItem",                 &CUIListWnd::AddItem_script)
+		.def("AddItem",                 &CUIListWnd::AddItem_script, adopt<2>())
 		.def("RemoveItem",				&CUIListWnd::RemoveItem)
 		.def("RemoveAll",				&CUIListWnd::RemoveAll)
 		.def("EnableScrollBar",			&CUIListWnd::EnableScrollBar)
@@ -76,6 +74,17 @@ void CUIListWnd::script_register(lua_State *L)
 #endif // BATTLEYE
 		.def_readwrite("listen_servers",	&SServerFilters::listen_servers),
 
+		class_<CServerList, CUIWindow>("CServerList")
+		.def(							constructor<>())
+		.def("ConnectToSelected",		&CServerList::ConnectToSelected)
+		.def("SetFilters",				&CServerList::SetFilters)
+		.def("SetPlayerName",			&CServerList::SetPlayerName)
+		.def("RefreshList",				&CServerList::RefreshGameSpyList)
+		.def("RefreshQuick",			&CServerList::RefreshQuick)
+		.def("ShowServerInfo",			&CServerList::ShowServerInfo)
+		.def("NetRadioChanged",			&CServerList::NetRadioChanged)
+		.def("SetSortFunc",				&CServerList::SetSortFunc),
+		
 
 		class_<CUIMapList, CUIWindow>("CUIMapList")
 		.def(							constructor<>())

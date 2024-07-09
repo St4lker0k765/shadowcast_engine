@@ -13,7 +13,7 @@
 #include "ai_space.h"
 #include "ai_debug.h"
 #include "PHdynamicdata.h"
-#include "../xrPhysics/Physics.h"
+#include "Physics.h"
 #include "ShootingObject.h"
 #include "GameTaskManager.h"
 #include "Level_Bullet_Manager.h"
@@ -46,7 +46,8 @@
 #include "UI/UIGameTutorial.h"
 #include "file_transfer.h"
 #include "message_filter.h"
-
+#include "CustomZone.h"
+#include "ZoneList.h"
 #ifdef DEBUG
 #	include "level_debug.h"
 #	include "ai/stalker/ai_stalker.h"
@@ -57,8 +58,10 @@
 // Lain:added
 #	include "debug_text_tree.h"
 #endif
+#include "embedded_editor/embedded_editor_main.h"
+#include "embedded_editor/render/editor_render.h"
 
-extern ENGINE_API bool g_dedicated_server;
+ENGINE_API bool g_dedicated_server;
 
 extern BOOL	g_bDebugDumpPhysicsStep;
 extern CUISequencer * g_tutorial;
@@ -113,7 +116,7 @@ CLevel::CLevel():IPureClient	(Device.GetTimerGlobal())
 	m_dwDeltaUpdate				= u32(fixed_step*1000);
 	m_dwLastNetUpdateTime		= 0;
 
-	//physics_step_time_callback	= (PhysicsStepTimeCallback*) &PhisStepsCallback;
+	physics_step_time_callback	= (PhysicsStepTimeCallback*) &PhisStepsCallback;
 	m_seniority_hierarchy_holder= xr_new<CSeniorityHierarchyHolder>();
 
 	if(!g_dedicated_server)
@@ -467,6 +470,25 @@ void CLevel::ProcessGameEvents		()
 				{
 					cl_Process_Event(dest, type, P);
 				}break;
+			case M_MOVE_PLAYERS:
+				{
+					u8 Count = P.r_u8();
+					for (u8 i=0; i<Count; i++)
+					{
+						u16 ID = P.r_u16();					
+						Fvector NewPos, NewDir;
+						P.r_vec3(NewPos);
+						P.r_vec3(NewDir);
+
+						CActor*	OActor	= smart_cast<CActor*>(Objects.net_Find		(ID));
+						if (0 == OActor)		break;
+						OActor->MoveActor(NewPos, NewDir);
+					};
+
+					NET_Packet PRespond;
+					PRespond.w_begin(M_MOVE_PLAYERS_RESPOND);
+					Send(PRespond, net_flags(TRUE, TRUE));
+				}break;
 			case M_STATISTIC_UPDATE:
 				{
 					if (GameID() != eGameIDSingle)
@@ -552,9 +574,9 @@ void CLevel::OnFrame	()
 	else								psDeviceFlags.set(rsDisableObjectsAsCrows,false);
 
 	// commit events from bullet manager from prev-frame
-	Device.Statistic->TEST0.Begin		();
+	Statistic.TEST0.Begin		();
 	BulletManager().CommitEvents		();
-	Device.Statistic->TEST0.End			();
+	Statistic.TEST0.End			();
 
 	// Client receive
 	if (net_isDisconnected())	
@@ -571,11 +593,11 @@ void CLevel::OnFrame	()
 		return;
 	} else {
 
-		Device.Statistic->netClient1.Begin();
+		Statistic.netClient1.Begin();
 
 		ClientReceive					();
 
-		Device.Statistic->netClient1.End	();
+		Statistic.netClient1.End	();
 	}
 
 	ProcessGameEvents	();
@@ -610,7 +632,7 @@ void CLevel::OnFrame	()
 			if ( IsServer() )
 			{
 				const IServerStatistic* S = Server->GetStatistic();
-				F->SetHeight	(0.015f);
+				F->SetHeightI	(0.015f);
 				F->OutSetI	(0.0f,0.5f);
 				F->SetColor	(D3DCOLOR_XRGB(0,255,0));
 				F->OutNext	("IN:  %4d/%4d (%2.1f%%)",	S->bytes_in_real,	S->bytes_in,	100.f*float(S->bytes_in_real)/float(S->bytes_in));
@@ -649,7 +671,7 @@ void CLevel::OnFrame	()
 			{
 				IPureClient::UpdateStatistic();
 
-				F->SetHeight(0.015f);
+				F->SetHeightI(0.015f);
 				F->OutSetI	(0.0f,0.5f);
 				F->SetColor	(D3DCOLOR_XRGB(0,255,0));
 				F->OutNext	("client_2_sever ping: %d",	net_Statistic.getPing());
@@ -665,7 +687,8 @@ void CLevel::OnFrame	()
 					net_Statistic.getMPS_Send	(),
 					net_Statistic.getRetriedCount(),
 					net_Statistic.dwTimesBlocked,
-					net_Statistic.dwBytesSended
+					net_Statistic.dwBytesSended,
+					net_Statistic.dwBytesPerSec
 					);
 #ifdef DEBUG
 				if (!pStatGraphR)
@@ -695,18 +718,18 @@ void CLevel::OnFrame	()
 //	g_pGamePersistent->Environment().SetGameTime	(GetGameDayTimeSec(),GetGameTimeFactor());
 	g_pGamePersistent->Environment().SetGameTime	(GetEnvironmentGameDayTimeSec(),game->GetEnvironmentGameTimeFactor());
 
-	//Device.Statistic->cripting.Begin	();
+	//Statistic.cripting.Begin	();
 	if (!g_dedicated_server)
 		ai().script_engine().script_process	(ScriptEngine::eScriptProcessorLevel)->update();
-	//Device.Statistic->Scripting.End	();
+	//Statistic.Scripting.End	();
 	m_ph_commander->update				();
 	m_ph_commander_scripts->update		();
 //	autosave_manager().update			();
 
 	//просчитать полет пуль
-	Device.Statistic->TEST0.Begin		();
+	Statistic.TEST0.Begin		();
 	BulletManager().CommitRenderSet		();
-	Device.Statistic->TEST0.End			();
+	Statistic.TEST0.End			();
 
 	// update static sounds
 	if(!g_dedicated_server)
@@ -731,6 +754,7 @@ void CLevel::OnFrame	()
 		pStatGraphR->AppendItem(float(m_dwRPC)*fRPC_Mult, 0xffff0000, 1);
 		pStatGraphR->AppendItem(float(m_dwRPS)*fRPS_Mult, 0xff00ff00, 0);
 	};
+	ShowEditor();
 }
 
 int		psLUA_GCSTEP					= 10			;
@@ -758,9 +782,9 @@ void CLevel::OnRender()
 
 	Game().OnRender();
 	//отрисовать трассы пуль
-	//Device.Statistic->TEST1.Begin();
+	//Statistic.TEST1.Begin();
 	BulletManager().Render();
-	//Device.Statistic->TEST1.End();
+	//Statistic.TEST1.End();
 	//отрисовать интерфейc пользователя
 	HUD().RenderUI();
 
@@ -768,6 +792,8 @@ void CLevel::OnRender()
 	draw_wnds_rects();
 	ph_world->OnRender	();
 #endif // DEBUG
+
+	embedded_editor_render();
 
 #ifdef DEBUG
 	if (ai().get_level_graph())
@@ -1151,7 +1177,29 @@ void CLevel::SetEnvironmentGameTimeFactor(u64 const& GameTime, float const& fTim
 
 	game->SetEnvironmentGameTimeFactor(GameTime, fTimeFactor);
 //	Server->game->SetGameTimeFactor(fTimeFactor);
-}/*
+}
+
+float CLevel::GetEnvironmentTimeFactor() const
+{
+	if (!game)
+		return 0.0f;
+	return game->GetEnvironmentGameTimeFactor(); 
+}
+
+void CLevel::SetEnvironmentTimeFactor(const float fTimeFactor)
+{
+	if (!game)
+		return;
+	game->SetEnvironmentGameTimeFactor(fTimeFactor);
+}
+
+u64 CLevel::GetEnvironmentGameTime() const
+{
+	if (!game)
+		return 0 ;
+	return game->GetEnvironmentGameTime();
+}
+/*
 void CLevel::SetGameTime(ALife::_TIME_ID GameTime)
 {
 	game->SetGameTime(GameTime);
@@ -1226,7 +1274,7 @@ CZoneList* CLevel::create_hud_zones_list()
 
 // -------------------------------------------------------------------------------------------------
 
-bool CZoneList::feel_touch_contact( CObject* O )
+BOOL CZoneList::feel_touch_contact( CObject* O )
 {
 	CLASS_ID clsid	= O->CLS_ID;
 	TypesMapIt it	= m_TypesMap.find(clsid);

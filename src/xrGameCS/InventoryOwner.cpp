@@ -485,15 +485,15 @@ void CInventoryOwner::OnItemDropUpdate ()
 {
 }
 
-void CInventoryOwner::OnItemBelt	(CInventoryItem *inventory_item, SInvItemPlace previous_place)
+void CInventoryOwner::OnItemBelt	(CInventoryItem *inventory_item, EItemPlace previous_place)
 {
 //.	attach		(inventory_item);
 }
-void CInventoryOwner::OnItemRuck	(CInventoryItem *inventory_item, SInvItemPlace previous_place)
+void CInventoryOwner::OnItemRuck	(CInventoryItem *inventory_item, EItemPlace previous_place)
 {
 	detach		(inventory_item);
 }
-void CInventoryOwner::OnItemSlot	(CInventoryItem *inventory_item, SInvItemPlace previous_place)
+void CInventoryOwner::OnItemSlot	(CInventoryItem *inventory_item, EItemPlace previous_place)
 {
 	attach		(inventory_item);
 }
@@ -571,7 +571,7 @@ void CInventoryOwner::sell_useless_items		()
 	}
 }
 
-bool CInventoryOwner::AllowItemToTrade 			(CInventoryItem const * item, SInvItemPlace place) const
+bool CInventoryOwner::AllowItemToTrade 			(CInventoryItem const * item, EItemPlace place) const
 {
 	return						(
 		trade_parameters().enabled(

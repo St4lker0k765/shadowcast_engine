@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
 #include "customoutfit.h"
-#include "../xrphysics/PhysicsShell.h"
+#include "PhysicsShell.h"
 #include "inventory_space.h"
 #include "Inventory.h"
 #include "Actor.h"
@@ -243,12 +243,12 @@ void CCustomOutfit::ApplySkinModel(CActor* pActor, bool bDress, bool bHUDOnly)
 
 }
 
-void	CCustomOutfit::OnMoveToRuck		(SInvItemPlace prev)
+void	CCustomOutfit::OnMoveToRuck		(EItemPlace prev)
 {
 	if (m_pInventory)
 	{
 		CActor* pActor = smart_cast<CActor*> (m_pInventory->GetOwner());
-		if (pActor)
+		if (pActor && prev == eItemPlaceSlot)
 		{
 			CTorch* pTorch = smart_cast<CTorch*>(pActor->inventory().ItemFromSlot(TORCH_SLOT));
 			if(pTorch)

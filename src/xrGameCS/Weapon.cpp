@@ -13,7 +13,7 @@
 #include "game_cl_base.h"
 #include "../Include/xrRender/Kinematics.h"
 #include "ai_object_location.h"
-#include "../../xrphysics/MathUtils.h"
+#include "mathutils.h"
 #include "object_broker.h"
 #include "player_hud.h"
 #include "gamepersistent.h"
@@ -555,7 +555,7 @@ void CWeapon::net_Import(NET_Packet& P)
 	P.r_u8					(wstate);
 
 	u8 Zoom;
-	P.r_u8					((u8)Zoom);
+	P.r_u8					(Zoom);
 
 	if (H_Parent() && H_Parent()->Remote())
 	{

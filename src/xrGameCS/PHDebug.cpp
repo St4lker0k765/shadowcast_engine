@@ -1,10 +1,10 @@
 #include "stdafx.h"
 #ifdef DEBUG
-#include "../xrPhysics/Physics.h"
-#include "../../xrphysics/MathUtils.h"
+#include "physics.h"
+#include "MathUtils.h"
 #include "../xrEngine/StatGraph.h"
 #include "PHDebug.h"
-#include "../xrPhysics/PHObject.h"
+#include "PHObject.h"
 #include "ExtendedGeom.h"
 #include "Level.h"
 #include "Hudmanager.h"
@@ -16,7 +16,7 @@
 #include "../Include/xrRender/KinematicsAnimated.h"
 #include "../xrEngine/bone.h"
 #include "../xrEngine/iphdebug.h"
-#include "../xrPhysics/PHElement.h"
+#include "phelement.h"
 
 Flags32		ph_dbg_draw_mask						;
 Flags32		ph_dbg_draw_mask1						;
@@ -1052,7 +1052,7 @@ std::string dump_string( LPCSTR name, const Fmatrix &form )
 
 void dump( LPCSTR name, const Fmatrix &form )
 {
-	Msg( "%s", dump_string( name, form ) );
+	Msg( "%s", dump_string( name, form ).c_str() );
 	//Msg( "%s, _14_=%f ", dump_string( make_string( "%s.i, ", name ).c_str(), form.i ).c_str( ) , form._14_ );  
 	//Msg( "%s, _24_=%f ", dump_string( make_string( "%s.j, ", name ).c_str(), form.j ).c_str( ) , form._24_ );  
 	//Msg( "%s, _34_=%f ", dump_string( make_string( "%s.k, ", name ).c_str(), form.k ).c_str( ) , form._34_  );  

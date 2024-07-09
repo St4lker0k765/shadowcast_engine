@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "artefact.h"
-#include "../xrphysics/PhysicsShell.h"
+#include "PhysicsShell.h"
 #include "PhysicsShellHolder.h"
 #include "game_cl_base.h"
 
@@ -11,7 +11,7 @@
 #include "level.h"
 #include "ai_object_location.h"
 #include "xrServer_Objects_ALife_Monsters.h"
-#include "../xrphysics/IPHWorld.h"
+#include "phworld.h"
 #include "restriction_space.h"
 #include "../xrEngine/IGame_Persistent.h"
 
@@ -235,12 +235,12 @@ void CArtefact::shedule_Update		(u32 dt)
 	}
 }
 
-/*
+
 void CArtefact::create_physic_shell	()
 {
 	m_pPhysicsShell=P_build_Shell(this,false);
 	m_pPhysicsShell->Deactivate();
-}*/
+}
 
 void CArtefact::StartLights()
 {
@@ -285,7 +285,7 @@ void CArtefact::ActivateArtefact	()
 
 }
 
-void CArtefact::PhDataUpdate	(float step)
+void CArtefact::PhDataUpdate	(dReal step)
 {
 	if(m_activationObj && m_activationObj->IsInProgress())
 		m_activationObj->PhDataUpdate			(step);
@@ -435,8 +435,14 @@ void CArtefact::OnAnimationEnd(u32 state)
 		}break;
 	case eActivating:
 		{
-			SwitchState(eHiding);
-			ActivateArtefact();
+			if(Local())
+			{
+				SwitchState		(eHiding);
+				NET_Packet		P;
+				u_EventGen		(P, GEG_PLAYER_ACTIVATEARTEFACT, H_Parent()->ID());
+				P.w_u16			(ID());
+				u_EventSend		(P);	
+			}
 		}break;
 	};
 }

@@ -10,6 +10,7 @@
 #include "../xrNetServer/net_server.h"
 #include "game_sv_base.h"
 #include "id_generator.h"
+#include "battleye.h"
 #include "../xrEngine/mp_logging.h"
 #include "secure_messaging.h"
 
@@ -251,6 +252,8 @@ public:
 	virtual bool			HasProtected		()	{ return false; }
 			bool			HasBattlEye			();
 			void			AddCheater			(shared_str const & reason, ClientID const & cheaterID);
+			void			MakeScreenshot		(ClientID const & admin_id, ClientID const & cheater_id);
+			void			MakeConfigDump		(ClientID const & admin_id, ClientID const & cheater_id);
 
 	virtual void			GetServerInfo		( CServerInfo* si );
 public:

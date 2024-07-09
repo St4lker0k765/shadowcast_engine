@@ -7,17 +7,17 @@
 #include "object_factory.h"
 #include "xrServer_Objects_ALife.h"
 #include "Level.h"
-#include "../xrphysics/PhysicsShell.h"
+#include "PhysicsShell.h"
 #include "Actor.h"
 #include "CharacterPhysicsSupport.h"
 #include "ai_object_location.h"
 #include "ai_space.h"
 #include "game_graph.h"
 #include "PHCollideValidator.h"
-#include "../xrPhysics/PHShell.h"
-#include "../../xrphysics/MathUtils.h"
+#include "PHShell.h"
+#include "MathUtils.h"
 #ifdef DEBUG
-#include "../xrphysics/IPHWorld.h"
+#include "PHWorld.h"
 #endif
 
 #include "../Include/xrRender/Kinematics.h"
@@ -272,7 +272,7 @@ void CPHDestroyable::NotificatePart(CPHDestroyableNotificate *dn)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-	CPhysicsElement* own_element = own_shell->get_Element(ref_bone);
+		dBodyID own_body=own_shell->get_Element(ref_bone)->get_body()			;
 
 		u16 new_el_number = new_shell->get_ElementsNumber()									;
 
@@ -292,14 +292,12 @@ void CPHDestroyable::NotificatePart(CPHDestroyableNotificate *dn)
 			Fvector rnd_dir;rnd_dir.random_dir();
 			e->applyImpulse(rnd_dir,random_hit);
 			Fvector mc; mc.set(e->mass_Center());
-			Fvector res_lvell;
-			own_element->GetPointVel(res_lvell, mc);
-
-			res_lvell.mul(lv_transition_factor);
-			e->set_LinearVel(res_lvell);
-
-			Fvector res_avell;
-			own_element->get_AngularVel(res_avell);
+			dVector3 res_lvell;
+			dBodyGetPointVel(own_body,mc.x,mc.y,mc.z,res_lvell);
+			cast_fv(res_lvell).mul(lv_transition_factor);
+			e->set_LinearVel(cast_fv(res_lvell));
+			
+			Fvector res_avell;res_avell.set(cast_fv(dBodyGetAngularVel(own_body)));
 			res_avell.mul(av_transition_factor);
 			e->set_AngularVel(res_avell);
 		}

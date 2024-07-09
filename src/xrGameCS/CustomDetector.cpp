@@ -1,27 +1,11 @@
 #include "stdafx.h"
-#include "customdetector.h"
-#include "ui/ArtefactDetectorUI.h"
-#include "hudmanager.h"
-#include "inventory.h"
-#include "level.h"
-#include "map_manager.h"
-#include "ActorEffector.h"
-#include "actor.h"
-#include "ui/UIWindow.h"
+#include "CustomDetector.h"
+#include "Actor.h"
+#include "Inventory.h"
+#include "Level.h"
+#include "Weapon.h"
 #include "player_hud.h"
-#include "weapon.h"
-
-ITEM_INFO::ITEM_INFO()
-{
-	pParticle	= NULL;
-	curr_ref	= NULL;
-}
-
-ITEM_INFO::~ITEM_INFO()
-{
-	if(pParticle)
-		CParticlesObject::Destroy(pParticle);
-}
+#include "ui/ArtefactDetectorUI.h"
 
 bool  CCustomDetector::CheckCompatibilityInt(CHudItem* itm)
 {
@@ -30,7 +14,7 @@ bool  CCustomDetector::CheckCompatibilityInt(CHudItem* itm)
 
 	CInventoryItem iitm				= itm->item();
 	u32 slot						= iitm.GetSlot();
-	bool bres = (slot==INV_SLOT_2 || slot==KNIFE_SLOT || slot==BOLT_SLOT);
+	bool bres = (slot==PISTOL_SLOT || slot==KNIFE_SLOT || slot==BOLT_SLOT);
 
 	if(itm->GetState()!=CHUDState::eShowing)
 		bres = bres && !itm->IsPending();
@@ -38,9 +22,15 @@ bool  CCustomDetector::CheckCompatibilityInt(CHudItem* itm)
 	if(bres)
 	{
 		CWeapon* W = smart_cast<CWeapon*>(itm);
-		if(W)
-			bres = bres && (W->GetState()!=CHUDState::eBore) && !W->IsZoomed();
+		if (W)
+			bres = bres
+				&& (W->GetState() != CHUDState::eBore)
+				&& (W->GetState() != CWeapon::eReload)
+				&& (W->GetState() != CWeapon::eSwitch)
+				&& !W->IsZoomed();
 	}
+	if (bres)
+		m_lastParentSlot = slot;
 	return bres;
 }
 
@@ -71,6 +61,7 @@ void CCustomDetector::ShowDetector(bool bFastMode)
 
 void CCustomDetector::ToggleDetector(bool bFastMode)
 {
+	m_bNeedActivation = false;
 	m_bFastAnimMode = bFastMode;
 	if(GetState()==eHidden)
 	{
@@ -81,11 +72,13 @@ void CCustomDetector::ToggleDetector(bool bFastMode)
 			SwitchState				(eShowing);
 			TurnDetectorInternal	(true);
 		}
+		else {
+			m_pInventory->Activate(m_lastParentSlot);
+			m_bNeedActivation = true;
+		}
 	}else
 	if(GetState()==eIdle)
 		SwitchState					(eHiding);
-
-	m_bNeedActivation = false;
 }
 
 void CCustomDetector::OnStateSwitch(u32 S)
@@ -268,7 +261,7 @@ void CCustomDetector::OnH_B_Independent(bool just_before_destroy)
 }
 
 
-void CCustomDetector::OnMoveToRuck(SInvItemPlace prev)
+void CCustomDetector::OnMoveToRuck(EItemPlace prev)
 {
 	inherited::OnMoveToRuck	(prev);
 	if(GetState()==eIdle)
@@ -305,7 +298,7 @@ void CCustomDetector::UpdateNightVisionMode(bool b_on)
 {
 }
 
-bool CAfList::feel_touch_contact	(CObject* O)
+BOOL CAfList::feel_touch_contact	(CObject* O)
 {
 	CLASS_ID	clsid			= O->CLS_ID;
 	TypesMapIt it				= m_TypesMap.find(clsid);

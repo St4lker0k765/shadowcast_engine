@@ -33,7 +33,7 @@ protected:
 	template <u32 NUM>
 	static void						LoadItemData	(u32, LPCSTR)
 	{
-		STATIC_CHECK(false, Specialization_for_LoadItemData_in_CIni_IdToIndex_not_found);
+		static_assert(false, "Specialization for LoadItemData in CIni_IdToIndex not found");
 		NODEFAULT;
 	}
 
@@ -120,26 +120,21 @@ CSINI_IdToIndex::~CIni_IdToIndex()
 
 
 TEMPLATE_SPECIALIZATION
-const typename ITEM_DATA* CSINI_IdToIndex::GetById (const T_ID& str_id, bool no_assert)
+const ITEM_DATA* CSINI_IdToIndex::GetById (const T_ID& str_id, bool no_assert)
 {
 	for(T_VECTOR::iterator it = m_pItemDataVector->begin();
 		m_pItemDataVector->end() != it; it++)
 	{
 		if(!xr_strcmp((*it).id, str_id))
-			break;
+			return &(*it);
 	}
 
-	if(m_pItemDataVector->end() == it)
-	{
-		R_ASSERT3(no_assert, "item not found, id", *str_id);
-		return NULL;
-	}
-
-	return &(*it);
+	R_ASSERT3(no_assert, "item not found, id", *str_id);
+	return NULL;
 }
 
 TEMPLATE_SPECIALIZATION
-const typename ITEM_DATA* CSINI_IdToIndex::GetByIndex(T_INDEX index, bool no_assert)
+const ITEM_DATA* CSINI_IdToIndex::GetByIndex(T_INDEX index, bool no_assert)
 {
 	if((size_t)index>=m_pItemDataVector->size())
 	{
@@ -157,7 +152,7 @@ void CSINI_IdToIndex::DeleteIdToIndexData	()
 }
 
 TEMPLATE_SPECIALIZATION
-typename void	CSINI_IdToIndex::InitInternal ()
+void	CSINI_IdToIndex::InitInternal ()
 {
 	VERIFY(!m_pItemDataVector);
 	T_INIT::InitIdToIndex();

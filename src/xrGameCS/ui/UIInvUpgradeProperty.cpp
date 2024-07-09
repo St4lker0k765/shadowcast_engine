@@ -222,7 +222,7 @@ void UIInvUpgPropertiesWnd::init_from_xml( LPCSTR xml_name )
 		property_id._set( (*ib).first );
 		if ( !ui_property->init_property( property_id ) )
 		{
-			Msg( "! Invalid property <%s> in inventory upgrade manager!", property_id );
+			Msg( "! Invalid property <%s> in inventory upgrade manager!", property_id.c_str() );
 			continue;
 		}
 
@@ -264,7 +264,7 @@ void UIInvUpgPropertiesWnd::set_upgrade_info( Upgrade_type& upgrade )
 		return;
 	}
 
-	m_temp_upgrade_vector.clear();
+	m_temp_upgrade_vector.clear_not_free();
 	m_temp_upgrade_vector.push_back( upgrade.id() );
 	set_info( m_temp_upgrade_vector );
 }

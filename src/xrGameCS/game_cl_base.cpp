@@ -12,6 +12,7 @@
 #include "string_table.h"
 #include "game_cl_base_weapon_usage_statistic.h"
 #include "game_sv_mp_vote_flags.h"
+#include "../xrEngine/Environment.h"
 
 EGameIDs ParseStringToGameType	(LPCSTR str);
 LPCSTR GameTypeToString			(EGameIDs gt, bool bShort);
@@ -114,7 +115,7 @@ void	game_cl_GameState::net_import_state	(NET_Packet& P)
 				OnPlayerVoted(IP);
 			//***********************************************
 
-			players_new.insert(std::make_pair(ID,IP));
+			players_new.insert(mk_pair(ID,IP));
 			players.erase(I);
 		}else{
 			IP = createPlayerState();
@@ -122,7 +123,7 @@ void	game_cl_GameState::net_import_state	(NET_Packet& P)
 
 			if (Type() != eGameIDSingle) OnPlayerFlagsChanged(IP);
 
-			players_new.insert(std::make_pair(ID,IP));
+			players_new.insert(mk_pair(ID,IP));
 		}
 		if (IP->testFlag(GAME_PLAYER_FLAG_LOCAL) ) local_player = IP;
 	}
@@ -210,7 +211,7 @@ void game_cl_GameState::TranslateGameMessage	(u32 msg, NET_Packet& P)
 			P.r_stringZ(PlayerName);
 			if (Type() != eGameIDSingle)
 			{
-				players.insert(std::make_pair(newClientId, PS));
+				players.insert(mk_pair(newClientId, PS));
 				OnNewPlayerConnected(newClientId);
 			}
 			sprintf_s(Text, "%s%s %s%s",Color_Teams[0],PlayerName,Color_Main,*st.translate("mp_connected"));
@@ -316,6 +317,11 @@ void game_cl_GameState::shedule_Update		(u32 dt)
 	//---------------------------------------
 	switch (Phase())
 	{
+	case GAME_PHASE_INPROGRESS:
+		{
+			if (!IsGameTypeSingle())
+				m_WeaponUsageStatistic->Update();
+		}break;
 	default:
 		{
 		}break;
@@ -382,6 +388,9 @@ void				game_cl_GameState::OnSwitchPhase			(u32 old_phase, u32 new_phase)
 {
 	switch (old_phase)
 	{
+	case GAME_PHASE_INPROGRESS:
+		{
+		}break;
 	default:
 		{
 		}break;
@@ -389,6 +398,10 @@ void				game_cl_GameState::OnSwitchPhase			(u32 old_phase, u32 new_phase)
 
 	switch (new_phase)
 	{
+		case GAME_PHASE_INPROGRESS:
+			{
+				m_WeaponUsageStatistic->Clear();
+			}break;
 		default:
 			{
 			}break;

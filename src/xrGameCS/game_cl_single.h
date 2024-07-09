@@ -17,6 +17,7 @@ public :
 
 	virtual		ALife::_TIME_ID		GetEnvironmentGameTime		();
 	virtual		float				GetEnvironmentGameTimeFactor();
+				void				SetEnvironmentGameTimeFactor(ALife::_TIME_ID GameTime, const float fTimeFactor) override;
 	virtual		void				SetEnvironmentGameTimeFactor(const float fTimeFactor);
 
 	void		OnDifficultyChanged		();
@@ -34,7 +35,7 @@ enum ESingleGameDifficulty{
 };
 
 extern ESingleGameDifficulty g_SingleGameDifficulty;
-xr_token		difficulty_type_token	[ ];
+extern xr_token difficulty_type_token[];
 
 typedef enum_exporter<ESingleGameDifficulty> CScriptGameDifficulty;
 add_to_type_list(CScriptGameDifficulty)

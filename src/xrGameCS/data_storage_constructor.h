@@ -10,6 +10,7 @@
 
 template <typename T>				class CEmptyClassTemplate	{};
 template <typename T1, typename T2> class CEmptyClassTemplate2	{};
+class CBuilderAllocatorConstructor0 {};
 
 #include "manager_builder_allocator_constructor.h"
 
@@ -37,7 +38,7 @@ template <
 	class	 _manager_builder_allocator_constructor = CManagerBuilderAllocatorConstructor
 >
 struct CDataStorageConstructor : 
-    public _algorithm::template CDataStorage<
+	public _algorithm::template CDataStorage<
 		_manager_builder_allocator_constructor<
 			_manager,
 			_builder,
@@ -47,7 +48,7 @@ struct CDataStorageConstructor :
 		_vertex
 	>
 {
-    typedef typename _algorithm::template CDataStorage<
+	typedef typename _algorithm::template CDataStorage<
 		_manager_builder_allocator_constructor<
 			_manager,
 			_builder,

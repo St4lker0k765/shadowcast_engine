@@ -603,7 +603,7 @@ void CAI_Stalker::update_object_handler	()
 		try {
 			CObjectHandler::update	();
 		}
-#ifdef DEBUG
+#if XRAY_EXCEPTIONS
 		catch (luabind::cast_failed &message) {
 			Msg						("! Expression \"%s\" from luabind::object to %s",message.what(),message.info()->name());
 			throw;
@@ -796,7 +796,7 @@ void CAI_Stalker::shedule_Update		( u32 DT )
 	}
 
 	START_PROFILE("stalker/schedule_update/inherited")
-	inherited::inherited::shedule_Update(DT);
+	CEntityAlive::shedule_Update(DT);
 	STOP_PROFILE
 	
 	if (Remote())		{
@@ -804,7 +804,7 @@ void CAI_Stalker::shedule_Update		( u32 DT )
 		// here is monster AI call
 		VERIFY							(_valid(Position()));
 		m_fTimeUpdateDelta				= dt;
-		Device.Statistic->AI_Think.Begin	();
+		Statistic.AI_Think.Begin	();
 		if (GetScriptControl())
 			ProcessScripts				();
 		else
@@ -813,7 +813,7 @@ void CAI_Stalker::shedule_Update		( u32 DT )
 #endif
 				Think					();
 		m_dwLastUpdateTime				= Device.dwTimeGlobal;
-		Device.Statistic->AI_Think.End	();
+		Statistic.AI_Think.End	();
 		VERIFY							(_valid(Position()));
 
 		// Look and action streams

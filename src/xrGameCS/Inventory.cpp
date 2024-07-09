@@ -25,11 +25,11 @@
 using namespace InventoryUtilities;
 
 // what to block
-u16	INV_STATE_LADDER		= (1<<INV_SLOT_3 | 1<<BINOCULAR_SLOT);
-u16	INV_STATE_CAR			= INV_STATE_LADDER;
-u16	INV_STATE_BLOCK_ALL		= 0xffffffff;
-u16	INV_STATE_INV_WND		= INV_STATE_BLOCK_ALL;
-u16	INV_STATE_BUY_MENU		= INV_STATE_BLOCK_ALL;
+u32	INV_STATE_LADDER		= (1<<RIFLE_SLOT | 1<<APPARATUS_SLOT);
+u32	INV_STATE_CAR			= INV_STATE_LADDER;
+u32	INV_STATE_BLOCK_ALL		= 0xffffffff;
+u32	INV_STATE_INV_WND		= INV_STATE_BLOCK_ALL;
+u32	INV_STATE_BUY_MENU		= INV_STATE_BLOCK_ALL;
 
 CInventorySlot::CInventorySlot() 
 {
@@ -126,15 +126,15 @@ void CInventory::Take(CGameObject *pObj, bool bNotActivate, bool strict_placemen
 	m_all.push_back						(pIItem);
 
 	if(!strict_placement)
-		pIItem->m_eItemCurrPlace.type			= eItemPlaceUndefined;
+		pIItem->m_eItemCurrPlace			= eItemPlaceUndefined;
 
 	bool result							= false;
-	switch(pIItem->m_eItemCurrPlace.type)
+	switch(pIItem->m_eItemCurrPlace)
 	{
 	case eItemPlaceBelt:
 		result							= Belt(pIItem, strict_placement); 
 		if(!result)
-			pIItem->m_eItemCurrPlace.type	= eItemPlaceUndefined;
+			pIItem->m_eItemCurrPlace	= eItemPlaceUndefined;
 #ifdef DEBUG
 		if(!result) 
 			Msg("cant put in belt item %s", *pIItem->object().cName());
@@ -144,7 +144,7 @@ void CInventory::Take(CGameObject *pObj, bool bNotActivate, bool strict_placemen
 	case eItemPlaceRuck:
 		result							= Ruck(pIItem, strict_placement);
 		if(!result)
-			pIItem->m_eItemCurrPlace.type	= eItemPlaceUndefined;
+			pIItem->m_eItemCurrPlace	= eItemPlaceUndefined;
 #ifdef DEBUG
 		if(!result) 
 			Msg("cant put in ruck item %s", *pIItem->object().cName());
@@ -154,7 +154,7 @@ void CInventory::Take(CGameObject *pObj, bool bNotActivate, bool strict_placemen
 	case eItemPlaceSlot:
 		result							= Slot(pIItem, bNotActivate, strict_placement); 
 		if(!result)
-			pIItem->m_eItemCurrPlace.type	= eItemPlaceUndefined;
+			pIItem->m_eItemCurrPlace	= eItemPlaceUndefined;
 #ifdef DEBUG
 		if(!result) 
 			Msg("cant slot in slot item %s", *pIItem->object().cName());
@@ -162,7 +162,7 @@ void CInventory::Take(CGameObject *pObj, bool bNotActivate, bool strict_placemen
 		break;
 	}
 
-	if(pIItem->m_eItemCurrPlace.type==eItemPlaceUndefined)
+	if(pIItem->m_eItemCurrPlace==eItemPlaceUndefined)
 	{
 		if( !pIItem->RuckDefault() )
 		{
@@ -212,7 +212,7 @@ bool CInventory::DropItem(CGameObject *pObj, bool just_before_destroy)
 	
 	pIItem->object().processing_activate(); 
 	
-	switch(pIItem->m_eItemCurrPlace.type)
+	switch(pIItem->m_eItemCurrPlace)
 	{
 	case eItemPlaceBelt:{
 			VERIFY(InBelt(pIItem));
@@ -375,7 +375,7 @@ bool CInventory::Slot(PIItem pIItem, bool bNotActivate, bool strict_placement)
 	}
 	
 	m_pOwner->OnItemSlot		(pIItem, pIItem->m_eItemCurrPlace);
-	pIItem->m_eItemCurrPlace.type	= eItemPlaceSlot;
+	pIItem->m_eItemCurrPlace	= eItemPlaceSlot;
 	pIItem->OnMoveToSlot		();
 	
 	pIItem->object().processing_activate();
@@ -406,8 +406,8 @@ bool CInventory::Belt(PIItem pIItem, bool strict_placement)
 	CalcTotalWeight();
 	InvalidateState();
 
-	SInvItemPlace p = pIItem->m_eItemCurrPlace;
-	pIItem->m_eItemCurrPlace.type = eItemPlaceBelt;
+	EItemPlace p = pIItem->m_eItemCurrPlace;
+	pIItem->m_eItemCurrPlace = eItemPlaceBelt;
 	m_pOwner->OnItemBelt(pIItem, p);
 	pIItem->OnMoveToBelt();
 
@@ -467,8 +467,8 @@ bool CInventory::Ruck(PIItem pIItem, bool strict_placement)
 	InvalidateState									();
 
 	m_pOwner->OnItemRuck							(pIItem, pIItem->m_eItemCurrPlace);
-	SInvItemPlace prev_place							= pIItem->m_eItemCurrPlace;
-	pIItem->m_eItemCurrPlace.type						= eItemPlaceRuck;
+	EItemPlace prev_place							= pIItem->m_eItemCurrPlace;
+	pIItem->m_eItemCurrPlace						= eItemPlaceRuck;
 	pIItem->OnMoveToRuck							(prev_place);
 
 	if(in_slot)
@@ -519,7 +519,7 @@ PIItem CInventory::GetNextItemInActiveSlot( bool first_call )
 		}
 	}
 	
-	m_activ_last_items.clear();
+	m_activ_last_items.clear_not_free();
 
 	if ( first_call && found )
 	{
@@ -927,7 +927,7 @@ void CInventory::UpdateDropTasks()
 			UpdateDropItem		(m_slots[i].m_pIItem);
 	}
 
-	for(i = 0; i < 2; ++i)	
+	for(u32 i = 0; i < 2; ++i)	
 	{
 		TIItemContainer &list			= i?m_ruck:m_belt;
 		TIItemContainer::iterator it	= list.begin();
@@ -1265,7 +1265,8 @@ bool CInventory::CanTakeItem(CInventoryItem *inventory_item) const
 
 	if(!inventory_item->CanTake()) return false;
 
-	for(TIItemContainer::const_iterator it = m_all.begin(); it != m_all.end(); it++)
+	TIItemContainer::const_iterator it = m_all.begin();
+	for(; it != m_all.end(); it++)
 		if((*it)->object().ID() == inventory_item->object().ID()) break;
 	VERIFY3(it == m_all.end(), "item already exists in inventory",*inventory_item->object().cName());
 

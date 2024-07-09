@@ -32,6 +32,7 @@ public:
 				P.r_u16			(type		);
 				P.r_u16			(destination);
 			}break;
+		case M_MOVE_PLAYERS:
 		case M_STATISTIC_UPDATE:
 		case M_FILE_TRANSFER:
 		case M_GAMEMESSAGE:
@@ -50,7 +51,7 @@ public:
 			P.r				(&*data.begin(),size);
 		}
 	}
-	void				Export		(NET_Packet& P)
+	void				export_to		(NET_Packet& P)
 	{
 		u16	ID			=	M_EVENT;
 		P.w_begin		(ID			);

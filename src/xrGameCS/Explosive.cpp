@@ -6,7 +6,7 @@
 
 #include "explosive.h"
 
-#include "../xrphysics/PhysicsShell.h"
+#include "PhysicsShell.h"
 #include "entity.h"
 //#include "PSObject.h"
 #include "ParticlesObject.h"
@@ -26,10 +26,10 @@
 #	include "PHDebug.h"
 #endif
 
-#include "../xrPhysics/Physics.h"
-#include "../../xrphysics/MathUtils.h"
-#include "../xrPhysics/PHValideValues.h"
-#include "../xrPhysics/PHActivationShape.h"
+#include "Physics.h"
+#include "MathUtils.h"
+#include "phvalidevalues.h"
+#include "PHActivationShape.h"
 #include "game_base_space.h"
 #include "profiler.h"
 
@@ -92,7 +92,7 @@ void CExplosive::Load(LPCSTR section)
 	Load				(pSettings,section);
 }
 
-void CExplosive::Load(const CInifile * ini,LPCSTR section)
+void CExplosive::Load(CInifile *ini,LPCSTR section)
 {
 	m_fBlastHit			= ini->r_float(section,"blast");
 	m_fBlastRadius		= ini->r_float(section,"blast_r");

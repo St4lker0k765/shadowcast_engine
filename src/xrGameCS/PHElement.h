@@ -4,10 +4,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 #include "Geometry.h"
 #include "phdefs.h"
-#include "../xrPhysics/PhysicsCommon.h"
+#include "PhysicsCommon.h"
 #include "PHSynchronize.h"
 #include "PHDisabling.h"
-#include "../xrPhysics/PHGeometryOwner.h"
+#include "PHGeometryOwner.h"
 #include "PHInterpolation.h"
 #include "PHFracture.h"
 
@@ -102,7 +102,7 @@ public:
 	virtual	void						*get_CallbackData						();
 	virtual	ObjectContactCallbackFun	*get_ObjectContactCallback				();
 	virtual void						set_PhysicsRefObject					(CPhysicsShellHolder* ref_object);												//aux
-	virtual IPhysicsShellHolder*		PhysicsRefObject();												//aux
+	virtual CPhysicsShellHolder*		PhysicsRefObject						(){return m_phys_ref_object;}													//aux
 	virtual void						SetMaterial								(u16 m);																		//aux
 	virtual void						SetMaterial								(LPCSTR m){CPHGeometryOwner::SetMaterial(m);}									//aux
 	virtual u16							numberOfGeoms							()const;																				//aux

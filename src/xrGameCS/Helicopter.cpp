@@ -1,7 +1,7 @@
 #include "pch_script.h"
 #include "helicopter.h"
 #include "xrserver_objects_alife.h"
-#include "../xrphysics/PhysicsShell.h"
+#include "PhysicsShell.h"
 #include "level.h"
 #include "ai_sounds.h"
 #include "../Include/xrRender/Kinematics.h"
@@ -11,7 +11,7 @@
 #include "script_game_object.h"
 #include "../xrEngine/LightAnimLibrary.h"
 #include "HudManager.h"
-#include "../xrPhysics/PhysicsCommon.h"
+#include "physicscommon.h"
 //50fps fixed
 float STEP=0.02f;
 
@@ -397,7 +397,7 @@ void CHelicopter::UpdateCL()
 		return;
 	}
 	else
-		PPhysicsShell()->SetTransform(XFORM(), mh_unspecified);
+		PPhysicsShell()->SetTransform(XFORM());
 
 	m_movement.Update();
 

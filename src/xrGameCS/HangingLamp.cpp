@@ -2,10 +2,10 @@
 #include "HangingLamp.h"
 #include "../xrEngine/LightAnimLibrary.h"
 #include "../xrEngine/xr_collide_form.h"
-#include "../xrphysics/PhysicsShell.h"
-#include "../xrPhysics/Physics.h"
+#include "PhysicsShell.h"
+#include "Physics.h"
 #include "xrserver_objects_alife.h"
-#include "../xrPhysics/PHElement.h"
+#include "PHElement.h"
 #include "../Include/xrRender/Kinematics.h"
 #include "../Include/xrRender/KinematicsAnimated.h"
 #include "game_object_space.h"
@@ -321,10 +321,10 @@ void CHangingLamp::CreateBody(CSE_ALifeObjectHangingLamp	*lamp)
 			_GetItem					(fixed_bones,i,fixed_bone)			;
 			u16 fixed_bone_id=pKinematics->LL_BoneID(fixed_bone)			;
 			R_ASSERT2(BI_NONE!=fixed_bone_id,"wrong fixed bone")			;
-			bone_map.insert(std::make_pair(fixed_bone_id,physicsBone()))			;
+			bone_map.insert(mk_pair(fixed_bone_id,physicsBone()))			;
 		}
 	}else{
-		bone_map.insert(std::make_pair(pKinematics->LL_GetBoneRoot(),physicsBone()))			;
+		bone_map.insert(mk_pair(pKinematics->LL_GetBoneRoot(),physicsBone()))			;
 	}
 
 	phys_shell_verify_object_model ( *this );

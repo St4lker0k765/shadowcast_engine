@@ -11,7 +11,7 @@
 #include "inventory_item.h"
 #include "inventory_item_impl.h"
 #include "inventory.h"
-#include "../xrPhysics/Physics.h"
+#include "Physics.h"
 #include "physicsshellholder.h"
 #include "entity_alive.h"
 #include "Level.h"
@@ -56,7 +56,7 @@ CInventoryItem::CInventoryItem()
 
 	m_name = m_nameShort = NULL;
 
-	m_eItemCurrPlace.type	= eItemPlaceUndefined;
+	m_eItemCurrPlace	= eItemPlaceUndefined;
 	m_Description		= "";
 	m_section_id		= 0;
 	m_is_helper			= false;
@@ -188,13 +188,13 @@ void CInventoryItem::DeactivateItem()
 void CInventoryItem::OnH_B_Independent(bool just_before_destroy)
 {
 	UpdateXForm();
-	m_eItemCurrPlace.type = eItemPlaceUndefined ;
+	m_eItemCurrPlace = eItemPlaceUndefined ;
 }
 
 void CInventoryItem::OnH_A_Independent()
 {
 	m_dwItemIndependencyTime	= Level().timeServer();
-	m_eItemCurrPlace.type			= eItemPlaceUndefined;	
+	m_eItemCurrPlace			= eItemPlaceUndefined;	
 	inherited::OnH_A_Independent();
 }
 
@@ -377,7 +377,7 @@ void CInventoryItem::net_Destroy		()
 
 void CInventoryItem::save(NET_Packet &packet)
 {
-	packet.w_u8				((u8)m_eItemCurrPlace.value);
+	packet.w_u8				((u8)m_eItemCurrPlace);
 	packet.w_float			(m_fCondition);
 //--	save_data				(m_upgrades, packet);
 
@@ -760,7 +760,7 @@ void CInventoryItem::net_Export			(NET_Packet& P)
 
 void CInventoryItem::load(IReader &packet)
 {
-	m_eItemCurrPlace.value = packet.r_u16();
+	m_eItemCurrPlace		= (EItemPlace)packet.r_u8();
 	m_fCondition			= packet.r_float();
 
 //--	load_data( m_upgrades, packet );
@@ -1203,7 +1203,7 @@ void CInventoryItem::reload		(LPCSTR section)
 void CInventoryItem::reinit		()
 {
 	m_pInventory	= NULL;
-	m_eItemCurrPlace.type = eItemPlaceUndefined;
+	m_eItemCurrPlace = eItemPlaceUndefined;
 }
 
 bool CInventoryItem::can_kill			() const

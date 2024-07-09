@@ -3,8 +3,8 @@
 #define UI_BASE_WIDTH	1024.0f
 #define UI_BASE_HEIGHT	768.0f
 
+struct CFontManager;
 class CUICursor;
-class CUIGameCustom;
 
 #include "../Include/xrRender/UIRender.h"
 #include "../Include/xrRender/FactoryPtr.h"
@@ -93,4 +93,3 @@ public:
 
 extern CUICursor*	GetUICursor						();
 extern ui_core*		UI								();
-extern CUIGameCustom* CurrentGameUI();

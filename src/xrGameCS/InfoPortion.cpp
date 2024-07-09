@@ -10,8 +10,7 @@
 #include "script_engine.h"
 #include "ui\uixmlinit.h"
 #include "object_broker.h"
-#include "game_news.h"
-/*
+
 void INFO_DATA::load (IReader& stream) 
 {
 	load_data(info_id, stream); 
@@ -23,7 +22,7 @@ void INFO_DATA::save (IWriter& stream)
 	save_data(info_id, stream); 
 	save_data(receive_time, stream);
 }
-*/
+
 
 SInfoPortionData::SInfoPortionData ()
 {
@@ -78,7 +77,7 @@ void CInfoPortion::load_shared	(LPCSTR)
 	//после получения этой порции
 	int disable_num = pXML->GetNodesNum(pNode, "disable");
 	info_data()->m_DisableInfo.clear();
-	for(i=0; i<disable_num; ++i)
+	for(int i=0; i<disable_num; ++i)
 	{
 		shared_str info_id		= pXML->Read(pNode, "disable", i,"");
 		info_data()->m_DisableInfo.push_back(info_id);
@@ -91,7 +90,7 @@ void CInfoPortion::load_shared	(LPCSTR)
 	//индексы статей
 	info_data()->m_Articles.clear();
 	int articles_num	= pXML->GetNodesNum(pNode, "article");
-	for(i=0; i<articles_num; ++i)
+	for(int i=0; i<articles_num; ++i)
 	{
 		LPCSTR article_str_id = pXML->Read(pNode, "article", i, NULL);
 		THROW(article_str_id);
@@ -100,7 +99,7 @@ void CInfoPortion::load_shared	(LPCSTR)
 
 	info_data()->m_ArticlesDisable.clear();
 	articles_num = pXML->GetNodesNum(pNode, "article_disable");
-	for(i=0; i<articles_num; ++i)
+	for(int i=0; i<articles_num; ++i)
 	{
 		LPCSTR article_str_id = pXML->Read(pNode, "article_disable", i, NULL);
 		THROW(article_str_id);

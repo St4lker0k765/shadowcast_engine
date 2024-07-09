@@ -2,9 +2,8 @@
 #ifndef CPHMOVEMENT_CONTROL_H
 #define CPHMOVEMENT_CONTROL_H
 
-#include "../xrPhysics/PHCharacter.h"
-#include "../../xrphysics/MathUtils.h"
-#include "CaptureBoneCallback.h"
+#include "PHCharacter.h"
+#include "MathUtils.h"
 namespace ALife {
 	enum EHitType;
 };
@@ -13,11 +12,9 @@ namespace DetailPathManager {
 	struct STravelPathPoint;
 };
 
-class CPHCharacter;
 class CPHAICharacter;
 class CPHSimpleCharacter;
 class CPHCapture;
-class IPHCapture;
 class CPHSynchronize;
 class ICollisionDamageInfo;
 class CElevatorState;
@@ -34,7 +31,7 @@ CElevatorState			*ElevatorState		();
 void 					in_shedule_Update	( u32 DT );
 void					PHCaptureObject 	( CPhysicsShellHolder* object, CPHCaptureBoneCallback* cb =0 );
 void					PHCaptureObject 	( CPhysicsShellHolder* object, u16 element );
-IPHCapture*				PHCapture			( ){ return m_capture; }
+CPHCapture*				PHCapture			( ){ return m_capture; }
 CPHCharacter*			PHCharacter			( ){ return m_character; }
 const CPHCharacter*		PHCharacter			( )const{ return m_character; }
 const IPhysicsElement*	IElement			( )const;
@@ -43,8 +40,8 @@ Fvector					PHCaptureGetNearestElemPos( const CPhysicsShellHolder* object );
 Fmatrix					PHCaptureGetNearestElemTransform( CPhysicsShellHolder* object );
 void					SetMaterial( u16 material );
 void					SetAirControlParam( float param ){ fAirControlParam=param; }
-void					SetActorRestrictorRadius(ERestrictionType rt, float r );
-void					SetRestrictionType(ERestrictionType rt);
+void					SetActorRestrictorRadius( CPHCharacter::ERestrictionType rt, float r );
+void					SetRestrictionType( CPHCharacter::ERestrictionType rt){ if( m_character ) m_character->SetRestrictionType( rt ); }
 void					SetActorMovable( bool v ){ if( m_character ) m_character->SetActorMovable( v ); }
 void					SetForcedPhysicsControl( bool v ){ if( m_character ) m_character->SetForcedPhysicsControl( v ); }
 bool					ForcedPhysicsControl( ){return m_character && m_character->ForcedPhysicsControl( ); }
@@ -92,7 +89,7 @@ private:
 
 	CharacterType		eCharacterType;
 	CPHCharacter*		m_character;
-	IPHCapture  *		m_capture;
+	CPHCapture  *		m_capture;
 
 	float				m_fGroundDelayFactor;
 	BOOL				bIsAffectedByGravity;
@@ -181,7 +178,7 @@ public:
 	void				SetVelocity					(float x, float y, float z)	{SetVelocity(Fvector().set(x,y,z));}
 	void				SetVelocity					(const Fvector& v)	{vVelocity.set(v);SetCharacterVelocity(v);}
 	void				SetCharacterVelocity		(const Fvector& v)	{if(m_character)m_character->SetVelocity(v);}										
-	void				SetPhysicsRefObject			(IPhysicsShellHolder* ref_object){ VERIFY(m_character); m_character->SetPhysicsRefObject(ref_object);};
+	void				SetPhysicsRefObject			(CPhysicsShellHolder* ref_object){ VERIFY(m_character); m_character->SetPhysicsRefObject(ref_object);};
 	void				SetNonInteractive			(bool v);
 	void				CalcMaximumVelocity			(Fvector& /**dest/**/, Fvector& /**accel/**/, float /**friction/**/){};
 	void				CalcMaximumVelocity			(float& /**dest/**/, float /**accel/**/, float /**friction/**/){};
@@ -275,8 +272,7 @@ public:
 	static BOOL CPHMovementControl::BorderTraceCallback(collide::rq_result& result, LPVOID params);
 	ObjectContactCallbackFun* ObjectContactCallback(){if(m_character)return m_character->ObjectContactCallBack();else return NULL; }
 	u16					ContactBone				(){return m_character->ContactBone();}
-	const ICollisionDamageInfo* CollisionDamageInfo()const;
-	ICollisionDamageInfo* CollisionDamageInfo();
+	const ICollisionDamageInfo	*CollisionDamageInfo ()const {VERIFY(m_character);return m_character->CollisionDamageInfo ();}
 	void				GetDesiredPos			(Fvector& dpos)
 	{	
 		m_character->GetDesiredPosition(dpos);

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "phactorcharacter.h"
 #include "Extendedgeom.h"
-#include "../xrPhysics/PhysicsCommon.h"
+#include "PhysicsCommon.h"
 #include "GameObject.h"
 #include "PhysicsShellHolder.h"
 #include "ai/stalker/ai_stalker.h"

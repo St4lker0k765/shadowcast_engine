@@ -1462,6 +1462,9 @@
     <Filter Include="Core\Client\Effects\Core">
       <UniqueIdentifier>{5a4b3b98-12e2-4c50-98c3-43359799dd84}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Client\BattlEye_Client">
+      <UniqueIdentifier>{a8973d62-c7c8-4aa5-b15f-265b66c1f9cb}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Core\Client\Game Persistent">
       <UniqueIdentifier>{31e1be8d-054a-4c7a-9a88-0a3af73a18a4}</UniqueIdentifier>
     </Filter>
@@ -1837,6 +1840,9 @@
     <Filter Include="Core\Client\Objects\items &amp; weapons\Artifacts\GalantineArtifact">
       <UniqueIdentifier>{30a42432-6552-4bb9-a664-4dcb544d49cc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Client\Objects\items &amp; weapons\Artifacts\CtaGameArtefact">
+      <UniqueIdentifier>{cccb6bf6-8f84-4d2c-9432-bcbcf521acf7}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Core\Client\Objects\items &amp; weapons\Devices">
       <UniqueIdentifier>{925e7d4b-9f73-4c8f-918a-28c1f2632280}</UniqueIdentifier>
     </Filter>
@@ -2044,9 +2050,6 @@
     <Filter Include="Core\Common\debug">
       <UniqueIdentifier>{31f3fffe-7c59-4db6-92e4-d8107c67c467}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Common\debug\make_final">
-      <UniqueIdentifier>{bb7365d0-bed3-4a2e-89a5-1ed68bb0d3ea}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core\Common\debug\static_cast_checked">
       <UniqueIdentifier>{c34a5383-1ce5-483c-8233-6cfdcb21f42f}</UniqueIdentifier>
     </Filter>
@@ -2062,20 +2065,68 @@
     <Filter Include="Core\Server\Games\client">
       <UniqueIdentifier>{8d8986f3-b187-47f0-9ec5-8ee87cb52ac7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Server\Games\client\artefact_hunt">
+      <UniqueIdentifier>{5af03ece-463f-47e5-ad3e-0d99a067b33c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Server\Games\client\deathmatch">
+      <UniqueIdentifier>{568ac6ba-9f88-4d0e-beb5-c50b0a9dc6aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Server\Games\client\team_deathmatch">
+      <UniqueIdentifier>{d526b1d4-c9b4-4524-814b-733c857bc96c}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Core\Server\Games\client\single">
       <UniqueIdentifier>{4ddd025c-dd5f-4807-8dad-41409b248506}</UniqueIdentifier>
     </Filter>
     <Filter Include="Core\Server\Games\client\base">
       <UniqueIdentifier>{2d9944d2-f6da-4ff7-bf04-11c13209bb43}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Server\Games\client\mp">
+      <UniqueIdentifier>{1ae0ec9b-5d99-4c1a-9e59-f86c2697e69a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Server\Games\client\mp\screenshots">
+      <UniqueIdentifier>{4ec89f8d-4013-45b3-9ae0-e9559b21664e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Server\Games\client\mp\anticheat">
+      <UniqueIdentifier>{8984d695-6f97-4bad-afe2-8329484219c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Server\Games\client\mp_script">
+      <UniqueIdentifier>{28bf7d60-a61a-4855-adc5-b42aea0a2d18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Server\Games\client\capture_the_artefact">
+      <UniqueIdentifier>{4942e2c4-ba2c-43b4-a272-ef436c105f4c}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Core\Server\Games\server">
       <UniqueIdentifier>{eb374eef-eabf-445d-8639-d8a3c0837998}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Server\Games\server\artefact_hunt">
+      <UniqueIdentifier>{47b08d51-b21b-4ada-b7a8-5193c85713ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Server\Games\server\deathmatch">
+      <UniqueIdentifier>{fe7e3227-15c0-4e08-985e-f97069a77c18}</UniqueIdentifier>
     </Filter>
     <Filter Include="Core\Server\Games\server\single">
       <UniqueIdentifier>{fa4d07d8-fbb7-4c7c-97e4-16ad0d242a0b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Core\Server\Games\server\single\ServerConnect">
       <UniqueIdentifier>{a9456428-36ea-47ae-92c7-4b69afda8f35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Server\Games\server\team_deathmatch">
+      <UniqueIdentifier>{2c840b6f-a0e0-4299-a2af-9c430738015c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Server\Games\server\mp">
+      <UniqueIdentifier>{8fb74cbe-8a73-400c-91a5-8b0348ab5192}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Server\Games\server\mp_script">
+      <UniqueIdentifier>{251fe045-32ae-4a61-b16f-5d2e2025aee4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Server\Games\server\capture_the_artefact">
+      <UniqueIdentifier>{c47ae685-a3ba-421f-8bc8-2c664e16183d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Server\GameSpy">
+      <UniqueIdentifier>{ab3e8a3b-e7cc-425b-9964-86478bcbe6df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Server\GameSpy\CdkeyDecode">
+      <UniqueIdentifier>{2b63cd49-b39b-4dfc-9356-96a882e686a2}</UniqueIdentifier>
     </Filter>
     <Filter Include="Core\Server\ID_Generator">
       <UniqueIdentifier>{f47da63e-f1bb-437e-bcf8-b61a7b0020f0}</UniqueIdentifier>
@@ -2103,6 +2154,12 @@
     </Filter>
     <Filter Include="Core\Server\ServerProcess">
       <UniqueIdentifier>{1f120b36-df46-4141-85e2-7e82e8fa18c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Server\xrGameSpyServer">
+      <UniqueIdentifier>{bd457ce0-8e68-4598-8570-5927f52761d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Server\BattlEye_Server">
+      <UniqueIdentifier>{71a15b6d-04e1-4247-9cef-e9215b32da05}</UniqueIdentifier>
     </Filter>
     <Filter Include="Physics">
       <UniqueIdentifier>{41dc342b-e748-44b5-8038-0ae67f8249ad}</UniqueIdentifier>
@@ -2142,6 +2199,9 @@
     </Filter>
     <Filter Include="Physics\Base\Objects\PhyMove\MovementControl">
       <UniqueIdentifier>{3dbed1cf-e710-4254-9b97-6b12a9a99e1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Physics\Base\Objects\PhyMove\SipmpleCharacter">
+      <UniqueIdentifier>{b86256e0-c763-47fa-9ab4-31b866dd0d9e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Physics\Base\Objects\PhyMove\BaseCharacter">
       <UniqueIdentifier>{ef328643-017c-41bf-afe0-5568b591dc19}</UniqueIdentifier>
@@ -2202,6 +2262,9 @@
     </Filter>
     <Filter Include="Physics\Colliders">
       <UniqueIdentifier>{f47643d4-017c-4394-9ec0-c36586cc70d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Physics\Colliders\Tri-Collider">
+      <UniqueIdentifier>{7a66fe03-f584-4d0e-a6ea-f19a2297484c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Physics\Colliders\Cyl_Collider">
       <UniqueIdentifier>{9c2874e1-99d7-43c2-849c-93054e112340}</UniqueIdentifier>
@@ -2410,17 +2473,116 @@
     <Filter Include="UI\GameTypes\GameCustom">
       <UniqueIdentifier>{cc8ade1f-8b74-4ba3-89a8-423044208662}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI\GameTypes\Deathmatch">
+      <UniqueIdentifier>{aa72cbea-37c8-4fac-bffa-b0c975e8b7dc}</UniqueIdentifier>
+    </Filter>
     <Filter Include="UI\GameTypes\Single">
       <UniqueIdentifier>{1c33c022-710b-4433-b922-f65d92ccb455}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI\GameTypes\TeamDeathmatch">
+      <UniqueIdentifier>{48f92917-ee90-4ce9-b341-5057b1545a6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\GameTypes\ArtefactHunt">
+      <UniqueIdentifier>{6e087ac3-601b-4952-a8a7-ff52eeefa7ee}</UniqueIdentifier>
+    </Filter>
     <Filter Include="UI\GameTypes\Game_custom_script">
       <UniqueIdentifier>{190bef45-bd72-4e22-aa98-c08481430d4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\GameTypes\CaptureTheArtefact">
+      <UniqueIdentifier>{a0b6883c-c646-432a-ad84-7aeeea07f42e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Multiplayer">
+      <UniqueIdentifier>{95496364-a0dc-424c-963d-0920e59cf944}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Multiplayer\MM_MP">
+      <UniqueIdentifier>{dbc07e71-2aa3-4904-8dbd-91e2ce19c05f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Multiplayer\MM_MP\CDkey">
+      <UniqueIdentifier>{aeb7dd38-498d-452a-8a40-09087360c367}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Multiplayer\MM_MP\MapList">
+      <UniqueIdentifier>{f5443435-9e2e-46c0-a633-ccc2169b8f7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Multiplayer\MM_MP\ServerList">
+      <UniqueIdentifier>{7f60234a-5d86-48b5-8d54-a3a0daffef36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Multiplayer\MM_MP\TeamInfo">
+      <UniqueIdentifier>{2c5ad07d-d4c3-4938-bce4-1fd99c5a7682}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Multiplayer\HUD">
+      <UniqueIdentifier>{cfb97e4b-82f3-4080-ace5-ecbf454b7e9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Multiplayer\HUD\Stats">
+      <UniqueIdentifier>{64ba75f8-231d-4305-b8ce-d506dabfdd46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Multiplayer\HUD\Stats\icons">
+      <UniqueIdentifier>{2706f813-ef27-4dc8-a11e-fb7b696bc44b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Multiplayer\HUD\Stats\frag_wnd">
+      <UniqueIdentifier>{05751421-d777-439b-ad4e-0eaa165461ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Multiplayer\HUD\Stats\old">
+      <UniqueIdentifier>{d9d7e8bf-e9ff-4c0a-97cb-ebde9b02933f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Multiplayer\HUD\Stats\TeamStates">
+      <UniqueIdentifier>{44bd5cbc-b6d9-4c98-b7c4-b549c7c8d4e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Multiplayer\HUD\Chat">
+      <UniqueIdentifier>{a593cc2f-eda9-437d-b1e2-f8b854d70e57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Multiplayer\HUD\GameLog">
+      <UniqueIdentifier>{3c7f7fbc-b92f-459d-a531-3c198276a6ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Multiplayer\HUD\SpeechMenu">
+      <UniqueIdentifier>{5c1b354c-80fd-45fc-a6d0-934aefce0dc7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Multiplayer\HUD\common">
+      <UniqueIdentifier>{609f75d1-cc5e-4d79-af72-750d098dcfb9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Multiplayer\BuyWeaponWnd">
+      <UniqueIdentifier>{5a47af81-984e-4ffb-ad20-9759b2b9d812}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Multiplayer\BuyWeaponWnd\rank_restrictions">
+      <UniqueIdentifier>{a86e76fe-346e-4f2e-a2fd-723c5aae0f98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Multiplayer\BuyWeaponWnd\TAB">
+      <UniqueIdentifier>{0233e3ea-c3e2-43a2-90a6-8fa8c0d0e1c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Multiplayer\BuyWeaponWnd\buy_wnd">
+      <UniqueIdentifier>{bc4047ba-4983-4dfb-879c-f03f0bced171}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Multiplayer\team_skin_info">
+      <UniqueIdentifier>{470c5536-2e36-480f-8e93-f4dfb9f860fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Multiplayer\team_skin_info\MapDesc">
+      <UniqueIdentifier>{cdfe7cc3-3248-450b-bc9f-3373dcb2fa23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Multiplayer\team_skin_info\MapDesc\MapInfo">
+      <UniqueIdentifier>{cc16a705-b722-4d01-aa50-a5644ced7aec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Multiplayer\team_skin_info\Spawn">
+      <UniqueIdentifier>{adb72c34-ae0a-457b-9688-64daf014f898}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Multiplayer\team_skin_info\SkinSelector">
+      <UniqueIdentifier>{aedca27f-cf8d-49cb-b79b-c92246212134}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Multiplayer\Voting">
+      <UniqueIdentifier>{19dfa051-fbb4-4dbb-b1af-e26c7cb09b45}</UniqueIdentifier>
     </Filter>
     <Filter Include="UI\Cursor">
       <UniqueIdentifier>{b9435360-df53-44ec-b26e-22f00d9e9e8f}</UniqueIdentifier>
     </Filter>
     <Filter Include="UI\Tutorial">
       <UniqueIdentifier>{ac59ff80-1508-4b25-bf8a-48b8a7c378cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Client\Objects\items &amp; weapons\Devices\Dosimeter">
+      <UniqueIdentifier>{d4cb7526-88b0-43ed-b57e-59efcee31875}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Embedded editor">
+      <UniqueIdentifier>{9e7da499-55df-4d00-b59f-3338b00484de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Embedded editor\render">
+      <UniqueIdentifier>{4dcf3546-414e-4284-b013-52fa2ab1c26d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -3244,9 +3406,6 @@
       <Filter>AI\ALife\simulator_base\registry_container</Filter>
     </ClInclude>
     <ClInclude Include="alife_registry_container_composition.h">
-      <Filter>AI\ALife\simulator_base\registry_container</Filter>
-    </ClInclude>
-    <ClInclude Include="alife_registry_container_inline.h">
       <Filter>AI\ALife\simulator_base\registry_container</Filter>
     </ClInclude>
     <ClInclude Include="alife_registry_container_space.h">
@@ -5055,18 +5214,6 @@
     <ClInclude Include="script_callback_ex.h">
       <Filter>AI\AScript\ScriptClasses\ScriptCallbackEx</Filter>
     </ClInclude>
-    <ClInclude Include="script_callback_ex_generators.h">
-      <Filter>AI\AScript\ScriptClasses\ScriptCallbackEx</Filter>
-    </ClInclude>
-    <ClInclude Include="script_callback_ex_inline.h">
-      <Filter>AI\AScript\ScriptClasses\ScriptCallbackEx</Filter>
-    </ClInclude>
-    <ClInclude Include="script_callback_ex_nonvoid.h">
-      <Filter>AI\AScript\ScriptClasses\ScriptCallbackEx</Filter>
-    </ClInclude>
-    <ClInclude Include="script_callback_ex_void.h">
-      <Filter>AI\AScript\ScriptClasses\ScriptCallbackEx</Filter>
-    </ClInclude>
     <ClInclude Include="script_lanim.h">
       <Filter>AI\AScript\ScriptClasses\ScriptLAnim</Filter>
     </ClInclude>
@@ -5208,6 +5355,9 @@
     <ClInclude Include="DynamicHeightMap.h">
       <Filter>Core\Client\Effects\Core</Filter>
     </ClInclude>
+    <ClInclude Include="xr_Client_BattlEye.h">
+      <Filter>Core\Client\BattlEye_Client</Filter>
+    </ClInclude>
     <ClInclude Include="GamePersistent.h">
       <Filter>Core\Client\Game Persistent</Filter>
     </ClInclude>
@@ -5276,6 +5426,9 @@
     </ClInclude>
     <ClInclude Include="Level_network_map_sync.h">
       <Filter>Core\Client\Level\LevelMapSync</Filter>
+    </ClInclude>
+    <ClInclude Include="..\xrGameSpy\gamespy\md5.h">
+      <Filter>Core\Client\Level\ClientDigestComputer</Filter>
     </ClInclude>
     <ClInclude Include="Level_network_Demo.h">
       <Filter>Core\Client\Level\LevelNetworkDemo</Filter>
@@ -5390,6 +5543,9 @@
     </ClInclude>
     <ClInclude Include="UsableScriptObject.h">
       <Filter>Core\Client\Objects\base\UsableScriptObject</Filter>
+    </ClInclude>
+    <ClInclude Include="GeometryBits.h">
+      <Filter>Core\Client\Objects\base\CollideValidator</Filter>
     </ClInclude>
     <ClInclude Include="PHCollideValidator.h">
       <Filter>Core\Client\Objects\base\CollideValidator</Filter>
@@ -5775,6 +5931,12 @@
     <ClInclude Include="GalantineArtifact.h">
       <Filter>Core\Client\Objects\items &amp; weapons\Artifacts\GalantineArtifact</Filter>
     </ClInclude>
+    <ClInclude Include="cta_game_artefact.h">
+      <Filter>Core\Client\Objects\items &amp; weapons\Artifacts\CtaGameArtefact</Filter>
+    </ClInclude>
+    <ClInclude Include="cta_game_artefact_activation.h">
+      <Filter>Core\Client\Objects\items &amp; weapons\Artifacts\CtaGameArtefact</Filter>
+    </ClInclude>
     <ClInclude Include="ui\ArtefactDetectorUI.h">
       <Filter>Core\Client\Objects\items &amp; weapons\Devices\Detectors</Filter>
     </ClInclude>
@@ -5958,6 +6120,12 @@
     <ClInclude Include="ParticlesObject.h">
       <Filter>Core\Client\Particles</Filter>
     </ClInclude>
+    <ClInclude Include="Spectator.h">
+      <Filter>Core\Client\Spectator</Filter>
+    </ClInclude>
+    <ClInclude Include="spectator_camera_first_eye.h">
+      <Filter>Core\Client\Spectator\Cameras</Filter>
+    </ClInclude>
     <ClInclude Include="date_time.h">
       <Filter>Core\Common\DateTime</Filter>
     </ClInclude>
@@ -6057,15 +6225,6 @@
     <ClInclude Include="..\xrServerEntities\smart_cast.h">
       <Filter>Core\Common\SmartCast</Filter>
     </ClInclude>
-    <ClInclude Include="..\xrServerEntities\smart_cast_impl0.h">
-      <Filter>Core\Common\SmartCast</Filter>
-    </ClInclude>
-    <ClInclude Include="..\xrServerEntities\smart_cast_impl1.h">
-      <Filter>Core\Common\SmartCast</Filter>
-    </ClInclude>
-    <ClInclude Include="..\xrServerEntities\smart_cast_impl2.h">
-      <Filter>Core\Common\SmartCast</Filter>
-    </ClInclude>
     <ClInclude Include="string_table.h">
       <Filter>Core\Common\StringTable</Filter>
     </ClInclude>
@@ -6087,13 +6246,13 @@
     <ClInclude Include="RegistryFuncs.h">
       <Filter>Core\Common\Registry</Filter>
     </ClInclude>
-    <ClInclude Include="debug_make_final.hpp">
-      <Filter>Core\Common\debug\make_final</Filter>
-    </ClInclude>
     <ClInclude Include="static_cast_checked.hpp">
       <Filter>Core\Common\debug\static_cast_checked</Filter>
     </ClInclude>
     <ClInclude Include="file_transfer.h">
+      <Filter>Core\Server</Filter>
+    </ClInclude>
+    <ClInclude Include="screenshot_server.h">
       <Filter>Core\Server</Filter>
     </ClInclude>
     <ClInclude Include="xrServer.h">
@@ -6135,6 +6294,24 @@
     <ClInclude Include="..\xrServerEntities\game_base_space.h">
       <Filter>Core\Server\Games</Filter>
     </ClInclude>
+    <ClInclude Include="game_cl_artefacthunt.h">
+      <Filter>Core\Server\Games\client\artefact_hunt</Filter>
+    </ClInclude>
+    <ClInclude Include="game_cl_artefacthunt_snd_msg.h">
+      <Filter>Core\Server\Games\client\artefact_hunt</Filter>
+    </ClInclude>
+    <ClInclude Include="game_cl_deathmatch.h">
+      <Filter>Core\Server\Games\client\deathmatch</Filter>
+    </ClInclude>
+    <ClInclude Include="game_cl_deathmatch_snd_messages.h">
+      <Filter>Core\Server\Games\client\deathmatch</Filter>
+    </ClInclude>
+    <ClInclude Include="game_cl_teamdeathmatch.h">
+      <Filter>Core\Server\Games\client\team_deathmatch</Filter>
+    </ClInclude>
+    <ClInclude Include="game_cl_teamdeathmatch_snd_messages.h">
+      <Filter>Core\Server\Games\client\team_deathmatch</Filter>
+    </ClInclude>
     <ClInclude Include="game_cl_single.h">
       <Filter>Core\Server\Games\client\single</Filter>
     </ClInclude>
@@ -6143,6 +6320,48 @@
     </ClInclude>
     <ClInclude Include="game_cl_base_weapon_usage_statistic.h">
       <Filter>Core\Server\Games\client\base</Filter>
+    </ClInclude>
+    <ClInclude Include="game_cl_mp.h">
+      <Filter>Core\Server\Games\client\mp</Filter>
+    </ClInclude>
+    <ClInclude Include="game_cl_mp_messages_menu.h">
+      <Filter>Core\Server\Games\client\mp</Filter>
+    </ClInclude>
+    <ClInclude Include="game_cl_mp_snd_messages.h">
+      <Filter>Core\Server\Games\client\mp</Filter>
+    </ClInclude>
+    <ClInclude Include="screenshot_manager.h">
+      <Filter>Core\Server\Games\client\mp\screenshots</Filter>
+    </ClInclude>
+    <ClInclude Include="screenshots_common.h">
+      <Filter>Core\Server\Games\client\mp\screenshots</Filter>
+    </ClInclude>
+    <ClInclude Include="screenshots_writer.h">
+      <Filter>Core\Server\Games\client\mp\screenshots</Filter>
+    </ClInclude>
+    <ClInclude Include="configs_common.h">
+      <Filter>Core\Server\Games\client\mp\anticheat</Filter>
+    </ClInclude>
+    <ClInclude Include="configs_dump_verifyer.h">
+      <Filter>Core\Server\Games\client\mp\anticheat</Filter>
+    </ClInclude>
+    <ClInclude Include="configs_dumper.h">
+      <Filter>Core\Server\Games\client\mp\anticheat</Filter>
+    </ClInclude>
+    <ClInclude Include="mp_config_sections.h">
+      <Filter>Core\Server\Games\client\mp\anticheat</Filter>
+    </ClInclude>
+    <ClInclude Include="game_cl_mp_script.h">
+      <Filter>Core\Server\Games\client\mp_script</Filter>
+    </ClInclude>
+    <ClInclude Include="game_cl_capture_the_artefact.h">
+      <Filter>Core\Server\Games\client\capture_the_artefact</Filter>
+    </ClInclude>
+    <ClInclude Include="game_cl_capture_the_artefact_captions_manager.h">
+      <Filter>Core\Server\Games\client\capture_the_artefact</Filter>
+    </ClInclude>
+    <ClInclude Include="game_cl_capturetheartefact_snd_msg.h">
+      <Filter>Core\Server\Games\client\capture_the_artefact</Filter>
     </ClInclude>
     <ClInclude Include="game_sv_base.h">
       <Filter>Core\Server\Games\server</Filter>
@@ -6159,8 +6378,77 @@
     <ClInclude Include="xr_time.h">
       <Filter>Core\Server\Games\server</Filter>
     </ClInclude>
+    <ClInclude Include="game_sv_artefacthunt.h">
+      <Filter>Core\Server\Games\server\artefact_hunt</Filter>
+    </ClInclude>
+    <ClInclude Include="game_sv_deathmatch.h">
+      <Filter>Core\Server\Games\server\deathmatch</Filter>
+    </ClInclude>
     <ClInclude Include="game_sv_single.h">
       <Filter>Core\Server\Games\server\single</Filter>
+    </ClInclude>
+    <ClInclude Include="game_sv_teamdeathmatch.h">
+      <Filter>Core\Server\Games\server\team_deathmatch</Filter>
+    </ClInclude>
+    <ClInclude Include="cdkey_ban_list.h">
+      <Filter>Core\Server\Games\server\mp</Filter>
+    </ClInclude>
+    <ClInclude Include="game_sv_mp.h">
+      <Filter>Core\Server\Games\server\mp</Filter>
+    </ClInclude>
+    <ClInclude Include="game_sv_mp_team.h">
+      <Filter>Core\Server\Games\server\mp</Filter>
+    </ClInclude>
+    <ClInclude Include="game_sv_mp_vote_flags.h">
+      <Filter>Core\Server\Games\server\mp</Filter>
+    </ClInclude>
+    <ClInclude Include="game_sv_mp_script.h">
+      <Filter>Core\Server\Games\server\mp_script</Filter>
+    </ClInclude>
+    <ClInclude Include="game_sv_capture_the_artefact.h">
+      <Filter>Core\Server\Games\server\capture_the_artefact</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSpy\GameSpy_Available.h">
+      <Filter>Core\Server\GameSpy</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSpy\GameSpy_Base_Defs.h">
+      <Filter>Core\Server\GameSpy</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSpy\GameSpy_Browser.h">
+      <Filter>Core\Server\GameSpy</Filter>
+    </ClInclude>
+    <ClInclude Include="gamespy\GameSpy_Full.h">
+      <Filter>Core\Server\GameSpy</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSpy\GameSpy_FuncDefs.h">
+      <Filter>Core\Server\GameSpy</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSpy\GameSpy_GCD_Client.h">
+      <Filter>Core\Server\GameSpy</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSpy\GameSpy_GCD_Server.h">
+      <Filter>Core\Server\GameSpy</Filter>
+    </ClInclude>
+    <ClInclude Include="gamespy\GameSpy_HTTP.h">
+      <Filter>Core\Server\GameSpy</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSpy\GameSpy_Keys.h">
+      <Filter>Core\Server\GameSpy</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSpy\GameSpy_Patching.h">
+      <Filter>Core\Server\GameSpy</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSpy\GameSpy_QR2.h">
+      <Filter>Core\Server\GameSpy</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSpy\GameSpy_QR2_callbacks.h">
+      <Filter>Core\Server\GameSpy</Filter>
+    </ClInclude>
+    <ClInclude Include="gamespy\CdkeyDecode\base32.h">
+      <Filter>Core\Server\GameSpy\CdkeyDecode</Filter>
+    </ClInclude>
+    <ClInclude Include="gamespy\CdkeyDecode\cdkeydecode.h">
+      <Filter>Core\Server\GameSpy\CdkeyDecode</Filter>
     </ClInclude>
     <ClInclude Include="id_generator.h">
       <Filter>Core\Server\ID_Generator</Filter>
@@ -6207,6 +6495,21 @@
     <ClInclude Include="xrServer_svclient_validation.h">
       <Filter>Core\Server\ServerProcess</Filter>
     </ClInclude>
+    <ClInclude Include="xrGameSpyServer.h">
+      <Filter>Core\Server\xrGameSpyServer</Filter>
+    </ClInclude>
+    <ClInclude Include="xrGameSpyServer_callbacks.h">
+      <Filter>Core\Server\xrGameSpyServer</Filter>
+    </ClInclude>
+    <ClInclude Include="battleye.h">
+      <Filter>Core\Server\BattlEye_Server</Filter>
+    </ClInclude>
+    <ClInclude Include="battleye_system.h">
+      <Filter>Core\Server\BattlEye_Server</Filter>
+    </ClInclude>
+    <ClInclude Include="xr_Server_BattlEye.h">
+      <Filter>Core\Server\BattlEye_Server</Filter>
+    </ClInclude>
     <ClInclude Include="CalculateTriangle.h">
       <Filter>Physics\Base</Filter>
     </ClInclude>
@@ -6217,6 +6520,18 @@
       <Filter>Physics\Base</Filter>
     </ClInclude>
     <ClInclude Include="ode_redefine.h">
+      <Filter>Physics\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="phvalide.h">
+      <Filter>Physics\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="PHWorld.h">
+      <Filter>Physics\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics.h">
+      <Filter>Physics\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsCommon.h">
       <Filter>Physics\Base</Filter>
     </ClInclude>
     <ClInclude Include="PhysicsGamePars.h">
@@ -6255,10 +6570,16 @@
     <ClInclude Include="PHItemList.h">
       <Filter>Physics\Base\Objects\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="PHValideValues.h">
+      <Filter>Physics\Base\Objects\Utils</Filter>
+    </ClInclude>
     <ClInclude Include="SpaceUtils.h">
       <Filter>Physics\Base\Objects\Utils</Filter>
     </ClInclude>
     <ClInclude Include="PHBaseBodyEffector.h">
+      <Filter>Physics\Base\Objects\BodyEffectors</Filter>
+    </ClInclude>
+    <ClInclude Include="PHContactBodyEffector.h">
       <Filter>Physics\Base\Objects\BodyEffectors</Filter>
     </ClInclude>
     <ClInclude Include="..\xrServerEntities\PHNetState.h">
@@ -6270,8 +6591,23 @@
     <ClInclude Include="PHMoveStorage.h">
       <Filter>Physics\Base\Objects\MoveStorage</Filter>
     </ClInclude>
+    <ClInclude Include="DisablingParams.h">
+      <Filter>Physics\Base\Objects\Disabling</Filter>
+    </ClInclude>
+    <ClInclude Include="PHDisabling.h">
+      <Filter>Physics\Base\Objects\Disabling</Filter>
+    </ClInclude>
+    <ClInclude Include="PHActorCharacter.h">
+      <Filter>Physics\Base\Objects\PhyMove\ActorCaracter</Filter>
+    </ClInclude>
+    <ClInclude Include="PHActorCharacterInline.h">
+      <Filter>Physics\Base\Objects\PhyMove\ActorCaracter</Filter>
+    </ClInclude>
     <ClInclude Include="PHAICharacter.h">
       <Filter>Physics\Base\Objects\PhyMove\AICharacter</Filter>
+    </ClInclude>
+    <ClInclude Include="PHCapture.h">
+      <Filter>Physics\Base\Objects\PhyMove\Capture</Filter>
     </ClInclude>
     <ClInclude Include="CaptureBoneCallback.h">
       <Filter>Physics\Base\Objects\PhyMove\MovementControl</Filter>
@@ -6279,14 +6615,65 @@
     <ClInclude Include="PHMovementControl.h">
       <Filter>Physics\Base\Objects\PhyMove\MovementControl</Filter>
     </ClInclude>
+    <ClInclude Include="ElevatorState.h">
+      <Filter>Physics\Base\Objects\PhyMove\SipmpleCharacter</Filter>
+    </ClInclude>
+    <ClInclude Include="PHSimpleCharacter.h">
+      <Filter>Physics\Base\Objects\PhyMove\SipmpleCharacter</Filter>
+    </ClInclude>
+    <ClInclude Include="PHSimpleCharacterInline.h">
+      <Filter>Physics\Base\Objects\PhyMove\SipmpleCharacter</Filter>
+    </ClInclude>
     <ClInclude Include="IColisiondamageInfo.h">
       <Filter>Physics\Base\Objects\PhyMove\BaseCharacter</Filter>
+    </ClInclude>
+    <ClInclude Include="PHCharacter.h">
+      <Filter>Physics\Base\Objects\PhyMove\BaseCharacter</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsShell.h">
+      <Filter>Physics\Base\Objects\BaseShell</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsShellAnimator.h">
+      <Filter>Physics\Base\Objects\BaseShell\PhysicsShellAnimator</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsShellAnimatorBoneData.h">
+      <Filter>Physics\Base\Objects\BaseShell\PhysicsShellAnimator</Filter>
+    </ClInclude>
+    <ClInclude Include="PHElement.h">
+      <Filter>Physics\Base\Objects\Elemenet</Filter>
+    </ClInclude>
+    <ClInclude Include="PHElementInline.h">
+      <Filter>Physics\Base\Objects\Elemenet</Filter>
     </ClInclude>
     <ClInclude Include="Geometry.h">
       <Filter>Physics\Base\Objects\Elemenet\Geom</Filter>
     </ClInclude>
+    <ClInclude Include="PHGeometryOwner.h">
+      <Filter>Physics\Base\Objects\Elemenet\Geom</Filter>
+    </ClInclude>
+    <ClInclude Include="PHJoint.h">
+      <Filter>Physics\Base\Objects\Joint</Filter>
+    </ClInclude>
+    <ClInclude Include="PHShell.h">
+      <Filter>Physics\Base\Objects\Shell</Filter>
+    </ClInclude>
+    <ClInclude Include="PHFracture.h">
+      <Filter>Physics\Base\Objects\Breakable</Filter>
+    </ClInclude>
+    <ClInclude Include="PHJointDestroyInfo.h">
+      <Filter>Physics\Base\Objects\Breakable</Filter>
+    </ClInclude>
+    <ClInclude Include="PHShellSplitter.h">
+      <Filter>Physics\Base\Objects\Breakable</Filter>
+    </ClInclude>
     <ClInclude Include="PHSplitedShell.h">
       <Filter>Physics\Base\Objects\SplitedShell</Filter>
+    </ClInclude>
+    <ClInclude Include="PHObject.h">
+      <Filter>Physics\Base\Objects\PHObject</Filter>
+    </ClInclude>
+    <ClInclude Include="PHIsland.h">
+      <Filter>Physics\Base\Objects\PHIsland</Filter>
     </ClInclude>
     <ClInclude Include="PHCommander.h">
       <Filter>Physics\Base\Objects\PHCommander</Filter>
@@ -6345,6 +6732,45 @@
     <ClInclude Include="physics_shell_animated.h">
       <Filter>Physics\CharacterSupport\interactive_anims</Filter>
     </ClInclude>
+    <ClInclude Include="tri-colliderKNoOPC\__aabb_tri.h">
+      <Filter>Physics\Colliders\Tri-Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="tri-colliderknoopc\dcTriangle.h">
+      <Filter>Physics\Colliders\Tri-Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="tri-colliderKNoOPC\dcTriListCollider.h">
+      <Filter>Physics\Colliders\Tri-Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="tri-colliderknoopc\dSortTriPrimitive.h">
+      <Filter>Physics\Colliders\Tri-Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="tri-colliderknoopc\dTriBox.h">
+      <Filter>Physics\Colliders\Tri-Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="tri-colliderKNoOPC\dTriCollideK.h">
+      <Filter>Physics\Colliders\Tri-Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="tri-colliderknoopc\dTriColliderCommon.h">
+      <Filter>Physics\Colliders\Tri-Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="tri-colliderknoopc\dTriColliderMath.h">
+      <Filter>Physics\Colliders\Tri-Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="tri-colliderknoopc\dTriCylinder.h">
+      <Filter>Physics\Colliders\Tri-Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="tri-colliderKNoOPC\dTriList.h">
+      <Filter>Physics\Colliders\Tri-Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="tri-colliderknoopc\dTriSphere.h">
+      <Filter>Physics\Colliders\Tri-Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="tri-colliderKNoOPC\dxTriList.h">
+      <Filter>Physics\Colliders\Tri-Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="tri-colliderknoopc\TriPrimitiveCollideClassDef.h">
+      <Filter>Physics\Colliders\Tri-Collider</Filter>
+    </ClInclude>
     <ClInclude Include="dCylinder\dCylinder.h">
       <Filter>Physics\Colliders\Cyl_Collider</Filter>
     </ClInclude>
@@ -6356,6 +6782,9 @@
     </ClInclude>
     <ClInclude Include="PHSoundPlayer.h">
       <Filter>Physics\PhysicsSoundPlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="PHActivationShape.h">
+      <Filter>Physics\ActivationBox</Filter>
     </ClInclude>
     <ClInclude Include="Hit.h">
       <Filter>Physics\Hit</Filter>
@@ -6621,6 +7050,9 @@
     <ClInclude Include="ui\UIOptionsManagerScript.h">
       <Filter>UI\Common\OptionsItem</Filter>
     </ClInclude>
+    <ClInclude Include="ui\UIOptConCom.h">
+      <Filter>UI\Common\OptionsConsoleCommands</Filter>
+    </ClInclude>
     <ClInclude Include="ui\MMSound.h">
       <Filter>UI\Common\MM</Filter>
     </ClInclude>
@@ -6855,11 +7287,158 @@
     <ClInclude Include="UIGameCustom.h">
       <Filter>UI\GameTypes\GameCustom</Filter>
     </ClInclude>
+    <ClInclude Include="UIDMStatisticWnd.h">
+      <Filter>UI\GameTypes\Deathmatch</Filter>
+    </ClInclude>
+    <ClInclude Include="UIGameDM.h">
+      <Filter>UI\GameTypes\Deathmatch</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UIRankIndicator.h">
+      <Filter>UI\GameTypes\Deathmatch</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UIVoteStatusWnd.h">
+      <Filter>UI\GameTypes\Deathmatch</Filter>
+    </ClInclude>
     <ClInclude Include="UIGameSP.h">
       <Filter>UI\GameTypes\Single</Filter>
     </ClInclude>
+    <ClInclude Include="UIGameTDM.h">
+      <Filter>UI\GameTypes\TeamDeathmatch</Filter>
+    </ClInclude>
+    <ClInclude Include="UIGameAHunt.h">
+      <Filter>UI\GameTypes\ArtefactHunt</Filter>
+    </ClInclude>
     <ClInclude Include="UIGame_custom_script.h">
       <Filter>UI\GameTypes\Game_custom_script</Filter>
+    </ClInclude>
+    <ClInclude Include="UIGameCTA.h">
+      <Filter>UI\GameTypes\CaptureTheArtefact</Filter>
+    </ClInclude>
+    <ClInclude Include="player_name_modifyer.h">
+      <Filter>UI\Multiplayer\MM_MP\CDkey</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UICDkey.h">
+      <Filter>UI\Multiplayer\MM_MP\CDkey</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UIMapList.h">
+      <Filter>UI\Multiplayer\MM_MP\MapList</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\ServerList.h">
+      <Filter>UI\Multiplayer\MM_MP\ServerList</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UIListItemAdv.h">
+      <Filter>UI\Multiplayer\MM_MP\ServerList</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UIListItemServer.h">
+      <Filter>UI\Multiplayer\MM_MP\ServerList</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\TeamInfo.h">
+      <Filter>UI\Multiplayer\MM_MP\TeamInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UIStats.h">
+      <Filter>UI\Multiplayer\HUD\Stats</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UIStatsPlayerInfo.h">
+      <Filter>UI\Multiplayer\HUD\Stats</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UIStatsPlayerList.h">
+      <Filter>UI\Multiplayer\HUD\Stats</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UIStatsIcon.h">
+      <Filter>UI\Multiplayer\HUD\Stats\icons</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UIFrags.h">
+      <Filter>UI\Multiplayer\HUD\Stats\frag_wnd</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UIFrags2.h">
+      <Filter>UI\Multiplayer\HUD\Stats\frag_wnd</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UIStatsWnd.h">
+      <Filter>UI\Multiplayer\HUD\Stats\old</Filter>
+    </ClInclude>
+    <ClInclude Include="UIPanelsClassFactory.h">
+      <Filter>UI\Multiplayer\HUD\Stats\TeamStates</Filter>
+    </ClInclude>
+    <ClInclude Include="UIPlayerItem.h">
+      <Filter>UI\Multiplayer\HUD\Stats\TeamStates</Filter>
+    </ClInclude>
+    <ClInclude Include="UITeamHeader.h">
+      <Filter>UI\Multiplayer\HUD\Stats\TeamStates</Filter>
+    </ClInclude>
+    <ClInclude Include="UITeamPanels.h">
+      <Filter>UI\Multiplayer\HUD\Stats\TeamStates</Filter>
+    </ClInclude>
+    <ClInclude Include="UITeamState.h">
+      <Filter>UI\Multiplayer\HUD\Stats\TeamStates</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UIChatWnd.h">
+      <Filter>UI\Multiplayer\HUD\Chat</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UIGameLog.h">
+      <Filter>UI\Multiplayer\HUD\GameLog</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UISpeechMenu.h">
+      <Filter>UI\Multiplayer\HUD\SpeechMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\KillMessageStruct.h">
+      <Filter>UI\Multiplayer\HUD\common</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UIPdaKillMessage.h">
+      <Filter>UI\Multiplayer\HUD\common</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UIBuyWndBase.h">
+      <Filter>UI\Multiplayer\BuyWeaponWnd</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UIBuyWndShared.h">
+      <Filter>UI\Multiplayer\BuyWeaponWnd</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UIMpItemsStoreWnd.h">
+      <Filter>UI\Multiplayer\BuyWeaponWnd</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UIMpTradeWnd.h">
+      <Filter>UI\Multiplayer\BuyWeaponWnd</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\Restrictions.h">
+      <Filter>UI\Multiplayer\BuyWeaponWnd\rank_restrictions</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UIBuyWeaponTab.h">
+      <Filter>UI\Multiplayer\BuyWeaponWnd\TAB</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UITabButtonMP.h">
+      <Filter>UI\Multiplayer\BuyWeaponWnd\TAB</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UIMapDesc.h">
+      <Filter>UI\Multiplayer\team_skin_info\MapDesc</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UIMapInfo.h">
+      <Filter>UI\Multiplayer\team_skin_info\MapDesc\MapInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UISpawnWnd.h">
+      <Filter>UI\Multiplayer\team_skin_info\Spawn</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UISkinSelector.h">
+      <Filter>UI\Multiplayer\team_skin_info\SkinSelector</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UIStatix.h">
+      <Filter>UI\Multiplayer\team_skin_info\SkinSelector</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UIChangeMap.h">
+      <Filter>UI\Multiplayer\Voting</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UIChangeWeather.h">
+      <Filter>UI\Multiplayer\Voting</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UIKickPlayer.h">
+      <Filter>UI\Multiplayer\Voting</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UITextVote.h">
+      <Filter>UI\Multiplayer\Voting</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UIVote.h">
+      <Filter>UI\Multiplayer\Voting</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UIVotingCategory.h">
+      <Filter>UI\Multiplayer\Voting</Filter>
     </ClInclude>
     <ClInclude Include="HUDCrosshair.h">
       <Filter>UI\Cursor</Filter>
@@ -6873,9 +7452,65 @@
     <ClInclude Include="ui\UIGameTutorial.h">
       <Filter>UI\Tutorial</Filter>
     </ClInclude>
-    <ClInclude Include="..\xrGame\UIFontDefines.h" />
-    <ClInclude Include="physics_game.h">
-      <Filter>Physics\Base</Filter>
+    <ClInclude Include="objects\devices\Compass.h">
+      <Filter>Core\Client\Objects\items &amp; weapons\Devices</Filter>
+    </ClInclude>
+    <ClInclude Include="objects\devices\Dosimeter.h">
+      <Filter>Core\Client\Objects\items &amp; weapons\Devices\Dosimeter</Filter>
+    </ClInclude>
+    <ClInclude Include="objects\devices\UIDosimeter.h">
+      <Filter>Core\Client\Objects\items &amp; weapons\Devices\Dosimeter</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjectEvents.h">
+      <Filter>Core\Client\Objects\base\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="embedded_editor\embedded_editor_main.h">
+      <Filter>Embedded editor</Filter>
+    </ClInclude>
+    <ClInclude Include="embedded_editor\embedded_editor_weather.h">
+      <Filter>Embedded editor</Filter>
+    </ClInclude>
+    <ClInclude Include="embedded_editor\embedded_editor_prop.h">
+      <Filter>Embedded editor</Filter>
+    </ClInclude>
+    <ClInclude Include="embedded_editor\embedded_editor_logic.h">
+      <Filter>Embedded editor</Filter>
+    </ClInclude>
+    <ClInclude Include="embedded_editor\embedded_editor_helper.h">
+      <Filter>Embedded editor</Filter>
+    </ClInclude>
+    <ClInclude Include="embedded_editor\embedded_editor_ae.h">
+      <Filter>Embedded editor</Filter>
+    </ClInclude>
+    <ClInclude Include="embedded_editor\embedded_editor_postprocess.h">
+      <Filter>Embedded editor</Filter>
+    </ClInclude>
+    <ClInclude Include="embedded_editor\embedded_editor_stats.h">
+      <Filter>Embedded editor</Filter>
+    </ClInclude>
+    <ClInclude Include="embedded_editor\embedded_editor_ui.h">
+      <Filter>Embedded editor</Filter>
+    </ClInclude>
+    <ClInclude Include="embedded_editor\embedded_editor_map.h">
+      <Filter>Embedded editor</Filter>
+    </ClInclude>
+    <ClInclude Include="embedded_editor\embedded_editor_hud.h">
+      <Filter>Embedded editor</Filter>
+    </ClInclude>
+    <ClInclude Include="embedded_editor\embedded_editor_le.h">
+      <Filter>Embedded editor</Filter>
+    </ClInclude>
+    <ClInclude Include="embedded_editor\embedded_editor_se.h">
+      <Filter>Embedded editor</Filter>
+    </ClInclude>
+    <ClInclude Include="embedded_editor\render\editor_render.h">
+      <Filter>Embedded editor\render</Filter>
+    </ClInclude>
+    <ClInclude Include="embedded_editor\render\editor_render_ai_map.h">
+      <Filter>Embedded editor\render</Filter>
+    </ClInclude>
+    <ClInclude Include="embedded_editor\render\editor_render_spawn_element.h">
+      <Filter>Embedded editor\render</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -8355,10 +8990,16 @@
     <ClCompile Include="DynamicHeightMap.cpp">
       <Filter>Core\Client\Effects\Core</Filter>
     </ClCompile>
+    <ClCompile Include="xr_Client_BattlEye.cpp">
+      <Filter>Core\Client\BattlEye_Client</Filter>
+    </ClCompile>
     <ClCompile Include="GamePersistent.cpp">
       <Filter>Core\Client\Game Persistent</Filter>
     </ClCompile>
     <ClCompile Include="Level.cpp">
+      <Filter>Core\Client\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Level_GameSpy_Funcs.cpp">
       <Filter>Core\Client\Level</Filter>
     </ClCompile>
     <ClCompile Include="Level_input.cpp">
@@ -8445,6 +9086,12 @@
     <ClCompile Include="Level_network_map_sync.cpp">
       <Filter>Core\Client\Level\LevelMapSync</Filter>
     </ClCompile>
+    <ClCompile Include="Level_network_digest_computer.cpp">
+      <Filter>Core\Client\Level\ClientDigestComputer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\xrGameSpy\gamespy\md5c.c">
+      <Filter>Core\Client\Level\ClientDigestComputer</Filter>
+    </ClCompile>
     <ClCompile Include="Level_network_Demo.cpp">
       <Filter>Core\Client\Level\LevelNetworkDemo</Filter>
     </ClCompile>
@@ -8509,6 +9156,9 @@
       <Filter>Core\Client\Objects\actor\base</Filter>
     </ClCompile>
     <ClCompile Include="ActorAnimation.cpp">
+      <Filter>Core\Client\Objects\actor\base</Filter>
+    </ClCompile>
+    <ClCompile Include="ActorCameraCollision.cpp">
       <Filter>Core\Client\Objects\actor\base</Filter>
     </ClCompile>
     <ClCompile Include="ActorCameras.cpp">
@@ -8576,6 +9226,9 @@
     </ClCompile>
     <ClCompile Include="UsableScriptObject.cpp">
       <Filter>Core\Client\Objects\base\UsableScriptObject</Filter>
+    </ClCompile>
+    <ClCompile Include="GeometryBits.cpp">
+      <Filter>Core\Client\Objects\base\CollideValidator</Filter>
     </ClCompile>
     <ClCompile Include="PHCollideValidator.cpp">
       <Filter>Core\Client\Objects\base\CollideValidator</Filter>
@@ -8928,6 +9581,12 @@
     <ClCompile Include="GalantineArtifact.cpp">
       <Filter>Core\Client\Objects\items &amp; weapons\Artifacts\GalantineArtifact</Filter>
     </ClCompile>
+    <ClCompile Include="cta_game_artefact.cpp">
+      <Filter>Core\Client\Objects\items &amp; weapons\Artifacts\CtaGameArtefact</Filter>
+    </ClCompile>
+    <ClCompile Include="cta_game_artefact_activation.cpp">
+      <Filter>Core\Client\Objects\items &amp; weapons\Artifacts\CtaGameArtefact</Filter>
+    </ClCompile>
     <ClCompile Include="ui\ArtefactDetectorUI.cpp">
       <Filter>Core\Client\Objects\items &amp; weapons\Devices\Detectors</Filter>
     </ClCompile>
@@ -9171,7 +9830,16 @@
     <ClCompile Include="ParticlesObject.cpp">
       <Filter>Core\Client\Particles</Filter>
     </ClCompile>
+    <ClCompile Include="Spectator.cpp">
+      <Filter>Core\Client\Spectator</Filter>
+    </ClCompile>
+    <ClCompile Include="spectator_camera_first_eye.cpp">
+      <Filter>Core\Client\Spectator\Cameras</Filter>
+    </ClCompile>
     <ClCompile Include="console_commands.cpp">
+      <Filter>Core\Common\Console Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="console_commands_mp.cpp">
       <Filter>Core\Common\Console Commands</Filter>
     </ClCompile>
     <ClCompile Include="date_time.cpp">
@@ -9207,25 +9875,19 @@
     <ClCompile Include="random32.cpp">
       <Filter>Core\Common\Random32</Filter>
     </ClCompile>
-    <ClCompile Include="..\xrServerEntities\smart_cast.cpp">
-      <Filter>Core\Common\SmartCast</Filter>
-    </ClCompile>
-    <ClCompile Include="..\xrServerEntities\smart_cast_stats.cpp">
-      <Filter>Core\Common\SmartCast</Filter>
-    </ClCompile>
     <ClCompile Include="string_table.cpp">
       <Filter>Core\Common\StringTable</Filter>
     </ClCompile>
     <ClCompile Include="RegistryFuncs.cpp">
       <Filter>Core\Common\Registry</Filter>
     </ClCompile>
-    <ClCompile Include="debug_make_final_test.cpp">
-      <Filter>Core\Common\debug\make_final</Filter>
-    </ClCompile>
     <ClCompile Include="static_cast_checked_test.cpp">
       <Filter>Core\Common\debug\static_cast_checked</Filter>
     </ClCompile>
     <ClCompile Include="file_transfer.cpp">
+      <Filter>Core\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="screenshot_server.cpp">
       <Filter>Core\Server</Filter>
     </ClCompile>
     <ClCompile Include="xrGame.cpp">
@@ -9246,6 +9908,18 @@
     <ClCompile Include="game_base_script.cpp">
       <Filter>Core\Server\Games</Filter>
     </ClCompile>
+    <ClCompile Include="game_cl_artefacthunt.cpp">
+      <Filter>Core\Server\Games\client\artefact_hunt</Filter>
+    </ClCompile>
+    <ClCompile Include="game_cl_deathmatch.cpp">
+      <Filter>Core\Server\Games\client\deathmatch</Filter>
+    </ClCompile>
+    <ClCompile Include="game_cl_deathmatch_buywnd.cpp">
+      <Filter>Core\Server\Games\client\deathmatch</Filter>
+    </ClCompile>
+    <ClCompile Include="game_cl_teamdeathmatch.cpp">
+      <Filter>Core\Server\Games\client\team_deathmatch</Filter>
+    </ClCompile>
     <ClCompile Include="game_cl_single.cpp">
       <Filter>Core\Server\Games\client\single</Filter>
     </ClCompile>
@@ -9261,10 +9935,58 @@
     <ClCompile Include="game_cl_base_weapon_usage_statistic_save.cpp">
       <Filter>Core\Server\Games\client\base</Filter>
     </ClCompile>
+    <ClCompile Include="game_cl_mp.cpp">
+      <Filter>Core\Server\Games\client\mp</Filter>
+    </ClCompile>
+    <ClCompile Include="game_cl_mp_messages_menu.cpp">
+      <Filter>Core\Server\Games\client\mp</Filter>
+    </ClCompile>
+    <ClCompile Include="game_cl_mp_snd_messages.cpp">
+      <Filter>Core\Server\Games\client\mp</Filter>
+    </ClCompile>
+    <ClCompile Include="screenshot_manager.cpp">
+      <Filter>Core\Server\Games\client\mp\screenshots</Filter>
+    </ClCompile>
+    <ClCompile Include="screenshots_common.cpp">
+      <Filter>Core\Server\Games\client\mp\screenshots</Filter>
+    </ClCompile>
+    <ClCompile Include="screenshots_writer.cpp">
+      <Filter>Core\Server\Games\client\mp\screenshots</Filter>
+    </ClCompile>
+    <ClCompile Include="configs_common.cpp">
+      <Filter>Core\Server\Games\client\mp\anticheat</Filter>
+    </ClCompile>
+    <ClCompile Include="configs_dump_verifyer.cpp">
+      <Filter>Core\Server\Games\client\mp\anticheat</Filter>
+    </ClCompile>
+    <ClCompile Include="configs_dumper.cpp">
+      <Filter>Core\Server\Games\client\mp\anticheat</Filter>
+    </ClCompile>
+    <ClCompile Include="mp_config_sections.cpp">
+      <Filter>Core\Server\Games\client\mp\anticheat</Filter>
+    </ClCompile>
+    <ClCompile Include="game_cl_mp_script.cpp">
+      <Filter>Core\Server\Games\client\mp_script</Filter>
+    </ClCompile>
+    <ClCompile Include="game_cl_capture_the_artefact.cpp">
+      <Filter>Core\Server\Games\client\capture_the_artefact</Filter>
+    </ClCompile>
+    <ClCompile Include="game_cl_capture_the_artefact_captions_manager.cpp">
+      <Filter>Core\Server\Games\client\capture_the_artefact</Filter>
+    </ClCompile>
+    <ClCompile Include="game_cl_capture_the_artefact_messages_menu.cpp">
+      <Filter>Core\Server\Games\client\capture_the_artefact</Filter>
+    </ClCompile>
+    <ClCompile Include="game_cl_capturetheartefact_buywnd.cpp">
+      <Filter>Core\Server\Games\client\capture_the_artefact</Filter>
+    </ClCompile>
     <ClCompile Include="game_sv_base.cpp">
       <Filter>Core\Server\Games\server</Filter>
     </ClCompile>
     <ClCompile Include="game_sv_base_console_vars.cpp">
+      <Filter>Core\Server\Games\server</Filter>
+    </ClCompile>
+    <ClCompile Include="game_sv_base_script.cpp">
       <Filter>Core\Server\Games\server</Filter>
     </ClCompile>
     <ClCompile Include="game_sv_event_queue.cpp">
@@ -9275,6 +9997,21 @@
     </ClCompile>
     <ClCompile Include="xr_time.cpp">
       <Filter>Core\Server\Games\server</Filter>
+    </ClCompile>
+    <ClCompile Include="game_sv_artefacthunt.cpp">
+      <Filter>Core\Server\Games\server\artefact_hunt</Filter>
+    </ClCompile>
+    <ClCompile Include="game_sv_artefacthunt_process_event.cpp">
+      <Filter>Core\Server\Games\server\artefact_hunt</Filter>
+    </ClCompile>
+    <ClCompile Include="game_sv_deathmatch.cpp">
+      <Filter>Core\Server\Games\server\deathmatch</Filter>
+    </ClCompile>
+    <ClCompile Include="game_sv_deathmatch_process_event.cpp">
+      <Filter>Core\Server\Games\server\deathmatch</Filter>
+    </ClCompile>
+    <ClCompile Include="game_sv_deathmatch_script.cpp">
+      <Filter>Core\Server\Games\server\deathmatch</Filter>
     </ClCompile>
     <ClCompile Include="game_sv_single.cpp">
       <Filter>Core\Server\Games\server\single</Filter>
@@ -9290,6 +10027,66 @@
     </ClCompile>
     <ClCompile Include="xrServer_Disconnect.cpp">
       <Filter>Core\Server\Games\server\single\ServerConnect</Filter>
+    </ClCompile>
+    <ClCompile Include="game_sv_teamdeathmatch.cpp">
+      <Filter>Core\Server\Games\server\team_deathmatch</Filter>
+    </ClCompile>
+    <ClCompile Include="game_sv_teamdeathmatch_process_event.cpp">
+      <Filter>Core\Server\Games\server\team_deathmatch</Filter>
+    </ClCompile>
+    <ClCompile Include="cdkey_ban_list.cpp">
+      <Filter>Core\Server\Games\server\mp</Filter>
+    </ClCompile>
+    <ClCompile Include="game_sv_mp.cpp">
+      <Filter>Core\Server\Games\server\mp</Filter>
+    </ClCompile>
+    <ClCompile Include="game_sv_mp_script.cpp">
+      <Filter>Core\Server\Games\server\mp_script</Filter>
+    </ClCompile>
+    <ClCompile Include="game_sv_capture_the_artefact.cpp">
+      <Filter>Core\Server\Games\server\capture_the_artefact</Filter>
+    </ClCompile>
+    <ClCompile Include="game_sv_capture_the_artefact_buy_event.cpp">
+      <Filter>Core\Server\Games\server\capture_the_artefact</Filter>
+    </ClCompile>
+    <ClCompile Include="game_sv_capture_the_artefact_myteam_impl.cpp">
+      <Filter>Core\Server\Games\server\capture_the_artefact</Filter>
+    </ClCompile>
+    <ClCompile Include="game_sv_capture_the_artefact_process_event.cpp">
+      <Filter>Core\Server\Games\server\capture_the_artefact</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSpy\GameSpy_Available.cpp">
+      <Filter>Core\Server\GameSpy</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSpy\GameSpy_Browser.cpp">
+      <Filter>Core\Server\GameSpy</Filter>
+    </ClCompile>
+    <ClCompile Include="gamespy\GameSpy_Full.cpp">
+      <Filter>Core\Server\GameSpy</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSpy\GameSpy_GCD_Client.cpp">
+      <Filter>Core\Server\GameSpy</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSpy\GameSpy_GCD_Server.cpp">
+      <Filter>Core\Server\GameSpy</Filter>
+    </ClCompile>
+    <ClCompile Include="gamespy\GameSpy_HTTP.cpp">
+      <Filter>Core\Server\GameSpy</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSpy\GameSpy_Patching.cpp">
+      <Filter>Core\Server\GameSpy</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSpy\GameSpy_QR2.cpp">
+      <Filter>Core\Server\GameSpy</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSpy\GameSpy_QR2_callbacks.cpp">
+      <Filter>Core\Server\GameSpy</Filter>
+    </ClCompile>
+    <ClCompile Include="gamespy\CdkeyDecode\base32.c">
+      <Filter>Core\Server\GameSpy\CdkeyDecode</Filter>
+    </ClCompile>
+    <ClCompile Include="gamespy\CdkeyDecode\cdkeydecode.c">
+      <Filter>Core\Server\GameSpy\CdkeyDecode</Filter>
     </ClCompile>
     <ClCompile Include="..\xrServerEntities\gametype_chooser.cpp">
       <Filter>Core\Server\ServerEntities</Filter>
@@ -9402,6 +10199,33 @@
     <ClCompile Include="xrServer_svclient_validation.cpp">
       <Filter>Core\Server\ServerProcess</Filter>
     </ClCompile>
+    <ClCompile Include="xrGameSpy_GameSpyFuncs.cpp">
+      <Filter>Core\Server\xrGameSpyServer</Filter>
+    </ClCompile>
+    <ClCompile Include="xrGameSpyServer.cpp">
+      <Filter>Core\Server\xrGameSpyServer</Filter>
+    </ClCompile>
+    <ClCompile Include="xrGameSpyServer_callbacks.cpp">
+      <Filter>Core\Server\xrGameSpyServer</Filter>
+    </ClCompile>
+    <ClCompile Include="battleye_system.cpp">
+      <Filter>Core\Server\BattlEye_Server</Filter>
+    </ClCompile>
+    <ClCompile Include="xr_Server_BattlEye.cpp">
+      <Filter>Core\Server\BattlEye_Server</Filter>
+    </ClCompile>
+    <ClCompile Include="phvalide.cpp">
+      <Filter>Physics\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="PHWorld.cpp">
+      <Filter>Physics\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="PHWorldScript.cpp">
+      <Filter>Physics\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics.cpp">
+      <Filter>Physics\Base</Filter>
+    </ClCompile>
     <ClCompile Include="physics_game.cpp">
       <Filter>Physics\Base</Filter>
     </ClCompile>
@@ -9423,6 +10247,9 @@
     <ClCompile Include="PHInterpolation.cpp">
       <Filter>Physics\Base\Objects\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="PHContactBodyEffector.cpp">
+      <Filter>Physics\Base\Objects\BodyEffectors</Filter>
+    </ClCompile>
     <ClCompile Include="..\xrServerEntities\PHNetState.cpp">
       <Filter>Physics\Base\Objects\PHNet</Filter>
     </ClCompile>
@@ -9432,23 +10259,92 @@
     <ClCompile Include="PHMoveStorage.cpp">
       <Filter>Physics\Base\Objects\MoveStorage</Filter>
     </ClCompile>
+    <ClCompile Include="DisablingParams.cpp">
+      <Filter>Physics\Base\Objects\Disabling</Filter>
+    </ClCompile>
+    <ClCompile Include="PHDisabling.cpp">
+      <Filter>Physics\Base\Objects\Disabling</Filter>
+    </ClCompile>
+    <ClCompile Include="PHActorCharacter.cpp">
+      <Filter>Physics\Base\Objects\PhyMove\ActorCaracter</Filter>
+    </ClCompile>
     <ClCompile Include="PHMovementDynamicActivate.cpp">
       <Filter>Physics\Base\Objects\PhyMove\ActorCaracter</Filter>
     </ClCompile>
     <ClCompile Include="PHAICharacter.cpp">
       <Filter>Physics\Base\Objects\PhyMove\AICharacter</Filter>
     </ClCompile>
+    <ClCompile Include="PHCapture.cpp">
+      <Filter>Physics\Base\Objects\PhyMove\Capture</Filter>
+    </ClCompile>
+    <ClCompile Include="PHCaptureInit.cpp">
+      <Filter>Physics\Base\Objects\PhyMove\Capture</Filter>
+    </ClCompile>
     <ClCompile Include="PHMovementControl.cpp">
       <Filter>Physics\Base\Objects\PhyMove\MovementControl</Filter>
+    </ClCompile>
+    <ClCompile Include="ElevatorState.cpp">
+      <Filter>Physics\Base\Objects\PhyMove\SipmpleCharacter</Filter>
+    </ClCompile>
+    <ClCompile Include="PHSimpleCharacter.cpp">
+      <Filter>Physics\Base\Objects\PhyMove\SipmpleCharacter</Filter>
+    </ClCompile>
+    <ClCompile Include="PHCharacter.cpp">
+      <Filter>Physics\Base\Objects\PhyMove\BaseCharacter</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsShell.cpp">
+      <Filter>Physics\Base\Objects\BaseShell</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsShellScript.cpp">
+      <Filter>Physics\Base\Objects\BaseShell</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsShellAnimator.cpp">
+      <Filter>Physics\Base\Objects\BaseShell\PhysicsShellAnimator</Filter>
+    </ClCompile>
+    <ClCompile Include="PHElement.cpp">
+      <Filter>Physics\Base\Objects\Elemenet</Filter>
+    </ClCompile>
+    <ClCompile Include="PHElementNetState.cpp">
+      <Filter>Physics\Base\Objects\Elemenet</Filter>
     </ClCompile>
     <ClCompile Include="Geometry.cpp">
       <Filter>Physics\Base\Objects\Elemenet\Geom</Filter>
     </ClCompile>
+    <ClCompile Include="PHGeometryOwner.cpp">
+      <Filter>Physics\Base\Objects\Elemenet\Geom</Filter>
+    </ClCompile>
+    <ClCompile Include="PHJoint.cpp">
+      <Filter>Physics\Base\Objects\Joint</Filter>
+    </ClCompile>
+    <ClCompile Include="PHShell.cpp">
+      <Filter>Physics\Base\Objects\Shell</Filter>
+    </ClCompile>
+    <ClCompile Include="PHShellActivate.cpp">
+      <Filter>Physics\Base\Objects\Shell</Filter>
+    </ClCompile>
+    <ClCompile Include="PHShellNetState.cpp">
+      <Filter>Physics\Base\Objects\Shell</Filter>
+    </ClCompile>
     <ClCompile Include="ShellHit.cpp">
       <Filter>Physics\Base\Objects\Shell</Filter>
     </ClCompile>
+    <ClCompile Include="PHFracture.cpp">
+      <Filter>Physics\Base\Objects\Breakable</Filter>
+    </ClCompile>
+    <ClCompile Include="PHJointDestroyInfo.cpp">
+      <Filter>Physics\Base\Objects\Breakable</Filter>
+    </ClCompile>
+    <ClCompile Include="PHShellSplitter.cpp">
+      <Filter>Physics\Base\Objects\Breakable</Filter>
+    </ClCompile>
     <ClCompile Include="PHSplitedShell.cpp">
       <Filter>Physics\Base\Objects\SplitedShell</Filter>
+    </ClCompile>
+    <ClCompile Include="PHObject.cpp">
+      <Filter>Physics\Base\Objects\PHObject</Filter>
+    </ClCompile>
+    <ClCompile Include="PHIsland.cpp">
+      <Filter>Physics\Base\Objects\PHIsland</Filter>
     </ClCompile>
     <ClCompile Include="PHCommander.cpp">
       <Filter>Physics\Base\Objects\PHCommander</Filter>
@@ -9504,6 +10400,27 @@
     <ClCompile Include="physics_shell_animated.cpp">
       <Filter>Physics\CharacterSupport\interactive_anims</Filter>
     </ClCompile>
+    <ClCompile Include="tri-colliderknoopc\dcTriListCollider.cpp">
+      <Filter>Physics\Colliders\Tri-Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="tri-colliderknoopc\dSortTriPrimitive.cpp">
+      <Filter>Physics\Colliders\Tri-Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="tri-colliderknoopc\dTriBox.cpp">
+      <Filter>Physics\Colliders\Tri-Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="tri-colliderKNoOPC\dTriCallideK.cpp">
+      <Filter>Physics\Colliders\Tri-Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="tri-colliderknoopc\dTriCylinder.cpp">
+      <Filter>Physics\Colliders\Tri-Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="tri-colliderKNoOPC\dTriList.cpp">
+      <Filter>Physics\Colliders\Tri-Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="tri-colliderknoopc\dTriSphere.cpp">
+      <Filter>Physics\Colliders\Tri-Collider</Filter>
+    </ClCompile>
     <ClCompile Include="dCylinder\dCylinder.cpp">
       <Filter>Physics\Colliders\Cyl_Collider</Filter>
     </ClCompile>
@@ -9518,6 +10435,9 @@
     </ClCompile>
     <ClCompile Include="PHSoundPlayer.cpp">
       <Filter>Physics\PhysicsSoundPlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="PHActivationShape.cpp">
+      <Filter>Physics\ActivationBox</Filter>
     </ClCompile>
     <ClCompile Include="Hit.cpp">
       <Filter>Physics\Hit</Filter>
@@ -9773,6 +10693,9 @@
     </ClCompile>
     <ClCompile Include="ui\UIOptionsManagerScript.cpp">
       <Filter>UI\Common\OptionsItem</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UIOptConCom.cpp">
+      <Filter>UI\Common\OptionsConsoleCommands</Filter>
     </ClCompile>
     <ClCompile Include="ui\MMSound.cpp">
       <Filter>UI\Common\MM</Filter>
@@ -10044,11 +10967,173 @@
     <ClCompile Include="UIGameCustom_script.cpp">
       <Filter>UI\GameTypes\GameCustom</Filter>
     </ClCompile>
+    <ClCompile Include="UIDMStatisticWnd.cpp">
+      <Filter>UI\GameTypes\Deathmatch</Filter>
+    </ClCompile>
+    <ClCompile Include="UIGameDM.cpp">
+      <Filter>UI\GameTypes\Deathmatch</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UIRankIndicator.cpp">
+      <Filter>UI\GameTypes\Deathmatch</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UIVoteStatusWnd.cpp">
+      <Filter>UI\GameTypes\Deathmatch</Filter>
+    </ClCompile>
     <ClCompile Include="UIGameSP.cpp">
       <Filter>UI\GameTypes\Single</Filter>
     </ClCompile>
+    <ClCompile Include="UIGameTDM.cpp">
+      <Filter>UI\GameTypes\TeamDeathmatch</Filter>
+    </ClCompile>
+    <ClCompile Include="UIGameAHunt.cpp">
+      <Filter>UI\GameTypes\ArtefactHunt</Filter>
+    </ClCompile>
     <ClCompile Include="UIGame_custom_script.cpp">
       <Filter>UI\GameTypes\Game_custom_script</Filter>
+    </ClCompile>
+    <ClCompile Include="UIGameCTA.cpp">
+      <Filter>UI\GameTypes\CaptureTheArtefact</Filter>
+    </ClCompile>
+    <ClCompile Include="player_name_modifyer.cpp">
+      <Filter>UI\Multiplayer\MM_MP\CDkey</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UICDkey.cpp">
+      <Filter>UI\Multiplayer\MM_MP\CDkey</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UIMapList.cpp">
+      <Filter>UI\Multiplayer\MM_MP\MapList</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\ServerList.cpp">
+      <Filter>UI\Multiplayer\MM_MP\ServerList</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\ServerList_GameSpy_func.cpp">
+      <Filter>UI\Multiplayer\MM_MP\ServerList</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UIListItemAdv.cpp">
+      <Filter>UI\Multiplayer\MM_MP\ServerList</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UIListItemServer.cpp">
+      <Filter>UI\Multiplayer\MM_MP\ServerList</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\TeamInfo.cpp">
+      <Filter>UI\Multiplayer\MM_MP\TeamInfo</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UIStats.cpp">
+      <Filter>UI\Multiplayer\HUD\Stats</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UIStatsPlayerInfo.cpp">
+      <Filter>UI\Multiplayer\HUD\Stats</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UIStatsPlayerList.cpp">
+      <Filter>UI\Multiplayer\HUD\Stats</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UIStatsIcon.cpp">
+      <Filter>UI\Multiplayer\HUD\Stats\icons</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UIFrags.cpp">
+      <Filter>UI\Multiplayer\HUD\Stats\frag_wnd</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UIFrags2.cpp">
+      <Filter>UI\Multiplayer\HUD\Stats\frag_wnd</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UIStatsWnd.cpp">
+      <Filter>UI\Multiplayer\HUD\Stats\old</Filter>
+    </ClCompile>
+    <ClCompile Include="UIPanelsClassFactory.cpp">
+      <Filter>UI\Multiplayer\HUD\Stats\TeamStates</Filter>
+    </ClCompile>
+    <ClCompile Include="UIPlayerItem.cpp">
+      <Filter>UI\Multiplayer\HUD\Stats\TeamStates</Filter>
+    </ClCompile>
+    <ClCompile Include="UITeamHeader.cpp">
+      <Filter>UI\Multiplayer\HUD\Stats\TeamStates</Filter>
+    </ClCompile>
+    <ClCompile Include="UITeamPanels.cpp">
+      <Filter>UI\Multiplayer\HUD\Stats\TeamStates</Filter>
+    </ClCompile>
+    <ClCompile Include="UITeamState.cpp">
+      <Filter>UI\Multiplayer\HUD\Stats\TeamStates</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UIChatWnd.cpp">
+      <Filter>UI\Multiplayer\HUD\Chat</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UIGameLog.cpp">
+      <Filter>UI\Multiplayer\HUD\GameLog</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UISpeechMenu.cpp">
+      <Filter>UI\Multiplayer\HUD\SpeechMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UIPdaKillMessage.cpp">
+      <Filter>UI\Multiplayer\HUD\common</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UIBuyWndShared.cpp">
+      <Filter>UI\Multiplayer\BuyWeaponWnd</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UIMpItemsStoreWnd.cpp">
+      <Filter>UI\Multiplayer\BuyWeaponWnd</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UIMpTradeWnd.cpp">
+      <Filter>UI\Multiplayer\BuyWeaponWnd</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UIMpTradeWnd_init.cpp">
+      <Filter>UI\Multiplayer\BuyWeaponWnd</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UIMpTradeWnd_items.cpp">
+      <Filter>UI\Multiplayer\BuyWeaponWnd</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UIMpTradeWnd_misc.cpp">
+      <Filter>UI\Multiplayer\BuyWeaponWnd</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UIMpTradeWnd_trade.cpp">
+      <Filter>UI\Multiplayer\BuyWeaponWnd</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UIMpTradeWnd_wpn.cpp">
+      <Filter>UI\Multiplayer\BuyWeaponWnd</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\Restrictions.cpp">
+      <Filter>UI\Multiplayer\BuyWeaponWnd\rank_restrictions</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UIBuyWeaponTab.cpp">
+      <Filter>UI\Multiplayer\BuyWeaponWnd\TAB</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UITabButtonMP.cpp">
+      <Filter>UI\Multiplayer\BuyWeaponWnd\TAB</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UIMapDesc.cpp">
+      <Filter>UI\Multiplayer\team_skin_info\MapDesc</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UIMapInfo.cpp">
+      <Filter>UI\Multiplayer\team_skin_info\MapDesc\MapInfo</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UIMapInfo_script.cpp">
+      <Filter>UI\Multiplayer\team_skin_info\MapDesc\MapInfo</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UISpawnWnd.cpp">
+      <Filter>UI\Multiplayer\team_skin_info\Spawn</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UISkinSelector.cpp">
+      <Filter>UI\Multiplayer\team_skin_info\SkinSelector</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UIStatix.cpp">
+      <Filter>UI\Multiplayer\team_skin_info\SkinSelector</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UIChangeMap.cpp">
+      <Filter>UI\Multiplayer\Voting</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UIChangeWeather.cpp">
+      <Filter>UI\Multiplayer\Voting</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UIKickPlayer.cpp">
+      <Filter>UI\Multiplayer\Voting</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UITextVote.cpp">
+      <Filter>UI\Multiplayer\Voting</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UIVote.cpp">
+      <Filter>UI\Multiplayer\Voting</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UIVotingCategory.cpp">
+      <Filter>UI\Multiplayer\Voting</Filter>
     </ClCompile>
     <ClCompile Include="HUDCrosshair.cpp">
       <Filter>UI\Cursor</Filter>
@@ -10067,6 +11152,69 @@
     </ClCompile>
     <ClCompile Include="ui\UIGameTutorialVideoItem.cpp">
       <Filter>UI\Tutorial</Filter>
+    </ClCompile>
+    <ClCompile Include="objects\devices\Compass.cpp">
+      <Filter>Core\Client\Objects\items &amp; weapons\Devices</Filter>
+    </ClCompile>
+    <ClCompile Include="objects\devices\Dosimeter.cpp">
+      <Filter>Core\Client\Objects\items &amp; weapons\Devices\Dosimeter</Filter>
+    </ClCompile>
+    <ClCompile Include="objects\devices\UIDosimeter.cpp">
+      <Filter>Core\Client\Objects\items &amp; weapons\Devices\Dosimeter</Filter>
+    </ClCompile>
+    <ClCompile Include="DetectList.cpp">
+      <Filter>Core\Client\Objects\items &amp; weapons\Devices\Detectors</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjectEvents.cpp">
+      <Filter>Core\Client\Objects\base\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="embedded_editor\embedded_editor_main.cpp">
+      <Filter>Embedded editor</Filter>
+    </ClCompile>
+    <ClCompile Include="embedded_editor\embedded_editor_weather.cpp">
+      <Filter>Embedded editor</Filter>
+    </ClCompile>
+    <ClCompile Include="embedded_editor\embedded_editor_prop.cpp">
+      <Filter>Embedded editor</Filter>
+    </ClCompile>
+    <ClCompile Include="embedded_editor\embedded_editor_logic.cpp">
+      <Filter>Embedded editor</Filter>
+    </ClCompile>
+    <ClCompile Include="embedded_editor\embedded_editor_helper.cpp">
+      <Filter>Embedded editor</Filter>
+    </ClCompile>
+    <ClCompile Include="embedded_editor\embedded_editor_ae.cpp">
+      <Filter>Embedded editor</Filter>
+    </ClCompile>
+    <ClCompile Include="embedded_editor\embedded_editor_postprocess.cpp">
+      <Filter>Embedded editor</Filter>
+    </ClCompile>
+    <ClCompile Include="embedded_editor\embedded_editor_stats.cpp">
+      <Filter>Embedded editor</Filter>
+    </ClCompile>
+    <ClCompile Include="embedded_editor\embedded_editor_ui.cpp">
+      <Filter>Embedded editor</Filter>
+    </ClCompile>
+    <ClCompile Include="embedded_editor\embedded_editor_map.cpp">
+      <Filter>Embedded editor</Filter>
+    </ClCompile>
+    <ClCompile Include="embedded_editor\embedded_editor_hud.cpp">
+      <Filter>Embedded editor</Filter>
+    </ClCompile>
+    <ClCompile Include="embedded_editor\embedded_editor_le.cpp">
+      <Filter>Embedded editor</Filter>
+    </ClCompile>
+    <ClCompile Include="embedded_editor\embedded_editor_se.cpp">
+      <Filter>Embedded editor</Filter>
+    </ClCompile>
+    <ClCompile Include="embedded_editor\render\editor_render.cpp">
+      <Filter>Embedded editor\render</Filter>
+    </ClCompile>
+    <ClCompile Include="embedded_editor\render\editor_render_ai_map.cpp">
+      <Filter>Embedded editor\render</Filter>
+    </ClCompile>
+    <ClCompile Include="embedded_editor\render\editor_render_spawn_element.cpp">
+      <Filter>Embedded editor\render</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

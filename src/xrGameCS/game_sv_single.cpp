@@ -32,6 +32,7 @@ void	game_sv_Single::Create			(shared_str& options)
 		m_alife_simulator				= xr_new<CALifeSimulator>(&server(),&options);
 #endif //#ifndef NO_SINGLE
 
+	switch_Phase						(GAME_PHASE_INPROGRESS);
 }
 
 /**
@@ -71,7 +72,7 @@ void	game_sv_Single::OnCreate		(u16 id_who)
 			if (trader)
 				alife().create			(alife_object);
 			else {
-				CSE_ALifeInventoryBox* const	box = smart_cast<CSE_ALifeInventoryBox*>(parent);
+				CSE_InventoryBox* const	box = smart_cast<CSE_InventoryBox*>(parent);
 				if (box)
 					alife().create		(alife_object);
 				else
@@ -150,7 +151,7 @@ void game_sv_Single::OnDetach(u16 eid_who, u16 eid_what)
 #ifdef DEBUG
 			else
 				if (psAI_Flags.test(aiALife)) {
-					Msg			("Cannot detach object [%s][%s][%d] from object [%s][%s][%d]",l_tpALifeInventoryItem->base()->name_replace(),*l_tpALifeInventoryItem->base()->s_name,l_tpALifeInventoryItem->base()->ID,l_tpDynamicObject->base()->name_replace(),l_tpDynamicObject->base()->s_name,l_tpDynamicObject->ID);
+					Msg			("Cannot detach object [%s][%s][%d] from object [%s][%s][%d]",l_tpALifeInventoryItem->base()->name_replace(),*l_tpALifeInventoryItem->base()->s_name.c_str(),l_tpALifeInventoryItem->base()->ID,l_tpDynamicObject->base()->name_replace(),l_tpDynamicObject->base()->s_name.c_str(),l_tpDynamicObject->ID);
 				}
 #endif
 		}
@@ -198,6 +199,14 @@ void game_sv_Single::SetGameTimeFactor		(const float fTimeFactor)
 {
 	if (ai().get_alife() && ai().alife().initialized())
 		return(alife().time_manager().set_time_factor(fTimeFactor));
+	else
+		return(inherited::SetGameTimeFactor(fTimeFactor));
+}
+
+void game_sv_Single::SetGameTimeFactor(ALife::_TIME_ID GameTime, const float fTimeFactor)
+{
+	if (ai().get_alife() && ai().alife().initialized())
+		return(alife().time_manager().set_game_time_factor(GameTime, fTimeFactor));
 	else
 		return(inherited::SetGameTimeFactor(fTimeFactor));
 }
@@ -347,6 +356,6 @@ void game_sv_Single::restart_simulator			(LPCSTR saved_game_name)
 	pApp->LoadBegin			();
 	m_alife_simulator		= xr_new<CALifeSimulator>(&server(),&options);
 	g_pGamePersistent->LoadTitle		("st_client_synchronising");
-	Device.PreCache			(60, true, true);
+	Device.PreCache			(30);
 	pApp->LoadEnd			();
 }

@@ -299,7 +299,7 @@ void CUIDragDropListEx::Draw()
 	if(0 && bDebug){
 		CGameFont* F		= UI()->Font()->pFontDI;
 		F->SetAligment		(CGameFont::alCenter);
-		F->SetHeight		(0.02f);
+		F->SetHeightI		(0.02f);
 		F->OutSetI			(0.f,-0.5f);
 		F->SetColor			(0xffffffff);
 		Ivector2			pt = m_container->PickCell(GetUICursor()->GetCursorPosition());
@@ -705,7 +705,7 @@ Ivector2 CUICellContainer::GetItemPos(CUICellItem* itm)
 
 u32 CUICellContainer::GetCellsInRange(const Irect& rect, UI_CELLS_VEC& res)
 {
-	res.clear				();
+	res.clear_not_free				();
 	for(int x=rect.x1;x<=rect.x2;++x)
 		for(int y=rect.y1;y<=rect.y2;++y)
 			res.push_back	(GetCellAt(Ivector2().set(x,y)));

@@ -1,7 +1,7 @@
 #ifndef PH_SPLITED_SELL
 #define PH_SPLITED_SELL
 
-#include "../xrPhysics/PHShell.h"
+#include "PHShell.h"
 
 class CPHSplitedShell: 
 	public CPHShell

@@ -13,6 +13,7 @@ private:
 
 private:
 	actor_mp_state_holder	m_state_holder;
+	//bool					m_i_am_dead;
 
 private:
 			void			fill_state			(actor_mp_state &state);

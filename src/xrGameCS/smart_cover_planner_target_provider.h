@@ -8,7 +8,6 @@
 #ifndef SMART_COVER_PLANNER_TARGET_PROVIDER_H_INCLUDED
 #define SMART_COVER_PLANNER_TARGET_PROVIDER_H_INCLUDED
 
-#include <boost/noncopyable.hpp>
 #include "smart_cover_detail.h"
 #include "action_base.h"
 #include "smart_cover_planner_target_selector.h"
@@ -17,14 +16,17 @@
 namespace smart_cover {
 
 class target_provider : 
-	public	CActionBase<animation_planner>,
-	private boost::noncopyable
+	public	CActionBase<animation_planner>
 {
 private:
 	typedef CActionBase<animation_planner> inherited;
 
 public:
 						target_provider					(animation_planner *object, LPCSTR name, StalkerDecisionSpace::EWorldProperties const &world_property, u32 const &loophole_value);
+						//non copyable
+						target_provider(const target_provider&) = delete;
+						target_provider& operator=(const target_provider&) = delete;
+
 	virtual	void		setup							(animation_planner *object, CPropertyStorage *storage);
 	virtual	void		initialize						();
 	virtual void		finalize						();
@@ -34,9 +36,7 @@ private:
 	u32					m_loophole_value;
 };
 
-class target_fire_no_lookout : 
-	public	target_provider,
-	private debug::make_final<target_fire_no_lookout>
+class target_fire_no_lookout final: public target_provider
 {
 private:
 	typedef target_provider inherited;

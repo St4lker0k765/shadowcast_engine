@@ -17,7 +17,7 @@ CHitImmunity::CHitImmunity()
 CHitImmunity::~CHitImmunity()
 {
 }
-void CHitImmunity::LoadImmunities(LPCSTR imm_sect,CInifile const * ini)
+void CHitImmunity::LoadImmunities(LPCSTR imm_sect,CInifile* ini)
 {
 	R_ASSERT2	(ini->section_exist(imm_sect), imm_sect);
 

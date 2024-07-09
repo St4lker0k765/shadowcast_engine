@@ -1,7 +1,7 @@
 #ifndef PHDISABLING_H
 #define PHDISABLING_H
 
-#include "../xrPhysics/DisablingParams.h"
+#include "DisablingParams.h"
 #include "ode_include.h"
 
 struct SDisableVector

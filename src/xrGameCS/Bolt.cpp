@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "bolt.h"
 #include "ParticlesObject.h"
-#include "../xrphysics/PhysicsShell.h"
+#include "PhysicsShell.h"
 #include "xr_level_controller.h"
 
 CBolt::CBolt(void) 

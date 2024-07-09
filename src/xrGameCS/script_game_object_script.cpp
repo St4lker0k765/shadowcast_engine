@@ -14,9 +14,9 @@
 
 using namespace luabind;
 
-extern class_<CScriptGameObject> &script_register_game_object1(class_<CScriptGameObject> &);
-extern class_<CScriptGameObject> &script_register_game_object2(class_<CScriptGameObject> &);
-extern class_<CScriptGameObject> &script_register_game_object_trader(class_<CScriptGameObject> &);
+extern class_<CScriptGameObject> script_register_game_object1(class_<CScriptGameObject>&&);
+extern class_<CScriptGameObject> script_register_game_object2(class_<CScriptGameObject>&&);
+extern class_<CScriptGameObject> script_register_game_object_trader(class_<CScriptGameObject>&&);
 
 #pragma optimize("s",on)
 void CScriptGameObject::script_register(lua_State *L)
@@ -47,11 +47,7 @@ void CScriptGameObject::script_register(lua_State *L)
 			.def_readonly("m_vector",		&CSightParams::m_vector)
 			.def_readonly("m_sight_type",	&CSightParams::m_sight_type),
 		
-		script_register_game_object2(
-			script_register_game_object1(
-				script_register_game_object_trader(instance)
-			)
-		),
+		script_register_game_object2(script_register_game_object1(script_register_game_object_trader(std::move(instance)))),
 
 		class_<enum_exporter<GameObject::ECallbackType> >("callback")
 			.enum_("callback_types")
@@ -91,8 +87,12 @@ void CScriptGameObject::script_register(lua_State *L)
 				value("task_state",					int(GameObject::eTaskStateChange)),
 				value("take_item_from_box",			int(GameObject::eInvBoxItemTake)),
 				value("weapon_no_ammo",				int(GameObject::eWeaponNoAmmoAvailable)),
-				
-				value("map_location_added",			int(GameObject::eMapLocationAdded))
+				value("map_location_added",			int(GameObject::eMapLocationAdded)),
+				value("on_key_press",				int(GameObject::eOnKeyPress)),
+				value("on_key_release",				int(GameObject::eOnKeyRelease)),
+				value("on_key_hold",				int(GameObject::eOnKeyHold)),
+				value("on_mouse_move",				int(GameObject::eOnMouseMove)),
+				value("on_mouse_wheel",				int(GameObject::eOnMouseWheel))
 			],
 
 		def("buy_condition",				(void (*)(CScriptIniFile*,LPCSTR))(&::buy_condition)),

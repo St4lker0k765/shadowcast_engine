@@ -23,7 +23,7 @@
 #include "../xrEngine/dedicated_server_only.h"
 #include "../xrEngine/no_single.h"
 
-extern ENGINE_API	bool g_dedicated_server;
+ENGINE_API	bool g_dedicated_server;
 
 CAI_Space *g_ai_space = 0;
 

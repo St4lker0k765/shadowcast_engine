@@ -7,10 +7,10 @@
 ////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include "ai/stalker/ai_stalker.h"
 #include "stalker_movement_manager_base.h"
 #include "stalker_movement_manager_space.h"
 #include "script_entity_action.h"
-#include "ai/stalker/ai_stalker.h"
 #include "sight_manager.h"
 #include "detail_path_manager.h"
 #include "level_location_selector.h"
@@ -38,7 +38,7 @@ extern bool show_restrictions(CRestrictedObject *object);
 const float BAD_PATH_ANGLE			= PI_DIV_2 - PI_DIV_8;
 const float BAD_PATH_DISTANCE_CHECK	= 2.f;
 
-class sight_manager_enable_guard : private boost::noncopyable {
+class sight_manager_enable_guard {
 	CSightManager&		m_manager;
 	bool				m_value;
 
@@ -48,6 +48,9 @@ public:
 		m_value			(value)
 	{
 	}
+	//non copyable
+	sight_manager_enable_guard(const sight_manager_enable_guard&) = delete;
+	sight_manager_enable_guard& operator=(const sight_manager_enable_guard&) = delete;
 
 	inline void enable					(bool const value)
 	{

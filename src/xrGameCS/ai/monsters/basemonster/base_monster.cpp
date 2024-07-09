@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "base_monster.h"
-#include "../../../xrPhysics/PhysicsShell.h"
+#include "../../../PhysicsShell.h"
 #include "../../../hit.h"
 #include "../../../PHDestroyable.h"
 #include "../../../CharacterPhysicsSupport.h"
@@ -25,7 +25,7 @@
 #include "../../../entitycondition.h"
 #include "../../../sound_player.h"
 #include "../../../level.h"
-#include "../../../ui/UIMainIngameWnd.h"
+//#include "../../../ui/UIMainIngameWnd.h"
 #include "../state_manager.h"
 #include "../controlled_entity.h"
 #include "../control_animation_base.h"
@@ -430,7 +430,7 @@ BOOL CBaseMonster::feel_touch_on_contact	(CObject *O)
 	return		(inherited::feel_touch_on_contact(O));
 }
 
-bool CBaseMonster::feel_touch_contact(CObject *O)
+BOOL CBaseMonster::feel_touch_contact(CObject *O)
 {
 	m_anomaly_detector->on_contact(O);
 	return inherited::feel_touch_contact(O);
@@ -680,7 +680,7 @@ void CBaseMonster::OnEvent(NET_Packet& P, u16 type)
 			CGameObject			*GO = smart_cast<CGameObject*>(O);
 			CInventoryItem		*pIItem = smart_cast<CInventoryItem*>(GO);
 			VERIFY				(inventory().CanTakeItem(pIItem));
-			pIItem->m_eItemCurrPlace.type = eItemPlaceRuck;
+			pIItem->m_eItemCurrPlace = eItemPlaceRuck;
 
 			O->H_SetParent		(this);
 			inventory().Take	(GO, true, true);

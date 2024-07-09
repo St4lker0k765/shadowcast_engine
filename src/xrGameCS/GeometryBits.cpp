@@ -2,10 +2,10 @@
 
 #include "GeometryBits.h"
 
-#include "../xrphysics/IPHWorld.h"
+#include "phworld.h"
 #include "geometry.h"
 
-static enum geom_category {
+enum geom_category {
 	gct_static		= 1<< 0,
 	gct_dynamic		= 1<< 1
 };

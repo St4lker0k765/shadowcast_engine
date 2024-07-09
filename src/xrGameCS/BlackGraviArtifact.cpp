@@ -6,14 +6,14 @@
 
 #include "stdafx.h"
 #include "BlackGraviArtifact.h"
-#include "../xrphysics/PhysicsShell.h"
+#include "PhysicsShell.h"
 #include "entity_alive.h"
 #include "ParticlesObject.h"
 #include "phmovementcontrol.h"
 #include "xrmessages.h"
 #include "physicsshellholder.h"
 #include "explosive.h"
-#include "../xrphysics/IPHWorld.h"
+#include "PHWorld.h"
 #include "CharacterPhysicsSupport.h"
 extern CPHWorld*	ph_world;
 CBlackGraviArtefact::CBlackGraviArtefact(void) 
@@ -65,23 +65,12 @@ BOOL CBlackGraviArtefact::net_Spawn(CSE_Abstract* DC)
 
 	return TRUE;
 }
-struct SRP
-{
-	const CPhysicsShellHolder* obj;
-		SRP(const CPhysicsShellHolder* O)
-		{
-			obj=O;
-		}
-	bool operator	() (CPhysicsShellHolder* O) const
-	{
-		return obj==O;
-	}
-};
+
 void CBlackGraviArtefact::net_Relcase(CObject* O)
 {
 	inherited::net_Relcase(O);
 	//for vector
-	GAME_OBJECT_LIST_it I=std::remove_if(m_GameObjectList.begin(),m_GameObjectList.end(),SRP(smart_cast<CPhysicsShellHolder*>(O)));
+	GAME_OBJECT_LIST_it I = std::remove_if(m_GameObjectList.begin(), m_GameObjectList.end(), [O](const CPhysicsShellHolder* obj) {return obj == O; });
 	m_GameObjectList.erase(I,m_GameObjectList.end());
 	//for list
 	//m_GameObjectList.remove_if(SRP(smart_cast<CPhysicsShellHolder*>(O)));
@@ -158,7 +147,7 @@ void CBlackGraviArtefact::feel_touch_delete(CObject* O)
 	}
 }
 
-bool CBlackGraviArtefact::feel_touch_contact(CObject* O) 
+BOOL CBlackGraviArtefact::feel_touch_contact(CObject* O) 
 {
 	CGameObject* pGameObject = static_cast<CGameObject*>(O);
 

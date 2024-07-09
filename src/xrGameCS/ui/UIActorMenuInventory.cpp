@@ -13,7 +13,6 @@
 #include "UIPropertiesBox.h"
 #include "UIListBoxItem.h"
 #include "UIMainIngameWnd.h"
-
 #include "../silencer.h"
 #include "../scope.h"
 #include "../grenadelauncher.h"
@@ -28,7 +27,7 @@
 #include "../MPPlayersBag.h"
 #include "../HUDManager.h"
 #include "../player_hud.h"
-
+#include "CustomDetector.h"
 
 void move_item_from_to(u16 from_id, u16 to_id, u16 what_id);
 
@@ -244,20 +243,20 @@ void CUIActorMenu::OnInventoryAction(PIItem pItem, u16 action_type)
 				bool b_already	= false;
 
 				CUIDragDropListEx* lst_to_add		= NULL;
-				SInvItemPlace pl						= pItem->m_eItemCurrPlace;
+				EItemPlace pl						= pItem->m_eItemCurrPlace;
 				if ( pItem->GetSlot() == GRENADE_SLOT )
 				{
-					pl.type = eItemPlaceRuck;
+					pl = eItemPlaceRuck;
 				}
 #ifndef MASTER_GOLD
 				Msg("item place [%d]", pl);
 #endif // #ifndef MASTER_GOLD
 
-				if(pl.type==eItemPlaceSlot)
+				if(pl==eItemPlaceSlot)
 					lst_to_add						= GetSlotList(pItem->GetSlot());
-				else if(pl.type==eItemPlaceRuck)
+				else if(pl==eItemPlaceRuck)
 					lst_to_add						= GetListByType(iActorBag);
-				else if(pl.type==eItemPlaceBelt)
+				else if(pl==eItemPlaceBelt)
 					lst_to_add						= GetListByType(iActorBelt);
 
 
@@ -377,8 +376,8 @@ void CUIActorMenu::InitInventoryContents(CUIDragDropListEx* pBagList)
 
 	CUIDragDropListEx*			curr_list = NULL;
 	//Slots
-	InitCellForSlot				(INV_SLOT_2);
-	InitCellForSlot				(INV_SLOT_3);
+	InitCellForSlot				(PISTOL_SLOT);
+	InitCellForSlot				(RIFLE_SLOT);
 	InitCellForSlot				(OUTFIT_SLOT);
 	InitCellForSlot				(DETECTOR_SLOT);
 	InitCellForSlot				(GRENADE_SLOT);
@@ -589,11 +588,11 @@ CUIDragDropListEx* CUIActorMenu::GetSlotList(u32 slot_idx)
 	}
 	switch ( slot_idx )
 	{
-		case INV_SLOT_2:
+		case PISTOL_SLOT:
 			return m_pInventoryPistolList;
 			break;
 
-		case INV_SLOT_3:
+		case RIFLE_SLOT:
 			return m_pInventoryAutomaticList;
 			break;
 
@@ -824,15 +823,15 @@ void CUIActorMenu::PropertiesBoxForAddon( PIItem item, bool& b_show )
 
 	if ( pScope )
 	{
-		if ( inv->m_slots[INV_SLOT_2].m_pIItem && inv->m_slots[INV_SLOT_2].m_pIItem->CanAttach(pScope) )
+		if ( inv->m_slots[PISTOL_SLOT].m_pIItem && inv->m_slots[PISTOL_SLOT].m_pIItem->CanAttach(pScope) )
 		{
-			PIItem tgt = inv->m_slots[INV_SLOT_2].m_pIItem;
+			PIItem tgt = inv->m_slots[PISTOL_SLOT].m_pIItem;
 			m_UIPropertiesBox->AddItem( "st_attach_scope_to_pistol",  (void*)tgt, INVENTORY_ATTACH_ADDON );
 			b_show			= true;
 		}
-		if ( inv->m_slots[INV_SLOT_3].m_pIItem && inv->m_slots[INV_SLOT_3].m_pIItem->CanAttach(pScope) )
+		if ( inv->m_slots[RIFLE_SLOT].m_pIItem && inv->m_slots[RIFLE_SLOT].m_pIItem->CanAttach(pScope) )
 		{
-			PIItem tgt = inv->m_slots[INV_SLOT_3].m_pIItem;
+			PIItem tgt = inv->m_slots[RIFLE_SLOT].m_pIItem;
 			m_UIPropertiesBox->AddItem( "st_attach_scope_to_rifle",  (void*)tgt, INVENTORY_ATTACH_ADDON );
 			b_show			= true;
 		}
@@ -841,15 +840,15 @@ void CUIActorMenu::PropertiesBoxForAddon( PIItem item, bool& b_show )
 	
 	if ( pSilencer )
 	{
-		if ( inv->m_slots[INV_SLOT_2].m_pIItem && inv->m_slots[INV_SLOT_2].m_pIItem->CanAttach(pSilencer) )
+		if ( inv->m_slots[PISTOL_SLOT].m_pIItem && inv->m_slots[PISTOL_SLOT].m_pIItem->CanAttach(pSilencer) )
 		{
-			PIItem tgt = inv->m_slots[INV_SLOT_2].m_pIItem;
+			PIItem tgt = inv->m_slots[PISTOL_SLOT].m_pIItem;
 			m_UIPropertiesBox->AddItem( "st_attach_silencer_to_pistol",  (void*)tgt, INVENTORY_ATTACH_ADDON );
 			b_show			= true;
 		}
-		if ( inv->m_slots[INV_SLOT_3].m_pIItem && inv->m_slots[INV_SLOT_3].m_pIItem->CanAttach(pSilencer) )
+		if ( inv->m_slots[RIFLE_SLOT].m_pIItem && inv->m_slots[RIFLE_SLOT].m_pIItem->CanAttach(pSilencer) )
 		{
-			PIItem tgt = inv->m_slots[INV_SLOT_3].m_pIItem;
+			PIItem tgt = inv->m_slots[RIFLE_SLOT].m_pIItem;
 			m_UIPropertiesBox->AddItem( "st_attach_silencer_to_rifle",  (void*)tgt, INVENTORY_ATTACH_ADDON );
 			b_show			= true;
 		}
@@ -858,9 +857,9 @@ void CUIActorMenu::PropertiesBoxForAddon( PIItem item, bool& b_show )
 	
 	if ( pGrenadeLauncher )
 	{
-		if ( inv->m_slots[INV_SLOT_3].m_pIItem && inv->m_slots[INV_SLOT_3].m_pIItem->CanAttach(pGrenadeLauncher) )
+		if ( inv->m_slots[RIFLE_SLOT].m_pIItem && inv->m_slots[RIFLE_SLOT].m_pIItem->CanAttach(pGrenadeLauncher) )
 		{
-			PIItem tgt = inv->m_slots[INV_SLOT_3].m_pIItem;
+			PIItem tgt = inv->m_slots[RIFLE_SLOT].m_pIItem;
 			m_UIPropertiesBox->AddItem( "st_attach_gl_to_rifle",  (void*)tgt, INVENTORY_ATTACH_ADDON );
 			b_show			= true;
 		}

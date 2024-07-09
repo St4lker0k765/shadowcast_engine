@@ -10,13 +10,14 @@
 #include "game_cl_base.h"
 #include "../xrEngine/x_ray.h"
 #include "../xrEngine/gamemtllib.h"
-#include "../xrPhysics/PhysicsCommon.h"
+#include "PhysicsCommon.h"
 #include "level_sounds.h"
 #include "GamePersistent.h"
+#include "../xrEngine/Environment.h"
 
-extern ENGINE_API	bool g_dedicated_server;
+ENGINE_API	bool g_dedicated_server;
 
-bool CLevel::Load_GameSpecific_Before()
+BOOL CLevel::Load_GameSpecific_Before()
 {
 	// AI space
 	g_pGamePersistent->LoadTitle		("st_loading_ai_objects");
@@ -34,7 +35,7 @@ bool CLevel::Load_GameSpecific_Before()
 	return								(TRUE);
 }
 
-bool CLevel::Load_GameSpecific_After()
+BOOL CLevel::Load_GameSpecific_After()
 {
 	R_ASSERT(m_StaticParticles.empty());
 	// loading static particles

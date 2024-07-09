@@ -5,7 +5,7 @@
 #include "../Include/xrRender/Kinematics.h"
 #include "../xrEngine/bone.h"
 
-#include "../xrPhysics/Physics.h"
+#include "Physics.h"
 #include "ExtendedGeom.h"
 #include "hit.h"
 #include "level.h"
@@ -113,7 +113,7 @@ void character_shell_control::TestForWounded(const Fmatrix& xform,  IKinematics*
 	Fmatrix position_matrix;
 	position_matrix.mul( xform, CBI.mTransform );
 	
-	xrXRC						xrc;
+	xrXRC<CDB::GamePayload> xrc;
 	xrc.ray_options				(0);
 	xrc.ray_query(Level().ObjectSpace.GetStaticModel(),position_matrix.c,Fvector().set(0.0f,-1.0f,0.0f),pelvis_factor_low_pose_detect);
 		

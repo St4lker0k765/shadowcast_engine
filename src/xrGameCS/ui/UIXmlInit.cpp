@@ -33,17 +33,22 @@
 #include "UItabButtonMP.h"
 
 extern int keyname_to_dik(LPCSTR);
-#include "../xrGame/UIFontDefines.h"
 
-shared_str CUIXmlInit::m_Graffiti19RussiaFontName = "ui_font_graffiti19_russian";
-shared_str CUIXmlInit::m_Graffiti22RussiaFontName = "ui_font_graffiti22_russian";
-shared_str CUIXmlInit::m_Graff32FontName = "ui_font_graff_32";
-shared_str CUIXmlInit::m_Graff50FontName = "ui_font_graff_50";
-shared_str CUIXmlInit::m_Arial14FontName = "ui_font_arial_14";
-shared_str CUIXmlInit::m_Arial21FontName = "ui_font_arial_21";
-shared_str CUIXmlInit::m_Letterica16FontName = "ui_font_letterica16_russian";
-shared_str CUIXmlInit::m_Letterica18FontName = "ui_font_letterica18_russian";
-shared_str CUIXmlInit::m_Letter25FontName = "ui_font_letter_25";
+#define ARIAL_FONT_NAME			"arial"
+
+#define MEDIUM_FONT_NAME		"medium"
+#define SMALL_FONT_NAME			"small"
+
+#define GRAFFITI19_FONT_NAME	"graffiti19"
+#define GRAFFITI22_FONT_NAME	"graffiti22"
+#define GRAFFITI32_FONT_NAME	"graffiti32"
+#define GRAFFITI50_FONT_NAME	"graffiti50"
+
+#define LETTERICA16_FONT_NAME	"letterica16"
+#define LETTERICA18_FONT_NAME	"letterica18"
+#define LETTERICA25_FONT_NAME	"letterica25"
+
+#define DI_FONT_NAME			"di"
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -103,6 +108,8 @@ bool CUIXmlInit::InitWindow(CUIXml& xml_doc, LPCSTR path,
 	strconcat(sizeof(buf),buf,path,":window_name");
 	if(xml_doc.NavigateToNode(buf,index))
 		pWnd->SetWindowName		( xml_doc.Read(buf, index, NULL) );
+	else
+		pWnd->SetWindowName(path);
 
 	InitAutoStaticGroup			(xml_doc, path, index, pWnd);
 	InitAutoFrameLineGroup		(xml_doc, path, index, pWnd);
@@ -724,75 +731,72 @@ CUIXmlInit::StaticsVec CUIXmlInit::InitAutoStatic(CUIXml& xml_doc, LPCSTR tag_na
 
 	return tmpVec;
 }
-bool CUIXmlInit::InitFont(CUIXml& xml_doc, LPCSTR path, int index, u32& color, CGameFont*& pFnt)
-{
-	color = GetColor(xml_doc, path, index, 0xff);
 
-	LPCSTR font_name = xml_doc.ReadAttrib(path, index, "font", NULL);
-	if (!font_name)
+bool CUIXmlInit::InitFont(CUIXml &xml_doc, LPCSTR path, int index, u32 &color, CGameFont *&pFnt)
+{
+	color = GetColor	(xml_doc, path, index, 0xff);
+
+	shared_str font_name = xml_doc.ReadAttrib(path, index, "font", NULL);
+	if(*font_name == NULL || xr_strlen(*font_name)<1)
 	{
 		pFnt = NULL;
 		return false;
 	}
-	else
+
+	if(*font_name)
 	{
-		CFontManager* fontManager = UI()->Font();
-		if (!xr_strcmp(font_name, GRAFFITI19_FONT_NAME))
+		if(!xr_strcmp(*font_name, GRAFFITI19_FONT_NAME))
 		{
-			pFnt = fontManager->GetFont(m_Graffiti19RussiaFontName);
+			pFnt = UI()->Font()->pFontGraffiti19Russian;
 		}
-		else if (!xr_strcmp(font_name, GRAFFITI22_FONT_NAME))
+		else if(!xr_strcmp(*font_name, GRAFFITI22_FONT_NAME))
 		{
-			pFnt = fontManager->GetFont(m_Graffiti22RussiaFontName);
+			pFnt = UI()->Font()->pFontGraffiti22Russian;
 		}
-		else if (!xr_strcmp(font_name, GRAFFITI32_FONT_NAME))
+		else if(!xr_strcmp(*font_name, GRAFFITI32_FONT_NAME))
 		{
-			pFnt = fontManager->GetFont(m_Graff32FontName);
+			pFnt = UI()->Font()->pFontGraffiti32Russian;
 		}
-		else if (!xr_strcmp(font_name, GRAFFITI50_FONT_NAME))
+		else if(!xr_strcmp(*font_name, GRAFFITI50_FONT_NAME))
 		{
-			pFnt = fontManager->GetFont(m_Graff50FontName);
+			pFnt = UI()->Font()->pFontGraffiti50Russian;
 		}
-		else if (!xr_strcmp(font_name, ARIAL14_FONT_NAME))
+		else if(!xr_strcmp(*font_name, "arial_14"))
 		{
-			pFnt = fontManager->GetFont(m_Arial14FontName);
+			pFnt = UI()->Font()->pFontArial14;
 		}
-		else if (!xr_strcmp(font_name, ARIAL21_FONT_NAME))
+		else if(!xr_strcmp(*font_name, MEDIUM_FONT_NAME))
 		{
-			pFnt = fontManager->GetFont(m_Arial21FontName);
+			pFnt = UI()->Font()->pFontMedium;
 		}
-		else if (!xr_strcmp(font_name, MEDIUM_FONT_NAME))
+		else if(!xr_strcmp(*font_name, SMALL_FONT_NAME))
 		{
-			pFnt = fontManager->pFontMedium;
+			pFnt = UI()->Font()->pFontStat;
 		}
-		else if (!xr_strcmp(font_name, SMALL_FONT_NAME))
+		else if(!xr_strcmp(*font_name, LETTERICA16_FONT_NAME))
 		{
-			pFnt = fontManager->pFontStat;
+			pFnt = UI()->Font()->pFontLetterica16Russian;
 		}
-		else if (!xr_strcmp(font_name, LETTERICA16_FONT_NAME))
+		else if(!xr_strcmp(*font_name, LETTERICA18_FONT_NAME))
 		{
-			pFnt = fontManager->GetFont(m_Letterica16FontName);
+			pFnt = UI()->Font()->pFontLetterica18Russian;
 		}
-		else if (!xr_strcmp(font_name, LETTERICA18_FONT_NAME))
+		else if(!xr_strcmp(*font_name, LETTERICA25_FONT_NAME))
 		{
-			pFnt = fontManager->GetFont(m_Letterica18FontName);
+			pFnt = UI()->Font()->pFontLetterica25;
 		}
-		else if (!xr_strcmp(font_name, LETTERICA25_FONT_NAME))
+		else if(!xr_strcmp(*font_name, DI_FONT_NAME))
 		{
-			pFnt = fontManager->GetFont(m_Letter25FontName);
+			pFnt = UI()->Font()->pFontDI;
 		}
-		else if (!xr_strcmp(font_name, DI_FONT_NAME))
-		{
-			pFnt = fontManager->pFontDI;
-		}
-		else
-		{
-			shared_str FontNameStr = font_name;
-			pFnt = fontManager->GetFont(FontNameStr);
+		else{
+			R_ASSERT3(0,"unknown font",*font_name);
+			pFnt = NULL;
 		}
 	}
 	return true;
 }
+
 bool CUIXmlInit::InitTabControl(CUIXml &xml_doc, LPCSTR path, int index, CUITabControl *pWnd)
 {
 	R_ASSERT4				(xml_doc.NavigateToNode(path,index), "XML node not found", path, xml_doc.m_xml_file_name);

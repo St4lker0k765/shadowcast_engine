@@ -1,7 +1,7 @@
 #include "pch_script.h"
 #include "physicobject.h"
-#include "../xrphysics/PhysicsShell.h"
-#include "../xrPhysics/Physics.h"
+#include "PhysicsShell.h"
+#include "Physics.h"
 #include "xrserver_objects_alife.h"
 #include "Level.h"
 #include "../Include/xrRender/Kinematics.h"
@@ -10,7 +10,7 @@
 #include "../xrEngine/cf_dynamic_mesh.h"
 
 #include "game_object_space.h"
-#include "../xrPhysics/PhysicsShellAnimator.h"
+#include "PhysicsShellAnimator.h"
 #include "moving_bones_snd_player.h"
 #ifdef	DEBUG
 #include "phdebug.h"
@@ -412,11 +412,11 @@ void CPhysicObject::InitServerObject(CSE_Abstract * D)
 	if(!l_tpALifePhysicObject)return;
 	l_tpALifePhysicObject->type			= u32(m_type);
 }
-ICollisionHitCallback*	CPhysicObject::	get_collision_hit_callback ()	
+SCollisionHitCallback*	CPhysicObject::	get_collision_hit_callback ()	
 {
 	return m_collision_hit_callback;
 }
-bool					CPhysicObject::	set_collision_hit_callback	(ICollisionHitCallback *cc)	
+bool					CPhysicObject::	set_collision_hit_callback	(SCollisionHitCallback *cc)	
 {
 	if(!cc)
 	{

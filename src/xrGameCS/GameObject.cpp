@@ -2,11 +2,12 @@
 #include "GameObject.h"
 //#include "../Include/xrRender/RenderVisual.h"
 #include "../Include/xrRender/RenderVisual.h"
-#include "../xrphysics/PhysicsShell.h"
+#include "PhysicsShell.h"
 #include "ai_space.h"
 #include "CustomMonster.h" 
 #include "physicobject.h"
 #include "HangingLamp.h"
+#include "PhysicsShell.h"
 #include "game_sv_single.h"
 #include "level_graph.h"
 #include "ph_shell_interface.h"
@@ -22,7 +23,7 @@
 #include "../xrEngine/igame_level.h"
 #include "level.h"
 #include "script_callback_ex.h"
-#include "../../xrphysics/MathUtils.h"
+#include "MathUtils.h"
 #include "game_cl_base_weapon_usage_statistic.h"
 #include "game_level_cross_table.h"
 #include "ai_obstacle.h"
@@ -41,7 +42,7 @@ extern MagicBox3 MagicMinBox (int iQuantity, const Fvector* akPoint);
 #	include "PHDebug.h"
 #endif
 
-extern ENGINE_API bool g_dedicated_server;
+ENGINE_API bool g_dedicated_server;
 
 CGameObject::CGameObject		()
 {
@@ -295,16 +296,8 @@ BOOL CGameObject::net_Spawn		(CSE_Abstract*	DC)
 	VERIFY							(!fis_zero(DET(renderable.xform)));
 	CSE_ALifeObject					*O = smart_cast<CSE_ALifeObject*>(E);
 	if (O && xr_strlen(O->m_ini_string)) {
-#pragma warning(push)
-#pragma warning(disable:4238)
-		m_ini_file					= xr_new<CInifile>(
-			&IReader				(
-				(void*)(*(O->m_ini_string)),
-				O->m_ini_string.size()
-			),
-			FS.get_path("$game_config$")->m_Path
-		);
-#pragma warning(pop)
+		IReader r((void*)(*(O->m_ini_string)), O->m_ini_string.size());
+		m_ini_file = xr_new<CInifile>(&r, FS.get_path("$game_config$")->m_Path);
 	}
 
 	m_story_id						= ALife::_STORY_ID(-1);

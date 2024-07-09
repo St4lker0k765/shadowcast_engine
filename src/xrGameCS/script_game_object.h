@@ -178,17 +178,20 @@ public:
 	_DECLARE_FUNCTION10	(GetHealth			,			float);
 	_DECLARE_FUNCTION10	(GetPsyHealth		,			float);
 	_DECLARE_FUNCTION10	(GetPower			,			float);
+	_DECLARE_FUNCTION10 (GetSatiety			,			float);
 	_DECLARE_FUNCTION10	(GetRadiation		,			float);
 	_DECLARE_FUNCTION10	(GetBleeding		,			float);
 	_DECLARE_FUNCTION10	(GetMorale			,			float);
+	_DECLARE_FUNCTION10 (GetAlcohol			,			float);
 
 	_DECLARE_FUNCTION11	(SetHealth,			void, float);
 	_DECLARE_FUNCTION11	(SetPsyHealth,		void, float);
 	_DECLARE_FUNCTION11	(SetPower,			void, float);
-//	_DECLARE_FUNCTION11	(SetSatiety,		void, float);
+	_DECLARE_FUNCTION11	(SetSatiety,		void, float);
 	_DECLARE_FUNCTION11	(SetRadiation,		void, float);
 	_DECLARE_FUNCTION11	(SetCircumspection,	void, float);
 	_DECLARE_FUNCTION11	(SetMorale,			void, float);
+	_DECLARE_FUNCTION11	(SetAlcohol,		void, float);
 
 			void				set_fov				(float new_fov);
 			void				set_range			(float new_range);
@@ -210,6 +213,8 @@ public:
 	// Actor only
 			void				SetActorPosition	(Fvector pos);
 			void				SetActorDirection	(float dir);
+			void				blockAction			(int cmd);
+			void				unblockAction		(int cmd);
 	// CCustomMonster
 			bool				CheckObjectVisibility(const CScriptGameObject *tpLuaGameObject);
 			bool				CheckTypeVisibility	(const char *section_name);
@@ -271,7 +276,7 @@ public:
 	//предикаты наличия/отсутствия порции информации у персонажа
 			bool				HasInfo				(LPCSTR info_id);
 			bool				DontHasInfo			(LPCSTR info_id);
-//			xrTime				GetInfoTime			(LPCSTR info_id);
+			xrTime				GetInfoTime			(LPCSTR info_id);
 	//работа с заданиями
 			ETaskState			GetGameTaskState	(LPCSTR task_id);
 			void				SetGameTaskState	(ETaskState state, LPCSTR task_id);

@@ -11,6 +11,7 @@
 #include "actor.h"
 #include "../xrEngine/camerabase.h"
 #include "gamepersistent.h"
+#include "../xrEngine/Environment.h"
 
 CActorMemory::CActorMemory					(CActor *actor) :
 	inherited		(
@@ -22,7 +23,7 @@ CActorMemory::CActorMemory					(CActor *actor) :
 	VERIFY			(m_actor);
 }
 
-bool CActorMemory::feel_vision_isRelevant	(CObject* O)
+BOOL CActorMemory::feel_vision_isRelevant	(CObject* O)
 {
 	CEntityAlive	*entity_alive = smart_cast<CEntityAlive*>(O);
 	if (!entity_alive)

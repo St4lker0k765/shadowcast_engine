@@ -8,10 +8,8 @@
 #ifndef SMART_COVER_DESCRIPTION_H_INCLUDED
 #define SMART_COVER_DESCRIPTION_H_INCLUDED
 
-#include <boost/noncopyable.hpp>
 #include "smart_cover_detail.h"
 #include "graph_abstract.h"
-#include "debug_make_final.hpp"
 
 namespace smart_cover {
 
@@ -22,10 +20,7 @@ namespace transitions {
 	class action;
 }
 
-class description : 
-	private debug::make_final<description>, 
-	private boost::noncopyable, 
-	public  detail::intrusive_base_time
+class description final: public  detail::intrusive_base_time
 {
 public:
 	typedef xr_vector<loophole*>	Loopholes;
@@ -45,6 +40,10 @@ private:
 
 public:
 									description			(shared_str const &table_id);
+									//non copyable
+									description(const description&) = delete;
+									description& operator=(const description&) = delete;
+
 									~description		();
 	IC		shared_str const		&table_id			() const;
 	IC		Loopholes const			&loopholes			() const;

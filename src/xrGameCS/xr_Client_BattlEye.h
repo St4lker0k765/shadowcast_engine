@@ -1,6 +1,8 @@
 #ifndef	__XR_CLIENT_BATTLEYE_H__
 #define __XR_CLIENT_BATTLEYE_H__
 
+#include "battleye.h"
+
 #ifdef BATTLEYE
 
 class BattlEyeClient

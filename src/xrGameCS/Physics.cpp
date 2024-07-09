@@ -2,7 +2,7 @@
 #include "PHDynamicData.h"
 #include "Physics.h"
 #include "tri-colliderknoopc/dTriList.h"
-#include "../xrPhysics/PHContactBodyEffector.h"
+#include "PHContactBodyEffector.h"
 #include "../xrEngine/gamemtllib.h"
 #include "gameobject.h"
 #include "PhysicsShellHolder.h"
@@ -13,9 +13,9 @@
 ///////////////////////////////////////////////////////////////
 #pragma warning(disable:4995)
 #pragma warning(disable:4267)
-#include "../3rd party/ode/ode/src/collision_kernel.h"
-#include "../3rd party/ode/ode/src/joint.h"
-#include "../3rd party/ode/ode/src/objects.h"
+#include "../../3rd party/ode/ode/src/collision_kernel.h"
+#include "../../3rd party/ode/ode/src/joint.h"
+#include "../../3rd party/ode/ode/src/objects.h"
 #pragma warning(default:4267)
 #pragma warning(default:4995)
 
@@ -258,7 +258,7 @@ IC static int CollideIntoGroup(dGeomID o1, dGeomID o2,dJointGroupID jointGroup,C
 
 
 		if	(pushing_neg)
-			surface.mu=dInfinity;
+			surface.mu=FLT_MAX;
 		if	(do_collide && collided_contacts<MAX_CONTACTS)
 		{
 			++collided_contacts;

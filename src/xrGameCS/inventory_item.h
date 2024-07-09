@@ -142,12 +142,12 @@ public:
 	shared_str					m_nameShort;
 	shared_str					m_nameComplex;
 
-	SInvItemPlace					m_eItemCurrPlace;
+	EItemPlace					m_eItemCurrPlace;
 
 
 	virtual void				OnMoveToSlot		() {};
 	virtual void				OnMoveToBelt		() {};
-	virtual void				OnMoveToRuck		(const SInvItemPlace& prev) {};
+	virtual void				OnMoveToRuck		(EItemPlace prev) {};
 					
 			Irect			GetInvGridRect		() const;
 			const shared_str&	GetIconName			() const		{return m_icon_name;};
@@ -297,10 +297,10 @@ protected:
 	virtual bool	install_upgrade_impl		( LPCSTR section, bool test );
 
 	template <typename T>
-	IC static bool	process_if_exists			( LPCSTR section, LPCSTR name, T (CInifile::*method)(LPCSTR, LPCSTR) const, T& value, bool test );
+	IC static bool	process_if_exists			( LPCSTR section, LPCSTR name, T (CInifile::*method)(LPCSTR, LPCSTR), T& value, bool test );
 
 	template <typename T>
-	IC static bool	process_if_exists_set		( LPCSTR section, LPCSTR name, T (CInifile::*method)(LPCSTR, LPCSTR) const, T& value, bool test );
+	IC static bool	process_if_exists_set		( LPCSTR section, LPCSTR name, T (CInifile::*method)(LPCSTR, LPCSTR), T& value, bool test );
 
 	void								net_Export_PH_Params			(NET_Packet& P, SPHNetState& State, mask_inv_num_items&	num_items);
 	void								net_Import_PH_Params			(NET_Packet& P, net_update_IItem& N, mask_inv_num_items& num_items);

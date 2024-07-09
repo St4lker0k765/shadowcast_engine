@@ -104,9 +104,12 @@ void	game_sv_mp::Update	()
 		int curr_minutes = iFloor(Device.fTimeGlobal/60.0f);
 		if(g_sv_mp_iDumpStats_last+g_sv_mp_iDumpStatsPeriod <= curr_minutes )
 		{
+			if(Phase()==GAME_PHASE_INPROGRESS)
+			{
 				DumpOnlineStatistic();
 				DumpRoundStatistics();
 				g_sv_mp_iDumpStats_last	= curr_minutes;
+			}
 		}
 	}
 }
@@ -123,6 +126,7 @@ void game_sv_mp::OnRoundStart()
 	
 	m_CorpseList.clear();
 
+	switch_Phase	(GAME_PHASE_INPROGRESS);
 	++m_round;
 	m_round_start_time	= Level().timeServer();
 	timestamp			(m_round_start_time_str);

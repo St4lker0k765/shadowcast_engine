@@ -1,17 +1,17 @@
 #include "StdAfx.h"
 #include "PHDynamicData.h"
-#include "../xrPhysics/Physics.h"
+#include "Physics.h"
 #include "tri-colliderknoopc/dTriList.h"
-#include "../xrPhysics/PHFracture.h"
-#include "../xrPhysics/PHContactBodyEffector.h"
-#include "../../xrphysics/MathUtils.h"
+#include "PHFracture.h"
+#include "PHContactBodyEffector.h"
+#include "MathUtils.h"
 #include "matrix_utils.h"
 #include "PhysicsShellHolder.h"
 #include "game_object_space.h"
 //#include "../Include/xrRender/Kinematics.h"
 #include "../Include/xrRender/Kinematics.h"
 #include "../Include/xrRender/KinematicsAnimated.h"
-#include "../3rd party/ode/ode/src/util.h"
+#include "../../3rd party/ode/ode/src/util.h"
 #ifdef DEBUG
 #	include "PHDebug.h"
 #	include "objectdump.h"
@@ -21,7 +21,7 @@
 #pragma warning(disable:4995)
 #pragma warning(disable:4267)
 
-#include "../3rd party/ode/ode/src/collision_kernel.h"
+#include "../../3rd party/ode/ode/src/collision_kernel.h"
 
 
 #pragma warning(default:4267)
@@ -30,7 +30,7 @@
 
 #include "ExtendedGeom.h"
 
-#include "../xrPhysics/PHShell.h"
+#include "PHShell.h"
 #include "PHElement.h"
 #include "PHElementInline.h"
 extern CPHWorld*				ph_world;

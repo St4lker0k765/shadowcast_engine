@@ -6,7 +6,14 @@
 //#include "game_base_space.h"
 #include "gametype_chooser.h"
 #include "../RegistryFuncs.h"
+#include "../../xrGameSpy/xrGameSpy_MainDefs.h"
+#include "../battleye.h"
 #include "player_name_modifyer.h"
+
+extern	void	GetCDKey_FromRegistry		(char* cdkey);
+extern	void	WriteCDKey_ToRegistry		(LPSTR cdkey);
+extern	void	GetPlayerName_FromRegistry	(char* name, u32 const name_size);
+extern	void	WritePlayerName_ToRegistry	(LPSTR name);
 
 xr_token g_GameModes	[] = {
 	{ "st_deathmatch",				eGameIDDeathmatch			},
@@ -35,6 +42,7 @@ public:
 		string256	new_name;
 		modify_player_name(value, new_name);
 
+		WritePlayerName_ToRegistry( new_name );
 	}
 	virtual void	Save	(IWriter *F)	{};
 };
@@ -42,6 +50,7 @@ public:
 
 void CUIOptConCom::Init()
 {
+	ReadPlayerNameFromRegistry();
 	CMD3(CCC_UserName,	"mm_net_player_name", m_playerName,	64);
 
 	m_iMaxPlayers		= 32;
@@ -84,4 +93,16 @@ void CUIOptConCom::Init()
 	CMD3(CCC_Mask,		"mm_net_filter_battleye",			&m_uNetFilter,		fl_battleye);
 #endif // BATTLEYE
 
+};
+
+void		CUIOptConCom::ReadPlayerNameFromRegistry	()
+{
+	GetPlayerName_FromRegistry( m_playerName, sizeof(m_playerName) );
+};
+
+void		CUIOptConCom::WritePlayerNameToRegistry		()
+{
+	string256 new_name;
+	modify_player_name(m_playerName, new_name);
+	WritePlayerName_ToRegistry( new_name );
 };

@@ -17,7 +17,7 @@
 #include "zone_effector.h"
 #include "breakableobject.h"
 #include "GamePersistent.h"
-#include "../xrEngine/xr_collide_form.h"
+#include "../xrEngine/Environment.h"
 
 #define WIND_RADIUS (4*Radius())	//расстояние до актера, когда появляется ветер 
 #define FASTMODE_DISTANCE (50.f)	//distance to camera from sphere, when zone switches to fast update sequence
@@ -602,7 +602,7 @@ void CCustomZone::feel_touch_delete(CObject* O)
 	}
 }
 
-bool CCustomZone::feel_touch_contact(CObject* O) 
+BOOL CCustomZone::feel_touch_contact(CObject* O) 
 {
 	if (smart_cast<CCustomZone*>(O))				return FALSE;
 	if (smart_cast<CBreakableObject*>(O))			return FALSE;

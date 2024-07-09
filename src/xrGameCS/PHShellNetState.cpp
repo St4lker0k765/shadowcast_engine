@@ -1,8 +1,8 @@
 #include "stdafx.h"
-#include "../xrphysics/PhysicsShell.h"
+#include "physicsshell.h"
 #include "phinterpolation.h"
-#include "../xrPhysics/PHObject.h"
-#include "../xrphysics/IPHWorld.h"
+#include "phobject.h"
+#include "phworld.h"
 #include "phshell.h"
 
 void CPHShell::net_Import(NET_Packet& P)

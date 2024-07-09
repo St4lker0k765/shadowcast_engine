@@ -8,7 +8,7 @@ class CPHShellSplitterHolder;
 #include "PHJoint.h"
 #include "PHElement.h"
 #include "PHDefs.h"
-#include "../xrPhysics/PHShellSplitter.h"
+#include "PHShellSplitter.h"
 #include "phmovestorage.h"
 
 

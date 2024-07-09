@@ -16,11 +16,108 @@
 #include "object_broker.h"
 
 using namespace luabind;
-using namespace std::placeholders;
+
+
+CUISequencer* g_tutorial = NULL;
+CUISequencer* g_tutorial2 = NULL;
+
+void start_tutorial(LPCSTR name)
+{
+	if(g_tutorial){
+		VERIFY				(!g_tutorial2);
+		g_tutorial2			= g_tutorial;
+	};
+		
+	g_tutorial							= xr_new<CUISequencer>();
+	g_tutorial->Start					(name);
+	if(g_tutorial2)
+		g_tutorial->m_pStoredInputReceiver = g_tutorial2->m_pStoredInputReceiver;
+
+}
+
+LPCSTR translate_string(LPCSTR str)
+{
+	return *CStringTable().translate(str);
+}
+
+bool has_active_tutotial()
+{
+	return (g_tutorial!=NULL);
+}
 
 #pragma optimize("s",on)
 void game_sv_GameState::script_register(lua_State *L)
-{	
+{
+
+	module(L,"game")
+	[
+	class_< xrTime >("CTime")
+		.enum_("date_format")
+		[
+			value("DateToDay",		int(InventoryUtilities::edpDateToDay)),
+			value("DateToMonth",	int(InventoryUtilities::edpDateToMonth)),
+			value("DateToYear",		int(InventoryUtilities::edpDateToYear))
+		]
+		.enum_("time_format")
+		[
+			value("TimeToHours",	int(InventoryUtilities::etpTimeToHours)),
+			value("TimeToMinutes",	int(InventoryUtilities::etpTimeToMinutes)),
+			value("TimeToSeconds",	int(InventoryUtilities::etpTimeToSeconds)),
+			value("TimeToMilisecs",	int(InventoryUtilities::etpTimeToMilisecs))
+		]
+		.def(						constructor<>()				)
+		.def(						constructor<const xrTime&>())
+		.def(const_self <			xrTime()					)
+		.def(const_self <=			xrTime()					)
+		.def(const_self >			xrTime()					)
+		.def(const_self >=			xrTime()					)
+		.def(const_self ==			xrTime()					)
+		.def(self +					xrTime()					)
+		.def(self -					xrTime()					)
+
+		.def("diffSec"				,&xrTime::diffSec_script)
+		.def("add"					,&xrTime::add_script)
+		.def("sub"					,&xrTime::sub_script)
+
+		.def("setHMS"				,&xrTime::setHMS)
+		.def("setHMSms"				,&xrTime::setHMSms)
+		.def("set"					,&xrTime::set)
+		.def("get"					,&xrTime::get, out_value<2>() + out_value<3>() + out_value<4>() + out_value<5>() + out_value<6>() + out_value<7>() + out_value<8>())
+		.def("dateToString"			,&xrTime::dateToString)
+		.def("timeToString"			,&xrTime::timeToString),
+		// declarations
+		def("time",					get_time),
+		def("get_game_time",		get_time_struct),
+//		def("get_surge_time",	Game::get_surge_time),
+//		def("get_object_by_name",Game::get_object_by_name),
+	
+	class_< game_sv_GameState, game_GameState >("game_sv_GameState")
+
+	.def("get_eid",				&game_sv_GameState::get_eid)
+	.def("get_id",				&game_sv_GameState::get_id)
+	//.def("get_it",				&game_sv_GameState::get_it)
+	//.def("get_it_2_id",			&game_sv_GameState::get_it_2_id)
+	//.def("get_name_it",			&game_sv_GameState::get_name_it)
+	.def("get_name_id",			&game_sv_GameState::get_name_id)
+	.def("get_player_name_id",	&game_sv_GameState::get_player_name_id)
+	
+	.def("get_players_count",	&game_sv_GameState::get_players_count)
+	.def("get_id_2_eid",		&game_sv_GameState::get_id_2_eid)
+
+	.def("get_option_i",		&game_sv_GameState::get_option_i)
+	.def("get_option_s",		&game_sv_GameState::get_option_s)
+	.def("u_EventSend",			&game_sv_GameState::u_EventSend)
+
+	.def("GenerateGameMessage",	&game_sv_GameState::GenerateGameMessage)
+	.def("getRP",				&game_sv_GameState::getRP)
+	.def("getRPcount",			&game_sv_GameState::getRPcount),
+
+	def("start_tutorial",		&start_tutorial),
+	def("has_active_tutorial",	&has_active_tutotial),
+	def("translate_string",		&translate_string)
+
+	];
+	
 	module(L)
 	[
 	class_<enum_exporter<EGamePlayerFlags> >("game_player_flags")
@@ -32,6 +129,19 @@ void game_sv_GameState::script_register(lua_State *L)
 			value("GAME_PLAYER_FLAG_SPECTATOR",					int(GAME_PLAYER_FLAG_SPECTATOR)),
 			value("GAME_PLAYER_FLAG_SCRIPT_BEGINS_FROM",		int(GAME_PLAYER_FLAG_SCRIPT_BEGINS_FROM))
 		],
+
+	class_<enum_exporter<EGamePhases> >("game_phases")
+		.enum_("phases")
+		[
+			value("GAME_PHASE_NONE",							int(GAME_PHASE_NONE)),
+			value("GAME_PHASE_INPROGRESS",						int(GAME_PHASE_INPROGRESS)),
+			value("GAME_PHASE_PENDING",							int(GAME_PHASE_PENDING)),
+			value("GAME_PHASE_TEAM1_SCORES",					int(GAME_PHASE_TEAM1_SCORES)),
+			value("GAME_PHASE_TEAM2_SCORES",					int(GAME_PHASE_TEAM2_SCORES)),
+			value("GAME_PHASE_TEAMS_IN_A_DRAW",					int(GAME_PHASE_TEAMS_IN_A_DRAW)),
+			value("GAME_PHASE_SCRIPT_BEGINS_FROM",				int(GAME_PHASE_SCRIPT_BEGINS_FROM))
+		],
+
 	class_<enum_exporter<EGameMessages> >("game_messages")
 		.enum_("messages")
 		[

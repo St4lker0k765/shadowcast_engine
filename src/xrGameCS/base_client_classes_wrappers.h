@@ -10,8 +10,8 @@
 
 #include "script_export_space.h"
 #include "base_client_classes.h"
-//#include "../xrEngine/engineapi.h"
-#include "../xrCDB/ispatial.h"
+#include "../xrEngine/engineapi.h"
+#include "../xrEngine/ispatial.h"
 #include "../xrEngine/isheduled.h"
 #include "../xrEngine/irenderable.h"
 #include "../xrEngine/icollidable.h"

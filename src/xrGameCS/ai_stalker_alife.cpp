@@ -274,7 +274,7 @@ bool CAI_Stalker::can_sell							(CInventoryItem* item)
 	return					((*I).m_new_owner_id != ID());
 }
 
-bool CAI_Stalker::AllowItemToTrade 					(CInventoryItem const * item, SInvItemPlace place) const
+bool CAI_Stalker::AllowItemToTrade 					(CInventoryItem const * item, EItemPlace place) const
 {
 	if (!g_Alive())
 		return				(trade_parameters().enabled(CTradeParameters::action_show(0),item->object().cNameSect()));

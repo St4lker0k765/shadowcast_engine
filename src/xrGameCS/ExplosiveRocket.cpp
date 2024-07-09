@@ -7,7 +7,7 @@
 #include "../Include/xrRender/Kinematics.h"
 #include "ExplosiveRocket.h"
 #include "physicsshellholder.h"
-#include "../xrphysics/PhysicsShell.h"
+#include "physicsshell.h"
 
 
 CExplosiveRocket::CExplosiveRocket() 

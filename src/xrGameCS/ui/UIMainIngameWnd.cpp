@@ -1,10 +1,7 @@
 #include "stdafx.h"
-
 #include "UIMainIngameWnd.h"
 #include "UIMessagesWindow.h"
 #include "../UIZoneMap.h"
-
-
 #include <dinput.h>
 #include "../actor.h"
 #include "../ActorCondition.h"
@@ -24,31 +21,23 @@
 #include "../game_cl_base.h"
 #include "../level.h"
 #include "../seniority_hierarchy_holder.h"
-
 #include "../date_time.h"
 #include "../xrServerEntities/xrServer_Objects_ALife_Monsters.h"
 #include "../../xrEngine/LightAnimLibrary.h"
-
 #include "UIInventoryUtilities.h"
-
-
 #include "UIXmlInit.h"
 #include "UIPdaMsgListItem.h"
 #include "../alife_registry_wrappers.h"
 #include "../actorcondition.h"
-
 #include "../string_table.h"
-
 #ifdef DEBUG
 #	include "../attachable_item.h"
 #	include "../../xrEngine/xr_input.h"
 #endif
-
 #include "UIScrollView.h"
 #include "map_hint.h"
 #include "UIColorAnimatorWrapper.h"
 #include "../game_news.h"
-
 #include "static_cast_checked.hpp"
 #include "game_cl_capture_the_artefact.h"
 #include "UIHudStatesWnd.h"
@@ -58,7 +47,7 @@ void test_draw	();
 void test_key	(int dik);
 
 #include "../Include/xrRender/Kinematics.h"
-
+#include <functional>
 
 using namespace std::placeholders;
 using namespace InventoryUtilities;
@@ -235,7 +224,7 @@ float UIStaticDiskIO_start_time = 0.0f;
 void CUIMainIngameWnd::Draw()
 {
 	CActor* m_pActor		= smart_cast<CActor*>(Level().CurrentViewEntity());
-#ifdef DEBUG
+#ifndef MASTER_GOLD
 	test_draw				();
 #endif
 	// show IO icon
@@ -445,9 +434,9 @@ void CUIMainIngameWnd::Update()
 
 bool CUIMainIngameWnd::OnKeyboardPress(int dik)
 {
-#ifdef DEBUG
+#ifndef MASTER_GOLD
 	test_key(dik);
-#endif // #ifdef DEBUG
+#endif // #ifndef MASTER_GOLD
 /*
 	if(Level().IR_GetKeyState(DIK_LSHIFT) || Level().IR_GetKeyState(DIK_RSHIFT))
 	{
@@ -742,7 +731,7 @@ void CUIMainIngameWnd::reset_ui()
 void hud_adjust_mode_keyb(int dik);
 void hud_draw_adjust_mode();
 
-#ifdef DEBUG
+#ifndef MASTER_GOLD
 	void attach_adjust_mode_keyb(int dik);
 	void attach_draw_adjust_mode();
 #endif
@@ -754,9 +743,7 @@ TS* pTS = NULL;
 void test_key(int dik)
 {
 	hud_adjust_mode_keyb	(dik);
-#ifdef DEBUG
 	attach_adjust_mode_keyb	(dik);
-#endif
 /*
 	if(dik==DIK_V)
 	{
@@ -790,8 +777,9 @@ void test_key(int dik)
 void test_draw()
 {
 	hud_draw_adjust_mode();
-#ifdef DEBUG
 	attach_draw_adjust_mode();
-#endif
 }
 
+CUICustomMap* CUIMainIngameWnd::MiniMap() {
+	return UIZoneMap->MiniMap();
+}

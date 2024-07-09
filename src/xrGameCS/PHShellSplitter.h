@@ -1,7 +1,7 @@
 #ifndef PHSHELL_SPLITTER_H
 #define PHSHELL_SPLITTER_H
 #include "PHDefs.h"
-#include "../xrPhysics/PHUpdateObject.h"
+#include "PHObject.h"
 #include "PHFracture.h"
 
 class CPHShellSplitter;

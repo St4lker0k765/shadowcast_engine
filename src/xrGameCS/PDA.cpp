@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "pda.h"
 #include "hudmanager.h"
-#include "../xrphysics/PhysicsShell.h"
+#include "PhysicsShell.h"
 #include "Entity.h"
 #include "actor.h"
 
@@ -73,7 +73,7 @@ void CPda::shedule_Update(u32 dt)
 
 void CPda::UpdateActiveContacts	()
 {
-	m_active_contacts.clear();
+	m_active_contacts.clear_not_free();
 	xr_vector<CObject*>::iterator it= feel_touch.begin();
 	for(;it!=feel_touch.end();++it){
 		CEntityAlive* pEA = smart_cast<CEntityAlive*>(*it);
@@ -99,7 +99,7 @@ void CPda::feel_touch_delete(CObject* O)
 	pOwner->LostPdaContact					(pLostContactInvOwner);
 }
 
-bool CPda::feel_touch_contact(CObject* O) 
+BOOL CPda::feel_touch_contact(CObject* O) 
 {
 	CInventoryOwner* pInvOwner = smart_cast<CInventoryOwner*>(O);
 	if(pInvOwner){
@@ -152,7 +152,7 @@ CInventoryOwner* CPda::GetOriginalOwner()
 
 void CPda::ActivePDAContacts(xr_vector<CPda*>& res)
 {
-	res.clear						();
+	res.clear_not_free						();
 	xr_vector<CObject*>::iterator it		= m_active_contacts.begin();
 	xr_vector<CObject*>::iterator it_e		= m_active_contacts.end();
 

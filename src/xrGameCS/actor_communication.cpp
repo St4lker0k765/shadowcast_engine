@@ -163,7 +163,7 @@ void   CActor::UpdateAvailableDialogs	(CPhraseDialogManager* partner)
 {
 	m_AvailableDialogs.clear();
 	m_CheckedDialogs.clear();
-	/*
+
 	if(CInventoryOwner::m_known_info_registry->registry().objects_ptr())
 	{
 		for(KNOWN_INFO_VECTOR::const_iterator it = CInventoryOwner::m_known_info_registry->registry().objects_ptr()->begin();
@@ -177,7 +177,7 @@ void   CActor::UpdateAvailableDialogs	(CPhraseDialogManager* partner)
 				AddAvailableDialog(*info_portion.DialogNames()[i], partner);
 		}
 	}
-	*/
+
 	//добавить актерский диалог собеседника
 	CInventoryOwner* pInvOwnerPartner = smart_cast<CInventoryOwner*>(partner); VERIFY(pInvOwnerPartner);
 	

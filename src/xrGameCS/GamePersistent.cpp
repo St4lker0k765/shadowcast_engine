@@ -14,19 +14,17 @@
 #include "game_base_space.h"
 #include "stalker_animation_data_storage.h"
 #include "stalker_velocity_holder.h"
-
 #include "ActorEffector.h"
 #include "actor.h"
-
+#include "spectator.h"
 #include "../xrEngine/xrSASH.h"
-
 #ifndef MASTER_GOLD
 #	include "custommonster.h"
 #endif // MASTER_GOLD
-
 #ifndef _EDITOR
 #	include "ai_debug.h"
 #endif // _EDITOR
+#include "../xrEngine/Environment.h"
 
 #ifdef DEBUG_MEMORY_MANAGER
 	static	void *	ode_alloc	(size_t size)								{ return Memory.mem_alloc(size,"ODE");			}
@@ -427,11 +425,7 @@ void CGamePersistent::WeathersUpdate()
 
 void CGamePersistent::start_logo_intro		()
 {
-#ifdef MASTER_GOLD
-	if (g_SASH.IsRunning())
-#else	// #ifdef MASTER_GOLD
 	if ((0!=strstr(Core.Params,"-nointro")) || g_SASH.IsRunning())
-#endif	// #ifdef MASTER_GOLD
 	{
 		m_intro_event			= 0;
 		Console->Show			();
@@ -461,11 +455,7 @@ void CGamePersistent::update_logo_intro			()
 
 void CGamePersistent::start_game_intro		()
 {
-#ifdef MASTER_GOLD
-	if (g_SASH.IsRunning())
-#else	// #ifdef MASTER_GOLD
 	if ((0!=strstr(Core.Params,"-nointro")) || g_SASH.IsRunning())
-#endif	// #ifdef MASTER_GOLD
 	{
 		m_intro_event			= 0;
 		return;
@@ -518,6 +508,14 @@ void CGamePersistent::OnFrame	()
 
 	if(Device.Paused())
 	{
+		if (Level().IsDemoPlay())
+		{
+			CSpectator* tmp_spectr = smart_cast<CSpectator*>(Level().CurrentControlEntity());
+			if (tmp_spectr)
+			{
+				tmp_spectr->UpdateCL();	//updating spectator in pause (pause ability of demo play)
+			}
+		}
 #ifndef MASTER_GOLD
 		if (Level().CurrentViewEntity() && IsGameTypeSingle()) {
 			if (!g_actor || (g_actor->ID() != Level().CurrentViewEntity()->ID())) {
@@ -700,14 +698,9 @@ void CGamePersistent::OnRenderPPUI_PP()
 #include "../xrEngine/x_ray.h"
 void CGamePersistent::LoadTitle(LPCSTR str)
 {
-	string256 buff;
-	if (str)
-	{
-		xr_sprintf(buff, "%s%s", CStringTable().translate(str).c_str(), "...");
-		pApp->SetLoadStageTitle(buff);
-	}
-	else
-		pApp->SetLoadStageTitle("");
+	string512			buff;
+	sprintf_s			(buff, "%s...", CStringTable().translate(str).c_str());
+	pApp->LoadTitleInt	(buff);
 }
 
 bool CGamePersistent::CanBePaused()

@@ -5,12 +5,12 @@
 #include "../xrEngine/CameraBase.h"
 #include "../xrEngine/gamemtllib.h"
 
-#include "../xrphysics/IPHWorld.h"
+#include "phworld.h"
 #include "phcollidevalidator.h"
 #include "PHShell.h"
 #include "matrix_utils.h"
 #include "ai/stalker/ai_stalker.h"
-#include "../xrPhysics/GeometryBits.h"
+#include "GeometryBits.h"
 #include "characterphysicssupport.h"
 #ifdef DEBUG
 #include "phdebug.h"

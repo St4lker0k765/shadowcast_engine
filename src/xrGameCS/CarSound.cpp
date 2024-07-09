@@ -9,7 +9,7 @@
 #include "PHDestroyable.h"
 #include "car.h"
 #include "../Include/xrRender/Kinematics.h"
-#include "../xrphysics/IPHWorld.h"
+#include "PHWorld.h"
 extern CPHWorld*	ph_world;
 CCar::SCarSound::SCarSound(CCar* car)
 {

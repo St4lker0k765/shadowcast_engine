@@ -4,6 +4,7 @@
 #include "xrserver.h"
 #include "game_cl_base.h"
 #include "xrmessages.h"
+#include "xrGameSpyServer.h"
 #include "../xrEngine/x_ray.h"
 #include "../xrEngine/device.h"
 #include "../xrEngine/IGame_Persistent.h"
@@ -11,26 +12,19 @@
 #include "MainMenu.h"
 #include "string_table.h"
 
-shared_str CLevel::OpenDemoFile(const char* demo_file_name)
-{
-	PrepareToPlayDemo(demo_file_name);
-	return m_demo_server_options;
-}
-void CLevel::net_StartPlayDemo()
-{
-	net_Start(m_demo_server_options.c_str(), "localhost");
-}
+extern	void	GetPlayerName_FromRegistry	(char* name, u32 const name_size);
 
 #define DEMO_PLAY_OPT "mpdemoplay:"
 #define DEMO_SAVE_KEY "-mpdemosave"
 
-bool CLevel::net_Start	( LPCSTR op_server, LPCSTR op_client )
+BOOL CLevel::net_Start	( LPCSTR op_server, LPCSTR op_client )
 {
 	net_start_result_total				= TRUE;
 
 	pApp->LoadBegin				();
 
 	string64	player_name;
+	GetPlayerName_FromRegistry( player_name, sizeof(player_name) );
 
 	if ( xr_strlen(player_name) == 0 )
 	{
@@ -118,7 +112,10 @@ bool CLevel::net_start1				()
 		typedef IGame_Persistent::params params;
 		params							&p = g_pGamePersistent->m_game_params;
 		// Connect
-		Server					= xr_new<xrServer>();		
+		if (!xr_strcmp(p.m_game_type,"single"))
+			Server					= xr_new<xrServer>();		
+		else
+			Server					= xr_new<xrGameSpyServer>();
 		
 		if (xr_strcmp(p.m_alife,"alife"))
 		{
@@ -250,6 +247,14 @@ bool CLevel::net_start6				()
 	}else{
 		Msg				("! Failed to start client. Check the connection or level existance.");
 
+		if (m_connect_server_err==xrServer::ErrBELoad)
+		{
+			DEL_INSTANCE	(g_pGameLevel);
+			Console->Execute("main_menu on");
+
+			MainMenu()->OnLoadError("BattlEye/BEServer.dll");
+		}
+		else
 		if (m_connect_server_err==xrServer::ErrConnect&&!psNET_direct_connect && !g_dedicated_server) 
 		{
 			DEL_INSTANCE	(g_pGameLevel);

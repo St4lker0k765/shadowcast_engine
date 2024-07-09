@@ -2,7 +2,7 @@
 #include "entity_alive.h"
 #include "inventoryowner.h"
 #include "inventory.h"
-#include "../xrphysics/PhysicsShell.h"
+#include "physicsshell.h"
 #include "../xrEngine/gamemtllib.h"
 #include "phmovementcontrol.h"
 #include "wound.h"
@@ -733,14 +733,14 @@ CPHSoundPlayer* CEntityAlive::ph_sound_player()
 	}
 }
 
-ICollisionHitCallback*	CEntityAlive::	get_collision_hit_callback		()
+SCollisionHitCallback*	CEntityAlive::	get_collision_hit_callback		()
 {
   CCharacterPhysicsSupport *cs=character_physics_support();
   if(cs)return cs->get_collision_hit_callback();
   else return false;
 }
 
-bool					CEntityAlive::	set_collision_hit_callback		(ICollisionHitCallback *cc)
+bool					CEntityAlive::	set_collision_hit_callback		(SCollisionHitCallback *cc)
 {
 	CCharacterPhysicsSupport* cs=character_physics_support();
 	if(cs)return cs->set_collision_hit_callback(cc);

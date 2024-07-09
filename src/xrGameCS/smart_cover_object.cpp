@@ -8,7 +8,7 @@
 
 #include "stdafx.h"
 #include "smart_cover_object.h"
-#include "../xrServerEntities/xrServer_Objects_ALife_SmartCovers.h"
+#include "../xrServerEntities/xrServer_Objects_ALife.h"
 #include "level.h"
 #include "debug_renderer.h"
 #include "ai_space.h"
@@ -17,7 +17,6 @@
 #include "smart_cover.h"
 #include "smart_cover_description.h"
 #include "smart_cover_loophole.h"
-#include "../xrEngine/xr_collide_form.h"
 
 using smart_cover::object;
 

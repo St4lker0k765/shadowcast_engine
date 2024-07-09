@@ -2,7 +2,7 @@
 //////////////////////////////////////////////////////////////////////
 #ifndef PH_JOINT
 #define PH_JOINT
-#include "../xrphysics/PhysicsShell.h"
+#include "PhysicsShell.h"
 class CPHJointDestroyInfo;
 class CPHJoint: public CPhysicsJoint{
 ///////////////////////////////////////////////////////

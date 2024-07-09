@@ -13,7 +13,7 @@
 #include "../control_animation_base.h"
 #include "../control_movement_base.h"
 #include "../control_path_builder_base.h"
-#include "../../../xrPhysics/PhysicsShell.h"
+#include "../../../PhysicsShell.h"
 
 #define HEIGHT_CHANGE_VELOCITY	0.5f
 #define HEIGHT_CHANGE_MIN_TIME	3000
@@ -222,7 +222,7 @@ void CPoltergeist::net_Destroy()
 
 void CPoltergeist::Die(CObject* who)
 {
-	/*if (m_tele) {
+	if (m_tele) {
 		if (state_invisible) {
 			setVisible(true);
 
@@ -234,7 +234,7 @@ void CPoltergeist::Die(CObject* who)
 			} else 
 				Position() = m_current_position;
 		}
-	}*/
+	}
 
 	inherited::Die				(who);
 	Energy::disable				();

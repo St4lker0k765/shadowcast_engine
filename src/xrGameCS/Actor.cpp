@@ -27,11 +27,7 @@
 #include "game_cl_base_weapon_usage_statistic.h"
 #include "Grenade.h"
 #include "Torch.h"
-#include "../xrGame/UIFontDefines.h"
-
-// breakpoints
 #include "../xrEngine/xr_input.h"
-//
 #include "Actor.h"
 #include "ActorAnimation.h"
 #include "actor_anim_defs.h"
@@ -40,7 +36,7 @@
 #include "ai_space.h"
 #include "trade.h"
 #include "inventory.h"
-#include "../xrPhysics/Physics.h"
+#include "Physics.h"
 #include "level.h"
 #include "GamePersistent.h"
 #include "game_cl_base.h"
@@ -66,10 +62,9 @@
 #include "InventoryBox.h"
 #include "location_manager.h"
 #include "player_hud.h"
-
 #include "../Include/xrRender/UIRender.h"
-
 #include "ai_object_location.h"
+#include "embedded_editor/embedded_editor_prop.h"
 
 const u32		patch_frames	= 50;
 const float		respawn_delay	= 1.f;
@@ -309,11 +304,11 @@ void CActor::Load	(LPCSTR section )
 	character_physics_support()->movement()->SetCrashSpeeds	(cs_min,cs_max);
 	character_physics_support()->movement()->SetMass		(mass);
 	if(pSettings->line_exist(section,"stalker_restrictor_radius"))
-		character_physics_support()->movement()->SetActorRestrictorRadius(rtStalker,pSettings->r_float(section,"stalker_restrictor_radius"));
+		character_physics_support()->movement()->SetActorRestrictorRadius(CPHCharacter::rtStalker,pSettings->r_float(section,"stalker_restrictor_radius"));
 	if(pSettings->line_exist(section,"stalker_small_restrictor_radius"))
-		character_physics_support()->movement()->SetActorRestrictorRadius(rtStalkerSmall,pSettings->r_float(section,"stalker_small_restrictor_radius"));
+		character_physics_support()->movement()->SetActorRestrictorRadius(CPHCharacter::rtStalkerSmall,pSettings->r_float(section,"stalker_small_restrictor_radius"));
 	if(pSettings->line_exist(section,"medium_monster_restrictor_radius"))
-		character_physics_support()->movement()->SetActorRestrictorRadius(rtMonsterMedium,pSettings->r_float(section,"medium_monster_restrictor_radius"));
+		character_physics_support()->movement()->SetActorRestrictorRadius(CPHCharacter::rtMonsterMedium,pSettings->r_float(section,"medium_monster_restrictor_radius"));
 	character_physics_support()->movement()->Load(section);
 
 	
@@ -1277,6 +1272,8 @@ void CActor::shedule_Update	(u32 DT)
 	UpdateArtefactsOnBeltAndOutfit				();
 	m_pPhysics_support->in_shedule_Update		(DT);
 	Check_for_AutoPickUp						();
+
+	SetPropObject(RQ.O);
 };
 #include "debug_renderer.h"
 void CActor::renderable_Render	()
@@ -1441,7 +1438,7 @@ void CActor::RenderText				(LPCSTR Text, Fvector dpos, float* pdup, u32 color)
 	Device.mFullTransform.transform(v0r,v0);
 	Device.mFullTransform.transform(v1r,v1);
 	float size = v1r.distance_to(v0r);
-	CGameFont* pFont = HUD().Font().GetFont(ARIAL14_FONT_NAME);
+	CGameFont* pFont = HUD().Font().pFontArial14;
 	if (!pFont) return;
 //	float OldFontSize = pFont->GetHeight	();	
 	float delta_up = 0.0f;
@@ -1485,6 +1482,9 @@ void CActor::ForceTransform(const Fmatrix& m)
 				return;
 	VERIFY(_valid(m));
 	XFORM().set( m );
+	Fvector xyz;
+	m.getHPB(xyz);
+	cam_Active()->Set(-xyz.x, -xyz.y, -xyz.z);
 	if( character_physics_support()->movement()->CharacterExist() )
 			character_physics_support()->movement()->EnableCharacter();
 	character_physics_support()->set_movement_position( m.c );
@@ -1550,11 +1550,11 @@ void CActor::OnItemDrop(CInventoryItem *inventory_item)
 	CInventoryOwner::OnItemDrop(inventory_item);
 
 	CArtefact* artefact = smart_cast<CArtefact*>(inventory_item);
-	if(artefact && artefact->m_eItemCurrPlace.type == eItemPlaceBelt)
+	if(artefact && artefact->m_eItemCurrPlace == eItemPlaceBelt)
 		MoveArtefactBelt(artefact, false);
 
 	CCustomOutfit* outfit		= smart_cast<CCustomOutfit*>(inventory_item);
-	if(outfit && inventory_item->m_eItemCurrPlace.type==eItemPlaceSlot)
+	if(outfit && inventory_item->m_eItemCurrPlace==eItemPlaceSlot)
 	{
 		outfit->ApplySkinModel	(this, false, false);
 	}
@@ -1576,11 +1576,15 @@ void CActor::OnItemDropUpdate ()
 }
 
 
-void CActor::OnItemRuck		(CInventoryItem *inventory_item, SInvItemPlace previous_place)
+void CActor::OnItemRuck		(CInventoryItem *inventory_item, EItemPlace previous_place)
 {
 	CInventoryOwner::OnItemRuck(inventory_item, previous_place);
+
+	CArtefact* artefact = smart_cast<CArtefact*>(inventory_item);
+	if(artefact && previous_place == eItemPlaceBelt)
+		MoveArtefactBelt(artefact, false);
 }
-void CActor::OnItemBelt		(CInventoryItem *inventory_item, SInvItemPlace previous_place)
+void CActor::OnItemBelt		(CInventoryItem *inventory_item, EItemPlace previous_place)
 {
 	CInventoryOwner::OnItemBelt(inventory_item, previous_place);
 
@@ -2006,4 +2010,14 @@ void CActor::On_SetEntity()
 void CActor::On_LostEntity()
 {
 	psCamInert = prev_cam_inert_value;
+}
+
+void CActor::blockAction(EGameActions cmd)
+{
+	m_blockedActions.set(cmd);
+}
+
+void CActor::unblockAction(EGameActions cmd)
+{
+	m_blockedActions.reset(cmd);
 }

@@ -2,6 +2,7 @@
 #include "GameSpy_Patching.h"
 #include "GameSpy_Base_Defs.h"
 #include "../MainMenu.h"
+#include "../xrGameSpy/xrGameSpy_MainDefs.h"
 #include "../xrEngine/no_single.h"
 
 CGameSpy_Patching::CGameSpy_Patching()

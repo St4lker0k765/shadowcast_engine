@@ -10,11 +10,11 @@
 #include "static_obstacles_avoider.h"
 #include "ai_space.h"
 #include "moving_objects.h"
-#include "stalker_movement_manager_obstacles.h"
 #include "ai/stalker/ai_stalker.h"
+#include "stalker_movement_manager_obstacles.h"
 #include "moving_object.h"
 
-IC	const CAI_Stalker &static_obstacles_avoider::object	() const
+const CAI_Stalker &static_obstacles_avoider::object	() const
 {
 	return							(movement_manager().object());
 }

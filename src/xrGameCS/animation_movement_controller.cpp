@@ -7,7 +7,7 @@
 #ifdef	 DEBUG
 #include "phdebug.h"
 #endif
-#include <boost/noncopyable.hpp>
+
 void	DBG_DrawBones( const Fmatrix &xform,  IKinematics *K );
 #ifdef	 DEBUG
 BOOL	dbg_draw_animation_movement_controller  = FALSE;
@@ -75,7 +75,7 @@ animation_movement_controller::~animation_movement_controller( )
 
 IC bool is_blending_in( CBlend &b)
 {
-	return b.blend_state() == CBlend::eAccrue && b.blendPower - EPS > b.blendAmount;
+	return b.blend == CBlend::eAccrue && b.blendPower - EPS > b.blendAmount;
 
 }
 

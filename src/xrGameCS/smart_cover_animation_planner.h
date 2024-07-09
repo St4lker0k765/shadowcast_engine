@@ -8,11 +8,9 @@
 #ifndef SMART_COVER_ANIMATION_PLANNER_H_INCLUDED
 #define SMART_COVER_ANIMATION_PLANNER_H_INCLUDED
 
-#include <boost/noncopyable.hpp>
 #include "smart_cover_detail.h"
 #include "action_planner_script.h"
 #include "stalker_decision_space.h"
-#include "debug_make_final.hpp"
 
 class CAI_Stalker;
 struct SHit;
@@ -23,10 +21,7 @@ namespace smart_cover {
 class cover;
 class target_selector;
 
-class animation_planner : 
-	public CActionPlannerScript<CAI_Stalker>,
-	private boost::noncopyable,
-	private debug::make_final<animation_planner>
+class animation_planner final: public CActionPlannerScript<CAI_Stalker>
 {
 private:
 	typedef CActionPlannerScript<CAI_Stalker> inherited;
@@ -55,6 +50,10 @@ private:
 
 public:
 						animation_planner			(CAI_Stalker *object, LPCSTR action_name);
+						//non copyable
+						animation_planner(const animation_planner&) = delete;
+						animation_planner& operator=(const animation_planner&) = delete;
+
 	virtual				~animation_planner			();
 	virtual	void		setup						(CAI_Stalker *object, CPropertyStorage *storage);
 	virtual void		update						();

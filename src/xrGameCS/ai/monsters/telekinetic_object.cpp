@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "../../physicsshellholder.h"
 #include "telekinetic_object.h"
-#include "../../xrPhysics/PhysicsShell.h"
+#include "../../PhysicsShell.h"
 #include "../../PHInterpolation.h"
-#include "../../../xrPhysics/PHElement.h"
+#include "../../PHElement.h"
 #include "../../level.h"
 #include "../../gameobject.h"
 

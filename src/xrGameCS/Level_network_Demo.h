@@ -9,7 +9,7 @@ private:
 	message_filter*				m_msg_filter;
 public:
 	void						SetDemoSpectator		(CObject* spectator);
-	inline CObject*				GetDemoSpectator		()	{ return m_current_spectator ? smart_cast<CGameObject*>(m_current_spectator) : NULL; };
+	CObject*					GetDemoSpectator		() const;
 	
 	void						PrepareToSaveDemo		();
 	bool						PrepareToPlayDemo		(shared_str const & file_name);
@@ -67,7 +67,6 @@ private:
 	void						SimulateServerUpdate();
 	
 	DemoHeader					m_demo_header;
-    shared_str					m_demo_server_options;
 	IWriter*					m_writer;
 	CStreamReader*				m_reader;
 	

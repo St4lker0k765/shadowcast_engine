@@ -8,7 +8,7 @@
 #include "stdafx.h"
 #include "artefact_activation.h"
 
-#include "../xrphysics/PhysicsShell.h"
+#include "PhysicsShell.h"
 #include "PhysicsShellHolder.h"
 #include "game_cl_base.h"
 
@@ -19,7 +19,7 @@
 #include "level.h"
 #include "ai_object_location.h"
 #include "xrServer_Objects_ALife_Monsters.h"
-#include "../xrphysics/IPHWorld.h"
+#include "phworld.h"
 #include "restriction_space.h"
 #include "../xrEngine/IGame_Persistent.h"
 
@@ -110,7 +110,7 @@ void SArtefactActivation::UpdateActivation()
 	UpdateEffects				();
 }
 
-void SArtefactActivation::PhDataUpdate(float step)
+void SArtefactActivation::PhDataUpdate(dReal step)
 {
 	R_ASSERT( m_af );
 	
@@ -120,7 +120,7 @@ void SArtefactActivation::PhDataUpdate(float step)
 	if (m_cur_activation_state==eFlying) {
 		Fvector dir	= {0, -1.f, 0};
 		if(Level().ObjectSpace.RayTest(m_af->Position(), dir, 1.0f, collide::rqtBoth,NULL,m_af) ){
-			dir.y = physics_world()->Gravity() * 1.1f;
+			dir.y = ph_world->Gravity()*1.1f; 
 			m_af->m_pPhysicsShell->applyGravityAccel(dir);
 		}
 	}

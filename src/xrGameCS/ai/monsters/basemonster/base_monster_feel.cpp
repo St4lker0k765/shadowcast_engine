@@ -193,7 +193,7 @@ void CBaseMonster::HitEntity(const CEntity *pEntity, float fDamage, float impuls
 }
 
 
-bool  CBaseMonster::feel_vision_isRelevant(CObject* O)
+BOOL  CBaseMonster::feel_vision_isRelevant(CObject* O)
 {
 	if (!g_Alive())					return FALSE;
 	if (0==smart_cast<CEntity*>(O))	return FALSE;

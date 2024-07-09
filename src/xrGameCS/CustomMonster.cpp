@@ -46,14 +46,12 @@
 #include "alife_object_registry.h"
 #include "client_spawn_manager.h"
 #include "moving_object.h"
-
-// Lain: added
 #include "../xrEngine/IGame_Level.h"
-
 #ifdef DEBUG
 #	include "debug_renderer.h"
 #   include "animation_movement_controller.h"
 #endif // DEBUG
+#include "../xrEngine/Environment.h"
 
 extern int g_AI_inactive_time;
 
@@ -83,10 +81,7 @@ void CCustomMonster::SAnimState::Create(IKinematicsAnimated* K, LPCSTR base)
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-CCustomMonster::CCustomMonster() :
-	// this is non-polymorphic call of the virtual function cast_entity_alive
-	// just to remove warning C4355 if we use this instead
-	Feel::Vision(cast_game_object())
+CCustomMonster::CCustomMonster()
 {
 	m_sound_user_data_visitor	= 0;
 	m_memory_manager			= 0;
@@ -350,8 +345,8 @@ void CCustomMonster::shedule_Update	( u32 DT )
 	} else {
 		// here is monster AI call
 		m_fTimeUpdateDelta				= dt;
-		Device.Statistic->AI_Think.Begin	();
-		Device.Statistic->TEST1.Begin();
+		Statistic.AI_Think.Begin	();
+		Statistic.TEST1.Begin();
 		if (GetScriptControl())
 			ProcessScripts();
 		else {
@@ -359,8 +354,8 @@ void CCustomMonster::shedule_Update	( u32 DT )
 				Think					();
 		}
 		m_dwLastUpdateTime				= Device.dwTimeGlobal;
-		Device.Statistic->TEST1.End();
-		Device.Statistic->AI_Think.End	();
+		Statistic.TEST1.End();
+		Statistic.AI_Think.End	();
 
 		// Look and action streams
 		float							temp = conditions().health();
@@ -626,25 +621,25 @@ void CCustomMonster::eye_pp_s1			()
 #endif
 	}
 	// Standart visibility
-	Device.Statistic->AI_Vis_Query.Begin		();
+	Statistic.AI_Vis_Query.Begin		();
 	Fmatrix									mProject,mFull,mView;
 	mView.build_camera_dir					(eye_matrix.c,eye_matrix.k,eye_matrix.j);
 	VERIFY									(_valid(eye_matrix));
 	mProject.build_projection				(deg2rad(new_fov),1,0.1f,new_range);
 	mFull.mul								(mProject,mView);
 	feel_vision_query						(mFull,eye_matrix.c);
-	Device.Statistic->AI_Vis_Query.End		();
+	Statistic.AI_Vis_Query.End		();
 }
 
 void CCustomMonster::eye_pp_s2				( )
 {
 	// Tracing
-	Device.Statistic->AI_Vis_RayTests.Begin	();
+	Statistic.AI_Vis_RayTests.Begin	();
 	u32 dwTime			= Level().timeServer();
 	u32 dwDT			= dwTime-eye_pp_timestamp;
 	eye_pp_timestamp	= dwTime;
 	feel_vision_update						(this,eye_matrix.c,float(dwDT)/1000.f,memory().visual().transparency_threshold());
-	Device.Statistic->AI_Vis_RayTests.End	();
+	Statistic.AI_Vis_RayTests.End	();
 }
 
 void CCustomMonster::Exec_Visibility	( )
@@ -652,7 +647,7 @@ void CCustomMonster::Exec_Visibility	( )
 	//if (0==Sector())				return;
 	if (!g_Alive())					return;
 
-	Device.Statistic->AI_Vis.Begin	();
+	Statistic.AI_Vis.Begin	();
 	switch (eye_pp_stage%2)	
 	{
 	case 0:	
@@ -661,7 +656,7 @@ void CCustomMonster::Exec_Visibility	( )
 	case 1:	eye_pp_s2();			break;
 	}
 	++eye_pp_stage					;
-	Device.Statistic->AI_Vis.End		();
+	Statistic.AI_Vis.End		();
 }
 
 void CCustomMonster::UpdateCamera()
@@ -864,7 +859,7 @@ BOOL CCustomMonster::feel_touch_on_contact	(CObject *O)
 	return		(FALSE);
 }
 
-bool CCustomMonster::feel_touch_contact		(CObject *O)
+BOOL CCustomMonster::feel_touch_contact		(CObject *O)
 {
 	CCustomZone	*custom_zone = smart_cast<CCustomZone*>(O);
 	if (!custom_zone)

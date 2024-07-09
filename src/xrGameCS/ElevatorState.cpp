@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "ElevatorState.h"
 #include "ClimableObject.h"
-#include "../xrPhysics/PHCharacter.h"
-#include "../../xrphysics/MathUtils.h"
-#include "../xrphysics/IPHWorld.h"
+#include "PHCharacter.h"
+#include "MathUtils.h"
+#include "PHWorld.h"
 #ifdef DEBUG
 #include "../xrEngine/Statgraph.h"
 #include "PHDebug.h"
@@ -200,7 +200,7 @@ void CElevatorState::UpdateStClimbingDown()
 	m_character->GetVelocity(vel);
 	if(vel.y>EPS_S)
 	{
-		m_character->ApplyForce(0.f,-m_character->Mass()*physics_world()->Gravity(), 0.f);
+		m_character->ApplyForce(0.f,-m_character->Mass()*ph_world->Gravity(),0.f);
 	}
 	//if(to_ax-m_character->FootRadius()>out_dist)
 	//														SwitchState((clbNone));

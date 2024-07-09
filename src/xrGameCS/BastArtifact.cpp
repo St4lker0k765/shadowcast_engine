@@ -5,7 +5,7 @@
 
 #include "stdafx.h"
 #include "BastArtifact.h"
-#include "../xrphysics/PhysicsShell.h"
+#include "PhysicsShell.h"
 #include "extendedgeom.h"
 #include "ParticlesObject.h"
 
@@ -260,7 +260,7 @@ void CBastArtefact::feel_touch_delete(CObject* O)
 	}
 }
 
-bool CBastArtefact::feel_touch_contact(CObject* O) 
+BOOL CBastArtefact::feel_touch_contact(CObject* O) 
 {
 	CEntityAlive* pEntityAlive = smart_cast<CEntityAlive*>(O);
 

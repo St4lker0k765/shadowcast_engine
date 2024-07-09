@@ -22,7 +22,7 @@
 #include "inventory.h"
 
 #include "../Include/xrRender/UIRender.h"
-#include "../xrGame/UIFontDefines.h"
+
 
 u32 C_ON_ENEMY		D3DCOLOR_RGBA(0xff,0,0,0x80);
 u32 C_ON_NEUTRAL	D3DCOLOR_RGBA(0xff,0xff,0x80,0x80);
@@ -165,7 +165,7 @@ void CHUDTarget::Render()
 	//float				di_size = C_SIZE/powf(PT.p.w,.2f);
 	float				di_size = C_SIZE/powf(pt.w,.2f);
 
-	CGameFont* F		= HUD().Font().GetFont(GRAFFITI19_FONT_NAME);
+	CGameFont* F		= HUD().Font().pFontGraffiti19Russian;
 	F->SetAligment		(CGameFont::alCenter);
 	F->OutSetI			(0.f,0.05f);
 

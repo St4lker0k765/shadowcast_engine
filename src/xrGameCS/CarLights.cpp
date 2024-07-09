@@ -10,7 +10,7 @@
 #include "PHDestroyable.h"
 #include "Car.h"
 #include "../Include/xrRender/Kinematics.h"
-#include "../xrphysics/IPHWorld.h"
+#include "PHWorld.h"
 extern CPHWorld*	ph_world;
 
 SCarLight::SCarLight()

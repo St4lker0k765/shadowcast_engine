@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../xrPhysics/PHShell.h"
+#include "PHShell.h"
 
 class CPhysicsShellAnimatorBoneData//Содержит информацию об целевой матрице анимации
 {

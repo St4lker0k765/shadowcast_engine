@@ -9,80 +9,34 @@
 #include "UIMMShniaga.h"
 #include "UITextureMaster.h"
 #include "UIScrollView.h"
-#include "../xrGame/UIFontDefines.h"
 
-CFontManager& mngr()
-{
-	return *UI()->Font();
+CFontManager& mngr(){
+	return *(UI()->Font());
 }
 
 // hud font
 CGameFont* GetFontSmall()
-{
-	return mngr().pFontStat;
-}
+{return mngr().pFontStat;}
 
 CGameFont* GetFontMedium()
-{
-	return mngr().pFontMedium;
-}
+{return mngr().pFontMedium;}
 CGameFont* GetFontDI()
-{
-	return mngr().pFontDI;
-}
-
+{return mngr().pFontDI;}
 //רנטפעû הכÿ טםעונפויסא
-CGameFont* ui_font_arial_14()
-{
-	static shared_str FontName = "ui_font_arial_14";
-	return UI()->Font()->GetFont(FontName);
-}
-
-CGameFont* ui_font_arial_21()
-{
-	static shared_str FontName = "ui_font_arial_21";
-	return UI()->Font()->GetFont(FontName);
-}
-
-CGameFont* ui_font_graffiti19_russian()
-{
-	static shared_str FontName = "ui_font_graffiti19_russian";
-	return UI()->Font()->GetFont(FontName);
-}
-
-CGameFont* ui_font_graffiti22_russian()
-{
-	static shared_str FontName = "ui_font_graffiti22_russian";
-	return UI()->Font()->GetFont(FontName);
-}
-
-CGameFont* ui_font_graffiti32_russian()
-{
-	static shared_str FontName = "ui_font_graffiti32_russian";
-	return UI()->Font()->GetFont(FontName);
-}
-
-CGameFont* ui_font_graffiti50_russian()
-{
-	static shared_str FontName = "ui_font_graffiti50_russian";
-	return UI()->Font()->GetFont(FontName);
-}
-
-CGameFont* ui_font_letterica16_russian()
-{
-	return UI()->Font()->pFontSystem16;
-}
-
-CGameFont* ui_font_letterica18_russian()
-{
-	return UI()->Font()->pFontSystem;
-}
-
-CGameFont* ui_font_letter_25()
-{
-	static shared_str FontName = "ui_font_letter_25";
-	return UI()->Font()->GetFont(FontName);
-}
+CGameFont* GetFontGraffiti19Russian()
+{return mngr().pFontGraffiti19Russian;}
+CGameFont* GetFontGraffiti22Russian()
+{return mngr().pFontGraffiti22Russian;}
+CGameFont* GetFontLetterica16Russian()
+{return mngr().pFontLetterica16Russian;}
+CGameFont* GetFontLetterica18Russian()
+{return mngr().pFontLetterica18Russian;}
+CGameFont* GetFontGraffiti32Russian()
+{return mngr().pFontGraffiti32Russian;}
+CGameFont* GetFontGraffiti50Russian()
+{return mngr().pFontGraffiti50Russian;}
+CGameFont* GetFontLetterica25()
+{return mngr().pFontLetterica25;}
 
 
 int GetARGB(u16 a, u16 r, u16 g, u16 b)
@@ -115,15 +69,13 @@ void CUIWindow::script_register(lua_State *L)
 		def("GetFontSmall",				&GetFontSmall),
 		def("GetFontMedium",			&GetFontMedium),
 		def("GetFontDI",				&GetFontDI),
-		def("GetFontArial14",				&ui_font_arial_14			),
-		def("GetFontArial21",				&ui_font_arial_21			),
-		def("GetFontGraffiti19Russian",		&ui_font_graffiti19_russian	),
-		def("GetFontGraffiti22Russian",		&ui_font_graffiti22_russian	),
-		def("GetFontGraffiti32Russian",		&ui_font_graffiti32_russian	),
-		def("GetFontGraffiti50Russian",		&ui_font_graffiti50_russian	),
-		def("GetFontLetterica16Russian",	&ui_font_letterica16_russian),
-		def("GetFontLetterica18Russian",	&ui_font_letterica18_russian),
-		def("GetFontLetterica25",			&ui_font_letter_25),
+		def("GetFontGraffiti19Russian",	&GetFontGraffiti19Russian),
+		def("GetFontGraffiti22Russian",	&GetFontGraffiti22Russian),
+		def("GetFontLetterica16Russian",&GetFontLetterica16Russian),
+		def("GetFontLetterica18Russian",&GetFontLetterica18Russian),
+		def("GetFontGraffiti32Russian",	&GetFontGraffiti32Russian),
+		def("GetFontGraffiti50Russian",	&GetFontGraffiti50Russian),
+		def("GetFontLetterica25",		&GetFontLetterica25),
 
 		class_<TEX_INFO>("TEX_INFO")
 		.def("get_file_name",	 			&TEX_INFO::get_file_name)
@@ -135,7 +87,7 @@ void CUIWindow::script_register(lua_State *L)
 
 		class_<CUIWindow>("CUIWindow")
 		.def(							constructor<>())
-		.def("AttachChild", &CUIWindow::AttachChild, adopt<2>())
+		.def("AttachChild",				&CUIWindow::AttachChild, adopt<2>())
 		.def("DetachChild",				&CUIWindow::DetachChild)
 		.def("SetAutoDelete",			&CUIWindow::SetAutoDelete)
 		.def("IsAutoDelete",			&CUIWindow::IsAutoDelete)
@@ -143,6 +95,7 @@ void CUIWindow::script_register(lua_State *L)
 		.def("SetWndRect",				(void (CUIWindow::*)(Frect))	&CUIWindow::SetWndRect_script)
 		.def("SetWndPos",				(void (CUIWindow::*)(Fvector2)) &CUIWindow::SetWndPos_script)
 		.def("SetWndSize",				(void (CUIWindow::*)(Fvector2)) &CUIWindow::SetWndSize_script)
+		.def("GetWndPos",				&CUIWindow::GetWndPos)
 		.def("GetWidth",				&CUIWindow::GetWidth)
 		.def("SetWidth",				&CUIWindow::SetWidth)
 		.def("GetHeight",				&CUIWindow::GetHeight)
@@ -191,7 +144,9 @@ void CUIWindow::script_register(lua_State *L)
 		.def("GetText",						&CUILabel::GetText),
 */
 		class_<CUIMMShniaga, CUIWindow>("CUIMMShniaga")
-		.def("SetVisibleMagnifier",			&CUIMMShniaga::SetVisibleMagnifier),
+		.def("SetVisibleMagnifier",			&CUIMMShniaga::SetVisibleMagnifier)
+		.def("GetSliderPos",				&CUIMMShniaga::GetSliderPos)
+		.def("AttachChildToSlider",			&CUIMMShniaga::AttachChildToSlider),
 
 		class_<CUIScrollView, CUIWindow>("CUIScrollView")
 		.def(							constructor<>())

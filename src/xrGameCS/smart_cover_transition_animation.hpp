@@ -8,16 +8,13 @@
 #ifndef SMART_COVER_TRANSITION_ANIMATION_HPP_INCLUDED
 #define SMART_COVER_TRANSITION_ANIMATION_HPP_INCLUDED
 
-#include "debug_make_final.hpp"
 #include "ai_monster_space.h"
 
 namespace smart_cover {
 
 namespace transitions {
 
-class animation_action :
-	private debug::make_final<animation_action>,
-	private boost::noncopyable 
+class animation_action final
 {
 private:
 	Fvector									m_position;
@@ -32,6 +29,10 @@ public:
 												MonsterSpace::EBodyState const& body_state,
 												MonsterSpace::EMovementType const& movement_type
 											);
+											//non copyable
+											animation_action(const animation_action&) = delete;
+											animation_action& operator=(const animation_action&) = delete;
+
 	IC	bool								has_animation	() const;
 	IC	Fvector const&						position		() const;
 	IC	shared_str const&					animation_id	() const;

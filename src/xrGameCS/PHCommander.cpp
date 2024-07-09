@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "PHCommander.h"
-#include <PHSimpleCalls.h>
 
 
 CPHCall::CPHCall(CPHCondition* condition,CPHAction* action)	
@@ -238,17 +237,4 @@ void		CPHCommander::		remove_calls_as				(CPHReqComparerV* cmp_object)
 void		CPHCommander::		update_as  					()
 {
 
-}
-
-void	CPHCommander::phys_shell_relcase(CPhysicsShell* sh)
-{
-	CPHReqComparerHasShell c(sh);
-	remove_calls(&c);
-}
-
-void CPHCommander::update_threadsafety()
-{
-	lock.Enter();
-	update();
-	lock.Leave();
 }

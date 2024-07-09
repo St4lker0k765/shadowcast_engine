@@ -1,6 +1,6 @@
 #ifndef PHMOVESTORAGE_H
 #define PHMOVESTORAGE_H
-#include "../xrPhysics/PHGeometryOwner.h"
+#include "phgeometryowner.h"
 //DEFINE_VECTOR(dReal *&,POSITIONS_STORAGE,POSITIONS_I);
 
 class CPHPositionsPairs

@@ -11,7 +11,6 @@
 #include "alife_monster_detail_path_manager.h"
 #include "alife_monster_patrol_path_manager.h"
 #include "movement_manager_space.h"
-#include "patrol_path_manager_space.h"
 
 using namespace luabind;
 

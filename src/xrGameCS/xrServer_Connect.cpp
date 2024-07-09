@@ -10,6 +10,7 @@
 #include "MainMenu.h"
 #include "../xrEngine/x_ray.h"
 #include "file_transfer.h"
+#include "screenshot_server.h"
 #include "player_name_modifyer.h"
 
 #pragma warning(push)
@@ -124,8 +125,26 @@ IClient* xrServer::new_client( SClientConnectData* cl_data )
 	// copy entity
 	CL->ID			= cl_data->clientID;
 	CL->process_id	= cl_data->process_id;
-	CL->name		= cl_data->name;	//only for offline mode
-	CL->pass._set	( cl_data->pass );
+	
+	string256 new_name;
+	//strcpy_s( new_name, cl_data->name );
+	modify_player_name(cl_data->name, new_name);
+	CL->name._set( new_name );
+	
+	if ( game->NewPlayerName_Exists( CL, new_name ) )
+	{
+		if ( HasProtected() )
+		{
+			Msg( "! Server: Duplicated player`s name \"%s\" at protected server !", new_name );
+		}
+		else
+		{
+			game->NewPlayerName_Generate( CL, new_name );
+			game->NewPlayerName_Replace( CL, new_name );
+		}
+	}
+	CL->name._set( new_name );
+	CL->pass._set( cl_data->pass );
 
 	NET_Packet		P;
 	P.B.count		= 0;
@@ -145,6 +164,7 @@ void xrServer::AttachNewClient			(IClient* CL)
 	MSYS_CONFIG	msgConfig;
 	msgConfig.sign1 = 0x12071980;
 	msgConfig.sign2 = 0x26111975;
+	msgConfig.is_battleye = 0;
 
 #ifdef BATTLEYE
 	msgConfig.is_battleye = (g_pGameLevel && Level().battleye_system.server != 0)? 1 : 0;

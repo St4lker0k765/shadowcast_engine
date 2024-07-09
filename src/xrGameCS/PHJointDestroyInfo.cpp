@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "PHJointDestroyInfo.h"
-#include "../xrPhysics/PhysicsCommon.h"
-#include "../../xrphysics/MathUtils.h"
+#include "PhysicsCommon.h"
+#include "MathUtils.h"
 CPHJointDestroyInfo::CPHJointDestroyInfo(float break_force,float break_torque)
 {
 	//m_bone_id=bone_id;

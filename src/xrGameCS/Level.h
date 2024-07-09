@@ -15,9 +15,8 @@
 #include "alife_space.h"
 #include "../xrcore/xrDebug.h"
 #include "xrServer.h"
+#include "battleye_system.h"
 #include "GlobalFeelTouch.hpp"
-#include "customdetector.h"
-
 #include "Level_network_map_sync.h"
 #include "secure_messaging.h"
 
@@ -61,7 +60,6 @@ namespace file_transfer
 class CLevel					: public IGame_Level, public IPureClient
 {
 	#include "Level_network_Demo.h"
-//#include <xrEngine/CustomHUD.h>
 	void						ClearAllObjects			();
 private:
 #ifdef DEBUG
@@ -87,7 +85,6 @@ protected:
 
 	CPHCommander				*m_ph_commander;
 	CPHCommander				*m_ph_commander_scripts;
-    CPHCommander*				m_ph_commander_physics_worldstep = nullptr;
 	
 	// Local events
 	EVENT						eChangeRP;
@@ -174,6 +171,7 @@ private:
 	bool						m_bConnectResult;
 	xr_string					m_sConnectResult;
 public:	
+	void						OnGameSpyChallenge				(NET_Packet* P);
 	void						OnBuildVersionChallenge			();
 	void						OnConnectResult					(NET_Packet* P);
 public:
@@ -248,7 +246,7 @@ public:
 	shared_str					m_caClientOptions;
 
 	// Starting/Loading
-	virtual bool				net_Start				( LPCSTR op_server, LPCSTR op_client);
+	virtual BOOL				net_Start				( LPCSTR op_server, LPCSTR op_client);
 	virtual void				net_Load				( LPCSTR name );
 	virtual void				net_Save				( LPCSTR name );
 	virtual void				net_Stop				( );
@@ -256,8 +254,8 @@ public:
 	virtual void				net_Update				( );
 
 
-	virtual bool				Load_GameSpecific_Before( );
-	virtual bool				Load_GameSpecific_After ( );
+	virtual BOOL				Load_GameSpecific_Before( );
+	virtual BOOL				Load_GameSpecific_After ( );
 	virtual void				Load_GameSpecific_CFORM	( CDB::TRI* T, u32 count );
 
 	// Events
@@ -268,8 +266,6 @@ public:
 	void						cl_Process_Spawn		(NET_Packet& P);
 	void						ProcessGameEvents		( );
 	void						ProcessGameSpawns		( );
-    virtual	shared_str OpenDemoFile(const char* demo_file_name);
-    virtual void net_StartPlayDemo();
 
 	// Input
 	virtual	void				IR_OnKeyboardPress		( int btn );
@@ -337,6 +333,9 @@ public:
 	void				SetGameTimeFactor		(const float fTimeFactor);
 	void				SetGameTimeFactor		(ALife::_TIME_ID GameTime, const float fTimeFactor);
 	virtual void		SetEnvironmentGameTimeFactor(u64 const& GameTime, float const& fTimeFactor);
+	virtual float		GetEnvironmentTimeFactor() const; // override;
+	virtual void		SetEnvironmentTimeFactor(const float fTimeFactor); // override;
+	virtual u64			GetEnvironmentGameTime() const; // override
 //	void				SetGameTime				(ALife::_TIME_ID GameTime);
 
 	// gets current daytime [0..23]
@@ -390,6 +389,8 @@ IC CLevel&				Level()		{ return *((CLevel*) g_pGameLevel);			}
 IC game_cl_GameState&	Game()		{ return *Level().game;					}
 	u32					GameID();
 
+
+IC CHUDManager&			HUD()		{ return *((CHUDManager*)Level().pHUD);	}
 
 #ifdef DEBUG
 IC CLevelDebug&			DBG()		{return *((CLevelDebug*)Level().m_level_debug);}
@@ -446,16 +447,5 @@ IC bool		IsGameTypeSingle()	{ return (g_pGamePersistent->GameType() == eGameIDSi
 class  CPHWorld;
 extern CPHWorld*				ph_world;
 extern BOOL						g_bDebugEvents;
-
-// -------------------------------------------------------------------------------------------------
-
-class CZoneList : public CDetectList<CCustomZone>
-{
-protected:
-	virtual bool	feel_touch_contact( CObject* O );
-public:
-					CZoneList();
-	virtual			~CZoneList();
-}; // class CZoneList
 
 #endif // !defined(AFX_LEVEL_H__38F63863_DB0C_494B_AFAB_C495876EC671__INCLUDED_)

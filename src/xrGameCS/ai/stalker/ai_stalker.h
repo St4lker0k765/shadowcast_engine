@@ -210,7 +210,7 @@ public:
 	virtual void						Exec_Look							(float dt);
 	virtual	void						Hit									(SHit* pHDS);
 	virtual	void						PHHit								(SHit &H);
-	virtual bool						feel_vision_isRelevant				(CObject* who);
+	virtual BOOL						feel_vision_isRelevant				(CObject* who);
 	virtual float						Radius								() const;
 #ifdef DEBUG
 	virtual void						OnHUDDraw							(CCustomHUD* hud);
@@ -300,7 +300,7 @@ public:
 			bool						fire_make_sense			();
 			
 	virtual LPCSTR						Name					() const;
-	virtual bool						feel_touch_contact		(CObject* O);
+	virtual BOOL						feel_touch_contact		(CObject* O);
 	virtual BOOL						feel_touch_on_contact	(CObject* O);
 
 	//флаги, какие действия совершал актер по отношению к сталкеру
@@ -361,7 +361,7 @@ protected:
 			void						update_conflicted				(CInventoryItem *item, const CWeapon *new_weapon);
 			void						remove_personal_only_ammo		(const CInventoryItem *item);
 			void						on_after_take					(const CGameObject *object);
-	virtual bool						AllowItemToTrade 				(CInventoryItem const * item, SInvItemPlace place) const;
+	virtual bool						AllowItemToTrade 				(CInventoryItem const * item, EItemPlace place) const;
 public:
 	IC		CStalkerAnimationManager	&animation						() const;
 	IC		CStalkerPlanner				&brain							() const;

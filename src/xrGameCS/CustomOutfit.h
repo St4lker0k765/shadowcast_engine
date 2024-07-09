@@ -30,7 +30,7 @@ public:
 
 
 	virtual void			OnMoveToSlot		();
-	virtual void			OnMoveToRuck		(SInvItemPlace prev);
+	virtual void			OnMoveToRuck		(EItemPlace prev);
 
 protected:
 	HitImmunity::HitTypeSVec		m_HitTypeProtection;

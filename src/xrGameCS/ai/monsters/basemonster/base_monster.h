@@ -112,9 +112,9 @@ public:
 	virtual void			init							() {}
 
 	virtual void			feel_sound_new					(CObject* who, int eType, CSound_UserDataPtr user_data, const Fvector &Position, float power);
-	virtual bool			feel_vision_isRelevant			(CObject* O);
+	virtual BOOL			feel_vision_isRelevant			(CObject* O);
 	virtual BOOL			feel_touch_on_contact			(CObject* O);
-	virtual bool			feel_touch_contact				(CObject *);
+	virtual BOOL			feel_touch_contact				(CObject *);
 
 	virtual bool			useful							(const CItemManager *manager, const CGameObject *object) const;
 	virtual float			evaluate						(const CItemManager *manager, const CGameObject *object) const;
@@ -236,7 +236,7 @@ public:
 	ref_smem<SMonsterSettings>	m_base_settings;
 	ref_smem<SMonsterSettings>	m_current_settings;
 	
-	void						settings_read			(const CInifile * ini, LPCSTR section, SMonsterSettings &data);
+	void						settings_read			(CInifile *ini, LPCSTR section, SMonsterSettings &data);
 	void						settings_load			(LPCSTR section);
 	void						settings_overrides		();
 

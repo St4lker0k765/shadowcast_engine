@@ -61,6 +61,7 @@ public:
 
 	bool							NewPlayerName_Exists	(void* pClient, LPCSTR NewName);
 	void							NewPlayerName_Generate	(void* pClient, LPSTR NewPlayerName);
+	void							NewPlayerName_Replace	(void* pClient, LPCSTR NewPlayerName);
 
 	BOOL							sv_force_sync;
 	float							rpoints_MinDist [TEAM_COUNT];
@@ -120,6 +121,7 @@ public:
 				u32					getRPcount				(u16 team_idx);
 	// Signals
 	virtual		void				signal_Syncronize		();
+	virtual		void				assign_RP				(CSE_Abstract* E, game_PlayerState* ps_who);
 	virtual		bool				IsPointFreezed			(RPoint* rp);
 	virtual		void				SetPointFreezed			(RPoint* rp);
 
@@ -134,7 +136,7 @@ public:
 	// Utilities
 	float							get_option_f			(LPCSTR lst, LPCSTR name, float def = 0.0f);
 	s32								get_option_i			(LPCSTR lst, LPCSTR name, s32 def = 0);
-	string64&						get_option_s			(LPCSTR lst, LPCSTR name, LPCSTR def = 0);
+	LPCSTR							get_option_s			(LPCSTR lst, LPCSTR name, LPCSTR def = 0);
 	virtual		u32					get_alive_count			(u32 team);
 	virtual		xr_vector<u16>*		get_children			(ClientID id_who);
 	void							u_EventGen				(NET_Packet& P, u16 type, u16 dest	);

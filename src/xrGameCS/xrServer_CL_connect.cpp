@@ -160,10 +160,10 @@ void	xrServer::SendConnectResult(IClient* CL, u8 res, u8 res1, char* ResultStr)
 //WARNING ! if you will change this method see M_AUTH_CHALLENGE event handler
 void xrServer::Check_GameSpy_CDKey_Success			(IClient* CL)
 {
-		if (NeedToCheckClient_BuildVersion(CL))
-			return;
-		//-------------------------------------------------------------
-		RequestClientDigest(CL);
+	if (NeedToCheckClient_BuildVersion(CL))
+		return;
+	//-------------------------------------------------------------
+	RequestClientDigest(CL);
 };
 
 BOOL	g_SV_Disable_Auth_Check = FALSE;
@@ -190,7 +190,7 @@ void xrServer::OnBuildVersionRespond				( IClient* CL, NET_Packet& P )
 {
 	u16 Type;
 	P.r_begin( Type );
-	u64 _our		=	0;
+	u64 _our		=	FS.auth_get();
 	u64 _him		=	P.r_u64();
 
 #ifdef DEBUG

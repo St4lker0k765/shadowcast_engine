@@ -32,9 +32,27 @@ CLevelGraph::CLevelGraph		()
 
 	// m_header & data
 	m_header					= (CHeader*)m_reader->pointer();
-	R_ASSERT					(header().version() == XRAI_CURRENT_VERSION);
+	R_ASSERT					(header().version() == XRAI_CURRENT_VERSION || header().version() == 10);
 	m_reader->advance			(sizeof(CHeader));
-	m_nodes						= (CVertex*)m_reader->pointer();
+	if (header().version() == 10)
+	{
+		NodeCompressed_v10* temp = (NodeCompressed_v10*)m_reader->pointer();
+		u32 count = header().vertex_count();
+		m_old_nodes.resize(count);
+		for (u32 i = 0; i != count; i++) {
+			NodeCompressed& node = m_old_nodes[i];
+			std::memcpy((char*)&node.high, (char*)&temp->high, sizeof(temp->high) + sizeof(temp->low) + sizeof(temp->plane) + sizeof(temp->p));
+			node.link(0, temp->link(0));
+			node.link(1, temp->link(1));
+			node.link(2, temp->link(2));
+			node.link(3, temp->link(3));
+			node.light(temp->light());
+			temp++;
+		}
+		m_nodes = (CVertex*)&m_old_nodes[0];
+	}
+	else
+		m_nodes						= (CVertex*)m_reader->pointer();
 	m_row_length				= iFloor((header().box().max.z - header().box().min.z)/header().cell_size() + EPS_L + 1.5f);
 	m_column_length				= iFloor((header().box().max.x - header().box().min.x)/header().cell_size() + EPS_L + 1.5f);
 	m_access_mask.assign		(header().vertex_count(),true);
@@ -78,7 +96,7 @@ u32 CLevelGraph::vertex		(u32 current_node_id, const Fvector& position) const
 {
 	START_PROFILE("Level_Graph::find vertex")
 #ifndef AI_COMPILER
-	Device.Statistic->AI_Node.Begin	();
+	Statistic.AI_Node.Begin	();
 #endif
 
 	u32						id;
@@ -88,7 +106,7 @@ u32 CLevelGraph::vertex		(u32 current_node_id, const Fvector& position) const
 		if (valid_vertex_id(current_node_id) && inside(vertex(current_node_id),position)) {
 			// so, our node corresponds to the position
 #ifndef AI_COMPILER
-			Device.Statistic->AI_Node.End();
+			Statistic.AI_Node.End();
 #endif
 			return				(current_node_id);
 		}
@@ -105,7 +123,7 @@ u32 CLevelGraph::vertex		(u32 current_node_id, const Fvector& position) const
 					for (u32 i=0; i<4; ++i) {
 						if (vertex.link(i) == _vertex_id) {
 #ifndef AI_COMPILER
-							Device.Statistic->AI_Node.End();
+							Statistic.AI_Node.End();
 #endif // AI_COMPILER
 							return			(_vertex_id);
 						}
@@ -116,7 +134,7 @@ u32 CLevelGraph::vertex		(u32 current_node_id, const Fvector& position) const
 					for (u32 i=0; i<4; ++i) {
 						if (vertex.link(i) == current_node_id) {
 #ifndef AI_COMPILER
-							Device.Statistic->AI_Node.End();
+							Statistic.AI_Node.End();
 #endif // AI_COMPILER
 							return			(_vertex_id);
 						}
@@ -149,7 +167,7 @@ u32 CLevelGraph::vertex		(u32 current_node_id, const Fvector& position) const
 			}
 			if (ok) {
 #ifndef AI_COMPILER
-				Device.Statistic->AI_Node.End();
+				Statistic.AI_Node.End();
 #endif
 				return			(_vertex_id);
 			}
@@ -162,7 +180,7 @@ u32 CLevelGraph::vertex		(u32 current_node_id, const Fvector& position) const
 		id					= vertex(position);
 		VERIFY				(valid_vertex_id(id));
 #ifndef AI_COMPILER
-		Device.Statistic->AI_Node.End();
+		Statistic.AI_Node.End();
 #endif
 		return				(id);
 	}
@@ -198,7 +216,7 @@ u32 CLevelGraph::vertex		(u32 current_node_id, const Fvector& position) const
 	}
 
 #ifndef AI_COMPILER
-	Device.Statistic->AI_Node.End();
+	Statistic.AI_Node.End();
 #endif
 	return					(best_vertex_id);
 

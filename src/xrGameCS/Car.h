@@ -4,10 +4,10 @@
 
 #include "entity.h"
 #include "PHDynamicData.h"
-#include "../xrphysics/PhysicsShell.h"
+#include "PhysicsShell.h"
 #include "script_entity.h"
 #include "CarLights.h"
-#include "../xrPhysics/PHObject.h"
+#include "phobject.h"
 #include "holder_custom.h"
 #include "PHSkeleton.h"
 #include "DamagableItem.h"
@@ -83,8 +83,8 @@ static	const u16				cAsCallsnum						=3;
 ////////////////////////////////////////////////////////////////////////
 	static	BONE_P_MAP					bone_map;					//interface for PhysicsShell
 	static	void 						ActorObstacleCallback		(bool& do_colide,bool bo1,dContact& c,SGameMtl* material_1,SGameMtl* material_2);
-	virtual void						PhDataUpdate				(float step)			;
-	virtual void						PhTune						(float step)			;
+	virtual void						PhDataUpdate				(dReal step)			;
+	virtual void						PhTune						(dReal step)			;
 /////////////////////////////////////////////////////////////////////////
 	virtual void						ApplyDamage					(u16 level)				;
 	virtual	float						Health						()						{return GetfHealth();}
@@ -92,7 +92,7 @@ static	const u16				cAsCallsnum						=3;
 	virtual void						StartTimerEffects			()						{};
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	virtual CPhysicsShellHolder*		PPhysicsShellHolder			()						{return static_cast<CPhysicsShellHolder*>(this);}
-	virtual ICollisionDamageReceiver	*PHCollisionDamageReceiver	()						{ return this; }
+	virtual CPHCollisionDamageReceiver	*PHCollisionDamageReceiver	()						{return static_cast<CPHCollisionDamageReceiver*>(this);}
 
 ////////////////////////////////////////////////////////////////////////
 	CCarDamageParticles					m_damage_particles;
@@ -213,9 +213,7 @@ virtual void ApplyDamage			(u16 level);
 		bool  limited;			//zero limited for idle steering drive
 		float GetSteerAngle()
 		{
-			VERIFY(pwheel);
-			VERIFY(pwheel->joint);
-			return -pos_right * pwheel->joint->GetAxisAngle(0);//dJointGetHinge2Angle1 (pwheel->joint->GetDJoint());
+			return -pos_right*dJointGetHinge2Angle1 (pwheel->joint->GetDJoint());
 		}
 		void	 Init		()						;
 		void	 SteerRight	()						;

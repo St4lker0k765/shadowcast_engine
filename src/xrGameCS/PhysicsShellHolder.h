@@ -4,7 +4,7 @@
 #include "GameObject.h"
 #include "ParticlesPlayer.h"
 #include "../xrEngine/iobjectphysicscollision.h"
-#include "../xrPhysics/IPhysicsShellHolder.h"
+
 
 class CPHDestroyable;
 class CPHCollisionDamageReceiver;
@@ -38,8 +38,7 @@ struct SCollisionHitCallback
 };
 class CPhysicsShellHolder:  public CGameObject,
 							public CParticlesPlayer,
-							public IObjectPhysicsCollision,
-							public IPhysicsShellHolder
+							public IObjectPhysicsCollision
 	
 {
 	bool				b_sheduled;
@@ -73,7 +72,7 @@ public:
 	virtual		  IPhysicsShell			*physics_shell				()							;
 	virtual const IPhysicsElement		*physics_character			()const						;
 	virtual CPHDestroyable				*ph_destroyable				()							{return NULL;}
-	virtual ICollisionDamageReceiver	*PHCollisionDamageReceiver	()							{return NULL;}
+	virtual CPHCollisionDamageReceiver	*PHCollisionDamageReceiver	()							{return NULL;}
 	virtual CPHSkeleton					*PHSkeleton					()							{return NULL;}
 	virtual CPhysicsShellHolder			*cast_physics_shell_holder	()							{return this;}
 	virtual CParticlesPlayer			*cast_particles_player		()							{return this;}
@@ -82,7 +81,7 @@ public:
 	virtual	CCharacterPhysicsSupport	*character_physics_support	()							{return NULL;}
 	virtual	const CCharacterPhysicsSupport	*character_physics_support	() const					{return NULL;}
 	virtual	CIKLimbsController			*character_ik_controller	()							{return NULL;}
-	virtual ICollisionHitCallback		*get_collision_hit_callback ()							{return NULL;}
+	virtual SCollisionHitCallback		*get_collision_hit_callback ()							{return NULL;}
 	virtual bool						set_collision_hit_callback	(SCollisionHitCallback *cc)	{return false;}
 	virtual void						enable_notificate			()							{;}
 public:
@@ -126,36 +125,6 @@ public:
 
 public:
 	virtual	void			on_physics_disable	();
-private://IPhysicsShellHolder
-	virtual	Fmatrix&				_BCL					ObjectXFORM							()						;
-	virtual	Fvector&				_BCL					ObjectPosition						()						;
-	virtual	LPCSTR					_BCL					ObjectName							()		const			;
-	virtual	LPCSTR					_BCL					ObjectNameVisual					()		const			;
-	virtual	LPCSTR					_BCL					ObjectNameSect						()		const			;
-	virtual	bool					_BCL					ObjectGetDestroy					()		const			;
-	virtual ICollisionHitCallback*	_BCL 					ObjectGetCollisionHitCallback		()						;
-	virtual	u16						_BCL					ObjectID							()		const			;
-	virtual	ICollisionForm*			_BCL					ObjectCollisionModel				()						;
-	//virtual	IRenderVisual*			_BCL					ObjectVisual						()						;
-	virtual	IKinematics*			_BCL					ObjectKinematics					()						;
-	virtual IDamageSource*			_BCL					ObjectCastIDamageSource				()						;
-	virtual	void					_BCL					ObjectProcessingDeactivate			()						;
-	virtual	void					_BCL					ObjectProcessingActivate			()						;				
-	virtual	void					_BCL					ObjectSpatialMove					()						;
-	virtual	CPhysicsShell*&			_BCL					ObjectPPhysicsShell					()						;
-//	virtual	void						enable_notificate					()						;
-	virtual bool					_BCL					has_parent_object					()						;
-//	virtual	void						on_physics_disable					()						;
-	virtual	IPHCapture*				_BCL					PHCapture							()						;
-	virtual	bool					_BCL					IsInventoryItem						()						;
-	virtual	bool					_BCL					IsActor								()						;
-	virtual bool					_BCL					IsStalker							()						;
-	//virtual	void						SetWeaponHideState					( u16 State, bool bSet )=0;
-	virtual	void					_BCL					HideAllWeapons						( bool v )				;//(SetWeaponHideState(INV_STATE_BLOCK_ALL,true))
-	virtual	void					_BCL					MovementCollisionEnable				( bool enable )			;
-	virtual CPHSoundPlayer*			_BCL					ObjectPhSoundPlayer					()  					{return ph_sound_player();}
-	virtual	ICollisionDamageReceiver* _BCL				ObjectPhCollisionDamageReceiver		()						;
-	virtual	void					_BCL					BonceDamagerCallback				(float &damage_factor)	;
 };
 
 #endif

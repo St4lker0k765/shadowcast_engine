@@ -8,7 +8,6 @@
 #include "../level.h"
 #include "../string_table.h"
 #include "../HUDManager.h"
-#include "../xrGame/UIFontDefines.h"
 
 CUISpeechMenu::CUISpeechMenu(LPCSTR section_name)
 {
@@ -21,7 +20,7 @@ CUISpeechMenu::CUISpeechMenu(LPCSTR section_name)
 	CUIXmlInit::InitScrollView	(xml_doc, "speech_menu",0,m_pList);
 	m_pList->SetWndPos			(Fvector2().set(0,0));
 	m_text_color				= 0xffffffff;
-	SetFont(UI()->Font()->GetFont(LETTERICA18_FONT_NAME));
+	SetFont(UI()->Font()->pFontLetterica18Russian);
 	CUIXmlInit::InitFont		(xml_doc,"speech_menu:text",0,m_text_color,m_pFont);	
     InitList					(section_name);
 }

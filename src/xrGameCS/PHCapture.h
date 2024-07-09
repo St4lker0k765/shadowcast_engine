@@ -2,7 +2,7 @@
 #ifndef PH_CAPTURE_H
 #define PH_CAPTURE_H
 
-#include "../xrPhysics/PHUpdateObject.h"
+#include "phobject.h"
 #include "gameobject.h"
 #include "physicsshellholder.h"
 

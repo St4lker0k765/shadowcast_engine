@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "WeaponStatMgun.h"
 #include "../Include/xrRender/Kinematics.h"
-#include "../xrphysics/PhysicsShell.h"
+#include "PhysicsShell.h"
 #include "weaponAmmo.h"
 #include "object_broker.h"
 #include "ai_sounds.h"
@@ -93,7 +93,7 @@ BOOL CWeaponStatMgun::net_Spawn(CSE_Abstract* DC)
 
 	U16Vec fixed_bones;
 	fixed_bones.push_back	(K->LL_GetBoneRoot());
-	PPhysicsShell() = P_build_Shell(this, false, fixed_bones);
+	PPhysicsShell()			= P_build_Shell(this,false,fixed_bones);
 
 	CBoneData& bdX			= K->LL_GetData(m_rotate_x_bone); VERIFY(bdX.IK_data.type==jtJoint);
 	m_lim_x_rot.set			(bdX.IK_data.limits[0].limit.x,bdX.IK_data.limits[0].limit.y);

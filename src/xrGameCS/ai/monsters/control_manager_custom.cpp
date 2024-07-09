@@ -4,7 +4,7 @@
 #include "control_sequencer.h"
 #include "control_run_attack.h"
 #include "control_threaten.h"
-#include "../../xrPhysics/PhysicsShell.h"
+#include "../../PhysicsShell.h"
 #include "../../detail_path_manager.h"
 #include "../../level.h"
 #include "control_animation_base.h"
@@ -301,7 +301,7 @@ void CControlManagerCustom::load_jump_data(LPCSTR s1, LPCSTR s2, LPCSTR s3, LPCS
 	if (s2) {
 		m_jump->setup_data().state_prepare_in_move.motion = skel_animated->ID_Cycle_Safe(s2);
 		VERIFY(m_jump->setup_data().state_prepare_in_move.motion);
-		m_jump->setup_data().flags.Or(SControlJumpData::ePrepareInMove);
+		m_jump->setup_data().flags.or_(SControlJumpData::ePrepareInMove);
 	} else m_jump->setup_data().state_prepare_in_move.motion.invalidate();
 
 	m_jump->setup_data().state_glide.motion = skel_animated->ID_Cycle_Safe(s3);
@@ -312,15 +312,15 @@ void CControlManagerCustom::load_jump_data(LPCSTR s1, LPCSTR s2, LPCSTR s3, LPCS
 		VERIFY(m_jump->setup_data().state_ground.motion);
 	} else {
 		m_jump->setup_data().state_ground.motion.invalidate();
-		m_jump->setup_data().flags.Or(SControlJumpData::eGroundSkip);
+		m_jump->setup_data().flags.or_(SControlJumpData::eGroundSkip);
 	}
 
 	if (!s1 && !s2) {
-		m_jump->setup_data().flags.Or(SControlJumpData::ePrepareSkip);
+		m_jump->setup_data().flags.or_(SControlJumpData::ePrepareSkip);
 	}
 	
-	m_jump->setup_data().flags.Or(SControlJumpData::eGlidePlayAnimOnce);
-	m_jump->setup_data().flags.Or(SControlJumpData::eGlideOnPrepareFailed);
+	m_jump->setup_data().flags.or_(SControlJumpData::eGlidePlayAnimOnce);
+	m_jump->setup_data().flags.or_(SControlJumpData::eGlideOnPrepareFailed);
 
 	m_jump->setup_data().state_prepare_in_move.velocity_mask	= vel_mask_prepare;
 	m_jump->setup_data().state_ground.velocity_mask				= vel_mask_ground;
@@ -368,7 +368,7 @@ void CControlManagerCustom::jump(const Fvector &position)
 
 	ctrl_data->target_object						= 0;
 	ctrl_data->target_position						= position;
-	ctrl_data->flags.Or								(SControlJumpData::ePrepareSkip);
+	ctrl_data->flags.or_							(SControlJumpData::ePrepareSkip);
 	ctrl_data->force_factor							= -1.f;
 
 	m_man->activate		(ControlCom::eControlJump);
@@ -439,7 +439,7 @@ void CControlManagerCustom::check_jump_over_physics()
 		const DetailPathManager::STravelPathPoint &travel_point = m_man->path_builder().detail().path()[i];
 
 		// получить список объектов вокруг врага
-		m_nearest.clear		();
+		m_nearest.clear_not_free		();
 		Level().ObjectSpace.GetNearest	(m_nearest,travel_point.position, m_object->Radius(), NULL);
 
 		for (u32 k=0;k<m_nearest.size();k++) {

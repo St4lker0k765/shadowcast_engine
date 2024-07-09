@@ -2,7 +2,7 @@
 
 #include "hud_item_object.h"
 #include "hit_immunity.h"
-#include "../xrphysics/PHUpdateObject.h"
+#include "PHObject.h"
 #include "script_export_space.h"
 #include "patrol_path.h"
 
@@ -35,7 +35,7 @@ public:
 
 	virtual BOOL					renderable_ShadowGenerate		()		{ return FALSE;	}
 	virtual BOOL					renderable_ShadowReceive		()		{ return TRUE;	}
-//	virtual void					create_physic_shell				();
+	virtual void					create_physic_shell				();
 
 	virtual CArtefact*				cast_artefact					()		{return this;}
 
@@ -69,8 +69,8 @@ public:
 	virtual void					StartLights();
 	virtual void					StopLights();
 
-	virtual void					PhDataUpdate					(float step);
-	virtual void					PhTune							(float step)	{};
+	virtual void					PhDataUpdate					(dReal step);
+	virtual void					PhTune							(dReal step)	{};
 
 	float							AdditionalInventoryWeight		() const {return m_additional_weight;}
 	bool							m_bCanSpawnZone;

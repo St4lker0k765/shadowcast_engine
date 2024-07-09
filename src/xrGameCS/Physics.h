@@ -1,16 +1,16 @@
 #ifndef PHYSICS_H
 #define PHYSICS_H
-#endif
+
 
 #include "dCylinder/dCylinder.h"
-#include "../xrphysics/PhysicsShell.h"
-#include "../xrPhysics/PHObject.h"
+#include "PhysicsShell.h"
+#include "PHObject.h"
 #include "PHInterpolation.h"
 #include "../xrcore/_cylinder.h"
 #include "BlockAllocator.h"
-#include "../xrPhysics/PhysicsCommon.h"
-#include "../xrphysics/IPHWorld.h"
-#include "../xrPhysics/PHContactBodyEffector.h"
+#include "PhysicsCommon.h"
+#include "PHWorld.h"
+#include "PHContactBodyEffector.h"
 #include "phvalide.h"
 //#define ODE_SLOW_SOLVER
 ///////////////////////////////////////////////////////////////////////////////
@@ -48,3 +48,5 @@ extern dJointGroupID ContactGroup;
 extern Fbox			 phBoundaries;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
+#endif PHYSICS_H

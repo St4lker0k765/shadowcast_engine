@@ -130,7 +130,7 @@ bool CPhraseDialog::SayPhrase (DIALOG_SHARED_PTR& phrase_dialog, const shared_st
 				{
 					LPCSTR phrase_text = next_phrase_vertex->data()->GetText();
 					shared_str id = next_phrase_vertex->data()->GetID();
-					Msg("----added phrase text [%s] phrase_id=[%s] id=[%s] to dialog [%s]", phrase_text, phrase_id, id, phrase_dialog->m_DialogId.c_str());
+					Msg("----added phrase text [%s] phrase_id=[%s] id=[%s] to dialog [%s]", phrase_text, phrase_id.c_str(), id.c_str(), phrase_dialog->m_DialogId.c_str());
 				}
 #endif
 			}
@@ -187,7 +187,7 @@ LPCSTR CPhraseDialog::GetPhraseText	(const shared_str& phrase_id, bool current_s
 		bool functor_exists		= ai().script_engine().functor(ph->m_script_text_id.c_str() ,lua_function);
 		THROW3(functor_exists, "Cannot find function", ph->m_script_text_id.c_str());
 
-		ph->m_script_text_val.assign(lua_function((pSpeakerGO) ? pSpeakerGO->lua_game_object() : NULL, m_DialogId.c_str(), phrase_id.c_str()));
+		ph->m_script_text_val = lua_function	((pSpeakerGO)?pSpeakerGO->lua_game_object():NULL, m_DialogId.c_str(), phrase_id.c_str());
 		return ph->m_script_text_val.c_str		();
 	}else
 		return ph->GetScriptHelper()->GetScriptText(ph->GetText(), pSpeakerGO1, pSpeakerGO2, m_DialogId.c_str(), phrase_id.c_str());

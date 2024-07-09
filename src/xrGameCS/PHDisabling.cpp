@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "PHDisabling.h"
-#include "../xrPhysics/PhysicsCommon.h"
-#include "../xrPhysics/Physics.h"
-#include "../../xrphysics/MathUtils.h"
+#include "PhysicsCommon.h"
+#include "Physics.h"
+#include "mathutils.h"
 #ifdef	DEBUG
 #include "phdebug.h"
 #endif

@@ -3,7 +3,7 @@
 #pragma once
 
 #include "PHDefs.h"
-#include "../xrPhysics/PhysicsCommon.h"
+#include "PhysicsCommon.h"
 #include "alife_space.h"
 #include "script_export_space.h"
 #include "../xrEngine/iphysicsshell.h"

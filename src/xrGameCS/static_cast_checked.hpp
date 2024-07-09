@@ -60,10 +60,10 @@ inline destination_type static_cast_checked	(source_type const & source)
 	debug::detail::static_cast_checked::helper<
 		source_type const &,
 		destination_type
-	>::check<
-		is_polymorphic<
+	>::template check<
+		std::is_polymorphic_v<
 			pure_source_type
-		>::result
+		>
 	>				(source);
 
 	return			(static_cast<destination_type>(source));
@@ -79,9 +79,9 @@ inline destination_type static_cast_checked	(source_type & source)
 		source_type &,
 		destination_type
 	>::check<
-		is_polymorphic<
+		std::is_polymorphic_v<
 			pure_source_type
-		>::result
+		>
 	>				(source);
 
 	return			(static_cast<destination_type>(source));

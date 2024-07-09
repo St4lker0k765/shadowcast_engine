@@ -9,14 +9,15 @@
 #include "fire_disp_controller.h"
 #include "entity_alive.h"
 #include "PHMovementControl.h"
-#include "../xrphysics/PhysicsShell.h"
+#include "PhysicsShell.h"
 #include "InventoryOwner.h"
 #include "../xrEngine/StatGraph.h"
 #include "PhraseDialogManager.h"
 #include "ui_defs.h"
-
 #include "step_manager.h"
 #include "script_export_space.h"
+#include "xr_level_controller.h"
+#include <bitset>
 
 using namespace ACTOR_DEFS;
 
@@ -165,8 +166,8 @@ public:
 
 	virtual void OnItemTake		(CInventoryItem *inventory_item);
 	
-	virtual void OnItemRuck		(CInventoryItem *inventory_item, SInvItemPlace previous_place);
-	virtual void OnItemBelt		(CInventoryItem *inventory_item, SInvItemPlace previous_place);
+	virtual void OnItemRuck		(CInventoryItem *inventory_item, EItemPlace previous_place);
+	virtual void OnItemBelt		(CInventoryItem *inventory_item, EItemPlace previous_place);
 	
 	virtual void OnItemDrop		(CInventoryItem *inventory_item);
 	virtual void OnItemDropUpdate ();
@@ -320,6 +321,7 @@ public:
 	CActorCameraManager&	Cameras				() 	{VERIFY(m_pActorEffector); return *m_pActorEffector;}
 	IC CCameraBase*			cam_Active			()	{return cameras[cam_active];}
 	IC CCameraBase*			cam_FirstEye		()	{return cameras[eacFirstEye];}
+	IC EActorCameras		activeCam			()	{ return cam_active; }
 
 protected:
 	virtual	void			cam_Set					(EActorCameras style);
@@ -345,7 +347,7 @@ protected:
 public:
 	virtual void			feel_touch_new				(CObject* O);
 	virtual void			feel_touch_delete			(CObject* O);
-	virtual bool			feel_touch_contact			(CObject* O);
+	virtual BOOL			feel_touch_contact			(CObject* O);
 	virtual BOOL			feel_touch_on_contact		(CObject* O);
 
 	CGameObject*			ObjectWeLookingAt			() {return m_pObjectWeLookingAt;}
@@ -647,11 +649,7 @@ protected:
 		void							SelectBestWeapon				(CObject* O);
 public:
 		void							SetWeaponHideState				(u32 State, bool bSet);
-private://IPhysicsShellHolder
-
-	virtual	 void	_BCL	HideAllWeapons(bool v) { SetWeaponHideState(INV_STATE_BLOCK_ALL, v); }
-public:
-	void							SetCantRunState					(bool bSet);
+		void							SetCantRunState					(bool bSet);
 		virtual CCustomOutfit*			GetOutfit() const;
 private:
 	CActorCondition				*m_entity_condition;
@@ -751,6 +749,13 @@ public:
 	virtual void			On_LostEntity();
 
 static CPhysicsShell		*actor_camera_shell;
+
+private:
+	std::bitset<kNOTBINDED + 1> m_blockedActions;// Заблокированные действия
+
+public:
+	void blockAction(EGameActions cmd);// Заблокировать действие
+	void unblockAction(EGameActions cmd);// Разблокировать действие
 
 DECLARE_SCRIPT_REGISTER_FUNCTION
 };

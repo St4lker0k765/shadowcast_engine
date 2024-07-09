@@ -8,8 +8,6 @@
 #ifndef SMART_COVER_TRANSITION_HPP_INCLUDED
 #define SMART_COVER_TRANSITION_HPP_INCLUDED
 
-#include "debug_make_final.hpp"
-
 namespace MonsterSpace {
 	enum EBodyState;
 }; // namespace MonsterSpace
@@ -19,9 +17,7 @@ namespace transitions {
 
 class animation_action;
 
-class action :
-	private debug::make_final<action>,
-	private boost::noncopyable 
+class action final
 {
 
 public:
@@ -34,6 +30,10 @@ private:
 
 public:
 								action					(luabind::object const &table);
+								//non copyable
+								action(const action&) = delete;
+								action& operator=(const action&) = delete;
+
 								~action					();
 			bool				applicable				() const;
 			animation_action const	&animation			() const;

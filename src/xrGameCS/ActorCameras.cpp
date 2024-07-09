@@ -16,7 +16,6 @@
 #include "level.h"
 #include "../xrEngine/cl_intersect.h"
 
-#include "../xrphysics/actorcameracollision.h"
 #include "elevatorstate.h"
 #include "CharacterPhysicsSupport.h"
 #include "EffectorShot.h"
@@ -118,7 +117,7 @@ ICF void calc_gl_point(Fvector& pt, const Fmatrix& xform, float radius, float an
 	calc_point			(pt,radius,VIEWPORT_NEAR/2,angle);
 	xform.transform_tiny(pt);
 }
-ICF BOOL test_point( const Fvector	&pt, xrXRC& xrc,  const Fmatrix33& mat, const Fvector& ext )
+ICF BOOL test_point( const Fvector	&pt, xrXRC<CDB::GamePayload>& xrc,  const Fmatrix33& mat, const Fvector& ext )
 {
 
 	CDB::RESULT* it	=xrc.r_begin();
@@ -251,7 +250,8 @@ void	CActor::cam_Lookout	( const Fmatrix &xform, float camera_height )
 					da			= PI/1000.f;
 					if (!fis_zero(r_torso.roll))
 						da		*= r_torso.roll/_abs(r_torso.roll);
-					for (float angle=0.f; _abs(angle)<_abs(alpha); angle+=da)
+					float angle = 0.f;
+					for (; _abs(angle)<_abs(alpha); angle+=da)
 					{
 						Fvector				pt;
 						calc_gl_point( pt, xform, radius, angle );

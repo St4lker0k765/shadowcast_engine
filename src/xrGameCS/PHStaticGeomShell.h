@@ -1,8 +1,7 @@
 #ifndef PH_STATIC_GEOM_SHELL_H
 #define PH_STATIC_GEOM_SHELL_H
-#include "../xrPhysics/PHGeometryOwner.h"
-#include "../xrPhysics/PHObject.h"
-#include "../xrPhysics/PHUpdateObject.h"
+#include "PHGeometryOwner.h"
+#include "PHObject.h"
 
 class CPHStaticGeomShell: 
 	public CPHGeometryOwner,

@@ -24,13 +24,14 @@
 #include "xrServer_Objects.h"
 #include "ui/UIMainIngameWnd.h"
 #include "PhysicsGamePars.h"
-#include "../xrphysics/IPHWorld.h"
+#include "phworld.h"
 #include "string_table.h"
 #include "autosave_manager.h"
 #include "ai_space.h"
 #include "ai/monsters/BaseMonster/base_monster.h"
 #include "date_time.h"
 #include "mt_config.h"
+#include "ui/UIOptConCom.h"
 #include "UIGameSP.h"
 #include "ui/UIActorMenu.h"
 #include "zone_effector.h"
@@ -44,6 +45,9 @@
 #include "character_hit_animations_params.h"
 #include "inventory_upgrade_manager.h"
 
+#include "GameSpy/GameSpy_Full.h"
+#include "GameSpy/GameSpy_Patching.h"
+
 #ifdef DEBUG
 #	include "PHDebug.h"
 #	include "ui/UIDebugFonts.h" 
@@ -51,7 +55,6 @@
 #endif // DEBUG
 
 #include "hudmanager.h"
-#include "../xrPhysics/PHWorld.h"
 
 string_path		g_last_saved_game;
 
@@ -59,9 +62,9 @@ string_path		g_last_saved_game;
 	extern float air_resistance_epsilon;
 #endif // #ifdef DEBUG
 
-extern void show_smart_cast_stats		();
-extern void clear_smart_cast_stats		();
-extern void release_smart_cast_stats	();
+//extern void show_smart_cast_stats		();
+//extern void clear_smart_cast_stats		();
+//extern void release_smart_cast_stats	();
 
 extern	u64		g_qwStartGameTime;
 extern	u64		g_qwEStartGameTime;
@@ -128,15 +131,13 @@ enum E_COMMON_FLAGS{
 	flAiUseTorchDynamicLights = 1
 };
 
+CUIOptConCom g_OptConCom;
+
 #ifndef PURE_ALLOC
 #	ifndef USE_MEMORY_MONITOR
 #		define SEVERAL_ALLOCATORS
 #	endif // USE_MEMORY_MONITOR
 #endif // PURE_ALLOC
-
-#ifdef SEVERAL_ALLOCATORS
-	extern		u32 game_lua_memory_usage	();
-#endif // SEVERAL_ALLOCATORS
 
 class CCC_MemStats : public IConsole_Command
 {
@@ -147,7 +148,6 @@ public:
 		u32		_crt_heap		= mem_usage_impl((HANDLE)_get_heap_handle(),0,0);
 		u32		_process_heap	= mem_usage_impl(GetProcessHeap(),0,0);
 #ifdef SEVERAL_ALLOCATORS
-		u32		_game_lua		= game_lua_memory_usage();
 		u32		_render			= ::Render->memory_usage();
 #endif // SEVERAL_ALLOCATORS
 		int		_eco_strings	= (int)g_pStringContainer->stat_economy			();
@@ -166,7 +166,7 @@ public:
 #ifndef SEVERAL_ALLOCATORS
 		Msg		("* [x-ray]: crt heap[%d K], process heap[%d K]",_crt_heap/1024,_process_heap/1024);
 #else // SEVERAL_ALLOCATORS
-		Msg		("* [x-ray]: crt heap[%d K], process heap[%d K], game lua[%d K], render[%d K]",_crt_heap/1024,_process_heap/1024,_game_lua/1024,_render/1024);
+		Msg		("* [x-ray]: crt heap[%d K], process heap[%d K], game lua[??? K], render[%d K]",_crt_heap/1024,_process_heap/1024,_render/1024);
 #endif // SEVERAL_ALLOCATORS
 
 		Msg		("* [x-ray]: economy: strings[%d K], smem[%d K]",_eco_strings/1024,_eco_smem);
@@ -628,7 +628,7 @@ class CCC_ClearLog : public IConsole_Command {
 public:
 	CCC_ClearLog(LPCSTR N) : IConsole_Command(N)  { bEmptyArgsHandled = true; };
 	virtual void Execute(LPCSTR) {
-		LogFile->clear	();
+		LogFile->clear_not_free	();
 		FlushLog				();
 		Msg						("* Log file has been cleaned successfully!");
 	}
@@ -997,25 +997,27 @@ public:
 };
 #endif // DEBUG
 
-class CCC_PHFps : public IConsole_Command {
+class CCC_PHFps : public CCC_Float
+{
 public:
-	CCC_PHFps(LPCSTR N) :
-	  IConsole_Command(N)
-	  {};
-	  virtual void	Execute	(LPCSTR args)
-	  {
-		  float				step_count = (float)atof(args);
-#ifndef		DEBUG
-		  clamp				(step_count,50.f,200.f);
-#endif
-		  CPHWorld().SetStep(1.f / step_count);
-	  }
-	  virtual void	Status	(TStatus& S)
-	  {	
-		 	sprintf_s	(S,"%3.5f",1.f/fixed_step);	  
-	  }
+    CCC_PHFps(LPCSTR N)
+        : CCC_Float(N, &m_dummy, 50.f, 200.f){};
 
+    void Execute(LPCSTR args) override
+    {
+        CCC_Float::Execute(args);
+        CPHWorld::SetStep(1.f / m_dummy);
+    }
+
+    void Status(TStatus& S) override
+    {
+        m_dummy = 1.f / fixed_step;
+        CCC_Float::Status(S);
+    }
+private:
+    static float m_dummy;
 };
+float CCC_PHFps::m_dummy = 0.0f;
 
 #ifdef DEBUG
 extern void print_help(lua_State *L);
@@ -1028,21 +1030,21 @@ struct CCC_LuaHelp : public IConsole_Command {
 	}
 };
 
-struct CCC_ShowSmartCastStats : public IConsole_Command {
-	CCC_ShowSmartCastStats(LPCSTR N) : IConsole_Command(N)  { bEmptyArgsHandled = true; };
-
-	virtual void Execute(LPCSTR args) {
-		show_smart_cast_stats();
-	}
-};
-
-struct CCC_ClearSmartCastStats : public IConsole_Command {
-	CCC_ClearSmartCastStats(LPCSTR N) : IConsole_Command(N)  { bEmptyArgsHandled = true; };
-
-	virtual void Execute(LPCSTR args) {
-		clear_smart_cast_stats();
-	}
-};
+//struct CCC_ShowSmartCastStats : public IConsole_Command {
+//	CCC_ShowSmartCastStats(LPCSTR N) : IConsole_Command(N)  { bEmptyArgsHandled = true; };
+//
+//	virtual void Execute(LPCSTR args) {
+//		show_smart_cast_stats();
+//	}
+//};
+//
+//struct CCC_ClearSmartCastStats : public IConsole_Command {
+//	CCC_ClearSmartCastStats(LPCSTR N) : IConsole_Command(N)  { bEmptyArgsHandled = true; };
+//
+//	virtual void Execute(LPCSTR args) {
+//		clear_smart_cast_stats();
+//	}
+//};
 #endif
 
 #ifndef MASTER_GOLD
@@ -1068,7 +1070,7 @@ struct CCC_JumpToLevel : public IConsole_Command {
 		Msg							("! There is no level \"%s\" in the game graph!",level);
 	}
 };
-
+#endif
 class CCC_Script : public IConsole_Command {
 public:
 	CCC_Script(LPCSTR N) : IConsole_Command(N)  { bEmptyArgsHandled = true; };
@@ -1119,7 +1121,7 @@ public:
 		}
 	}
 };
-
+#ifndef MASTER_GOLD
 class CCC_TimeFactor : public IConsole_Command {
 public:
 					CCC_TimeFactor	(LPCSTR N) : IConsole_Command(N) {}
@@ -1291,7 +1293,8 @@ struct CCC_DbgBullets : public CCC_Integer {
 		CCC_Integer::Execute	(args);
 	}
 };
-
+#endif
+#ifndef MASTER_GOLD
 #include "attachable_item.h"
 #include "attachment_owner.h"
 class CCC_TuneAttachableItem : public IConsole_Command
@@ -1322,7 +1325,8 @@ public		:
 		sprintf_s(I,"allows to change bind rotation and position offsets for attached item, <section_name> given as arguments");
 	}
 };
-
+#endif
+#ifdef DEBUG
 class CCC_Crash : public IConsole_Command {
 public:
 	CCC_Crash(LPCSTR N) : IConsole_Command(N)  { bEmptyArgsHandled = true; };
@@ -1446,36 +1450,35 @@ public:
 		}
 	}
 };
+#endif // DEBUG
 
 class CCC_InvDropAllItems : public IConsole_Command
 {
 public:
-	CCC_InvDropAllItems(LPCSTR N) : IConsole_Command(N)	{ bEmptyArgsHandled = TRUE; };
-	virtual void Execute( LPCSTR args )
+	CCC_InvDropAllItems(LPCSTR N) : IConsole_Command(N) { bEmptyArgsHandled = TRUE; };
+	virtual void Execute(LPCSTR args)
 	{
-		if ( !g_pGameLevel )
+		if (!g_pGameLevel)
 		{
 			return;
 		}
-		CUIGameSP* ui_game_sp = smart_cast<CUIGameSP*>( HUD().GetUI()->UIGame() );
-		if ( !ui_game_sp )
+		CUIGameSP* ui_game_sp = smart_cast<CUIGameSP*>(HUD().GetUI()->UIGame());
+		if (!ui_game_sp)
 		{
 			return;
 		}
 		int d = 0;
-		sscanf( args, "%d", &d );
-		if ( ui_game_sp->ActorMenu().DropAllItemsFromRuck( d == 1 ) )
+		sscanf(args, "%d", &d);
+		if (ui_game_sp->ActorMenu().DropAllItemsFromRuck(d == 1))
 		{
-			Msg( "- All items from ruck of Actor is dropping now." );
+			Msg("- All items from ruck of Actor is dropping now.");
 		}
 		else
 		{
-			Msg( "! ActorMenu is not in state `Inventory`" );
+			Msg("! ActorMenu is not in state `Inventory`");
 		}
 	}
 }; // CCC_InvDropAllItems
-
-#endif // DEBUG
 
 class CCC_DumpObjects : public IConsole_Command {
 public:
@@ -1511,7 +1514,7 @@ public:
 		
 //		GameSpyPatching.CheckForPatch(InformOfNoPatch);
 		
-		//MainMenu()->GetGS()->m_pGS_Patching->CheckForPatch(InformOfNoPatch);
+		MainMenu()->GetGS()->m_pGS_Patching->CheckForPatch(InformOfNoPatch);
 	}
 };
 
@@ -1548,6 +1551,7 @@ private:
 void CCC_RegisterCommands()
 {
 	// options
+	g_OptConCom.Init();
 
 	CMD1(CCC_MemStats,			"stat_memory"			);
 	// game
@@ -1581,9 +1585,9 @@ void CCC_RegisterCommands()
 	CMD3(CCC_Mask,				"hud_weapon",			&psHUD_Flags,	HUD_WEAPON);
 	CMD3(CCC_Mask,				"hud_info",				&psHUD_Flags,	HUD_INFO);
 
-#ifndef MASTER_GOLD
+//#ifndef MASTER_GOLD
 	CMD3(CCC_Mask,				"hud_draw",				&psHUD_Flags,	HUD_DRAW);
-#endif // MASTER_GOLD
+//#endif // MASTER_GOLD
 	// hud
 	psHUD_Flags.set(HUD_CROSSHAIR,		true);
 	psHUD_Flags.set(HUD_WEAPON,			true);
@@ -1593,10 +1597,10 @@ void CCC_RegisterCommands()
 	CMD3(CCC_Mask,				"hud_crosshair",		&psHUD_Flags,	HUD_CROSSHAIR);
 	CMD3(CCC_Mask,				"hud_crosshair_dist",	&psHUD_Flags,	HUD_CROSSHAIR_DIST);
 
-#ifdef DEBUG
+//#ifdef DEBUG
 	CMD4(CCC_Float,				"hud_fov",				&psHUD_FOV,		0.1f,	1.0f);
 	CMD4(CCC_Float,				"fov",					&g_fov,			5.0f,	180.0f);
-#endif // DEBUG
+//#endif // DEBUG
 
 	// Demo
 	CMD1(CCC_DemoPlay,			"demo_play"				);
@@ -1705,8 +1709,11 @@ CMD4(CCC_Integer,			"hit_anims_tune",						&tune_hit_anims,		0, 1);
 	
 	CMD1(CCC_ShowMonsterInfo,	"ai_monster_info");
 	CMD1(CCC_DebugFonts,		"debug_fonts");
+#endif
+#ifndef MASTER_GOLD
 	CMD1(CCC_TuneAttachableItem,"dbg_adjust_attachable_item");
-
+#endif
+#ifdef DEBUG
 
 	CMD1(CCC_ShowAnimationStats,"ai_show_animation_stats");
 #endif // DEBUG
@@ -1732,10 +1739,12 @@ CMD4(CCC_Integer,			"hit_anims_tune",						&tune_hit_anims,		0, 1);
 	CMD1(CCC_JumpToLevel,	"jump_to_level"		);
 	CMD3(CCC_Mask,			"g_god",			&psActorFlags,	AF_GODMODE	);
 	CMD3(CCC_Mask,			"g_unlimitedammo",	&psActorFlags,	AF_UNLIMITEDAMMO);
+	CMD1(CCC_TimeFactor, "time_factor");
+#endif // MASTER_GOLD
 	CMD1(CCC_Script,		"run_script");
 	CMD1(CCC_ScriptCommand,	"run_string");
-	CMD1(CCC_TimeFactor,	"time_factor");		
-#endif // MASTER_GOLD
+
+
 
 	CMD3(CCC_Mask,		"g_autopickup",			&psActorFlags,	AF_AUTOPICKUP);
 	CMD3(CCC_Mask,		"g_dynamic_music",		&psActorFlags,	AF_DYNAMIC_MUSIC);
@@ -1743,8 +1752,8 @@ CMD4(CCC_Integer,			"hit_anims_tune",						&tune_hit_anims,		0, 1);
 
 #ifdef DEBUG
 	CMD1(CCC_LuaHelp,				"lua_help");
-	CMD1(CCC_ShowSmartCastStats,	"show_smart_cast_stats");
-	CMD1(CCC_ClearSmartCastStats,	"clear_smart_cast_stats");
+	//CMD1(CCC_ShowSmartCastStats,	"show_smart_cast_stats");
+	//CMD1(CCC_ClearSmartCastStats,	"clear_smart_cast_stats");
 
 	CMD3(CCC_Mask,		"dbg_draw_actor_alive",		&dbg_net_Draw_Flags,	dbg_draw_actor_alive);
 	CMD3(CCC_Mask,		"dbg_draw_actor_dead",		&dbg_net_Draw_Flags,	dbg_draw_actor_dead );
@@ -1911,17 +1920,21 @@ CMD4(CCC_FloatBlock,		"dbg_text_height_scale",	&dbg_text_height_scale	,			0.2f	,
 	CMD4(CCC_Integer,   "dbg_imotion_draw_skeleton",		&dbg_imotion_draw_skeleton, FALSE,	TRUE );
 	CMD4(CCC_Float,		"dbg_imotion_draw_velocity_scale",	&dbg_imotion_draw_velocity_scale, 0.0001f, 100.0f );
 
-	CMD4(CCC_Integer,	"show_wnd_rect_all",		&g_show_wnd_rect2, 0, 1);
 	CMD4(CCC_Integer,	"dbg_show_ani_info",		&g_ShowAnimationInfo,	0, 1)	;
 	CMD4(CCC_Integer,	"dbg_dump_physics_step",	&g_bDebugDumpPhysicsStep, 0, 1);
 	CMD1(CCC_InvUpgradesHierarchy,	"inv_upgrades_hierarchy");
 	CMD1(CCC_InvUpgradesCurItem,	"inv_upgrades_cur_item");
 	CMD4(CCC_Integer,	"inv_upgrades_log",	&g_upgrades_log, 0, 1);
-	CMD1(CCC_InvDropAllItems,	"inv_drop_all_items");
-
 extern BOOL dbg_moving_bones_snd_player;
 	CMD4(CCC_Integer,   "dbg_bones_snd_player",		&dbg_moving_bones_snd_player, FALSE, TRUE );
 #endif
+
+#ifndef MASTER_GOLD
+	CMD4(CCC_Integer, "show_wnd_rect_all", &g_show_wnd_rect2, 0, 1);
+#endif // MASTER_GOLD
+
+	CMD1(CCC_InvDropAllItems, "inv_drop_all_items");
+
 	CMD4(CCC_Float,		"con_sensitive",			&g_console_sensitive,	0.01f, 1.0f );
 	CMD4(CCC_Integer,	"wpn_aim_toggle",			&b_toggle_weapon_aim, 0, 1);
 //	CMD4(CCC_Integer,	"hud_old_style",			&g_old_style_ui_hud, 0, 1);

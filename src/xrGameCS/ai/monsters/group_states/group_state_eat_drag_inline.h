@@ -1,11 +1,9 @@
 #pragma once
 
-#include "../../../xrPhysics/PHCharacter.h"
-#include "../../../xrPhysics/IPHCapture.h"
+#include "../../../PHCharacter.h"
+#include "../../../PHCapture.h"
 #include "../../../CaptureBoneCallback.h"
 #include "../../../../include/xrrender/Kinematics.h"
-#include "../../../xrPhysics/PHCapture.h"
-#include <boost/noncopyable.hpp>
 
 #define TEMPLATE_SPECIALIZATION template <\
 	typename _Object\
@@ -88,7 +86,7 @@ void CStateGroupDragAbstract::initialize()
 	
 	m_failed = false;
 	
-	IPHCapture* capture = object->character_physics_support()->movement()->PHCapture();
+	CPHCapture *capture = object->character_physics_support()->movement()->PHCapture();
 	if (capture && !capture->Failed()) {
 		m_cover_vertex_id = object->Home->get_place_in_min_home();
 		if (m_cover_vertex_id != u32(-1)) {

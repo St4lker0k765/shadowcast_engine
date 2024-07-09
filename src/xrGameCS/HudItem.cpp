@@ -158,7 +158,7 @@ void CHudItem::DeactivateItem()
 {
 	OnHiddenItem	();
 }
-void CHudItem::OnMoveToRuck(const SInvItemPlace& prev)
+void CHudItem::OnMoveToRuck(EItemPlace prev)
 {
 	SwitchState(eHidden);
 }

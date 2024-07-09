@@ -2,11 +2,10 @@
 
 #include "imotion_position.h"
 
-#include "../xrphysics/PhysicsShell.h"
-#include "../../xrphysics/MathUtils.h"
+#include "physicsshell.h"
+#include "MathUtils.h"
 
 #include "../Include/xrRender/Kinematics.h"
-#include <boost/noncopyable.hpp>
 ///////////////////////////////////////////////////////////////////////////////////////
 #include "physicsshellholder.h"
 #include "extendedgeom.h"
@@ -29,16 +28,6 @@ static const float max_collide_timedelta = 0.02f;//0.005f;
 static const float end_delta = 0.5f * max_collide_timedelta;
 static const float collide_adwance_delta = 2.f*max_collide_timedelta;
 static const float depth_resolve = 0.01f;
-
-imotion_position::imotion_position() :
-	interactive_motion(),
-	time_to_end(0.f),
-	saved_visual_callback(0),
-	blend(0),
-	shell_motion_has_history(false)
-{
-
-};
 
 static void interactive_motion_diag( LPCSTR message, const CBlend &b, CPhysicsShell *s, float time_left )
 {
@@ -127,13 +116,15 @@ void imotion_position::state_start( )
 	KA->SetUpdateTracksCalback( &update_callback );
 	update_callback.motion = this;
 	struct get_controled_blend: 
-		public IterateBlendsCallback,
-		private boost::noncopyable
-		
+		public IterateBlendsCallback		
 	{
 		CBlend					*blend;
 		const	PlayCallback	cb;
 		get_controled_blend(const	PlayCallback	_cb):blend( 0 ),cb(_cb){}
+		//non copyable
+		get_controled_blend(const get_controled_blend&) = delete;
+		get_controled_blend& operator=(const get_controled_blend&) = delete;
+
 		virtual	void	operator () ( CBlend &B )
 		{
 			if( cb == B.Callback && B.bone_or_part == 0 )
@@ -174,7 +165,7 @@ void imotion_position::state_start( )
 	
 	if( !is_enabled( ) )
 				return;
-	CPhysicsShellHolder* obj = smart_cast<CPhysicsShellHolder*>(shell->get_ElementByStoreOrder(0)->PhysicsRefObject());
+	CPhysicsShellHolder *obj= shell->get_ElementByStoreOrder( 0 )->PhysicsRefObject();
 	VERIFY( obj );
 	obj->processing_activate();
 	shell->Disable( );
@@ -253,7 +244,7 @@ void	imotion_position::state_end( )
 	VERIFY( shell );
 	inherited::state_end( );
 	
-	CPhysicsShellHolder* obj = smart_cast<CPhysicsShellHolder*>(shell->get_ElementByStoreOrder(0)->PhysicsRefObject());
+	CPhysicsShellHolder *obj= shell->get_ElementByStoreOrder( 0 )->PhysicsRefObject();
 	VERIFY( obj );
 	obj->processing_deactivate();
 	shell->Enable();
@@ -387,7 +378,7 @@ float imotion_position::collide_animation	( float dt, IKinematicsAnimated& k )
 #ifdef	DEBUG
 	collide_anim_dbg_draw ( shell, dt );
 #endif
-	shell->ToAnimBonesPositions(shell_motion_has_history ? mh_not_clear : mh_unspecified);
+	shell->ToAnimBonesPositions( );
 	depth = 0;
 #ifdef DEBUG
 	if( dbg_imotion_collide_debug )
@@ -449,10 +440,14 @@ public:
 static void save_blends( buffer_vector<sblend_save>& buffer, IKinematicsAnimated& KA )
 {
 	buffer.clear();
-	struct scbl: public IterateBlendsCallback, private boost::noncopyable
+	struct scbl: public IterateBlendsCallback
 	{
 		buffer_vector<sblend_save>& _buffer;
 		scbl( buffer_vector<sblend_save>& bf ): _buffer( bf ){}
+		//non copyable
+		scbl(const scbl&) = delete;
+		scbl& operator=(const scbl&) = delete;
+
 		virtual	void	operator () ( CBlend &B ) 
 		{
 			sblend_save s;
@@ -513,7 +508,7 @@ float imotion_position::move( float dt, IKinematicsAnimated& KA )
 			time_to_end -= ad;
 			force_calculate_bones( KA );
 			//advance_time += advance_animation( -( end_delta ), KA );//+ ad
-			shell->ToAnimBonesPositions(shell_motion_has_history ? mh_not_clear : mh_unspecified);
+			shell->ToAnimBonesPositions( );
 
 #ifdef DEBUG
 		if( dbg_imotion_collide_debug )
@@ -605,8 +600,7 @@ float imotion_position::motion_collide( float dt, IKinematicsAnimated& KA )
 		time_to_end += (dt-advance_time);
 		advance_time += (dt-advance_time);
 		force_calculate_bones( KA );
-		shell->ToAnimBonesPositions(shell_motion_has_history ? mh_not_clear : mh_unspecified);
-		shell_motion_has_history = true;
+		shell->ToAnimBonesPositions( );
 
 #ifdef DEBUG
 		if( dbg_imotion_collide_debug )

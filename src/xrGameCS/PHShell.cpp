@@ -2,13 +2,13 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #include "StdAfx.h"
 #include "PHDynamicData.h"
-#include "../xrPhysics/Physics.h"
+#include "Physics.h"
 #include "tri-colliderknoopc/dTriList.h"
-#include "../xrPhysics/PHShellSplitter.h"
-#include "../xrPhysics/PHFracture.h"
+#include "PHShellSplitter.h"
+#include "PHFracture.h"
 #include "PHJointDestroyInfo.h"
 #include "SpaceUtils.h"
-#include "../../xrphysics/MathUtils.h"
+#include "MathUtils.h"
 #include "PhysicsShellHolder.h"
 #include "../Include/xrRender/Kinematics.h"
 #include "PHCollideValidator.h"
@@ -33,8 +33,6 @@
 #include "PHCollideValidator.h"
 #include "PHElementInline.h"
 #include "PhysicsShellAnimator.h"
-
-#include <boost/noncopyable.hpp>
 #ifdef DEBUG
 #include	"phdebug.h"
 #endif
@@ -1050,7 +1048,7 @@ void CPHShell::AddElementRecursive(CPhysicsElement* root_e, u16 id,Fmatrix globa
 #endif
 	if(m_spliter_holder&&E->has_geoms())
 	{
-		m_spliter_holder->AddToGeomMap(std::make_pair(id,E->last_geom())); 
+		m_spliter_holder->AddToGeomMap(mk_pair(id,E->last_geom())); 
 	}
 
 	if(spGetingMap)
@@ -1165,7 +1163,7 @@ void CPHShell::EnabledCallbacks(BOOL val)
 
 
 template< typename T>
-void for_each_bone_id( IKinematics &K, T op )
+void for_each_bone_id( IKinematics &K, const T& op )
 {
 	u16 bn =  K.LL_BoneCount();
 	for(u16 i = 0; i < bn; ++i )
@@ -1202,11 +1200,15 @@ void CPHShell::SetCallbacks( )
 	};
 	std::for_each( elements.begin(), elements.end(), set_bone_callback() );
 
-	struct set_bone_reference: private boost::noncopyable
+	struct set_bone_reference
 	{
 		IKinematics &K;
 		set_bone_reference( IKinematics &K_ ): K( K_ ){}
-		void operator() ( u16 id )
+		//non copyable
+		set_bone_reference(const set_bone_reference&) = delete;
+		set_bone_reference& operator=(const set_bone_reference&) = delete;
+
+		void operator() ( u16 id ) const
 		{
 			CBoneInstance &bi  = K.LL_GetBoneInstance(id);
 			if(!bi.callback() || bi.callback_type() != bctPhysics  )

@@ -56,7 +56,7 @@ public:
 	virtual		void	exit_Zone						(SZoneObjectInfo& io);
 	virtual		void	feel_touch_new					(CObject* O);
 	virtual		void	feel_touch_delete				(CObject* O);
-	virtual		bool	feel_touch_contact				(CObject* O);
+	virtual		BOOL	feel_touch_contact				(CObject* O);
 	virtual		BOOL	feel_touch_on_contact			(CObject* O);
 				
 				float	effective_radius				();

@@ -98,6 +98,16 @@ void UITeamPanels::UpdatePanels()
 			case GAME_PHASE_PLAYER_SCORES:
 			case GAME_PHASE_TEAM1_SCORES:
 			case GAME_PHASE_TEAM2_SCORES:
+			case GAME_PHASE_INPROGRESS:
+				{
+					if (i->first.equal(green_team) ||
+						i->first.equal(blue_team) ||
+						i->first.equal(spectators_team))
+					{
+						need_show = true;
+					}
+					break;
+				};
 		}; //end switch
 		i->second->Show(need_show);
 	}

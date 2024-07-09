@@ -1,14 +1,14 @@
 #include "StdAfx.h"
 #include "PHDynamicData.h"
-#include "../xrPhysics/Physics.h"
-#include "xrPhysics/tri-colliderknoopc/dTriList.h"
-#include "../xrPhysics/PHShellSplitter.h"
-#include "../xrPhysics/PHFracture.h"
-#include "../xrPhysics/PHJointDestroyInfo.h"
+#include "Physics.h"
+#include "tri-colliderknoopc/dTriList.h"
+#include "PHShellSplitter.h"
+#include "PHFracture.h"
+#include "PHJointDestroyInfo.h"
 #include "ExtendedGeom.h"
 
-#include "../xrPhysics/PHElement.h"
-#include "../xrPhysics/PHShell.h"
+#include "PHElement.h"
+#include "PHShell.h"
 
 
 void CPHShell::applyHit(const Fvector& pos, const Fvector& dir, float val,const u16 id,ALife::EHitType hit_type)

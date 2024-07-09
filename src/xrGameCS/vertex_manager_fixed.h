@@ -20,8 +20,8 @@ struct CVertexManagerFixed {
 		template<typename T2>
 		struct _vertex : public T1<T2> {
 			typedef _index_type _index_type;
-			_index_type	_index  : 8*sizeof(_index_type) - mask;
-			_index_type	_opened : mask;
+			_index_type	_index;
+			_index_type	_opened;
 
 			IC	_index_type index() const
 			{
@@ -38,12 +38,12 @@ struct CVertexManagerFixed {
 	template <
 		template <typename _T> class _vertex = CEmptyClassTemplate,
 		template <typename _T1, typename _T2> class _index_vertex = CEmptyClassTemplate2,
-		typename _data_storage = CBuilderAllocatorConstructor
+		typename _data_storage = CBuilderAllocatorConstructor0
 	> 
-	class CDataStorage : public _data_storage::template CDataStorage<VertexManager<_vertex>::_vertex> {
+	class CDataStorage : public _data_storage::template CDataStorage<VertexManager<_vertex>::template _vertex> {
 	public:
 		typedef typename _data_storage::template CDataStorage<
-			VertexManager<_vertex>::_vertex
+			VertexManager<_vertex>::template _vertex
 		>												inherited;
 		typedef typename inherited::CGraphVertex		CGraphVertex;
 		typedef typename CGraphVertex::_index_type		_index_type;

@@ -2,7 +2,7 @@
 
 #include "interactive_motion.h"
 
-#include "../xrphysics/PhysicsShell.h"
+#include "physicsshell.h"
 #include "PhysicsShellHolder.h"
 
 #include "../Include/xrRender/Kinematics.h"
@@ -144,7 +144,7 @@ void	interactive_motion::switch_to_free( )
 	VERIFY( shell );
 	state_end( );
 ///set all matrises valide
-	CPhysicsShellHolder* obj = smart_cast<CPhysicsShellHolder*>(shell->get_ElementByStoreOrder(0)->PhysicsRefObject());
+	CPhysicsShellHolder *obj = shell->get_ElementByStoreOrder( 0 )->PhysicsRefObject( );
 	VERIFY( obj );
 	shell->InterpolateGlobalTransform( &obj->XFORM( ) );
 	IKinematics *K  = shell->PKinematics( );

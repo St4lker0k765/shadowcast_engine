@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "physics_shell_animated.h"
 
-#include "../xrphysics/PhysicsShell.h"
+#include	"physicsshell.h"
 
 #include	"../Include/xrRender/Kinematics.h"
 
@@ -20,7 +20,7 @@ bool physics_shell_animated::update(  const Fmatrix	&xrorm )
 
 	physics_shell	->mXFORM.set( xrorm );
 	physics_shell	->PKinematics()->CalculateBones( );	
-	physics_shell	->ToAnimBonesPositions( mh_unspecified );
+	physics_shell	->ToAnimBonesPositions( );
 	return true;
 }
 
@@ -31,8 +31,8 @@ physics_shell_animated::~physics_shell_animated( )
 
 void physics_shell_animated::create_shell(  CGameObject* O  )
 {
-	physics_shell	=  P_build_Shell( (IPhysicsShellHolder*)(O), true, (BONE_P_MAP*)0, true );
-	physics_shell	->ToAnimBonesPositions( mh_unspecified );
+	physics_shell	=  P_build_Shell( O, true, (BONE_P_MAP*)0, true );
+	physics_shell	->ToAnimBonesPositions( );
 	physics_shell	->DisableCollision( );
 	physics_shell	->SetAnimated( true );
 }

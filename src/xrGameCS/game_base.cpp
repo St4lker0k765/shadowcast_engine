@@ -9,7 +9,7 @@ u64		g_qwStartGameTime		= 12*60*60*1000;
 float	g_fTimeFactor			= pSettings->r_float("alife","time_factor");
 u64		g_qwEStartGameTime		= 12*60*60*1000;
 
-extern ENGINE_API	bool g_dedicated_server;
+ENGINE_API	bool g_dedicated_server;
 EGameIDs ParseStringToGameType(LPCSTR str);
 
 game_PlayerState::game_PlayerState()
@@ -161,7 +161,7 @@ game_TeamState::game_TeamState()
 game_GameState::game_GameState()
 {
 	m_type						= EGameIDs(u32(0));
-//	m_phase						= GAME_PHASE_NONE;
+	m_phase						= GAME_PHASE_NONE;
 	m_round						= -1;
 	m_round_start_time_str[0]	= 0;
 

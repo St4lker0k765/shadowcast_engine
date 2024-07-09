@@ -1,8 +1,8 @@
 #include "ExtendedGeom.h"
-#include "../../xrphysics/MathUtils.h"
+#include "MathUtils.h"
 #include "Level.h"
 #include "Geometry.h"
-#include "xrPhysics/tri-colliderknoopc/dtricollidermath.h"
+#include "tri-colliderknoopc/dtricollidermath.h"
 ICF void GetNormal(CDB::TRI*XTri,Fvector &n)
 {
 	const Fvector* V_array=Level().ObjectSpace.GetStaticVerts();

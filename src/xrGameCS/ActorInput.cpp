@@ -4,11 +4,9 @@
 #include "Torch.h"
 #include "trade.h"
 #include "../xrEngine/CameraBase.h"
-
 #ifdef DEBUG
 #	include "PHDebug.h"
 #endif
-
 #include "hit.h"
 #include "PHDestroyable.h"
 #include "Car.h"
@@ -37,9 +35,8 @@ extern u32 hud_adj_mode;
 void CActor::IR_OnKeyboardPress(int cmd)
 {
 	if(hud_adj_mode && pInput->iGetAsyncKeyState(DIK_LSHIFT))	return;
-
+	if (m_blockedActions.test(cmd)) return;
 	if (Remote())		return;
-
 	if (IsTalking())	return;
 	if (m_input_external_handler && !m_input_external_handler->authorized(cmd))	return;
 	
@@ -50,16 +47,16 @@ void CActor::IR_OnKeyboardPress(int cmd)
 			if( (mstate_wishful & mcLookout) && !IsGameTypeSingle() ) return;
 
 			u32 slot = inventory().GetActiveSlot();
-			if(inventory().ActiveItem() && (slot==INV_SLOT_3 || slot==INV_SLOT_2) )
+			if(inventory().ActiveItem() && (slot==RIFLE_SLOT || slot==PISTOL_SLOT) )
 				mstate_wishful &=~mcSprint;
 			//-----------------------------
-/*			if (OnServer())
+			if (OnServer())
 			{
 				NET_Packet P;
 				P.w_begin(M_PLAYER_FIRE); 
 				P.w_u16(ID());
 				u_EventSend(P);
-			}*/
+			}
 		}break;
 	default:
 		{
@@ -195,9 +192,8 @@ void CActor::IR_OnMouseWheel(int direction)
 void CActor::IR_OnKeyboardRelease(int cmd)
 {
 	if(hud_adj_mode && pInput->iGetAsyncKeyState(DIK_LSHIFT))	return;
-
+	if (m_blockedActions.test(cmd)) return;
 	if (Remote())	return;
-
 	if (m_input_external_handler && !m_input_external_handler->authorized(cmd))	return;
 
 	if (g_Alive())	
@@ -219,7 +215,7 @@ void CActor::IR_OnKeyboardRelease(int cmd)
 		switch(cmd)
 		{
 		case kJUMP:		mstate_wishful &=~mcJump;		break;
-		case kDROP:		g_PerformDrop();				break;
+		case kDROP:		if(GAME_PHASE_INPROGRESS == Game().Phase()) g_PerformDrop();				break;
 		case kCROUCH:	g_bAutoClearCrouch = true;
 		}
 	}
@@ -228,7 +224,7 @@ void CActor::IR_OnKeyboardRelease(int cmd)
 void CActor::IR_OnKeyboardHold(int cmd)
 {
 	if(hud_adj_mode && pInput->iGetAsyncKeyState(DIK_LSHIFT))	return;
-
+	if (m_blockedActions.test(cmd)) return;
 	if (Remote() || !g_Alive())					return;
 	if (m_input_external_handler && !m_input_external_handler->authorized(cmd))	return;
 	if (IsTalking())							return;
@@ -267,7 +263,6 @@ void CActor::IR_OnKeyboardHold(int cmd)
 
 void CActor::IR_OnMouseMove(int dx, int dy)
 {
-
 	if(hud_adj_mode)
 	{
 		g_player_hud->tune	(Ivector().set(dx,dy,0));
@@ -443,9 +438,10 @@ BOOL CActor::HUDview				( )const
 
 static	u32 SlotsToCheck [] = {
 		KNIFE_SLOT		,		// 0
-		INV_SLOT_2		,		// 1
-		INV_SLOT_3		,		// 2
+		PISTOL_SLOT		,		// 1
+		RIFLE_SLOT		,		// 2
 		GRENADE_SLOT	,		// 3
+		APPARATUS_SLOT	,		// 4
 		ARTEFACT_SLOT	,		// 10
 };
 
@@ -459,7 +455,8 @@ void	CActor::OnNextWeaponSlot()
 		ActiveSlot = KNIFE_SLOT;
 	
 	u32 NumSlotsToCheck = sizeof(SlotsToCheck)/sizeof(u32);	
-	for (u32 CurSlot=0; CurSlot<NumSlotsToCheck; CurSlot++)
+	u32 CurSlot = 0;
+	for (; CurSlot<NumSlotsToCheck; CurSlot++)
 	{
 		if (SlotsToCheck[CurSlot] == ActiveSlot) break;
 	};
@@ -489,7 +486,8 @@ void	CActor::OnPrevWeaponSlot()
 		ActiveSlot = KNIFE_SLOT;
 
 	u32 NumSlotsToCheck = sizeof(SlotsToCheck)/sizeof(u32);	
-	for (u32 CurSlot=0; CurSlot<NumSlotsToCheck; CurSlot++)
+	u32 CurSlot = 0;
+	for (; CurSlot<NumSlotsToCheck; CurSlot++)
 	{
 		if (SlotsToCheck[CurSlot] == ActiveSlot) break;
 	};

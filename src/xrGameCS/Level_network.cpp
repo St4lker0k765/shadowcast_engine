@@ -18,7 +18,7 @@
 #include "string_table.h"
 #include "file_transfer.h"
 
-extern ENGINE_API bool g_dedicated_server;
+ENGINE_API bool g_dedicated_server;
 
 const int max_objects_size			= 2*1024;
 const int max_objects_size_in_save	= 6*1024;
@@ -201,9 +201,9 @@ void CLevel::ClientSend()
 
 		if (P.B.count>2)
 		{
-			Device.Statistic->TEST3.Begin();
+			Statistic.TEST3.Begin();
 				Send	(P, net_flags(FALSE));
-			Device.Statistic->TEST3.End();
+			Statistic.TEST3.End();
 		}else
 			break;
 	}
@@ -295,15 +295,15 @@ void CLevel::net_Update	()
 {
 	if(game_configured){
 		// If we have enought bandwidth - replicate client data on to server
-		Device.Statistic->netClient2.Begin	();
+		Statistic.netClient2.Begin	();
 		ClientSend					();
-		Device.Statistic->netClient2.End		();
+		Statistic.netClient2.End		();
 	}
 	// If server - perform server-update
 	if (Server && OnServer())	{
-		Device.Statistic->netServer.Begin();
+		Statistic.netServer.Begin();
 		Server->Update					();
-		Device.Statistic->netServer.End	();
+		Statistic.netServer.End	();
 	}
 }
 
@@ -393,7 +393,7 @@ void			CLevel::OnBuildVersionChallenge		()
 #ifdef DEBUG
 	u64 auth = MP_DEBUG_AUTH;
 #else
-	u64 auth = 0;
+	u64 auth = FS.auth_get();
 #endif //#ifdef DEBUG
 	P.w_u64					(auth);
 	SecureSend				(P, net_flags(TRUE, TRUE, TRUE, TRUE));

@@ -4,13 +4,13 @@
 #include "inventory.h"
 #include "xrserver_objects_alife_monsters.h"
 #include "xrServer.h"
-#include "../xrEngine/CustomHUD.h"
+
 #include "CameraLook.h"
 #include "CameraFirstEye.h"
 
 #include "ActorEffector.h"
 
-#include "../xrphysics/IPHWorld.h"
+#include "PHWorld.h"
 #include "level.h"
 #include "xr_level_controller.h"
 #include "game_cl_base.h"
@@ -25,7 +25,6 @@
 #include "WeaponMagazined.h"
 #include "WeaponKnife.h"
 #include "CustomOutfit.h"
-#include "../xrphysics/actorcameracollision.h"
 
 #include "actor_anim_defs.h"
 
@@ -44,7 +43,7 @@
 
 #ifdef DEBUG
 #	include "debug_renderer.h"
-#include "../xrPhysics/Physics.h"
+#	include "Physics.h"
 #endif
 
 int			g_cl_InterpolationType		= 0;
@@ -738,12 +737,12 @@ void CActor::net_Destroy	()
 
 	Engine.Sheduler.Unregister	(this);
 
-	if(	actor_camera_shell && 
-		actor_camera_shell->get_ElementByStoreOrder( 0 )->PhysicsRefObject() 
+	if(	CActor::actor_camera_shell && 
+		CActor::actor_camera_shell->get_ElementByStoreOrder( 0 )->PhysicsRefObject() 
 			== 
 		this
 		) 
-		destroy_physics_shell( actor_camera_shell );
+		destroy_physics_shell( CActor::actor_camera_shell );
 }
 
 void CActor::net_Relcase	(CObject* O)
@@ -902,7 +901,7 @@ void CActor::PH_B_CrPr		()	// actions & operations before physic correction-pred
 	//just set last update data for now
 //	if (!m_bHasUpdate) return;	
 	if (CrPr_IsActivated()) return;
-	if (CrPr_GetActivationStep() > physics_world()->StepsNum()) return;
+	if (CrPr_GetActivationStep() > ph_world->m_steps_num) return;
 
 	if (g_Alive())
 	{
@@ -1125,7 +1124,7 @@ void	CActor::CalculateInterpolationParams()
 	float lV0 = State0.linear_vel.magnitude();
 	float lV1 = State1.linear_vel.magnitude();
 
-	u32		ConstTime = u32((fixed_step - physics_world()->FrameTime()) * 1000) + Level().GetInterpolationSteps() * u32(fixed_step * 1000);
+	u32		ConstTime = u32((fixed_step - ph_world->m_frame_time)*1000)+ Level().GetInterpolationSteps()*u32(fixed_step*1000);
 
 	m_dwIStartTime = m_dwILastUpdateTime;
 	
@@ -1530,7 +1529,7 @@ void	CActor::OnRender_Network()
 		};
 
 		//drawing speed vectors
-		for (i=0; i<2; i++)
+		for (int i=0; i<2; i++)
 		{
 			c = float(i);
 			for (u32 k=0; k<3; k++)
@@ -1766,7 +1765,7 @@ void	CActor::Check_for_AutoPickUp()
 		{
 			if (GameID() == eGameIDDeathmatch || GameID() == eGameIDTeamDeathmatch)
 			{
-				if (pIItem->GetSlot() == INV_SLOT_2 || pIItem->GetSlot() == INV_SLOT_3 )
+				if (pIItem->GetSlot() == PISTOL_SLOT || pIItem->GetSlot() == RIFLE_SLOT )
 				{
 					if (inventory().ItemFromSlot(pIItem->GetSlot()))
 					{

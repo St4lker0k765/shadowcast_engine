@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "../xrPhysics/PHObject.h"
+#include "PHObject.h"
 #include "phcollidevalidator.h"
 
 CGID CPHCollideValidator::freeGroupID=0;

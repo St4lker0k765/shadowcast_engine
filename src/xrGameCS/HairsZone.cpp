@@ -6,7 +6,6 @@
 #include "entity_alive.h"
 #include "PHMovementControl.h"
 #include "CharacterPhysicsSupport.h"
-#include "../xrEngine/xr_collide_form.h"
 
 bool CHairsZone::BlowoutState()
 {
@@ -60,7 +59,7 @@ void CHairsZone::Affect(SZoneObjectInfo* O)
 
 	Fvector position_in_bone_space;
 
-	P.y=0.f;
+	P.y = pGameObject->Position().y;
 	float power				= Power(pGameObject->Position().distance_to(P));
 	float power_critical	= 0.0f;
 	float impulse			= m_fHitImpulseScale*power*pGameObject->GetMass();

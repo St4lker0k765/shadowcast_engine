@@ -4,7 +4,7 @@
 //#if 0
 
 #include "ParticlesObject.h"
-#include "../xrPhysics/Physics.h"
+#include "Physics.h"
 
 #ifdef DEBUG
 #	include "../xrEngine/StatGraph.h"
@@ -29,7 +29,7 @@
 #include "CarWeapon.h"
 #include "game_object_space.h"
 #include "../xrEngine/gamemtllib.h"
-#include "../xrPhysics/PHActivationShape.h"
+#include "PHActivationShape.h"
 #include "CharacterPhysicsSupport.h"
 #include "car_memory.h"
 
@@ -726,7 +726,7 @@ void CCar::ParseDefinitions()
 	bone_map.clear();
 
 	IKinematics* pKinematics=smart_cast<IKinematics*>(Visual());
-	bone_map.insert(std::make_pair(pKinematics->LL_GetBoneRoot(),physicsBone()));
+	bone_map.insert(mk_pair(pKinematics->LL_GetBoneRoot(),physicsBone()));
 	CInifile* ini = pKinematics->LL_UserData();
 	R_ASSERT2(ini,"Car has no description !!! See ActorEditor Object - UserData");
 	CExplosive::Load(ini,"explosion");
@@ -1355,7 +1355,7 @@ void CCar::TransmissionDown()
 
 
 
-void CCar::PhTune(float step)
+void CCar::PhTune(dReal step)
 {
 	
 
@@ -1363,23 +1363,22 @@ void CCar::PhTune(float step)
 	for(u16 i=PPhysicsShell()->get_ElementsNumber();i!=0;i--)	
 	{
 		CPhysicsElement* e=PPhysicsShell()->get_ElementByStoreOrder(i-1);
-		if(e->isActive()&&e->isEnabled())
-			e->applyForce(0, e->getMass() * AntiGravityAccel(), 0);
+		if(e->isActive()&&e->isEnabled())dBodyAddForce(e->get_body(),0,e->getMass()*AntiGravityAccel(),0);
 	}
 }
 float CCar::EffectiveGravity()
 {
-	float g= physics_world()->Gravity();
+	float g= ph_world->Gravity();
 	if(CPHUpdateObject::IsActive())g*=0.5f;
 	return g;
 }
 float CCar::AntiGravityAccel()
 {
-	return physics_world()->Gravity() - EffectiveGravity();
+	return ph_world->Gravity()-EffectiveGravity();
 }
 float CCar::GravityFactorImpulse()
 {
-	return _sqrt(EffectiveGravity()/physics_world()->Gravity());
+	return _sqrt(EffectiveGravity()/ph_world->Gravity());
 }
 void CCar::UpdateBack()
 {
@@ -1727,7 +1726,7 @@ void CCar::ResetScriptData(void	*P)
 	CScriptEntity::ResetScriptData(P);
 }
 
-void CCar::PhDataUpdate(float step)
+void CCar::PhDataUpdate(dReal step)
 {
 		if(m_repairing)Revert();
 		LimitWheels();
@@ -1872,10 +1871,10 @@ template <class T> IC void CCar::fill_wheel_vector(LPCSTR S,xr_vector<T>& type_w
 		BONE_P_PAIR_IT J		= bone_map.find(bone_id);
 		if (J == bone_map.end()) 
 		{
-			bone_map.insert(std::make_pair(bone_id,physicsBone()));
+			bone_map.insert(mk_pair(bone_id,physicsBone()));
 
 
-			SWheel& wheel			=	(m_wheels_map.insert(std::make_pair(bone_id,SWheel(this)))).first->second;
+			SWheel& wheel			=	(m_wheels_map.insert(mk_pair(bone_id,SWheel(this)))).first->second;
 			wheel.bone_id			=	bone_id;
 			twheel.pwheel			=	&wheel;
 			wheel						.Load(S1);
@@ -1907,7 +1906,7 @@ IC void CCar::fill_exhaust_vector(LPCSTR S,xr_vector<SExhaust>& exhausts)
 		BONE_P_PAIR_IT J		= bone_map.find(bone_id);
 		if (J == bone_map.end()) 
 		{
-			bone_map.insert(std::make_pair(bone_id,physicsBone()));
+			bone_map.insert(mk_pair(bone_id,physicsBone()));
 		}
 
 	}
@@ -1925,11 +1924,11 @@ IC void CCar::fill_doors_map(LPCSTR S,xr_map<u16,SDoor>& doors)
 		u16 bone_id	=				pKinematics->LL_BoneID(S1);
 		SDoor						door(this);
 		door.bone_id=				bone_id;
-		doors.insert				(std::make_pair(bone_id,door));
+		doors.insert				(mk_pair(bone_id,door));
 		BONE_P_PAIR_IT J		= bone_map.find(bone_id);
 		if (J == bone_map.end()) 
 		{
-			bone_map.insert(std::make_pair(bone_id,physicsBone()));
+			bone_map.insert(mk_pair(bone_id,physicsBone()));
 		}
 
 	}
@@ -2032,7 +2031,7 @@ Fvector	CCar::		ExitVelocity				()
 	if(!P||!P->isActive())return Fvector().set(0,0,0);
 	CPhysicsElement *E=P->get_ElementByStoreOrder(0);
 	Fvector v=ExitPosition();
-	E->GetPointVel(v, v);
+	dBodyGetPointVel(E->get_body(),v.x,v.y,v.z,cast_fp(v));
 	return v;
 }
 

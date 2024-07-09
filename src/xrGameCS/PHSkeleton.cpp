@@ -4,11 +4,11 @@
 #include "xrServer_Objects_ALife.h"
 #include "Level.h"
 #include "PHDefs.h"
-#include "../xrphysics/PhysicsShell.h"
+#include "PhysicsShell.h"
 #include "PHSynchronize.h"
-#include "../../xrphysics/MathUtils.h"
+#include "MathUtils.h"
 #include "../Include/xrRender/Kinematics.h"
-#include "../xrPhysics/PHObject.h"
+#include "PHObject.h"
 #include "PHCollideValidator.h"
 #include "ai_object_location.h"
 #include "ai_space.h"
@@ -333,7 +333,7 @@ void CPHSkeleton::UnsplitSingle(CPHSkeleton* SO)
 	mask0.assign(pKinematics->LL_GetBonesVisible());//first part mask
 	VERIFY2(mask0.flags,"mask0 -Zero");
 	mask0.invert();
-	mask1.And(mask0.flags);//second part mask
+	mask1.and_(mask0.flags);//second part mask
 
 
 	newKinematics->LL_SetBoneRoot		(split_bone);

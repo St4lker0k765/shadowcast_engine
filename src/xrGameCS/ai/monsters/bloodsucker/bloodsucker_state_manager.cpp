@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "bloodsucker_state_manager.h"
 #include "bloodsucker.h"
-#include "../xrPhysics/PHCapture.h"
+
 #include "../control_animation_base.h"
 #include "../control_direction_base.h"
 #include "../control_movement_base.h"
@@ -57,7 +57,7 @@ void CStateManagerBloodsucker::drag_object()
 		object->character_physics_support()->movement()->PHCaptureObject(ph_obj, drag_bone);
 	}
 
-	IPHCapture* const capture = object->character_physics_support()->movement()->PHCapture();
+	CPHCapture* const capture = object->character_physics_support()->movement()->PHCapture();
 
 	if ( capture && !capture->Failed() && object->is_animated() ) 
 	{

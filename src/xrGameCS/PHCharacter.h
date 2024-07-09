@@ -1,5 +1,5 @@
 #pragma once
-#include "../xrPhysics/PHObject.h"
+#include "PHObject.h"
 #include "PHInterpolation.h"
 #include "PHSynchronize.h"
 #include "PHDisabling.h"
@@ -17,12 +17,12 @@ class CPHAICharacter;
 namespace ALife {
 	enum EHitType;
 };
- static enum EEnvironment
-			{
-				peOnGround,
-				peAtWall,
-				peInAir
-			};
+enum EEnvironment
+{
+	peOnGround,
+	peAtWall,
+	peInAir
+};
 
 
 class CPHCharacter : 
