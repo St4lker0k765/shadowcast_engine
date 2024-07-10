@@ -2,7 +2,7 @@
 #include "../BaseMonster/base_monster.h"
 #include "../telekinesis.h"
 #include "../energy_holder.h"
-#include "../../../../xrServerEntities/script_export_space.h"
+#include "../../../../xrServerEntitiesCS/script_export_space.h"
 
 class CPhysicsShellHolder;
 class CStateManagerPoltergeist;

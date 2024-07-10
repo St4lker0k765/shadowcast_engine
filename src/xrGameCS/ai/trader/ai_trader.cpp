@@ -12,17 +12,17 @@
 #include "../../script_entity_action.h"
 #include "../../script_game_object.h"
 #include "../../inventory.h"
-#include "../../../xrServerEntities/xrserver_objects_alife_monsters.h"
+#include "../../../xrServerEntitiesCS/xrserver_objects_alife_monsters.h"
 #include "../../artefact.h"
 #include "../../xrserver.h"
 #include "../../relation_registry.h"
-#include "../../../xrServerEntities/object_broker.h"
+#include "../../../xrServerEntitiesCS/object_broker.h"
 #include "../../sound_player.h"
 #include "../../level.h"
 #include "../../script_callback_ex.h"
 #include "../../game_object_space.h"
 #include "trader_animation.h"
-#include "../../../xrServerEntities/clsid_game.h"
+#include "../../../xrServerEntitiesCS/clsid_game.h"
 
 CAI_Trader::CAI_Trader()
 {

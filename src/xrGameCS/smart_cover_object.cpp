@@ -8,7 +8,7 @@
 
 #include "stdafx.h"
 #include "smart_cover_object.h"
-#include "../xrServerEntities/xrServer_Objects_ALife.h"
+#include "../xrServerEntitiesCS/xrServer_Objects_ALife.h"
 #include "level.h"
 #include "debug_renderer.h"
 #include "ai_space.h"

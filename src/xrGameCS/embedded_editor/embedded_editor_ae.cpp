@@ -3,7 +3,7 @@
 #include "../../Include/xrRender/Kinematics.h"
 #include "../../Include/xrRender/KinematicsAnimated.h"
 #include "../../Include/xrRender/RenderVisual.h"
-#include "../../xrServerEntities/xrServer_Objects_ALife.h"
+#include "../../xrServerEntitiesCS/xrServer_Objects_ALife.h"
 #include "../Level.h"
 #include "../ai_space.h"
 #include "../alife_simulator.h"

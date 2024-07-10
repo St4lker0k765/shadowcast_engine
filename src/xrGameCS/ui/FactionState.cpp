@@ -13,7 +13,7 @@
 #include "../character_reputation.h"
 #include "../relation_registry.h"
 #include "../ai_space.h"
-#include "../../xrServerEntities/script_engine.h"
+#include "../../xrServerEntitiesCS/script_engine.h"
 
 using namespace luabind;
 

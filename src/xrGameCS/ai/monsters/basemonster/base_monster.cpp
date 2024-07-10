@@ -8,7 +8,7 @@
 #include "../../../game_graph.h"
 #include "../../../phmovementcontrol.h"
 #include "../ai_monster_squad_manager.h"
-#include "../../../../xrServerEntities/xrserver_objects_alife_monsters.h"
+#include "../../../../xrServerEntitiesCS/xrserver_objects_alife_monsters.h"
 #include "../corpse_cover.h"
 #include "../../../cover_evaluators.h"
 #include "../../../seniority_hierarchy_holder.h"
@@ -41,7 +41,7 @@
 #include "../../../actor.h"
 #include "../../../ai_object_location.h"
 #include "../../../ai_space.h"
-#include "../../../../xrServerEntities/script_engine.h"
+#include "../../../../xrServerEntitiesCS/script_engine.h"
 
 // Lain: added 
 #include "../../../level_debug.h"

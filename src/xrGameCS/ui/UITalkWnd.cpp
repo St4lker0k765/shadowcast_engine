@@ -9,7 +9,7 @@
 #include "../HUDManager.h"
 #include "../UIGameSP.h"
 #include "../PDA.h"
-#include "../../xrServerEntities/character_info.h"
+#include "../../xrServerEntitiesCS/character_info.h"
 #include "../level.h"
 
 #include "../PhraseDialog.h"

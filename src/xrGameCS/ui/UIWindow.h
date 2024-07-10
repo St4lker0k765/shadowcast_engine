@@ -8,7 +8,7 @@ template<class T> using ui_list = xr_list<T>;
 //////////////////////////////////////////////////////////////////////////
 
 #include "UIMessages.h"
-#include "../../xrServerEntities/script_export_space.h"
+#include "../../xrServerEntitiesCS/script_export_space.h"
 #include "uiabstract.h"
 
 
