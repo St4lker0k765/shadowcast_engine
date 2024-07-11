@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "Level.h"
-#include "../xrGameSpy/gamespy/md5.h"
 
 extern	void	GetCDKey_FromRegistry(char* CDKeyStr);
 char const * ComputeClientDigest(string128& dest, bool lower_case)
@@ -21,7 +20,6 @@ char const * ComputeClientDigest(string128& dest, bool lower_case)
 	{
 		strupr(cd_key);
 	}
-	MD5Digest(reinterpret_cast<unsigned char*>(cd_key), cd_keylen, md5hash);
 	md5hash[33] = 0;
 	strcpy_s(dest, sizeof(dest), md5hash);
 	return dest;

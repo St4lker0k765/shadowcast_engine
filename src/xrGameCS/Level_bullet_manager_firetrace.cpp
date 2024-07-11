@@ -15,7 +15,7 @@
 #include "Actor.h"
 #include "AI/Stalker/ai_stalker.h"
 #include "character_info.h"
-#include "game_cl_base_weapon_usage_Device.Statistic->h"
+#include "game_cl_base_weapon_usage_statistic.h"
 #include "../xrEngine/xr_collide_defs.h"
 #include "weapon.h"
 #include "ik/math3d.h"

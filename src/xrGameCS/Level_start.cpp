@@ -16,6 +16,17 @@ extern	void	GetPlayerName_FromRegistry	(char* name, u32 const name_size);
 #define DEMO_PLAY_OPT "mpdemoplay:"
 #define DEMO_SAVE_KEY "-mpdemosave"
 
+shared_str CLevel::OpenDemoFile(const char* demo_file_name)
+{
+	PrepareToPlayDemo(demo_file_name);
+	return "";
+//	return m_demo_server_options;
+}
+void CLevel::net_StartPlayDemo()
+{
+//	net_Start(m_demo_server_options.c_str(), "localhost");
+}
+
 bool CLevel::net_Start	( LPCSTR op_server, LPCSTR op_client )
 {
 	net_start_result_total				= TRUE;

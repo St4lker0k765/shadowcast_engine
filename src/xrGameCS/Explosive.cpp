@@ -92,7 +92,7 @@ void CExplosive::Load(LPCSTR section)
 	Load				(pSettings,section);
 }
 
-void CExplosive::Load(CInifile *ini,LPCSTR section)
+void CExplosive::Load(const CInifile *ini,LPCSTR section)
 {
 	m_fBlastHit			= ini->r_float(section,"blast");
 	m_fBlastRadius		= ini->r_float(section,"blast_r");

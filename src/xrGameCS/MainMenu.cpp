@@ -11,10 +11,6 @@
 #include <dinput.h>
 #include "ui\UIBtnHint.h"
 #include "UICursor.h"
-#include "gamespy/GameSpy_Full.h"
-#include "gamespy/GameSpy_HTTP.h"
-#include "gamespy/GameSpy_Available.h"
-#include "gamespy/CdkeyDecode/cdkeydecode.h"
 #include "string_table.h"
 #include "../xrCore/os_clipboard.h"
 
@@ -437,9 +433,6 @@ void CMainMenu::OnFrame()
 			Console->Show			();
 	}
 
-	if(IsActive() || m_sPDProgress.IsInProgress)
-		m_pGameSpyFull->Update();
-
 	if(IsActive())
 	{
 		CheckForErrorDlg();
@@ -546,13 +539,6 @@ void CMainMenu::OnNoNewPatchFound				()
 
 void CMainMenu::OnDownloadPatch(CUIWindow*, void*)
 {
-	CGameSpy_Available GSA;
-	shared_str result_string;
-	if (!GSA.CheckAvailableServices(result_string))
-	{
-		Msg(*result_string);
-		return;
-	};
 	
 	LPCSTR fileName = *m_sPatchURL;
 	if (!fileName) return;
@@ -575,7 +561,6 @@ void CMainMenu::OnDownloadPatch(CUIWindow*, void*)
 	m_sPDProgress.FileName		= m_sPatchFileName;
 	m_sPDProgress.Status		= "";
 
-	m_pGameSpyFull->m_pGS_HTTP->DownloadFile(*m_sPatchURL, *m_sPatchFileName);
 }
 
 void	CMainMenu::OnDownloadPatchError()
@@ -641,7 +626,6 @@ void	CMainMenu::OnRunDownloadedPatch			(CUIWindow*, void*)
 
 void CMainMenu::CancelDownload()
 {
-	m_pGameSpyFull->m_pGS_HTTP->StopDownload();
 	m_sPDProgress.IsInProgress	= false;
 }
 
@@ -704,22 +688,7 @@ extern	void	GetPlayerName_FromRegistry	(char* name, u32 const name_size);
 
 bool CMainMenu::IsCDKeyIsValid()
 {
-	if (!m_pGameSpyFull || !m_pGameSpyFull->m_pGS_HTTP) return false;
-	string64 CDKey = "";
-	GetCDKey_FromRegistry(CDKey);
-
-#ifndef DEMO_BUILD
-	if (!xr_strlen(CDKey)) return true;
-#endif
-
-	int GameID = 0;
-	for (int i=0; i<4; i++)
-	{
-		m_pGameSpyFull->m_pGS_HTTP->xrGS_GetGameID(&GameID, i);
-		if (VerifyClientCheck(CDKey, (unsigned short)GameID) == 1)
-			return true;
-	};	
-	return false;
+	return true;
 }
 
 bool		CMainMenu::ValidateCDKey					()
@@ -750,18 +719,7 @@ void CMainMenu::OnConnectToMasterServerOkClicked(CUIWindow*, void*)
 
 LPCSTR CMainMenu::GetGSVer()
 {
-	static string256	buff;
-	static string256	buff2;
-	if(m_pGameSpyFull)
-	{
-		strcpy_s(buff2, m_pGameSpyFull->GetGameVersion(buff));
-	}else
-	{
-		buff[0]		= 0;
-		buff2[0]	= 0;
-	}
-
-	return buff2;
+	return "1.7.00";
 }
 
 LPCSTR CMainMenu::GetPlayerNameFromRegistry()
