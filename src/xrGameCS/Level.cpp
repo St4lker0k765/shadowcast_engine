@@ -57,8 +57,6 @@
 // Lain:added
 #	include "debug_text_tree.h"
 #endif
-#include "embedded_editor/embedded_editor_main.h"
-#include "embedded_editor/render/editor_render.h"
 
 ENGINE_API bool g_dedicated_server;
 
@@ -748,7 +746,6 @@ void CLevel::OnFrame	()
 		pStatGraphR->AppendItem(float(m_dwRPC)*fRPC_Mult, 0xffff0000, 1);
 		pStatGraphR->AppendItem(float(m_dwRPS)*fRPS_Mult, 0xff00ff00, 0);
 	};
-	ShowEditor();
 }
 
 int		psLUA_GCSTEP					= 10			;
@@ -787,7 +784,6 @@ void CLevel::OnRender()
 	ph_world->OnRender	();
 #endif // DEBUG
 
-	embedded_editor_render();
 
 #ifdef DEBUG
 	if (ai().get_level_graph())
