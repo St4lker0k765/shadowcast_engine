@@ -55,6 +55,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xrGame", "xrGame\xrGame.vcxproj", "{200652A6-043E-4634-8837-87983B3BD5E0}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xrGameCS", "xrGameCS\xrGameCS.vcxproj", "{8A9466F2-4175-4AA6-BE80-A2F30A349216}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C8FBC3CE-D6DE-4FC3-BC15-7B647614DB09} = {C8FBC3CE-D6DE-4FC3-BC15-7B647614DB09}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "imgui", "3rd party\imgui\imgui.vcxproj", "{C8FBC3CE-D6DE-4FC3-BC15-7B647614DB09}"
 EndProject
