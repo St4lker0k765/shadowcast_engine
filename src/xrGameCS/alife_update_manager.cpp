@@ -202,7 +202,7 @@ bool CALifeUpdateManager::change_level	(NET_Packet &net_packet)
 	}
 
 	string256						autoave_name;
-	strconcat						(sizeof(autoave_name),autoave_name,Core.UserName,"_","autosave");
+	strconcat						(sizeof(autoave_name),autoave_name,Core.UserName," - ","autosave");
 	LPCSTR							temp0 = strstr(**m_server_command_line,"/");
 	VERIFY							(temp0);
 	string256						temp;
@@ -282,7 +282,7 @@ void CALifeUpdateManager::load			(LPCSTR game_name, bool no_assert, bool new_onl
 	Msg									("* Loading alife simulator is successfully completed (%7.3f Mb)",float(Memory.mem_usage() - memory_usage)/1048576.0);
 #endif
 	g_pGamePersistent->SetLoadStageTitle("st_server_connecting");
-	g_pGamePersistent->LoadTitle		();
+	g_pGamePersistent->LoadTitle		(true, g_pGameLevel->name());
 }
 
 void CALifeUpdateManager::reload		(LPCSTR section)
