@@ -337,16 +337,6 @@ void CLevel::ClientReceive()
 			}break;
 		case M_GAMESPY_CDKEY_VALIDATION_CHALLENGE:
 			{
-				#pragma todo("remove next deadlock checking after testing...")
-				#ifdef DEBUG
-				csMessagesAndNetQueueDeadLockDetect = false;
-				#endif
-				
-				OnGameSpyChallenge(P);
-
-				#ifdef DEBUG
-				csMessagesAndNetQueueDeadLockDetect = true;
-				#endif
 			}break;
 		case M_AUTH_CHALLENGE:
 			{
