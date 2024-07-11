@@ -16,6 +16,10 @@ protected:
 		om_vert = 1,
 		om_back = 2,
 		om_down = 3,
+		om_fromcenter = 4,
+		om_vfromcenter = 5,
+		om_tocenter = 6,
+		om_vtocenter = 7,
 		om_count
 	}	m_orient_mode;
 

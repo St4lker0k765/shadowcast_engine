@@ -32,15 +32,12 @@ void UILoadingScreen::Initialize()
     CUIXml uiXml;
     uiXml.Load(CONFIG_PATH, UI_PATH, "ui_mm_loading_screen.xml");
 
-        loadingProgressBackground = UIHelper::CreateStatic(uiXml, "loading_progress_background", this);
+ //       loadingProgressBackground = UIHelper::CreateStatic(uiXml, "loading_progress_background", this);
         loadingProgress = UIHelper::CreateProgressBar(uiXml, "loading_progress", this);
         CUIXmlInit::InitWindow(uiXml, "background", 0, this);
         loadingLogo = UIHelper::CreateStatic(uiXml, "loading_logo", this);
-        loadingProgressPercent = UIHelper::CreateStatic(uiXml, "loading_progress_percent", this);
+ //       loadingProgressPercent = UIHelper::CreateStatic(uiXml, "loading_progress_percent", this);
         loadingStage = UIHelper::CreateStatic(uiXml, "loading_stage", this);
-        loadingHeader = UIHelper::CreateStatic(uiXml, "loading_header", this);
-        loadingTipNumber = UIHelper::CreateStatic(uiXml, "loading_tip_number", this);
-        loadingTip = UIHelper::CreateStatic(uiXml, "loading_tip", this);
 }
 
 void UILoadingScreen::Update(const int stagesCompleted, const int stagesTotal)
@@ -49,12 +46,6 @@ void UILoadingScreen::Update(const int stagesCompleted, const int stagesTotal)
     if (loadingProgress->GetProgressPos() < progress)
         loadingProgress->SetProgressPos(progress);
 
-    if (ps_rs_loading_stages)
-    {
-        char buf[5];
-        xr_sprintf(buf, "%.0f%%", loadingProgress->GetProgressPos());
-        loadingProgressPercent->SetText(buf);
-    }
 
     CUIWindow::Update();
     Draw();
@@ -77,7 +68,4 @@ void UILoadingScreen::SetStageTitle(const char* title) const
 
 void UILoadingScreen::SetStageTip(const char* header, const char* tipNumber, const char* tip) const
 {
-    loadingHeader->SetText(header);
-    loadingTipNumber->SetText(tipNumber);
-    loadingTip->SetText(tip);
 }

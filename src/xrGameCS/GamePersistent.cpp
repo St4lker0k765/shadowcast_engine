@@ -462,6 +462,7 @@ void CGamePersistent::update_logo_intro			()
 
 void CGamePersistent::start_game_intro		()
 {
+	load_screen_renderer.stop();
 	if ((0!=strstr(Core.Params,"-nointro")) || g_SASH.IsRunning())
 	{
 		m_intro_event			= 0;
