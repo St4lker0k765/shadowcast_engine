@@ -38,15 +38,16 @@ void UpgradeBase::construct( const shared_str& upgrade_id, Manager& manager_r )
 
 void UpgradeBase::add_dependent_groups( LPCSTR groups_str, Manager& manager_r )
 {
-	PSTR	temp = (PSTR)_alloca( (xr_strlen(groups_str) + 1) * sizeof(char) );
+	u32 const buffer_size = (xr_strlen(groups_str) + 1) * sizeof(char);
+	PSTR	temp = (PSTR)_alloca(buffer_size);
 
-	for ( int n = _GetItemCount( groups_str ), i = 0; i < n; ++i )
+	for (int n = _GetItemCount(groups_str), i = 0; i < n; ++i)
 	{
-		Group* group_p = manager_r.add_group( _GetItem( groups_str, i, temp, sizeof(temp) ), *this );
+		Group* group_p = manager_r.add_group(_GetItem(groups_str, i, temp, buffer_size), *this);
 
-		if ( std::find( m_depended_groups.begin(), m_depended_groups.end(), group_p ) == m_depended_groups.end() )
+		if (std::find(m_depended_groups.begin(), m_depended_groups.end(), group_p) == m_depended_groups.end())
 		{
-			m_depended_groups.push_back( group_p );
+			m_depended_groups.push_back(group_p);
 		}
 	}
 }

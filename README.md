@@ -1,9 +1,9 @@
-Shadow Engine x64 version 1.7.0.0
+Shadowcast Engine x64 version 1.7.0.0
 ====================================
 
 ## О движке:
 
-* Движок основан на [STCop Public Engine](https://github.com/mortany/stcop_engine_public)
+* Движок основан на [STCoP Public Engine](https://github.com/mortany/stcop_engine_public)
 * Движок создан для мода The Shadow Way и не только.
 * Этот движок будет представлен, после релиза мода(без коммитов). Распространение движка с коммитами строго запрещено! Копии движка имеют право иметь только его создатели. А также распространение движка, с коммитами и без до релиза строго запрещено!
 
