@@ -66,7 +66,7 @@ public:
 	
 					ui_core							();
 					~ui_core						();
-	CFontManager*	Font							()							{return m_pFontManager;}
+	CFontManager*	Font							()							{return g_FontManager;}
 	CUICursor*		GetUICursor						()							{return m_pUICursor;}
 
 	void			ClientToScreenScaled			(Fvector2& dest, float left, float top);

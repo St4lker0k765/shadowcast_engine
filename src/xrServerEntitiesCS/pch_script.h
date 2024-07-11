@@ -11,6 +11,8 @@
 
 #include "stdafx.h"
 
+//AVO: lua re-org
+#include "lua.hpp"
 extern "C" {
 	#include <lua.h>
 	#include <lualib.h>
