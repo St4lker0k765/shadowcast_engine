@@ -2578,12 +2578,6 @@
     <Filter Include="Core\Client\Objects\items &amp; weapons\Devices\Dosimeter">
       <UniqueIdentifier>{d4cb7526-88b0-43ed-b57e-59efcee31875}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Embedded editor">
-      <UniqueIdentifier>{9e7da499-55df-4d00-b59f-3338b00484de}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Embedded editor\render">
-      <UniqueIdentifier>{4dcf3546-414e-4284-b013-52fa2ab1c26d}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mt_config.h">
@@ -7464,54 +7458,6 @@
     <ClInclude Include="GameObjectEvents.h">
       <Filter>Core\Client\Objects\base\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="embedded_editor\embedded_editor_main.h">
-      <Filter>Embedded editor</Filter>
-    </ClInclude>
-    <ClInclude Include="embedded_editor\embedded_editor_weather.h">
-      <Filter>Embedded editor</Filter>
-    </ClInclude>
-    <ClInclude Include="embedded_editor\embedded_editor_prop.h">
-      <Filter>Embedded editor</Filter>
-    </ClInclude>
-    <ClInclude Include="embedded_editor\embedded_editor_logic.h">
-      <Filter>Embedded editor</Filter>
-    </ClInclude>
-    <ClInclude Include="embedded_editor\embedded_editor_helper.h">
-      <Filter>Embedded editor</Filter>
-    </ClInclude>
-    <ClInclude Include="embedded_editor\embedded_editor_ae.h">
-      <Filter>Embedded editor</Filter>
-    </ClInclude>
-    <ClInclude Include="embedded_editor\embedded_editor_postprocess.h">
-      <Filter>Embedded editor</Filter>
-    </ClInclude>
-    <ClInclude Include="embedded_editor\embedded_editor_stats.h">
-      <Filter>Embedded editor</Filter>
-    </ClInclude>
-    <ClInclude Include="embedded_editor\embedded_editor_ui.h">
-      <Filter>Embedded editor</Filter>
-    </ClInclude>
-    <ClInclude Include="embedded_editor\embedded_editor_map.h">
-      <Filter>Embedded editor</Filter>
-    </ClInclude>
-    <ClInclude Include="embedded_editor\embedded_editor_hud.h">
-      <Filter>Embedded editor</Filter>
-    </ClInclude>
-    <ClInclude Include="embedded_editor\embedded_editor_le.h">
-      <Filter>Embedded editor</Filter>
-    </ClInclude>
-    <ClInclude Include="embedded_editor\embedded_editor_se.h">
-      <Filter>Embedded editor</Filter>
-    </ClInclude>
-    <ClInclude Include="embedded_editor\render\editor_render.h">
-      <Filter>Embedded editor\render</Filter>
-    </ClInclude>
-    <ClInclude Include="embedded_editor\render\editor_render_ai_map.h">
-      <Filter>Embedded editor\render</Filter>
-    </ClInclude>
-    <ClInclude Include="embedded_editor\render\editor_render_spawn_element.h">
-      <Filter>Embedded editor\render</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="damage_manager.cpp">
@@ -11167,54 +11113,6 @@
     </ClCompile>
     <ClCompile Include="GameObjectEvents.cpp">
       <Filter>Core\Client\Objects\base\GameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="embedded_editor\embedded_editor_main.cpp">
-      <Filter>Embedded editor</Filter>
-    </ClCompile>
-    <ClCompile Include="embedded_editor\embedded_editor_weather.cpp">
-      <Filter>Embedded editor</Filter>
-    </ClCompile>
-    <ClCompile Include="embedded_editor\embedded_editor_prop.cpp">
-      <Filter>Embedded editor</Filter>
-    </ClCompile>
-    <ClCompile Include="embedded_editor\embedded_editor_logic.cpp">
-      <Filter>Embedded editor</Filter>
-    </ClCompile>
-    <ClCompile Include="embedded_editor\embedded_editor_helper.cpp">
-      <Filter>Embedded editor</Filter>
-    </ClCompile>
-    <ClCompile Include="embedded_editor\embedded_editor_ae.cpp">
-      <Filter>Embedded editor</Filter>
-    </ClCompile>
-    <ClCompile Include="embedded_editor\embedded_editor_postprocess.cpp">
-      <Filter>Embedded editor</Filter>
-    </ClCompile>
-    <ClCompile Include="embedded_editor\embedded_editor_stats.cpp">
-      <Filter>Embedded editor</Filter>
-    </ClCompile>
-    <ClCompile Include="embedded_editor\embedded_editor_ui.cpp">
-      <Filter>Embedded editor</Filter>
-    </ClCompile>
-    <ClCompile Include="embedded_editor\embedded_editor_map.cpp">
-      <Filter>Embedded editor</Filter>
-    </ClCompile>
-    <ClCompile Include="embedded_editor\embedded_editor_hud.cpp">
-      <Filter>Embedded editor</Filter>
-    </ClCompile>
-    <ClCompile Include="embedded_editor\embedded_editor_le.cpp">
-      <Filter>Embedded editor</Filter>
-    </ClCompile>
-    <ClCompile Include="embedded_editor\embedded_editor_se.cpp">
-      <Filter>Embedded editor</Filter>
-    </ClCompile>
-    <ClCompile Include="embedded_editor\render\editor_render.cpp">
-      <Filter>Embedded editor\render</Filter>
-    </ClCompile>
-    <ClCompile Include="embedded_editor\render\editor_render_ai_map.cpp">
-      <Filter>Embedded editor\render</Filter>
-    </ClCompile>
-    <ClCompile Include="embedded_editor\render\editor_render_spawn_element.cpp">
-      <Filter>Embedded editor\render</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
