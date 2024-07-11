@@ -18,7 +18,6 @@
 #include "MPPlayersBag.h"
 #include "WeaponKnife.h"
 #include "game_cl_base_weapon_usage_statistic.h"
-#include "xrGameSpyServer.h"
 
 #include "game_sv_mp_vote_flags.h"
 #include "player_name_modifyer.h"
@@ -142,7 +141,7 @@ void game_sv_mp::OnRoundStart()
 			tmp_ps->m_online_time = Level().timeServer();
 		}
 	};
-	m_server->clear_DisconnectedClients();
+//	m_server->clear_DisconnectedClients();
 	ready_clearer tmp_functor;
 	m_server->ForEachClientDo(tmp_functor);
 	m_async_stats_request_time = 0;
@@ -1496,18 +1495,6 @@ void	game_sv_mp::OnPlayerChangeName		(NET_Packet& P, ClientID sender)
 	game_PlayerState* ps = pClient->ps;
 	if (!ps) return;
 
-	xrGameSpyServer* sv = smart_cast<xrGameSpyServer*>( m_server );
-	if( sv && sv->HasProtected() )
-	{
-		Msg( "Player \"%s\" try to change name on \"%s\" at protected server.", ps->getName(), NewName );
-
-		NET_Packet			P;
-		GenerateGameMessage (P);
-		P.w_u32				(GAME_EVENT_SERVER_STRING_MESSAGE);
-		P.w_stringZ			("Server is protected. Can\'t change player name!");
-		m_server->SendTo	( sender, P );
-		return;
-	}
 
 	if (NewPlayerName_Exists(pClient, NewName))
 	{

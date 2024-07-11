@@ -76,12 +76,6 @@ xrServer::~xrServer()
 		client_Destroy(tmp_client);
 		tmp_client = net_players.GetFoundClient(&ClientDestroyer::true_generator);
 	}
-	tmp_client = net_players.GetFoundDisconnectedClient(&ClientDestroyer::true_generator);
-	while (tmp_client)
-	{
-		client_Destroy(tmp_client);
-		tmp_client = net_players.GetFoundDisconnectedClient(&ClientDestroyer::true_generator);
-	}
 	m_aUpdatePackets.clear();
 	m_aDelayedPackets.clear();
 	entities.clear();
@@ -136,20 +130,6 @@ IClient*	xrServer::client_Find_Get	(ClientID ID)
 	else
 		search_predicate.m_cAddress.set( "127.0.0.1" );
 
-	if ( !psNET_direct_connect )
-	{	
-		IClient* disconnected_client = net_players.FindAndEraseDisconnectedClient(search_predicate);
-		if (disconnected_client)
-		{
-			disconnected_client->m_dwPort			= dwPort;
-			disconnected_client->flags.bReconnect	= TRUE;
-			disconnected_client->server				= this;
-			net_players.AddNewClient				(disconnected_client);
-			Msg( "# Player found" );
-			return disconnected_client;
-		}
-	};
-
 	IClient* newCL = client_Create();
 	newCL->ID = ID;
 	if(!psNET_direct_connect)
@@ -174,7 +154,7 @@ void		xrServer::client_Destroy	(IClient* C)
 	// Delete assosiated entity
 	// xrClientData*	D = (xrClientData*)C;
 	// CSE_Abstract* E = D->owner;
-	IClient* deleted_client = net_players.FindAndEraseDisconnectedClient(
+	IClient* deleted_client = net_players.FindAndEraseClient(
 		std::bind(std::equal_to<IClient*>(), C, _1)
 	);
 	if (deleted_client)
@@ -216,33 +196,6 @@ void		xrServer::client_Destroy	(IClient* C)
 		{
 			game->CleanDelayedEventFor(pOwner->ID);
 		}
-		
-		if (!g_sv_Client_Reconnect_Time || !alife_client->flags.bVerified)
-		{
-			xr_delete(alife_client);				
-		}
-		else
-		{
-			alife_client->dwTime_LastUpdate = Device.dwTimeGlobal;
-			net_players.AddNewDisconnectedClient(alife_client);
-			static_cast<xrClientData*>(alife_client)->Clear();
-		};
-	}
-}
-void xrServer::clear_DisconnectedClients()
-{
-	struct true_generator
-	{
-		bool operator()(IClient* client)
-		{
-			return true;
-		}
-	};
-	IClient* deleting_client = net_players.FindAndEraseDisconnectedClient(true_generator());
-	while (deleting_client)
-	{
-		xr_delete(deleting_client);
-		deleting_client = net_players.FindAndEraseDisconnectedClient(true_generator());
 	}
 }
 
@@ -293,26 +246,6 @@ void xrServer::Update	()
 	if (game->sv_force_sync)	Perform_game_export();
 
 	VERIFY						(verify_entities());
-	//-----------------------------------------------------
-	//Remove any of long time disconnected players
-	struct LongTimeClient
-	{
-		static bool Searher(IClient* client)
-		{
-			if (client->dwTime_LastUpdate + (g_sv_Client_Reconnect_Time*60000) < Device.dwTimeGlobal)
-				return true;
-			return false;
-		}
-	};
-	IClient* tmp_client = net_players.GetFoundDisconnectedClient(
-		LongTimeClient::Searher);
-
-	while (tmp_client)
-	{
-		client_Destroy(tmp_client);
-		tmp_client = net_players.GetFoundDisconnectedClient(
-			LongTimeClient::Searher);
-	}
 
 	PerformCheckClientsForMaxPing	();
 

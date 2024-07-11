@@ -184,17 +184,17 @@ void CPHWorld::OnFrame()
 	// Msg									("------------- physics: %d / %d",u32(Device.dwFrame),u32(m_steps_num));
 	//просчитать полет пуль
 	/*
-	Statistic.TEST0.Begin		();
+	Device.Statistic->TEST0.Begin		();
 	Level().BulletManager().Update		();
-	Statistic.TEST0.End			();
+	Device.Statistic->TEST0.End			();
 	*/
 #ifdef DEBUG 
 	//DBG_DrawFrameStart();
 	//DBG_DrawStatBeforeFrameStep();
 #endif
-	Statistic.Physics.Begin		();
+	Device.Statistic->Physics.Begin		();
 	FrameStep							(Device.fTimeDelta);
-	Statistic.Physics.End		();
+	Device.Statistic->Physics.End		();
 #ifdef DEBUG
 	//DBG_DrawStatAfterFrameStep();
 
@@ -231,7 +231,7 @@ void CPHWorld::Step()
 
 	++m_steps_num;
 	++m_steps_short_num;
-	Statistic.ph_collision.Begin	();
+	Device.Statistic->ph_collision.Begin	();
 
 
 	for(i_object=m_objects.begin();m_objects.end() != i_object;)
@@ -249,7 +249,7 @@ void CPHWorld::Step()
 
 
 
-	Statistic.ph_collision.End	();
+	Device.Statistic->ph_collision.End	();
 
 #ifdef DEBUG
 	for(i_object=m_objects.begin();m_objects.end() != i_object;)
@@ -284,7 +284,7 @@ void CPHWorld::Step()
 		obj->PhTune(fixed_step);
 	}
 
-	Statistic.ph_core.Begin		();
+	Device.Statistic->ph_core.Begin		();
 
 #ifdef DEBUG
 	dbg_bodies_num=0;
@@ -320,7 +320,7 @@ void CPHWorld::Step()
 #endif
 	}
 
-	Statistic.ph_core.End		();
+	Device.Statistic->ph_core.End		();
 
 
 

@@ -574,9 +574,9 @@ void CLevel::OnFrame	()
 	else								psDeviceFlags.set(rsDisableObjectsAsCrows,false);
 
 	// commit events from bullet manager from prev-frame
-	Statistic.TEST0.Begin		();
+	Device.Statistic->TEST0.Begin		();
 	BulletManager().CommitEvents		();
-	Statistic.TEST0.End			();
+	Device.Statistic->TEST0.End			();
 
 	// Client receive
 	if (net_isDisconnected())	
@@ -593,11 +593,11 @@ void CLevel::OnFrame	()
 		return;
 	} else {
 
-		Statistic.netClient1.Begin();
+		Device.Statistic->netClient1.Begin();
 
 		ClientReceive					();
 
-		Statistic.netClient1.End	();
+		Device.Statistic->netClient1.End	();
 	}
 
 	ProcessGameEvents	();
@@ -632,7 +632,7 @@ void CLevel::OnFrame	()
 			if ( IsServer() )
 			{
 				const IServerStatistic* S = Server->GetStatistic();
-				F->SetHeightI	(0.015f);
+				F->SetHeight	(0.015f);
 				F->OutSetI	(0.0f,0.5f);
 				F->SetColor	(D3DCOLOR_XRGB(0,255,0));
 				F->OutNext	("IN:  %4d/%4d (%2.1f%%)",	S->bytes_in_real,	S->bytes_in,	100.f*float(S->bytes_in_real)/float(S->bytes_in));
@@ -671,7 +671,7 @@ void CLevel::OnFrame	()
 			{
 				IPureClient::UpdateStatistic();
 
-				F->SetHeightI(0.015f);
+				F->SetHeight(0.015f);
 				F->OutSetI	(0.0f,0.5f);
 				F->SetColor	(D3DCOLOR_XRGB(0,255,0));
 				F->OutNext	("client_2_sever ping: %d",	net_Statistic.getPing());
@@ -718,18 +718,18 @@ void CLevel::OnFrame	()
 //	g_pGamePersistent->Environment().SetGameTime	(GetGameDayTimeSec(),GetGameTimeFactor());
 	g_pGamePersistent->Environment().SetGameTime	(GetEnvironmentGameDayTimeSec(),game->GetEnvironmentGameTimeFactor());
 
-	//Statistic.cripting.Begin	();
+	//Device.Statistic->cripting.Begin	();
 	if (!g_dedicated_server)
 		ai().script_engine().script_process	(ScriptEngine::eScriptProcessorLevel)->update();
-	//Statistic.Scripting.End	();
+	//Device.Statistic->Scripting.End	();
 	m_ph_commander->update				();
 	m_ph_commander_scripts->update		();
 //	autosave_manager().update			();
 
 	//просчитать полет пуль
-	Statistic.TEST0.Begin		();
+	Device.Statistic->TEST0.Begin		();
 	BulletManager().CommitRenderSet		();
-	Statistic.TEST0.End			();
+	Device.Statistic->TEST0.End			();
 
 	// update static sounds
 	if(!g_dedicated_server)
@@ -782,9 +782,9 @@ void CLevel::OnRender()
 
 	Game().OnRender();
 	//отрисовать трассы пуль
-	//Statistic.TEST1.Begin();
+	//Device.Statistic->TEST1.Begin();
 	BulletManager().Render();
-	//Statistic.TEST1.End();
+	//Device.Statistic->TEST1.End();
 	//отрисовать интерфейc пользователя
 	HUD().RenderUI();
 

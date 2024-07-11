@@ -15,7 +15,7 @@
 #include "Actor.h"
 #include "AI/Stalker/ai_stalker.h"
 #include "character_info.h"
-#include "game_cl_base_weapon_usage_statistic.h"
+#include "game_cl_base_weapon_usage_Device.Statistic->h"
 #include "../xrEngine/xr_collide_defs.h"
 #include "weapon.h"
 #include "ik/math3d.h"
@@ -145,7 +145,7 @@ BOOL CBulletManager::test_callback(const collide::ray_defs& rd, CObject* object,
 //	result.range;	// range from start to element 
 //	result.element;	// if (O) "num tri" else "num bone"
 //	params;			// user defined abstract data
-//	Statistic.TEST0.End();
+//	Device.Statistic->TEST0.End();
 //return TRUE-продолжить трассировку / FALSE-закончить трассировку
 
 void CBulletManager::FireShotmark (SBullet* bullet, const Fvector& vDir, const Fvector &vEnd, collide::rq_result& R, u16 target_material, const Fvector& vNormal, bool ShowMark)

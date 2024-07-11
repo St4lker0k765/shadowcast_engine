@@ -45,9 +45,6 @@
 #include "character_hit_animations_params.h"
 #include "inventory_upgrade_manager.h"
 
-#include "GameSpy/GameSpy_Full.h"
-#include "GameSpy/GameSpy_Patching.h"
-
 #ifdef DEBUG
 #	include "PHDebug.h"
 #	include "ui/UIDebugFonts.h" 
@@ -628,7 +625,7 @@ class CCC_ClearLog : public IConsole_Command {
 public:
 	CCC_ClearLog(LPCSTR N) : IConsole_Command(N)  { bEmptyArgsHandled = true; };
 	virtual void Execute(LPCSTR) {
-		LogFile->clear_not_free	();
+		LogFile->clear	();
 		FlushLog				();
 		Msg						("* Log file has been cleaned successfully!");
 	}

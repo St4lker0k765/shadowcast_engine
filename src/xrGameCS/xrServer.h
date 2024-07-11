@@ -221,7 +221,7 @@ public:
 	virtual void			client_Replicate	();								// replicate current state to client
 	virtual IClient*		client_Find_Get		(ClientID ID);					// Find earlier disconnected client
 	virtual void			client_Destroy		(IClient* C);					// destroy client info
-			void			clear_DisconnectedClients();
+//			void			clear_DisconnectedClients();
 
 	// utilities
 	CSE_Abstract*			entity_Create		(LPCSTR name);

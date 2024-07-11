@@ -16,6 +16,7 @@
 #include "game_cl_base.h"
 #include "Level.h"
 #include "clsid_game.h"
+#include "UIFontDefines.h"
 
 #define PICKUP_INFO_COLOR 0xFFDDDDDD
 //AAAAAA
@@ -161,7 +162,7 @@ void	CActor::PickupModeUpdate_COD	()
 	frustum.CreateFromMatrix(Device.mFullTransform,FRUSTUM_P_LRTB|FRUSTUM_P_FAR);
 
 	//---------------------------------------------------------------------------
-	ISpatialResult.clear_not_free	();
+	ISpatialResult.clear	();
 	g_SpatialSpace->q_frustum(ISpatialResult, 0, STYPE_COLLIDEABLE, frustum);
 	//---------------------------------------------------------------------------
 
@@ -260,9 +261,9 @@ void CActor::PickupInfoDraw(CObject* object)
 	float x = (1.f + v_res.x)/2.f * (Device.dwWidth);
 	float y = (1.f - v_res.y)/2.f * (Device.dwHeight);
 
-	HUD().Font().pFontLetterica16Russian->SetAligment	(CGameFont::alCenter);
-	HUD().Font().pFontLetterica16Russian->SetColor		(PICKUP_INFO_COLOR);
-	HUD().Font().pFontLetterica16Russian->Out			(x,y,draw_str);
+	HUD().Font().GetFont(LETTERICA16_FONT_NAME)->SetAligment(CGameFont::alCenter);
+	HUD().Font().GetFont(LETTERICA16_FONT_NAME)->SetColor(PICKUP_INFO_COLOR);
+	HUD().Font().GetFont(LETTERICA16_FONT_NAME)->Out			(x,y,draw_str);
 }
 
 void CActor::feel_sound_new(CObject* who, int type, CSound_UserDataPtr user_data, const Fvector& Position, float power)
@@ -281,7 +282,7 @@ void CActor::Feel_Grenade_Update( float rad )
 	Fvector pos_actor;
 	Center( pos_actor );
 
-	q_nearest.clear_not_free();
+	q_nearest.clear();
 	g_pGameLevel->ObjectSpace.GetNearest( q_nearest, pos_actor, rad, NULL );
 
 	xr_vector<CObject*>::iterator	it_b = q_nearest.begin();

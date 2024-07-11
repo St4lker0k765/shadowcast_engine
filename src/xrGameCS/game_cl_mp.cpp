@@ -30,7 +30,6 @@
 #include "mainmenu.h"
 #include "WeaponKnife.h"
 #include "RegistryFuncs.h"
-#include "../xrGameSpy/xrGameSpy_MainDefs.h"
 #include "file_transfer.h"
 #include "screenshot_server.h"
 #include "../xrCore/ppmd_compressor.h"
@@ -121,8 +120,8 @@ game_cl_mp::~game_cl_mp()
 		m_BloodLossIconsShader.destroy();
 		*/
 	
-	m_pSndMessagesInPlay.clear_and_free();
-	m_pSndMessages.clear_and_free();
+	m_pSndMessagesInPlay.clear();
+	m_pSndMessages.clear();
 	
 	deinit_compress_buffer();
 
