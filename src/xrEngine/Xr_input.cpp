@@ -641,3 +641,18 @@ void CInput::feedback(float s1, float s2, float time)
     set_vibration (s1, s2);
 #endif
 }
+
+int CInput::scancodeToChar(int scanCode, uint16_t ch[2])
+{
+    UINT vk = MapVirtualKey(scanCode, MAPVK_VSC_TO_VK);
+    if (vk == 0)
+        return 0;
+    uint8_t vks[256] = {};
+    for (int i = 0; i != COUNT_KB_BUTTONS; i++) {
+        if (KBState[i] == 0)
+            continue;
+        UINT temp = MapVirtualKey(i, MAPVK_VSC_TO_VK);
+        vks[temp] = 0x80;
+    }
+    return ToAscii(vk, scanCode, vks, ch, 0);
+}

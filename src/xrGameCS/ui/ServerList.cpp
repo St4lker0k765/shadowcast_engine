@@ -11,9 +11,6 @@
 #include "TeamInfo.h"
 #include "../MainMenu.h"
 
-#include "../GameSpy/GameSpy_Full.h"
-#include "../GameSpy/GameSpy_Browser.h"
-
 
 LPCSTR GameTypeToString(EGameIDs gt, bool bShort);
 CGameSpy_Browser* g_gs_browser = NULL;

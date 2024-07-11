@@ -26,6 +26,7 @@
 #endif // _EDITOR
 #include "../xrEngine/Environment.h"
 #include "ui/UILoadingScreen.h"
+#include "xrEngine/x_ray.h"
 
 #ifdef DEBUG_MEMORY_MANAGER
 	static	void *	ode_alloc	(size_t size)								{ return Memory.mem_alloc(size,"ODE");			}

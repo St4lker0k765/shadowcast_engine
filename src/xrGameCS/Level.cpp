@@ -687,8 +687,7 @@ void CLevel::OnFrame	()
 					net_Statistic.getMPS_Send	(),
 					net_Statistic.getRetriedCount(),
 					net_Statistic.dwTimesBlocked,
-					net_Statistic.dwBytesSended,
-					net_Statistic.dwBytesPerSec
+					net_Statistic.dwBytesSended
 					);
 #ifdef DEBUG
 				if (!pStatGraphR)

@@ -1051,7 +1051,7 @@ void game_sv_mp::OnVoteStart				(LPCSTR VoteCommand, ClientID sender)
 			string256 WeatherTime = "", WeatherName = "";
 			sscanf(CommandParams, "%s %s", WeatherName, WeatherTime );
 
-			m_pVoteCommand.sprintf("%s %s", votecommands[i].command, WeatherTime);
+			m_pVoteCommand.printf("%s %s", votecommands[i].command, WeatherTime);
 			sprintf_s(resVoteCommand, "%s %s", votecommands[i].name, WeatherName);
 		} else if (!stricmp(votecommands[i].name, "changemap"))
 		{
@@ -1082,10 +1082,10 @@ void game_sv_mp::OnVoteStart				(LPCSTR VoteCommand, ClientID sender)
 			IClient*	tmp_client = m_server->FindClient(tmp_predicate);
 			if (tmp_client)
 			{
-				m_pVoteCommand.sprintf("sv_kick_id %u", tmp_client->ID.value());
+				m_pVoteCommand.printf("sv_kick_id %u", tmp_client->ID.value());
 			} else
 			{
-				m_pVoteCommand.sprintf("%s %s", votecommands[i].command, CommandParams);	//backward compatibility
+				m_pVoteCommand.printf("%s %s", votecommands[i].command, CommandParams);	//backward compatibility
 			}
 			strcpy_s(resVoteCommand, VoteCommand);
 		} else if (!stricmp(votecommands[i].name, "ban"))
@@ -1098,7 +1098,7 @@ void game_sv_mp::OnVoteStart				(LPCSTR VoteCommand, ClientID sender)
 			IClient*	tmp_client = m_server->FindClient(tmp_predicate);
 			if (tmp_client)
 			{
-				m_pVoteCommand.sprintf("sv_banplayer %u %d", tmp_client->ID.value(), ban_time);
+				m_pVoteCommand.printf("sv_banplayer %u %d", tmp_client->ID.value(), ban_time);
 			} else
 			{
 				Msg("! ERROR: can't find player with name %s", tmp_victim_name);
@@ -1110,13 +1110,13 @@ void game_sv_mp::OnVoteStart				(LPCSTR VoteCommand, ClientID sender)
 			strcpy_s(resVoteCommand, VoteCommand);
 		} else
 		{
-			m_pVoteCommand.sprintf("%s %s", votecommands[i].command, CommandParams);
+			m_pVoteCommand.printf("%s %s", votecommands[i].command, CommandParams);
 			strcpy_s(resVoteCommand, VoteCommand);
 		}		
 	}
 	else
 	{
-		m_pVoteCommand.sprintf("%s", VoteCommand+1);
+		m_pVoteCommand.printf("%s", VoteCommand+1);
 	};
 
 	struct vote_status_setter
@@ -1904,11 +1904,10 @@ void game_sv_mp::RejectGameItem(CSE_Abstract* entity)
 #include "string_table.h"
 void game_sv_mp::DumpOnlineStatistic()
 {
-	xrGameSpyServer* srv		= smart_cast<xrGameSpyServer*>(m_server);
 
 	string_path					fn;
 	FS.update_path				(fn,"$logs$","mp_stats\\");
-	strcat_s					(fn, srv->HostName.c_str());
+	strcat_s					(fn, "");
 	strcat_s					(fn, "\\online_dump.ltx" );
 
 	string64					t_stamp;
@@ -2082,11 +2081,10 @@ void game_sv_mp::StartToDumpStatistics	()
 		StopToDumpStatistics();
 	}
 	
-	xrGameSpyServer* srv		= smart_cast<xrGameSpyServer*>(m_server);
 	FS.update_path				(round_statistics_dump_fn,"$logs$","mp_stats\\");
 	string64					t_stamp;
 	timestamp					(t_stamp);
-	strcat_s					(round_statistics_dump_fn, srv->HostName.c_str() );
+	strcat_s					(round_statistics_dump_fn, "");
 	strcat_s					(round_statistics_dump_fn, "\\games\\dmp" );
 	strcat_s					(round_statistics_dump_fn, t_stamp );
 	strcat_s					(round_statistics_dump_fn, ".ltx" );

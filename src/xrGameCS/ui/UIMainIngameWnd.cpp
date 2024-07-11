@@ -43,9 +43,6 @@
 #include "UIHudStatesWnd.h"
 #include "UIActorMenu.h"
 
-void test_draw	();
-void test_key	(int dik);
-
 #include "../Include/xrRender/Kinematics.h"
 #include <functional>
 
@@ -224,9 +221,6 @@ float UIStaticDiskIO_start_time = 0.0f;
 void CUIMainIngameWnd::Draw()
 {
 	CActor* m_pActor		= smart_cast<CActor*>(Level().CurrentViewEntity());
-#ifndef MASTER_GOLD
-	test_draw				();
-#endif
 	// show IO icon
 	bool IOActive	= (FS.dwOpenCounter>0);
 	if	(IOActive)	UIStaticDiskIO_start_time = Device.fTimeGlobal;
@@ -434,45 +428,6 @@ void CUIMainIngameWnd::Update()
 
 bool CUIMainIngameWnd::OnKeyboardPress(int dik)
 {
-#ifndef MASTER_GOLD
-	test_key(dik);
-#endif // #ifndef MASTER_GOLD
-/*
-	if(Level().IR_GetKeyState(DIK_LSHIFT) || Level().IR_GetKeyState(DIK_RSHIFT))
-	{
-//		switch(dik)
-//		{
-//		case DIK_NUMPADMINUS:
-//			UIZoneMap->ZoomOut();
-//			return true;
-//			break;
-//		case DIK_NUMPADPLUS:
-//			UIZoneMap->ZoomIn();
-//			return true;
-//			break;
-//		}
-	}
-	else
-	{
-		switch(dik)
-		{
-		case DIK_NUMPADMINUS:
-			if ( HUD().GetUI()->UIGame() && !HUD().GetUI()->UIGame()->ActorMenu().IsShown() )
-			{
-				HUD().GetUI()->ShowGameIndicators(false);
-			}
-			return true;
-			break;
-		case DIK_NUMPADPLUS:
-			if ( HUD().GetUI()->UIGame() && !HUD().GetUI()->UIGame()->ActorMenu().IsShown() )
-			{
-				HUD().GetUI()->ShowGameIndicators(true);
-			}
-			return true;
-			break;
-		}
-	}
-*/
 	return false;
 }
 
@@ -740,45 +695,8 @@ struct TS{
 	ref_sound test_sound;
 };
 TS* pTS = NULL;
-void test_key(int dik)
-{
-	hud_adjust_mode_keyb	(dik);
-	attach_adjust_mode_keyb	(dik);
-/*
-	if(dik==DIK_V)
-	{
-		if (!pTS)
-		{
-			pTS =  xr_new<TS>();
-			Msg("created");
-		}else
-		{
-			xr_delete(pTS);
-			Msg("destroyed");
-		}
-	}
-	if(dik==DIK_B && pTS)
-	{
-		pTS->test_sound.create("music\\combat\\theme1_intro", st_Effect, 0);
-		pTS->test_sound.play_at_pos(Actor(), Fvector().set(0,0,0), sm_2D);
-		pTS->test_sound.attach_tail("music\\combat\\theme1_combat_2");
-	}
-	if(dik==DIK_N && pTS)
-	{
-		pTS->test_sound.attach_tail("music\\combat\\theme1_combat_2");
-	}
-	if(dik==DIK_M && pTS)
-	{
-		pTS->test_sound.attach_tail("music\\combat\\theme1_final");
-	}
-*/
-}
 
-void test_draw()
-{
-	hud_draw_adjust_mode();
-	attach_draw_adjust_mode();
-}
+
 
 CUICustomMap* CUIMainIngameWnd::MiniMap() {
 	return UIZoneMap->MiniMap();

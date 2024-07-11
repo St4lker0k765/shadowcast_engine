@@ -97,6 +97,8 @@ public:
     bool get_dik_name(int dik, LPSTR dest, int dest_sz);
 
     void feedback(float s1, float s2, float time);
+			//!< @brief Преобразует сканкод в ascii-символы
+			int					scancodeToChar				(int scanCode, uint16_t ch[2]);
 };
 
 extern ENGINE_API CInput* pInput;

@@ -8,7 +8,6 @@
 #include "UIColorAnimatorWrapper.h"
 #include "../../xrEngine/xr_IOConsole.h"
 #include "../RegistryFuncs.h"
-#include "../../xrGameSpy/xrGameSpy_MainDefs.h"
 #include "player_name_modifyer.h"
 
 extern string64	gsCDKey;
@@ -167,7 +166,6 @@ void CUIMPPlayerName::OnFocusLost()
 
 void GetCDKey_FromRegistry(char* cdkey)
 {
-	ReadRegistry_StrValue(REGISTRY_VALUE_GSCDKEY, cdkey);
 	if ( xr_strlen(cdkey) > 64 )
 	{
 		cdkey[64] = 0;
@@ -180,25 +178,14 @@ void WriteCDKey_ToRegistry(LPSTR cdkey)
 	{
 		cdkey[64] = 0;
 	}
-	WriteRegistry_StrValue(REGISTRY_VALUE_GSCDKEY, cdkey);
 }
 
 void GetPlayerName_FromRegistry(char* name, u32 const name_size)
 {
 	string256	new_name;
-	if (!ReadRegistry_StrValue(REGISTRY_VALUE_USERNAME, name))
-	{
-		name[0] = 0;
-		Msg( "! Player name registry key (%s) not found !", REGISTRY_VALUE_USERNAME );
-		return;
-	}
 	if ( xr_strlen(name) > 17 )
 	{
 		name[17] = 0;
-	}
-	if ( xr_strlen(name) == 0 )
-	{
-		Msg( "! Player name in registry is empty! (%s)", REGISTRY_VALUE_USERNAME );
 	}
 	modify_player_name(name, new_name);
 	strncpy_s(name, name_size, new_name, 17);
@@ -210,5 +197,4 @@ void WritePlayerName_ToRegistry(LPSTR name)
 	{
 		name[17] = 0;
 	}
-	WriteRegistry_StrValue(REGISTRY_VALUE_USERNAME, name);
 }

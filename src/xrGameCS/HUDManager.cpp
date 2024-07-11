@@ -42,6 +42,8 @@ void CHUDManager::Load()
 }
 //--------------------------------------------------------------------
 // 
+extern CUIXml* pWpnScopeXml;
+
 void CHUDManager::OnScreenResolutionChanged()
 {
 	GetUI()->UIGame()->HideShownDialogs();

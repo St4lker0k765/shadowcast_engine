@@ -128,12 +128,3 @@ TEX_INFO CUITextureMaster::FindItem(const shared_str&  texture_name)
 		return TEX_INFO();
 	}
 }
-
-void CUITextureMaster::GetTextureShader(const shared_str&  texture_name, ui_shader& sh){
-	xr_map<shared_str, TEX_INFO>::iterator	it;
-	it = m_textures.find(texture_name);
-
-	R_ASSERT3(it != m_textures.end(), "can't find texture", texture_name.c_str());
-
-	sh->create("hud\\default", *((*it).second.file));	
-}

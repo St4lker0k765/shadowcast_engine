@@ -154,13 +154,3 @@ void CUITextureMaster::GetTextureShader(LPCSTR texture_name, ui_shader& sh){
 
 	sh->create("hud\\default", *((*it).second.file));	
 }
-
-const xr_vector<xr_string>& CUITextureMaster::GetTextureList()
-{
-	if (tex_list.empty()){
-		tex_list.reserve(m_textures.size());
-		std::transform(m_textures.begin(), m_textures.end(), std::back_inserter(tex_list), [](const auto& x) {return x.first.data(); });
-		std::sort(tex_list.begin(), tex_list.end());
-	}
-	return tex_list;
-}

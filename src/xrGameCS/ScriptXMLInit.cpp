@@ -16,7 +16,6 @@
 #include "ui\UIEditBox.h"
 #include "ui\UIAnimatedStatic.h"
 #include "ui\UITrackBar.h"
-#include "ui\UICDkey.h"
 #include "ui\UIMapInfo.h"
 #include "ui\UIMMShniaga.h"
 #include "ui\UIScrollView.h"
@@ -215,15 +214,6 @@ CUITabControl* CScriptXmlInit::InitTab(LPCSTR path, CUIWindow* parent){
 }
 
 
-CServerList* CScriptXmlInit::InitServerList(LPCSTR path, CUIWindow* parent){
-	CServerList* pWnd = xr_new<CServerList>();
-	pWnd->InitFromXml(m_xml, path);	
-	pWnd->SetAutoDelete(true);
-	_attach_child(pWnd, parent);
-//.	if(parent) parent->AttachChild(pWnd);
-	return pWnd;	
-}
-
 CUIMapList* CScriptXmlInit::InitMapList(LPCSTR path, CUIWindow* parent){
 	CUIMapList* pWnd = xr_new<CUIMapList>();
 	pWnd->InitFromXml(m_xml, path);	
@@ -275,23 +265,6 @@ CUIProgressBar* CScriptXmlInit::InitProgressBar(LPCSTR path, CUIWindow* parent)
 	return							pWnd;	
 }
 
-CUIEditBox* CScriptXmlInit::InitCDkey(LPCSTR path, CUIWindow* parent){
-	CUICDkey* pWnd					= xr_new<CUICDkey>();
-	CUIXmlInit::InitEditBox			(m_xml, path, 0, pWnd);
-	pWnd->SetAutoDelete				(true);
-	_attach_child					(pWnd, parent);
-	pWnd->SetCurrentValue			();
-	return							pWnd;	
-}
-
-CUIEditBox* CScriptXmlInit::InitMPPlayerName(LPCSTR path, CUIWindow* parent){
-	CUIMPPlayerName* pWnd			= xr_new<CUIMPPlayerName>();
-	CUIXmlInit::InitEditBox			(m_xml, path, 0, pWnd);
-	pWnd->SetAutoDelete				(true);
-	_attach_child					(pWnd, parent);
-	return							pWnd;	
-}
-
 #pragma optimize("s",on)
 void CScriptXmlInit::script_register(lua_State *L){
 	module(L)
@@ -316,12 +289,9 @@ void CScriptXmlInit::script_register(lua_State *L){
 //		.def("Init3tButtonEx",			&CScriptXmlInit::Init3tButtonEx)
 		.def("InitList",				&CScriptXmlInit::InitList)
 		.def("InitTab",					&CScriptXmlInit::InitTab)
-		.def("InitServerList",			&CScriptXmlInit::InitServerList)
 		.def("InitMapList",				&CScriptXmlInit::InitMapList)
 		.def("InitMapInfo",				&CScriptXmlInit::InitMapInfo)
 		.def("InitTrackBar",			&CScriptXmlInit::InitTrackBar)
-		.def("InitCDkey",				&CScriptXmlInit::InitCDkey)
-		.def("InitMPPlayerName",		&CScriptXmlInit::InitMPPlayerName)
 		.def("InitKeyBinding",			&CScriptXmlInit::InitKeyBinding)
 		.def("InitMMShniaga",			&CScriptXmlInit::InitMMShniaga)
 		.def("InitScrollView",			&CScriptXmlInit::InitScrollView)

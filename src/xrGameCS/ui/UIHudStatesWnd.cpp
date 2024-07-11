@@ -14,6 +14,7 @@
 #include "UIInventoryUtilities.h"
 #include "../HUDManager.h"
 #include "ZoneList.h"
+#include "../UIFontDefines.h"
 
 CUIHudStatesWnd::CUIHudStatesWnd()
 {
@@ -255,8 +256,8 @@ void CUIHudStatesWnd::UpdateActiveItemInfo( CActor* actor )
 		
 		// hack ^ begin
 
-		CGameFont* pFont32 = UI()->Font()->pFontGraffiti32Russian;
-		CGameFont* pFont22 = UI()->Font()->pFontGraffiti22Russian;
+		CGameFont* pFont32 = UI()->Font()->GetFont(GRAFFITI32_FONT_NAME);
+		CGameFont* pFont22 = UI()->Font()->GetFont(GRAFFITI22_FONT_NAME);
 		CGameFont* pFont   = pFont32;
 
 		if ( UI()->is_16_9_mode() )

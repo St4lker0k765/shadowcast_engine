@@ -190,7 +190,7 @@ void game_sv_Deathmatch::OnRoundStart()
 		}
 	};
 	DisconnectedPlayersClearer tmp_functor(this);
-	m_server->ForEachDisconnectedClientDo(tmp_functor);
+	m_server->ForEachClientDo(tmp_functor);
 	m_item_respawner.respawn_all_items();
 }
 

@@ -10,7 +10,7 @@
 #define MOVING_OBJECTS_H
 
 #include "obstacles_query.h"
-#include "../common/quadtree.h"
+#include "quadtree.h"
 
 class moving_object;
 class CObject;

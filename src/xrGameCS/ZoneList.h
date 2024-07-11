@@ -5,7 +5,7 @@
 class CZoneList : public CDetectList<CCustomZone>
 {
 protected:
-    virtual BOOL feel_touch_contact(CObject* O);
+    virtual bool feel_touch_contact(CObject* O);
 
 public:
     CZoneList();

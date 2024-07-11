@@ -74,17 +74,6 @@ void CUIListWnd::script_register(lua_State *L)
 #endif // BATTLEYE
 		.def_readwrite("listen_servers",	&SServerFilters::listen_servers),
 
-		class_<CServerList, CUIWindow>("CServerList")
-		.def(							constructor<>())
-		.def("ConnectToSelected",		&CServerList::ConnectToSelected)
-		.def("SetFilters",				&CServerList::SetFilters)
-		.def("SetPlayerName",			&CServerList::SetPlayerName)
-		.def("RefreshList",				&CServerList::RefreshGameSpyList)
-		.def("RefreshQuick",			&CServerList::RefreshQuick)
-		.def("ShowServerInfo",			&CServerList::ShowServerInfo)
-		.def("NetRadioChanged",			&CServerList::NetRadioChanged)
-		.def("SetSortFunc",				&CServerList::SetSortFunc),
-		
 
 		class_<CUIMapList, CUIWindow>("CUIMapList")
 		.def(							constructor<>())

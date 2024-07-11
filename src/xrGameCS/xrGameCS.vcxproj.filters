@@ -2494,9 +2494,6 @@
     <Filter Include="UI\Multiplayer\MM_MP\MapList">
       <UniqueIdentifier>{f5443435-9e2e-46c0-a633-ccc2169b8f7c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UI\Multiplayer\MM_MP\ServerList">
-      <UniqueIdentifier>{7f60234a-5d86-48b5-8d54-a3a0daffef36}</UniqueIdentifier>
-    </Filter>
     <Filter Include="UI\Multiplayer\MM_MP\TeamInfo">
       <UniqueIdentifier>{2c5ad07d-d4c3-4938-bce4-1fd99c5a7682}</UniqueIdentifier>
     </Filter>
@@ -6312,9 +6309,6 @@
     <ClInclude Include="game_cl_mp_snd_messages.h">
       <Filter>Core\Server\Games\client\mp</Filter>
     </ClInclude>
-    <ClInclude Include="screenshot_manager.h">
-      <Filter>Core\Server\Games\client\mp\screenshots</Filter>
-    </ClInclude>
     <ClInclude Include="screenshots_common.h">
       <Filter>Core\Server\Games\client\mp\screenshots</Filter>
     </ClInclude>
@@ -7257,15 +7251,6 @@
     <ClInclude Include="ui\UIMapList.h">
       <Filter>UI\Multiplayer\MM_MP\MapList</Filter>
     </ClInclude>
-    <ClInclude Include="ui\ServerList.h">
-      <Filter>UI\Multiplayer\MM_MP\ServerList</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UIListItemAdv.h">
-      <Filter>UI\Multiplayer\MM_MP\ServerList</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UIListItemServer.h">
-      <Filter>UI\Multiplayer\MM_MP\ServerList</Filter>
-    </ClInclude>
     <ClInclude Include="ui\TeamInfo.h">
       <Filter>UI\Multiplayer\MM_MP\TeamInfo</Filter>
     </ClInclude>
@@ -7401,6 +7386,7 @@
     <ClInclude Include="UIFontDefines.h">
       <Filter>UI</Filter>
     </ClInclude>
+    <ClInclude Include="ui\UILoadingScreen.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="damage_manager.cpp">
@@ -9827,9 +9813,6 @@
     <ClCompile Include="game_cl_mp_snd_messages.cpp">
       <Filter>Core\Server\Games\client\mp</Filter>
     </ClCompile>
-    <ClCompile Include="screenshot_manager.cpp">
-      <Filter>Core\Server\Games\client\mp\screenshots</Filter>
-    </ClCompile>
     <ClCompile Include="screenshots_common.cpp">
       <Filter>Core\Server\Games\client\mp\screenshots</Filter>
     </ClCompile>
@@ -10844,18 +10827,6 @@
     <ClCompile Include="ui\UIMapList.cpp">
       <Filter>UI\Multiplayer\MM_MP\MapList</Filter>
     </ClCompile>
-    <ClCompile Include="ui\ServerList.cpp">
-      <Filter>UI\Multiplayer\MM_MP\ServerList</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\ServerList_GameSpy_func.cpp">
-      <Filter>UI\Multiplayer\MM_MP\ServerList</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UIListItemAdv.cpp">
-      <Filter>UI\Multiplayer\MM_MP\ServerList</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UIListItemServer.cpp">
-      <Filter>UI\Multiplayer\MM_MP\ServerList</Filter>
-    </ClCompile>
     <ClCompile Include="ui\TeamInfo.cpp">
       <Filter>UI\Multiplayer\MM_MP\TeamInfo</Filter>
     </ClCompile>
@@ -11009,6 +10980,7 @@
     <ClCompile Include="GameObjectEvents.cpp">
       <Filter>Core\Client\Objects\base\GameObject</Filter>
     </ClCompile>
+    <ClCompile Include="ui\UILoadingScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="graph_abstract.h">

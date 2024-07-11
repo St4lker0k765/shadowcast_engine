@@ -175,14 +175,6 @@ void CUICustomEdit::Update()
 	{
 		m_last_key_state_time = Device.dwTimeGlobal;
 	}
-	else
-	{
-		if ( m_last_key_state_time + 7000 < Device.dwTimeGlobal ) // 7 sec
-		{
-			ec().reset_key_state();
-		}
-	}
-
 	inherited::Update();
 }
 
@@ -254,7 +246,6 @@ void  CUICustomEdit::Draw()
 
 void CUICustomEdit::Show( bool status )
 {
-	ec().reset_key_state();
 	m_force_update = true;
 	inherited::Show( status );
 }

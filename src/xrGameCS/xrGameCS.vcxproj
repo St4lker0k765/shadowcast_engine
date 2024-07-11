@@ -568,7 +568,7 @@
       <LargeAddressAware>true</LargeAddressAware>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <AdditionalDependencies>$(TargetDir)xrEngine.lib;shlwapi.lib;lua51.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>xrEngine.lib;shlwapi.lib;lua51.lib;ode.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -1633,7 +1633,6 @@
     <ClInclude Include="physic_item_inline.h" />
     <ClInclude Include="ph_shell_interface.h" />
     <ClInclude Include="player_hud.h" />
-    <ClInclude Include="player_name_modifyer.h" />
     <ClInclude Include="poses_blending.h" />
     <ClInclude Include="pose_extrapolation.h" />
     <ClInclude Include="PostprocessAnimator.h" />
@@ -1683,7 +1682,6 @@
     <ClInclude Include="Scope.h" />
     <ClInclude Include="screenshots_common.h" />
     <ClInclude Include="screenshots_writer.h" />
-    <ClInclude Include="screenshot_manager.h" />
     <ClInclude Include="screenshot_server.h" />
     <ClInclude Include="ScriptXMLInit.h" />
     <ClInclude Include="script_abstract_action.h" />
@@ -1969,7 +1967,6 @@
     <ClInclude Include="ui\map_hint.h" />
     <ClInclude Include="ui\MMSound.h" />
     <ClInclude Include="ui\Restrictions.h" />
-    <ClInclude Include="ui\ServerList.h" />
     <ClInclude Include="ui\TeamInfo.h" />
     <ClInclude Include="ui\UI3tButton.h" />
     <ClInclude Include="ui\uiabstract.h" />
@@ -1984,7 +1981,6 @@
     <ClInclude Include="ui\UIBuyWndShared.h" />
     <ClInclude Include="ui\UICarBodyWnd.h" />
     <ClInclude Include="ui\UICarPanel.h" />
-    <ClInclude Include="ui\UICDkey.h" />
     <ClInclude Include="ui\UICellCustomItems.h" />
     <ClInclude Include="ui\UICellItem.h" />
     <ClInclude Include="ui\UICellItemFactory.h" />
@@ -2036,11 +2032,10 @@
     <ClInclude Include="ui\UIListBox.h" />
     <ClInclude Include="ui\UIListBoxItem.h" />
     <ClInclude Include="ui\UIListItem.h" />
-    <ClInclude Include="ui\UIListItemAdv.h" />
     <ClInclude Include="ui\UIListItemEx.h" />
-    <ClInclude Include="ui\UIListItemServer.h" />
     <ClInclude Include="ui\UIListWnd.h" />
     <ClInclude Include="ui\UIListWnd_inline.h" />
+    <ClInclude Include="ui\UILoadingScreen.h" />
     <ClInclude Include="ui\UILogsWnd.h" />
     <ClInclude Include="ui\UIMainIngameWnd.h" />
     <ClInclude Include="ui\UIMap.h" />
@@ -2063,7 +2058,6 @@
     <ClInclude Include="ui\UIMultiTextStatic.h" />
     <ClInclude Include="ui\UINewsItemWnd.h" />
     <ClInclude Include="ui\UINewsWnd.h" />
-    <ClInclude Include="ui\UIOptConCom.h" />
     <ClInclude Include="ui\UIOptionsItem.h" />
     <ClInclude Include="ui\UIOptionsManager.h" />
     <ClInclude Include="ui\UIOptionsManagerScript.h" />
@@ -4298,7 +4292,6 @@
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
-    <ClCompile Include="console_commands_mp.cpp" />
     <ClCompile Include="console_registrator_script.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch_script.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug-LLVM|Win32'">pch_script.h</PrecompiledHeaderFile>
@@ -5984,7 +5977,6 @@
     <ClCompile Include="physic_item.cpp" />
     <ClCompile Include="player_hud.cpp" />
     <ClCompile Include="player_hud_tune.cpp" />
-    <ClCompile Include="player_name_modifyer.cpp" />
     <ClCompile Include="poses_blending.cpp" />
     <ClCompile Include="pose_extrapolation.cpp" />
     <ClCompile Include="PostprocessAnimator.cpp" />
@@ -6119,7 +6111,6 @@
     </ClCompile>
     <ClCompile Include="screenshots_common.cpp" />
     <ClCompile Include="screenshots_writer.cpp" />
-    <ClCompile Include="screenshot_manager.cpp" />
     <ClCompile Include="screenshot_server.cpp" />
     <ClCompile Include="ScriptXMLInit.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch_script.h</PrecompiledHeaderFile>
@@ -8027,8 +8018,6 @@
     <ClCompile Include="ui\map_hint.cpp" />
     <ClCompile Include="ui\MMSound.cpp" />
     <ClCompile Include="ui\Restrictions.cpp" />
-    <ClCompile Include="ui\ServerList.cpp" />
-    <ClCompile Include="ui\ServerList_GameSpy_func.cpp" />
     <ClCompile Include="ui\TeamInfo.cpp" />
     <ClCompile Include="ui\UI3tButton.cpp" />
     <ClCompile Include="ui\UIActorInfo.cpp" />
@@ -8116,7 +8105,6 @@
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
     <ClCompile Include="ui\UICarPanel.cpp" />
-    <ClCompile Include="ui\UICDkey.cpp" />
     <ClCompile Include="ui\UICellCustomItems.cpp" />
     <ClCompile Include="ui\UICellItem.cpp" />
     <ClCompile Include="ui\UICellItemFactory.cpp" />
@@ -8465,9 +8453,7 @@
     <ClCompile Include="ui\UIListBox.cpp" />
     <ClCompile Include="ui\UIListBoxItem.cpp" />
     <ClCompile Include="ui\UIListItem.cpp" />
-    <ClCompile Include="ui\UIListItemAdv.cpp" />
     <ClCompile Include="ui\UIListItemEx.cpp" />
-    <ClCompile Include="ui\UIListItemServer.cpp" />
     <ClCompile Include="ui\UIListWnd.cpp" />
     <ClCompile Include="ui\UIListWnd_script.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch_script.h</PrecompiledHeaderFile>
@@ -8487,6 +8473,7 @@
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
+    <ClCompile Include="ui\UILoadingScreen.cpp" />
     <ClCompile Include="ui\UILogsWnd.cpp" />
     <ClCompile Include="ui\UIMainIngameWnd.cpp" />
     <ClCompile Include="ui\UIMap.cpp" />
@@ -8549,7 +8536,6 @@
     <ClCompile Include="ui\UIMultiTextStatic.cpp" />
     <ClCompile Include="ui\UINewsItemWnd.cpp" />
     <ClCompile Include="ui\UINewsWnd.cpp" />
-    <ClCompile Include="ui\UIOptConCom.cpp" />
     <ClCompile Include="ui\UIOptionsItem.cpp" />
     <ClCompile Include="ui\UIOptionsManager.cpp" />
     <ClCompile Include="ui\UIOptionsManagerScript.cpp">

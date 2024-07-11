@@ -339,7 +339,7 @@ bool engine::type_to_string						(char* const buffer, unsigned int const size, l
 		case engine::lua_type_boolean	:
 		case engine::lua_type_number	:
 		case engine::lua_type_function	:
-		case engine::lua_type_thread	:
+		case engine::lua_type_coroutine	:
 			return			(false);
 		case engine::lua_type_light_user_data :
 		case engine::lua_type_user_data	: {
@@ -354,7 +354,7 @@ bool engine::type_to_string						(char* const buffer, unsigned int const size, l
 #endif // #ifdef DEBUG
 }
 
-void engine::fill_class_info	(cs::lua_debugger::backend& backend, char* const buffer, unsigned int const size, luabind::detail::object_rep *object, luabind::detail::class_rep *class_rep, lua_State* state)
+void engine::fill_class_info	(cs::lua_studio::backend& backend, char* const buffer, unsigned int const size, luabind::detail::object_rep *object, luabind::detail::class_rep *class_rep, lua_State* state)
 {
 	pstr					stream = buffer;
 
@@ -379,7 +379,7 @@ void engine::fill_class_info	(cs::lua_debugger::backend& backend, char* const bu
 		backend.type_to_string	(type,  sizeof(type), state, -1, use_in_description);
 
 		string4096				value;
-		cs::lua_debugger::icon_type	icon_type;
+		cs::lua_studio::icon_type	icon_type;
 		backend.value_to_string	(value, sizeof(value), state, -1, icon_type, false);
 
 		lua_pop_value			(state,1);
@@ -397,9 +397,9 @@ void engine::fill_class_info	(cs::lua_debugger::backend& backend, char* const bu
 	stream						+= sprintf_s(stream, size - (stream - buffer), "}%c",0);
 }
 
-void engine::value_convert_class	(cs::lua_debugger::backend& backend, char* buffer, unsigned int size, luabind::detail::class_rep	*class_rep, lua_State* state, int index, cs::lua_debugger::icon_type& icon_type, bool const full_description)
+void engine::value_convert_class	(cs::lua_studio::backend& backend, char* buffer, unsigned int size, luabind::detail::class_rep	*class_rep, lua_State* state, int index, cs::lua_studio::icon_type& icon_type, bool const full_description)
 {
-	icon_type				= cs::lua_debugger::icon_type_class;
+	icon_type				= cs::lua_studio::icon_type_class;
 	
 	if (!full_description) {
 		sz_cpy				(buffer, size, "{...}");
@@ -425,7 +425,7 @@ void engine::value_convert_class	(cs::lua_debugger::backend& backend, char* buff
 	fill_class_info			(backend, buffer, size, object, class_rep, state);
 }
 
-bool engine::value_convert_instance	(cs::lua_debugger::backend& backend, char* buffer, unsigned int size, luabind::detail::object_rep *object, lua_State* state)
+bool engine::value_convert_instance	(cs::lua_studio::backend& backend, char* buffer, unsigned int size, luabind::detail::object_rep *object, lua_State* state)
 {
 	typedef luabind::detail::lua_reference	lua_reference;
 	lua_reference const		&tbl = object->get_lua_table();
@@ -452,7 +452,7 @@ bool engine::value_convert_instance	(cs::lua_debugger::backend& backend, char* b
 		backend.type_to_string	(type,  sizeof(type), state, -1, use_in_description);
 
 		string4096				value;
-		cs::lua_debugger::icon_type	icon_type;
+		cs::lua_studio::icon_type	icon_type;
 		backend.value_to_string	(value, sizeof(value), state, -1, icon_type, false);
 
 		if (use_in_description)
@@ -473,7 +473,7 @@ bool engine::value_convert_instance	(cs::lua_debugger::backend& backend, char* b
 	return					(true);
 }
 
-bool engine::value_convert_instance				(cs::lua_debugger::backend& backend, char* buffer, unsigned int size, lua_State* state, int index, cs::lua_debugger::icon_type& icon_type, bool full_description)
+bool engine::value_convert_instance				(cs::lua_studio::backend& backend, char* buffer, unsigned int size, lua_State* state, int index, cs::lua_studio::icon_type& icon_type, bool full_description)
 {
 	luabind::detail::object_rep	*object = luabind::detail::is_class_object(state, index);
 	if (!object)
@@ -484,12 +484,12 @@ bool engine::value_convert_instance				(cs::lua_debugger::backend& backend, char
 	else
 		sz_cpy				(buffer, size, " ");
 
-	icon_type				= cs::lua_debugger::icon_type_class_instance;
+	icon_type				= cs::lua_studio::icon_type_class_instance;
 
 	return					(true);
 }
 
-bool engine::value_to_string					(cs::lua_debugger::backend& backend, char* const buffer, unsigned int const size, lua_State* const state, int const index, cs::lua_debugger::icon_type& icon_type, bool const full_description)
+bool engine::value_to_string					(cs::lua_studio::backend& backend, char* const buffer, unsigned int const size, lua_State* const state, int const index, cs::lua_studio::icon_type& icon_type, bool const full_description)
 {
 	switch (lua_type(state, index)) {
 		case engine::lua_type_string	:
@@ -498,13 +498,13 @@ bool engine::value_to_string					(cs::lua_debugger::backend& backend, char* cons
 		case engine::lua_type_boolean	:
 		case engine::lua_type_number	:
 		case engine::lua_type_function	:
-		case engine::lua_type_thread	:
+		case engine::lua_type_coroutine	:
 			return			(false);
 		case engine::lua_type_light_user_data :
 		case engine::lua_type_user_data	: {
 			if (!luabind::detail::is_class_object( state, index )) {
 				if (!is_luabind_class(state, index)) {
-					icon_type		= cs::lua_debugger::icon_type_unknown;
+					icon_type		= cs::lua_studio::icon_type_unknown;
 					pcvoid			user_data = lua_topointer(state, index);
 					sprintf_s		(buffer, size, "0x%08x", *(u32 const*)&user_data);
 					return			(true);
@@ -519,7 +519,7 @@ bool engine::value_to_string					(cs::lua_debugger::backend& backend, char* cons
 			if (value_convert_instance(backend, buffer, size, state, index, icon_type, full_description))
 				return				(true);
 
-			icon_type				= cs::lua_debugger::icon_type_unknown;
+			icon_type				= cs::lua_studio::icon_type_unknown;
 			pcvoid					user_data = lua_topointer(state, index);
 			sprintf_s				(buffer, size, "0x%08x", *(u32 const*)&user_data);
 			return					(true);
@@ -588,20 +588,20 @@ void engine::push_class_instance				(lua_State* const state, char const* const i
 	lua_remove					(state, -2);
 }
 
-void engine::push_user_data						(lua_State* const state, char const* const id, cs::lua_debugger::icon_type const icon_type)
+void engine::push_user_data						(lua_State* const state, char const* const id, cs::lua_studio::icon_type const icon_type)
 {
 	switch (icon_type) {
-		case cs::lua_debugger::icon_type_class : {
+		case cs::lua_studio::icon_type_class : {
 			push_class			(state, id);
 			break;
 		}
-		case cs::lua_debugger::icon_type_class_base : {
+		case cs::lua_studio::icon_type_class_base : {
 			push_class_base		(state, id);
 			break;
 		}
-		case cs::lua_debugger::icon_type_unknown :
-		case cs::lua_debugger::icon_type_table :
-		case cs::lua_debugger::icon_type_class_instance : {
+		case cs::lua_studio::icon_type_unknown :
+		case cs::lua_studio::icon_type_table :
+		case cs::lua_studio::icon_type_class_instance : {
 			push_class_instance	(state, id);
 			break;
 		}
@@ -609,7 +609,7 @@ void engine::push_user_data						(lua_State* const state, char const* const id, 
 	}
 }
 
-bool engine::push_value							(lua_State* const state, char const* const id, cs::lua_debugger::icon_type const icon_type)
+bool engine::push_value							(lua_State* const state, char const* const id, cs::lua_studio::icon_type const icon_type)
 {
 	switch ( lua_type( state, -1 ) ) {
 		case engine::lua_type_table :
@@ -627,8 +627,8 @@ bool engine::push_value							(lua_State* const state, char const* const id, cs:
 }
 
 void engine::fill_class_data					(
-		cs::lua_debugger::backend& backend,
-		cs::lua_debugger::value_to_expand& value_to_expand,
+		cs::lua_studio::backend& backend,
+		cs::lua_studio::value_to_expand& value_to_expand,
 		lua_State* const state
 	)
 {
@@ -646,7 +646,7 @@ void engine::fill_class_data					(
 				(*i).base->name(),
 				class_name(type, sizeof(type), *(*i).base),
 				"{...}",
-				cs::lua_debugger::icon_type_class_base
+				cs::lua_studio::icon_type_class_base
 			);
 	}
 
@@ -668,7 +668,7 @@ void engine::fill_class_data					(
 		string4096				type;
 		backend.type_to_string	(type, sizeof(type), state, -1, use_in_description);
 		
-		cs::lua_debugger::icon_type	icon_type;
+		cs::lua_studio::icon_type	icon_type;
 		string4096				value;
 		backend.value_to_string	(value, sizeof(value), state, -1, icon_type, true);
 
@@ -686,8 +686,8 @@ void engine::fill_class_data					(
 }
 
 void engine::expand_class						(
-		cs::lua_debugger::backend& backend,
-		cs::lua_debugger::value_to_expand& value,
+		cs::lua_studio::backend& backend,
+		cs::lua_studio::value_to_expand& value,
 		lua_State* const state
 	)
 {
@@ -709,8 +709,8 @@ void engine::expand_class						(
 }
 
 void engine::expand_class_instance				(
-		cs::lua_debugger::backend& backend,
-		cs::lua_debugger::value_to_expand& value_to_expand,
+		cs::lua_studio::backend& backend,
+		cs::lua_studio::value_to_expand& value_to_expand,
 		lua_State* const state
 	)
 {
@@ -724,14 +724,14 @@ void engine::expand_class_instance				(
 		string4096					type;
 		class_name					(type, sizeof(type), *class_rep);
 
-		cs::lua_debugger::icon_type	icon_type;
+		cs::lua_studio::icon_type	icon_type;
 		string4096					value;
 		backend.value_to_string		(value, sizeof(value), state, -1, icon_type, true);
 		value_to_expand.add_value	(
 			class_rep->name(),
 			type,
 			value,
-			cs::lua_debugger::icon_type_class
+			cs::lua_studio::icon_type_class
 		);
 	}
 
@@ -744,7 +744,7 @@ void engine::expand_class_instance				(
 	int							i;
 	lua_pushnil					(state);
 	for (i=0; lua_next(state,-2); ++i) {
-		cs::lua_debugger::icon_type	icon_type;
+		cs::lua_studio::icon_type	icon_type;
 		bool					use_in_description;
 		pcstr					name = lua_to_string(state,-2);
 
@@ -767,8 +767,8 @@ void engine::expand_class_instance				(
 }
 
 void engine::expand_user_data					(
-		cs::lua_debugger::backend& backend,
-		cs::lua_debugger::value_to_expand& value,
+		cs::lua_studio::backend& backend,
+		cs::lua_studio::value_to_expand& value,
 		lua_State* const state
 	)
 {
@@ -784,8 +784,8 @@ void engine::expand_user_data					(
 }
 
 bool engine::expand_value						(
-		cs::lua_debugger::backend& backend,
-		cs::lua_debugger::value_to_expand& value,
+		cs::lua_studio::backend& backend,
+		cs::lua_studio::value_to_expand& value,
 		lua_State* const state
 	)
 {

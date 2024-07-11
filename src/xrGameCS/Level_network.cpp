@@ -393,7 +393,7 @@ void			CLevel::OnBuildVersionChallenge		()
 #ifdef DEBUG
 	u64 auth = MP_DEBUG_AUTH;
 #else
-	u64 auth = FS.auth_get();
+	u64 auth = 0;
 #endif //#ifdef DEBUG
 	P.w_u64					(auth);
 	SecureSend				(P, net_flags(TRUE, TRUE, TRUE, TRUE));

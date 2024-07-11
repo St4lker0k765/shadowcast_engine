@@ -4,8 +4,6 @@ class CUIWindow;
 class CUIDialogWnd;
 class CUICursor;
 class CUIMessageBoxEx;
-class CGameSpy_HTTP;
-class CGameSpy_Full;
 #include "../xrEngine/IInputReceiver.h"
 #include "../xrEngine/IGame_Persistent.h"
 #include "UIDialogHolder.h"
@@ -54,8 +52,6 @@ class CMainMenu :
 
 	xr_vector<CUIWindow*>		m_pp_draw_wnds;
 
-	CGameSpy_Full*				m_pGameSpyFull;	
-
 public:
 	enum	EErrorDlg 
 	{
@@ -84,7 +80,6 @@ public:
 	Patch_Dawnload_Progress		m_sPDProgress;
 	Patch_Dawnload_Progress*	GetPatchProgress	() {return &m_sPDProgress;}
 	void						CancelDownload		();
-	CGameSpy_Full*				GetGS() const {return m_pGameSpyFull;};
 protected:
 	EErrorDlg		m_NeedErrDialog;	
 	u32				m_start_time;

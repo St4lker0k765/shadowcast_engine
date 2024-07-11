@@ -106,7 +106,7 @@ public:
 	virtual			void	SetRagDoll				()											;
 	virtual			void	SetIgnoreRagDoll		()											;
 
-	virtual			void	CreateShellAnimator		( CInifile* ini, LPCSTR section )											;
+	virtual			void	CreateShellAnimator		(const CInifile* ini, LPCSTR section )											;
 	virtual			void	SetIgnoreAnimated		()											;
 
 	virtual			void	SetSmall				()											;
