@@ -16,7 +16,6 @@
 #include "ui\UIEditBox.h"
 #include "ui\UIAnimatedStatic.h"
 #include "ui\UITrackBar.h"
-#include "ui\UIMapInfo.h"
 #include "ui\UIMMShniaga.h"
 #include "ui\UIScrollView.h"
 #include "ui\UIProgressBar.h"
@@ -214,15 +213,6 @@ CUITabControl* CScriptXmlInit::InitTab(LPCSTR path, CUIWindow* parent){
 }
 
 
-CUIMapList* CScriptXmlInit::InitMapList(LPCSTR path, CUIWindow* parent){
-	CUIMapList* pWnd = xr_new<CUIMapList>();
-	pWnd->InitFromXml(m_xml, path);	
-	pWnd->SetAutoDelete(true);
-	_attach_child(pWnd, parent);
-//.	if(parent) parent->AttachChild(pWnd);
-	return pWnd;	
-}
-
 CUIMMShniaga* CScriptXmlInit::InitMMShniaga(LPCSTR path, CUIWindow* parent){
 	CUIMMShniaga* pWnd	= xr_new<CUIMMShniaga>();
 	pWnd->InitShniaga	(m_xml, path);
@@ -231,14 +221,6 @@ CUIMMShniaga* CScriptXmlInit::InitMMShniaga(LPCSTR path, CUIWindow* parent){
 	return pWnd;
 }
 
-CUIMapInfo* CScriptXmlInit::InitMapInfo(LPCSTR path, CUIWindow* parent){
-	CUIMapInfo* pWnd	= xr_new<CUIMapInfo>();
-	CUIXmlInit::InitWindow(m_xml,path,0,pWnd);
-	pWnd->InitMapInfo(pWnd->GetWndPos(),pWnd->GetWndSize());
-	pWnd->SetAutoDelete	(true);
-	_attach_child		(pWnd, parent);
-	return pWnd;	
-}
 
 CUIWindow* CScriptXmlInit::InitKeyBinding(LPCSTR path, CUIWindow* parent){
 	CUIKeyBinding* pWnd				= xr_new<CUIKeyBinding>();
@@ -289,8 +271,6 @@ void CScriptXmlInit::script_register(lua_State *L){
 //		.def("Init3tButtonEx",			&CScriptXmlInit::Init3tButtonEx)
 		.def("InitList",				&CScriptXmlInit::InitList)
 		.def("InitTab",					&CScriptXmlInit::InitTab)
-		.def("InitMapList",				&CScriptXmlInit::InitMapList)
-		.def("InitMapInfo",				&CScriptXmlInit::InitMapInfo)
 		.def("InitTrackBar",			&CScriptXmlInit::InitTrackBar)
 		.def("InitKeyBinding",			&CScriptXmlInit::InitKeyBinding)
 		.def("InitMMShniaga",			&CScriptXmlInit::InitMMShniaga)

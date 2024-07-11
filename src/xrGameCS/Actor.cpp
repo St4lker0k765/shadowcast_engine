@@ -24,7 +24,6 @@
 #include "UIGameCustom.h"
 #include "matrix_utils.h"
 #include "clsid_game.h"
-#include "game_cl_base_weapon_usage_statistic.h"
 #include "Grenade.h"
 #include "Torch.h"
 #include "../xrEngine/xr_input.h"
@@ -577,12 +576,6 @@ void	CActor::Hit							(SHit* pHDS)
 		HDS.power					= hit_power;
 		HDS.add_wound				= true;
 		inherited::Hit				(&HDS);
-
-		if(OnServer() && !g_Alive() && HDS.hit_type==ALife::eHitTypeExplosion)
-		{
-			game_PlayerState* ps							= Game().GetPlayerByGameID(ID());
-			Game().m_WeaponUsageStatistic->OnExplosionKill	(ps, HDS);
-		}
 	}
 }
 

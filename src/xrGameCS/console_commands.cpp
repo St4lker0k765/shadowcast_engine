@@ -93,7 +93,6 @@ extern float	g_smart_cover_animation_speed_factor;
 
 ENGINE_API extern float	g_console_sensitive;
 
-void register_mp_console_commands();
 //-----------------------------------------------------------
 
 		BOOL	g_bCheckTime			= FALSE;
@@ -1909,5 +1908,4 @@ extern BOOL dbg_moving_bones_snd_player;
 	
 	*g_last_saved_game	= 0;
 
-	register_mp_console_commands					();
 }

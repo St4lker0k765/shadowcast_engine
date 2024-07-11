@@ -55,18 +55,6 @@ u32 CUIGameLog::GetTextColor(){
 	return txt_color;
 }
 
-CUIPdaKillMessage* CUIGameLog::AddLogMessage(KillMessageStruct& msg){
-	CUIPdaKillMessage* pItem = pItem = xr_new<CUIPdaKillMessage>();	
-	pItem->SetFont(GetFont());
-	pItem->SetWidth(GetDesiredChildWidth());
-	pItem->SetHeight(kill_msg_height);
-	pItem->Init(msg);
-	pItem->SetClrAnimDelay(5000.0f);
-	pItem->SetClrLightAnim(CHAT_LOG_ITEMS_ANIMATION, false, true, true, true);
-	AddWindow(pItem, true);
-	return pItem;
-}
-
 void CUIGameLog::AddChatMessage(LPCSTR msg, LPCSTR author){
 	LPSTR fullLine;
 	STRCONCAT(fullLine, author, " ", msg);

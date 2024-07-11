@@ -161,8 +161,6 @@ public:
 			bool	IsCDKeyIsValid					();
 			bool	ValidateCDKey					();
 
-	LPCSTR			GetPlayerNameFromRegistry		();
-	LPCSTR			GetCDKeyFromRegistry			();
 
 };
 

@@ -161,7 +161,6 @@ private:
 	void						BlockCheatLoad					()				;
 
 	BOOL						Connect2Server					(LPCSTR options);
-	void						SendClientDigestToServer		();
 	shared_str					m_client_digest;	//for screenshots
 public:
 	shared_str const			get_cdkey_digest() const { return m_client_digest; };

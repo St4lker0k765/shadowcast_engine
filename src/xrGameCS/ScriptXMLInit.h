@@ -23,9 +23,7 @@ class CUIEditBox;
 class CUITextBanner;
 class CUIMultiTextStatic;
 class CUIAnimatedStatic;
-class CUIMapList;
 class CUITrackBar;
-class CUIMapInfo;
 class CUIMMShniaga;
 class CUIScrollView;
 class CUIProgressBar;
@@ -59,8 +57,6 @@ public:
 	CUI3tButtonEx*		Init3tButtonEx(LPCSTR path, CUIWindow* parent);
 
 	CUITabControl*		InitTab(LPCSTR path, CUIWindow* parent);
-	CUIMapList*			InitMapList(LPCSTR path, CUIWindow* parent);
-	CUIMapInfo*			InitMapInfo(LPCSTR path, CUIWindow* parent);
 	CUITrackBar*		InitTrackBar(LPCSTR path, CUIWindow* parent);
 	CUIMMShniaga*		InitMMShniaga(LPCSTR path, CUIWindow* parent);
 	CUIWindow*			InitKeyBinding(LPCSTR path, CUIWindow* parent);

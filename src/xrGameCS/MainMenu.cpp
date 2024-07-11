@@ -71,9 +71,6 @@ CMainMenu::CMainMenu	()
 	m_NeedErrDialog					= ErrNoError;
 	m_start_time					= 0;
 
-	GetPlayerNameFromRegistry		();
-	GetCDKeyFromRegistry			();
-
 	if(!g_dedicated_server)
 	{
 		g_btnHint						= xr_new<CUIButtonHint>();
@@ -678,11 +675,7 @@ LPCSTR CMainMenu::DelHyphens( LPCSTR c )
 	
 	return buf;
 }
-
-extern	void	GetCDKey_FromRegistry(char* CDKeyStr);
-extern	void	GetPlayerName_FromRegistry	(char* name, u32 const name_size);
 //extern	int VerifyClientCheck(const char *key, unsigned short cskey);
-
 bool CMainMenu::IsCDKeyIsValid()
 {
 	return true;
@@ -719,21 +712,6 @@ LPCSTR CMainMenu::GetGSVer()
 	return "1.7.00";
 }
 
-LPCSTR CMainMenu::GetPlayerNameFromRegistry()
-{
-	string512 name;
-	GetPlayerName_FromRegistry( name, sizeof(name) );
-	m_player_name._set( name );
-	return m_player_name.c_str();
-}
-
-LPCSTR CMainMenu::GetCDKeyFromRegistry()
-{
-	string512 key;
-	GetCDKey_FromRegistry( key );
-	m_cdkey._set( key );
-	return m_cdkey.c_str();
-}
 
 void CMainMenu::Show_DownloadMPMap(LPCSTR text, LPCSTR url)
 {

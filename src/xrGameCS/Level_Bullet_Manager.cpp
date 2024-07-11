@@ -9,7 +9,6 @@
 #include "Actor.h"
 #include "gamepersistent.h"
 #include "mt_config.h"
-#include "game_cl_base_weapon_usage_statistic.h"
 
 #include "../Include/xrRender/UIRender.h"
 #include "../Include/xrRender/Kinematics.h"
@@ -203,8 +202,6 @@ void CBulletManager::AddBullet(const Fvector& position,
 	bullet.Init					(position, direction, starting_speed, power, power_critical, impulse, sender_id, sendersweapon_id, e_hit_type, maximum_distance, cartridge, SendHit);
 //	bullet.frame_num			= Device.dwFrame;
 	bullet.flags.aim_bullet		= AimBullet;
-	if (SendHit && !IsGameTypeSingle())
-		Game().m_WeaponUsageStatistic->OnBullet_Fire(&bullet, cartridge);
 
 //.	m_Lock.Leave				();
 }
@@ -1014,8 +1011,6 @@ void CBulletManager::CommitEvents			()	// @ the start of frame
 			}break;
 		case EVENT_REMOVE:
 			{
-				if (E.bullet.flags.allow_sendhit && GameID() != eGameIDSingle)
-					Game().m_WeaponUsageStatistic->OnBullet_Remove(&E.bullet);
 				m_Bullets[E.tgt_material] = m_Bullets.back();
 				m_Bullets.pop_back();
 			}break;

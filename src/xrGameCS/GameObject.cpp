@@ -24,7 +24,6 @@
 #include "level.h"
 #include "script_callback_ex.h"
 #include "MathUtils.h"
-#include "game_cl_base_weapon_usage_statistic.h"
 #include "game_level_cross_table.h"
 #include "ai_obstacle.h"
 #include "magic_box3.h"
@@ -198,8 +197,6 @@ void CGameObject::OnEvent		(NET_Packet& P, u16 type)
 			{
 			case GE_HIT_STATISTIC:
 				{
-					if (GameID() != eGameIDSingle)
-						Game().m_WeaponUsageStatistic->OnBullet_Check_Request(&HDS);
 				}break;
 			default:
 				{
@@ -207,10 +204,6 @@ void CGameObject::OnEvent		(NET_Packet& P, u16 type)
 			}
 			SetHitInfo(Hitter, Weapon, HDS.bone(), HDS.p_in_bone_space, HDS.dir);
 			Hit				(&HDS);
-			//---------------------------------------------------------------------------
-			if (GameID() != eGameIDSingle)
-				Game().m_WeaponUsageStatistic->OnBullet_Check_Result(false);
-			//---------------------------------------------------------------------------
 		}
 		break;
 	case GE_DESTROY:

@@ -13,28 +13,21 @@
 #include "UIGameLog.h"
 #include "xrUIXmlParser.h"
 #include "UIXmlInit.h"
-#include "UIChatWnd.h"
 #include "UIPdaMsgListItem.h"
 #include "UIColorAnimatorWrapper.h"
 #include "../InfoPortion.h"
 #include "../string_table.h"
-#include "../game_cl_artefacthunt.h"
 #include "../game_news.h"
 #include "UIInventoryUtilities.h"
 
 CUIMessagesWindow::CUIMessagesWindow(){
 	m_pChatLog = NULL;
-	m_pChatWnd = NULL;
 	m_pGameLog = NULL;
 	Init(0, 0, UI_BASE_WIDTH, UI_BASE_HEIGHT);
 }
 
 CUIMessagesWindow::~CUIMessagesWindow(){
 	
-}
-
-void CUIMessagesWindow::AddLogMessage(KillMessageStruct& msg){
-	m_pGameLog->AddLogMessage(msg);
 }
 
 void CUIMessagesWindow::AddLogMessage(const shared_str& msg){
@@ -48,7 +41,6 @@ void CUIMessagesWindow::PendingMode(bool const is_pending_mode)
 		if (m_in_pending_mode)
 			return;
 		
-		m_pChatWnd->PendingMode	(is_pending_mode);
 		m_pChatLog->SetWndPos	(m_pending_chat_log_pos);
 		m_pChatLog->SetWndSize	(m_pending_chat_log_wnd_size);
 		m_in_pending_mode		= true;
@@ -57,7 +49,6 @@ void CUIMessagesWindow::PendingMode(bool const is_pending_mode)
 	if (!m_in_pending_mode)
 		return;
 	
-	m_pChatWnd->PendingMode	(is_pending_mode);
 	m_pChatLog->SetWndPos	(m_inprogress_chat_log_pos);
 	m_pChatLog->SetWndSize	(m_inprogress_chat_log_wnd_size);
 	m_in_pending_mode		= false;
@@ -91,8 +82,6 @@ void CUIMessagesWindow::Init(float x, float y, float width, float height){
 		m_pChatLog			= xr_new<CUIGameLog>(); m_pChatLog->SetAutoDelete(true);
 		m_pChatLog->Show	(true);
 		AttachChild			(m_pChatLog);
-		m_pChatWnd			= xr_new<CUIChatWnd>(m_pChatLog); m_pChatWnd->SetAutoDelete(true);
-		AttachChild			(m_pChatWnd);
 
 		CUIXmlInit::InitScrollView(xml, "mp_log_list", 0, m_pGameLog);
 		CUIXmlInit::InitFont(xml, "mp_log_list:font", 0, color, pFont);
@@ -121,7 +110,6 @@ void CUIMessagesWindow::Init(float x, float y, float width, float height){
 		CUIXmlInit::InitFont(xml, "chat_log_list:font", 0, color, pFont);
 		m_pChatLog->SetTextAtrib(pFont, color);
 		
-		m_pChatWnd->Init	(xml);
 	}	
 
 }
@@ -157,8 +145,6 @@ void CUIMessagesWindow::AddChatMessage(shared_str msg, shared_str author)
 
 void CUIMessagesWindow::SetChatOwner(game_cl_GameState* owner)
 {
-	if (m_pChatWnd)
-		m_pChatWnd->SetOwner(owner);
 }
 
 void CUIMessagesWindow::Update()

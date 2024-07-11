@@ -8,8 +8,6 @@
 #include "xrServer_Objects_ALife_All.h"
 #include "level.h"
 #include "game_cl_base.h"
-#include "game_sv_mp.h"
-#include "game_cl_base_weapon_usage_statistic.h"
 #include "ai_space.h"
 #include "../xrEngine/IGame_Persistent.h"
 #include "string_table.h"
@@ -17,7 +15,6 @@
 //#include "script_engine.h"
 #include "ui/UIInventoryUtilities.h"
 #include "file_transfer.h"
-#include "screenshot_server.h"
 #pragma warning(push)
 #pragma warning(disable:4995)
 #include <malloc.h>
@@ -645,24 +642,7 @@ u32 xrServer::OnMessage	(NET_Packet& P, ClientID sender)			// Non-Zero means bro
 			SendBroadcast			(BroadcastCID,P,net_flags(TRUE,TRUE));
 		}break;
 	case M_STATISTIC_UPDATE_RESPOND:
-		{
-			//client method for collecting statistics are called from two places : 1 - this, 2 - game_sv_mp::WritePlayerStats
-			if (GameID() != eGameIDSingle)
-			{
-				game_sv_mp* my_game = static_cast<game_sv_mp*>(game);
-				if (CL)
-				{
-					my_game->m_async_stats.set_responded(CL->ID);
-					if (static_cast<IClient*>(CL) != GetServerClient())
-					{
-						Game().m_WeaponUsageStatistic->OnUpdateRespond(&P, CL->m_cdkey_digest);
-					}
-				} else
-				{
-					Msg("! ERROR: SV: update respond received from unknown sender");
-				}
-			}			
-			//if (SV_Client) SendTo	(SV_Client->ID, P, net_flags(TRUE, TRUE));
+		{		
 		}break;
 	case M_PLAYER_FIRE:
 		{
@@ -1068,11 +1048,6 @@ void xrServer::PerformCheckClientsForMaxPing()
 	ForEachClientDoSender(temp_functor);
 }
 
-extern	s32		g_sv_dm_dwFragLimit;
-extern  s32		g_sv_ah_dwArtefactsNum;
-extern	s32		g_sv_dm_dwTimeLimit;
-extern	int		g_sv_ah_iReinforcementTime;
-extern	int		g_sv_mp_iDumpStatsPeriod;
 extern	BOOL	g_bCollectStatisticData;
 
 //xr_token game_types[];
@@ -1089,50 +1064,12 @@ void xrServer::GetServerInfo( CServerInfo* si )
 
 //	strcpy_s( tmp256, get_token_name(game_types, game->Type() ) );
 	strcpy_s( tmp256, GameTypeToString( game->Type(), true ) );
-	if ( game->Type() == eGameIDDeathmatch || game->Type() == eGameIDTeamDeathmatch )
-	{
-		strcat_s( tmp256, " [" );
-		strcat_s( tmp256, itoa( g_sv_dm_dwFragLimit, tmp, 10 ) );
-		strcat_s( tmp256, "] " );
-	}
-	else if ( game->Type() == eGameIDArtefactHunt || game->Type() == eGameIDCaptureTheArtefact )
-	{
-		strcat_s( tmp256, " [" );
-		strcat_s( tmp256, itoa( g_sv_ah_dwArtefactsNum, tmp, 10 ) );
-		strcat_s( tmp256, "] " );
-		g_sv_ah_iReinforcementTime;
-	}
-	
-	//if ( g_sv_dm_dwTimeLimit > 0 )
-	{
-		strcat_s( tmp256, " time limit [" );
-		strcat_s( tmp256, itoa( g_sv_dm_dwTimeLimit, tmp, 10 ) );
-		strcat_s( tmp256, "] " );
-	}
-	if ( game->Type() == eGameIDArtefactHunt || game->Type() == eGameIDCaptureTheArtefact )
-	{
-		strcat_s( tmp256, " RT [" );
-		strcat_s( tmp256, itoa( g_sv_ah_iReinforcementTime, tmp, 10 ) );
-		strcat_s( tmp256, "]" );
-	}
 	si->AddItem( "Game type", tmp256, RGB(128,255,255) );
 
 	if ( g_pGameLevel )
 	{
 		time = InventoryUtilities::GetGameTimeAsString( InventoryUtilities::etpTimeToMinutes ).c_str();
-		
-		strcpy_s( tmp256, time );
-		if ( g_sv_mp_iDumpStatsPeriod > 0 )
-		{
-			strcat_s( tmp256, " statistic [" );
-			strcat_s( tmp256, itoa( g_sv_mp_iDumpStatsPeriod, tmp, 10 ) );
-			strcat_s( tmp256, "]" );
-			if ( g_bCollectStatisticData )
-			{
-				strcat_s( tmp256, "[weapons]" );
-			}
-			
-		}
+
 		si->AddItem( "Game time", tmp256, RGB(205,228,178) );
 	}
 }
@@ -1170,52 +1107,20 @@ void xrServer::KickCheaters			()
 
 void xrServer::MakeScreenshot(ClientID const & admin_id, ClientID const & cheater_id)
 {
-	if ((cheater_id == SV_Client->ID) && g_dedicated_server)
-	{
-		return;
-	}
-	for (int i = 0; i < sizeof(m_screenshot_proxies)/sizeof(clientdata_proxy*); ++i)
-	{
-		if (!m_screenshot_proxies[i]->is_active())
-		{
-			m_screenshot_proxies[i]->make_screenshot(admin_id, cheater_id);
-			Msg("* admin [%d] is making screeshot of client [%d]", admin_id, cheater_id);
-			return;
-		}
-	}
-	Msg("! ERROR: SV: not enough file transfer proxies for downloading screenshot, please try later ...");
+
 }
 
 void xrServer::MakeConfigDump(ClientID const & admin_id, ClientID const & cheater_id)
 {
-	if ((cheater_id == SV_Client->ID) && g_dedicated_server)
-	{
-		return;
-	}
-	for (int i = 0; i < sizeof(m_screenshot_proxies)/sizeof(clientdata_proxy*); ++i)
-	{
-		if (!m_screenshot_proxies[i]->is_active())
-		{
-			m_screenshot_proxies[i]->make_config_dump(admin_id, cheater_id);
-			Msg("* admin [%d] is making config dump of client [%d]", admin_id, cheater_id);
-			return;
-		}
-	}
-	Msg("! ERROR: SV: not enough file transfer proxies for downloading file, please try later ...");
+
 }
 
 
 void xrServer::initialize_screenshot_proxies()
 {
-	for (int i = 0; i < sizeof(m_screenshot_proxies)/sizeof(clientdata_proxy*); ++i)
-	{
-		m_screenshot_proxies[i] = xr_new<clientdata_proxy>(m_file_transfers);
-	}
+
 }
 void xrServer::deinitialize_screenshot_proxies()
 {
-	for (int i = 0; i < sizeof(m_screenshot_proxies)/sizeof(clientdata_proxy*); ++i)
-	{
-		xr_delete(m_screenshot_proxies[i]);
-	}
+
 }

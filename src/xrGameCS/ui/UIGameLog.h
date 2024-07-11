@@ -19,7 +19,6 @@
 #include "KillMessageStruct.h"
 
 class CUIXml;
-class CUIPdaKillMessage;
 class CUIPdaMsgListItem;
 class CUIStatic;
 
@@ -31,7 +30,6 @@ public:
 	CUIGameLog();
 	virtual ~CUIGameLog();
 	CUIStatic*				AddLogMessage	(LPCSTR msg);
-	CUIPdaKillMessage*		AddLogMessage	(KillMessageStruct& msg);
 	CUIPdaMsgListItem*		AddPdaMessage	();
 	void					AddChatMessage	(LPCSTR msg, LPCSTR author);
 	virtual void			Update			();

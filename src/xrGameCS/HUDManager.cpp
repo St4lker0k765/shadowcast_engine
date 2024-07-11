@@ -7,7 +7,6 @@
 #include "GamePersistent.h"
 #include "MainMenu.h"
 #include "grenade.h"
-#include "spectator.h"
 #include "Car.h"
 #include "UIGameCustom.h"
 #include "UIFontDefines.h"
@@ -107,7 +106,7 @@ void CHUDManager::Render_Last()
 	if (0==O)						return;
 	CActor*		A					= smart_cast<CActor*> (O);
 	if (A && !A->HUDview())			return;
-	if( smart_cast<CCar*>(O) || smart_cast<CSpectator*>(O) )
+	if( smart_cast<CCar*>(O))
 	{
 		return;
 	}

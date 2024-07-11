@@ -11,7 +11,6 @@
 #include "MainMenu.h"
 #include "string_table.h"
 
-extern	void	GetPlayerName_FromRegistry	(char* name, u32 const name_size);
 
 #define DEMO_PLAY_OPT "mpdemoplay:"
 #define DEMO_SAVE_KEY "-mpdemosave"
@@ -33,15 +32,6 @@ bool CLevel::net_Start	( LPCSTR op_server, LPCSTR op_client )
 
 	pApp->LoadBegin				();
 
-	string64	player_name;
-	GetPlayerName_FromRegistry( player_name, sizeof(player_name) );
-
-	if ( xr_strlen(player_name) == 0 )
-	{
-		strcpy_s( player_name, xr_strlen(Core.UserName) ? Core.UserName : Core.CompName );
-	}
-	VERIFY( xr_strlen(player_name) );
-
 	//make Client Name if options doesn't have it
 	LPCSTR	NameStart	= strstr(op_client,"/name=");
 	if (!NameStart)
@@ -49,7 +39,7 @@ bool CLevel::net_Start	( LPCSTR op_server, LPCSTR op_client )
 		string512 tmp;
 		strcpy_s(tmp, op_client);
 		strcat_s(tmp, "/name=");
-		strcat_s(tmp, player_name);
+		strcat_s(tmp, xr_strlen(Core.UserName) ? Core.UserName : Core.CompName);
 		m_caClientOptions			= tmp;
 	} else {
 		string1024	ret="";
@@ -60,7 +50,7 @@ bool CLevel::net_Start	( LPCSTR op_server, LPCSTR op_client )
 			string1024 tmpstr;
 			strcpy_s(tmpstr, op_client);
 			*(strstr(tmpstr, "name=")+5) = 0;
-			strcat_s(tmpstr, player_name);
+			strcat_s(tmpstr, xr_strlen(Core.UserName) ? Core.UserName : Core.CompName);
 			const char* ptmp = strstr(strstr(op_client, "name="), "/");
 			if (ptmp)
 				strcat_s(tmpstr, ptmp);

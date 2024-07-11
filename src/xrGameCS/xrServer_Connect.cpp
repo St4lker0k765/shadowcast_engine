@@ -10,7 +10,6 @@
 #include "MainMenu.h"
 #include "../xrEngine/x_ray.h"
 #include "file_transfer.h"
-#include "screenshot_server.h"
 #include "player_name_modifyer.h"
 
 #pragma warning(push)
@@ -65,11 +64,6 @@ xrServer::EConnect xrServer::Connect(shared_str &session_name, GameDescriptionDa
 	// Options
 	if (0==game)			return ErrConnect;
 //	game->type				= type_id;
-	if (game->Type() != eGameIDSingle)
-	{
-		m_file_transfers	= xr_new<file_transfer::server_site>();
-		initialize_screenshot_proxies();
-	}
 #ifdef DEBUG
 	Msg("* Created server_game %s",game->type_name());
 #endif
@@ -123,39 +117,17 @@ IClient* xrServer::new_client( SClientConnectData* cl_data )
 	VERIFY( CL );
 	
 	// copy entity
-	CL->ID			= cl_data->clientID;
-	CL->process_id	= cl_data->process_id;
-	
-	string256 new_name;
-	//strcpy_s( new_name, cl_data->name );
-	modify_player_name(cl_data->name, new_name);
-	CL->name._set( new_name );
-	
-	if ( game->NewPlayerName_Exists( CL, new_name ) )
-	{
-		if ( HasProtected() )
-		{
-			Msg( "! Server: Duplicated player`s name \"%s\" at protected server !", new_name );
-		}
-		else
-		{
-			game->NewPlayerName_Generate( CL, new_name );
-			game->NewPlayerName_Replace( CL, new_name );
-		}
-	}
-	CL->name._set( new_name );
-	CL->pass._set( cl_data->pass );
+	CL->ID = cl_data->clientID;
+	CL->process_id = cl_data->process_id;
+	CL->name = cl_data->name;	//only for offline mode
+	CL->pass._set(cl_data->pass);
 
 	NET_Packet		P;
 	P.B.count		= 0;
 	P.r_pos			= 0;
 
 	game->AddDelayedEvent( P, GAME_EVENT_CREATE_CLIENT, 0, CL->ID );
-	/*if ( GetClientsCount() == 1 )
-	{
-		//multithreaded problem ...
-		Update();			//incorect behavior (game_sv...:: m_event_queue can be corrupted !)
-	}*/
+
 	return CL;
 }
 
@@ -214,33 +186,8 @@ void xrServer::RequestClientDigest(IClient* CL)
 void xrServer::ProcessClientDigest(xrClientData* xrCL, NET_Packet* P)
 {
 	R_ASSERT(xrCL);
-	IClient* tmp_client		= static_cast<IClient*>(xrCL);
-	game_sv_mp* server_game = smart_cast<game_sv_mp*>(game);
-	
-	shared_str	admin_name;
-	shared_str	secondary_cdkey;
+	IClient* tmp_client = static_cast<IClient*>(xrCL);
 
-	P->r_stringZ	(xrCL->m_cdkey_digest);
-	P->r_stringZ	(secondary_cdkey);
-
-	if (server_game->IsPlayerBanned(xrCL->m_cdkey_digest.c_str(), admin_name) ||
-		server_game->IsPlayerBanned(secondary_cdkey.c_str(), admin_name))
-	{
-		R_ASSERT2(tmp_client != GetServerClient(), "can't disconnect server client");
-		Msg("--- Client [%s][%s] tried to connect - rejecting connection (he is banned by %s) ...",
-			tmp_client->m_cAddress.to_string().c_str(), tmp_client->name.c_str(),
-			admin_name.size() ? admin_name.c_str() : "Server");
-		LPSTR message_to_user;
-		if (admin_name.size())
-		{
-			STRCONCAT(message_to_user, "You have been banned by ", admin_name.c_str());
-		} else
-		{
-			message_to_user = "";
-		}
-		SendConnectResult(tmp_client, 0, 3, message_to_user);
-		return;
-	}
 	PerformSecretKeysSync(xrCL);
-	Check_BuildVersion_Success(tmp_client);	
+	Check_BuildVersion_Success(tmp_client);
 }

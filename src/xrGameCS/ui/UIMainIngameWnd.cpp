@@ -39,7 +39,6 @@
 #include "UIColorAnimatorWrapper.h"
 #include "../game_news.h"
 #include "static_cast_checked.hpp"
-#include "game_cl_capture_the_artefact.h"
 #include "UIHudStatesWnd.h"
 #include "UIActorMenu.h"
 
@@ -316,42 +315,6 @@ void CUIMainIngameWnd::Update()
 		return;
 	}
 
-	// ewiArtefact
-	if ( GameID() == eGameIDArtefactHunt )
-	{
-		bool b_Artefact = !!( m_pActor->inventory().ItemFromSlot(ARTEFACT_SLOT) );
-		if ( b_Artefact )
-		{
-			SetWarningIconColor( ewiArtefact, 0xffffff00 );
-		}
-		else
-		{
-			SetWarningIconColor( ewiArtefact, 0x00ffffff );
-		}
-	}
-	else if ( GameID() == eGameIDCaptureTheArtefact )
-	{
-		//this is a bad style... It left for backward compatibility
-		//need to move this logic into UIGameCTA class
-		//bool b_Artefact = (NULL != m_pActor->inventory().ItemFromSlot(ARTEFACT_SLOT));
-		game_cl_CaptureTheArtefact* cta_game = static_cast_checked<game_cl_CaptureTheArtefact*>(&Game());
-		R_ASSERT(cta_game);
-		R_ASSERT(lookat_player);
-		
-		if ( ( m_pActor->ID() == cta_game->GetGreenArtefactOwnerID() ) ||
-			 ( m_pActor->ID() == cta_game->GetBlueArtefactOwnerID()  ) )
-		{
-			SetWarningIconColor( ewiArtefact, 0xffff0000 );
-		}
-		else if ( m_pActor->inventory().ItemFromSlot(ARTEFACT_SLOT) ) //own artefact
-		{
-			SetWarningIconColor( ewiArtefact, 0xff00ff00 );
-		}
-		else
-		{
-			SetWarningIconColor(ewiArtefact, 0x00ffffff );
-		}
-	}
 
 	//	UpdateActiveItemInfo();
 

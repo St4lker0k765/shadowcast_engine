@@ -15,7 +15,6 @@
 #include "Actor.h"
 #include "AI/Stalker/ai_stalker.h"
 #include "character_info.h"
-#include "game_cl_base_weapon_usage_statistic.h"
 #include "../xrEngine/xr_collide_defs.h"
 #include "weapon.h"
 #include "ik/math3d.h"
@@ -302,16 +301,6 @@ void CBulletManager::DynamicObjectHit	(CBulletManager::_event& E)
 	{
 		//-------------------------------------------------
 		bool AddStatistic = false;
-		if (GameID() != eGameIDSingle && E.bullet.flags.allow_sendhit && smart_cast<CActor*>(E.R.O)
-			&& Game().m_WeaponUsageStatistic->CollectData())
-		{
-			CActor* pActor = smart_cast<CActor*>(E.R.O);
-			if (pActor)// && pActor->g_Alive())
-			{
-				Game().m_WeaponUsageStatistic->OnBullet_Hit(&E.bullet, E.R.O->ID(), (s16)E.R.element, E.point);
-				AddStatistic = true;
-			};
-		};
 
 		SHit	Hit = SHit(	hit_param.power,
 							hit_param.power_critical,

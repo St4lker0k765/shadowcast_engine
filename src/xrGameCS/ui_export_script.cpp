@@ -37,8 +37,6 @@ void UIRegistrator::script_register(lua_State *L)
 			.def("CancelDownload",			&CMainMenu::CancelDownload)
 			.def("ValidateCDKey",			&CMainMenu::ValidateCDKey)
 			.def("GetGSVer",				&CMainMenu::GetGSVer)
-			.def("GetCDKey",				&CMainMenu::GetCDKeyFromRegistry)
-			.def("GetPlayerName",			&CMainMenu::GetPlayerNameFromRegistry)
 	],
 	module(L,"main_menu")
 	[

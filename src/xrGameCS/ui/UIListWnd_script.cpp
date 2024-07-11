@@ -74,23 +74,6 @@ void CUIListWnd::script_register(lua_State *L)
 #endif // BATTLEYE
 		.def_readwrite("listen_servers",	&SServerFilters::listen_servers),
 
-
-		class_<CUIMapList, CUIWindow>("CUIMapList")
-		.def(							constructor<>())
-		.def("SetWeatherSelector",		&CUIMapList::SetWeatherSelector)
-		.def("SetModeSelector",			&CUIMapList::SetModeSelector)
-		.def("OnModeChange",			&CUIMapList::OnModeChange)
-		.def("LoadMapList",				&CUIMapList::LoadMapList)
-		.def("SaveMapList",				&CUIMapList::SaveMapList)
-		.def("GetCommandLine",			&CUIMapList::GetCommandLine)
-		.def("SetServerParams",			&CUIMapList::SetServerParams)
-		.def("GetCurGameType",			&CUIMapList::GetCurGameType)
-		.def("StartDedicatedServer",	&CUIMapList::StartDedicatedServer)
-		.def("SetMapPic",				&CUIMapList::SetMapPic)
-		.def("SetMapInfo",				&CUIMapList::SetMapInfo)
-		.def("ClearList",				&CUIMapList::ClearList)
-		.def("IsEmpty",					&CUIMapList::IsEmpty),
-		
 		class_<enum_exporter<EGameIDs> >("GAME_TYPE")
 		.enum_("gametype")
 		[

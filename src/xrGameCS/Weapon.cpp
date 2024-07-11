@@ -68,6 +68,7 @@ CWeapon::CWeapon()
 	m_can_be_strapped		= false;
 	m_ef_main_weapon_type	= u32(-1);
 	m_ef_weapon_type		= u32(-1);
+	m_ai_weapon_rank		= static_cast<u32>(-1);
 	m_UIScope				= NULL;
 	m_set_next_ammoType_on_reload = u32(-1);
 	m_crosshair_inertion	= 0.f;
@@ -1405,6 +1406,15 @@ void CWeapon::reload			(LPCSTR section)
 
 	m_ef_main_weapon_type	= READ_IF_EXISTS(pSettings,r_u32,section,"ef_main_weapon_type",u32(-1));
 	m_ef_weapon_type		= READ_IF_EXISTS(pSettings,r_u32,section,"ef_weapon_type",u32(-1));
+	m_ai_weapon_rank		= READ_IF_EXISTS(pSettings,r_u32,section,"weapon_rank",static_cast<u32>(-1));
+
+	if (m_ai_weapon_rank == static_cast<u32>(-1))
+	{
+#ifdef DEBUG
+		Msg("# Weapon rank not set for weapon: [%s]. Using default set rank(0)", section);
+#endif
+		m_ai_weapon_rank = 0;
+	}
 }
 
 void CWeapon::create_physic_shell()
@@ -1582,6 +1592,11 @@ u32	CWeapon::ef_weapon_type	() const
 {
 	VERIFY	(m_ef_weapon_type != u32(-1));
 	return	(m_ef_weapon_type);
+}
+
+u32 CWeapon::m_ai_weapon() const
+{
+	return m_ai_weapon_rank;
 }
 
 bool CWeapon::IsNecessaryItem	    (const shared_str& item_sect)
