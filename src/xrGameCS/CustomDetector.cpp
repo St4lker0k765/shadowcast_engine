@@ -298,7 +298,7 @@ void CCustomDetector::UpdateNightVisionMode(bool b_on)
 {
 }
 
-BOOL CAfList::feel_touch_contact	(CObject* O)
+bool CAfList::feel_touch_contact	(CObject* O)
 {
 	CLASS_ID	clsid			= O->CLS_ID;
 	TypesMapIt it				= m_TypesMap.find(clsid);

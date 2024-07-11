@@ -260,7 +260,7 @@ void CBastArtefact::feel_touch_delete(CObject* O)
 	}
 }
 
-BOOL CBastArtefact::feel_touch_contact(CObject* O) 
+bool CBastArtefact::feel_touch_contact(CObject* O) 
 {
 	CEntityAlive* pEntityAlive = smart_cast<CEntityAlive*>(O);
 

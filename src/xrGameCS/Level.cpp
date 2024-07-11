@@ -1274,7 +1274,7 @@ CZoneList* CLevel::create_hud_zones_list()
 
 // -------------------------------------------------------------------------------------------------
 
-BOOL CZoneList::feel_touch_contact( CObject* O )
+bool CZoneList::feel_touch_contact( CObject* O )
 {
 	CLASS_ID clsid	= O->CLS_ID;
 	TypesMapIt it	= m_TypesMap.find(clsid);

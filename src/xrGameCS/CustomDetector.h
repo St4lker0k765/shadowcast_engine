@@ -9,7 +9,7 @@ class CUIArtefactDetectorBase;
 class CAfList  :public CDetectList<CArtefact>
 {
 protected:
-	virtual BOOL 	feel_touch_contact	(CObject* O);
+	virtual bool 	feel_touch_contact	(CObject* O);
 public:
 					CAfList		():m_af_rank(0){}
 	int				m_af_rank;

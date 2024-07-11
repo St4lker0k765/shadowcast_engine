@@ -859,7 +859,7 @@ BOOL CCustomMonster::feel_touch_on_contact	(CObject *O)
 	return		(FALSE);
 }
 
-BOOL CCustomMonster::feel_touch_contact		(CObject *O)
+bool CCustomMonster::feel_touch_contact		(CObject *O)
 {
 	CCustomZone	*custom_zone = smart_cast<CCustomZone*>(O);
 	if (!custom_zone)

@@ -33,7 +33,7 @@ void CActor::feel_touch_delete	(CObject* O)
 	if(sh&&sh->character_physics_support()) m_feel_touch_characters--;
 }
 
-BOOL CActor::feel_touch_contact		(CObject *O)
+bool CActor::feel_touch_contact		(CObject *O)
 {
 	CInventoryItem	*item = smart_cast<CInventoryItem*>(O);
 	CInventoryOwner	*inventory_owner = smart_cast<CInventoryOwner*>(O);

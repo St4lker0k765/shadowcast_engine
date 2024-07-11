@@ -10,6 +10,7 @@
 #define AIMERS_BASE_H_INCLUDED
 
 #include "../include/xrrender/animation_motion.h"
+#include "../xrEngine/bone.h"
 
 class CGameObject;
 class IKinematics;

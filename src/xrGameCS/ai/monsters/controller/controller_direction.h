@@ -3,7 +3,7 @@
 #include "../control_direction_base.h"
 #include "../ai_monster_bones.h"
 #include "../../../ai_monster_space.h"
-
+#include "../../xrEngine/bone.h"
 
 class CController;
 
