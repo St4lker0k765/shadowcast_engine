@@ -25,6 +25,7 @@
 #	include "ai_debug.h"
 #endif // _EDITOR
 #include "../xrEngine/Environment.h"
+#include "ui/UILoadingScreen.h"
 
 #ifdef DEBUG_MEMORY_MANAGER
 	static	void *	ode_alloc	(size_t size)								{ return Memory.mem_alloc(size,"ODE");			}
@@ -95,6 +96,12 @@ CGamePersistent::~CGamePersistent(void)
 	Device.seqFrame.Remove		(this);
 	Engine.Event.Handler_Detach	(eDemoStart,this);
 	Engine.Event.Handler_Detach	(eQuickLoad,this);
+}
+
+void CGamePersistent::PreStart(LPCSTR op)
+{
+	pApp->SetLoadingScreen(new UILoadingScreen());
+	IGame_Persistent::PreStart(op);
 }
 
 void CGamePersistent::RegisterModel(IRenderVisual* V)
@@ -698,9 +705,18 @@ void CGamePersistent::OnRenderPPUI_PP()
 #include "../xrEngine/x_ray.h"
 void CGamePersistent::LoadTitle(LPCSTR str)
 {
-	string512			buff;
-	sprintf_s			(buff, "%s...", CStringTable().translate(str).c_str());
-	pApp->LoadTitleInt	(buff);
+	pApp->LoadStage();
+}
+void CGamePersistent::SetLoadStageTitle(pcstr ls_title)
+{
+	string256 buff;
+	if (ls_title)
+	{
+		xr_sprintf(buff, "%s%s", CStringTable().translate(ls_title).c_str(), "...");
+		pApp->SetLoadStageTitle(buff);
+	}
+	else
+		pApp->SetLoadStageTitle("");
 }
 
 bool CGamePersistent::CanBePaused()

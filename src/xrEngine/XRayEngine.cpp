@@ -1109,8 +1109,8 @@ void CApplication::LoadStage()
     phase_timer.Start();
 	Msg("* phase cmem: %lld K", Memory.mem_usage() / 1024);
 
-    if (g_pGamePersistent->GameType() == 1 && strstr(Core.Params, "alife"))
-        max_load_stage = 18;
+    if (g_pGamePersistent->GameType() == 1 && !xr_strcmp(g_pGamePersistent->m_game_params.m_alife, "alife"))
+        max_load_stage = 17;
     else
         max_load_stage = 14;
     LoadDraw();
