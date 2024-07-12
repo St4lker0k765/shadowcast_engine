@@ -513,9 +513,9 @@ bool isActorAccelerated(u32 mstate, bool ZoomMode)
 {
 	bool res = false;
 	if (mstate&mcAccel)
-		res = psActorFlags.test(AF_ALWAYSRUN)?false:true;
+		res = false;
 	else
-		res = psActorFlags.test(AF_ALWAYSRUN)?true :false;
+		res = true;
 	if (mstate&(mcCrouch|mcClimb|mcJump|mcLanding|mcLanding2))
 		return res;
 	if (mstate & mcLookout || ZoomMode)

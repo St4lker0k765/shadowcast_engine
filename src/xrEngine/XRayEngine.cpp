@@ -1226,7 +1226,7 @@ void CApplication::Level_Set(u32 L)
             path[0] = 0;
     }
 
-    if (path[0])
+    if (path[0] && loadingScreen)
         loadingScreen->SetLevelLogo(path);
 }
 

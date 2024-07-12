@@ -33,8 +33,8 @@ void UILoadingScreen::Initialize()
     uiXml.Load(CONFIG_PATH, UI_PATH, "ui_mm_loading_screen.xml");
 
  //       loadingProgressBackground = UIHelper::CreateStatic(uiXml, "loading_progress_background", this);
-        loadingProgress = UIHelper::CreateProgressBar(uiXml, "loading_progress", this);
         CUIXmlInit::InitWindow(uiXml, "background", 0, this);
+        loadingProgress = UIHelper::CreateProgressBar(uiXml, "loading_progress", this);
         loadingLogo = UIHelper::CreateStatic(uiXml, "loading_logo", this);
  //       loadingProgressPercent = UIHelper::CreateStatic(uiXml, "loading_progress_percent", this);
         loadingStage = UIHelper::CreateStatic(uiXml, "loading_stage", this);
