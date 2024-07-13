@@ -91,8 +91,9 @@ void CRenderDevice::Reset(bool precache)
         g_pGamePersistent->Environment().bNeed_re_create_env = TRUE;
     }
     _SetupStates();
+#pragma todo("My kostil in PreCache for CS Mode and SoC Mode. This fixing black screen after alt + tab.")
     if (precache)
-        PreCache(20, true, false);
+        PreCache(20, !ClearSkyMode, false);
     u32 tm_end = TimerAsync();
     Msg("*** RESET [%d ms]", tm_end - tm_start);
 
