@@ -21,6 +21,7 @@
 #include <shellapi.h>
 
 #include "object_broker.h"
+#include "../xrEngine/x_ray.h"
 
 //#define DEMO_BUILD
 
@@ -501,7 +502,7 @@ LPCSTR DelHyphens( LPCSTR c )
 
 LPCSTR CMainMenu::GetGSVer()
 {
-	return "1.7.0.0";
+	return pApp->ShowCurrentVersion();
 }
 
 demo_info const * CMainMenu::GetDemoInfo(LPCSTR file_name)

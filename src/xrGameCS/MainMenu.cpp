@@ -13,6 +13,7 @@
 #include "UICursor.h"
 #include "string_table.h"
 #include "../xrCore/os_clipboard.h"
+#include "../xrEngine/x_ray.h"
 
 #include <shellapi.h>
 #pragma comment(lib, "shell32.lib")
@@ -709,7 +710,7 @@ void CMainMenu::OnConnectToMasterServerOkClicked(CUIWindow*, void*)
 
 LPCSTR CMainMenu::GetGSVer()
 {
-	return "1.7.00";
+	return pApp->ShowCurrentVersion();
 }
 
 

@@ -1060,6 +1060,11 @@ void CApplication::DestroyLoadingScreen()
     xr_delete(loadingScreen);
 }
 
+LPCSTR CApplication::ShowCurrentVersion()
+{
+    return "1.7.00";
+}
+
 #include "Render.h"
 
 void CApplication::LoadDraw()
