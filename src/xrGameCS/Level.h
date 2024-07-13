@@ -260,6 +260,7 @@ public:
 	virtual void				OnEvent					( EVENT E, u64 P1, u64 P2 );
 	virtual void				OnFrame					( void );
 	virtual void				OnRender				( );
+	virtual void				ApplyCamera				( );
 	virtual	shared_str			OpenDemoFile			( const char* demo_file_name );
 	virtual void				net_StartPlayDemo		( );
 
