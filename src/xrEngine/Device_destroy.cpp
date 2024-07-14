@@ -93,6 +93,7 @@ void CRenderDevice::Reset(bool precache)
     _SetupStates();
 #pragma todo("My kostil in PreCache for CS Mode and SoC Mode. This fixing black screen after alt + tab.")
     if (precache)
+    {
         if (TheShadowWayMode || CallOfPripyatMode)
         {
             PreCache(20, true, false);
@@ -101,6 +102,7 @@ void CRenderDevice::Reset(bool precache)
         {
             PreCache(20, false, false);
         }
+    }
     u32 tm_end = TimerAsync();
     Msg("*** RESET [%d ms]", tm_end - tm_start);
 
