@@ -85,7 +85,7 @@ extern	BOOL	g_show_wnd_rect2			;
 //-----------------------------------------------------------
 extern	float	g_fTimeFactor;
 extern	BOOL	b_toggle_weapon_aim;
-//extern  BOOL	g_old_style_ui_hud;
+extern  BOOL	g_old_style_ui_hud;
 
 extern float	g_smart_cover_factor;
 extern int		g_upgrades_log;
@@ -131,6 +131,40 @@ enum E_COMMON_FLAGS{
 #		define SEVERAL_ALLOCATORS
 #	endif // USE_MEMORY_MONITOR
 #endif // PURE_ALLOC
+
+class CCC_Spawn : public IConsole_Command {
+public:
+	CCC_Spawn(LPCSTR N) : IConsole_Command(N) {}
+
+	virtual void		Execute(LPCSTR args)
+	{
+		if (!g_pGameLevel)
+		{
+			Msg("! The level is not loaded!");
+			return;
+		}
+
+		if (!pSettings->section_exist(args))
+		{
+			Msg("! Section [%s] isn`t exits...", args);
+			return;
+		}
+
+		Fvector pos = Actor()->Position();
+		Level().g_cl_Spawn(args, 0xff, M_SPAWN_OBJECT_LOCAL, pos);
+	}
+	virtual void		Save(IWriter* /*F*/) {}
+
+	virtual void	fill_tips(vecTips& tips, u32 mode)
+	{
+		for (auto sect : pSettings->sections())
+		{
+			if ((sect->line_exist("description") && !sect->line_exist("value") && !sect->line_exist("scheme_index"))
+				|| sect->line_exist("species"))
+				tips.emplace_back(sect->Name);
+		}
+	}
+};
 
 class CCC_MemStats : public IConsole_Command
 {
@@ -241,8 +275,40 @@ public:
 			if (!OnServer())
 				return;
 
-//			Level().Server->game->SetGameTimeFactor(id1);
 			Level().SetGameTimeFactor(id1);
+		}
+	}
+};
+
+class CCC_Spawn_to_inventory : public IConsole_Command {
+public:
+	CCC_Spawn_to_inventory(LPCSTR N) : IConsole_Command(N) {}
+	virtual void Execute(LPCSTR args) {
+		if (!g_pGameLevel)
+		{
+			Log("Error: No game level!");
+			return;
+		}
+
+		if (!pSettings->section_exist(args))
+		{
+			Msg("! Section [%s] isn`t exist...", args);
+			return;
+		}
+
+		Level().spawn_item(args, Actor()->Position(), false, Actor()->ID());
+	}
+	virtual void	Info(TInfo& I)
+	{
+		strcpy(I, "name,team,squad,group");
+	}
+	virtual void	fill_tips(vecTips& tips, u32 mode)
+	{
+		for (auto sect : pSettings->sections())
+		{
+			if ((sect->line_exist("description") && !sect->line_exist("value") && !sect->line_exist("scheme_index"))
+				|| sect->line_exist("species"))
+				tips.emplace_back(sect->Name);
 		}
 	}
 };
@@ -1040,7 +1106,6 @@ struct CCC_LuaHelp : public IConsole_Command {
 //};
 #endif
 
-#ifndef MASTER_GOLD
 #	include "game_graph.h"
 struct CCC_JumpToLevel : public IConsole_Command {
 	CCC_JumpToLevel(LPCSTR N) : IConsole_Command(N)  {};
@@ -1063,7 +1128,6 @@ struct CCC_JumpToLevel : public IConsole_Command {
 		Msg							("! There is no level \"%s\" in the game graph!",level);
 	}
 };
-#endif
 class CCC_Script : public IConsole_Command {
 public:
 	CCC_Script(LPCSTR N) : IConsole_Command(N)  { bEmptyArgsHandled = true; };
@@ -1114,7 +1178,6 @@ public:
 		}
 	}
 };
-#ifndef MASTER_GOLD
 class CCC_TimeFactor : public IConsole_Command {
 public:
 					CCC_TimeFactor	(LPCSTR N) : IConsole_Command(N) {}
@@ -1135,7 +1198,6 @@ public:
 	}
 };
 
-#endif // MASTER_GOLD
 
 #include "GamePersistent.h"
 
@@ -1180,7 +1242,6 @@ struct CCC_StartTimeSingle : public IConsole_Command {
 		if (!Level().Server->game)
 			return;
 
-//		Level().Server->game->SetGameTimeFactor(g_qwStartGameTime,g_fTimeFactor);
 		Level().SetGameTimeFactor(g_qwStartGameTime,g_fTimeFactor);
 	}
 
@@ -1208,7 +1269,6 @@ struct CCC_TimeFactorSingle : public CCC_Float {
 		if (!Level().Server->game)
 			return;
 
-//		Level().Server->game->SetGameTimeFactor(g_fTimeFactor);
 		Level().SetGameTimeFactor(g_fTimeFactor);
 	}
 };
@@ -1559,10 +1619,11 @@ void CCC_RegisterCommands()
 	CMD3(CCC_Mask,				"hud_crosshair",		&psHUD_Flags,	HUD_CROSSHAIR);
 	CMD3(CCC_Mask,				"hud_crosshair_dist",	&psHUD_Flags,	HUD_CROSSHAIR_DIST);
 
-//#ifdef DEBUG
 	CMD4(CCC_Float,				"hud_fov",				&psHUD_FOV,		0.1f,	1.0f);
 	CMD4(CCC_Float,				"fov",					&g_fov,			5.0f,	180.0f);
-//#endif // DEBUG
+
+	CMD1(CCC_Spawn_to_inventory, "g_spawn_to_inventory")
+	CMD1(CCC_Spawn, "g_spawn")
 
 	// Demo
 	CMD1(CCC_DemoPlay,			"demo_play"				);
@@ -1697,12 +1758,10 @@ CMD4(CCC_Integer,			"hit_anims_tune",						&tune_hit_anims,		0, 1);
 	CMD4(CCC_FloatBlock,		"ph_tri_query_ex_aabb_rate",	&ph_tri_query_ex_aabb_rate	,			1.01f	,3.f			);
 #endif // DEBUG
 
-#ifndef MASTER_GOLD
 	CMD1(CCC_JumpToLevel,	"jump_to_level"		);
 	CMD3(CCC_Mask,			"g_god",			&psActorFlags,	AF_GODMODE	);
 	CMD3(CCC_Mask,			"g_unlimitedammo",	&psActorFlags,	AF_UNLIMITEDAMMO);
 	CMD1(CCC_TimeFactor, "time_factor");
-#endif // MASTER_GOLD
 	CMD1(CCC_Script,		"run_script");
 	CMD1(CCC_ScriptCommand,	"run_string");
 
@@ -1854,10 +1913,8 @@ CMD4(CCC_FloatBlock,		"dbg_text_height_scale",	&dbg_text_height_scale	,			0.2f	,
 	CMD3(CCC_Mask,			"cl_dynamiccrosshair",	&psHUD_Flags,	HUD_CROSSHAIR_DYNAMIC);
 	CMD1(CCC_MainMenu,		"main_menu"				);
 
-#ifndef MASTER_GOLD
 	CMD1(CCC_StartTimeSingle,	"start_time_single");
 	CMD4(CCC_TimeFactorSingle,	"time_factor_single", &g_fTimeFactor, 0.f,flt_max);
-#endif // MASTER_GOLD
 
 
 	g_uCommonFlags.zero();
@@ -1898,7 +1955,7 @@ extern BOOL dbg_moving_bones_snd_player;
 
 	CMD4(CCC_Float,		"con_sensitive",			&g_console_sensitive,	0.01f, 1.0f );
 	CMD4(CCC_Integer,	"wpn_aim_toggle",			&b_toggle_weapon_aim, 0, 1);
-//	CMD4(CCC_Integer,	"hud_old_style",			&g_old_style_ui_hud, 0, 1);
+	CMD4(CCC_Integer,	"hud_old_style",			&g_old_style_ui_hud, 0, 1);
 
 #ifdef DEBUG
 	CMD4(CCC_Float,		"ai_smart_cover_animation_speed_factor",	&g_smart_cover_animation_speed_factor,	.1f, 10.f);

@@ -47,7 +47,7 @@
 
 using namespace std::placeholders;
 using namespace InventoryUtilities;
-//BOOL		g_old_style_ui_hud			= FALSE;
+BOOL		g_old_style_ui_hud			= FALSE;
 const u32	g_clWhite					= 0xffffffff;
 
 #define		DEFAULT_MAP_SCALE			1.f

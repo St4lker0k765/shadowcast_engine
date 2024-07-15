@@ -16,10 +16,8 @@ game_PlayerState::game_PlayerState()
 {
 	skin				= 0;
 	m_online_time		= 0;
-	team				=	0;
 	money_for_round		=	0;	
 
-	experience_D		=	0;
 	experience_Real		=	0;
 	rank				=	0;
 	af_count			=	0;
@@ -35,7 +33,6 @@ game_PlayerState::game_PlayerState()
 
 void game_PlayerState::clear()
 {
-	name[0]				= 0;
 	m_iRivalKills		= 0;
 	m_iSelfKills		= 0;
 	m_iTeamKills		= 0;
@@ -44,7 +41,6 @@ void game_PlayerState::clear()
 	m_iDeaths			= 0;
 	lasthitter			= 0;
 	lasthitweapon		= 0;	
-	experience_D		=	0;
 	experience_Real		=	0;
 	rank				=	0;
 	af_count			=	0;
@@ -84,16 +80,12 @@ void game_PlayerState::resetFlag(u16 f)
 void	game_PlayerState::net_Export(NET_Packet& P, BOOL Full)
 {
 	P.w_u8			(Full ? 1 : 0);
-	if (Full)
-		P.w_stringZ		(	name	);
 
-	P.w_u8			(	team	);
 	P.w_s16			(	m_iRivalKills	);
 	P.w_s16			(	m_iSelfKills	);
 	P.w_s16			(	m_iTeamKills	);
 	P.w_s16			(	m_iDeaths		);
 	P.w_s32			(	money_for_round	);
-	P.w_float_q8	(	experience_D, -1.0f, 2.0f);
 	P.w_u8			(	rank		);
 	P.w_u8			(	af_count	);
 	P.w_u16			(	flags__	);
@@ -110,11 +102,7 @@ void	game_PlayerState::net_Import(NET_Packet& P)
 {
 	BOOL	bFullUpdate = !!P.r_u8();
 
-	if (bFullUpdate)
-		P.r_stringZ		(name);
 
-
-	P.r_u8			(	team	);
 	
 	P.r_s16			(	m_iRivalKills	);
 	P.r_s16			(	m_iSelfKills	);
@@ -122,7 +110,6 @@ void	game_PlayerState::net_Import(NET_Packet& P)
 	P.r_s16			(	m_iDeaths		);
 
 	P.r_s32			(	money_for_round	);
-	P.r_float_q8	(	experience_D, -1.0f, 2.0f);
 	P.r_u8			(	rank		);
 	P.r_u8			(	af_count	);
 	P.r_u16			(	flags__	);
@@ -134,6 +121,30 @@ void	game_PlayerState::net_Import(NET_Packet& P)
 
 	DeathTime = P.r_u32();
 };
+
+void	game_PlayerState::skip_Import(NET_Packet& P)
+{
+	BOOL	bFullUpdate = !!P.r_u8();
+
+	P.r_u8();//	team	);
+
+	P.r_s16();//	m_iRivalKills	);
+	P.r_s16();//	m_iSelfKills	);
+	P.r_s16();//	m_iTeamKills	);
+	P.r_s16();//	m_iDeaths		);
+
+	P.r_s32();//	money_for_round	);
+	P.r_u8();//	rank		);
+	P.r_u8();//	af_count	);
+	P.r_u16();//	flags__	);
+	P.r_u16();//	ping	);
+
+	P.r_u16();//	GameID	);
+	P.r_s8();//	skin	);
+	P.r_u8();//	m_bCurrentVoteAgreed	);
+
+	P.r_u32(); //DeathTime
+}
 
 void	game_PlayerState::SetGameID				(u16 NewID)
 {

@@ -26,7 +26,6 @@ void game_PlayerState::script_register(lua_State *L)
 		[
 			luabind::class_<game_PlayerState, WrapType>("game_PlayerState")
 			.def(	constructor<>())
-			.def_readwrite("team",				&BaseType::team)
 			.def_readwrite("kills",				&BaseType::m_iRivalKills)
 			.def_readwrite("deaths",			&BaseType::m_iDeaths)
 			.def_readwrite("money_for_round",	&BaseType::money_for_round)

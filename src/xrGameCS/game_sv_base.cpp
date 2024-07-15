@@ -163,30 +163,6 @@ CSE_Abstract*		game_sv_GameState::get_entity_from_eid		(u16 id)
 }
 
 // Utilities
-u32					game_sv_GameState::get_alive_count(u32 team)
-{
-	struct alife_counter
-	{
-		u32 team;
-		u32 count;
-		void operator()(IClient* client)
-		{
-			xrClientData* tmp_client = static_cast<xrClientData*>(client);
-			if (!tmp_client->ps)
-				return;
-			if (tmp_client->ps->team == team)
-			{
-				count += tmp_client->ps->testFlag(GAME_PLAYER_FLAG_VERY_VERY_DEAD) ? 0 : 1;
-			}
-		}
-	};
-	alife_counter tmp_counter;
-	tmp_counter.team = team;
-	tmp_counter.count = 0;
-	
-	m_server->ForEachClientDo(tmp_counter);
-	return tmp_counter.count;
-}
 
 xr_vector<u16>*		game_sv_GameState::get_children				(ClientID id)
 {

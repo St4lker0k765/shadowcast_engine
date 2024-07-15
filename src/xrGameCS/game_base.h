@@ -39,7 +39,6 @@ struct Bonus_Money_Struct {
 struct	game_PlayerState 
 {
 	string64	name;
-	u8			team;
 	
 	s16			m_iRivalKills;
 	s16			m_iSelfKills;
@@ -51,7 +50,6 @@ struct	game_PlayerState
 
 	float		experience_Real;
 	float		experience_New;
-	float		experience_D;
 	u8			rank;
 	u8			af_count;
 	u16			flags__;
@@ -92,6 +90,7 @@ public:
 #ifndef AI_COMPILER
 	virtual void	net_Export				(NET_Packet& P, BOOL Full = FALSE);
 	virtual void	net_Import				(NET_Packet& P);
+	static	void	skip_Import				(NET_Packet& P);
 #endif
 	//---------------------------------------
 	

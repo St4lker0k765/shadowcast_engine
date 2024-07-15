@@ -707,8 +707,8 @@ void CLevel::OnFrame	()
 #endif
 	}
 	
-//	g_pGamePersistent->Environment().SetGameTime	(GetGameDayTimeSec(),GetGameTimeFactor());
-	g_pGamePersistent->Environment().SetGameTime	(GetEnvironmentGameDayTimeSec(),game->GetEnvironmentGameTimeFactor());
+	g_pGamePersistent->Environment().SetGameTime	(GetEnvironmentGameDayTimeSec(),
+		game->GetEnvironmentGameTimeFactor());
 
 	//Device.Statistic->cripting.Begin	();
 	if (!g_dedicated_server)
@@ -1119,8 +1119,7 @@ ALife::_TIME_ID CLevel::GetEnvironmentGameTime()
 
 u8 CLevel::GetDayTime() 
 { 
-	u32 dummy32;
-	u32 hours;
+	u32 dummy32, hours;
 	GetGameDateTime(dummy32, dummy32, dummy32, hours, dummy32, dummy32, dummy32);
 	VERIFY	(hours<256);
 	return	u8(hours); 
@@ -1150,19 +1149,16 @@ void CLevel::GetGameDateTime	(u32& year, u32& month, u32& day, u32& hours, u32& 
 float CLevel::GetGameTimeFactor()
 {
 	return			(game->GetGameTimeFactor());
-//	return			(Server->game->GetGameTimeFactor());
 }
 
 void CLevel::SetGameTimeFactor(const float fTimeFactor)
 {
 	game->SetGameTimeFactor(fTimeFactor);
-//	Server->game->SetGameTimeFactor(fTimeFactor);
 }
 
 void CLevel::SetGameTimeFactor(ALife::_TIME_ID GameTime, const float fTimeFactor)
 {
 	game->SetGameTimeFactor(GameTime, fTimeFactor);
-//	Server->game->SetGameTimeFactor(fTimeFactor);
 }
 
 void CLevel::SetEnvironmentGameTimeFactor(u64 const& GameTime, float const& fTimeFactor)
@@ -1171,9 +1167,8 @@ void CLevel::SetEnvironmentGameTimeFactor(u64 const& GameTime, float const& fTim
 		return;
 
 	game->SetEnvironmentGameTimeFactor(GameTime, fTimeFactor);
-//	Server->game->SetGameTimeFactor(fTimeFactor);
 }
-
+/*
 float CLevel::GetEnvironmentTimeFactor() const
 {
 	if (!game)
@@ -1194,7 +1189,7 @@ u64 CLevel::GetEnvironmentGameTime() const
 		return 0 ;
 	return game->GetEnvironmentGameTime();
 }
-/*
+
 void CLevel::SetGameTime(ALife::_TIME_ID GameTime)
 {
 	game->SetGameTime(GameTime);
