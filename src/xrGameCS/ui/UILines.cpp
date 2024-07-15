@@ -501,9 +501,8 @@ u32 CUILines::GetColorFromText(const xr_string& str)const{
 
 	begin = str.find(BEGIN);
 	end = str.find(END, begin);
-	R_ASSERT2(npos != begin, "CUISubLine::GetColorFromText -- can't find beginning tag %c[");
-	R_ASSERT2(npos != end, "CUISubLine::GetColorFromText -- can't find ending tag ]");
-	
+	if (begin == npos || end == npos)
+		return m_dwTextColor;
 	// try default color
 	if (npos != str.find("%c[default]", begin, end - begin))
 		return m_dwTextColor;
@@ -521,11 +520,9 @@ u32 CUILines::GetColorFromText(const xr_string& str)const{
 	comma1_pos = str.find(",", begin);
 	comma2_pos = str.find(",", comma1_pos + 1);
 	comma3_pos = str.find(",", comma2_pos + 1);
+	if (comma1_pos == npos || comma2_pos == npos || comma3_pos == npos)
+		return m_dwTextColor;
 
-    R_ASSERT2(npos != comma1_pos, "CUISubLine::GetColorFromText -- can't find first comma");        
-	R_ASSERT2(npos != comma2_pos, "CUISubLine::GetColorFromText -- can't find second comma");
-	R_ASSERT2(npos != comma3_pos, "CUISubLine::GetColorFromText -- can't find third comma");
-	
 
 	u32 a, r, g, b;
 	xr_string single_color;
