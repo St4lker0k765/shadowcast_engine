@@ -279,8 +279,7 @@ void CUIItemInfo::InitItem(CInventoryItem* pInvItem, CInventoryItem* pCompareIte
 												0.0f, 
 												float(item_grid_rect.x2*INV_GRID_WIDTH2),	
 												float(item_grid_rect.y2*INV_GRID_HEIGHT2)};
-		if(UI()->is_16_9_mode())
-			v_r.x2 /= 1.2f;
+		v_r.x2								*= UI()->get_current_kx();
 
 		UIItemImage->GetUIStaticItem().SetRect	(v_r);
 //		UIItemImage->SetWidth					(_min(v_r.width(),	UIItemImageSize.x));
