@@ -7,9 +7,8 @@
 ////////////////////////////////////////////////////////////////////////////
 
 #pragma once
-#include "object_type_traits.h"
 
-using namespace object_type_traits;
+
 
 template <class M, typename P>
 struct CLoader {

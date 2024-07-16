@@ -24,7 +24,7 @@
 	>
 
 #define _detail \
-	detail<\
+	detail_<\
 		yaw_factor_non_fire,\
 		pitch_factor_non_fire,\
 		yaw_factor_fire,\
@@ -32,16 +32,16 @@
 	>
 
 TEMPLATE_SPECIALIZATION
-struct detail {
-	static void callback	(CBoneInstance *B);
+struct __detail {
+	static void callback(CBoneInstance* B) {};
 };
 
-typedef detail	<  25,   0,  50,  50>	spine;
-typedef detail	<  25,   0,  50,  50>	shoulder;
-typedef detail	<  50, 100,   0,   0>	head;
+typedef __detail	<  25,   0,  50,  50>	spine;
+typedef __detail	<  25,   0,  50,  50>	shoulder;
+typedef __detail	<  50, 100,   0,   0>	head;
 
 TEMPLATE_SPECIALIZATION
-void _detail::callback		(CBoneInstance *B)
+static void _BCL  callback		(CBoneInstance *B)
 {
 	auto* A = static_cast<CAI_Stalker*>(B->callback_param());
 	VERIFY					(_valid(B->mTransform));

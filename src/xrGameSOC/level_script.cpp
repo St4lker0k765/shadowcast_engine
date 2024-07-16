@@ -89,18 +89,10 @@ LPCSTR get_weather	()
 	return			(*g_pGamePersistent->Environment().GetWeather());
 }
 
-LPCSTR get_weather_prev()
-{
-	return			(*g_pGamePersistent->Environment().GetPrevWeather());
-}
 
 void set_weather	(LPCSTR weather_name, bool forced)
 {
 	g_pGamePersistent->Environment().SetWeather(weather_name, forced);
-}
-
-void set_weather_next(LPCSTR weather_name) {
-	g_pGamePersistent->Environment().SetWeatherNext(weather_name);
 }
 
 bool set_weather_fx(LPCSTR weather_name)
@@ -158,11 +150,28 @@ u32 get_time_minutes()
 	return			mins;
 }
 
-float cover_in_direction(u32 level_vertex_id, const Fvector &direction)
+float high_cover_in_direction(u32 level_vertex_id, const Fvector& direction)
 {
-	float			y,p;
-	direction.getHP	(y,p);
-	return			(ai().level_graph().cover_in_direction(y,level_vertex_id));
+	if (!ai().level_graph().valid_vertex_id(level_vertex_id))
+	{
+		return 0;
+	}
+
+	float			y, p;
+	direction.getHP(y, p);
+	return			(ai().level_graph().high_cover_in_direction(y, level_vertex_id));
+}
+
+float low_cover_in_direction(u32 level_vertex_id, const Fvector& direction)
+{
+	if (!ai().level_graph().valid_vertex_id(level_vertex_id))
+	{
+		return 0;
+	}
+
+	float			y, p;
+	direction.getHP(y, p);
+	return			(ai().level_graph().low_cover_in_direction(y, level_vertex_id));
 }
 
 float rain_factor()
@@ -388,7 +397,7 @@ void iterate_sounds					(LPCSTR prefix, u32 max_count, const CScriptCallbackEx<v
 	for (int j=0, N = _GetItemCount(prefix); j<N; ++j) {
 		string_path					fn, s;
 		LPSTR						S = (LPSTR)&s;
-		_GetItem					(prefix,j,S);
+		_GetItem					(prefix,j,s);
 		if (FS.exist(fn,"$game_sounds$",S,".ogg"))
 			callback				(prefix);
 
@@ -558,9 +567,7 @@ void CLevel::script_register(lua_State *L)
 #endif
 		
 		def("get_weather",						get_weather),
-		def("get_weather_prev", get_weather_prev),
 		def("set_weather",						set_weather),
-		def("set_weather_next", set_weather_next),
 		def("set_weather_fx",					set_weather_fx),
 		def("is_wfx_playing",					is_wfx_playing),
 
@@ -576,7 +583,8 @@ void CLevel::script_register(lua_State *L)
 		def("get_time_hours",					get_time_hours),
 		def("get_time_minutes",					get_time_minutes),
 
-		def("cover_in_direction",				cover_in_direction),
+		def("high_cover_in_direction",			high_cover_in_direction),
+		def("low_cover_in_direction",			low_cover_in_direction),
 		def("vertex_in_direction",				vertex_in_direction),
 		def("rain_factor",						rain_factor),
 		def("patrol_path_exists",				patrol_path_exists),

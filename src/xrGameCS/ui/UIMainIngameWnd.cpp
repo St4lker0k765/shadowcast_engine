@@ -319,7 +319,7 @@ void CUIMainIngameWnd::Update()
 	//	UpdateActiveItemInfo();
 
 	EWarningIcons i	= ewiWeaponJammed;
-	while ( i <= ewiWeaponJammed ) // ewiInvincible
+	while ( i <= ewiWeaponJammed )
 	{
 		float value = 0;
 		switch (i)
@@ -385,7 +385,7 @@ void CUIMainIngameWnd::Update()
 		}
 
 		i = (EWarningIcons)(i + 1);
-	}//	while ( i <= ewiWeaponJammed ) // ewiInvincible
+	}//	while ( i <= ewiWeaponJammed )
 
 }//update
 
@@ -434,7 +434,7 @@ void CUIMainIngameWnd::SetWarningIconColorUI(CUIStatic* s, const u32 cl)
 
 	if ( bOn )
 	{
-		s->SetColor( cl );
+		s->SetTextureColor( cl );
 	}
 
 	if ( bOn && !bIsShown )

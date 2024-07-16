@@ -10,6 +10,7 @@
 #include <dinput.h>
 #include "ui/UIBtnHint.h"
 #include "UICursor.h"
+#include "../xrEngine/x_ray.h"
 
 #include "object_broker.h"
 
@@ -435,5 +436,5 @@ void CMainMenu::OnDeviceReset()
 
 LPCSTR CMainMenu::GetGSVer()
 {
-	return "ESM Engine x64 b1.02";
+	return pApp->ShowCurrentVersion();
 }
