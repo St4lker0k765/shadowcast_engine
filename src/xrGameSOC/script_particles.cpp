@@ -89,7 +89,7 @@ CScriptParticles::~CScriptParticles()
 void CScriptParticles::Play()
 {
 	VERIFY						(m_particles);
-	m_particles->Play			();
+	m_particles->Play			(false);
 }
 
 void CScriptParticles::PlayAtPos(const Fvector &position)

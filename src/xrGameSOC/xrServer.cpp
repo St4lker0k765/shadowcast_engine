@@ -10,9 +10,12 @@
 #include "game_cl_base.h"
 #include "ai_space.h"
 #include "../xrEngine/IGame_Persistent.h"
-
+#include "string_table.h"
 #include "../xrEngine/XR_IOConsole.h"
 #include "ui/UIInventoryUtilities.h"
+#include <functional>
+
+using namespace std::placeholders;
 
 #ifdef DEBUG
 #include "level_debug.h"
@@ -53,15 +56,19 @@ xrServer::xrServer():IPureServer(Device.GetTimerGlobal(), g_dedicated_server)
 
 xrServer::~xrServer()
 {
-	while (net_Players.size())
+	struct ClientDestroyer
 	{
-		client_Destroy(net_Players[0]);
+		static bool true_generator(IClient*)
+		{
+			return true;
+		}
+	};
+	IClient* tmp_client = net_players.GetFoundClient(&ClientDestroyer::true_generator);
+	while (tmp_client)
+	{
+		client_Destroy(tmp_client);
+		tmp_client = net_players.GetFoundClient(&ClientDestroyer::true_generator);
 	}
-	
-	while (net_Players_disconnected.size())
-	{
-		client_Destroy(net_Players_disconnected[0]);
-	}		
 	m_aUpdatePackets.clear();
 	m_aDelayedPackets.clear();
 }
@@ -105,30 +112,6 @@ IClient*	xrServer::client_Find_Get	(ClientID ID)
 	else
 		cAddress.set( "127.0.0.1" );
 
-	if ( !psNET_direct_connect )
-	{		
-		for ( u32 i = 0; i < net_Players_disconnected.size(); ++i )
-		{
-			IClient* CLX	= net_Players_disconnected[i];
-
-			if ( CLX->m_cAddress == cAddress )
-			{				
-				net_Players_disconnected.erase( net_Players_disconnected.begin()+i );
-
-				CLX->m_dwPort				= dwPort;
-				CLX->flags.bReconnect		= TRUE;
-				
-				csPlayers.Enter();
-				net_Players.push_back( CLX );
-				net_Players.back()->server = this;
-				csPlayers.Leave();
-
-				Msg							( "# Player found" );
-				return						CLX;	
-			};
-		};
-	};
-
 	IClient* newCL = client_Create();
 	newCL->ID = ID;
 	if(!psNET_direct_connect)
@@ -136,13 +119,13 @@ IClient*	xrServer::client_Find_Get	(ClientID ID)
 		newCL->m_cAddress	= cAddress;	
 		newCL->m_dwPort		= dwPort;
 	}
-	
-	csPlayers.Enter();
-	net_Players.push_back( newCL );
-	net_Players.back()->server = this;
-	csPlayers.Leave();
 
-	Msg		("# Player not found. New player created.");
+	newCL->server = this;
+	net_players.AddNewClient(newCL);
+
+#ifndef MASTER_GOLD
+	Msg("# New player created.");
+#endif // #ifndef MASTER_GOLD
 	return newCL;
 };
 
@@ -150,70 +133,33 @@ INT	g_sv_Client_Reconnect_Time = 0;
 
 void		xrServer::client_Destroy	(IClient* C)
 {
-	csPlayers.Enter	();
-	
 	// Delete assosiated entity
 	// xrClientData*	D = (xrClientData*)C;
 	// CSE_Abstract* E = D->owner;
-	for (u32 DI=0; DI<net_Players_disconnected.size(); DI++)
+	IClient* alife_client = net_players.FindAndEraseClient(
+		std::bind(std::equal_to<IClient*>(), C, _1)
+	);
+	//VERIFY(alife_client);
+	if (alife_client)
 	{
-		if (net_Players_disconnected[DI] == C)
-		{
-			xr_delete(C);
-			net_Players_disconnected.erase(net_Players_disconnected.begin()+DI);
-			break;
-		};
-	};
+		CSE_Abstract* pOwner = static_cast<xrClientData*>(alife_client)->owner; //???
 
-	for (u32 I=0; I<net_Players.size(); I++)
-	{
-		if (net_Players[I] == C)
-		{
-			//has spectator ?
-			CSE_Abstract* pOwner	= ((xrClientData*)C)->owner;
-			CSE_Spectator* pS		=	smart_cast<CSE_Spectator*>(pOwner);
-			if (pS)
+
+		DelayedPacket pp;
+		pp.SenderID = alife_client->ID;
+		xr_deque<DelayedPacket>::iterator it;
+		do {
+			it = std::find(m_aDelayedPackets.begin(), m_aDelayedPackets.end(), pp);
+			if (it != m_aDelayedPackets.end())
 			{
-				NET_Packet			P;
-				P.w_begin			(M_EVENT);
-				P.w_u32				(Level().timeServer());//Device.TimerAsync());
-				P.w_u16				(GE_DESTROY);
-				P.w_u16				(pS->ID);
-				SendBroadcast		(BroadcastCID,P,net_flags(TRUE,TRUE));
-			};
-
-			{
-				DelayedPacket pp;
-				pp.SenderID = C->ID;
-
-				xr_deque<DelayedPacket>::iterator it;
-				do{
-					it						=std::find(m_aDelayedPackets.begin(),m_aDelayedPackets.end(),pp);
-					if(it!=m_aDelayedPackets.end())
-					{
-						m_aDelayedPackets.erase	(it);
-						Msg("removing packet from delayed event storage");
-					}else
-						break;
-				}while(true);
-			}
-
-			if (!g_sv_Client_Reconnect_Time || !C->flags.bVerified)
-			{
-				xr_delete(C);				
+				m_aDelayedPackets.erase(it);
+				Msg("removing packet from delayed event storage");
 			}
 			else
-			{
-				C->dwTime_LastUpdate = Device.dwTimeGlobal;
-				net_Players_disconnected.push_back(C);				
-				((xrClientData*)C)->Clear();
-			};
-			net_Players.erase	(net_Players.begin()+I);
-			break;
-		};
+				break;
+		} while (true);
 	}
 
-	csPlayers.Leave();
 }
 
 //--------------------------------------------------------------------
@@ -226,7 +172,6 @@ INT g_sv_SendUpdate = 0;
 void xrServer::Update	()
 {
 	NET_Packet		Packet;
-	csPlayers.Enter	();
 
 	ProceedDelayedPackets();
 	// game update
@@ -261,22 +206,10 @@ void xrServer::Update	()
 	VERIFY						(verify_entities());
 #endif
 	//-----------------------------------------------------
-	//Remove any of long time disconnected players
-	for (u32 DI = 0; DI<net_Players_disconnected.size(); )
-	{
-		IClient* CL				= net_Players_disconnected[DI];
-		if (CL->dwTime_LastUpdate+g_sv_Client_Reconnect_Time*60000<Device.dwTimeGlobal)
-		{
-			client_Destroy(CL);
-			continue;
-		}
-		DI++;
-	}
 
 	PerformCheckClientsForMaxPing	();
 
 	Flush_Clients_Buffers			();
-	csPlayers.Leave					();
 	
 	if( 0==(Device.dwFrame%100) )//once per 100 frames
 	{
@@ -286,133 +219,13 @@ void xrServer::Update	()
 
 void xrServer::SendUpdatesToAll()
 {
-	m_iCurUpdatePacket = 0;
-	NET_Packet* pCurUpdatePacket = &(m_aUpdatePackets[0]);
-	pCurUpdatePacket->B.count = 0;
-	u32	 position;
-
-	R_ASSERT2(net_Players.size() == 1, "Player can only one!!!!");
-
-	for (u32 client=0; client<net_Players.size(); ++client)
-	{// for each client
-		// Initialize process and check for available bandwidth
-		xrClientData*	Client			= (xrClientData*) net_Players	[client];
-		if (!Client->net_Ready)			continue;
-
-		int ForASSERT_ = 0;
-#ifdef DEBUG
-		ForASSERT_ = g_sv_SendUpdate;
-#endif
-
-		R_ASSERT2(HasBandwidth(Client) && !ForASSERT_, "This check is also dead. If this R_ASSERT was triggered, most likely you have a multiplayer game.");
-
-		// Send relevant entities to client
-		NET_Packet						Packet;
-		u16 PacketType					= M_UPDATE;
-		Packet.w_begin					(PacketType);
-		// GameUpdate
-		game->net_Export_Update			(Packet,Client->ID,Client->ID);
-		game->net_Export_GameTime		(Packet);
-
-		if (Client->flags.bLocal)//this is server client;
-		{
-			SendTo			(Client->ID,Packet,net_flags(FALSE,TRUE));
-			continue;
-		}
-
-		R_ASSERT2(false, "It is not called.");
-		if (m_aUpdatePackets[0].B.count != 0) //not a first client in update cycle
-		{
-			m_aUpdatePackets[0].w_seek(0, Packet.B.data, Packet.B.count);			
-		}
-		else
-		{
-			m_aUpdatePackets[0].w(Packet.B.data, Packet.B.count);				
-
-			if (g_Dump_Update_Write) 
-			{
-				if (Client->ps)
-					Msg("---- UPDATE_Write to %s --- ", Client->ps->getName());
-				else
-					Msg("---- UPDATE_Write to %s --- ", *(Client->name));
-			}
-			
-	
-
-			NET_Packet						tmpPacket;			
-
-			xrS_entities::iterator I	= entities.begin();
-			xrS_entities::iterator E	= entities.end();
-			for (; I!=E; ++I)
-			{//all entities
-				CSE_Abstract&	Test = *(I->second);
-
-				if (0==Test.owner)								continue;
-				if (!Test.net_Ready)							continue;
-				if (Test.s_flags.is(M_SPAWN_OBJECT_PHANTOM))	continue;	// Surely: phantom
-				if (!Test.Net_Relevant() )						continue;
-
-				tmpPacket.B.count					= 0;
-				// write specific data
-				{
-					tmpPacket.w_u16					(Test.ID);
-					tmpPacket.w_chunk_open8			(position);
-					Test.UPDATE_Write				(tmpPacket);
-					u32 ObjectSize					= u32(tmpPacket.w_tell()-position)-sizeof(u8);
-					tmpPacket.w_chunk_close8		(position);
-
-					if (ObjectSize == 0)						continue;					
-#ifdef DEBUG
-					if (g_Dump_Update_Write) Msg("* %s : %d", Test.name(), ObjectSize);
-#endif
-
-					if (pCurUpdatePacket->B.count + tmpPacket.B.count >= NET_PacketSizeLimit)
-					{
-						m_iCurUpdatePacket++;
-
-						if (m_aUpdatePackets.size() == m_iCurUpdatePacket) m_aUpdatePackets.push_back(NET_Packet());				
-					}
-					pCurUpdatePacket->w(tmpPacket.B.data, tmpPacket.B.count);
-				}//all entities
-			}
-		}
-
-		//.#ifdef DEBUG
-		if (g_Dump_Update_Write) Msg("----------------------- ");
-		//.#endif			
-		for (u32 p =0; p<=m_iCurUpdatePacket; p++)
-		{
-			NET_Packet& ToSend = m_aUpdatePackets[p];
-			if (ToSend.B.count>2)
-			{
-				//.#ifdef DEBUG
-				if (g_Dump_Update_Write && Client->ps != NULL) 
-				{
-					Msg ("- Server Update[%d] to Client[%s]  : %d", 
-						*((u16*)ToSend.B.data), 
-						Client->ps->getName(), 
-						ToSend.B.count);
-				}
-//.#endif
-
-				
-				SendTo			(Client->ID,ToSend,net_flags(FALSE,TRUE));
-			}
-		}
+	if (IsGameTypeSingle())
+		return;
 
 
-	};	// for each client
-#ifdef DEBUG
-	g_sv_SendUpdate = 0;
-#endif			
-
-#pragma todo("What is a "double" export? The same code element is in Update (Look at the line 259).")
-	if (game->sv_force_sync)	
-		Perform_game_export();
-
-#ifdef SLOW_VERIFY_ENTITIES
-	VERIFY(verify_entities());
-#endif
+	//sending game_update 
+	fastdelegate::FastDelegate1<IClient*, void> sendtofd;
+	ForEachClientDoSender(sendtofd);
 }
 
 xr_vector<shared_str>	_tmp_log;
@@ -427,8 +240,6 @@ u32 xrServer::OnDelayedMessage	(NET_Packet& P, ClientID sender)			// Non-Zero me
 		Level().Demo_StoreServerData(P.B.data, P.B.count);
 	u16						type;
 	P.r_begin				(type);
-
-	csPlayers.Enter			();
 
 	xrClientData* CL				= ID_to_client(sender);
 	R_ASSERT2						(CL, make_string("packet type [%d]",type).c_str());
@@ -471,7 +282,6 @@ u32 xrServer::OnDelayedMessage	(NET_Packet& P, ClientID sender)			// Non-Zero me
 	VERIFY							(verify_entities());
 #endif
 
-	csPlayers.Leave					();
 	return 0;
 }
 
@@ -481,8 +291,6 @@ u32 xrServer::OnMessage	(NET_Packet& P, ClientID sender)			// Non-Zero means bro
 	if (g_pGameLevel && Level().IsDemoSave()) Level().Demo_StoreServerData(P.B.data, P.B.count);
 	u16			type;
 	P.r_begin	(type);
-
-	csPlayers.Enter			();
 
 	xrClientData* CL				= ID_to_client(sender);
 
@@ -659,8 +467,6 @@ u32 xrServer::OnMessage	(NET_Packet& P, ClientID sender)			// Non-Zero means bro
 	VERIFY							(verify_entities());
 #endif
 
-	csPlayers.Leave					();
-
 	return							IPureServer::OnMessage(P, sender);
 }
 
@@ -769,7 +575,7 @@ void			xrServer::Server_Client_Check	( IClient* CL )
 bool		xrServer::OnCL_QueryHost		() 
 {
 	if (game->Type() == GAME_SINGLE) return false;
-	return (client_Count() != 0); 
+	return (GetClientsCount() != 0); 
 };
 
 CSE_Abstract*	xrServer::GetEntity			(u32 Num)
@@ -785,23 +591,6 @@ CSE_Abstract*	xrServer::GetEntity			(u32 Num)
 
 void		xrServer::OnChatMessage(NET_Packet* P, xrClientData* CL)
 {
-//	string256 ChatMsg;
-//	u16 PlayerID = P->r_u16();
-	s16 team = P->r_s16();
-//	P->r_stringZ(ChatMsg);
-	if (!CL->net_Ready) return;
-	game_PlayerState* Cps = CL->ps;
-	for (u32 client=0; client<net_Players.size(); ++client)
-	{
-		// Initialize process and check for available bandwidth
-		xrClientData*	Client		= (xrClientData*) net_Players	[client];
-		game_PlayerState* ps = Client->ps;
-		if (!Client->net_Ready) continue;
-		if (team != 0 && ps->team != team) continue;
-		if (Cps->testFlag(GAME_PLAYER_FLAG_VERY_VERY_DEAD) && !ps->testFlag(GAME_PLAYER_FLAG_VERY_VERY_DEAD))
-			continue;
-		SendTo(Client->ID, *P);
-	};
 };
 
 #ifdef DEBUG
@@ -900,33 +689,49 @@ u8	g_sv_maxPingWarningsCount	= 5;
 
 void xrServer::PerformCheckClientsForMaxPing()
 {
-	for (u32 client=0; client<net_Players.size(); ++client)
+	struct MaxPingClientDisconnector
 	{
-		xrClientData*	Client		= (xrClientData*) net_Players	[client];
-		game_PlayerState* ps		= Client->ps;
-		
-		if(	ps->ping > g_sv_dwMaxClientPing && 
-			Client->m_ping_warn.m_dwLastMaxPingWarningTime+g_sv_time_for_ping_check < Device.dwTimeGlobal )
+		xrServer* m_owner;
+		MaxPingClientDisconnector(xrServer* owner) :
+			m_owner(owner)
+		{}
+		void operator()(IClient* client)
 		{
-			++Client->m_ping_warn.m_maxPingWarnings;
-			Client->m_ping_warn.m_dwLastMaxPingWarningTime	= Device.dwTimeGlobal;
+			xrClientData* Client = static_cast<xrClientData*>(client);
+			game_PlayerState* ps = Client->ps;
+			if (!ps)
+				return;
 
-			if(Client->m_ping_warn.m_maxPingWarnings >= g_sv_maxPingWarningsCount)
-			{  //kick
-				Level().Server->DisconnectClient		(Client);
-			}else
-			{ //send warning
-				NET_Packet		P;	
-				P.w_begin		(M_CLIENT_WARN);
-				P.w_u8			(1); // 1 means max-ping-warning
-				P.w_u16			(ps->ping);
-				P.w_u8			(Client->m_ping_warn.m_maxPingWarnings);
-				P.w_u8			(g_sv_maxPingWarningsCount);
-				SendTo			(Client->ID,P,net_flags(FALSE,TRUE));
+			if (client == m_owner->GetServerClient())
+				return;
+
+			if (ps->ping > g_sv_dwMaxClientPing &&
+				Client->m_ping_warn.m_dwLastMaxPingWarningTime + g_sv_time_for_ping_check < Device.dwTimeGlobal)
+			{
+				++Client->m_ping_warn.m_maxPingWarnings;
+				Client->m_ping_warn.m_dwLastMaxPingWarningTime = Device.dwTimeGlobal;
+
+				if (Client->m_ping_warn.m_maxPingWarnings >= g_sv_maxPingWarningsCount)
+				{  //kick
+					LPSTR	reason;
+					STRCONCAT(reason, CStringTable().translate("st_kicked_by_server").c_str());
+					Level().Server->DisconnectClient(Client, reason);
+				}
+				else
+				{ //send warning
+					NET_Packet		P;
+					P.w_begin(M_CLIENT_WARN);
+					P.w_u8(1); // 1 means max-ping-warning
+					P.w_u16(ps->ping);
+					P.w_u8(Client->m_ping_warn.m_maxPingWarnings);
+					P.w_u8(g_sv_maxPingWarningsCount);
+					m_owner->SendTo(Client->ID, P, net_flags(FALSE, TRUE));
+				}
 			}
 		}
-		
 	};
+	MaxPingClientDisconnector temp_functor(this);
+	ForEachClientDoSender(temp_functor);
 }
 
 //extern	s32		g_sv_dm_dwFragLimit;

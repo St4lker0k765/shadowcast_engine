@@ -10,8 +10,8 @@
 
 #include "script_export_space.h"
 #include "base_client_classes.h"
-#include "../xrEngine/engineapi.h"
-#include "../xrEngine/ispatial.h"
+#include "../xrEngine/engine.h"
+#include "../xrCDB/ispatial.h"
 #include "../xrEngine/isheduled.h"
 #include "../xrEngine/irenderable.h"
 #include "../xrEngine/icollidable.h"
@@ -19,8 +19,8 @@
 #include "entity.h"
 #include "ai_space.h"
 #include "script_engine.h"
-#include <typelist.h>
-#include <hierarchygenerators.h>
+#include <loki/typelist.h>
+#include <loki/hierarchygenerators.h>
 #include "xrServer_Object_Base.h"
 
 template <typename _1, typename _2>

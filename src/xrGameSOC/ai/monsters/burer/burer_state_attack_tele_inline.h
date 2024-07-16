@@ -173,7 +173,7 @@ void CStateBurerAttackTeleAbstract::FindObjects	()
 	tele_objects.clear	();
 
 	// получить список объектов вокруг врага
-	m_nearest.clear_not_free		();
+	m_nearest.clear		();
 	m_nearest.reserve				(res_size);
 	FindFreeObjects					(m_nearest, object->EnemyMan.get_enemy()->Position());
 

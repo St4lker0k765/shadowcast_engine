@@ -709,39 +709,40 @@ void CWeaponMagazined::switch2_Showing()
 	PlayAnimShow();
 }
 
-bool CWeaponMagazined::Action(s32 cmd, u32 flags) 
+bool CWeaponMagazined::Action(s32 cmd, u32 flags)
 {
-	if(inherited::Action(cmd, flags)) return true;
-	
+	if (inherited::Action(cmd, flags)) return true;
+
 	//если оружие чем-то занято, то ничего не делать
-	if(IsPending()) return false;
-	
-	switch(cmd) 
+	if (IsPending()) return false;
+
+	switch (cmd)
 	{
 	case kWPN_RELOAD:
-		{
-			if(flags & CMD_START) 
-				if(iAmmoElapsed < iMagazineSize || IsMisfire()) 
-					Reload();
+	{
+		if (flags & CMD_START)
+			if (iAmmoElapsed < iMagazineSize || IsMisfire())
+				Reload();
 		return true;
 	case kWPN_FIREMODE_PREV:
+	{
+		if (flags & CMD_START)
 		{
-			if(flags&CMD_START) 
-			{
-				OnPrevFireMode();
-				return true;
-			};
-		}break;
+			OnPrevFireMode();
+			return true;
+		};
+	}break;
 	case kWPN_FIREMODE_NEXT:
+	{
+		if (flags & CMD_START)
 		{
-			if(flags&CMD_START) 
-			{
-				OnNextFireMode();
-				return true;
-			};
-		}break;
+			OnNextFireMode();
+			return true;
+		};
+	}break;
 	}
 	return false;
+	}
 }
 
 bool CWeaponMagazined::CanAttach(PIItem pIItem)

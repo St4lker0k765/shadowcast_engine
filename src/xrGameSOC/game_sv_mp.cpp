@@ -700,25 +700,25 @@ void game_sv_mp::OnVoteStart				(LPCSTR VoteCommand, ClientID sender)
 			string256 WeatherTime = "", WeatherName = "";
 			sscanf(CommandParams, "%s %s", WeatherName, WeatherTime );
 
-			m_pVoteCommand.sprintf("%s %s", votecommands[i].command, WeatherTime);
+			m_pVoteCommand.printf("%s %s", votecommands[i].command, WeatherTime);
 			sprintf_s(resVoteCommand, "%s %s", votecommands[i].name, WeatherName);
 		}
 		else
 		{
-			m_pVoteCommand.sprintf("%s %s", votecommands[i].command, CommandParams);
+			m_pVoteCommand.printf("%s %s", votecommands[i].command, CommandParams);
 			strcpy(resVoteCommand, VoteCommand);
 		}		
 	}
 	else
 	{
-		m_pVoteCommand.sprintf("%s", VoteCommand+1);
+		m_pVoteCommand.printf("%s", VoteCommand+1);
 	};
 
 	xrClientData *pStartedPlayer = NULL;
 	u32	cnt = get_players_count();	
 	for(u32 it=0; it<cnt; it++)	
 	{
-		xrClientData *l_pC = (xrClientData*)	m_server->client_Get	(it);
+		xrClientData *l_pC = (xrClientData*)	m_server->FindClient	(it);
 		if (!l_pC) continue;
 		if (l_pC->ID == sender)
 		{
@@ -755,7 +755,7 @@ void		game_sv_mp::UpdateVote				()
 	u32	cnt = get_players_count();	
 	for(u32 it=0; it<cnt; it++)	
 	{
-		xrClientData *l_pC = (xrClientData*)	m_server->client_Get	(it);
+		xrClientData *l_pC = (xrClientData*)	m_server->FindClient	(it);
 		game_PlayerState* ps	= l_pC->ps;
 		if (!l_pC || !l_pC->net_Ready || !ps || ps->IsSkip()) continue;
 		if (ps->m_bCurrentVoteAgreed != 2) NumParticipated++;
@@ -933,7 +933,7 @@ void	game_sv_mp::SendPlayerKilledMessage	(u16 KilledID, KILL_TYPE KillType, u16 
 	u32	cnt = get_players_count();	
 	for( u32 it = 0; it < cnt; it++ )
 	{
-		xrClientData *l_pC = (xrClientData*)	m_server->client_Get	(it);
+		xrClientData *l_pC = (xrClientData*)	m_server->FindClient	(it);
 		game_PlayerState* ps	= l_pC->ps;
 		if (!l_pC || !l_pC->net_Ready || !ps) continue;
 		m_server->SendTo(l_pC->ID, P);
@@ -980,7 +980,7 @@ void	game_sv_mp::OnPlayerChangeName		(NET_Packet& P, ClientID sender)
 		u32	cnt = get_players_count();	
 		for(u32 it=0; it<cnt; it++)	
 		{
-			xrClientData *l_pC = (xrClientData*)	m_server->client_Get	(it);
+			xrClientData *l_pC = (xrClientData*)	m_server->FindClient	(it);
 			game_PlayerState* ps	= l_pC->ps;
 			if (!l_pC || !l_pC->net_Ready || !ps) continue;
 			m_server->SendTo(l_pC->ID, P);
@@ -1017,7 +1017,7 @@ void		game_sv_mp::OnPlayerSpeechMessage	(NET_Packet& P, ClientID sender)
 		u32	cnt = get_players_count();	
 		for(u32 it=0; it<cnt; it++)	
 		{
-			xrClientData *l_pC = (xrClientData*)	m_server->client_Get	(it);
+			xrClientData *l_pC = (xrClientData*)	m_server->FindClient	(it);
 			game_PlayerState* ps	= l_pC->ps;
 			if (!l_pC || !l_pC->net_Ready || !ps) continue;
 			m_server->SendTo(l_pC->ID, NP, net_flags(TRUE, TRUE, TRUE));
@@ -1164,7 +1164,7 @@ void	game_sv_mp::UpdatePlayersMoney		()
 	u32	cnt = get_players_count();	
 	for(u32 it=0; it<cnt; it++)	
 	{
-		xrClientData *l_pC = (xrClientData*)	m_server->client_Get	(it);
+		xrClientData *l_pC = (xrClientData*)	m_server->FindClient	(it);
 		game_PlayerState* ps	= l_pC->ps;
 		if (!l_pC || !l_pC->net_Ready || !ps) continue;
 		if (!ps->money_added && ps->m_aBonusMoney.empty()) continue;
@@ -1294,7 +1294,7 @@ void game_sv_mp::DumpOnlineStatistic()
 	shared_str					current_section = "global";
 	string256					str_buff;
 
-	ini.w_u32					(current_section.c_str(), "players_total_cnt", m_server->client_Count());
+	ini.w_u32					(current_section.c_str(), "players_total_cnt", m_server->GetClientsCount());
 
 	sprintf_s					(str_buff,"\"%s\"",CStringTable().translate(Level().name().c_str()).c_str());
 	ini.w_string				(current_section.c_str(), "current_map_name", str_buff);
@@ -1312,9 +1312,9 @@ void game_sv_mp::DumpOnlineStatistic()
 		ini.w_string				("map_rotation", num_buf, str_buff);
 	}
 
-	for(u32 idx=0; idx<m_server->client_Count(); ++idx)
+	for(u32 idx=0; idx<m_server->GetClientsCount(); ++idx)
 	{
-		xrClientData *l_pC			= (xrClientData*)m_server->client_Get(idx);
+		xrClientData *l_pC			= (xrClientData*)m_server->FindClient(idx);
 		
 		if(m_server->GetServerClient()==l_pC && g_dedicated_server) 
 			continue;
@@ -1397,9 +1397,9 @@ void game_sv_mp::DumpRoundStatistics()
 	sprintf_s					(str_buff,"\"%s\"",Level().name().c_str());
 	ini.w_string				(current_section.c_str(), "current_map_name_internal", str_buff);
 
-	for(u32 idx=0; idx<m_server->client_Count(); ++idx)
+	for(u32 idx=0; idx<m_server->GetClientsCount(); ++idx)
 	{
-		xrClientData *l_pC			= (xrClientData*)m_server->client_Get(idx);
+		xrClientData *l_pC			= (xrClientData*)m_server->FindClient(idx);
 		if(m_server->GetServerClient()==l_pC && g_dedicated_server) 
 			continue;
 

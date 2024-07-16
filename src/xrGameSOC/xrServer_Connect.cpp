@@ -38,15 +38,18 @@ xrServer::EConnect xrServer::Connect(shared_str &session_name)
 
 	// Options
 	if (0==game)			return ErrConnect;
-	csPlayers.Enter			();
 //	game->type				= type_id;
 #ifdef DEBUG
 	Msg("* Created server_game %s",game->type_name());
 #endif
 
 	game->Create			(session_name);
-	csPlayers.Leave			();
-	
+	GameDescriptionData game_descr;
+	ZeroMemory(&game_descr, sizeof(game_descr));
+	strcpy(game_descr.map_name, game->level_name(session_name.c_str()).c_str());
+	strcpy(game_descr.map_version, "");
+	strcpy(game_descr.download_url, "");
+
 #ifdef BATTLEYE
 	if ( game->get_option_i( *session_name, "battleye", 1) != 0 ) // default => battleye enable (always)
 	{
@@ -79,7 +82,7 @@ xrServer::EConnect xrServer::Connect(shared_str &session_name)
 	}*/
 #endif // BATTLEYE
 	
-	return IPureServer::Connect(*session_name);
+	return IPureServer::Connect(*session_name, game_descr);
 }
 
 
@@ -109,7 +112,7 @@ IClient* xrServer::new_client( SClientConnectData* cl_data )
 	P.r_pos			= 0;
 	
 	game->AddDelayedEvent( P, GAME_EVENT_CREATE_CLIENT, 0, CL->ID );
-	if ( client_Count() == 1 )
+	if ( GetClientsCount() == 1 )
 	{
 		Update();
 	}
@@ -121,8 +124,6 @@ void xrServer::AttachNewClient			(IClient* CL)
 	MSYS_CONFIG	msgConfig;
 	msgConfig.sign1 = 0x12071980;
 	msgConfig.sign2 = 0x26111975;
-	msgConfig.is_battleye = 0;
-
 #ifdef BATTLEYE
 	msgConfig.is_battleye = (g_pGameLevel && Level().battleye_system.server != 0)? 1 : 0;
 #endif // BATTLEYE

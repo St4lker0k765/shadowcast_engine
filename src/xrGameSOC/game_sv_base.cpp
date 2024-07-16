@@ -45,7 +45,7 @@ xr_token	round_end_result_str[]=
 // Main
 game_PlayerState*	game_sv_GameState::get_it					(u32 it)
 {
-	xrClientData*	C	= (xrClientData*)m_server->client_Get			(it);
+	xrClientData*	C	= (xrClientData*)m_server->FindClient(it);
 	if (0==C)			return 0;
 	else				return C->ps;
 }
@@ -59,7 +59,7 @@ game_PlayerState*	game_sv_GameState::get_id					(ClientID id)
 
 ClientID				game_sv_GameState::get_it_2_id				(u32 it)
 {
-	xrClientData*	C	= (xrClientData*)m_server->client_Get		(it);
+	xrClientData*	C	= (xrClientData*)m_server->FindClient		(it);
 	if (0==C){
 		ClientID clientID;clientID.set(0);
 		return clientID;
@@ -69,7 +69,7 @@ ClientID				game_sv_GameState::get_it_2_id				(u32 it)
 
 LPCSTR				game_sv_GameState::get_name_it				(u32 it)
 {
-	xrClientData*	C	= (xrClientData*)m_server->client_Get		(it);
+	xrClientData*	C	= (xrClientData*)m_server->FindClient(it);
 	if (0==C)			return 0;
 	else				return *C->name;
 }
@@ -92,7 +92,7 @@ LPCSTR				game_sv_GameState::get_player_name_id				(ClientID id)
 
 u32					game_sv_GameState::get_players_count		()
 {
-	return				m_server->client_Count();
+	return				m_server->GetClientsCount();
 }
 
 u16					game_sv_GameState::get_id_2_eid				(ClientID id)
@@ -140,7 +140,7 @@ void* game_sv_GameState::get_client (u16 id) //if exist
 	u32		cnt		= get_players_count	();
 	for		(u32 it=0; it<cnt; ++it)	
 	{
-		xrClientData*	C	= (xrClientData*)m_server->client_Get		(it);
+		xrClientData*	C	= (xrClientData*)m_server->FindClient		(it);
 		if (!C || !C->ps) continue;
 //		game_PlayerState*	ps	=	get_it	(it);
 		if (C->ps->HasOldID(id)) return C;
@@ -244,7 +244,7 @@ void game_sv_GameState::net_Export_State						(NET_Packet& P, ClientID to)
 	u32 p_count = 0;
 	for (u32 p_it=0; p_it<get_players_count(); ++p_it)
 	{
-		xrClientData*	C		=	(xrClientData*)	m_server->client_Get	(p_it);		
+		xrClientData*	C		=	(xrClientData*)	m_server->FindClient	(p_it);		
 		if (!C->net_Ready || (C->ps->IsSkip() && C->ID != to)) continue;
 		p_count++;
 	};
@@ -254,7 +254,7 @@ void game_sv_GameState::net_Export_State						(NET_Packet& P, ClientID to)
 	for (u32 p_it=0; p_it<get_players_count(); ++p_it)
 	{
 		string64	p_name;
-		xrClientData*	C		=	(xrClientData*)	m_server->client_Get	(p_it);
+		xrClientData*	C		=	(xrClientData*)	m_server->FindClient	(p_it);
 		game_PlayerState* A		=	get_it			(p_it);
 		if (!C->net_Ready || (A->IsSkip() && C->ID != to)) continue;
 		if (0==C)	strcpy(p_name,"Unknown");
@@ -557,8 +557,8 @@ void game_sv_GameState::u_EventSend(NET_Packet& P, u32 dwFlags)
 
 void game_sv_GameState::Update		()
 {
-	for (u32 it=0; it<m_server->client_Count(); ++it) {
-		xrClientData*	C			= (xrClientData*)	m_server->client_Get(it);
+	for (u32 it=0; it<m_server->GetClientsCount(); ++it) {
+		xrClientData*	C			= (xrClientData*)	m_server->FindClient(it);
 		C->ps->ping					= u16(C->stats.getPing());
 	}
 	
@@ -710,7 +710,7 @@ bool game_sv_GameState::NewPlayerName_Exists( void* pClient, LPCSTR NewName )
 	u32	cnt	= get_players_count();
 	for ( u32 it = 0; it < cnt; ++it )	
 	{
-		IClient*	pIC	= m_server->client_Get(it);
+		IClient*	pIC	= m_server->FindClient(it);
 		if ( !pIC || pIC == CL ) continue;
 		string64 xName;
 		strcpy( xName, pIC->name.c_str() );

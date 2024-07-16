@@ -248,10 +248,10 @@ void CBurer::UpdateGraviObject()
 	pos.translate_over(m_gravi_object.cur_pos);
 
 	ps->UpdateParent(pos, zero_vel);
-	ps->Play();
+	ps->Play(false);
 	
 	// hit objects
-	m_nearest.clear_not_free		();
+	m_nearest.clear		();
 	Level().ObjectSpace.GetNearest	(m_nearest,m_gravi_object.cur_pos, m_gravi_radius, NULL); 
 	//xr_vector<CObject*> &m_nearest = Level().ObjectSpace.q_nearest;
 

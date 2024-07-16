@@ -771,8 +771,6 @@ bool CWeapon::Action(s32 cmd, u32 flags)
 					return false;
 				}
 
-				if (Core.Features.test(xrCore::Feature::lock_reload_in_sprint) && ParentIsActor() && g_actor->get_state() & mcSprint)
-					return true;
 
 				if(flags & CMD_START) 
 				{

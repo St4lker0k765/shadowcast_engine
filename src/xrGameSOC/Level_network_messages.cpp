@@ -18,8 +18,6 @@ void CLevel::ClientReceive()
 
 	Demo_StartFrame();
 
-	Demo_Update();
-
 	m_dwRPC = 0;
 	m_dwRPS = 0;
 
@@ -70,6 +68,7 @@ void CLevel::ClientReceive()
 			if (g_bDebugEvents)		ProcessGameEvents();
 			break;
 		case M_EVENT_PACK:
+		{
 			NET_Packet	tmpP;
 			while (!P->r_eof())
 			{
@@ -77,9 +76,10 @@ void CLevel::ClientReceive()
 				P->r(&tmpP.B.data, tmpP.B.count);
 				tmpP.timeReceive = P->timeReceive;
 
-				game_events->insert		(tmpP);
+				game_events->insert(tmpP);
 				if (g_bDebugEvents)		ProcessGameEvents();
-			};			
+			};
+		}
 			break;
 		case M_UPDATE:
 		{
