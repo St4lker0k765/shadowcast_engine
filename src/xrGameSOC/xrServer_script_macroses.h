@@ -49,7 +49,7 @@ class CALifeSmartTerrainTask;
 	DEFINE_LUA_WRAPPER_CONST_METHOD_0	(can_switch_offline,	bool)\
 	DEFINE_LUA_WRAPPER_CONST_METHOD_0	(interactive,			bool)
 
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 #	define INHERIT_DYNAMIC_ALIFE \
 	INHERIT_ALIFE\
 	DEFINE_LUA_WRAPPER_METHOD_V0		(on_spawn)\
@@ -62,7 +62,7 @@ class CALifeSmartTerrainTask;
 	INHERIT_ALIFE
 #endif
 
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 #	define INHERIT_ZONE \
 	INHERIT_DYNAMIC_ALIFE\
 	DEFINE_LUA_WRAPPER_METHOD_V0		(update)\
@@ -81,20 +81,20 @@ class CALifeSmartTerrainTask;
 	DEFINE_LUA_WRAPPER_METHOD_0			(detect_probability,float)
 #endif
 
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 #	define INHERIT_CREATURE \
 		INHERIT_DYNAMIC_ALIFE\
 		DEFINE_LUA_WRAPPER_METHOD_0			(g_team,	u8)\
 		DEFINE_LUA_WRAPPER_METHOD_0			(g_squad,	u8)\
 		DEFINE_LUA_WRAPPER_METHOD_0			(g_group,	u8)\
 		DEFINE_LUA_WRAPPER_METHOD_V1		(on_death,	CSE_Abstract*)
-#else // XRGAME_EXPORTS
+#else // XRGAMESOC_EXPORTS
 #	define INHERIT_CREATURE \
 		INHERIT_DYNAMIC_ALIFE\
 		DEFINE_LUA_WRAPPER_METHOD_0			(g_team,	u8)\
 		DEFINE_LUA_WRAPPER_METHOD_0			(g_squad,	u8)\
 		DEFINE_LUA_WRAPPER_METHOD_0			(g_group,	u8)
-#endif // XRGAME_EXPORTS
+#endif // XRGAMESOC_EXPORTS
 
 #define INHERIT_MONSTER \
 	INHERIT_CREATURE\
@@ -199,7 +199,7 @@ struct CWrapperAbstractItem : public T, public luabind::wrap_base {
 	DEFINE_LUABIND_VIRTUAL_FUNCTION(a,b,used_ai_locations	) \
 	DEFINE_LUABIND_VIRTUAL_FUNCTION(a,b,can_save			) \
 
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 #	define luabind_virtual_dynamic_alife(a,b) \
 	DEFINE_LUABIND_VIRTUAL_FUNCTION(a,b,on_spawn			) \
 	DEFINE_LUABIND_VIRTUAL_FUNCTION(a,b,on_before_register	) \
@@ -210,20 +210,20 @@ struct CWrapperAbstractItem : public T, public luabind::wrap_base {
 #	define luabind_virtual_dynamic_alife(a,b)
 #endif
 
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 #	define luabind_virtual_creature(a,b) \
 		DEFINE_LUABIND_VIRTUAL_FUNCTION(a,b,g_team	) \
 		DEFINE_LUABIND_VIRTUAL_FUNCTION(a,b,g_squad	) \
 		DEFINE_LUABIND_VIRTUAL_FUNCTION(a,b,g_group	) \
 		DEFINE_LUABIND_VIRTUAL_FUNCTION(a,b,on_death)
-#else // XRGAME_EXPORTS
+#else // XRGAMESOC_EXPORTS
 #	define luabind_virtual_creature(a,b) \
 		DEFINE_LUABIND_VIRTUAL_FUNCTION(a,b,g_team	) \
 		DEFINE_LUABIND_VIRTUAL_FUNCTION(a,b,g_squad	) \
 		DEFINE_LUABIND_VIRTUAL_FUNCTION(a,b,g_group	)
-#endif // XRGAME_EXPORTS
+#endif // XRGAMESOC_EXPORTS
 
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 #	define luabind_virtual_zone(a,b) \
 		DEFINE_LUABIND_VIRTUAL_FUNCTION(a,b,update)\
 		DEFINE_LUABIND_VIRTUAL_FUNCTION(a,b,smart_touch)\

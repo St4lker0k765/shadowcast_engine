@@ -10,7 +10,7 @@
 
 #include "associative_vector.h"
 
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 #	include "../xrEngine/xrLevel.h"
 #else
 #	include "xrLevel.h"

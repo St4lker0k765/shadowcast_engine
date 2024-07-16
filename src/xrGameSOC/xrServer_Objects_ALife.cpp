@@ -18,7 +18,7 @@
 #	include "character_info.h"
 #endif
 
-#ifndef XRGAME_EXPORTS
+#ifndef XRGAMESOC_EXPORTS
 #	include "bone.h"
 #	include "defines.h"
 	LPCSTR GAME_CONFIG = "game.ltx";
@@ -66,15 +66,15 @@ struct SFillPropData{
     void		load			()
     {
         // create ini
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
         CInifile				*Ini = 	pGameIni;
-#else // XRGAME_EXPORTS
+#else // XRGAMESOC_EXPORTS
         CInifile				*Ini = 0;
         string_path				gm_name;
         FS.update_path			(gm_name,"$game_config$",GAME_CONFIG);
         R_ASSERT3				(FS.exist(gm_name),"Couldn't find file",gm_name);
         Ini						= xr_new<CInifile>(gm_name);
-#endif // XRGAME_EXPORTS
+#endif // XRGAMESOC_EXPORTS
 
         // location type
         LPCSTR					N,V;
@@ -129,9 +129,9 @@ struct SFillPropData{
 #endif
 		
         // destroy ini
-#ifndef XRGAME_EXPORTS
+#ifndef XRGAMESOC_EXPORTS
 		xr_delete				(Ini);
-#endif // XRGAME_EXPORTS
+#endif // XRGAMESOC_EXPORTS
     }
     void		unload			()
     {
@@ -254,7 +254,7 @@ CSE_ALifeObject::CSE_ALifeObject			(LPCSTR caSection) : CSE_Abstract(caSection)
 	m_flags.one					();
 	m_story_id					= INVALID_STORY_ID;
 	m_spawn_story_id			= INVALID_SPAWN_STORY_ID;
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 	m_alife_simulator			= 0;
 #endif
 #ifdef XRSE_FACTORY_EXPORTS
@@ -264,7 +264,7 @@ CSE_ALifeObject::CSE_ALifeObject			(LPCSTR caSection) : CSE_Abstract(caSection)
 	seed						(u32(CPU::QPC() & 0xffffffff));
 }
 
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 CALifeSimulator	&CSE_ALifeObject::alife	() const
 {
 	VERIFY						(m_alife_simulator);
@@ -1194,7 +1194,7 @@ bool CSE_ALifeObjectHangingLamp::validate			()
 bool CSE_ALifeObjectHangingLamp::match_configuration() const
 {
 	R_ASSERT3(flags.test(flR1) || flags.test(flR2),"no renderer type set for hanging-lamp ",name_replace());
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 	return						(
 		(flags.test(flR1) && (::Render->get_generation() == IRender_interface::GENERATION_R1)) ||
 		(flags.test(flR2) && (::Render->get_generation() == IRender_interface::GENERATION_R2))

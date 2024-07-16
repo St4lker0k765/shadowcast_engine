@@ -41,7 +41,7 @@ LPCSTR	file_header = 0;
 #	define NO_XRGAME_SCRIPT_ENGINE
 #endif
 
-#ifndef XRGAME_EXPORTS
+#ifndef XRGAMESOC_EXPORTS
 #	define NO_XRGAME_SCRIPT_ENGINE
 #endif
 

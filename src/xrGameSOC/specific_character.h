@@ -11,7 +11,7 @@
 #include "xml_str_id_loader.h"
 
 
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 
 #include "PhraseDialogDefs.h"
 #include "character_community.h"
@@ -25,7 +25,7 @@
 struct SSpecificCharacterData : CSharedResource
 {
 
-#ifdef  XRGAME_EXPORTS
+#ifdef  XRGAMESOC_EXPORTS
 
 	SSpecificCharacterData ();
 	virtual ~SSpecificCharacterData ();
@@ -52,7 +52,7 @@ struct SSpecificCharacterData : CSharedResource
 	//имя модели
 	xr_string m_sVisual;
 
-#ifdef  XRGAME_EXPORTS
+#ifdef  XRGAMESOC_EXPORTS
 	
 	//начальный диалог
 	shared_str					m_StartDialog;
@@ -80,7 +80,7 @@ struct SSpecificCharacterData : CSharedResource
 	bool m_bNoRandom;
 	//если персонаж является заданым по умолчанию для своей команды
 	bool m_bDefaultForCommunity;
-#ifdef  XRGAME_EXPORTS
+#ifdef  XRGAMESOC_EXPORTS
 	struct SMoneyDef{
 		u32				min_money;
 		u32				max_money;
@@ -124,7 +124,7 @@ protected:
 	shared_str		m_OwnId;
 public:
 
-#ifdef  XRGAME_EXPORTS
+#ifdef  XRGAMESOC_EXPORTS
 	LPCSTR						Name					() const ;
 	shared_str					Bio						() const ;
 	const CHARACTER_COMMUNITY&	Community				() const ;
@@ -135,7 +135,7 @@ public:
 	CHARACTER_REPUTATION_VALUE	Reputation				() const ;
 	LPCSTR						Visual					() const ;
 
-#ifdef  XRGAME_EXPORTS
+#ifdef  XRGAMESOC_EXPORTS
 	LPCSTR						SupplySpawn				() const ;
 	LPCSTR						NpcConfigSect			() const ;
 	LPCSTR						sound_voice_prefix		() const ;

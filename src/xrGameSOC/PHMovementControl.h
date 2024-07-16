@@ -8,7 +8,7 @@
 #include "../xrPhysics/mathutils.h"
 #include "../xrPhysics/movementboxdynamicactivate.h"
 namespace ALife {
-	enum EHitType : u32;
+	enum EHitType;
 };
 
 namespace DetailPathManager {

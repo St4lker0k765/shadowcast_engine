@@ -23,7 +23,7 @@
 #include "script_sound_type.h"
 #include "xrServer_Objects_ALife_All.h"
 
-#ifndef XRGAME_EXPORTS
+#ifndef XRGAMESOC_EXPORTS
 #	include "script_properties_list_helper.h"
 #else
 #	include "base_client_classes.h"

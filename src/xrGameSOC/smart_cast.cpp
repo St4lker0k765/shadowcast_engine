@@ -9,7 +9,7 @@
 #include "stdafx.h"
 
 #ifndef PURE_DYNAMIC_CAST
-#	ifdef XRGAME_EXPORTS
+#	ifdef XRGAMESOC_EXPORTS
 #include "..\Include\xrRender\RenderVisual.h"
 #		include "alife_space.h"
 #		include "hit.h"

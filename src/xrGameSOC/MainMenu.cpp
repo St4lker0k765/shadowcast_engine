@@ -12,7 +12,6 @@
 #include "UICursor.h"
 
 #include "object_broker.h"
-#include "../xrEngine/DiscordSDK.h"
 
 //#define DEMO_BUILD
 

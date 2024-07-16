@@ -49,7 +49,7 @@ public:
 	IC		const shared_str			&name				() const;
 
 public:
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 			const u32					&level_vertex_id	() const;
 			const GameGraph::_GRAPH_ID	&game_vertex_id		() const;
 #endif

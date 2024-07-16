@@ -69,7 +69,7 @@ static void r_qt_q8(src& P,Fquaternion& q)
 	clamp(q.w,-1.f,1.f);
 }
 
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 /////////////////////////////////16////////////////////////////////////////////////////////////////
 static void w_vec_q16(NET_Packet& P,const Fvector& vec,const Fvector& min,const Fvector& max)
 {

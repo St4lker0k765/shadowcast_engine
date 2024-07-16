@@ -18,8 +18,13 @@
 #endif // DEBUG
 
 #include "PHDynamicData.h"
+#ifdef XRGAMESOC_EXPORTS
+#include "../xrGame/PHSynchronize.h"
+#include "../xrGame/phnetstate.h"
+#else
 #include "../xrserverentities/PHSynchronize.h"
 #include "../xrserverentities/phnetstate.h"
+#endif
 static	float max_depth			=0.f;
 static	float friction_factor	=0.f;
 static	const float cfm				=1.e-10f;

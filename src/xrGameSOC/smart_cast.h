@@ -33,7 +33,7 @@
 #		define DO_NOT_DECLARE_TYPE_LIST
 #	endif
 
-#	ifdef XRGAME_EXPORTS
+#	ifdef XRGAMESOC_EXPORTS
 
 DECLARE_SPECIALIZATION(IKinematics, IRenderVisual, dcast_PKinematics);
 #undef cast_type_list

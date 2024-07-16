@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "specific_character.h"
 
-#ifdef  XRGAME_EXPORTS
+#ifdef  XRGAMESOC_EXPORTS
 #include "PhraseDialog.h"
 #include "string_table.h"
 
@@ -97,7 +97,7 @@ void CSpecificCharacter::load_shared	(LPCSTR)
 	R_ASSERT3(!(data()->m_bNoRandom && data()->m_bDefaultForCommunity), 
 		"cannot set 'no_random' and 'team_default' flags simultaneously, profile id", *shared_str(item_data.id));
 	
-#ifdef  XRGAME_EXPORTS
+#ifdef  XRGAMESOC_EXPORTS
 
 	LPCSTR start_dialog = pXML->Read("start_dialog", 0, NULL);
 	if(start_dialog)
@@ -134,7 +134,7 @@ void CSpecificCharacter::load_shared	(LPCSTR)
 	data()->m_sVisual		= pXML->Read("visual", 0, "");
 	
 
-#ifdef  XRGAME_EXPORTS
+#ifdef  XRGAMESOC_EXPORTS
 	data()->m_sSupplySpawn	= pXML->Read("supplies", 0, "");
 	
 	if(!data()->m_sSupplySpawn.empty())
@@ -171,7 +171,7 @@ void CSpecificCharacter::load_shared	(LPCSTR)
 	}
 
 
-#ifdef  XRGAME_EXPORTS
+#ifdef  XRGAMESOC_EXPORTS
 
 	LPCSTR team = pXML->Read("community", 0, NULL);
 	R_ASSERT3(team != NULL, "'community' field not fulfiled for specific character", *m_OwnId);
@@ -210,7 +210,7 @@ void CSpecificCharacter::load_shared	(LPCSTR)
 }
 
 
-#ifdef  XRGAME_EXPORTS
+#ifdef  XRGAMESOC_EXPORTS
 
 LPCSTR CSpecificCharacter::Name() const 
 {

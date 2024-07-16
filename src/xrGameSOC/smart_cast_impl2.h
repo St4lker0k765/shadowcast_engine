@@ -14,7 +14,7 @@
 	template <>\
 	B* SmartDynamicCast::smart_cast<B,A>(A *p){return p->C();};\
 
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 	template <> 
 	CGameObject* SmartDynamicCast::smart_cast<CGameObject,CObject>(CObject *p)
 	{

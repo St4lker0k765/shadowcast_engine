@@ -15,7 +15,7 @@ class NET_Packet;
 	#include "specific_character.h"
 #endif
 
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 	#include "PhraseDialogDefs.h"
 	#include "character_community.h"
 	#include "character_rank.h"
@@ -65,7 +65,7 @@ public:
 
 	virtual void Load	(shared_str id);
 
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 	void 						load				(IReader&);
 	void 						save				(NET_Packet&);
 
@@ -93,7 +93,7 @@ protected:
 	//используетс€ в данном экземпл€ре класса
 	shared_str		m_SpecificCharacterId;
 
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 	shared_str					m_StartDialog;
 
 	//загруженна€ информаци€ о конкретном персонаже
@@ -103,7 +103,7 @@ protected:
 public:
 
 
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 	shared_str					Profile()			const;
 	LPCSTR						Name()				const;
 	shared_str					Bio()				const;
@@ -129,7 +129,7 @@ public:
 protected:
 
 
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 	CHARACTER_RANK					m_CurrentRank;
 	CHARACTER_REPUTATION			m_CurrentReputation;
 	CHARACTER_COMMUNITY				m_CurrentCommunity;

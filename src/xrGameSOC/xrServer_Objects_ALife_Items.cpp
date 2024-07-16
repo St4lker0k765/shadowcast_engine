@@ -12,7 +12,7 @@
 #include "clsid_game.h"
 #include "xrServer_Objects_ALife_Items.h"
 
-#ifndef XRGAME_EXPORTS
+#ifndef XRGAMESOC_EXPORTS
 #	include "bone.h"
 #else
 #	include "..\xrEngine\bone.h"
@@ -246,9 +246,9 @@ void CSE_ALifeItem::UPDATE_Write			(NET_Packet &tNetPacket)
 	inherited1::UPDATE_Write	(tNetPacket);
 	inherited2::UPDATE_Write	(tNetPacket);
 
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 	m_last_update_time			= Device.dwTimeGlobal;
-#endif // XRGAME_EXPORTS
+#endif // XRGAMESOC_EXPORTS
 };
 
 void CSE_ALifeItem::UPDATE_Read				(NET_Packet &tNetPacket)
@@ -273,10 +273,10 @@ BOOL CSE_ALifeItem::Net_Relevant			()
 	if (!m_physics_disabled && !fis_zero(State.linear_vel.square_magnitude(),EPS_L))
 		return					(true);
 
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 	if (Device.dwTimeGlobal < (m_last_update_time + update_rate()))
 		return					(false);
-#endif // XRGAME_EXPORTS
+#endif // XRGAMESOC_EXPORTS
 
 	return						(true);
 }
@@ -814,7 +814,7 @@ void CSE_ALifeItemPDA::STATE_Write		(NET_Packet	&tNetPacket)
 {
 	inherited::STATE_Write		(tNetPacket);
 	tNetPacket.w				(&m_original_owner,sizeof(m_original_owner));
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 	tNetPacket.w_stringZ		(m_specific_character);
 	tNetPacket.w_stringZ		(m_info_portion);
 #else

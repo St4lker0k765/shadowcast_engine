@@ -5,7 +5,11 @@
 #include "PHDefs.h"
 #include "PhysicsCommon.h"
 #include "icollidevalidator.h"
+#ifdef XRGAMESOC_EXPORTS
+#include "../xrGameSOC/alife_space.h"
+#else
 #include "../xrserverentities/alife_space.h"
+#endif
 //#include "script_export_space.h"
 #include "../xrEngine/iphysicsshell.h"
 #include "iphysics_scripted.h"

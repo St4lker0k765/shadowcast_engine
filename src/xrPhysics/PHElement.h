@@ -5,7 +5,11 @@
 #include "Geometry.h"
 #include "phdefs.h"
 #include "PhysicsCommon.h"
+#ifdef XRGAMESOC_EXPORTS
+#include "../xrGame/PHSynchronize.h"
+#else
 #include "../xrserverentities/PHSynchronize.h"
+#endif
 #include "PHDisabling.h"
 #include "PHGeometryOwner.h"
 #include "PHInterpolation.h"

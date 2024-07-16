@@ -16,7 +16,7 @@
 #pragma warning(push)
 #pragma warning(disable:4005)
 
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 	class 	CALifeSimulator;
 #endif
 
@@ -47,7 +47,7 @@ SERVER_ENTITY_DECLARE_BEGIN(CSE_ALifeSchedulable,IPureSchedulableObject)
 	virtual u32						ef_detector_type		() const;
 	virtual bool					natural_weapon			() const {return true;}
 	virtual bool					natural_detector		() const {return true;}
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 	virtual	CSE_ALifeItemWeapon		*tpfGetBestWeapon		(ALife::EHitType		&tHitType,			float		&fHitPower) = 0;
 	virtual bool					bfPerformAttack			()											{return(true);};
 	virtual	void					vfUpdateWeaponAmmo		()											{};
@@ -101,7 +101,7 @@ public:
 	ALife::_STORY_ID				m_story_id;
 	ALife::_SPAWN_STORY_ID			m_spawn_story_id;
 
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 	CALifeSimulator					*m_alife_simulator;
 #endif
 
@@ -124,7 +124,7 @@ public:
 	virtual u32						ef_main_weapon_type	() const;
 	virtual u32						ef_weapon_type		() const;
 	virtual u32						ef_detector_type	() const;
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 	virtual void					spawn_supplies		(LPCSTR);
 	virtual void					spawn_supplies		();
 			CALifeSimulator			&alife				() const;
@@ -148,7 +148,7 @@ SERVER_ENTITY_DECLARE_BEGIN0(CSE_ALifeGroupAbstract)
 	virtual const CSE_Abstract		*base					() const = 0;
 	virtual CSE_ALifeGroupAbstract	*cast_group_abstract	() {return this;};
 	virtual CSE_Abstract			*cast_abstract			() {return 0;};
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 	virtual	bool					synchronize_location	();
 	virtual	void					try_switch_online		();
 	virtual	void					try_switch_offline		();
@@ -229,7 +229,7 @@ public:
 		return						(this);
 	}
 
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 	virtual	void					switch_online			()
 	{
 		inherited2::switch_online	();
@@ -268,7 +268,7 @@ SERVER_ENTITY_DECLARE_BEGIN(CSE_ALifeDynamicObject,CSE_ALifeObject)
 	
 									CSE_ALifeDynamicObject	(LPCSTR caSection);
 	virtual							~CSE_ALifeDynamicObject	();
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 	virtual void					on_spawn				();
 	virtual void					on_before_register		();
 	virtual void					on_register				();
@@ -349,7 +349,7 @@ SERVER_ENTITY_DECLARE_BEGIN2(CSE_ALifeSmartZone,CSE_ALifeSpaceRestrictor,CSE_ALi
 	virtual void					smart_touch					(CSE_ALifeMonsterAbstract *monster);
 	virtual bool					used_ai_locations			() const {return true;};
 	virtual CSE_ALifeSmartZone		*cast_smart_zone			() {return this;};
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 	virtual bool					bfActive					();
 	virtual	CSE_ALifeItemWeapon		*tpfGetBestWeapon			(ALife::EHitType		&tHitType,			float		&fHitPower);
 	virtual CSE_ALifeDynamicObject	*tpfGetBestDetector			();
@@ -538,7 +538,7 @@ class CSE_InventoryBox :public CSE_ALifeDynamicObjectVisual
 public:
 						CSE_InventoryBox	(LPCSTR caSection):CSE_ALifeDynamicObjectVisual(caSection){};
 	virtual				~CSE_InventoryBox	(){};
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 	virtual void		add_offline			(const xr_vector<ALife::_OBJECT_ID> &saved_children, const bool &update_registries);
 	virtual void		add_online			(const bool &update_registries);
 #endif

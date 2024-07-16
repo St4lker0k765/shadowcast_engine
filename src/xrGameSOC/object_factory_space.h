@@ -11,7 +11,7 @@
 
 #pragma once
 
-#ifndef XRGAME_EXPORTS
+#ifndef XRGAMESOC_EXPORTS
 #	define NO_XR_GAME
 #endif
 

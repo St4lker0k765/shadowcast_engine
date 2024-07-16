@@ -82,7 +82,7 @@ namespace ALife {
 		eRelationTypeDummy = static_cast<u32>(-1),
 	};
 
-	enum EHitType : u32 {
+	enum EHitType {
 		eHitTypeBurn = static_cast<u32>(0),
 		eHitTypeShock,
 		eHitTypeStrike,

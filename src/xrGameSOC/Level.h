@@ -210,7 +210,7 @@ public:
 	shared_str					m_caClientOptions;
 
 	// Starting/Loading
-	virtual BOOL				net_Start				( LPCSTR op_server, LPCSTR op_client);
+	virtual bool				net_Start				( LPCSTR op_server, LPCSTR op_client);
 	virtual void				net_Load				( LPCSTR name );
 	virtual void				net_Save				( LPCSTR name );
 	virtual void				net_Stop				( );
@@ -218,8 +218,8 @@ public:
 	virtual void				net_Update				( );
 
 
-	virtual BOOL				Load_GameSpecific_Before( );
-	virtual BOOL				Load_GameSpecific_After ( );
+	virtual bool				Load_GameSpecific_Before( );
+	virtual bool				Load_GameSpecific_After ( );
 	virtual void				Load_GameSpecific_CFORM	( CDB::TRI* T, u32 count );
 
 	// Events
@@ -346,9 +346,6 @@ add_to_type_list(CLevel)
 IC CLevel&				Level()		{ return *((CLevel*) g_pGameLevel);			}
 IC game_cl_GameState&	Game()		{ return *Level().game;					}
 	u32					GameID();
-
-
-IC CHUDManager&			HUD()		{ return *((CHUDManager*)Level().pHUD);	}
 
 #ifdef DEBUG
 IC CLevelDebug&			DBG()		{return *((CLevelDebug*)Level().m_level_debug);}

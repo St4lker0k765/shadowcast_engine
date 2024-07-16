@@ -24,7 +24,7 @@ BOOL CSE_ActorMP::Net_Relevant	()
 }
 
 
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 void	CSE_ActorMP::on_death				(CSE_Abstract *killer)
 {
 	inherited::on_death(killer);

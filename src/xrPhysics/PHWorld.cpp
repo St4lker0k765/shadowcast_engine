@@ -15,8 +15,13 @@
 #endif
 //#include "PHCommander.h"
 //#include "PHSimpleCalls.h"
+#ifdef XRGAMESOC_EXPORTS
+#include "../xrGame/PHSynchronize.h"
+#include "../xrGame/phnetstate.h"
+#else
 #include "../xrserverentities/PHSynchronize.h"
 #include "../xrserverentities/phnetstate.h"
+#endif
 #include "geometrybits.h"
 #include "console_vars.h"
 #include "../xrengine/device.h"

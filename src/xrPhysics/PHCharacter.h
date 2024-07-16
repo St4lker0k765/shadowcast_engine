@@ -4,7 +4,11 @@
 #endif
 #include "PHObject.h"
 #include "PHInterpolation.h"
+#ifdef XRGAMESOC_EXPORTS
+#include "../xrGameSOC/PHSynchronize.h"
+#else
 #include "../xrserverentities/PHSynchronize.h"
+#endif
 #include "PHDisabling.h"
 
 #include "../xrEngine/iphysicsshell.h"

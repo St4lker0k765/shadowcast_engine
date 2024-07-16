@@ -16,12 +16,12 @@ CScriptIniFile *get_system_ini()
 	return	((CScriptIniFile*)pSettings);
 }
 
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 CScriptIniFile *get_game_ini()
 {
 	return	((CScriptIniFile*)pGameIni);
 }
-#endif // XRGAME_EXPORTS
+#endif // XRGAMESOC_EXPORTS
 
 bool r_line(CScriptIniFile *self, LPCSTR S, int L, string_class& N, string_class& V)
 {
@@ -64,9 +64,9 @@ void CScriptIniFile::script_register(lua_State *L)
 			.def("r_line",			&::r_line, out_value<4>() + out_value<5>()),
 
 		def("system_ini",			&get_system_ini),
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 		def("game_ini",				&get_game_ini),
-#endif // XRGAME_EXPORTS
+#endif // XRGAMESOC_EXPORTS
 		def(
 			"create_ini_file", // чтение ini как текста, без возможности сохранить
 			[](const char* ini_string) {

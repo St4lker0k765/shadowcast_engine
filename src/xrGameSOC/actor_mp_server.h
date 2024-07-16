@@ -22,7 +22,7 @@ public:
 	virtual void 			STATE_Write		(NET_Packet &packet);
 	virtual BOOL			Net_Relevant	();
 
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 	virtual	void			on_death				(CSE_Abstract *killer);	
 #endif
 };

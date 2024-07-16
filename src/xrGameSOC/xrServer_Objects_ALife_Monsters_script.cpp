@@ -24,12 +24,12 @@ void CSE_ALifeTraderAbstract::script_register(lua_State *L)
 		class_<CSE_ALifeTraderAbstract>
 			("cse_alife_trader_abstract")
 //			.def(		constructor<LPCSTR>())
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 			.def("community",		&CommunityName)
 			.def("profile_name",	&profile_name_script)
 			.def("rank",			&Rank)
 			.def("reputation",		&Reputation)
-#endif // XRGAME_EXPORTS
+#endif // XRGAMESOC_EXPORTS
 	];
 }
 
@@ -65,7 +65,7 @@ void CSE_ALifeAnomalousZone::script_register(lua_State *L)
 			"cse_anomalous_zone",
 			CSE_ALifeCustomZone
 		)
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 		.def("spawn_artefacts",	&CSE_ALifeAnomalousZone::spawn_artefacts)
 #endif
 	];

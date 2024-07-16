@@ -1,11 +1,11 @@
 #pragma once
 
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 #	include "ui/xrUIXmlParser.h"
-#else // XRGAME_EXPORTS
+#else // XRGAMESOC_EXPORTS
 #	include "xrUIXmlParser.h"
 #	include "object_broker.h"
-#endif // XRGAME_EXPORTS
+#endif // XRGAMESOC_EXPORTS
 
 
 //T_INIT -  класс где определена статическая InitXmlIdToIndex

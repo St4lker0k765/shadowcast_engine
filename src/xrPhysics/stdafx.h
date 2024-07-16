@@ -9,7 +9,11 @@
 
 #include "../xrCore/xrCore.h"
 
+#ifdef XRGAMESOC_EXPORTS
+#include "../xrGame/smart_cast.h"
+#else
 #include "../xrServerEntities/smart_cast.h"
+#endif
 //#include "../xrEngine/pure.h"
 //#include "../xrEngine/engineapi.h"
 //#include "../xrEngine/eventapi.h"

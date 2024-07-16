@@ -3,7 +3,7 @@
 #include "game_base.h"
 #include "alife_space.h"
 #include "script_export_space.h"
-#include "../../xrNetServer/client_id.h"
+#include "../xrCore/client_id.h"
 
 enum ERoundEnd_Result
 {

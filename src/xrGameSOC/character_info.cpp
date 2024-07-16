@@ -6,13 +6,13 @@
 #include "stdafx.h"
 #include "character_info.h"
 
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 #	include "ui/xrUIXmlParser.h"
 #	include "PhraseDialog.h"
 #	include "xrServer_Objects_ALife_Monsters.h"
-#else // XRGAME_EXPORTS
+#else // XRGAMESOC_EXPORTS
 #	include "xrUIXmlParser.h"
-#endif // XRGAME_EXPORTS
+#endif // XRGAMESOC_EXPORTS
 
 //////////////////////////////////////////////////////////////////////////
 SCharacterProfile::SCharacterProfile()
@@ -35,7 +35,7 @@ CCharacterInfo::CCharacterInfo()
 	m_ProfileId = NULL;
 	m_SpecificCharacterId = NULL;
 
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 	m_CurrentRank.set(NO_RANK);
 	m_CurrentReputation.set(NO_REPUTATION);
 	m_StartDialog = NULL;
@@ -54,7 +54,7 @@ void CCharacterInfo::Load(shared_str id)
 	inherited_shared::load_shared(m_ProfileId, NULL);
 }
 
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 
 void CCharacterInfo::InitSpecificCharacter (shared_str new_id)
 {
@@ -113,7 +113,7 @@ void CCharacterInfo::load_shared	(LPCSTR)
 		data()->m_CharacterId = spec_char;
 }
 
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 void CCharacterInfo::Init	(CSE_ALifeTraderAbstract* trader)
 {
 	m_CurrentCommunity.set		(trader->m_community_index);

@@ -46,7 +46,7 @@ SERVER_ENTITY_DECLARE_BEGIN0(CSE_ALifeTraderAbstract)
 	CHARACTER_RANK_VALUE			m_rank;
 	xr_string						m_character_name;
 		
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 	//для работы с relation system
 	u16								object_id				() const;
 	CHARACTER_COMMUNITY_INDEX		Community				() const;
@@ -76,7 +76,7 @@ public:
 	// end of the virtual inheritance dependant code
 			void __stdcall			OnChangeProfile				(PropValue* sender);
 
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 	virtual	void					add_online					(const bool &update_registries);
 	virtual	void					add_offline					(const xr_vector<ALife::_OBJECT_ID> &saved_children, const bool &update_registries);
 #if 0//def DEBUG
@@ -99,7 +99,7 @@ SERVER_ENTITY_DECLARE_BEGIN2(CSE_ALifeTrader,CSE_ALifeDynamicObjectVisual,CSE_AL
 	virtual bool					natural_weapon			() const {return false;}
 	virtual bool					natural_detector		() const {return false;}
 
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 			u32						dwfGetItemCost			(CSE_ALifeInventoryItem *tpALifeInventoryItem);
 	virtual void					spawn_supplies			();
 	virtual	void					add_online				(const bool &update_registries);
@@ -145,7 +145,7 @@ SERVER_ENTITY_DECLARE_BEGIN(CSE_ALifeAnomalousZone,CSE_ALifeCustomZone)
 	virtual u32						ef_anomaly_type			() const;
 	virtual u32						ef_weapon_type			() const;
 	virtual u32						ef_creature_type		() const;
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 			void					spawn_artefacts			();
 	virtual void					on_spawn				();
 	virtual	CSE_ALifeItemWeapon		*tpfGetBestWeapon		(ALife::EHitType		&tHitType,				float &fHitPower);
@@ -220,7 +220,7 @@ SERVER_ENTITY_DECLARE_BEGIN(CSE_ALifeCreatureAbstract,CSE_ALifeDynamicObjectVisu
 	virtual u32						ef_weapon_type			() const;
 	virtual u32						ef_detector_type		() const;
 	virtual CSE_ALifeCreatureAbstract	*cast_creature_abstract		() {return this;};
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 	virtual	void					on_death				(CSE_Abstract *killer);
 	virtual void					on_spawn				();
 #endif
@@ -281,7 +281,7 @@ public:
 	
 	IC		int						Rank					(){return m_rank;}
 
-#ifndef XRGAME_EXPORTS
+#ifndef XRGAMESOC_EXPORTS
 	virtual	void					update					()	{};
 #else
 	virtual	void					update					();
@@ -330,7 +330,7 @@ SERVER_ENTITY_DECLARE_BEGIN3(CSE_ALifeCreatureActor,CSE_ALifeCreatureAbstract,CS
 	virtual bool					can_save				()const{return true;}
 	virtual bool					natural_weapon			() const {return false;}
 	virtual bool					natural_detector		() const {return false;}
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 	virtual void					spawn_supplies			();
 	virtual	void					add_online				(const bool &update_registries);
 	virtual	void					add_offline				(const xr_vector<ALife::_OBJECT_ID> &saved_children, const bool &update_registries);
@@ -390,11 +390,11 @@ SERVER_ENTITY_DECLARE_BEGIN2(CSE_ALifeMonsterBase,CSE_ALifeMonsterAbstract,CSE_P
 	virtual CSE_Abstract			*cast_abstract			() {return this;}
 	virtual void					spawn_supplies			(LPCSTR){}
 	virtual void					spawn_supplies			(){}
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 	virtual void					on_spawn				();
 	virtual	void					add_online				(const bool &update_registries);
 	virtual	void					add_offline				(const xr_vector<ALife::_OBJECT_ID> &saved_children, const bool &update_registries);
-#endif // XRGAME_EXPORTS
+#endif // XRGAMESOC_EXPORTS
 SERVER_ENTITY_DECLARE_END
 add_to_type_list(CSE_ALifeMonsterBase)
 #define script_type_list save_type_list(CSE_ALifeMonsterBase)
@@ -429,7 +429,7 @@ public:
 	IC		CALifeHumanBrain		&brain					() const {VERIFY(m_brain); return(*m_brain);}
 	virtual CALifeMonsterBrain		*create_brain			();
 
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 	virtual	void					update					();
 	virtual	CSE_ALifeItemWeapon		*tpfGetBestWeapon		(ALife::EHitType &tHitType, float &fHitPower);
 	virtual bool					bfPerformAttack			();
@@ -482,7 +482,7 @@ public:
 private:
 	MEMBERS							m_members;
 
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 
 private:
 	CALifeOnlineOfflineGroupBrain	*m_brain;

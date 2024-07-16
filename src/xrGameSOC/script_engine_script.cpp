@@ -49,14 +49,14 @@ void verify_if_thread_is_running()
 
 bool editor()
 {
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 	return		(false);
 #else
 	return		(true);
 #endif
 }
 
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 CRenderDevice *get_device()
 {
 	return		(&Device);
@@ -174,7 +174,7 @@ IC	profile_timer_script	operator+	(const profile_timer_script &portion0, const p
 //	return					(stream);
 //}
 
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 ICF	u32	script_time_global	()	{ return Device.dwTimeGlobal; }
 #else
 ICF	u32	script_time_global	()	{ return 0; }
