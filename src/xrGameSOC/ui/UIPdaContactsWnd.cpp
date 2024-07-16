@@ -10,7 +10,7 @@
 #include "UIScrollView.h"
 #include "../actor.h"
 #include "../string_table.h"
-#include "xrGame/game_object_space.h"
+#include "xrGameSOC/game_object_space.h"
 
 #define PDA_CONTACT_HEIGHT 70
 
@@ -35,8 +35,7 @@ void CUIPdaContactsWnd::Show(bool status)
 void CUIPdaContactsWnd::Init()
 {
 	CUIXml		uiXml;
-	bool xml_result =uiXml.Init(CONFIG_PATH, UI_PATH, PDA_CONTACTS_XML);
-	R_ASSERT3(xml_result, "xml file not found", PDA_CONTACTS_XML);
+	uiXml.Load(CONFIG_PATH, UI_PATH, PDA_CONTACTS_XML);
 
 	CUIXmlInit	xml_init;
 

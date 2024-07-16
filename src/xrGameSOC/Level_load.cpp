@@ -13,7 +13,7 @@
 
 ENGINE_API	bool g_dedicated_server;
 
-BOOL CLevel::Load_GameSpecific_Before()
+bool CLevel::Load_GameSpecific_Before()
 {
 	// AI space
 //	g_pGamePersistent->LoadTitle		("st_loading_ai_objects");
@@ -32,7 +32,7 @@ BOOL CLevel::Load_GameSpecific_Before()
 	return								(TRUE);
 }
 
-BOOL CLevel::Load_GameSpecific_After()
+bool CLevel::Load_GameSpecific_After()
 {
 	// loading static particles
 	string_path		fn_game;
@@ -48,7 +48,7 @@ BOOL CLevel::Load_GameSpecific_After()
 			OBJ->r						(&transform,sizeof(Fmatrix));transform.c.y+=0.01f;
 			pStaticParticles			= CParticlesObject::Create(ref_name,FALSE,false);
 			pStaticParticles->UpdateParent	(transform,zero_vel);
-			pStaticParticles->Play			();
+			pStaticParticles->Play			(false);
 			m_StaticParticles.push_back		(pStaticParticles);
 		}
 		FS.r_close		(F);

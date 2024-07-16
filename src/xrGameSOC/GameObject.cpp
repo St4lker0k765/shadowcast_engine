@@ -765,14 +765,10 @@ void CGameObject::shedule_Update	(u32 dt)
 
 	}
 
-	START_PROFILE("game_object/schedule_update/inherited")
 	// Msg							("-SUB-:[%x][%s] CGameObject::shedule_Update",smart_cast<void*>(this),*cName());
 	inherited::shedule_Update	(dt);
-	STOP_PROFILE;
 	
-	START_PROFILE("game_object/schedule_update/script_binder");
 	CScriptBinder::shedule_Update(dt);
-	STOP_PROFILE;
 }
 
 BOOL CGameObject::net_SaveRelevant	()

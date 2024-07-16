@@ -48,8 +48,8 @@ private:
 
 	DEF_DEQUE(DemoDeque, DemoDataStruct);
 	DemoDeque					m_aDemoData;
-	void						Demo_Load				(LPCSTR DemoName);
-	void						Demo_Load_toFrame		(LPCSTR FileName, DWORD toFrame, long &ofs);
+//	void						Demo_Load				(LPCSTR DemoName);
+//	void						Demo_Load_toFrame		(LPCSTR FileName, DWORD toFrame, long &ofs);
 	BOOL						m_bDemoStarted;	
 	u32							m_dwLastDemoFrame;
 	void						Demo_Update				();

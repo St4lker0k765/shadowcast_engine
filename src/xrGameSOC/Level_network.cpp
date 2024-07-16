@@ -121,23 +121,16 @@ void CLevel::net_Stop		()
 void CLevel::ClientSend()
 {
 	NET_Packet P;
-
-	Device.Statistic->CreateListNetExport.Begin();
-	Objects.CreateListExportObjects();
-	Device.Statistic->CreateListNetExport.End();
-
 	u32	start = 0;
 
 	while (true)
 	{
 		P.w_begin(M_UPDATE);
-		start = Objects.StartExportObjects(P, start, max_objects_size);
+		start = Objects.net_Export(&P, start, max_objects_size);
 
 		if (P.B.count>2)
 		{
-			Device.Statistic->SendNetExport.Begin();
 			Send(P);
-			Device.Statistic->SendNetExport.End();
 		}else
 			break;
 	}
@@ -233,7 +226,8 @@ pureFrame*	g_pNetProcessor	= &NET_processor;
 
 bool CLevel::Connect2Server()
 {
-	if (!Connect())		
+	const char* options;
+	if (!Connect(options))		
 		return false;
 
 	net_Syncronised = TRUE;

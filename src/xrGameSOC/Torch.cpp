@@ -6,7 +6,7 @@
 #include "../xrPhysics/PhysicsShell.h"
 #include "xrserver_objects_alife_items.h"
 #include "ai_sounds.h"
-
+#include "../xrEngine/xr_collide_form.h"
 #include "level.h"
 #include "../include/xrRender/Kinematics.h"
 #include "../xrEngine/camerabase.h"

@@ -11,7 +11,7 @@
 #include "Actor.h"
 #include "AI/Stalker/ai_stalker.h"
 #include "character_info.h"
-#include "../xrEngine/xr_collide_defs.h"
+#include "../xrEngine/xr_collide_form.h"
 #include "weapon.h"
 
 //константы shoot_factor, определяющие 

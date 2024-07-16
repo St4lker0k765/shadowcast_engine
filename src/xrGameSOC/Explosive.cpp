@@ -345,7 +345,7 @@ void CExplosive::Explode()
 	pStaticPG = CParticlesObject::Create(*m_sExplodeParticles,!m_bDynamicParticles); 
 	if (m_bDynamicParticles) m_pExpParticle = pStaticPG;
 	pStaticPG->UpdateParent(explode_matrix,vel);
-	pStaticPG->Play();
+	pStaticPG->Play(false);
 
 	//включаем подсветку от взрыва
 	StartLight();

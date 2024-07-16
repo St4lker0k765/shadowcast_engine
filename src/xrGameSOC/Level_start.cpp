@@ -12,7 +12,7 @@
 #include "MainMenu.h"
 #include "UIGameCustom.h"
 
-BOOL CLevel::net_Start	( LPCSTR op_server, LPCSTR op_client )
+bool CLevel::net_Start	( LPCSTR op_server, LPCSTR op_client )
 {
 	net_start_result_total				= TRUE;
 
@@ -48,36 +48,6 @@ BOOL CLevel::net_Start	( LPCSTR op_server, LPCSTR op_client )
 		};		
 	};
 	m_caServerOptions			    = op_server;
-	//---------------------------------------------------------------------
-	m_bDemoPlayMode = FALSE;
-	m_aDemoData.clear();
-	m_bDemoStarted	= FALSE;
-	if (strstr(Core.Params,"-tdemo ") || strstr(Core.Params,"-tdemof "))
-	{
-		string1024				f_name;
-		if (strstr(Core.Params,"-tdemo "))
-		{
-			sscanf					(strstr(Core.Params,"-tdemo ")+7,"%[^ ] ",f_name);
-			m_bDemoPlayByFrame = FALSE;
-
-			Demo_Load	(f_name);	
-		}
-		else
-		{
-			sscanf					(strstr(Core.Params,"-tdemof ")+8,"%[^ ] ",f_name);
-			m_bDemoPlayByFrame = TRUE;
-
-			m_lDemoOfs = 0;
-			Demo_Load_toFrame(f_name, 100, m_lDemoOfs);
-		};		
-	}
-	else
-	{
-		if (m_caServerOptions.size() == 0 || !strstr(*m_caServerOptions, "single"))
-		{
-			Demo_PrepareToStore();
-		}
-	}
 	//---------------------------------------------------------------------------
 	g_loading_events.push_back	(LOADING_EVENT(this,&CLevel::net_start1));
 	g_loading_events.push_back	(LOADING_EVENT(this,&CLevel::net_start2));
@@ -118,7 +88,7 @@ bool CLevel::net_start1				()
 
 			m_name					= l_name;
 
-			int						id = pApp->Level_ID(l_name);
+			int						id = pApp->Level_ID(l_name, "", true);
 
 			if (id<0) {
 				pApp->LoadEnd				();

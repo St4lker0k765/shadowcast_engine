@@ -196,7 +196,7 @@ void CShootingObject::StartParticles (CParticlesObject*& pParticles, LPCSTR part
 	pParticles = CParticlesObject::Create(particles_name,(BOOL)auto_remove_flag);
 	
 	UpdateParticles(pParticles, pos, vel);
-	pParticles->Play();
+	pParticles->Play(false);
 }
 void CShootingObject::StopParticles (CParticlesObject*&	pParticles)
 {
@@ -275,7 +275,7 @@ void CShootingObject::OnShellDrop	(const Fvector& play_pos,
 	particles_pos.c.set		(play_pos);
 
 	pShellParticles->UpdateParent		(particles_pos, parent_vel); 
-	pShellParticles->Play				();
+	pShellParticles->Play				(false);
 }
 
 
@@ -303,7 +303,7 @@ void CShootingObject::StartFlameParticles	()
 	StopFlameParticles();
 	m_pFlameParticles = CParticlesObject::Create(*m_sFlameParticlesCurrent,FALSE);
 	UpdateFlameParticles();
-	m_pFlameParticles->Play();
+	m_pFlameParticles->Play(false);
 
 }
 void CShootingObject::StopFlameParticles	()

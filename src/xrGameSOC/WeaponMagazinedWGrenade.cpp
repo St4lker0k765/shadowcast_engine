@@ -474,7 +474,7 @@ void CWeaponMagazinedWGrenade::OnAnimationEnd(u32 state)
 	case eSwitch:
 	case eFire:
 	{
-		if (state == eSwitch || state == eFire && m_bGrenadeMode && !Core.Features.test(xrCore::Feature::autoreload_wpn))
+		if (state == eSwitch || state == eFire && m_bGrenadeMode)
 		{
 			SwitchState(eIdle);
 			break;

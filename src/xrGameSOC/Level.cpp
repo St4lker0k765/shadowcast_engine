@@ -434,12 +434,10 @@ void CLevel::OnFrame	()
 	else								psDeviceFlags.set(rsDisableObjectsAsCrows,false);
 
 	// commit events from bullet manager from prev-frame
-	Device.Statistic->BulletManager.Begin		();
 	if (g_mt_config.test(mtBullets))
 		Device.seqParallel.emplace_back(fastdelegate::FastDelegate0(m_pBulletManager, &CBulletManager::CommitEvents));
 	else
 		BulletManager().CommitEvents();
-	Device.Statistic->BulletManager.End			();
 
 	// Client receive
 	if (net_isDisconnected())	
@@ -485,7 +483,7 @@ void CLevel::OnFrame	()
 			if ( IsServer() )
 			{
 				const IServerStatistic* S = Server->GetStatistic();
-				F->SetHeightI	(0.015f);
+				F->SetHeight	(0.015f);
 				F->OutSetI	(0.0f,0.5f);
 				F->SetColor	(D3DCOLOR_XRGB(0,255,0));
 				F->OutNext	("IN:  %4d/%4d (%2.1f%%)",	S->bytes_in_real,	S->bytes_in,	100.f*float(S->bytes_in_real)/float(S->bytes_in));
@@ -495,27 +493,34 @@ void CLevel::OnFrame	()
 				F->OutNext	("sv_urate/cl_urate : %4d/%4d", psNET_ServerUpdate, psNET_ClientUpdate);
 
 				F->SetColor	(D3DCOLOR_XRGB(255,255,255));
-				for (u32 I=0; I<Server->client_Count(); ++I)	
+				struct net_stats_functor
 				{
-					IClient*	C = Server->client_Get(I);
-					Server->UpdateClientStatistic(C);
-					F->OutNext("P(%d), BPS(%2.1fK), MRR(%2d), MSR(%2d), Retried(%2d), Blocked(%2d)",
-						//Server->game->get_option_s(*C->Name,"name",*C->Name),
-						//					C->Name,
-						C->stats.getPing(),
-						float(C->stats.getBPS()),// /1024,
-						C->stats.getMPS_Receive	(),
-						C->stats.getMPS_Send	(),
-						C->stats.getRetriedCount(),
-						C->stats.dwTimesBlocked
-						);
-				}
+					xrServer* m_server;
+					CGameFont* F;
+					void operator()(IClient* C)
+					{
+						m_server->UpdateClientStatistic(C);
+						F->OutNext("0x%08x: P(%d), BPS(%2.1fK), MRR(%2d), MSR(%2d), Retried(%2d), Blocked(%2d)",
+							//Server->game->get_option_s(*C->Name,"name",*C->Name),
+							C->ID.value(),
+							C->stats.getPing(),
+							float(C->stats.getBPS()),// /1024,
+							C->stats.getMPS_Receive(),
+							C->stats.getMPS_Send(),
+							C->stats.getRetriedCount(),
+							C->stats.dwTimesBlocked);
+					}
+				};
+				net_stats_functor tmp_functor;
+				tmp_functor.m_server = Server;
+				tmp_functor.F = F;
+				Server->ForEachClientDo(tmp_functor);
 			}
 			if (IsClient())
 			{
 				IPureClient::UpdateStatistic();
 
-				F->SetHeightI(0.015f);
+				F->SetHeight(0.015f);
 				F->OutSetI	(0.0f,0.5f);
 				F->SetColor	(D3DCOLOR_XRGB(0,255,0));
 				F->OutNext	("client_2_sever ping: %d",	net_Statistic.getPing());
@@ -531,9 +536,8 @@ void CLevel::OnFrame	()
 					net_Statistic.getMPS_Send	(),
 					net_Statistic.getRetriedCount(),
 					net_Statistic.dwTimesBlocked,
-					net_Statistic.dwBytesSended,
-					net_Statistic.dwBytesPerSec
-					);
+					net_Statistic.dwBytesSended					
+				);
 			}
 		}
 	}
@@ -550,9 +554,7 @@ void CLevel::OnFrame	()
 //	autosave_manager().update			();
 
 	//просчитать полет пуль
-	Device.Statistic->BulletManager.Begin		();
 	BulletManager().CommitRenderSet		();
-	Device.Statistic->BulletManager.End			();
 
 	// update static sounds
 	if(!g_dedicated_server)
@@ -976,25 +978,18 @@ void CLevel::SetGameTime(ALife::_TIME_ID GameTime)
 */
 bool CLevel::IsServer ()
 {
-//	return (!!Server);
-	if (IsDemoPlay())
-	{
-		return IsServerDemo();
-	};	
-	if (!Server) return false;
-	return (Server->client_Count() != 0);
-
+    if (!Server || IsDemoPlay())
+        return false;
+    return true;
 }
 
 bool CLevel::IsClient ()
 {
-//	return (!Server);
 	if (IsDemoPlay())
-	{
-		return IsClientDemo();
-	};	
-	if (!Server) return true;
-	return (Server->client_Count() == 0);
+		return true;
+	if (Server)
+		return false;
+	return true;
 }
 
 void CLevel::OnSessionTerminate		(LPCSTR reason)

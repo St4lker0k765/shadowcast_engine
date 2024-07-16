@@ -170,7 +170,7 @@ TEMPLATE_SPECIALIZATION
 void CStateBurerAttackTeleAbstract::FindObjects	()
 {
 	u32	res_size					= tele_objects.size		();
-	tele_objects.clear_and_reserve	();
+	tele_objects.clear	();
 
 	// получить список объектов вокруг врага
 	m_nearest.clear_not_free		();

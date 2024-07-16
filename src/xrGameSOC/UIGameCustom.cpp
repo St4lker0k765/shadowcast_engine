@@ -195,7 +195,7 @@ void CUIGameCustom::Load()
 	{
 		R_ASSERT				(!m_msgs_xml);
 		m_msgs_xml				= xr_new<CUIXml>();
-		m_msgs_xml->Init		(CONFIG_PATH, UI_PATH, "ui_custom_msgs.xml");
+		m_msgs_xml->Load		(CONFIG_PATH, UI_PATH, "ui_custom_msgs.xml");
 
 		R_ASSERT				(!m_InventoryMenu);
 		m_InventoryMenu		    = xr_new<CUIInventoryWnd>	();

@@ -170,12 +170,10 @@ void CWeaponMagazined::FireEnd()
 {
 	inherited::FireEnd();
 
-	if (Core.Features.test(xrCore::Feature::autoreload_wpn))
-	{
+
 		CActor* actor = smart_cast<CActor*>(H_Parent());
 		if (!iAmmoElapsed && actor && GetState() != eReload)
 			Reload();
-	}
 }
 
 void CWeaponMagazined::Reload() 
@@ -653,11 +651,8 @@ void CWeaponMagazined::switch2_Fire	()
 }
 void CWeaponMagazined::switch2_Empty()
 {
-	if (!Core.Features.test(xrCore::Feature::autoreload_wpn) && smart_cast<CActor*>(H_Parent()))
-	{
 		OnEmptyClick();
 		return;
-	}
 
 	OnZoomOut();
 	
@@ -725,11 +720,9 @@ bool CWeaponMagazined::Action(s32 cmd, u32 flags)
 	{
 	case kWPN_RELOAD:
 		{
-		if (!Core.Features.test(xrCore::Feature::lock_reload_in_sprint) || (!ParentIsActor() || !(g_actor->get_state() & mcSprint)))
 			if(flags & CMD_START) 
 				if(iAmmoElapsed < iMagazineSize || IsMisfire()) 
 					Reload();
-		} 
 		return true;
 	case kWPN_FIREMODE_PREV:
 		{
