@@ -14,6 +14,7 @@
 #include "FS_internal.h"
 #include "stream_reader.h"
 #include "file_stream_reader.h"
+#include "Crypto/trivial_encryptor.h"
 
 const u32 BIG_FILE_READER_WINDOW_SIZE = 1024*1024;
 
@@ -267,7 +268,7 @@ void CLocatorAPI::Register(LPCSTR name, u32 vfs, u32 crc, u32 ptr, u32 size_real
     }
 }
 
-IReader* open_chunk(void* ptr, u32 ID)
+IReader* open_chunk(void* ptr, u32 ID, bool shouldDecrypt = false)
 {
     BOOL res;
     u32 dwType, dwSize;
@@ -295,6 +296,12 @@ IReader* open_chunk(void* ptr, u32 ID)
             {
                 BYTE* dest;
                 unsigned dest_sz;
+
+                if (shouldDecrypt)
+                {
+                    trivial_encryptor t_encrypt;
+                    t_encrypt.decode(src_data, dwSize, src_data);
+                }
                 // if (g_temporary_stuff)
                 // g_temporary_stuff (src_data,dwSize,src_data);
                 _decompressLZ(&dest, &dest_sz, src_data, dwSize);
@@ -320,6 +327,7 @@ void CLocatorAPI::LoadArchive(archive& A, LPCSTR entrypoint)
 {
     // Create base path
     string_path fs_entry_point;
+    bool shouldDecrypt = false;
     fs_entry_point[0] = 0;
     if (A.header)
     {
@@ -360,10 +368,22 @@ void CLocatorAPI::LoadArchive(archive& A, LPCSTR entrypoint)
     }
     else
     {
-        R_ASSERT2(0, "unsupported");
-        xr_strcpy(fs_entry_point, sizeof(fs_entry_point), A.path.c_str());
-        if (strext(fs_entry_point))
-            *strext(fs_entry_point) = 0;
+        Msg("~ Found archive without ini header: %s", A.path.c_str());
+
+        if (!strstr(A.path.c_str(), ".xdb"))
+        {
+            Msg("Assuming that [%s] is encrypted SoC archive", A.path.c_str());
+            shouldDecrypt = true;
+        }
+
+        auto P = pathes.find("$fs_root$");
+        if (P != pathes.end())
+        {
+            FS_Path* root = P->second;
+            // R_ASSERT3 (root, "path not found ", read_path.c_str());
+            xr_strcpy(fs_entry_point, sizeof fs_entry_point, root->m_Path);
+        }
+        xr_strcat(fs_entry_point, "gamedata\\");
     }
     if (entrypoint)
         xr_strcpy(fs_entry_point, sizeof(fs_entry_point), entrypoint);
@@ -379,7 +399,7 @@ void CLocatorAPI::LoadArchive(archive& A, LPCSTR entrypoint)
 
     // Read FileSystem
     A.open();
-    IReader* hdr = open_chunk(A.hSrcFile, 1);
+    IReader* hdr = open_chunk(A.hSrcFile, 1, shouldDecrypt);
     R_ASSERT(hdr);
     RStringVec fv;
     while (!hdr->eof())

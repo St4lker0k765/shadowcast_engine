@@ -693,26 +693,20 @@ void CGamePersistent::OnRenderPPUI_PP()
 }
 #include "string_table.h"
 #include "../xrEngine/x_ray.h"
-void CGamePersistent::LoadTitle(bool change_tip, shared_str map_name)
+void CGamePersistent::LoadTitle(LPCSTR str)
 {
 	pApp->LoadStage();
-	if (change_tip && EnabledTipsForZone_)
+}
+void CGamePersistent::SetLoadStageTitle(pcstr ls_title)
+{
+	string256 buff;
+	if (ls_title)
 	{
-		string512				buff;
-		u16						tip_num;
-
-		tip_num = static_cast<u16>(Random.randI(1, CountTipsForZone_));
-		//		tip_num = 83;
-		xr_sprintf(buff, "%s%d:", CStringTable().translate("ls_tip_number").c_str(), tip_num);
-		shared_str				tmp = buff;
-
-		xr_sprintf(buff, "ls_tip_%d", tip_num);
-
-		string128 TipsHeader_; 
-		xr_sprintf(TipsHeader_, "%d %s", CountTipsForZone_, CStringTable().translate("ls_header_text").c_str());
-
-		pApp->LoadTitleInt(TipsHeader_, tmp.c_str(), CStringTable().translate(buff).c_str());
+		xr_sprintf(buff, "%s%s", CStringTable().translate(ls_title).c_str(), "...");
+		pApp->SetLoadStageTitle(buff);
 	}
+	else
+		pApp->SetLoadStageTitle("");
 }
 
 bool CGamePersistent::CanBePaused()
