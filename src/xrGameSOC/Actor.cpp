@@ -54,7 +54,7 @@
 #include "script_callback_ex.h"
 #include "InventoryBox.h"
 #include "location_manager.h"
-
+#include "UIFontDefines.h"
 #include "../Include/xrRender/UIRender.h"
 
 const u32		patch_frames	= 50;
@@ -885,9 +885,7 @@ void CActor::UpdateCL	()
 	m_bZoomAimingMode = false;
 	CWeapon* pWeapon = smart_cast<CWeapon*>(inventory().ActiveItem());	
 
-	Device.Statistic->ActorCameraUpdate.Begin		();
 	cam_Update(float(Device.dwTimeDelta)/1000.0f, currentFOV());
-	Device.Statistic->ActorCameraUpdate.End		();
 
 	if(Level().CurrentEntity() && this->ID()==Level().CurrentEntity()->ID() )
 	{
@@ -1333,7 +1331,7 @@ void CActor::RenderText				(LPCSTR Text, Fvector dpos, float* pdup, u32 color)
 	Device.mFullTransform.transform(v0r,v0);
 	Device.mFullTransform.transform(v1r,v1);
 	float size = v1r.distance_to(v0r);
-	CGameFont* pFont = UI().Font().pFontArial14;
+	CGameFont* pFont = UI().Font().GetFont(ARIAL14_FONT_NAME);
 	if (!pFont) return;
 //	float OldFontSize = pFont->GetHeight	();	
 	float delta_up = 0.0f;

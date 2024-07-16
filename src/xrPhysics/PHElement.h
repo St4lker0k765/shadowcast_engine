@@ -6,7 +6,7 @@
 #include "phdefs.h"
 #include "PhysicsCommon.h"
 #ifdef XRGAMESOC_EXPORTS
-#include "../xrGame/PHSynchronize.h"
+#include "../xrGameSOC/PHSynchronize.h"
 #else
 #include "../xrserverentities/PHSynchronize.h"
 #endif

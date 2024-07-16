@@ -6063,6 +6063,7 @@
     <ClInclude Include="death_anims.h">
       <Filter>Physics\CharacterSupport\death_anims</Filter>
     </ClInclude>
+    <ClInclude Include="UIFontDefines.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="damage_manager.cpp">
