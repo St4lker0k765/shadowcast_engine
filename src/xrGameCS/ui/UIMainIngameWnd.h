@@ -69,14 +69,14 @@ protected:
 	// - ранения
 	// - голода
 	// - усталости
-	CUIStatic			UIWeaponJammedIcon;
+	CUIStatic*			UIWeaponJammedIcon;
 //	CUIStatic			UIRadiaitionIcon;
 //	CUIStatic			UIWoundIcon;
 //	CUIStatic			UIStarvationIcon;
 //	CUIStatic			UIPsyHealthIcon;
-	CUIStatic			UIInvincibleIcon;
+	CUIStatic*			UIInvincibleIcon;
 //	CUIStatic			UISleepIcon;
-	CUIStatic			UIArtefactIcon;
+	CUIStatic*			UIArtefactIcon;
 
 	CUIScrollView*		m_UIIcons;
 	CUIWindow*			m_pMPChatWnd;

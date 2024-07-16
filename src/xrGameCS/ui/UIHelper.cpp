@@ -23,8 +23,11 @@
 CUIStatic* UIHelper::CreateStatic( CUIXml& xml, LPCSTR ui_path, CUIWindow* parent )
 {
 	CUIStatic* ui			= xr_new<CUIStatic>();
-	parent->AttachChild		( ui );
-	ui->SetAutoDelete		( true );
+	if(parent)
+	{
+		parent->AttachChild	( ui );
+		ui->SetAutoDelete	( true );
+	}
 	CUIXmlInit::InitStatic	( xml, ui_path, 0, ui );
 	return ui;
 }

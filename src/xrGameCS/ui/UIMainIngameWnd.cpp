@@ -41,6 +41,7 @@
 #include "static_cast_checked.hpp"
 #include "UIHudStatesWnd.h"
 #include "UIActorMenu.h"
+#include "UIHelper.h"
 
 #include "../Include/xrRender/Kinematics.h"
 #include <functional>
@@ -82,6 +83,9 @@ CUIMainIngameWnd::~CUIMainIngameWnd()
 	xr_delete					(UIZoneMap);
 	HUD_SOUND_ITEM::DestroySound(m_contactSnd);
 	xr_delete					(g_MissileForceShape);
+	xr_delete					(UIWeaponJammedIcon);
+	xr_delete					(UIInvincibleIcon);
+	xr_delete					(UIArtefactIcon);
 }
 
 void CUIMainIngameWnd::Init()
@@ -142,8 +146,8 @@ void CUIMainIngameWnd::Init()
 //		UIPsyHealthIcon.Show	(false);
 	}
 */
-	xml_init.InitStatic			(uiXml, "weapon_jammed_static", 0, &UIWeaponJammedIcon);
-	UIWeaponJammedIcon.Show		(false);
+	UIWeaponJammedIcon = UIHelper::CreateStatic(uiXml, "weapon_jammed_static", NULL);
+	UIWeaponJammedIcon->Show		(false);
 
 //	xml_init.InitStatic			(uiXml, "radiation_static", 0, &UIRadiaitionIcon);
 //	UIRadiaitionIcon.Show		(false);
@@ -151,14 +155,14 @@ void CUIMainIngameWnd::Init()
 //	xml_init.InitStatic			(uiXml, "wound_static", 0, &UIWoundIcon);
 //	UIWoundIcon.Show			(false);
 
-	xml_init.InitStatic			(uiXml, "invincible_static", 0, &UIInvincibleIcon);
-	UIInvincibleIcon.Show		(false);
+	UIInvincibleIcon = UIHelper::CreateStatic(uiXml, "invincible_static", NULL);
+	UIInvincibleIcon->Show		(false);
 
 
 	if ( (GameID() == eGameIDArtefactHunt) || (GameID() == eGameIDCaptureTheArtefact) )
 	{
-		xml_init.InitStatic		(uiXml, "artefact_static", 0, &UIArtefactIcon);
-		UIArtefactIcon.Show		(false);
+		UIArtefactIcon = UIHelper::CreateStatic(uiXml, "artefact_static", NULL);
+		UIArtefactIcon->Show		(false);
 	}
 	
 	shared_str warningStrings[7] = 
@@ -192,7 +196,6 @@ void CUIMainIngameWnd::Init()
 
 		j = static_cast<EWarningIcons>(j + 1);
 	}
-
 
 	// Flashing icons initialize
 	uiXml.SetLocalRoot						(uiXml.NavigateToNode("flashing_icons"));
@@ -275,13 +278,7 @@ void CUIMainIngameWnd::Update()
 	}
 
 	if ( !m_pActor )
-	{
-		m_pItem				= NULL;
-//		m_pWeapon			= NULL;
-		m_pGrenade			= NULL;
-//y		CUIWindow::Update	();
 		return;
-	}
 
 	UIZoneMap->Update();
 	
@@ -300,7 +297,7 @@ void CUIMainIngameWnd::Update()
 	{
 		lookat_player = Game().lookat_player();
 	}
-	bool b_God = ( GodMode() || ( !lookat_player ) )? true : lookat_player->testFlag(GAME_PLAYER_FLAG_INVINCIBLE);
+	bool b_God = GodMode();
 	if ( b_God )
 	{
 		SetWarningIconColor( ewiInvincible, 0xffffffff );
@@ -460,7 +457,7 @@ void CUIMainIngameWnd::SetWarningIconColor(EWarningIcons icon, const u32 cl)
 	case ewiAll:
 		bMagicFlag = false;
 	case ewiWeaponJammed:
-		SetWarningIconColorUI	(&UIWeaponJammedIcon, cl);
+		SetWarningIconColorUI	(UIWeaponJammedIcon, cl);
 		if (bMagicFlag) break;
 
 /*	case ewiRadiation:
@@ -478,11 +475,11 @@ void CUIMainIngameWnd::SetWarningIconColor(EWarningIcons icon, const u32 cl)
 		if (bMagicFlag) break;
 */
 	case ewiInvincible:
-		SetWarningIconColorUI	(&UIInvincibleIcon, cl);
+		SetWarningIconColorUI	(UIInvincibleIcon, cl);
 		if (bMagicFlag) break;
 		break;
 	case ewiArtefact:
-		SetWarningIconColorUI	(&UIArtefactIcon, cl);
+		SetWarningIconColorUI	(UIArtefactIcon, cl);
 		break;
 
 	default:

@@ -152,7 +152,7 @@ void	CActor::PickupModeUpdate_COD	()
 {
 	if (Level().CurrentViewEntity() != this || !g_b_COD_PickUpMode) return;
 		
-	if (!g_Alive() || eacFirstEye != cam_active) 
+	if (!g_Alive()) 
 	{
 		HUD().GetUI()->UIMainIngameWnd->SetPickUpItem(NULL);
 		return;

@@ -322,6 +322,7 @@ public:
 	IC CCameraBase*			cam_Active			()	{return cameras[cam_active];}
 	IC CCameraBase*			cam_FirstEye		()	{return cameras[eacFirstEye];}
 	IC EActorCameras		activeCam			()	{ return cam_active; }
+	CCameraBase*			cameras[eacMaxCam];
 
 protected:
 	virtual	void			cam_Set					(EActorCameras style);
@@ -333,7 +334,6 @@ protected:
 	float					currentFOV				();
 
 	// Cameras
-	CCameraBase*			cameras[eacMaxCam];
 	EActorCameras			cam_active;
 	float					fPrevCamPos;
 	Fvector					vPrevCamDir;

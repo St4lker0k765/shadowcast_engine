@@ -97,10 +97,10 @@ CActor::CActor() : CEntityAlive()
 	cameras[eacFirstEye]	= xr_new<CCameraFirstEye>				(this);
 	cameras[eacFirstEye]->Load("actor_firsteye_cam");
 
-	if(strstr(Core.Params,"-psp"))
+//	if(strstr(Core.Params,"-psp"))
 		psActorFlags.set(AF_PSP, TRUE);
-	else
-		psActorFlags.set(AF_PSP, FALSE);
+//	else
+//		psActorFlags.set(AF_PSP, FALSE);
 
 	if( psActorFlags.test(AF_PSP) )
 	{
@@ -369,9 +369,9 @@ if(!g_dedicated_server)
 		m_DangerSnd.create		(pSettings->r_string(section,"heavy_danger_snd"), st_Effect,SOUND_TYPE_MONSTER_INJURING);
 	}
 }
-	if( psActorFlags.test(AF_PSP) )
-		cam_Set					(eacLookAt);
-	else
+//	if( psActorFlags.test(AF_PSP) )
+//		cam_Set					(eacLookAt);
+//	else
 		cam_Set					(eacFirstEye);
 
 	// sheduler

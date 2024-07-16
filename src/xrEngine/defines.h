@@ -64,7 +64,7 @@ ENGINE_API extern Flags32 psDeviceFlags;
 #define _game_sounds_ "$game_sounds$"
 #define _game_meshes_ "$game_meshes$"
 #define _game_shaders_ "$game_shaders$"
-#define _game_config_ "$game_congif$"
+#define _game_config_ "$game_config$"
 #define _game_fonts_ "$game_fonts$"
 
 // editor path definition

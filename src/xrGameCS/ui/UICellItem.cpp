@@ -171,7 +171,7 @@ CUIDragItem* CUICellItem::CreateDragItem()
 	if( m_UIStaticItem.GetFixedLTWhileHeading() )
 	{
 		float t1,t2;
-		t1				= r.width();
+		t1				= r.width()/UI()->get_current_kx();
 		t2				= r.height();
 
 		Fvector2 cp = GetUICursor()->GetCursorPosition();
