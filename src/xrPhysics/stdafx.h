@@ -10,7 +10,7 @@
 #include "../xrCore/xrCore.h"
 
 #ifdef XRGAMESOC_EXPORTS
-#include "../xrGame/smart_cast.h"
+#include "../xrGameSOC/smart_cast.h"
 #else
 #include "../xrServerEntities/smart_cast.h"
 #endif

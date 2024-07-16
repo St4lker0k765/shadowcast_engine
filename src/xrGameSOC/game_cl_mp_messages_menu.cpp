@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "game_cl_mp.h"
 #include "xrMessages.h"
-#include "../../xrNetServer/net_utils.h"
+#include "../../xrCore/net_utils.h"
 #include "Level.h"
 #include "HUDManager.h"
 #include "ui/UIMessagesWindow.h"

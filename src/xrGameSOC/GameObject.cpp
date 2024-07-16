@@ -17,7 +17,7 @@
 #include "ai_debug.h"
 #include "../xrEngine/igame_level.h"
 #include "level.h"
-#include "../../xrNetServer/net_utils.h"
+#include "../../xrCore/net_utils.h"
 #include "script_callback_ex.h"
 #include "game_cl_base_weapon_usage_statistic.h"
 #include "game_level_cross_table.h"

@@ -21,7 +21,7 @@ struct CSaver {
 		}
 
 		template <>
-		IC	void save_data<true>(const T &data, M &stream, const P &p)
+		IC	static void save_data<true>(const T &data, M &stream, const P &p)
 		{
 			T* data1 = const_cast<T*>(&data);
 			data1->save	(stream);
@@ -43,7 +43,7 @@ struct CSaver {
 		}
 
 		template <>
-		IC	void save_data<true>(const T &data, M &stream, const P &p)
+		IC	static void save_data<true>(const T &data, M &stream, const P &p)
 		{
 			CSaver<M,P>::save_data	(*data,stream,p);
 		}
@@ -54,8 +54,8 @@ struct CSaver {
 		IC	static void save_data(const T &data, M &stream, const P &p)
 		{
 			stream.w_u32					((u32)data.size());
-			auto I = data.begin();
-			auto E = data.end();
+			T::const_iterator				I = data.begin();
+			T::const_iterator				E = data.end();
 			for ( ; I != E; ++I)
 				if (p(data,*I))
 					CSaver<M,P>::save_data	(*I,stream,p);
@@ -71,7 +71,7 @@ struct CSaver {
 		}
 
 		template <>
-		IC void save_data<true>(const T &data, M &stream, const P &p)
+		IC	static void save_data<true>(const T &data, M &stream, const P &p)
 		{
 			CHelper3::save_data	(data,stream,p);
 		}
@@ -130,8 +130,8 @@ struct CSaver {
 	IC	static void save_data(const svector<T,size> &data, M &stream, const P &p)
 	{
 		stream.w_u32					((u32)data.size());
-		auto I = data.begin();
-		auto E = data.end();
+		svector<T,size>::const_iterator	I = data.begin();
+		svector<T,size>::const_iterator	E = data.end();
 		for ( ; I != E; ++I)
 			if (p(data,*I))
 				CSaver<M,P>::save_data	(*I,stream,p);

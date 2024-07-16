@@ -65,7 +65,7 @@ void CCar::SExhaust::Clear()
 void CCar::SExhaust::Play()
 {
 	VERIFY(!physics_world()->Processing());
-	p_pgobject->Play();
+	p_pgobject->Play(false);
 	Update();
 }
 

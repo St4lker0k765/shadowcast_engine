@@ -8,6 +8,7 @@
 #include "level.h"
 #include "entity_alive.h"
 #include "CharacterPhysicsSupport.h"
+#include "../xrEngine/xr_collide_form.h"
 CAmebaZone::CAmebaZone()
 {
 	m_fVelocityLimit=1.f;
