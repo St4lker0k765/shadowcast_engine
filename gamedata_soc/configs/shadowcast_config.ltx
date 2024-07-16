@@ -1,0 +1,25 @@
+[environment]
+; Переключите на false если хотите использовать положение солнца из погодного конфига, к примеру из мода Atmosfear
+dynamic_sun_dir = false
+
+; Направление для хода солнца, не работает если включен ход солнца по конфигам ( dynamic_sun_dir = false )
+sun_dir_azimuth = 0.0
+
+[hud_adj]
+_delta_pos = 0.000002
+_delta_rot = 0.000002
+
+[gameplay]
+death_sound_enable = true ; включить озвучки смерти у НПС
+SWM_3D_scopes      = true ; Включить поддержку второго вьюпорта
+
+[compatibility]
+; Compatibility with previous games
+; tsw, cop, cs or soc
+; tsw reserved for The Shadow Way mod (new menus, minimap from SoC)
+game_mode = soc
+
+[default_console_settings]
+rs_loadingstages = 1
+; for STCoP 3.5
+;g_hud_fov = 0.7
