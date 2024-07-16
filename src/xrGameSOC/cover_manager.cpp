@@ -97,7 +97,6 @@ void CCoverManager::compute_static_cover	()
 
 		m_temp[i] = false;
 	}
-	u32 n = ai().level_graph().header().vertex_count();
 
 	for (u32 i=0; i<n; ++i)
 		if (m_temp[i] && critical_cover(i))

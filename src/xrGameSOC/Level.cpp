@@ -960,16 +960,18 @@ void CLevel::SetGameTimeFactor(const float fTimeFactor)
 //	Server->game->SetGameTimeFactor(fTimeFactor);
 }
 
+void CLevel::SetEnvironmentGameTimeFactor(u64 const& GameTime, float const& fTimeFactor)
+{
+	if (!game)
+		return;
+	game->SetEnvironmentGameTimeFactor(GameTime, fTimeFactor);
+}
 void CLevel::SetGameTimeFactor(ALife::_TIME_ID GameTime, const float fTimeFactor)
 {
 	game->SetGameTimeFactor(GameTime, fTimeFactor);
 //	Server->game->SetGameTimeFactor(fTimeFactor);
 }
-void CLevel::SetEnvironmentGameTimeFactor(ALife::_TIME_ID GameTime, const float fTimeFactor)
-{
-	game->SetEnvironmentGameTimeFactor(GameTime, fTimeFactor);
-//	Server->game->SetGameTimeFactor(fTimeFactor);
-}/*
+/*
 void CLevel::SetGameTime(ALife::_TIME_ID GameTime)
 {
 	game->SetGameTime(GameTime);

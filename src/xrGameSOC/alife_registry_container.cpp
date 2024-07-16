@@ -22,14 +22,14 @@ struct CRegistryHelperLoad {
 	}
 
 	template <>
-	IC void do_load<true>(T1 *self, T2 &p1)
+	IC	static void do_load<true>(T1* self, T2& p1)
 	{
 		self->Head::load(p1);
 	}
 
 	IC	static void process(T1 *self, T2 &p1)
 	{
-		do_load<object_type_traits::is_base_and_derived<IPureLîadableObject<T2>,Head>::value>(self,p1);
+		do_load<object_type_traits::is_base_and_derived<IPureLoadableObject<T2>,Head>::value>(self,p1);
 	}
 };
 
@@ -43,7 +43,7 @@ struct CRegistryHelperSave {
 	}
 
 	template <>
-	IC void do_save<true>(T1 *self, T2 &p1)
+	IC static void do_save<true>(T1 *self, T2 &p1)
 	{
 		self->Head::save(p1);
 	}
@@ -71,7 +71,7 @@ public:
 	}
 
 	template <>
-	IC void go_process<Loki::NullType>(T1 *self, T2 p1)
+	IC static void go_process<Loki::NullType>(T1 *self, T2 p1)
 	{
 	}
 

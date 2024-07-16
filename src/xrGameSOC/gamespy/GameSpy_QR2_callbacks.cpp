@@ -118,17 +118,6 @@ void __cdecl callback_playerkey(int keyid, int index, void* outbuf, void *userda
 	if (!pQR2) return;
 
 	xrGameSpyClientData* pCD = NULL;
-	
-	if (pServer->IsDedicated())
-	{
-		if (u32(index + 1) >= pServer->GetClientsCount()) return;
-		pCD = static_cast<xrGameSpyClientData*>(
-			pServer->FindClient(index+1)
-			);
-	}
-	else
-		pCD = (xrGameSpyClientData*)pServer->FindClient(index);
-	if (!pCD || !pCD->ps) return;
 
 	switch (keyid)
 	{

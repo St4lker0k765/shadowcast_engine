@@ -7,6 +7,9 @@
 ////////////////////////////////////////////////////////////////////////////
 
 #pragma once
+#include "object_type_traits.h"
+
+using namespace object_type_traits;
 
 template <class M, typename P>
 struct CLoader {
@@ -16,7 +19,7 @@ struct CLoader {
 		template <bool a>
 		IC	static void load_data(T &data, M &stream, const P &p)
 		{
-			STATIC_CHECK				(!std::is_polymorphic<T>::value, Cannot_load_polymorphic_classes_as_binary_data);
+			static_assert(!std::is_polymorphic_v<T>, "Cannot load polymorphic classes as binary data");
 			stream.r					(&data,sizeof(T));
 		}
 
@@ -34,7 +37,7 @@ struct CLoader {
 		template <bool pointer>
 		IC	static void load_data(T &data, M &stream, const P &p)
 		{
-			CHelper1<T>::load_data<
+			CHelper1<T>::template load_data<
 				object_type_traits::is_base_and_derived_or_same_from_template<
 					IPureLoadableObject,
 					T
@@ -45,7 +48,7 @@ struct CLoader {
 		template <>
 		IC	static void load_data<true>(T &data, M &stream, const P &p)
 		{
-			CLoader<M,P>::load_data	(*(data = xr_new<object_type_traits::remove_pointer<T>::type>()),stream,p);
+			CLoader<M,P>::load_data	(*(data = xr_new<typename object_type_traits::remove_pointer<T>::type>()),stream,p);
 		}
 	};
 
@@ -83,7 +86,7 @@ struct CLoader {
 		template <typename T1, typename T2>
 		IC	static void add(T1 &data, T2 &value)
 		{
-			add_helper<T1,T2>::add<is_tree_structure<T1>::value>(data,value);
+			add_helper<T1,T2>::template add<is_tree_structure<T1>::value>(data,value);
 		}
 
 		template <typename T>
@@ -106,7 +109,7 @@ struct CLoader {
 		template <bool a>
 		IC	static void load_data(T &data, M &stream, const P &p)
 		{
-			CHelper<T>::load_data<object_type_traits::is_pointer<T>::value>	(data,stream,p);
+			CHelper<T>::template load_data<object_type_traits::is_pointer<T>::value>	(data,stream,p);
 		}
 
 		template <>
@@ -159,8 +162,8 @@ struct CLoader {
 			data.clear();
 		u32								prev_count = data.size();
 		data.resize						(prev_count + stream.r_u32());
-		xr_vector<bool>::iterator		I = data.begin() + prev_count;
-		xr_vector<bool>::iterator		E = data.end();
+		typename xr_vector<bool>::iterator I = data.begin() + prev_count;
+		typename xr_vector<bool>::iterator E = data.end();
 		u32								mask = 0;
 		for (int j=32; I != E; ++I, ++j) {
 			if (j >= 32) {
@@ -178,7 +181,7 @@ struct CLoader {
 			data.clear();
 		u32								count = stream.r_u32();
 		for (u32 i=0; i<count; ++i) {
-			svector<T,size>::value_type	temp;
+			typename svector<T,size>::value_type	temp;
 			CLoader<M,P>::load_data		(temp,stream,p);
 			if (p(data,temp))
 				data.push_back			(temp);
@@ -257,7 +260,7 @@ struct CLoader {
 	template <typename T>
 	IC	static void load_data(T &data, M &stream, const P &p)
 	{
-		CHelper4<T>::load_data<object_type_traits::is_stl_container<T>::value>	(data,stream,p);
+		CHelper4<T>::template load_data<object_type_traits::is_stl_container<T>::value>	(data,stream,p);
 	}
 };
 

@@ -42,6 +42,23 @@ bool r_line(CScriptIniFile *self, LPCSTR S, int L, string_class& N, string_class
 	return			(true);
 }
 
+#pragma warning(push)
+#pragma warning(disable:4238)
+CScriptIniFile* create_ini_file(LPCSTR ini_string)
+{
+	return			(
+		(CScriptIniFile*)
+		xr_new<CInifile>(
+			&IReader(
+				(void*)ini_string,
+				xr_strlen(ini_string)
+			),
+			FS.get_path("$game_config$")->m_Path
+		)
+		);
+}
+#pragma warning(pop)
+
 #pragma optimize("s",on)
 void CScriptIniFile::script_register(lua_State *L)
 {
@@ -67,12 +84,6 @@ void CScriptIniFile::script_register(lua_State *L)
 #ifdef XRGAMESOC_EXPORTS
 		def("game_ini",				&get_game_ini),
 #endif // XRGAMESOC_EXPORTS
-		def(
-			"create_ini_file", // чтение ini как текста, без возможности сохранить
-			[](const char* ini_string) {
-				IReader reader((void*)ini_string, strlen(ini_string));
-				return static_cast<CScriptIniFile*>(xr_new<CInifile>(&reader, FS.get_path("$game_config$")->m_Path));
-			},
-			adopt<result>())
+			def("create_ini_file", &create_ini_file, adopt<result>())
 	];
 }

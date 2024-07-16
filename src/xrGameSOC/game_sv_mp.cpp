@@ -118,12 +118,6 @@ void game_sv_mp::OnRoundStart()
 
 	// clear "ready" flag
 	u32		cnt		= get_players_count	();
-	for		(u32 it=0; it<cnt; ++it)	
-	{
-		game_PlayerState*	ps	=	get_it	(it);
-		ps->resetFlag(GAME_PLAYER_FLAG_READY+GAME_PLAYER_FLAG_VERY_VERY_DEAD);
-		ps->m_online_time = Level().timeServer();
-	};
 
 	// 1. We have to destroy all player-entities and entities
 	m_server->SLS_Clear	();
@@ -716,18 +710,6 @@ void game_sv_mp::OnVoteStart				(LPCSTR VoteCommand, ClientID sender)
 
 	xrClientData *pStartedPlayer = NULL;
 	u32	cnt = get_players_count();	
-	for(u32 it=0; it<cnt; it++)	
-	{
-		xrClientData *l_pC = (xrClientData*)	m_server->FindClient	(it);
-		if (!l_pC) continue;
-		if (l_pC->ID == sender)
-		{
-			l_pC->ps->m_bCurrentVoteAgreed = 1;
-			pStartedPlayer = l_pC;
-		}
-		else
-			l_pC->ps->m_bCurrentVoteAgreed = 2;
-	};
 
 	signal_Syncronize();
 	//-----------------------------------------------------------------------------
@@ -753,15 +735,6 @@ void		game_sv_mp::UpdateVote				()
 	u32 NumParticipated = 0;
 	u32 NumToCount = 0;
 	u32	cnt = get_players_count();	
-	for(u32 it=0; it<cnt; it++)	
-	{
-		xrClientData *l_pC = (xrClientData*)	m_server->FindClient	(it);
-		game_PlayerState* ps	= l_pC->ps;
-		if (!l_pC || !l_pC->net_Ready || !ps || ps->IsSkip()) continue;
-		if (ps->m_bCurrentVoteAgreed != 2) NumParticipated++;
-		if (ps->m_bCurrentVoteAgreed == 1) NumAgreed++;
-		NumToCount++;
-	};
 
 	bool VoteSucceed = false;
 	u32 CurTime = Level().timeServer();
@@ -931,13 +904,6 @@ void	game_sv_mp::SendPlayerKilledMessage	(u16 KilledID, KILL_TYPE KillType, u16 
 	P.w_u8	(u8(SpecialKill));
 
 	u32	cnt = get_players_count();	
-	for( u32 it = 0; it < cnt; it++ )
-	{
-		xrClientData *l_pC = (xrClientData*)	m_server->FindClient	(it);
-		game_PlayerState* ps	= l_pC->ps;
-		if (!l_pC || !l_pC->net_Ready || !ps) continue;
-		m_server->SendTo(l_pC->ID, P);
-	};
 };
 
 void	game_sv_mp::OnPlayerChangeName		(NET_Packet& P, ClientID sender)
@@ -976,15 +942,6 @@ void	game_sv_mp::OnPlayerChangeName		(NET_Packet& P, ClientID sender)
 		P.w_s16(ps->team);
 		P.w_stringZ(ps->getName());
 		P.w_stringZ(NewName);
-		//---------------------------------------------------		
-		u32	cnt = get_players_count();	
-		for(u32 it=0; it<cnt; it++)	
-		{
-			xrClientData *l_pC = (xrClientData*)	m_server->FindClient	(it);
-			game_PlayerState* ps	= l_pC->ps;
-			if (!l_pC || !l_pC->net_Ready || !ps) continue;
-			m_server->SendTo(l_pC->ID, P);
-		};
 		//---------------------------------------------------
 		pClient->owner->set_name_replace(NewName);
 		NewPlayerName_Replace(pClient, NewName);
@@ -1015,13 +972,6 @@ void		game_sv_mp::OnPlayerSpeechMessage	(NET_Packet& P, ClientID sender)
 		NP.w_u8(P.r_u8());		
 		//---------------------------------------------------		
 		u32	cnt = get_players_count();	
-		for(u32 it=0; it<cnt; it++)	
-		{
-			xrClientData *l_pC = (xrClientData*)	m_server->FindClient	(it);
-			game_PlayerState* ps	= l_pC->ps;
-			if (!l_pC || !l_pC->net_Ready || !ps) continue;
-			m_server->SendTo(l_pC->ID, NP, net_flags(TRUE, TRUE, TRUE));
-		};
 	};
 };
 
@@ -1162,36 +1112,6 @@ void	game_sv_mp::Player_ExperienceFin	(game_PlayerState* ps)
 void	game_sv_mp::UpdatePlayersMoney		()
 {
 	u32	cnt = get_players_count();	
-	for(u32 it=0; it<cnt; it++)	
-	{
-		xrClientData *l_pC = (xrClientData*)	m_server->FindClient	(it);
-		game_PlayerState* ps	= l_pC->ps;
-		if (!l_pC || !l_pC->net_Ready || !ps) continue;
-		if (!ps->money_added && ps->m_aBonusMoney.empty()) continue;
-		//-----------------------------------------------------------
-		NET_Packet P;
-		
-		GenerateGameMessage (P);
-		P.w_u32		(GAME_EVENT_PLAYERS_MONEY_CHANGED);
-
-		P.w_s32(ps->money_for_round);
-		P.w_s32(ps->money_added);	
-		ps->money_added = 0;
-		P.w_u8(u8(ps->m_aBonusMoney.size() & 0xff));
-		if (!ps->m_aBonusMoney.empty())
-		{
-			for (u32 i=0; i<ps->m_aBonusMoney.size(); i++)
-			{
-				Bonus_Money_Struct* pBMS = &(ps->m_aBonusMoney[i]);
-				P.w_s32(pBMS->Money);
-				P.w_u8(u8(pBMS->Reason & 0xff));
-				if (pBMS->Reason == SKT_KIR) P.w_u8(pBMS->Kills);
-			};
-			ps->m_aBonusMoney.clear();
-		};		
-
-		m_server->SendTo(l_pC->ID, P);
-	};
 };
 /*
 bool	game_sv_mp::GetTeamItem_ByID		(WeaponDataStruct** pRes, TEAM_WPN_LIST* pWpnList, u16 ItemID)
@@ -1312,21 +1232,6 @@ void game_sv_mp::DumpOnlineStatistic()
 		ini.w_string				("map_rotation", num_buf, str_buff);
 	}
 
-	for(u32 idx=0; idx<m_server->GetClientsCount(); ++idx)
-	{
-		xrClientData *l_pC			= (xrClientData*)m_server->FindClient(idx);
-		
-		if(m_server->GetServerClient()==l_pC && g_dedicated_server) 
-			continue;
-		
-		if(!l_pC->net_Ready)
-			continue;
-
-		string16					num_buf;
-		sprintf_s					(num_buf,"player_%d",idx);
-
-		WritePlayerStats			(ini,num_buf,l_pC);
-	}
 	WriteGameState				(ini, current_section.c_str(), false);
 }
 
@@ -1369,49 +1274,7 @@ void game_sv_mp::WriteGameState(CInifile& ini, LPCSTR sect, bool bRoundResult)
 
 void game_sv_mp::DumpRoundStatistics()
 {
-	if ( !g_sv_mp_iDumpStatsPeriod ) return;
 
-	string_path					fn;
-	xrGameSpyServer* srv		= smart_cast<xrGameSpyServer*>(m_server);
-
-	FS.update_path				(fn,"$logs$","mp_stats\\");
-	string64					t_stamp;
-	timestamp					(t_stamp);
-	strcat_s					(fn, srv->HostName.c_str() );
-	strcat_s					(fn, "\\games\\dmp" );
-	strcat_s					(fn, t_stamp );
-	strcat_s					(fn, ".ltx" );
-
-	CInifile					ini(fn, FALSE, FALSE, TRUE);
-	shared_str					current_section = "global";
-	string256					str_buff;
-
-	ini.w_string				(current_section.c_str(),"start_time", m_round_start_time_str);
-
-	sprintf_s					(str_buff,"%s",CStringTable().translate(type_name()).c_str() );
-	ini.w_string				(current_section.c_str(), "game_mode", str_buff);
-
-	sprintf_s					(str_buff,"\"%s\"",CStringTable().translate(Level().name().c_str()).c_str());
-	ini.w_string				(current_section.c_str(), "current_map_name", str_buff);
-
-	sprintf_s					(str_buff,"\"%s\"",Level().name().c_str());
-	ini.w_string				(current_section.c_str(), "current_map_name_internal", str_buff);
-
-	for(u32 idx=0; idx<m_server->GetClientsCount(); ++idx)
-	{
-		xrClientData *l_pC			= (xrClientData*)m_server->FindClient(idx);
-		if(m_server->GetServerClient()==l_pC && g_dedicated_server) 
-			continue;
-
-		string16					num_buf;
-		sprintf_s					(num_buf,"player_%d",idx);
-
-		WritePlayerStats			(ini,num_buf,l_pC);
-	}
-	WriteGameState					(ini,current_section.c_str(), true);
-
-	Game().m_WeaponUsageStatistic->SaveDataLtx(ini);
-	//Game().m_WeaponUsageStatistic->Clear();
 }
 
 void game_sv_mp::SvSendChatMessage(LPCSTR str)
