@@ -20,7 +20,7 @@
 	extern Flags32 psAI_Flags;
 #endif // DEBUG
 
-BOOL CAI_Stalker::feel_vision_isRelevant(CObject* O)
+bool CAI_Stalker::feel_vision_isRelevant(CObject* O)
 {
 	if (!g_Alive())
 		return		FALSE;
@@ -59,7 +59,7 @@ bool CAI_Stalker::bfCheckForNodeVisibility(u32 dwNodeID, bool bIfRayPick)
 	return							(memory().visual().visible(dwNodeID,movement().m_head.current.yaw,ffGetFov()));
 }
 
-BOOL CAI_Stalker::feel_touch_contact	(CObject *O)
+bool CAI_Stalker::feel_touch_contact	(CObject *O)
 {
 	if (!inherited::feel_touch_contact(O))
 		return						(FALSE);

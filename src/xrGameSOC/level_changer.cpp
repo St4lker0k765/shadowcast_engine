@@ -162,7 +162,7 @@ bool CLevelChanger::get_reject_pos(Fvector& p, Fvector& r)
 		return false;
 }
 
-BOOL CLevelChanger::feel_touch_contact	(CObject *object)
+bool CLevelChanger::feel_touch_contact	(CObject *object)
 {
 	return	(((CCF_Shape*)CFORM())->Contact(object)) && smart_cast<CActor*>(object);
 }

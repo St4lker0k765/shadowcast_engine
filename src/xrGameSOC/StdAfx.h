@@ -26,6 +26,7 @@ IC	void		throw_and_log(const xr_string &s) {Msg("! %s",s.c_str()); throw *shared
 #include "../xrEngine/gamefont.h"
 #include "../xrEngine/xr_object.h"
 #include "../xrEngine/igame_level.h"
+#include "../xrEngine/bone.h"
 #include "../xrphysics/xrphysics.h"
 
 #define REGISTRY_VALUE_GSCDKEY	"InstallCDKEY"

@@ -104,7 +104,7 @@ void CPda::feel_touch_delete(CObject* O)
 	pOwner->LostPdaContact					(pLostContactInvOwner);
 }
 
-BOOL CPda::feel_touch_contact(CObject* O) 
+bool CPda::feel_touch_contact(CObject* O) 
 {
 	CInventoryOwner* pInvOwner = smart_cast<CInventoryOwner*>(O);
 	if(pInvOwner){

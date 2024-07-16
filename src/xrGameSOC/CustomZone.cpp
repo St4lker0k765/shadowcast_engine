@@ -636,7 +636,7 @@ void CCustomZone::feel_touch_delete(CObject* O)
 	}
 }
 
-BOOL CCustomZone::feel_touch_contact(CObject* O) 
+bool CCustomZone::feel_touch_contact(CObject* O) 
 {
 	if (smart_cast<CCustomZone*>(O))				return FALSE;
 	if (smart_cast<CBreakableObject*>(O))			return FALSE;

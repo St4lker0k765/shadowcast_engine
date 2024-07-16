@@ -186,7 +186,7 @@ void CCustomDetector::feel_touch_delete(CObject* O)
 	}
 }
 
-BOOL CCustomDetector::feel_touch_contact(CObject* O) 
+bool CCustomDetector::feel_touch_contact(CObject* O) 
 {
 	return (NULL != smart_cast<CCustomZone*>(O));
 }
