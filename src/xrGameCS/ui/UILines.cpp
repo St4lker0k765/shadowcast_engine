@@ -311,17 +311,22 @@ void CUILines::ParseText(){
 
 float CUILines::GetVisibleHeight()
 {
-	float _curr_h = m_pFont->CurrentHeight_();
-	UI()->ClientToScreenScaledHeight(_curr_h);
 
 	if (uFlags.test(flComplexMode))
 	{
-		if(uFlags.test(flNeedReparse))
-			ParseText	();
-		return (_curr_h + m_interval)*m_lines.size() - m_interval;
+		if (uFlags.test(flNeedReparse))
+			ParseText();
+
+		float _curr_h = m_pFont->CurrentHeight_();
+		UI()->ClientToScreenScaledHeight(_curr_h);
+		return _curr_h * m_lines.size();
 	}
 	else
+	{
+		float _curr_h = m_pFont->GetHeight();
+		UI()->ClientToScreenScaledHeight(_curr_h);
 		return _curr_h;
+	}
 }
 
 void CUILines::SetTextColor(u32 color){
