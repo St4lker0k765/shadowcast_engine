@@ -26,7 +26,6 @@
 #	include "ai/monsters/BaseMonster/base_monster.h"
 #   include "level_debug.h"
 #endif
-#include "GameObjectEvents.h"
 
 #ifdef DEBUG
 extern void try_change_current_entity();
@@ -43,7 +42,6 @@ void CLevel::IR_OnMouseWheel( int direction )
 
 	if(	g_bDisableAllInput	) return;
 
-	GameObject_OnMouseWheel(g_actor, direction);
 
 	if (HUD().GetUI()->IR_OnMouseWheel(direction)) return;
 	if( Device.Paused()		) return;
@@ -71,8 +69,6 @@ void CLevel::IR_OnMouseMove( int dx, int dy )
 {
 
 	if(g_bDisableAllInput)							return;
-
-	GameObject_OnMouseMove(g_actor, dx, dy);
 
 	if (HUD().GetUI()->IR_OnMouseMove(dx, dy))		return;
 	if (Device.Paused() && !IsDemoPlay() )	return;
@@ -119,8 +115,6 @@ void CLevel::IR_OnKeyboardPress	(int key)
 	}
 
 	if(	g_bDisableAllInput )	return;
-
-	GameObject_OnKeyboardPress(g_actor, key);
 
 	switch ( _curr ) 
 	{
@@ -423,8 +417,6 @@ void CLevel::IR_OnKeyboardRelease(int key)
 
 	if (!bReady || g_bDisableAllInput	) return;
 
-	GameObject_OnKeyboardRelease(g_actor, key);
-
 	if ( b_ui_exist && HUD().GetUI()->IR_OnKeyboardRelease(key)) return;
 	if (Device.Paused()		) return;
 	if (game && Game().OnKeyboardRelease(get_binded_action(key)) ) return;
@@ -440,8 +432,6 @@ void CLevel::IR_OnKeyboardHold(int key)
 {
 
 	if(g_bDisableAllInput) return;
-
-	GameObject_OnKeyboardHold(g_actor, key);
 
 #ifdef DEBUG
 	// Lain: added

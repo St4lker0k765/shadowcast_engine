@@ -1462,9 +1462,6 @@
     <Filter Include="Core\Client\Effects\Core">
       <UniqueIdentifier>{5a4b3b98-12e2-4c50-98c3-43359799dd84}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Client\BattlEye_Client">
-      <UniqueIdentifier>{a8973d62-c7c8-4aa5-b15f-265b66c1f9cb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core\Client\Game Persistent">
       <UniqueIdentifier>{31e1be8d-054a-4c7a-9a88-0a3af73a18a4}</UniqueIdentifier>
     </Filter>
@@ -2038,9 +2035,6 @@
     <Filter Include="Core\Common\associative_vector\compare">
       <UniqueIdentifier>{e8eabb4b-2a6b-4c26-90e1-c9a2af4bc24e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Common\Registry">
-      <UniqueIdentifier>{2ff0a3d6-d19d-4224-a1f6-e0796681f458}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core\Common\debug">
       <UniqueIdentifier>{31f3fffe-7c59-4db6-92e4-d8107c67c467}</UniqueIdentifier>
     </Filter>
@@ -2142,9 +2136,6 @@
     </Filter>
     <Filter Include="Core\Server\ServerProcess">
       <UniqueIdentifier>{1f120b36-df46-4141-85e2-7e82e8fa18c9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Server\BattlEye_Server">
-      <UniqueIdentifier>{71a15b6d-04e1-4247-9cef-e9215b32da05}</UniqueIdentifier>
     </Filter>
     <Filter Include="Physics">
       <UniqueIdentifier>{41dc342b-e748-44b5-8038-0ae67f8249ad}</UniqueIdentifier>
@@ -5331,9 +5322,6 @@
     <ClInclude Include="DynamicHeightMap.h">
       <Filter>Core\Client\Effects\Core</Filter>
     </ClInclude>
-    <ClInclude Include="xr_Client_BattlEye.h">
-      <Filter>Core\Client\BattlEye_Client</Filter>
-    </ClInclude>
     <ClInclude Include="GamePersistent.h">
       <Filter>Core\Client\Game Persistent</Filter>
     </ClInclude>
@@ -6204,9 +6192,6 @@
     <ClInclude Include="..\xrServerEntitiesCS\associative_vector_compare_predicate_inline.h">
       <Filter>Core\Common\associative_vector\compare</Filter>
     </ClInclude>
-    <ClInclude Include="RegistryFuncs.h">
-      <Filter>Core\Common\Registry</Filter>
-    </ClInclude>
     <ClInclude Include="static_cast_checked.hpp">
       <Filter>Core\Common\debug\static_cast_checked</Filter>
     </ClInclude>
@@ -6246,9 +6231,6 @@
     <ClInclude Include="game_base_kill_type.h">
       <Filter>Core\Server\Games</Filter>
     </ClInclude>
-    <ClInclude Include="game_base_menu_events.h">
-      <Filter>Core\Server\Games</Filter>
-    </ClInclude>
     <ClInclude Include="..\xrServerEntitiesCS\game_base_space.h">
       <Filter>Core\Server\Games</Filter>
     </ClInclude>
@@ -6259,9 +6241,6 @@
       <Filter>Core\Server\Games\client\base</Filter>
     </ClInclude>
     <ClInclude Include="game_sv_base.h">
-      <Filter>Core\Server\Games\server</Filter>
-    </ClInclude>
-    <ClInclude Include="game_sv_base_console_vars.h">
       <Filter>Core\Server\Games\server</Filter>
     </ClInclude>
     <ClInclude Include="game_sv_event_queue.h">
@@ -6320,15 +6299,6 @@
     </ClInclude>
     <ClInclude Include="xrServer_svclient_validation.h">
       <Filter>Core\Server\ServerProcess</Filter>
-    </ClInclude>
-    <ClInclude Include="battleye.h">
-      <Filter>Core\Server\BattlEye_Server</Filter>
-    </ClInclude>
-    <ClInclude Include="battleye_system.h">
-      <Filter>Core\Server\BattlEye_Server</Filter>
-    </ClInclude>
-    <ClInclude Include="xr_Server_BattlEye.h">
-      <Filter>Core\Server\BattlEye_Server</Filter>
     </ClInclude>
     <ClInclude Include="CalculateTriangle.h">
       <Filter>Physics\Base</Filter>
@@ -6680,9 +6650,6 @@
     </ClInclude>
     <ClInclude Include="poses_blending.h">
       <Filter>Physics\animation_movement_controller</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\CExtraContentFilter.h">
-      <Filter>UI</Filter>
     </ClInclude>
     <ClInclude Include="MainMenu.h">
       <Filter>UI</Filter>
@@ -7130,9 +7097,6 @@
     </ClInclude>
     <ClInclude Include="objects\devices\UIDosimeter.h">
       <Filter>Core\Client\Objects\items &amp; weapons\Devices\Dosimeter</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObjectEvents.h">
-      <Filter>Core\Client\Objects\base\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="UIFontDefines.h">
       <Filter>UI</Filter>
@@ -8616,9 +8580,6 @@
     <ClCompile Include="DynamicHeightMap.cpp">
       <Filter>Core\Client\Effects\Core</Filter>
     </ClCompile>
-    <ClCompile Include="xr_Client_BattlEye.cpp">
-      <Filter>Core\Client\BattlEye_Client</Filter>
-    </ClCompile>
     <ClCompile Include="GamePersistent.cpp">
       <Filter>Core\Client\Game Persistent</Filter>
     </ClCompile>
@@ -9480,9 +9441,6 @@
     <ClCompile Include="string_table.cpp">
       <Filter>Core\Common\StringTable</Filter>
     </ClCompile>
-    <ClCompile Include="RegistryFuncs.cpp">
-      <Filter>Core\Common\Registry</Filter>
-    </ClCompile>
     <ClCompile Include="static_cast_checked_test.cpp">
       <Filter>Core\Common\debug\static_cast_checked</Filter>
     </ClCompile>
@@ -9517,9 +9475,6 @@
       <Filter>Core\Server\Games\client\base</Filter>
     </ClCompile>
     <ClCompile Include="game_sv_base.cpp">
-      <Filter>Core\Server\Games\server</Filter>
-    </ClCompile>
-    <ClCompile Include="game_sv_base_console_vars.cpp">
       <Filter>Core\Server\Games\server</Filter>
     </ClCompile>
     <ClCompile Include="game_sv_base_script.cpp">
@@ -9659,12 +9614,6 @@
     </ClCompile>
     <ClCompile Include="xrServer_svclient_validation.cpp">
       <Filter>Core\Server\ServerProcess</Filter>
-    </ClCompile>
-    <ClCompile Include="battleye_system.cpp">
-      <Filter>Core\Server\BattlEye_Server</Filter>
-    </ClCompile>
-    <ClCompile Include="xr_Server_BattlEye.cpp">
-      <Filter>Core\Server\BattlEye_Server</Filter>
     </ClCompile>
     <ClCompile Include="phvalide.cpp">
       <Filter>Physics\Base</Filter>
@@ -9953,9 +9902,6 @@
     </ClCompile>
     <ClCompile Include="poses_blending.cpp">
       <Filter>Physics\animation_movement_controller</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\CExtraContentFilter.cpp">
-      <Filter>UI</Filter>
     </ClCompile>
     <ClCompile Include="MainMenu.cpp">
       <Filter>UI</Filter>
@@ -10451,9 +10397,6 @@
     </ClCompile>
     <ClCompile Include="DetectList.cpp">
       <Filter>Core\Client\Objects\items &amp; weapons\Devices\Detectors</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObjectEvents.cpp">
-      <Filter>Core\Client\Objects\base\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="ui\UILoadingScreen.cpp" />
   </ItemGroup>

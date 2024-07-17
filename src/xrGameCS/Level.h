@@ -15,7 +15,6 @@
 #include "alife_space.h"
 #include "../xrcore/xrDebug.h"
 #include "xrServer.h"
-#include "battleye_system.h"
 #include "GlobalFeelTouch.hpp"
 #include "Level_network_map_sync.h"
 #include "secure_messaging.h"
