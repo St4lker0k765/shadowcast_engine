@@ -72,9 +72,6 @@ void CRenderDevice::Clear()
     m_pRender->Clear();
 }
 
-extern void CheckPrivilegySlowdown();
-
-
 void CRenderDevice::End()
 {
     if (dwPrecacheFrame)
@@ -104,8 +101,6 @@ void CRenderDevice::End()
 #ifdef FIND_CHUNK_BENCHMARK_ENABLE
             g_find_chunk_counter.flush();
 #endif // FIND_CHUNK_BENCHMARK_ENABLE
-
-            CheckPrivilegySlowdown();
 
             if (g_pGamePersistent->GameType() == 1)//haCk
             {

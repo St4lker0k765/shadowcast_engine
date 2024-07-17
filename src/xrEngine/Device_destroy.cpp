@@ -22,7 +22,7 @@ void CRenderDevice::_Destroy(BOOL bKeepTextures)
     Memory.mem_compact();
 }
 
-void CRenderDevice::Destroy(void)
+void CRenderDevice::Destroy()
 {
     if (!b_is_Ready) return;
 
@@ -65,11 +65,6 @@ void CRenderDevice::Reset(bool precache)
 
     ShowCursor(TRUE);
     u32 tm_start = TimerAsync();
-    if (g_pGamePersistent)
-    {
-
-        //. g_pGamePersistent->Environment().OnDeviceDestroy();
-    }
 
     m_pRender->Reset(m_hWnd, dwWidth, dwHeight, fWidth_2, fHeight_2);
 
@@ -94,14 +89,10 @@ void CRenderDevice::Reset(bool precache)
 #pragma todo("My kostil in PreCache for CS Mode and SoC Mode. This fixing black screen after alt + tab.")
     if (precache)
     {
-        if (TheShadowWayMode || CallOfPripyatMode)
-        {
+        if (CallOfPripyatMode)
             PreCache(20, true, false);
-        }
         else
-        {
             PreCache(20, false, false);
-        }
     }
     u32 tm_end = TimerAsync();
     Msg("*** RESET [%d ms]", tm_end - tm_start);

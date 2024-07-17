@@ -380,18 +380,12 @@ public:
     CCC_Start(LPCSTR N) : IConsole_Command(N) { bLowerCaseArgs = false; };
     virtual void Execute(LPCSTR args)
     {
-        /* if (g_pGameLevel) {
-         Log ("! Please disconnect/unload first");
-         return;
-         }
-         */
-        string4096 op_server, op_client, op_demo;
+        string4096 op_server, op_client;
         op_server[0] = 0;
         op_client[0] = 0;
 
         parse(op_server, args, "server"); // 1. server
         parse(op_client, args, "client"); // 2. client
-        parse(op_demo, args, "demo"); // 3. demo
 
         strlwr(op_server);
         protect_Name_strlwr(op_client);
@@ -399,22 +393,10 @@ public:
         if (!op_client[0] && strstr(op_server, "single"))
             xr_strcpy(op_client, "localhost");
 
-        if ((0 == xr_strlen(op_client)) && (0 == xr_strlen(op_demo)))
-        {
-            Log("! Can't start game without client. Arguments: '%s'.", args);
-            return;
-        }
         if (g_pGameLevel)
             Engine.Event.Defer("KERNEL:disconnect");
 
-        if (xr_strlen(op_demo))
-        {
-            Engine.Event.Defer("KERNEL:start_mp_demo", u64(xr_strdup(op_demo)), 0);
-        }
-        else
-        {
-            Engine.Event.Defer("KERNEL:start", u64(xr_strlen(op_server) ? xr_strdup(op_server) : 0), u64(xr_strdup(op_client)));
-        }
+        Engine.Event.Defer("KERNEL:start", u64(xr_strlen(op_server) ? xr_strdup(op_server) : 0), u64(xr_strdup(op_client)));
     }
 };
 

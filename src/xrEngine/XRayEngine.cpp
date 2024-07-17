@@ -24,7 +24,7 @@ ENGINE_API string512 g_sLaunchOnExit_app;
 ENGINE_API string_path g_sLaunchWorkingFolder;
 
 ENGINE_API bool TheShadowWayMode = false;
-ENGINE_API bool CallOfPripyatMode = false;
+ENGINE_API bool CallOfPripyatMode = true;
 ENGINE_API bool ClearSkyMode = false;
 ENGINE_API bool ShadowOfChernobylMode = false;
 
@@ -40,9 +40,6 @@ string512 g_sBenchmarkName;
 BOOL g_bIntroFinished = FALSE;
 static HWND logoWindow = NULL;
 
-extern void Intro(void* fn);
-extern void Intro_DSHOW(void* fn);
-extern int PASCAL IntroDSHOW_wnd(HINSTANCE hInstC, HINSTANCE hInstP, LPSTR lpCmdLine, int nCmdShow);
 void doBenchmark(LPCSTR name);
 
 const TCHAR* c_szSplashClass = _T("SplashWindow");
@@ -51,7 +48,7 @@ const TCHAR* c_szSplashClass = _T("SplashWindow");
 # define NO_MULTI_INSTANCES
 #endif // #ifdef MASTER_GOLD
 
-static const char* month_id[12] =
+static LPCSTR month_id[12] =
 {
     "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 };
@@ -117,22 +114,6 @@ void InitEngine()
     Device.Initialize();
 }
 
-struct path_excluder_predicate
-{
-    explicit path_excluder_predicate(xr_auth_strings_t const* ignore) :
-        m_ignore(ignore)
-    {
-    }
-    bool xr_stdcall is_allow_include(LPCSTR path)
-    {
-        if (!m_ignore)
-            return true;
-
-        return allow_to_include_path(*m_ignore, path);
-    }
-    xr_auth_strings_t const* m_ignore;
-};
-
 template <typename T>
 void InitConfig(T& config, pcstr name, bool fatal = true,
 	bool readOnly = true, bool loadAtStart = true, bool saveAtEnd = true,
@@ -148,51 +129,29 @@ void InitConfig(T& config, pcstr name, bool fatal = true,
 
 void InitSettings()
 {
-    string_path fname;
-    FS.update_path(fname, "$game_config$", "system.ltx");
-    pSettings = xr_new<CInifile>(fname, TRUE);
-    CHECK_OR_EXIT(0 != pSettings->section_count(), make_string("Cannot find file %s.\nReinstalling application may fix this problem.", fname));
-
-    xr_auth_strings_t tmp_ignore_pathes, tmp_check_pathes;
-    fill_auth_check_params(tmp_ignore_pathes, tmp_check_pathes);
-    path_excluder_predicate tmp_excluder(&tmp_ignore_pathes);
-    CInifile::allow_include_func_t includeFilter;
-	includeFilter.bind(&tmp_excluder, &path_excluder_predicate::is_allow_include);
-
 	InitConfig(pSettings, "system.ltx");
-	InitConfig(pSettingsAuth, "system.ltx", true, true, true, false, 0, includeFilter);
-	InitConfig(pFFSettings, "shadowcast_config.ltx", false, true, true, false);
+	InitConfig(pTSWSettings, "shadowcast_config.ltx", false, true, true, false);
 	InitConfig(pGameIni, "game.ltx");
 
-    pcstr gameMode = READ_IF_EXISTS(pFFSettings, r_string, "compatibility", "game_mode", "cop");
+    LPCSTR gameMode = READ_IF_EXISTS(pTSWSettings, r_string, "compatibility", "game_mode", "cop");
 
-    if (strcmpi("cop", gameMode) == 0)
-    {
-        TheShadowWayMode = false;
-        CallOfPripyatMode = true;
-        ShadowOfChernobylMode = false;
-        ClearSkyMode = false;
-    }
-    else if (strcmpi("cs", gameMode) == 0)
-    {
-        TheShadowWayMode = false;
-        CallOfPripyatMode = false;
-        ShadowOfChernobylMode = false;
-        ClearSkyMode = true;
-    }
-    else if (strcmpi("soc", gameMode) == 0)
-    {
-        TheShadowWayMode = false;
-        CallOfPripyatMode = false;
-        ShadowOfChernobylMode = true;
-        ClearSkyMode = false;
-    }
-    else if (strcmpi("tsw", gameMode) == 0)
+    if (!xr_strcmp(gameMode, "tsw"))
     {
         TheShadowWayMode = true;
+        return;
+    }
+
+    if (!xr_strcmp(gameMode, "cs"))
+    {
+        ClearSkyMode = true;
         CallOfPripyatMode = false;
-        ShadowOfChernobylMode = false;
-        ClearSkyMode = false;
+        return;
+    }
+
+    if (!xr_strcmp(gameMode, "soc"))
+    {
+        ShadowOfChernobylMode = true;
+        CallOfPripyatMode = false;
     }
 }
 void InitConsole()
@@ -238,8 +197,12 @@ void destroySound()
 
 void destroySettings()
 {
-    auto s = const_cast<CInifile**>(&pSettings);
-    xr_delete(*s);
+    auto Settings = const_cast<CInifile**>(&pSettings);
+    xr_delete(*Settings);
+    
+    auto SettingsMode_ = const_cast<CInifile**>(&pTSWSettings);
+    xr_delete(*SettingsMode_);
+
     xr_delete(pGameIni);
 }
 
@@ -267,34 +230,6 @@ void execUserScript()
         Console->Execute("unbindall");
     }
     Console->ExecuteScript(Console->ConfigFile);
-}
-
-void slowdownthread(void*)
-{
-    // Sleep (30*1000);
-    for (;;)
-    {
-        if (Device.Statistic->fFPS < 30) Sleep(1);
-        if (Device.mt_bMustExit) return;
-        if (0 == pSettings) return;
-        if (0 == Console) return;
-        if (0 == pInput) return;
-        if (0 == pApp) return;
-    }
-}
-void CheckPrivilegySlowdown()
-{
-#ifdef DEBUG
-    if (strstr(Core.Params, "-slowdown"))
-    {
-        thread_spawn(slowdownthread, "slowdown", 0, 0);
-    }
-    if (strstr(Core.Params, "-slowdown2x"))
-    {
-        thread_spawn(slowdownthread, "slowdown", 0, 0);
-        thread_spawn(slowdownthread, "slowdown", 0, 0);
-    }
-#endif // DEBUG
 }
 
 void Startup()
@@ -552,26 +487,6 @@ void SetSplashImage(HWND hwndSplash, HBITMAP hbmpSplash)
     SelectObject(hdcMem, hbmpOld);
     DeleteDC(hdcMem);
     ReleaseDC(NULL, hdcScreen);
-}
-
-
-static INT_PTR CALLBACK logDlgProc(HWND hw, UINT msg, WPARAM wp, LPARAM lp)
-{
-    switch (msg)
-    {
-    case WM_DESTROY:
-        break;
-    case WM_CLOSE:
-        DestroyWindow(hw);
-        break;
-    case WM_COMMAND:
-        if (LOWORD(wp) == IDCANCEL)
-            DestroyWindow(hw);
-        break;
-    default:
-        return FALSE;
-    }
-    return TRUE;
 }
 
 #define dwStickyKeysStructSize sizeof( STICKYKEYS )
@@ -861,27 +776,6 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, char* lpCmdLi
     return 0;
 }
 
-LPCSTR _GetFontTexName(LPCSTR section)
-{
-    static const char* tex_names[] = {"texture800", "texture", "texture1600"};
-    int def_idx = 1;//default 1024x768
-    int idx;
-
-    u32 h = Device.dwHeight;
-
-    if (h <= 600) idx = 0;
-    else if (h < 1024) idx = 1;
-    else idx = 2;
-
-    while (idx >= 0)
-    {
-        if (pSettings->line_exist(section, tex_names[idx]))
-            return pSettings->r_string(section, tex_names[idx]);
-        --idx;
-    }
-    return pSettings->r_string(section, tex_names[def_idx]);
-}
-
 CApplication::CApplication()
 {
     ll_dwReference = 0;
@@ -894,7 +788,6 @@ CApplication::CApplication()
     eStartLoad = Engine.Event.Handler_Attach("KERNEL:load", this);
     eDisconnect = Engine.Event.Handler_Attach("KERNEL:disconnect", this);
     eConsole = Engine.Event.Handler_Attach("KERNEL:console", this);
-    eStartMPDemo = Engine.Event.Handler_Attach("KERNEL:start_mp_demo", this);
 
     // levels
     Level_Current = static_cast<u32>(-1);
@@ -927,8 +820,6 @@ CApplication::~CApplication()
     Engine.Event.Handler_Detach(eStartLoad, this);
     Engine.Event.Handler_Detach(eStart, this);
     Engine.Event.Handler_Detach(eQuit, this);
-    Engine.Event.Handler_Detach(eStartMPDemo, this);
-
 }
 
 void CApplication::OnEvent(EVENT E, u64 P1, u64 P2)
@@ -994,31 +885,6 @@ void CApplication::OnEvent(EVENT E, u64 P1, u64 P2)
         auto command = reinterpret_cast<LPSTR>(P1);
         Console->ExecuteCommand(command, false);
         xr_free(command);
-    }
-    else if (E == eStartMPDemo)
-    {
-        auto demo_file = reinterpret_cast<LPSTR>(P1);
-
-        R_ASSERT(0 == g_pGameLevel);
-        R_ASSERT(0 != g_pGamePersistent);
-
-        Console->Execute("main_menu off");
-        Console->Hide();
-        Device.Reset(false);
-
-        g_pGameLevel = static_cast<IGame_Level*>(NEW_INSTANCE(CLSID_GAME_LEVEL));
-        shared_str server_options = g_pGameLevel->OpenDemoFile(demo_file);
-
-        //-----------------------------------------------------------
-        g_pGamePersistent->PreStart(server_options.c_str());
-        //-----------------------------------------------------------
-
-        pApp->LoadBegin();
-        g_pGamePersistent->Start("");//server_options.c_str()); - no prefetch !
-        g_pGameLevel->net_StartPlayDemo();
-        pApp->LoadEnd();
-
-        xr_free(demo_file);
     }
 }
 

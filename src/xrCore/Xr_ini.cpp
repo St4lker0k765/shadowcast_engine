@@ -1,16 +1,8 @@
 #include "stdafx.h"
-#pragma hdrstop
-
 #include "fs_internal.h"
 
-#ifdef _EDITOR
-#include <xrCore/xr_ini.h>
-#endif
-
-
-XRCORE_API CInifile const* pSettings = NULL;
-XRCORE_API CInifile const* pSettingsAuth = NULL;
-XRCORE_API CInifile const* pFFSettings = NULL;
+XRCORE_API CInifile const* pSettings = nullptr;
+XRCORE_API CInifile const* pTSWSettings = nullptr;
 
 CInifile* CInifile::Create(const char* szFileName, BOOL ReadOnly)
 {

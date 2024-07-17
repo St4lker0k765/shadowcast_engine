@@ -161,8 +161,6 @@ public:
 
 // Main configuration file
 extern XRCORE_API CInifile const* pSettings;
-extern XRCORE_API CInifile const* pSettingsAuth;
-//[FFT++]: Forward Frontier core settings
-extern XRCORE_API CInifile const* pFFSettings;
+extern XRCORE_API CInifile const* pTSWSettings;
 
 #endif //__XR_INI_H__

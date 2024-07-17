@@ -70,11 +70,11 @@ void CEngine::Initialize_dll()
         // try to initialize R4
         Log("# [Engine]: Loading DLL:", r4_name);
         h_render = LoadLibrary(r4_name);
-        if (nullptr == h_render)
+        if (!h_render)
         {
             // try to load R1
             Msg("! ...Failed - incompatible hardware/pre-Vista OS.");
-            psDeviceFlags.set(rsR2, TRUE);
+            psDeviceFlags.set(rsR2, true);
         }
     }
 
@@ -96,56 +96,37 @@ void CEngine::Initialize_dll()
     if (psDeviceFlags.test(rsR2))
     {
         // try to initialize R2
-        psDeviceFlags.set(rsR4, FALSE);
-        psDeviceFlags.set(rsR3, FALSE);
-        Log("# [Engine]: Loading DLL:", r2_name);
+        psDeviceFlags.set(rsR4, false);
+        psDeviceFlags.set(rsR3, false);
+        Msg("# [Engine]: Loading DLL: [%s]", r2_name);
         h_render = LoadLibrary(r2_name);
-        if (nullptr == h_render)
-        {
-            // try to load R1
-            Msg("! ...Failed - incompatible hardware.");
-        }
-        else
-            g_current_renderer = 2;
-    }
-
-    if (!h_render)
-    {
-        // try to load R1
-        psDeviceFlags.set(rsR4, FALSE);
-        psDeviceFlags.set(rsR3, FALSE);
-        psDeviceFlags.set(rsR2, TRUE);
-        renderer_value = 0; //con cmd
-
-        Log("# [Engine]: Loading DLL:", r2_name);
-        h_render = LoadLibrary(r2_name);
-        if (!h_render) R_CHK(GetLastError());
         R_ASSERT(h_render);
-        g_current_renderer = 1;
+        g_current_renderer = 2;
     }
+
 
     Device.ConnectToRender();
 
     // game
     {
-        LPCSTR g_name;
-        if (TheShadowWayMode || CallOfPripyatMode)
+        LPCSTR g_name = "xrGame.dll";
+
+        if (!CallOfPripyatMode)
         {
-            g_name = "xrGame.dll";
-        }
-        else if (ClearSkyMode)
-        {
-            g_name = "xrGameCS.dll";
-        }
-        else if (ShadowOfChernobylMode)
-        {
-            g_name = "xrGameSOC.dll";
+            if (ClearSkyMode)
+            {
+                g_name = "xrGameCS.dll";
+            }
+            else if (ShadowOfChernobylMode)
+            {
+                g_name = "xrGameSOC.dll";
+            }
         }
 
-        Log("Loading DLL:", g_name);
+        Msg("# [Engine]: Loading DLL: [%s]", g_name);
         h_game = LoadLibrary(g_name);
         if (!h_game) R_CHK(GetLastError());
-        R_ASSERT2(h_game, "Game DLL raised exception during loading or there is no game DLL at all. Did you forgot to compile xrGame for other games?");
+        R_ASSERT2(h_game, "Game DLL raised exception during loading or there is no game DLL at all.");
         pCreate = (Factory_Create*)(GetProcAddress(h_game, "xrFactory_Create"));
         R_ASSERT(pCreate);
         pDestroy = (Factory_Destroy*)(GetProcAddress(h_game, "xrFactory_Destroy"));
@@ -166,7 +147,7 @@ void CEngine::Destroy()
     pCreate = nullptr;
     pDestroy = nullptr;
     Engine.Event._destroy();
-    XRC.r_clear_compact();;
+    XRC.r_clear_compact();
 }
 
 void CEngine::CreatingRenderList()
@@ -297,7 +278,7 @@ void CEngine::CreatingRenderList()
     vid_quality_token[_cnt - 1].name = nullptr;
 
 #ifdef DEBUG
-//    Msg("Available render modes[%d]:", _tmp.size());
+    Msg("Available render modes[%d]:", _tmp.size());
 #endif // DEBUG
     for (u32 i_render = 0; i_render < _tmp.size(); ++i_render)
     {
