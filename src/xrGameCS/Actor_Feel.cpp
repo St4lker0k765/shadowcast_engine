@@ -127,13 +127,11 @@ void CActor::PickupModeUpdate()
 	if(	m_pObjectWeLookingAt									&& 
 		m_pObjectWeLookingAt->cast_inventory_item()				&& 
 		m_pObjectWeLookingAt->cast_inventory_item()->Useful()	&&
-		m_pUsableObject && m_pUsableObject->nonscript_usable()	&&
+		m_pUsableObject && !m_pUsableObject->nonscript_usable()	&&
 		!Level().m_feel_deny.is_object_denied(m_pObjectWeLookingAt) )
 	{
-		NET_Packet		P;
-		u_EventGen		(P,GE_OWNERSHIP_TAKE, ID());
-		P.w_u16			(m_pObjectWeLookingAt->ID());
-		u_EventSend		(P);
+		m_pUsableObject->use(this);
+		Game().SendPickUpEvent(ID(), m_pObjectWeLookingAt->ID());
 	}
 
 	//. ????? GetNearest ?????

@@ -4,8 +4,8 @@
 #include "../Weapon.h"
 #include "UIDragDropListEx.h"
 
-#define INV_GRID_WIDTHF			50.0f
-#define INV_GRID_HEIGHTF		50.0f
+#define INV_GRID_WIDTHF			100.0f
+#define INV_GRID_HEIGHTF		100.0f
 
 namespace detail 
 {

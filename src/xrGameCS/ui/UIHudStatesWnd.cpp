@@ -313,8 +313,8 @@ void CUIHudStatesWnd::SetAmmoIcon( const shared_str& sect_name )
 
 		// now perform only width scale for ammo, which (W)size >2
 		// all others ammo (1x1, 1x2) will be not scaled (original picture)
-		float h = gridHeight * INV_GRID_HEIGHT * 0.65f;
-		float w = gridWidth  * INV_GRID_WIDTH  * 0.65f;
+		float h = gridHeight * INV_GRID_HEIGHT * (0.65f/2);
+		float w = gridWidth  * INV_GRID_WIDTH  * (0.65f/2);
 		if ( gridWidth > 2.01f )
 		{
 			w = INV_GRID_WIDTH * 1.5f;

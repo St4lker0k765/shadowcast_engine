@@ -8,8 +8,8 @@
 class CUIStatic;
 
 //размеры сетки в текстуре инвентаря
-#define INV_GRID_WIDTH			50
-#define INV_GRID_HEIGHT			50
+#define INV_GRID_WIDTH			100
+#define INV_GRID_HEIGHT			100
 
 //размеры сетки в текстуре иконок персонажей
 #define ICON_GRID_WIDTH			64
