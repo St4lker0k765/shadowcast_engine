@@ -22,7 +22,9 @@ CUILines::CUILines()
 	m_eVTextAlign = valTop;
 	m_dwTextColor = 0xffffffff;
 	m_dwCursorColor = 0xAAFFFF00;
-
+	m_text = "";
+	m_wndSize.set(0.f, 0.f);
+	m_wndPos.set(0.f, 0.f);
 	m_bShowMe = true;
 	uFlags.zero();
 	uFlags.set(flNeedReparse,		FALSE);
@@ -374,7 +376,7 @@ LPCSTR GetElipsisText(CGameFont* pFont, float width, LPCSTR source_text, LPSTR b
 void CUILines::Draw(float x, float y){
 	static string256 passText;
 
-	if (m_text.empty())
+	if (m_text.size()==0)
 		return;
 
 	R_ASSERT(m_pFont);
@@ -405,7 +407,7 @@ void CUILines::Draw(float x, float y){
 				u32 buff_len	= sizeof(char)*xr_strlen(m_text.c_str()) + 1;
 
 				char* p			= static_cast<char*>(_alloca(buff_len));
-				LPCSTR			str = GetElipsisText(m_pFont, GetWidth(), m_text.c_str(), p, buff_len);
+				LPCSTR			str = GetElipsisText(m_pFont, m_wndSize.x, m_text.c_str(), p, buff_len);
 
 				m_pFont->Out	(text_pos.x, text_pos.y, "%s", str);
 			}else
@@ -427,9 +429,9 @@ void CUILines::Draw(float x, float y){
 		m_pFont->SetAligment((CGameFont::EAligment)m_eTextAlign);
 		for (int i=0; i<(int)size; i++)
 		{
-			pos.x = x + GetIndentByAlign();
-			m_lines[i].Draw(m_pFont, pos.x, pos.y);
-			pos.y+= height + m_interval;
+			pos.x			= x + GetIndentByAlign();
+			m_lines[i].Draw	(m_pFont, pos.x, pos.y);
+			pos.y			+= height;
 		}
 	}
 
