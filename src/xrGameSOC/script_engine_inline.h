@@ -23,7 +23,7 @@ CScriptProcess *CScriptEngine::script_process	(const EScriptProcessors &process_
 	return									(0);
 }
 
-IC	void CScriptEngine::parse_script_namespace(LPCSTR function_to_call, LPSTR name_space, LPSTR function)
+IC	void CScriptEngine::parse_script_namespace(LPCSTR function_to_call, LPSTR name_space, u32 const namespace_size, LPSTR function, u32 const function_size )
 {
 	LPCSTR					I = function_to_call, J = 0;
 	for ( ; ; J=I,++I) {
@@ -31,25 +31,25 @@ IC	void CScriptEngine::parse_script_namespace(LPCSTR function_to_call, LPSTR nam
 		if (!I)
 			break;
 	}
-	strcpy					(name_space,"_G");
+	xr_strcpy				(name_space,namespace_size,"_G");
 	if (!J)
-		strcpy				(function,function_to_call);
+		xr_strcpy			(function,function_size,function_to_call);
 	else {
-		CopyMemory		(name_space,function_to_call, u32(J - function_to_call)*sizeof(char));
+		CopyMemory			(name_space,function_to_call, u32(J - function_to_call)*sizeof(char));
 		name_space[u32(J - function_to_call)] = 0;
-		strcpy				(function,J + 1);
+		strcpy_s			(function,function_size,J + 1);
 	}
 }
 
-template <typename TResult>
-IC	bool CScriptEngine::functor(LPCSTR function_to_call, luabind::functor<TResult> &lua_function)
+template <typename _result_type>
+IC	bool CScriptEngine::functor(LPCSTR function_to_call, luabind::functor<_result_type> &lua_function)
 {
 	luabind::object			object;
 	if (!function_object(function_to_call,object))
 		return				(false);
 
 	try {
-		lua_function		= luabind::object_cast<luabind::functor<TResult> >(object);
+		lua_function		= luabind::object_cast<luabind::functor<_result_type> >(object);
 	}
 	catch(...) {
 		return				(false);
@@ -59,8 +59,11 @@ IC	bool CScriptEngine::functor(LPCSTR function_to_call, luabind::functor<TResult
 }
 
 #ifdef USE_DEBUGGER
-IC CScriptDebugger *CScriptEngine::debugger			()
-{
-	return m_scriptDebugger;
-}
-#endif
+#	ifndef USE_LUA_STUDIO
+		IC CScriptDebugger *CScriptEngine::debugger	()
+		{
+			return			(m_scriptDebugger);
+		}
+#	else // ifndef USE_LUA_STUDIO
+#	endif // ifndef USE_LUA_STUDIO
+#endif // #ifdef USE_DEBUGGER

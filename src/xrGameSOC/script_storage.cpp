@@ -105,29 +105,17 @@ CScriptStorage::~CScriptStorage		()
 		lua_close			(m_virtual_machine);
 }
 
-void CScriptStorage::reinit	()
+void CScriptStorage::reinit(lua_State* LSVM)
 {
-	if (m_virtual_machine)
-		lua_close			(m_virtual_machine);
-
-#ifndef USE_DL_ALLOCATOR
-	m_virtual_machine		= lua_newstate(lua_alloc_xr, NULL);
-#else // USE_DL_ALLOCATOR
-	m_virtual_machine		= lua_newstate(lua_alloc_dl, NULL);
-#endif // USE_DL_ALLOCATOR
-
-	if (!m_virtual_machine) {
-		Msg					("! ERROR : Cannot initialize script virtual machine!");
-		return;
+	if (m_virtual_machine) //Как выяснилось, такое происходит при загрузке игры на этапе старта сервера 
+	{
+		//Msg("[CScriptStorage] Found working LuaJIT WM! Close it!");
+		lua_close(m_virtual_machine);
 	}
+	m_virtual_machine = LSVM;
 
-	// initialize lua standard library functions
-	luaL_openlibs(m_virtual_machine);
-
-	if (strstr(Core.Params,"-_g"))
-		file_header			= file_header_new;
-	else
-		file_header			= file_header_old;
+	file_header = file_header_old;
+	//Debug.set_crashhandler(ScriptCrashHandler);
 }
 
 int CScriptStorage::vscript_log		(ScriptStorage::ELuaMessageType tLuaMessageType, LPCSTR caFormat, va_list marker)

@@ -24,6 +24,14 @@ void LuaLog(LPCSTR caMessage)
 #endif
 }
 
+bool is_editor()
+{
+#ifdef XRGAMESOC_EXPORTS
+	return		(false);
+#else
+	return		(true);
+#endif
+}
 void ErrorLog(LPCSTR caMessage)
 {
 	ai().script_engine().script_log	(ScriptStorage::eLuaMessageTypeError,"%s",caMessage);
@@ -198,6 +206,7 @@ void CScriptEngine::script_register(lua_State *L)
 	function	(L,	"flush",						FlushLogs);
 	function	(L,	"prefetch",						prefetch_module);
 	function	(L,	"verify_if_thread_is_running",	verify_if_thread_is_running);
+	function	(L,	"editor",							is_editor);
 	function	(L,	"bit_and",						bit_and);
 	function	(L,	"bit_or",						bit_or);
 	function	(L,	"bit_xor",						bit_xor);
