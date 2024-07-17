@@ -35,7 +35,7 @@ private:
 		stt_radiation,
 //		stt_armor,
 //	stt_main,
-/*
+
 	stt_fire,
 		stt_radia,
 		stt_acid,
@@ -43,7 +43,7 @@ private:
 		stt_wound,
 		stt_fire_wound,
 		stt_shock,
-		stt_power,*/
+		stt_power,
 		stt_count
 	};
 	ui_actor_state_item*	m_state[stt_count];
