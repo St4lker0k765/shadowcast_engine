@@ -15,7 +15,7 @@
 #include "stalker_velocity_holder.h"
 #include "string_table.h"
 #include "../xrEngine/x_ray.h"
-
+#include "ui/UILoadingScreen.h"
 #include "../xrEngine/CameraManager.h"
 #include "ai_space.h"
 #include "script_engine.h"
@@ -91,6 +91,12 @@ CGamePersistent::~CGamePersistent(void)
 	Device.seqFrame.Remove		(this);
 	Engine.Event.Handler_Detach	(eDemoStart,this);
 	Engine.Event.Handler_Detach	(eQuickLoad,this);
+}
+
+void CGamePersistent::PreStart(LPCSTR op)
+{
+	pApp->SetLoadingScreen(new UILoadingScreen());
+	IGame_Persistent::PreStart(op);
 }
 
 void CGamePersistent::RegisterModel(IRenderVisual* V)
@@ -439,6 +445,7 @@ void CGamePersistent::update_game_loaded()
 
 void CGamePersistent::start_game_intro		()
 {
+	load_screen_renderer.stop();
 #if 1//def DEBUG
 	if (!allow_intro()){
 		m_intro_event			= 0;

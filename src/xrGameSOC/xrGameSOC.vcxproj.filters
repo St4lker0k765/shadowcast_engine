@@ -6065,6 +6065,9 @@
     </ClInclude>
     <ClInclude Include="UIFontDefines.h" />
     <ClInclude Include="ui\UILoadingScreen.h" />
+    <ClInclude Include="ui\UIHelper.h">
+      <Filter>UI\Common\InventoryUtilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="damage_manager.cpp">
@@ -8906,6 +8909,9 @@
       <Filter>Physics\CharacterSupport\death_anims</Filter>
     </ClCompile>
     <ClCompile Include="ui\UILoadingScreen.cpp" />
+    <ClCompile Include="ui\UIHelper.cpp">
+      <Filter>UI\Common\InventoryUtilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="graph_abstract.h">

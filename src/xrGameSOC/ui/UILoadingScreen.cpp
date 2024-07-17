@@ -11,7 +11,7 @@
 
 #include "StdAfx.h"
 #include "UILoadingScreen.h"
-
+#include "UIHelper.h"
 #include "xrEngine/x_ray.h"
 #include "xrEngine/GameFont.h"
 #include "UIXmlInit.h"
@@ -31,10 +31,12 @@ void UILoadingScreen::Initialize()
     CUIXml uiXml;
     uiXml.Load(CONFIG_PATH, UI_PATH, "ui_mm_loading_screen.xml");
 
+ //       loadingProgressBackground = UIHelper::CreateStatic(uiXml, "loading_progress_background", this);
         CUIXmlInit::InitWindow(uiXml, "background", 0, this);
-        CUIXmlInit::InitProgressBar(uiXml, "loading_progress", 0, loadingProgress);
-         CUIXmlInit::InitStatic(uiXml, "loading_logo", 0, loadingLogo);
-        CUIXmlInit::InitStatic(uiXml, "loading_stage", 0, loadingStage);
+        loadingProgress = UIHelper::CreateProgressBar(uiXml, "loading_progress", this);
+        loadingLogo = UIHelper::CreateStatic(uiXml, "loading_logo", this);
+ //       loadingProgressPercent = UIHelper::CreateStatic(uiXml, "loading_progress_percent", this);
+        loadingStage = UIHelper::CreateStatic(uiXml, "loading_stage", this);
 }
 
 void UILoadingScreen::Update(const int stagesCompleted, const int stagesTotal)
