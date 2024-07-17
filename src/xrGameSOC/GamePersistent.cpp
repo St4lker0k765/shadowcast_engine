@@ -425,18 +425,7 @@ void CGamePersistent::game_loaded()
 {
 	if (Device.dwPrecacheFrame <= 2)
 	{
-		if (g_pGameLevel &&
-			g_pGameLevel->bReady &&
-			(allow_intro() && g_keypress_on_start) &&
-			load_screen_renderer.b_need_user_input)
-//			m_game_params.m_e_game_type == GAME_SINGLE)
-		{
-			VERIFY(NULL == m_intro);
-			m_intro = xr_new<CUISequencer>();
-			m_intro->Start("game_loaded");
-			Msg("intro_start game_loaded");
-			m_intro->m_on_destroy_event.bind(this, &CGamePersistent::update_game_loaded);
-		}
+		update_game_loaded();
 		m_intro_event = 0;
 	}
 }

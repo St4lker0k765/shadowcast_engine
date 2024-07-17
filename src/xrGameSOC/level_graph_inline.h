@@ -276,22 +276,17 @@ ICF const xrGUID &CLevelGraph::CHeader::guid() const
 
 ICF u32	CLevelGraph::CVertex::link(int index) const
 {
-	return				(NodeCompressed::link(u8(index)));
+	return				(NodeCompressed8::link(u8(index)));
 }
 
-ICF u16	CLevelGraph::CVertex::high_cover(u8 index) const
+ICF u16	CLevelGraph::CVertex::cover(u8 index) const
 {
-	return				(high.cover(index));
-}
-
-ICF u16	CLevelGraph::CVertex::low_cover(u8 index) const
-{
-	return				(low.cover(index));
+	return				(NodeCompressed8::cover(index));
 }
 
 ICF u16	CLevelGraph::CVertex::plane() const
 {
-	return				(NodeCompressed::plane);
+	return				(NodeCompressed8::plane);
 }
 
 ICF const CLevelGraph::CPosition &CLevelGraph::CVertex::position() const

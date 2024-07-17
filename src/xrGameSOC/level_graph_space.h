@@ -22,16 +22,15 @@ namespace LevelGraph {
 		ICF const xrGUID	&guid					() const;
 	};
 
-	typedef NodePosition	CPosition;
+	typedef NodePosition8	CPosition;
 
-	class CVertex : private NodeCompressed {
+	class CVertex : private NodeCompressed8 {
 	private:
 		friend class CRenumbererConverter;
 
 	public:
 		ICF	u32				link					(int i) const;
-		ICF	u16				high_cover				(u8 index) const;
-		ICF	u16				low_cover				(u8 index) const;
+		ICF	u16				cover					(u8 index) const;
 		ICF	u16				plane					() const;
 		ICF	const CPosition &position				() const;
 		ICF	bool			operator<				(const LevelGraph::CVertex &vertex) const;
