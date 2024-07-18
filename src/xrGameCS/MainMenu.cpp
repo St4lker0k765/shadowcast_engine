@@ -14,6 +14,7 @@
 #include "string_table.h"
 #include "../xrCore/os_clipboard.h"
 #include "../xrEngine/x_ray.h"
+#include "../xrEngine/DiscordSDK.h"
 
 #include <shellapi.h>
 #pragma comment(lib, "shell32.lib")
@@ -170,6 +171,11 @@ void CMainMenu::Activate	(bool bActivate)
 		};
 		Device.seqRender.Add				(this, 4); // 1-console 2-cursor 3-tutorial
 
+		if (!g_pGameLevel)
+		{
+			Discord.SetStatus("В главном меню");
+			Discord.SetPhase("");
+		}
 	}else{
 		m_deactivated_frame					= Device.dwFrame;
 		m_Flags.set							(flActive,				FALSE);

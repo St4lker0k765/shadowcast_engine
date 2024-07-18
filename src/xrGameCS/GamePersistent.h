@@ -91,6 +91,7 @@ public:
 	virtual void		SetBaseDof				(const Fvector3& dof);
 	virtual void		OnSectorChanged			(int sector);
 	virtual void		OnAssetsChanged			();
+			void		SetGameDiscordStatus	() const;
 };
 
 IC CGamePersistent&		GamePersistent()		{ return *((CGamePersistent*) g_pGamePersistent);			}

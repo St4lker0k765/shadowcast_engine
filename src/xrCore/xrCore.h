@@ -322,6 +322,7 @@ public:
 //Borland global function dll interface
 #define _BGCL __stdcall
 
+XRCORE_API xr_string ANSIToUTF8(const xr_string& string);
 
 extern XRCORE_API xrCore Core;
 

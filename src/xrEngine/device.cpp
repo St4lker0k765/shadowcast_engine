@@ -27,6 +27,8 @@
 #include <Layers/xrRenderPC_R2/r2.h>
 #endif
 
+#include "DiscordSDK.h"
+
 ENGINE_API CRenderDevice Device;
 ENGINE_API CLoadScreenRenderer load_screen_renderer;
 
@@ -345,7 +347,9 @@ void CRenderDevice::on_idle()
 	
 	if (g_pGameLevel) // reapply camera params as for the main vp, for next frame stuff(we dont want to use last vp camera in next frame possible usages)
 		g_pGameLevel->ApplyCamera();
-    
+
+    Discord.UpdateSDK();
+
     const u64 frameEndTime = TimerGlobal.GetElapsed_ms();
     const u64 frameTime = frameEndTime - frameStartTime;
 #ifndef _EDITOR

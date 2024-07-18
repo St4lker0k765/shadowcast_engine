@@ -14,7 +14,7 @@
 #include "UICursor.h"
 #include "string_table.h"
 #include "../xrCore/os_clipboard.h"
-
+#include "../xrEngine/DiscordSDK.h"
 #include "DemoInfo.h"
 #include "DemoInfo_Loader.h"
 
@@ -135,6 +135,12 @@ void CMainMenu::Activate	(bool bActivate)
 			CCameraManager::ResetPP			();
 		}
 		Device.seqRender.Add				(this, 4); // 1-console 2-cursor 3-tutorial
+
+		if (!g_pGameLevel)
+		{
+			Discord.SetStatus("В главном меню");
+			Discord.SetPhase("");
+		}
 #ifdef DEBUG
 		Console->Execute					("stat_memory");
 #endif

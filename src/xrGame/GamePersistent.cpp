@@ -13,7 +13,7 @@
 #include "game_base_space.h"
 #include "stalker_animation_data_storage.h"
 #include "stalker_velocity_holder.h"
-
+#include "../xrEngine/DiscordSDK.h"
 #include "ActorEffector.h"
 #include "actor.h"
 
@@ -483,6 +483,7 @@ void CGamePersistent::update_logo_intro()
 extern int g_keypress_on_start;
 void CGamePersistent::game_loaded()
 {
+	SetGameDiscordStatus();
 	if(Device.dwPrecacheFrame<=2)
 	{
 		if(	g_pGameLevel							&&
@@ -871,6 +872,7 @@ void CGamePersistent::LoadTitle(bool change_tip, shared_str map_name)
 
 void CGamePersistent::SetLoadStageTitle(pcstr ls_title)
 {
+	Discord.SetStatus("Загрузка игрового уровня");
 	string256 buff;
 	if (ls_title)
 	{
@@ -954,4 +956,16 @@ void CGamePersistent::OnAssetsChanged()
 {
 	IGame_Persistent::OnAssetsChanged	();
 	CStringTable().rescan				();
+}
+
+void CGamePersistent::SetGameDiscordStatus()
+{
+	if (!g_pGameLevel)
+		return;
+
+	xr_string LevelName_ = "В игре:";
+	LevelName_ += "\t";
+	LevelName_ += CStringTable().translate(g_pGameLevel->name()).c_str();
+
+	Discord.SetStatus(LevelName_);
 }

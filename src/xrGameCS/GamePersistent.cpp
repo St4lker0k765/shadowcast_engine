@@ -26,6 +26,7 @@
 #include "../xrEngine/Environment.h"
 #include "ui/UILoadingScreen.h"
 #include "xrEngine/x_ray.h"
+#include "xrEngine/DiscordSDK.h"
 
 #ifdef DEBUG_MEMORY_MANAGER
 	static	void *	ode_alloc	(size_t size)								{ return Memory.mem_alloc(size,"ODE");			}
@@ -508,8 +509,11 @@ void CGamePersistent::OnFrame	()
 #endif
 	if (!g_dedicated_server && !m_intro_event.empty())	m_intro_event();
 
-	if (!g_dedicated_server && Device.dwPrecacheFrame == 0)
+	if (!g_dedicated_server && Device.dwPrecacheFrame == 0) 
 		load_screen_renderer.stop();
+
+
+	SetGameDiscordStatus();
 
 	if( !m_pMainMenu->IsActive() )
 		m_pMainMenu->DestroyInternal(false);
@@ -705,6 +709,7 @@ void CGamePersistent::LoadTitle(LPCSTR str)
 }
 void CGamePersistent::SetLoadStageTitle(pcstr ls_title)
 {
+	Discord.SetStatus("Загрузка игрового уровня");
 	string256 buff;
 	if (ls_title)
 	{
@@ -788,4 +793,19 @@ void CGamePersistent::OnAssetsChanged()
 {
 	IGame_Persistent::OnAssetsChanged	();
 	CStringTable().rescan				();
+}
+
+void CGamePersistent::SetGameDiscordStatus() const
+{
+	if (g_pGameLevel != nullptr)
+	{
+		CStringTable strTable;
+		// Get level name
+		xr_string levelName = strTable.translate("st_discord_level").c_str();
+
+		levelName += '\t';
+		levelName += strTable.translate(Level().name()).c_str();
+
+		Discord.SetStatus(levelName);
+	}
 }

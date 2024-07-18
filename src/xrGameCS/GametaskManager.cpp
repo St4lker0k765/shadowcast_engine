@@ -12,6 +12,8 @@
 #include "ui/UIPDAWnd.h"
 #include "encyclopedia_article.h"
 #include "ui/UIMapWnd.h"
+#include "../xrEngine/DiscordSDK.h"
+#include "string_table.h"
 
 #pragma warning(push)
 #pragma warning(disable:4995)
@@ -242,6 +244,7 @@ void CGameTaskManager::SetActiveTask(const shared_str& id, ETaskType type)
 void CGameTaskManager::SetActiveTask(CGameTask* task)
 {
 	VERIFY( task );
+	CGameTask* o = Level().GameTaskManager().ActiveTask(eTaskTypeStoryline);
 	if ( task )
 	{
 		//SetActiveTask(task->m_ID, task->GetTaskType());
@@ -249,6 +252,8 @@ void CGameTaskManager::SetActiveTask(CGameTask* task)
 		m_flags.set								(eChanged, TRUE);
 		task->m_read							= true;
 	}
+	xr_string TaskNameDiscord_ = CStringTable().translate(o ? o->m_Title.c_str() : "st_no_active_task").c_str();
+	Discord.SetPhase(TaskNameDiscord_);
 }
 
 CUIMapWnd* GetMapWnd();

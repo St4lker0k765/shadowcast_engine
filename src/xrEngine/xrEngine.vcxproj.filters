@@ -427,6 +427,24 @@
       <Filter>Render\Font output</Filter>
     </ClInclude>
     <ClInclude Include="ILoadingScreen.h" />
+    <ClInclude Include="DiscordSDK.h" />
+    <ClInclude Include="..\..\sdk\include\DiscordSDK\achievement_manager.h" />
+    <ClInclude Include="..\..\sdk\include\DiscordSDK\activity_manager.h" />
+    <ClInclude Include="..\..\sdk\include\DiscordSDK\application_manager.h" />
+    <ClInclude Include="..\..\sdk\include\DiscordSDK\core.h" />
+    <ClInclude Include="..\..\sdk\include\DiscordSDK\discord.h" />
+    <ClInclude Include="..\..\sdk\include\DiscordSDK\event.h" />
+    <ClInclude Include="..\..\sdk\include\DiscordSDK\ffi.h" />
+    <ClInclude Include="..\..\sdk\include\DiscordSDK\image_manager.h" />
+    <ClInclude Include="..\..\sdk\include\DiscordSDK\lobby_manager.h" />
+    <ClInclude Include="..\..\sdk\include\DiscordSDK\network_manager.h" />
+    <ClInclude Include="..\..\sdk\include\DiscordSDK\overlay_manager.h" />
+    <ClInclude Include="..\..\sdk\include\DiscordSDK\relationship_manager.h" />
+    <ClInclude Include="..\..\sdk\include\DiscordSDK\storage_manager.h" />
+    <ClInclude Include="..\..\sdk\include\DiscordSDK\store_manager.h" />
+    <ClInclude Include="..\..\sdk\include\DiscordSDK\types.h" />
+    <ClInclude Include="..\..\sdk\include\DiscordSDK\user_manager.h" />
+    <ClInclude Include="..\..\sdk\include\DiscordSDK\voice_manager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="defines.cpp">
@@ -682,6 +700,21 @@
     <ClCompile Include="FontManager.cpp">
       <Filter>Render\Font output</Filter>
     </ClCompile>
+    <ClCompile Include="DiscordSDK.cpp" />
+    <ClCompile Include="..\..\sdk\include\DiscordSDK\achievement_manager.cpp" />
+    <ClCompile Include="..\..\sdk\include\DiscordSDK\activity_manager.cpp" />
+    <ClCompile Include="..\..\sdk\include\DiscordSDK\application_manager.cpp" />
+    <ClCompile Include="..\..\sdk\include\DiscordSDK\core.cpp" />
+    <ClCompile Include="..\..\sdk\include\DiscordSDK\image_manager.cpp" />
+    <ClCompile Include="..\..\sdk\include\DiscordSDK\lobby_manager.cpp" />
+    <ClCompile Include="..\..\sdk\include\DiscordSDK\network_manager.cpp" />
+    <ClCompile Include="..\..\sdk\include\DiscordSDK\overlay_manager.cpp" />
+    <ClCompile Include="..\..\sdk\include\DiscordSDK\relationship_manager.cpp" />
+    <ClCompile Include="..\..\sdk\include\DiscordSDK\storage_manager.cpp" />
+    <ClCompile Include="..\..\sdk\include\DiscordSDK\store_manager.cpp" />
+    <ClCompile Include="..\..\sdk\include\DiscordSDK\types.cpp" />
+    <ClCompile Include="..\..\sdk\include\DiscordSDK\user_manager.cpp" />
+    <ClCompile Include="..\..\sdk\include\DiscordSDK\voice_manager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc">
@@ -695,8 +728,6 @@
     <Image Include="stalker_cs.ico">
       <Filter>General\Resources</Filter>
     </Image>
-    <Image Include="stcop engine splash.png" />
-    <Image Include="shadow_engine_logo.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="My Amplifier Results\r000hs\r000hs.ampl">

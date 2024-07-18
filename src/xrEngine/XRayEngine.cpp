@@ -13,6 +13,7 @@
 #include "LightAnimLibrary.h"
 #include "../xrcdb/ispatial.h"
 #include <clocale>
+#include "DiscordSDK.h"
 
 #include "xrSash.h"
 
@@ -266,6 +267,8 @@ void Startup()
     // Destroy LOGO
     DestroyWindow(logoWindow);
     logoWindow = NULL;
+
+    Discord.InitSDK();
 
     // Main cycle
     Memory.mem_usage();
