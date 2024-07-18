@@ -254,7 +254,6 @@ void CAI_Stalker::update_sell_info					()
 {
 //	if (m_sell_info_actuality)
 //		return;
-
 	m_sell_info_actuality	= true;
 	m_temp_items.clear		();
 	m_current_trader		= 0;
