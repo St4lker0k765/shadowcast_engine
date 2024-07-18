@@ -508,18 +508,18 @@ void CRenderDevice::Pause(BOOL bOn, BOOL bTimer, BOOL bSound, LPCSTR reason)
     {
         if (!Paused())
             bShowPauseString =
-#ifdef DEBUG
+//#ifdef DEBUG
                 !xr_strcmp(reason, "li_pause_key_no_clip") ? FALSE :
-#endif // DEBUG
+//#endif // DEBUG
                 TRUE;
 
         if (bTimer && (!g_pGamePersistent || g_pGamePersistent->CanBePaused()))
         {
             g_pauseMngr.Pause(TRUE);
-#ifdef DEBUG
+//#ifdef DEBUG
             if (!xr_strcmp(reason, "li_pause_key_no_clip"))
                 TimerGlobal.Pause(FALSE);
-#endif // DEBUG
+//#endif // DEBUG
         }
 
         if (bSound && Sound)

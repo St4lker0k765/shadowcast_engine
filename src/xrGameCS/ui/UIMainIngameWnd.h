@@ -72,7 +72,7 @@ protected:
 	CUIStatic*			UIWeaponJammedIcon;
 //	CUIStatic			UIRadiaitionIcon;
 //	CUIStatic			UIWoundIcon;
-//	CUIStatic			UIStarvationIcon;
+	CUIStatic			UIStarvationIcon;
 //	CUIStatic			UIPsyHealthIcon;
 	CUIStatic*			UIInvincibleIcon;
 //	CUIStatic			UISleepIcon;
@@ -91,7 +91,7 @@ public:
 		ewiWeaponJammed,
 //		ewiRadiation,
 //		ewiWound,
-//		ewiStarvation,
+		ewiStarvation,
 //		ewiPsyHealth,
 //		ewiSleep,
 		ewiInvincible,

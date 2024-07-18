@@ -236,9 +236,19 @@ function npc_sound:play(npc_id, faction, point, msg)
 			hud_demo:AddCustomStatic("cs_subtitles_npc", true)
 			self.custom_static_demo = hud_demo:GetCustomStatic("cs_subtitles_npc")
 		end
-		local npc_name = game.translate_string(point)
+		local npc_name;
+		if point ~= nil then 
+			npc_name = game.translate_string(point)
+		else
+			npc_name = nil
+		end
 		local snd_st2 = game.translate_string(snd_st)
-		local snd_dest = string.format("%s: %s", npc_name, snd_st2)
+		local snd_dest;
+		if npc_name ~= nil then
+			snd_dest = string.format("%s: %s", npc_name, snd_st2)
+		else
+			snd_dest = string.format("%s", snd_st2)
+		end
 		self.custom_static_demo:wnd():SetTextST(snd_dest)
 --		news_manager.send_sound(npc, faction, point, snd, snd_dest)
 	else

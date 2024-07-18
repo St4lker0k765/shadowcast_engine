@@ -136,7 +136,7 @@ void CUIMainIngameWnd::Init()
 	AttachChild					(m_UIIcons);
 
 	// Загружаем иконки 
-/*	if ( IsGameTypeSingle() )
+	if ( IsGameTypeSingle() )
 	{
 		xml_init.InitStatic		(uiXml, "starvation_static", 0, &UIStarvationIcon);
 		UIStarvationIcon.Show	(false);
@@ -144,7 +144,7 @@ void CUIMainIngameWnd::Init()
 //		xml_init.InitStatic		(uiXml, "psy_health_static", 0, &UIPsyHealthIcon);
 //		UIPsyHealthIcon.Show	(false);
 	}
-*/
+
 	UIWeaponJammedIcon = UIHelper::CreateStatic(uiXml, "weapon_jammed_static", NULL);
 	UIWeaponJammedIcon->Show		(false);
 
@@ -341,10 +341,10 @@ void CUIMainIngameWnd::Update()
 				}
 				break;
 			}
-		/*case ewiStarvation:
+		case ewiStarvation:
 			value =  _max( 0.0f, 1.0f - m_pActor->conditions().GetSatiety() );
 			break;
-		*/
+		
 		/*case ewiPsyHealth:
 			value = 1 - m_pActor->conditions().GetPsyHealth();
 			break;
@@ -458,21 +458,21 @@ void CUIMainIngameWnd::SetWarningIconColor(EWarningIcons icon, const u32 cl)
 	case ewiWeaponJammed:
 		SetWarningIconColorUI	(UIWeaponJammedIcon, cl);
 		if (bMagicFlag) break;
-
-/*	case ewiRadiation:
+		/*
+*	case ewiRadiation:
 		SetWarningIconColorUI	(&UIRadiaitionIcon, cl);
 		if (bMagicFlag) break;
 	case ewiWound:
 		SetWarningIconColorUI	(&UIWoundIcon, cl);
-		if (bMagicFlag) break;
+		if (bMagicFlag) break;*/
 
 	case ewiStarvation:
 		SetWarningIconColorUI	(&UIStarvationIcon, cl);
 		if (bMagicFlag) break;	
-	case ewiPsyHealth:
+/*	case ewiPsyHealth:
 		SetWarningIconColorUI	(&UIPsyHealthIcon, cl);
-		if (bMagicFlag) break;
-*/
+		if (bMagicFlag) break;*/
+
 	case ewiInvincible:
 		SetWarningIconColorUI	(UIInvincibleIcon, cl);
 		if (bMagicFlag) break;
