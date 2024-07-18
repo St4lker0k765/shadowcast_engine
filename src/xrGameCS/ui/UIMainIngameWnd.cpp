@@ -85,7 +85,6 @@ CUIMainIngameWnd::~CUIMainIngameWnd()
 	xr_delete					(g_MissileForceShape);
 	xr_delete					(UIWeaponJammedIcon);
 	xr_delete					(UIInvincibleIcon);
-	xr_delete					(UIArtefactIcon);
 }
 
 void CUIMainIngameWnd::Init()
