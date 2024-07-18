@@ -462,7 +462,7 @@ void CGamePersistent::update_logo_intro			()
 
 void CGamePersistent::start_game_intro		()
 {
-	load_screen_renderer.stop();
+//	load_screen_renderer.stop();
 	if ((0!=strstr(Core.Params,"-nointro")) || g_SASH.IsRunning())
 	{
 		m_intro_event			= 0;
@@ -507,6 +507,9 @@ void CGamePersistent::OnFrame	()
 	++m_frame_counter;
 #endif
 	if (!g_dedicated_server && !m_intro_event.empty())	m_intro_event();
+
+	if (!g_dedicated_server && Device.dwPrecacheFrame == 0)
+		load_screen_renderer.stop();
 
 	if( !m_pMainMenu->IsActive() )
 		m_pMainMenu->DestroyInternal(false);
