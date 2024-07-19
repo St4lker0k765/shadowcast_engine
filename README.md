@@ -26,5 +26,6 @@
 * Скриншоты в формате .png
 
 <need to replace placeholders before release!!>
+
 [**Гайд по адаптации модификаций под Shadowcast Engine (ЗП)**](/assets/cop_mod_adaptation_guide.md)
 [**Гайд по адаптации модификаций под Shadowcast Engine (ЧН)**](/assets/cs_mod_adaptation_guide.md)
