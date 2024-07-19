@@ -1764,6 +1764,7 @@ CMD4(CCC_Integer,			"hit_anims_tune",						&tune_hit_anims,		0, 1);
 	CMD1(CCC_TimeFactor, "time_factor");
 	CMD1(CCC_Script,		"run_script");
 	CMD1(CCC_ScriptCommand,	"run_string");
+	CMD3(CCC_Mask, "g_no_clip", &psActorFlags, AF_NO_CLIP)
 
 
 
