@@ -67,7 +67,7 @@ void CRender::ScreenshotImpl	(ScreenshotMode mode, LPCSTR name, CMemoryWriter* m
 				desc.Format = DXGI_FORMAT_BC1_UNORM;
 				desc.SampleDesc.Count = 1;
 				desc.Usage = D3D_USAGE_DEFAULT;
-				desc.BindFlags = D3D10_BIND_SHADER_RESOURCE;
+				desc.BindFlags = D3D_BIND_SHADER_RESOURCE;
 				CHK_DX( HW.pDevice->CreateTexture2D( &desc, NULL, &pSrcSmallTexture ) );
 
 				//	D3DX10_TEXTURE_LOAD_INFO *pLoadInfo
