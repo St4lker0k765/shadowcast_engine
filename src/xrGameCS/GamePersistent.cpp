@@ -499,6 +499,7 @@ void CGamePersistent::OnFrame	()
 		g_tutorial2->Destroy	();
 		xr_delete				(g_tutorial2);
 	}
+	ILoadingScreen* loadingScreen;
 
 	if(g_tutorial && !g_tutorial->IsActive()){
 		xr_delete(g_tutorial);
@@ -512,8 +513,8 @@ void CGamePersistent::OnFrame	()
 	if (!g_dedicated_server && Device.dwPrecacheFrame == 0) 
 		load_screen_renderer.stop();
 
-
-	SetGameDiscordStatus();
+	if(g_pGameLevel && !loadingScreen)
+		SetGameDiscordStatus();
 
 	if( !m_pMainMenu->IsActive() )
 		m_pMainMenu->DestroyInternal(false);
@@ -797,15 +798,12 @@ void CGamePersistent::OnAssetsChanged()
 
 void CGamePersistent::SetGameDiscordStatus() const
 {
-	if (g_pGameLevel != nullptr)
-	{
-		CStringTable strTable;
-		// Get level name
-		xr_string levelName = strTable.translate("st_discord_level").c_str();
+	if (!g_pGameLevel)
+		return;
 
-		levelName += '\t';
-		levelName += strTable.translate(Level().name()).c_str();
+	xr_string LevelName_ = "В игре:";
+	LevelName_ += "\t";
+	LevelName_ += CStringTable().translate(g_pGameLevel->name()).c_str();
 
-		Discord.SetStatus(levelName);
-	}
+	Discord.SetStatus(LevelName_);
 }
