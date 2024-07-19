@@ -85,7 +85,6 @@ extern	BOOL	g_show_wnd_rect2			;
 //-----------------------------------------------------------
 extern	float	g_fTimeFactor;
 extern	BOOL	b_toggle_weapon_aim;
-extern  BOOL	g_old_style_ui_hud;
 
 extern float	g_smart_cover_factor;
 extern int		g_upgrades_log;
@@ -1580,6 +1579,7 @@ void CCC_RegisterCommands()
 	psActorFlags.set(AF_ALWAYSRUN, true);
 	CMD3(CCC_Mask,				"g_always_run",			&psActorFlags,	AF_ALWAYSRUN);
 	CMD1(CCC_GameDifficulty,	"g_game_difficulty"		);
+	CMD3(CCC_Mask,				"g_crouch_toggle",		&psActorFlags,	AF_CROUCH_TOGGLE)
 
 	CMD3(CCC_Mask,				"g_backrun",			&psActorFlags,	AF_RUN_BACKWARD);
 
@@ -1956,7 +1956,6 @@ extern BOOL dbg_moving_bones_snd_player;
 
 	CMD4(CCC_Float,		"con_sensitive",			&g_console_sensitive,	0.01f, 1.0f );
 	CMD4(CCC_Integer,	"wpn_aim_toggle",			&b_toggle_weapon_aim, 0, 1);
-	CMD4(CCC_Integer,	"hud_old_style",			&g_old_style_ui_hud, 0, 1);
 
 #ifdef DEBUG
 	CMD4(CCC_Float,		"ai_smart_cover_animation_speed_factor",	&g_smart_cover_animation_speed_factor,	.1f, 10.f);

@@ -4,7 +4,6 @@
 #include "UIXmlInit.h"
 const LPCSTR MOTION_ICON_XML = "motion_icon.xml";
 
-extern BOOL g_old_style_ui_hud;
 
 CUIMotionIcon::CUIMotionIcon()
 {
@@ -103,10 +102,7 @@ void CUIMotionIcon::SetLuminosity(float Pos)
 
 void CUIMotionIcon::Draw()
 {
-	if(g_old_style_ui_hud)
-	{
-		inherited::Draw();
-	}
+//		inherited::Draw();
 }
 
 void CUIMotionIcon::Update()

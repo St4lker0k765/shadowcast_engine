@@ -98,6 +98,11 @@ void CActor::IR_OnKeyboardPress(int cmd)
 			else
 				mstate_wishful |= mcSprint;					
 		}break;
+	case kCROUCH:
+	{
+		if (psActorFlags.test(AF_CROUCH_TOGGLE))
+			mstate_wishful ^= mcCrouch;
+	}break;
 	case kCAM_1:	cam_Set			(eacFirstEye);				break;
 	case kCAM_2:	cam_Set			(eacLookAt);				break;
 	case kCAM_3:	cam_Set			(eacFreeLook);				break;
@@ -263,8 +268,12 @@ void CActor::IR_OnKeyboardHold(int cmd)
 	case kR_LOOKOUT:mstate_wishful |= mcRLookout;								break;
 	case kFWD:		mstate_wishful |= mcFwd;									break;
 	case kBACK:		mstate_wishful |= mcBack;									break;
-	case kCROUCH:	mstate_wishful |= mcCrouch;									break;
+	case kCROUCH:
+	{
+		if (!psActorFlags.test(AF_CROUCH_TOGGLE))
+			mstate_wishful |= mcCrouch;
 
+	}break;
 
 	}
 }
