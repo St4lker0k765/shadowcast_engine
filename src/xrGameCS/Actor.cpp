@@ -848,6 +848,15 @@ float CActor::currentFOV()
 
 void CActor::UpdateCL	()
 {
+	if (g_Alive() && Level().CurrentViewEntity() == this)
+	{
+		if (HUD().GetUI() && nullptr == HUD().GetUI()->MainInputReceiver())
+		{
+			int dik = get_action_dik(kUSE);
+			if (dik && pInput->iGetAsyncKeyState(dik))
+				m_bPickupMode = true;
+		}
+	}
 	UpdateInventoryOwner			(Device.dwTimeDelta);
 
 	if(m_feel_touch_characters>0)
@@ -977,8 +986,10 @@ void CActor::UpdateCL	()
 		Cameras().camera_Matrix			(trans);
 	
 	
-	if(IsFocused())
-		g_player_hud->update			(trans);
+	if (IsFocused()) {
+		g_player_hud->update(trans);
+	}
+	m_bPickupMode = false;
 }
 
 float	NET_Jump = 0;

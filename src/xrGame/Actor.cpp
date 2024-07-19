@@ -910,10 +910,6 @@ void CActor::UpdateCL	()
 			int dik = get_action_dik(kUSE, 0);
 			if(dik && pInput->iGetAsyncKeyState(dik))
 				m_bPickupMode=true;
-			
-			dik = get_action_dik(kUSE, 1);
-			if(dik && pInput->iGetAsyncKeyState(dik))
-				m_bPickupMode=true;
 		}
 	}
 
