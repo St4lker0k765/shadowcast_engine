@@ -188,8 +188,8 @@ m_ambients_config(0)
     xr_delete(config);
 
 	//[FFT++]: thx to OpenXray 1.6 https://github.com/OpenXRay/xray-16
-	useDynamicSunDir = READ_IF_EXISTS(pTSWSettings, r_bool, "environment", "dynamic_sun_dir", true);
-	sunDirAzimuth = READ_IF_EXISTS(pTSWSettings, r_float, "environment", "sun_dir_azimuth", 0.0f);
+	useDynamicSunDir = READ_IF_EXISTS(pSCSettings, r_bool, "environment", "dynamic_sun_dir", true);
+	sunDirAzimuth = READ_IF_EXISTS(pSCSettings, r_float, "environment", "sun_dir_azimuth", 0.0f);
 	clamp(sunDirAzimuth, 0.0f, 360.0f);
 	sunDirAzimuth *= (PI / 180.0f);
 	//End

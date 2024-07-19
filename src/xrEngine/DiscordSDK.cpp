@@ -2,7 +2,6 @@
 
 #include "DiscordSDK.h"
 #include "x_ray.h"
-
 ENGINE_API DiscordSDK Discord;
 
 DiscordSDK::~DiscordSDK()
@@ -20,10 +19,23 @@ void DiscordSDK::InitSDK()
 		return;
 	}
 
-	ActivityDiscord_.GetAssets().SetLargeImage("main_image");
+	ActivityDiscord_.GetAssets().SetLargeImage("shadowcast_engine_logo_rpc");
 
-	ActivityDiscord_.GetAssets().SetSmallImage("main_image_small");
-
+	if (CallOfPripyatMode)
+	{
+		ActivityDiscord_.GetAssets().SetSmallImage("shadowcast_engine_cop");
+		ActivityDiscord_.GetAssets().SetSmallText("Call of Pripyat");
+	}
+	else if (ClearSkyMode)
+	{
+		ActivityDiscord_.GetAssets().SetSmallImage("shadowcast_engine_cs");
+		ActivityDiscord_.GetAssets().SetSmallText("Clear Sky");
+	}
+	else if (ShadowOfChernobylMode)
+	{
+		ActivityDiscord_.GetAssets().SetSmallImage("shadowcast_engine_soc");
+		ActivityDiscord_.GetAssets().SetSmallText("Shadow of Chernobyl");
+	}
 	ActivityDiscord_.SetInstance(true);
 	ActivityDiscord_.SetType(discord::ActivityType::Playing);
 

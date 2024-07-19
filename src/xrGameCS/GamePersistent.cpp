@@ -27,6 +27,9 @@
 #include "ui/UILoadingScreen.h"
 #include "xrEngine/x_ray.h"
 #include "xrEngine/DiscordSDK.h"
+#include "GameTask.h"
+#include "GametaskManager.h"
+#include "string_table.h"
 
 #ifdef DEBUG_MEMORY_MANAGER
 	static	void *	ode_alloc	(size_t size)								{ return Memory.mem_alloc(size,"ODE");			}
@@ -513,9 +516,13 @@ void CGamePersistent::OnFrame	()
 	if (!g_dedicated_server && Device.dwPrecacheFrame == 0) 
 		load_screen_renderer.stop();
 
-	if(g_pGameLevel && !loadingScreen)
+	if (g_pGameLevel && !loadingScreen)
+	{
 		SetGameDiscordStatus();
-
+		CGameTask* o = Level().GameTaskManager().ActiveTask(eTaskTypeStoryline);
+		xr_string TaskNameDiscord_ = CStringTable().translate(o ? o->m_Title.c_str() : "st_no_active_task").c_str();
+		Discord.SetPhase(TaskNameDiscord_);
+	}
 	if( !m_pMainMenu->IsActive() )
 		m_pMainMenu->DestroyInternal(false);
 

@@ -161,6 +161,6 @@ public:
 
 // Main configuration file
 extern XRCORE_API CInifile const* pSettings;
-extern XRCORE_API CInifile const* pTSWSettings;
+extern XRCORE_API CInifile const* pSCSettings;
 
 #endif //__XR_INI_H__

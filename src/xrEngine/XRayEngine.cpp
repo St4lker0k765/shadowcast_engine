@@ -131,10 +131,10 @@ void InitConfig(T& config, pcstr name, bool fatal = true,
 void InitSettings()
 {
 	InitConfig(pSettings, "system.ltx");
-	InitConfig(pTSWSettings, "shadowcast_config.ltx", false, true, true, false);
+	InitConfig(pSCSettings, "shadowcast_config.ltx", false, true, true, false);
 	InitConfig(pGameIni, "game.ltx");
 
-    LPCSTR gameMode = READ_IF_EXISTS(pTSWSettings, r_string, "compatibility", "game_mode", "cop");
+    LPCSTR gameMode = READ_IF_EXISTS(pSCSettings, r_string, "compatibility", "game_mode", "cop");
 
     if (!xr_strcmp(gameMode, "tsw"))
     {
@@ -201,7 +201,7 @@ void destroySettings()
     auto Settings = const_cast<CInifile**>(&pSettings);
     xr_delete(*Settings);
     
-    auto SettingsMode_ = const_cast<CInifile**>(&pTSWSettings);
+    auto SettingsMode_ = const_cast<CInifile**>(&pSCSettings);
     xr_delete(*SettingsMode_);
 
     xr_delete(pGameIni);

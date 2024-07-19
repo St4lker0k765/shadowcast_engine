@@ -16,13 +16,13 @@
 #include "../xrEngine/DiscordSDK.h"
 #include "ActorEffector.h"
 #include "actor.h"
-
+#include "GameTask.h"
 #include "UI/UItextureMaster.h"
-
+#include "GametaskManager.h"
 #include "../xrEngine/xrSASH.h"
 #include "ai_space.h"
 #include "../xrServerEntities/script_engine.h"
-
+#include "string_table.h"
 #include "holder_custom.h"
 #include "game_cl_base.h"
 #include "xrserver_objects_alife_monsters.h"
@@ -484,6 +484,9 @@ extern int g_keypress_on_start;
 void CGamePersistent::game_loaded()
 {
 	SetGameDiscordStatus();
+	CGameTask* o = Level().GameTaskManager().ActiveTask();
+	xr_string TaskNameDiscord_ = CStringTable().translate(o ? o->m_Title.c_str() : "st_no_active_task").c_str();
+	Discord.SetPhase(TaskNameDiscord_);
 	if(Device.dwPrecacheFrame<=2)
 	{
 		if(	g_pGameLevel							&&
