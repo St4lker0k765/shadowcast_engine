@@ -1,1 +1,26 @@
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+# Адаптация модификаций под Shadowcast Engine (Зов Припяти)
+
+Этот раздел особенно важен для тех, кто хочет адаптировать различные глобальные моды. (например: Пространственная аномалия, OGSM 2.2 и другие) Если мод имеет движок, отличающийся от оригинального ЗП 1.6.02, то он несовместим с Shadowcast Engine. **ВООБЩЕ**.
+
+## Какие файлы в gamedata обязательны для нормальной работы движка?
+
+На данный момент список следующий:
+
+* **Папка configs\graphic_presets** (Пресеты графики перенесены в эту папку)  
+* **configs\text\rus\ui_shadowcast_options.xml** (Этот файл необходим для корректного отображения текста, связанного с движком)  
+* **configs\ui\textures_descr\ui_mm_loading_screen.xml** (необходим для корректного отображения загрузочного экрана: если отсутствует, будут фиолетовые текстуры)  
+* **configs\ui\ui_mm_loading_screen.xml** (без него будет вылет игры: нужен для лоадскрина)  
+* **configs\ui\ui_mm_loading_screen_16.xml** (аналогично предыдущему, только для 16x9)  
+* **configs\ui\ui_mm_main.xml** (файл главного меню: убран мультиплеер)  
+* **configs\ui\ui_mm_main_16.xml** (аналогично предыдущему, только для 16x9)  
+* **configs\ui\ui_mm_opt.xml** (файл настроек: новые параметры)  
+* **configs\ui\ui_mm_opt_16.xml** (аналогично предыдущему, только для 16x9)  
+* **configs\fonts.ltx** (необходим для корректного отображения шрифтов)  
+* **configs\shadowcast_config.ltx** (главный конфиг движка: необходим для корректной работы)  
+* **Папка fonts** (все шрифты располагаются здесь)
+* **scripts\ui_load_dialog.script** (для корректного отображения превью сохранений)
+* **Папка shaders** (необходима для корректной работы шейдеров и DX11)
+* **textures\ui\ui_console.dds** (текстура для консоли)
+
+## А как всё это адаптировать?
+Для начала необходимо открыть файл **gamedata\textures\ui\ui_icon_equipment.dds** в папке вашей модификации и увеличить его в 2 раза с помощью графического редактора, например Adobe Photoshop или paint.net. Если же файл в папке с модификацией отсутствует, то его следует брать из gamedata движка. Затем следует скопировать в gamedata модификации файлы из списка ниже. Если есть конфликт, адаптировать файлы под модификацию.

@@ -274,6 +274,11 @@ ICF const xrGUID &CLevelGraph::CHeader::guid() const
 	return				(hdrNODES::guid);
 }
 
+ICF u8	CLevelGraph::CVertex::light() const
+{
+	return				(NodeCompressed8::light());
+}
+
 ICF u32	CLevelGraph::CVertex::link(int index) const
 {
 	return				(NodeCompressed8::link(u8(index)));

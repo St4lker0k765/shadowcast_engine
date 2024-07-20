@@ -1,8 +1,10 @@
-![Shadowcast Engine Logo](/assets/shadowcast_engine_logo_git.png) <replace it with some proper image later>
+![Shadowcast Engine Logo](/assets/shadowcast_engine_logo_git.png)
 
 ## О движке:
 
-* Движок основан на [STCoP Public Engine](https://github.com/mortany/stcop_engine_public). Главной целью движка является обеспечения совместимости со всеми частями (ЗП, ЧН, ТЧ) и добавление новых фишек.
+* Движок основан на [STCoP Public Engine](https://github.com/mortany/stcop_engine_public). Главной целью движка является обеспечения совместимости со всеми частями (ЗП, ЧН, ТЧ) и добавление новых возможностей для модмейкеров.
+* Авторы движка: [St4lker0k765](https://github.com/St4lker0k765), [morrazzzz](https://github.com/morrazzzz)
+* На данный момент ТЧ дальше главного меню не загружается (WIP)
 
 ## Изменения:
 * Поддержка x64
@@ -12,7 +14,6 @@
 * Улучшенные рендеры
 * Многопоточность
 * Коллизия травы
-* Фикс многих проблем
 * Поддержка иконок 100x100
 * TTF Шрифты
 * Загрузочный экран в XML (WIP)
@@ -25,7 +26,11 @@
 * Вырезан мультилпеер
 * Скриншоты в формате .png
 
-<need to replace placeholders before release!!>
+## Отдельные благодарности:
+* abramcumner - за порт ЧН на VS2022
+* IX-Ray Team - за TTF шрифты
+* OpenXRay - за загрузочный экран в XML
+
 
 [**Гайд по адаптации модификаций под Shadowcast Engine (ЗП)**](/assets/cop_mod_adaptation_guide.md)
 

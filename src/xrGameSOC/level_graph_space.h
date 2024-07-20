@@ -30,6 +30,7 @@ namespace LevelGraph {
 
 	public:
 		ICF	u32				link					(int i) const;
+		ICF	u8				light					() const;
 		ICF	u16				cover					(u8 index) const;
 		ICF	u16				plane					() const;
 		ICF	const CPosition &position				() const;
