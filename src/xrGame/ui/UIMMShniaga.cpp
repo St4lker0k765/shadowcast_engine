@@ -382,38 +382,6 @@ bool CUIMMShniaga::OnKeyboardAction(int dik, EUIMessages keyboard_action)
 	return CUIWindow::OnKeyboardAction(dik, keyboard_action);
 }
 
-bool CUIMMShniaga::OnGamepadAction(int vk, EUIMessages gamepad_action)
-{
-
-	if (WINDOW_KEY_PRESSED == gamepad_action)
-	{
-		switch (vk)
-		{
-		case XINPUT_GAMEPAD_DPAD_UP:
-			if (m_selected_btn > 0)
-				SelectBtn(m_selected_btn - 1);
-			return true;
-		case XINPUT_GAMEPAD_DPAD_DOWN:
-			if (m_selected_btn < BtnCount() - 1)
-				SelectBtn(m_selected_btn + 1);
-			return true;
-		case XINPUT_GAMEPAD_A:
-			OnBtnClick();
-			// debugging purposes only
-			CInput* xr_input;
-			xr_input->feedback(0.5f, 0.5f, 0.1f);
-			return true;
-		case XINPUT_GAMEPAD_B:
-			if (m_page != epi_main)
-				ShowMain();
-			return true;
-		}
-	}
-
-
-	return CUIWindow::OnGamepadAction(vk, gamepad_action);
-}
-
 int CUIMMShniaga::BtnCount()
 {
 	R_ASSERT(-1);

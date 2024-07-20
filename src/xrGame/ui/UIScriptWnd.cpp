@@ -63,10 +63,6 @@ bool CUIDialogWndEx::OnKeyboardAction(int dik, EUIMessages keyboard_action)
 	return inherited::OnKeyboardAction(dik,keyboard_action);
 }
 
-bool CUIDialogWndEx::OnGamepadAction(int vk, EUIMessages gamepad_action)
-{
-	return inherited::OnGamepadAction(vk, gamepad_action);
-}
 
 void CUIDialogWndEx::Update()
 {

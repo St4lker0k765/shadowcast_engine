@@ -576,13 +576,6 @@ void CUIMiniMap::UpdateSpots()
 
 void  CUIMiniMap::Draw()
 {
-	if (TheShadowWayMode)
-	{
-		inherited::Draw();
-		return;
-	}
-	else if (CallOfPripyatMode)
-	{
 		u32	segments_count = 20;
 
 		UIRender->SetShader(*m_UIStaticItem.GetShader());
@@ -643,7 +636,6 @@ void  CUIMiniMap::Draw()
 
 		//------------
 		CUIWindow::Draw(); //draw childs
-	}
 }
 
 bool CUIMiniMap::GetPointerTo(const Fvector2& src, float item_radius, Fvector2& pos, float& heading)

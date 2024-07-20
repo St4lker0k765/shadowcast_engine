@@ -99,7 +99,6 @@ public:
 
 
 	virtual bool			OnKeyboardAction			(int dik, EUIMessages keyboard_action);
-	virtual bool			OnGamepadAction			(int vk, EUIMessages gamepad_action);
 	virtual bool			OnKeyboardHold		(int dik);
 
 	virtual bool 			OnMouseAction				(float x, float y, EUIMessages mouse_action);
@@ -198,9 +197,6 @@ protected:
 	
 	//дочернее окно которое, захватило ввод клавиатуры
 	CUIWindow*				m_pKeyboardCapturer;
-
-	//дочернее окно которое, захватило ввод геймпада
-	CUIWindow* m_pGamepadCapturer;
 
 	//кому шлем сообщения
 	CUIWindow*				m_pMessageTarget;

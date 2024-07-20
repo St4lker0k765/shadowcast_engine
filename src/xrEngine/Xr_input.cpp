@@ -15,9 +15,6 @@ ENGINE_API float psMouseSens = 1.f;
 ENGINE_API float psMouseSensScale = 1.f;
 ENGINE_API Flags32 psMouseInvert = {FALSE};
 
-ENGINE_API float psXInputSens = 1.f;
-ENGINE_API float psXInputSensScale = 1.f;
-ENGINE_API Flags32 psXInputInvert = { FALSE };
 ENGINE_API DWORD iUserIndex=0;
 
 float stop_vibration_time = flt_max;

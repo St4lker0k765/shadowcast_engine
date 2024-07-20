@@ -165,23 +165,6 @@ _keyboard keyboards[] = {
 	{ NULL, 			0				}
 };
 
-_gamepad gamepads[] = {
-	{ "gA",	 			XINPUT_GAMEPAD_A				},	
-	{ "gB",	 			XINPUT_GAMEPAD_B				},
-	{ "gX",	 			XINPUT_GAMEPAD_X				},
-	{ "gY",	 			XINPUT_GAMEPAD_Y				},
-	{ "gSTART",	 		XINPUT_GAMEPAD_START			},
-	{ "gBACK",	 		XINPUT_GAMEPAD_BACK				},
-	{ "gDPADDOWN",	 	XINPUT_GAMEPAD_DPAD_DOWN		},
-	{ "gDPADUP",	 	XINPUT_GAMEPAD_DPAD_UP			},
-	{ "gDPADLEFT",	 	XINPUT_GAMEPAD_DPAD_LEFT		},
-	{ "gDPADRIGHT",		XINPUT_GAMEPAD_DPAD_RIGHT		},
-	{ "gLSHLDR",	 	XINPUT_GAMEPAD_LEFT_SHOULDER	},
-	{ "gRSHLDR",	 	XINPUT_GAMEPAD_RIGHT_SHOULDER	},
-	{ "gLTHUMB",	 	XINPUT_GAMEPAD_LEFT_THUMB		},
-	{ "gRTHUMB",	 	XINPUT_GAMEPAD_RIGHT_THUMB		},
-	{ NULL, 			0				}
-};
 
 void initialize_bindings()
 {

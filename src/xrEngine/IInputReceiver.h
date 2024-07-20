@@ -39,9 +39,4 @@ ENGINE_API extern float psMouseSens;
 ENGINE_API extern float psMouseSensScale;
 ENGINE_API extern Flags32 psMouseInvert;
 ENGINE_API extern DWORD iUserIndex;
-
-ENGINE_API extern float psXInputSens;
-ENGINE_API extern float psXInputSensScale;
-ENGINE_API extern Flags32 psXInputInvert;
-
 #endif

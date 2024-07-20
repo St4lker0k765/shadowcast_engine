@@ -95,12 +95,6 @@ struct _keyboard
 	xr_string	key_local_name;
 };
 
-struct _gamepad
-{
-	LPCSTR		key_name;
-	int			vk;
-	xr_string	key_local_name;
-};
 enum _key_group{
 	_both	=	(1<<0)			,
 	_sp		=	_both | (1<<1)	,

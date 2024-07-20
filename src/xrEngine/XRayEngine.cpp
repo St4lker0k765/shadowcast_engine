@@ -24,14 +24,11 @@ ENGINE_API string512 g_sLaunchOnExit_params;
 ENGINE_API string512 g_sLaunchOnExit_app;
 ENGINE_API string_path g_sLaunchWorkingFolder;
 
-ENGINE_API bool TheShadowWayMode = false;
 ENGINE_API bool CallOfPripyatMode = true;
 ENGINE_API bool ClearSkyMode = false;
 ENGINE_API bool ShadowOfChernobylMode = false;
 
 ENGINE_API int ps_rs_loading_stages = 1;
-
-ENGINE_API int psXInputEnable = 1;
 
 XRCORE_API LPCSTR build_date;
 XRCORE_API u32 build_id
@@ -135,12 +132,6 @@ void InitSettings()
 	InitConfig(pGameIni, "game.ltx");
 
     LPCSTR gameMode = READ_IF_EXISTS(pSCSettings, r_string, "compatibility", "game_mode", "cop");
-
-    if (!xr_strcmp(gameMode, "tsw"))
-    {
-        TheShadowWayMode = true;
-        return;
-    }
 
     if (!xr_strcmp(gameMode, "cs"))
     {

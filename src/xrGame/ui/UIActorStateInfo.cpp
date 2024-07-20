@@ -67,8 +67,6 @@ void ui_actor_state_wnd::init_from_xml( CUIXml& xml, LPCSTR path )
 
 //	m_state[stt_main]->init_from_xml( xml, "main_sensor");
 
-	if (!TheShadowWayMode)
-	{
 		m_state[stt_fire]->init_from_xml(xml, "fire_sensor");
 		m_state[stt_radia]->init_from_xml(xml, "radia_sensor");
 		m_state[stt_acid]->init_from_xml(xml, "acid_sensor");
@@ -77,7 +75,6 @@ void ui_actor_state_wnd::init_from_xml( CUIXml& xml, LPCSTR path )
 		m_state[stt_fire_wound]->init_from_xml(xml, "fire_wound_sensor");
 		m_state[stt_shock]->init_from_xml(xml, "shock_sensor");
 		m_state[stt_power]->init_from_xml(xml, "power_sensor");
-	}
 	xml.SetLocalRoot( stored_root );
 }
 
@@ -127,8 +124,6 @@ void ui_actor_state_wnd::UpdateActorInfo( CInventoryOwner* owner )
 	PIItem itm = actor->inventory().ItemFromSlot(HELMET_SLOT);
 	CHelmet* helmet = smart_cast<CHelmet*>(itm);
 
-	if (!TheShadowWayMode)
-	{
 		m_state[stt_fire]->set_progress(0.0f);
 		m_state[stt_radia]->set_progress(0.0f);
 		m_state[stt_acid]->set_progress(0.0f);
@@ -137,7 +132,6 @@ void ui_actor_state_wnd::UpdateActorInfo( CInventoryOwner* owner )
 		m_state[stt_fire_wound]->set_progress(0.0f);
 		m_state[stt_shock]->set_progress(0.0f);
 		m_state[stt_power]->set_progress(0.0f);
-	}
 	float burn_value = 0.0f;
 	float radi_value = 0.0f;
 	float cmbn_value = 0.0f;
@@ -193,7 +187,6 @@ void ui_actor_state_wnd::UpdateActorInfo( CInventoryOwner* owner )
 		u16 spine_bone = ikv->LL_BoneID("bip01_head");
 		fwou_value += helmet->GetBoneArmor(spine_bone)*helmet->GetCondition();
 	}
-	if (!TheShadowWayMode) {
 		//fire burn protection progress bar
 		{
 			burn_value += actor->GetProtection_ArtefactsOnBelt(ALife::eHitTypeBurn);
@@ -248,7 +241,6 @@ void ui_actor_state_wnd::UpdateActorInfo( CInventoryOwner* owner )
 			m_state[stt_power]->set_progress(value);//0..1
 		}
 		// -----------------------------------------------------------------------------------
-	}
 	UpdateHitZone();
 }
 
