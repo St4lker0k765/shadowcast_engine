@@ -20,7 +20,7 @@ v2p_TL main(v_vert I)
 		O.HPos.zw = I.P.zw;
 	}
 
-	O.Tex0 = 0;//I.uv + screen_res.zw * 0.5f;
+	O.Tex0 = I.Tex0;//I.uv + screen_res.zw * 0.5f;
 	O.Color = I.color.rgba;	//	swizzle vertex colour
 
  	return O;

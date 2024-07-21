@@ -2,7 +2,6 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////
 // Pixel
-uniform	float4 screen_res;
 
 struct	v2p_TL
 {
@@ -12,7 +11,7 @@ struct	v2p_TL
 
 float4 main ( v2p_TL I ) : COLOR
 {
-	float4 r = tex2D(s_base, I.Tex0 + screen_res.zw * 0.5f);
+	float4 r = tex2D(s_base, I.Tex0);
 	r.w = 1 - r.w;
 	return r;
 }
