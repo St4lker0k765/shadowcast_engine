@@ -21,4 +21,25 @@
 	<string id="ui_mm_hud_draw">
 		<text>Показывать интерфейс</text>
 	</string>
+	<string id="ui_mm_r2_smap_quality">
+		<text>Качество теней</text>
+	</string>
+	<string id="smap1024">
+		<text>1024 пикселя</text>
+	</string>
+	<string id="smap1536">
+		<text>1536 пикселей</text>
+	</string>
+	<string id="smap2048">
+		<text>2048 пикселей</text>
+	</string>
+	<string id="smap2560">
+		<text>2560 пикселей</text>
+	</string>
+	<string id="smap3072">
+		<text>3072 пикселя</text>
+	</string>
+	<string id="smap4096">
+		<text>4096 пикселей</text>
+	</string>
 </string_table>

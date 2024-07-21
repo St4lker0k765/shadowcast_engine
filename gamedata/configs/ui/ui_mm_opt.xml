@@ -268,6 +268,18 @@
             </text_color>
         </list_r2_sun_quality>
 
+        <cap_r2_smap_quality x="20" y="3" width="135" height="24">
+            <text r="170" g="170" b="170" font="letterica16" align="r" vert_align="c">ui_mm_r2_smap_quality</text>
+        </cap_r2_smap_quality>
+        <list_r2_smap_quality x="180" y="0" width="235" height="20" list_length="6">
+            <options_item entry="r2_smap_quality" group="mm_opt_video" depend="vid"/>
+            <list_font r="170" g="170" b="170" font="letterica16"/>
+		    <text_color>
+	            <e r="170" g="170" b="170"/>
+	            <d r="70" g="70" b="70"/>
+		    </text_color>
+        </list_r2_smap_quality>
+
         <cap_r3_dynamic_wet_surfaces x="20" y="3" width="135" height="24">
             <text r="170" g="170" b="170" font="letterica16" align="r" vert_align="c">ui_mm_r3_dynamic_wet_surfaces</text>
         </cap_r3_dynamic_wet_surfaces>

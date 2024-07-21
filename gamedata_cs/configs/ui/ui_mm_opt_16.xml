@@ -475,6 +475,19 @@
       <list_font	 r="216" g="186" b="140" font="letterica16"/>
     </list_r2_sun_quality>
 
+    <cap_r2_smap_quality x="17" y="0" width="119" height="21">
+      <text font="letterica16" color="ui_6">ui_mm_r2_smap_quality</text>
+    </cap_r2_smap_quality>
+      <list_r2_smap_quality x="162" y="0" width="200" height="21" list_length="6">
+      <options_item entry="r2_smap_quality" group="mm_opt_video"/>
+      <text_color>
+        <e r="216" g="186" b="140"/>
+        <d color="ui_gray"/>
+      </text_color>
+      <list_font_s r="240" g="217" b="182"/>
+      <list_font	 r="216" g="186" b="140" font="letterica16"/>
+    </list_r2_smap_quality>
+
     <cap_r3_dynamic_wet_surfaces x="17" y="0" width="119" height="21">
       <text font="letterica16" color="ui_6">ui_mm_r3_dynamic_wet_surfaces</text>
     </cap_r3_dynamic_wet_surfaces>
