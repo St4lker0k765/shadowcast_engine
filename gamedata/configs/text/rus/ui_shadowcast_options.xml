@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="windows-1251" ?>
+<string_table>
+	<string id="ui_mm_detail_height">
+		<text>Высота травы</text>
+	</string>
+	<string id="ui_mm_detail_radius">
+		<text>Дальность травы</text>
+	</string>
+	<string id="ui_mm_fov">
+		<text>Угол обзора</text>
+	</string>
+</string_table>
