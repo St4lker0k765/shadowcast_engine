@@ -234,6 +234,11 @@ public:
     void r_u8(u8& A);
     void r_s8(s8& A);
 
+    // for Shadow of Chernobyl
+    IC void w_u24(u32 a) { w(&a, 3); }			// dword (3b)
+    IC void		r_u24(u32& A) { A = 0; r(&A, 3); } // dword (3b)
+    IC u32		r_u24() { u32	A = 0; r(&A, 3);				return(A); } // dword (3b)
+
     // IReader compatibility
     Fvector r_vec3();
     Fvector4 r_vec4();

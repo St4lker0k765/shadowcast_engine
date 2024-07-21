@@ -22,9 +22,9 @@ namespace LevelGraph {
 		ICF const xrGUID	&guid					() const;
 	};
 
-	typedef NodePosition8	CPosition;
+	typedef NodePosition	CPosition;
 
-	class CVertex : private NodeCompressed8 {
+	class CVertex : private NodeCompressed {
 	private:
 		friend class CRenumbererConverter;
 

@@ -484,9 +484,11 @@ extern int g_keypress_on_start;
 void CGamePersistent::game_loaded()
 {
 	SetGameDiscordStatus();
-	CGameTask* o = Level().GameTaskManager().ActiveTask();
-	xr_string TaskNameDiscord_ = CStringTable().translate(o ? o->m_Title.c_str() : "st_no_active_task").c_str();
-	Discord.SetPhase(TaskNameDiscord_);
+	if (g_pGameLevel) {
+		CGameTask* o = Level().GameTaskManager().ActiveTask();
+		xr_string TaskNameDiscord_ = CStringTable().translate(o ? o->m_Title.c_str() : "st_no_active_task").c_str();
+		Discord.SetPhase(TaskNameDiscord_);
+	}
 	if(Device.dwPrecacheFrame<=2)
 	{
 		if(	g_pGameLevel							&&

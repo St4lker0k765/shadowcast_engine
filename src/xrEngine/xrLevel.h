@@ -3,6 +3,11 @@
 
 #pragma once
 
+#if defined(XRGAMESOC_EXPORTS) || defined(_EDITOR)
+#define DISABLE_DEFAULT_NODECOMPRESSED
+#endif
+
+
 struct xrGUID
 {
     u64 g[2];
@@ -96,7 +101,7 @@ struct hdrNODES
 
 #pragma pack(push,1)
 #pragma pack(1)
-#ifndef _EDITOR
+#ifndef DISABLE_DEFAULT_NODECOMPRESSED
 class NodePosition
 {
     u8 data[5];
@@ -361,8 +366,8 @@ const u32 XRAI_CURRENT_VERSION_SOC = 8;
 
 // SoC NoteCompressed (for compatibility)
 
-#ifndef _EDITOR
-class NodePosition8 {
+#ifdef XRGAMESOC_EXPORTS
+class NodePosition {
     u8	data[5];
 
     ICF	void xz(u32 value) { CopyMemory(data, &value, 3); }
@@ -386,7 +391,7 @@ public:
     friend struct	CNodePositionConverter;
 };
 
-struct NodeCompressed8 {
+struct NodeCompressed {
 public:
     u8				data[12];
 private:
@@ -433,7 +438,7 @@ public:
     u16				cover2 : 4;
     u16				cover3 : 4;
     u16				plane;
-    NodePosition8	p;
+    NodePosition	p;
     // 4 + 4 + 4 + 4 + 16 + 40 + 96 = 168 bits = 21 byte
 
     ICF	u32	link(u8 index) const
@@ -455,17 +460,23 @@ public:
         return			(data[11] >> 4);
     }
 
-    ICF	u16	cover(u8 index) const
+    ICF u16 cover(u8 index) const
     {
-        switch (index) {
-        case 0: return(cover0);
-        case 1: return(cover1);
-        case 2: return(cover2);
-        case 3: return(cover3);
-        default: NODEFAULT;
+        switch (index)
+        {
+        case 0:
+            return(cover0);
+        case 1:
+            return(cover1);
+        case 2:
+            return(cover2);
+        case 3:
+            return(cover3);
+        default:
+            NODEFAULT;
         }
 #ifdef DEBUG
-        return				(u8(-1));
+        return (u8(-1));
 #endif
     }
 
