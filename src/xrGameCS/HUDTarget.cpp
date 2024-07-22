@@ -267,7 +267,11 @@ void CHUDTarget::Render()
 	{
 		F->OutSetI		(0.f,0.05f);
 		F->SetColor		(C);
-		F->OutNext		("%4.1f - %4.2f - %d",PP.RQ.range, PP.power, PP.pass);
+#ifdef DEBUG
+		F->OutNext("%4.1f - %4.2f - %d", PP.RQ.range, PP.power, PP.pass);
+#else
+		F->OutNext("%4.1f", PP.RQ.range);
+#endif
 	}
 
 	//отрендерить кружочек или крестик
