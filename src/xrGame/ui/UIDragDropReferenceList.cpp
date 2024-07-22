@@ -88,10 +88,18 @@ void CUIDragDropReferenceList::LoadItemTexture(LPCSTR section, Ivector2 cell_pos
 	CUIStatic* ref = m_references[cell_pos.x];
 	ref->SetShader(InventoryUtilities::GetEquipmentIconsShader());
 	Frect texture_rect;
-	texture_rect.x1	= pSettings->r_float(section, "inv_grid_x")		*INV_GRID_WIDTH;
-	texture_rect.y1	= pSettings->r_float(section, "inv_grid_y")		*INV_GRID_HEIGHT;
-	texture_rect.x2	= pSettings->r_float(section, "inv_grid_width")	*INV_GRID_WIDTH;
-	texture_rect.y2	= pSettings->r_float(section, "inv_grid_height")*INV_GRID_HEIGHT;
+	if (UseHDIcons) {
+		texture_rect.x1 = pSettings->r_float(section, "inv_grid_x") * INV_GRID_WIDTH;
+		texture_rect.y1 = pSettings->r_float(section, "inv_grid_y") * INV_GRID_HEIGHT;
+		texture_rect.x2 = pSettings->r_float(section, "inv_grid_width") * INV_GRID_WIDTH;
+		texture_rect.y2 = pSettings->r_float(section, "inv_grid_height") * INV_GRID_HEIGHT;
+	}
+	else {
+		texture_rect.x1 = pSettings->r_float(section, "inv_grid_x") * INV_GRID_WIDTH_LEGACY;
+		texture_rect.y1 = pSettings->r_float(section, "inv_grid_y") * INV_GRID_HEIGHT_LEGACY;
+		texture_rect.x2 = pSettings->r_float(section, "inv_grid_width") * INV_GRID_WIDTH_LEGACY;
+		texture_rect.y2 = pSettings->r_float(section, "inv_grid_height") * INV_GRID_HEIGHT_LEGACY;
+	}
 	texture_rect.rb.add(texture_rect.lt);
 	ref->SetTextureRect(texture_rect);
 	ref->TextureOn();

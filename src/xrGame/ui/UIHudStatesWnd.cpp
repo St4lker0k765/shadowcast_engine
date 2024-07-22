@@ -363,23 +363,42 @@ void CUIHudStatesWnd::SetAmmoIcon(const shared_str& sect_name)
 		return;
 	}
 	m_ui_weapon_icon->Show(true);
-
+	
+	float h;
+	float w;
 	Frect texture_rect;
-	texture_rect.x1					= pSettings->r_float(sect_name,  "inv_grid_x")		*INV_GRID_WIDTH;
-	texture_rect.y1					= pSettings->r_float(sect_name,  "inv_grid_y")		*INV_GRID_HEIGHT;
-	texture_rect.x2					= pSettings->r_float( sect_name, "inv_grid_width")	*INV_GRID_WIDTH;
-	texture_rect.y2					= pSettings->r_float( sect_name, "inv_grid_height")	*INV_GRID_HEIGHT;
-	texture_rect.rb.add				(texture_rect.lt);
-	m_ui_weapon_icon->GetUIStaticItem().SetTextureRect(texture_rect);
-	m_ui_weapon_icon->SetStretchTexture(true);
+	if (UseHDIcons) {
+		texture_rect.x1 = pSettings->r_float(sect_name, "inv_grid_x") * INV_GRID_WIDTH;
+		texture_rect.y1 = pSettings->r_float(sect_name, "inv_grid_y") * INV_GRID_HEIGHT;
+		texture_rect.x2 = pSettings->r_float(sect_name, "inv_grid_width") * INV_GRID_WIDTH;
+		texture_rect.y2 = pSettings->r_float(sect_name, "inv_grid_height") * INV_GRID_HEIGHT;
+		texture_rect.rb.add(texture_rect.lt);
+		m_ui_weapon_icon->GetUIStaticItem().SetTextureRect(texture_rect);
+		m_ui_weapon_icon->SetStretchTexture(true);
 
-	float h = texture_rect.height() * 0.4f;
-	float w = texture_rect.width() * 0.4f;
+		h = texture_rect.height() * 0.4f;
+		w = texture_rect.width() * 0.4f;
 
-// now perform only width scale for ammo, which (W)size >2
-	if (texture_rect.width() > 2.01f*INV_GRID_WIDTH)
-		w = INV_GRID_WIDTH * 1.5f;
+		// now perform only width scale for ammo, which (W)size >2
+		if (texture_rect.width() > 2.01f * INV_GRID_WIDTH)
+			w = INV_GRID_WIDTH * 1.5f;
+	}
+	else {
+		texture_rect.x1 = pSettings->r_float(sect_name, "inv_grid_x") * INV_GRID_WIDTH_LEGACY;
+		texture_rect.y1 = pSettings->r_float(sect_name, "inv_grid_y") * INV_GRID_HEIGHT_LEGACY;
+		texture_rect.x2 = pSettings->r_float(sect_name, "inv_grid_width") * INV_GRID_WIDTH_LEGACY;
+		texture_rect.y2 = pSettings->r_float(sect_name, "inv_grid_height") * INV_GRID_HEIGHT_LEGACY;
+		texture_rect.rb.add(texture_rect.lt);
+		m_ui_weapon_icon->GetUIStaticItem().SetTextureRect(texture_rect);
+		m_ui_weapon_icon->SetStretchTexture(true);
 
+		h = texture_rect.height() * 0.8f;
+		w = texture_rect.width() * 0.8f;
+
+		// now perform only width scale for ammo, which (W)size >2
+		if (texture_rect.width() > 2.01f * INV_GRID_WIDTH)
+			w = INV_GRID_WIDTH * 1.5f;
+	}
 	m_ui_weapon_icon->SetWidth( w*UI().get_current_kx() );
 	m_ui_weapon_icon->SetHeight( h );
 }

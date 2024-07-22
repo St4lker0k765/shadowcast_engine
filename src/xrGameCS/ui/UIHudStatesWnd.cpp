@@ -306,20 +306,38 @@ void CUIHudStatesWnd::SetAmmoIcon( const shared_str& sect_name )
 		float xPos = pSettings->r_float(sect_name, "inv_grid_x");
 		float yPos = pSettings->r_float(sect_name, "inv_grid_y");
 
-		m_ui_weapon_icon->GetUIStaticItem().SetOriginalRect(
-			( xPos      * INV_GRID_WIDTH ), ( yPos       * INV_GRID_HEIGHT ),
-			( gridWidth * INV_GRID_WIDTH ), ( gridHeight * INV_GRID_HEIGHT ) );
+		if (UseHDIcons) {
+			m_ui_weapon_icon->GetUIStaticItem().SetOriginalRect(
+				(xPos * INV_GRID_WIDTH), (yPos * INV_GRID_HEIGHT),
+				(gridWidth * INV_GRID_WIDTH), (gridHeight * INV_GRID_HEIGHT));
+		}
+		else {
+			m_ui_weapon_icon->GetUIStaticItem().SetOriginalRect(
+				(xPos * INV_GRID_WIDTH_LEGACY), (yPos * INV_GRID_HEIGHT_LEGACY),
+				(gridWidth * INV_GRID_WIDTH_LEGACY), (gridHeight * INV_GRID_HEIGHT_LEGACY));
+		}
 		m_ui_weapon_icon->SetStretchTexture( true );
 
 		// now perform only width scale for ammo, which (W)size >2
 		// all others ammo (1x1, 1x2) will be not scaled (original picture)
-		float h = gridHeight * INV_GRID_HEIGHT * (0.65f/2);
-		float w = gridWidth  * INV_GRID_WIDTH  * (0.65f/2);
-		if ( gridWidth > 2.01f )
-		{
-			w = INV_GRID_WIDTH * 1.5f;
+		float h;
+		float w;
+		if (UseHDIcons) {
+			h = gridHeight * INV_GRID_HEIGHT * (0.65f / 2);
+			w = gridWidth * INV_GRID_WIDTH * (0.65f / 2);
+			if (gridWidth > 2.01f)
+			{
+				w = INV_GRID_WIDTH * 1.5f;
+			}
 		}
-
+		else {
+			h = gridHeight * INV_GRID_HEIGHT_LEGACY * (0.65f);
+			w = gridWidth * INV_GRID_WIDTH_LEGACY * (0.65f);
+			if (gridWidth > 2.01f)
+			{
+				w = INV_GRID_WIDTH_LEGACY * 1.5f;
+			}
+		}
 		bool is_16x10 = UI()->is_16_9_mode();
 		if ( gridWidth < 1.01f )
 		{

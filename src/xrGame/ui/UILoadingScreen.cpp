@@ -44,7 +44,7 @@ void UILoadingScreen::Initialize()
 
 void UILoadingScreen::Update(const int stagesCompleted, const int stagesTotal)
 {
-    const float progress = float(stagesCompleted) / stagesTotal * loadingProgress->GetRange_max();
+    const float progress = float(stagesCompleted) / float(stagesTotal) * loadingProgress->GetRange_max();
     if (loadingProgress->GetProgressPos() < progress)
         loadingProgress->SetProgressPos(progress);
 

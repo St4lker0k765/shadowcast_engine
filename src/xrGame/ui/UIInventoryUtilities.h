@@ -11,6 +11,9 @@ class CUITextWnd;
 #define INV_GRID_WIDTH			100.0f
 #define INV_GRID_HEIGHT			100.0f
 
+#define INV_GRID_WIDTH_LEGACY			50.0f
+#define INV_GRID_HEIGHT_LEGACY			50.0f
+
 //размеры сетки в текстуре иконок персонажей
 #define ICON_GRID_WIDTH			64.0f
 #define ICON_GRID_HEIGHT		64.0f

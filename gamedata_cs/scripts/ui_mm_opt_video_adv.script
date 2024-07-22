@@ -194,6 +194,11 @@ function opt_video_adv:InitControls(x, y, xml, handler)
 	handler.m_preconditions[ctl]		= only_25_and_more_mode
 
 	_st				= xml:InitStatic			("video_adv:templ_item",				self.scroll_v)
+	xml:InitStatic								("video_adv:cap_ao",					_st)
+	ctl				= xml:InitComboBox			("video_adv:combo_ao_options",				_st)
+	handler.m_preconditions[ctl]		= only_25_and_more_mode
+
+	_st				= xml:InitStatic			("video_adv:templ_item",				self.scroll_v)
 	xml:InitStatic								("video_adv:cap_ssao",					_st)
 	ctl				= xml:InitComboBox			("video_adv:combo_ssao",				_st)
 	handler.m_preconditions[ctl]		= only_25_and_more_mode

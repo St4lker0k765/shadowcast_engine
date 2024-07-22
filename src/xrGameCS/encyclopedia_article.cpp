@@ -76,12 +76,22 @@ void CEncyclopediaArticle::load_shared	(LPCSTR)
 	if(ltx)
 	{
 		data()->image.SetShader(InventoryUtilities::GetEquipmentIconsShader());
-
-		float x			= float(pSettings->r_u32(ltx, "inv_grid_x") * INV_GRID_WIDTH);
-		float y			= float(pSettings->r_u32(ltx, "inv_grid_y") * INV_GRID_HEIGHT);
-		float width		= float(pSettings->r_u32(ltx, "inv_grid_width") * INV_GRID_WIDTH);
-		float height	= float(pSettings->r_u32(ltx, "inv_grid_height") * INV_GRID_HEIGHT);
-
+		float x;
+		float y;
+		float width;
+		float height;
+		if (UseHDIcons) {
+			x = float(pSettings->r_u32(ltx, "inv_grid_x") * INV_GRID_WIDTH);
+			y = float(pSettings->r_u32(ltx, "inv_grid_y") * INV_GRID_HEIGHT);
+			width = float(pSettings->r_u32(ltx, "inv_grid_width") * INV_GRID_WIDTH);
+			height = float(pSettings->r_u32(ltx, "inv_grid_height") * INV_GRID_HEIGHT);
+		}
+		else {
+			x = float(pSettings->r_u32(ltx, "inv_grid_x") * INV_GRID_WIDTH_LEGACY);
+			y = float(pSettings->r_u32(ltx, "inv_grid_y") * INV_GRID_HEIGHT_LEGACY);
+			width = float(pSettings->r_u32(ltx, "inv_grid_width") * INV_GRID_WIDTH_LEGACY);
+			height = float(pSettings->r_u32(ltx, "inv_grid_height") * INV_GRID_HEIGHT_LEGACY);
+		}
 		data()->image.GetUIStaticItem().SetOriginalRect(x, y, width, height);
 		data()->image.ClipperOn();
 	}

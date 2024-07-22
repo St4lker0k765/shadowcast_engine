@@ -328,8 +328,14 @@ void CUIItemInfo::InitItem(CUICellItem* pCellItem, CInventoryItem* pCompareItem,
 
 		Irect item_grid_rect				= pInvItem->GetInvGridRect();
 		Frect texture_rect;
-		texture_rect.lt.set					(item_grid_rect.x1*INV_GRID_WIDTH,	item_grid_rect.y1*INV_GRID_HEIGHT);
-		texture_rect.rb.set					(item_grid_rect.x2*INV_GRID_WIDTH,	item_grid_rect.y2*INV_GRID_HEIGHT);
+		if (UseHDIcons) {
+			texture_rect.lt.set(item_grid_rect.x1 * INV_GRID_WIDTH, item_grid_rect.y1 * INV_GRID_HEIGHT);
+			texture_rect.rb.set(item_grid_rect.x2 * INV_GRID_WIDTH, item_grid_rect.y2 * INV_GRID_HEIGHT);
+		}
+		else {
+			texture_rect.lt.set(item_grid_rect.x1* INV_GRID_WIDTH_LEGACY, item_grid_rect.y1* INV_GRID_HEIGHT_LEGACY);
+			texture_rect.rb.set(item_grid_rect.x2* INV_GRID_WIDTH_LEGACY, item_grid_rect.y2* INV_GRID_HEIGHT_LEGACY);
+		}
 		texture_rect.rb.add					(texture_rect.lt);
 		UIItemImage->GetUIStaticItem().SetTextureRect(texture_rect);
 		UIItemImage->TextureOn				();

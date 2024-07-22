@@ -11,6 +11,9 @@ class CUIStatic;
 #define INV_GRID_WIDTH			100
 #define INV_GRID_HEIGHT			100
 
+#define INV_GRID_WIDTH_LEGACY			50
+#define INV_GRID_HEIGHT_LEGACY			50
+
 //размеры сетки в текстуре иконок персонажей
 #define ICON_GRID_WIDTH			64
 #define ICON_GRID_HEIGHT		64

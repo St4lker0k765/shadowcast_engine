@@ -44,9 +44,6 @@ void CUIMotionIcon::Init(Frect const& zonemap_rect)
 
 	float k = UI().get_current_kx();
 	sz.mul						(rel_sz*k);
-
-	if (CallOfPripyatMode)
-	{
 		float h = Device.dwHeight;
 		float w = Device.dwWidth;
 		AttachChild(&m_luminosity_progress);
@@ -58,7 +55,6 @@ void CUIMotionIcon::Init(Frect const& zonemap_rect)
 		xml_init.InitProgressShape(uiXml, "noise_progress", 0, &m_noise_progress);
 		m_noise_progress.SetWndSize(sz);
 		m_noise_progress.SetWndPos(pos);
-	}
 	
 }
 
@@ -86,8 +82,6 @@ void CUIMotionIcon::Draw()
 
 void CUIMotionIcon::Update()
 {
-	if (CallOfPripyatMode)
-	{
 		if (!IsGameTypeSingle())
 		{
 			inherited::Update();
@@ -117,23 +111,19 @@ void CUIMotionIcon::Update()
 			clamp(cur_pos, 0.f, 100.f);
 			m_luminosity_progress.SetPos(cur_pos / 100.f);
 		}
-	}
 }
 
 void SetActorVisibility		(u16 who_id, float value)
 {
-	if (CallOfPripyatMode) {
 		if (!IsGameTypeSingle())
 			return;
 
 		if (g_pMotionIcon)
 			g_pMotionIcon->SetActorVisibility(who_id, value);
-	}
 }
 
 void CUIMotionIcon::SetActorVisibility		(u16 who_id, float value)
 {
-	if (CallOfPripyatMode) {
 		clamp(value, 0.f, 1.f);
 		value *= 100.f;
 
@@ -159,5 +149,4 @@ void CUIMotionIcon::SetActorVisibility		(u16 who_id, float value)
 		}
 
 		m_bchanged = true;
-	}
 }

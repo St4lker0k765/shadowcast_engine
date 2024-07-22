@@ -581,28 +581,51 @@ void CUIMainIngameWnd::UpdatePickUpItem	()
 	int m_iXPos			= pSettings->r_u32(sect_name, "inv_grid_x");
 	int m_iYPos			= pSettings->r_u32(sect_name, "inv_grid_y");
 
-	float scale_x = m_iPickUpItemIconWidth/
-		float(m_iGridWidth*INV_GRID_WIDTH/2);
+	float scale_x;
+	float scale_y;
+	if (UseHDIcons) {
+		scale_x = m_iPickUpItemIconWidth /
+			float(m_iGridWidth * INV_GRID_WIDTH / 2);
 
-	float scale_y = m_iPickUpItemIconHeight/
-		float(m_iGridHeight*INV_GRID_HEIGHT/2);
+		scale_y = m_iPickUpItemIconHeight /
+			float(m_iGridHeight * INV_GRID_HEIGHT / 2);
+	}
+	else {
+		scale_x = m_iPickUpItemIconWidth /
+			float(m_iGridWidth * INV_GRID_WIDTH_LEGACY);
 
+		scale_y = m_iPickUpItemIconHeight /
+			float(m_iGridHeight * INV_GRID_HEIGHT_LEGACY);
+	}
 	scale_x = (scale_x>1) ? 1.0f : scale_x;
 	scale_y = (scale_y>1) ? 1.0f : scale_y;
 
 	float scale = scale_x<scale_y?scale_x:scale_y;
 
-	UIPickUpItemIcon.GetUIStaticItem().SetOriginalRect(
-		float(m_iXPos * INV_GRID_WIDTH),
-		float(m_iYPos * INV_GRID_HEIGHT),
-		float(m_iGridWidth * INV_GRID_WIDTH),
-		float(m_iGridHeight * INV_GRID_HEIGHT));
+	if (UseHDIcons) {
+		UIPickUpItemIcon.GetUIStaticItem().SetOriginalRect(
+			float(m_iXPos * INV_GRID_WIDTH),
+			float(m_iYPos * INV_GRID_HEIGHT),
+			float(m_iGridWidth * INV_GRID_WIDTH),
+			float(m_iGridHeight * INV_GRID_HEIGHT));
 
-	UIPickUpItemIcon.SetStretchTexture(true);
+		UIPickUpItemIcon.SetStretchTexture(true);
 
-	UIPickUpItemIcon.SetWidth(m_iGridWidth*INV_GRID_WIDTH*scale*UI()->get_current_kx()/2);
-	UIPickUpItemIcon.SetHeight(m_iGridHeight*INV_GRID_HEIGHT*scale/2);
+		UIPickUpItemIcon.SetWidth(m_iGridWidth * INV_GRID_WIDTH * scale * UI()->get_current_kx() / 2);
+		UIPickUpItemIcon.SetHeight(m_iGridHeight * INV_GRID_HEIGHT * scale / 2);
+	}
+	else {
+		UIPickUpItemIcon.GetUIStaticItem().SetOriginalRect(
+			float(m_iXPos * INV_GRID_WIDTH_LEGACY),
+			float(m_iYPos * INV_GRID_HEIGHT_LEGACY),
+			float(m_iGridWidth * INV_GRID_WIDTH_LEGACY),
+			float(m_iGridHeight * INV_GRID_HEIGHT_LEGACY));
 
+		UIPickUpItemIcon.SetStretchTexture(true);
+
+		UIPickUpItemIcon.SetWidth(m_iGridWidth * INV_GRID_WIDTH_LEGACY * scale * UI()->get_current_kx());
+		UIPickUpItemIcon.SetHeight(m_iGridHeight * INV_GRID_HEIGHT_LEGACY * scale);
+	}
 	UIPickUpItemIcon.SetWndPos(Fvector2().set(	m_iPickUpItemIconX+(m_iPickUpItemIconWidth-UIPickUpItemIcon.GetWidth())/2.0f,
 												m_iPickUpItemIconY+(m_iPickUpItemIconHeight-UIPickUpItemIcon.GetHeight())/2.0f) );
 

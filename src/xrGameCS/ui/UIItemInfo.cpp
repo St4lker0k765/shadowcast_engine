@@ -270,8 +270,14 @@ void CUIItemInfo::InitItem(CInventoryItem* pInvItem, CInventoryItem* pCompareIte
 		UIItemImage->SetShader				(InventoryUtilities::GetEquipmentIconsShader());
 
 		Irect item_grid_rect				= pInvItem->GetInvGridRect();
-		UIItemImage->GetUIStaticItem().SetOriginalRect(	float(item_grid_rect.x1*INV_GRID_WIDTH), float(item_grid_rect.y1*INV_GRID_HEIGHT),
-														float(item_grid_rect.x2*INV_GRID_WIDTH),	float(item_grid_rect.y2*INV_GRID_HEIGHT));
+		if (UseHDIcons) {
+			UIItemImage->GetUIStaticItem().SetOriginalRect(float(item_grid_rect.x1 * INV_GRID_WIDTH), float(item_grid_rect.y1 * INV_GRID_HEIGHT),
+				float(item_grid_rect.x2 * INV_GRID_WIDTH), float(item_grid_rect.y2 * INV_GRID_HEIGHT));
+		}
+		else {
+			UIItemImage->GetUIStaticItem().SetOriginalRect(float(item_grid_rect.x1* INV_GRID_WIDTH_LEGACY), float(item_grid_rect.y1* INV_GRID_HEIGHT_LEGACY),
+				float(item_grid_rect.x2* INV_GRID_WIDTH_LEGACY), float(item_grid_rect.y2* INV_GRID_HEIGHT_LEGACY));
+		}
 		UIItemImage->TextureOn				();
 		UIItemImage->ClipperOn				();
 		UIItemImage->SetStretchTexture		(true);

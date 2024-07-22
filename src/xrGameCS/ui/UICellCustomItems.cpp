@@ -7,6 +7,9 @@
 #define INV_GRID_WIDTHF			100.0f
 #define INV_GRID_HEIGHTF		100.0f
 
+#define INV_GRID_WIDTHF_LEGACY			50.0f
+#define INV_GRID_HEIGHTF_LEGACY		50.0f
+
 namespace detail 
 {
 
@@ -30,11 +33,20 @@ CUIInventoryCellItem::CUIInventoryCellItem(CInventoryItem* itm)
 
 	m_grid_size.set									(itm->GetInvGridRect().rb);
 	Frect rect; 
-	rect.lt.set										(	INV_GRID_WIDTHF*itm->GetInvGridRect().x1, 
-														INV_GRID_HEIGHTF*itm->GetInvGridRect().y1 );
+	if (UseHDIcons) {
+		rect.lt.set(INV_GRID_WIDTHF * itm->GetInvGridRect().x1,
+			INV_GRID_HEIGHTF * itm->GetInvGridRect().y1);
 
-	rect.rb.set										(	rect.lt.x+INV_GRID_WIDTHF*m_grid_size.x, 
-														rect.lt.y+INV_GRID_HEIGHTF*m_grid_size.y);
+		rect.rb.set(rect.lt.x + INV_GRID_WIDTHF * m_grid_size.x,
+			rect.lt.y + INV_GRID_HEIGHTF * m_grid_size.y);
+	}
+	else {
+		rect.lt.set(INV_GRID_WIDTHF_LEGACY * itm->GetInvGridRect().x1,
+			INV_GRID_HEIGHTF_LEGACY * itm->GetInvGridRect().y1);
+
+		rect.rb.set(rect.lt.x + INV_GRID_WIDTHF_LEGACY * m_grid_size.x,
+			rect.lt.y + INV_GRID_HEIGHTF_LEGACY * m_grid_size.y);
+	}
 
 	inherited::SetOriginalRect						(rect);
 	inherited::SetStretchTexture					(true);
@@ -330,23 +342,41 @@ void CUIWeaponCellItem::InitAddon(CUIStatic* s, LPCSTR section, Fvector2 addon_o
 	
 		Frect					tex_rect;
 		Fvector2				base_scale;
-
-		if(Heading())
-		{
-			base_scale.x			= GetHeight()/(INV_GRID_WIDTHF*m_grid_size.x);
-			base_scale.y			= GetWidth()/(INV_GRID_HEIGHTF*m_grid_size.y);
-		}else
-		{
-			base_scale.x			= GetWidth()/(INV_GRID_WIDTHF*m_grid_size.x);
-			base_scale.y			= GetHeight()/(INV_GRID_HEIGHTF*m_grid_size.y);
-		}
 		Fvector2				cell_size;
-		cell_size.x				= pSettings->r_u32(section, "inv_grid_width")*INV_GRID_WIDTHF;
-		cell_size.y				= pSettings->r_u32(section, "inv_grid_height")*INV_GRID_HEIGHTF;
+		if (UseHDIcons) {
+			if (Heading())
+			{
+				base_scale.x = GetHeight() / (INV_GRID_WIDTHF * m_grid_size.x);
+				base_scale.y = GetWidth() / (INV_GRID_HEIGHTF * m_grid_size.y);
+			}
+			else
+			{
+				base_scale.x = GetWidth() / (INV_GRID_WIDTHF * m_grid_size.x);
+				base_scale.y = GetHeight() / (INV_GRID_HEIGHTF * m_grid_size.y);
+			}
+			cell_size.x = pSettings->r_u32(section, "inv_grid_width") * INV_GRID_WIDTHF;
+			cell_size.y = pSettings->r_u32(section, "inv_grid_height") * INV_GRID_HEIGHTF;
 
-		tex_rect.x1				= pSettings->r_u32(section, "inv_grid_x")*INV_GRID_WIDTHF;
-		tex_rect.y1				= pSettings->r_u32(section, "inv_grid_y")*INV_GRID_HEIGHTF;
+			tex_rect.x1 = pSettings->r_u32(section, "inv_grid_x") * INV_GRID_WIDTHF;
+			tex_rect.y1 = pSettings->r_u32(section, "inv_grid_y") * INV_GRID_HEIGHTF;
+		}
+		else {
+			if (Heading())
+			{
+				base_scale.x = GetHeight() / (INV_GRID_WIDTHF_LEGACY * m_grid_size.x);
+				base_scale.y = GetWidth() / (INV_GRID_HEIGHTF_LEGACY * m_grid_size.y);
+			}
+			else
+			{
+				base_scale.x = GetWidth() / (INV_GRID_WIDTHF_LEGACY * m_grid_size.x);
+				base_scale.y = GetHeight() / (INV_GRID_HEIGHTF_LEGACY * m_grid_size.y);
+			}
+			cell_size.x = pSettings->r_u32(section, "inv_grid_width") * INV_GRID_WIDTHF_LEGACY;
+			cell_size.y = pSettings->r_u32(section, "inv_grid_height") * INV_GRID_HEIGHTF_LEGACY;
 
+			tex_rect.x1 = pSettings->r_u32(section, "inv_grid_x") * INV_GRID_WIDTHF_LEGACY;
+			tex_rect.y1 = pSettings->r_u32(section, "inv_grid_y") * INV_GRID_HEIGHTF_LEGACY;
+		}
 		tex_rect.rb.add			(tex_rect.lt,cell_size);
 
 		cell_size.mul			(base_scale);
