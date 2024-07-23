@@ -7,6 +7,7 @@
 
 class CLAItem;
 class CMonsterEffector;
+class CNightVisionEffector;
 
 class CTorch : public CInventoryItemObject {
 private:
@@ -55,15 +56,16 @@ public:
  
 public:
 			void	SwitchNightVision		  ();
-			void	SwitchNightVision		  (bool light_on);
-			void	UpdateSwitchNightVision   ();
+			void	SwitchNightVision		  (bool light_on, bool use_sounds=true);
 			float	NightVisionBattery		  ();
 
 			bool	GetNightVisionStatus	() { return m_bNightVisionOn; }
+CNightVisionEffector* GetNightVision() { return m_night_vision; }
 protected:
 	bool					m_bNightVisionEnabled;
 	bool					m_bNightVisionOn;
 
+	CNightVisionEffector* m_night_vision;
 	HUD_SOUND_COLLECTION	m_sounds;
 
 	enum EStats{
@@ -86,6 +88,24 @@ public:
 	virtual void	renderable_Render		();
 
 	DECLARE_SCRIPT_REGISTER_FUNCTION
+};
+class CNightVisionEffector
+{
+	CActor* m_pActor;
+	HUD_SOUND_COLLECTION	m_sounds;
+public:
+	enum EPlaySounds {
+		eStartSound = 0,
+		eStopSound,
+		eIdleSound,
+		eBrokeSound
+	};
+	CNightVisionEffector(const shared_str& sect);
+	void		Start(const shared_str& sect, CActor* pA, bool play_sound = true);
+	void		Stop(const float factor, bool play_sound = true);
+	bool		IsActive();
+	void		OnDisabled(CActor* pA, bool play_sound = true);
+	void		PlaySounds(EPlaySounds which);
 };
 add_to_type_list(CTorch)
 #undef script_type_list

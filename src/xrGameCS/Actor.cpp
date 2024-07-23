@@ -118,6 +118,8 @@ CActor::CActor() : CEntityAlive()
 	fPrevCamPos				= 0.0f;
 	vPrevCamDir.set			(0.f,0.f,1.f);
 	fCurAVelocity			= 0.0f;
+	fFPCamYawMagnitude		= 0.0f; //--#SM+#--
+	fFPCamPitchMagnitude	= 0.0f; //--#SM+#--
 	// эффекторы
 	pCamBobbing				= 0;
 
@@ -950,7 +952,7 @@ void CActor::UpdateCL	()
 
 
 			psHUD_Flags.set(HUD_DRAW_RT, pWeapon->show_indicators());
-			/*
+			
 			// Обновляем двойной рендер от оружия [Update SecondVP with weapon data]
 			pWeapon->UpdateSecondVP(); //--#SM+#-- +SecondVP+
 
@@ -965,7 +967,7 @@ void CActor::UpdateCL	()
 			g_pGamePersistent->m_pGShaderConstants->hud_params.y = pWeapon->GetSecondVPFov(); //--#SM+#--
 			g_pGamePersistent->m_pGShaderConstants->hud_params.z = bUseMark; //--#SM+#--
 			g_pGamePersistent->m_pGShaderConstants->hud_params.w = pWeapon->m_nearwall_last_hud_fov;; //--#SM+#--
-			g_pGamePersistent->m_pGShaderConstants->m_blender_mode.x = bNVEnbl;  //--#SM+#--*/ // завезу позже
+			g_pGamePersistent->m_pGShaderConstants->m_blender_mode.x = bNVEnbl;  //--#SM+#--
 		}
 
 	}
@@ -976,6 +978,15 @@ void CActor::UpdateCL	()
 			HUD().DefineCrosshairCastingPoint(Cameras().Position(), Cameras().Direction());
 			HUD().SetCrosshairDisp(0.f);
 			HUD().ShowCrosshair(false);
+
+			// Очищаем информацию об оружии в шейдерах
+			g_pGamePersistent->m_pGShaderConstants->hud_params.set(0.f, 0.f, 0.f, 0.f); //--#SM+#--
+			g_pGamePersistent->m_pGShaderConstants->m_blender_mode.set(0.f, 0.f, 0.f, 0.f); //--#SM+#--
+
+
+			// Отключаем второй вьюпорт [Turn off SecondVP]
+			//CWeapon::UpdateSecondVP();
+			Device.m_SecondViewport.SetSVPActive(false); //--#SM+#-- +SecondVP+
 		}
 	}
 

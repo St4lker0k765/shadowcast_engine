@@ -170,7 +170,7 @@ bool CWeaponMagazinedWGrenade::SwitchMode()
 
 	PlayAnimModeSwitch		();
 
-	m_dwAmmoCurrentCalcFrame = 0;
+	m_BriefInfo_CalcFrame	= 0;
 
 	return					true;
 }
@@ -184,8 +184,7 @@ void  CWeaponMagazinedWGrenade::PerformSwitchGL()
 	m_ammoTypes.swap	(m_ammoTypes2);
 
 	swap				(m_ammoType,m_ammoType2);
-	swap				(m_ammoName,m_ammoName2);
-	
+
 	swap				(m_DefaultCartridge, m_DefaultCartridge2);
 
 	xr_vector<CCartridge> l_magazine;
@@ -811,8 +810,6 @@ bool CWeaponMagazinedWGrenade::install_upgrade_ammo_class	( LPCSTR section, bool
 			ammo_types.push_back			( ammo_item );
 		}
 
-		shared_str& ammo_name				= m_bGrenadeMode ? m_ammoName2 : m_ammoName;
-		ammo_name							= pSettings->r_string( *ammo_types[0], "inv_name_short" );		
 		m_ammoType  = 0;
 		m_ammoType2 = 0;
 	}
@@ -839,8 +836,6 @@ bool CWeaponMagazinedWGrenade::install_upgrade_impl( LPCSTR section, bool test )
 			ammo_types.push_back			( ammo_item );
 		}
 
-		shared_str& ammo_name				= !m_bGrenadeMode ? m_ammoName2 : m_ammoName;
-		ammo_name							= pSettings->r_string( *ammo_types[0], "inv_name_short" );
 		m_ammoType  = 0;
 		m_ammoType2 = 0;
 	}

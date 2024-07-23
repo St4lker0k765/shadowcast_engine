@@ -83,6 +83,7 @@ public:
 	virtual void	OnH_A_Chield		();
 
 	virtual bool	Attach(PIItem pIItem, bool b_send_event);
+			bool	DetachScope		(const char* item_section_name, bool b_spawn_item);
 	virtual bool	Detach(const char* item_section_name, bool b_spawn_item);
 	virtual bool	CanAttach(PIItem pIItem);
 	virtual bool	CanDetach(const char* item_section_name);

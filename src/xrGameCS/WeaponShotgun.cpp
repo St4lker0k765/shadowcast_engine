@@ -174,68 +174,65 @@ void CWeaponShotgun::PlayAnimCloseWeapon()
 
 bool CWeaponShotgun::HaveCartridgeInInventory		(u8 cnt)
 {
-	if (unlimited_ammo()) return true;
-	m_pAmmo = NULL;
-	if(m_pInventory) 
+	if (unlimited_ammo())	return true;
+	if(!m_pInventory)		return false;
+
+	u32 ac = GetAmmoCount(m_ammoType);
+	if(ac<cnt)
 	{
-		//попытатьс€ найти в инвентаре патроны текущего типа 
-		m_pAmmo = smart_cast<CWeaponAmmo*>(m_pInventory->GetAny(*m_ammoTypes[m_ammoType]));
-		
-		if(!m_pAmmo )
+		for(u8 i = 0; i < u8(m_ammoTypes.size()); ++i) 
 		{
-			for(u32 i = 0; i < m_ammoTypes.size(); ++i) 
+			if(m_ammoType==i) continue;
+			ac	+= GetAmmoCount(i);
+			if(ac >= cnt)
 			{
-				//проверить патроны всех подход€щих типов
-				m_pAmmo = smart_cast<CWeaponAmmo*>(m_pInventory->GetAny(*m_ammoTypes[i]));
-				if(m_pAmmo) 
-				{ 
-					m_ammoType = i; 
-					break; 
-				}
+				m_ammoType = i;
+				break; 
 			}
 		}
 	}
-	return (m_pAmmo!=NULL)&&(m_pAmmo->m_boxCurr>=cnt) ;
+	return ac>=cnt;
 }
 
 u8 CWeaponShotgun::AddCartridge		(u8 cnt)
 {
 	if(IsMisfire())	bMisfire = false;
 
-	if(m_set_next_ammoType_on_reload != u32(-1)){
+	if ( m_set_next_ammoType_on_reload != undefined_ammo_type )
+	{
 		m_ammoType						= m_set_next_ammoType_on_reload;
-		m_set_next_ammoType_on_reload	= u32(-1);
-
+		m_set_next_ammoType_on_reload	= undefined_ammo_type;
 	}
 
 	if( !HaveCartridgeInInventory(1) )
 		return 0;
 
+	m_pCurrentAmmo = smart_cast<CWeaponAmmo*>(m_pInventory->GetAny( m_ammoTypes[m_ammoType].c_str() ));
 	VERIFY((u32)iAmmoElapsed == m_magazine.size());
 
 
 	if (m_DefaultCartridge.m_LocalAmmoType != m_ammoType)
-		m_DefaultCartridge.Load(*m_ammoTypes[m_ammoType], u8(m_ammoType));
+		m_DefaultCartridge.Load(m_ammoTypes[m_ammoType].c_str(), m_ammoType);
+
 	CCartridge l_cartridge = m_DefaultCartridge;
-	while(cnt)// && m_pAmmo->Get(l_cartridge)) 
+	while(cnt)
 	{
 		if (!unlimited_ammo())
 		{
-			if (!m_pAmmo->Get(l_cartridge)) break;
+			if (!m_pCurrentAmmo->Get(l_cartridge)) break;
 		}
 		--cnt;
 		++iAmmoElapsed;
-		l_cartridge.m_LocalAmmoType = u8(m_ammoType);
+		l_cartridge.m_LocalAmmoType = m_ammoType;
 		m_magazine.push_back(l_cartridge);
 //		m_fCurrentCartirdgeDisp = l_cartridge.m_kDisp;
 	}
-	m_ammoName = (m_pAmmo) ? m_pAmmo->m_nameShort : NULL;
 
 	VERIFY((u32)iAmmoElapsed == m_magazine.size());
 
 	//выкинуть коробку патронов, если она пуста€
-	if(m_pAmmo && !m_pAmmo->m_boxCurr && OnServer()) 
-		m_pAmmo->SetDropManual(TRUE);
+	if(m_pCurrentAmmo && !m_pCurrentAmmo->m_boxCurr && OnServer()) 
+		m_pCurrentAmmo->SetDropManual(TRUE);
 
 	return cnt;
 }

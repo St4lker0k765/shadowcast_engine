@@ -43,6 +43,8 @@ CTorch::CTorch(void)
 	time2hide					= 0;
 	fBrightness					= 1.f;
 
+	m_night_vision = NULL;
+
 	/*m_NightVisionRechargeTime	= 6.f;
 	m_NightVisionRechargeTimeMin= 2.f;
 	m_NightVisionDischargeTime	= 10.f;
@@ -57,6 +59,7 @@ CTorch::~CTorch(void)
 	light_render.destroy	();
 	light_omni.destroy		();
 	glow_render.destroy		();
+	xr_delete(m_night_vision);
 }
 
 inline bool CTorch::can_use_dynamic_lights	()
@@ -93,7 +96,7 @@ void CTorch::SwitchNightVision()
 	SwitchNightVision(!m_bNightVisionOn);	
 }
 
-void CTorch::SwitchNightVision(bool vision_on)
+void CTorch::SwitchNightVision(bool vision_on, bool use_sounds)
 {
 	if(!m_bNightVisionEnabled) return;
 	
@@ -110,6 +113,9 @@ void CTorch::SwitchNightVision(bool vision_on)
 	CActor *pA = smart_cast<CActor *>(H_Parent());
 
 	if(!pA)					return;
+	if (!m_night_vision)
+		m_night_vision = xr_new<CNightVisionEffector>(cNameSect());
+
 	bool bPlaySoundFirstPerson = (pA == Level().CurrentViewEntity());
 
 	LPCSTR disabled_names	= pSettings->r_string(cNameSect(),"disabled_maps");
@@ -125,51 +131,35 @@ void CTorch::SwitchNightVision(bool vision_on)
 		}
 	}
 
-	CCustomOutfit* pCO=pA->GetOutfit();
-	if(pCO&&pCO->m_NightVisionSect.size()&&!b_allow){
-		m_sounds.PlaySound("NightVisionBrokenSnd", pA->Position(), pA, bPlaySoundFirstPerson);
+	CCustomOutfit* pOutfit	= smart_cast<CCustomOutfit*>(pA->inventory().ItemFromSlot(OUTFIT_SLOT));
+
+	if(pOutfit && pOutfit->m_NightVisionSect.size() && !b_allow)
+	{
+		m_night_vision->OnDisabled(pA, use_sounds);
 		return;
 	}
 
-	if(m_bNightVisionOn){
-		CEffectorPP* pp = pA->Cameras().GetPPEffector((EEffectorPPType)effNightvision);
-		if(!pp){
-			if (pCO&&pCO->m_NightVisionSect.size())
+	bool bIsActiveNow = m_night_vision->IsActive();
+
+	if(m_bNightVisionOn)
+	{
+
+		if(!bIsActiveNow)
+		{
+			if(pOutfit && pOutfit->m_NightVisionSect.size())
 			{
-				AddEffector(pA,effNightvision, pCO->m_NightVisionSect);
-				m_sounds.PlaySound("NightVisionOnSnd", pA->Position(), pA, bPlaySoundFirstPerson);
-				m_sounds.PlaySound("NightVisionIdleSnd", pA->Position(), pA, bPlaySoundFirstPerson, true);
+				m_night_vision->Start(pOutfit->m_NightVisionSect, pA, use_sounds);
+				return;
 			}
+			m_bNightVisionOn = false; // in case if there is no nightvision in helmet and outfit
 		}
-	}else{
- 		CEffectorPP* pp = pA->Cameras().GetPPEffector((EEffectorPPType)effNightvision);
-		if(pp){
-			pp->Stop			(1.0f);
-			m_sounds.PlaySound("NightVisionOffSnd", pA->Position(), pA, bPlaySoundFirstPerson);
-			m_sounds.StopSound("NightVisionIdleSnd");
+	}else
+	{
+		if(bIsActiveNow)
+		{
+			m_night_vision->Stop(100000.0f, use_sounds);
 		}
 	}
-}
-
-
-void CTorch::UpdateSwitchNightVision   ()
-{
-	if(!m_bNightVisionEnabled) return;
-	if (OnClient()) return;
-
-
-	/*if(m_bNightVisionOn)
-	{
-		m_NightVisionChargeTime			-= Device.fTimeDelta;
-
-		if(m_NightVisionChargeTime<0.f)
-			SwitchNightVision(false);
-	}
-	else
-	{
-		m_NightVisionChargeTime			+= Device.fTimeDelta;
-		clamp(m_NightVisionChargeTime, 0.f, m_NightVisionRechargeTime);
-	}*/
 }
 
 
@@ -285,8 +275,6 @@ void CTorch::UpdateCL()
 {
 	inherited::UpdateCL			();
 	
-	UpdateSwitchNightVision		();
-
 	if (!m_switched_on)			return;
 
 	CBoneInstance			&BI = smart_cast<IKinematics*>(Visual())->LL_GetBoneInstance(guid_bone);
@@ -503,4 +491,80 @@ void CTorch::enable(bool value)
 	if(!enabled() && m_switched_on)
 		Switch				(false);
 
+}
+
+CNightVisionEffector::CNightVisionEffector(const shared_str& section)
+	:m_pActor(NULL)
+{
+	m_sounds.LoadSound(section.c_str(), "snd_night_vision_on", "NightVisionOnSnd", SOUND_TYPE_ITEM_USING);
+	m_sounds.LoadSound(section.c_str(), "snd_night_vision_off", "NightVisionOffSnd", SOUND_TYPE_ITEM_USING);
+	m_sounds.LoadSound(section.c_str(), "snd_night_vision_idle", "NightVisionIdleSnd", SOUND_TYPE_ITEM_USING);
+	m_sounds.LoadSound(section.c_str(), "snd_night_vision_broken", "NightVisionBrokenSnd", SOUND_TYPE_ITEM_USING);
+}
+
+void CNightVisionEffector::Start(const shared_str& sect, CActor* pA, bool play_sound)
+{
+	m_pActor = pA;
+	AddEffector(m_pActor, effNightvision, sect);
+	if (play_sound)
+	{
+		PlaySounds(eStartSound);
+		PlaySounds(eIdleSound);
+	}
+}
+
+void CNightVisionEffector::Stop(const float factor, bool play_sound)
+{
+	if (!m_pActor)		return;
+	CEffectorPP* pp = m_pActor->Cameras().GetPPEffector((EEffectorPPType)effNightvision);
+	if (pp)
+	{
+		pp->Stop(factor);
+		if (play_sound)
+			PlaySounds(eStopSound);
+
+		m_sounds.StopSound("NightVisionIdleSnd");
+	}
+}
+
+bool CNightVisionEffector::IsActive()
+{
+	if (!m_pActor)	return false;
+	CEffectorPP* pp = m_pActor->Cameras().GetPPEffector((EEffectorPPType)effNightvision);
+	return (pp != NULL);
+}
+
+void CNightVisionEffector::OnDisabled(CActor* pA, bool play_sound)
+{
+	m_pActor = pA;
+	if (play_sound)
+		PlaySounds(eBrokeSound);
+}
+
+void CNightVisionEffector::PlaySounds(EPlaySounds which)
+{
+	if (!m_pActor)
+		return;
+
+	bool bPlaySoundFirstPerson = !!m_pActor->HUDview();
+	switch (which)
+	{
+	case eStartSound:
+	{
+		m_sounds.PlaySound("NightVisionOnSnd", m_pActor->Position(), NULL, bPlaySoundFirstPerson);
+	}break;
+	case eStopSound:
+	{
+		m_sounds.PlaySound("NightVisionOffSnd", m_pActor->Position(), NULL, bPlaySoundFirstPerson);
+	}break;
+	case eIdleSound:
+	{
+		m_sounds.PlaySound("NightVisionIdleSnd", m_pActor->Position(), NULL, bPlaySoundFirstPerson, true);
+	}break;
+	case eBrokeSound:
+	{
+		m_sounds.PlaySound("NightVisionBrokenSnd", m_pActor->Position(), NULL, bPlaySoundFirstPerson);
+	}break;
+	default: NODEFAULT;
+	}
 }

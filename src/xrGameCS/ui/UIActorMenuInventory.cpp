@@ -28,6 +28,7 @@
 #include "../HUDManager.h"
 #include "../player_hud.h"
 #include "CustomDetector.h"
+#include "../string_table.h"
 
 void move_item_from_to(u16 from_id, u16 to_id, u16 what_id);
 
@@ -821,46 +822,69 @@ void CUIActorMenu::PropertiesBoxForAddon( PIItem item, bool& b_show )
 	CGrenadeLauncher*	pGrenadeLauncher	= smart_cast<CGrenadeLauncher*>	(item);
 	CInventory*			inv					= &m_pActorInvOwner->inventory();
 
+	PIItem	item_in_slot_2 = inv->ItemFromSlot(PISTOL_SLOT);
+	PIItem	item_in_slot_3 = inv->ItemFromSlot(RIFLE_SLOT);
+
+	if(!item_in_slot_2 && !item_in_slot_3)	return;
+
 	if ( pScope )
 	{
-		if ( inv->m_slots[PISTOL_SLOT].m_pIItem && inv->m_slots[PISTOL_SLOT].m_pIItem->CanAttach(pScope) )
+		if ( item_in_slot_2 && item_in_slot_2->CanAttach(pScope) )
 		{
-			PIItem tgt = inv->m_slots[PISTOL_SLOT].m_pIItem;
-			m_UIPropertiesBox->AddItem( "st_attach_scope_to_pistol",  (void*)tgt, INVENTORY_ATTACH_ADDON );
+			shared_str str = CStringTable().translate("st_attach_scope_to_pistol");
+			str.printf("%s %s", str.c_str(), item_in_slot_2->m_name.c_str());
+			m_UIPropertiesBox->AddItem( str.c_str(),  (void*)item_in_slot_2, INVENTORY_ATTACH_ADDON );
+//			m_UIPropertiesBox->AddItem( "st_attach_scope_to_pistol",  (void*)item_in_slot_2, INVENTORY_ATTACH_ADDON );
 			b_show			= true;
 		}
-		if ( inv->m_slots[RIFLE_SLOT].m_pIItem && inv->m_slots[RIFLE_SLOT].m_pIItem->CanAttach(pScope) )
+		if ( item_in_slot_3 && item_in_slot_3->CanAttach(pScope) )
 		{
-			PIItem tgt = inv->m_slots[RIFLE_SLOT].m_pIItem;
-			m_UIPropertiesBox->AddItem( "st_attach_scope_to_rifle",  (void*)tgt, INVENTORY_ATTACH_ADDON );
+			shared_str str = CStringTable().translate("st_attach_silencer_to_rifle");
+			str.printf("%s %s", str.c_str(), item_in_slot_3->m_name.c_str());
+			m_UIPropertiesBox->AddItem( str.c_str(),  (void*)item_in_slot_3, INVENTORY_ATTACH_ADDON );
+//			m_UIPropertiesBox->AddItem( "st_attach_scope_to_rifle",  (void*)item_in_slot_3, INVENTORY_ATTACH_ADDON );
 			b_show			= true;
 		}
 		return;
 	}
-	
+
 	if ( pSilencer )
 	{
-		if ( inv->m_slots[PISTOL_SLOT].m_pIItem && inv->m_slots[PISTOL_SLOT].m_pIItem->CanAttach(pSilencer) )
+		if ( item_in_slot_2 && item_in_slot_2->CanAttach(pSilencer) )
 		{
-			PIItem tgt = inv->m_slots[PISTOL_SLOT].m_pIItem;
-			m_UIPropertiesBox->AddItem( "st_attach_silencer_to_pistol",  (void*)tgt, INVENTORY_ATTACH_ADDON );
+			shared_str str = CStringTable().translate("st_attach_silencer_to_pistol");
+			str.printf("%s %s", str.c_str(), item_in_slot_2->m_name.c_str());
+			m_UIPropertiesBox->AddItem( str.c_str(),  (void*)item_in_slot_2, INVENTORY_ATTACH_ADDON );
+//			m_UIPropertiesBox->AddItem( "st_attach_silencer_to_pistol",  (void*)item_in_slot_2, INVENTORY_ATTACH_ADDON );
 			b_show			= true;
 		}
-		if ( inv->m_slots[RIFLE_SLOT].m_pIItem && inv->m_slots[RIFLE_SLOT].m_pIItem->CanAttach(pSilencer) )
+		if ( item_in_slot_3 && item_in_slot_3->CanAttach(pSilencer) )
 		{
-			PIItem tgt = inv->m_slots[RIFLE_SLOT].m_pIItem;
-			m_UIPropertiesBox->AddItem( "st_attach_silencer_to_rifle",  (void*)tgt, INVENTORY_ATTACH_ADDON );
+			shared_str str = CStringTable().translate("st_attach_silencer_to_rifle");
+			str.printf("%s %s", str.c_str(), item_in_slot_3->m_name.c_str());
+			m_UIPropertiesBox->AddItem( str.c_str(),  (void*)item_in_slot_3, INVENTORY_ATTACH_ADDON );
+//			m_UIPropertiesBox->AddItem( "st_attach_silencer_to_rifle",  (void*)item_in_slot_3, INVENTORY_ATTACH_ADDON );
 			b_show			= true;
 		}
 		return;
 	}
-	
+
 	if ( pGrenadeLauncher )
 	{
-		if ( inv->m_slots[RIFLE_SLOT].m_pIItem && inv->m_slots[RIFLE_SLOT].m_pIItem->CanAttach(pGrenadeLauncher) )
+		if ( item_in_slot_2 && item_in_slot_2->CanAttach(pGrenadeLauncher) )
 		{
-			PIItem tgt = inv->m_slots[RIFLE_SLOT].m_pIItem;
-			m_UIPropertiesBox->AddItem( "st_attach_gl_to_rifle",  (void*)tgt, INVENTORY_ATTACH_ADDON );
+			shared_str str = CStringTable().translate("st_attach_gl_to_rifle");
+			str.printf("%s %s", str.c_str(), item_in_slot_2->m_name.c_str());
+			m_UIPropertiesBox->AddItem( str.c_str(),  (void*)item_in_slot_2, INVENTORY_ATTACH_ADDON );
+//			m_UIPropertiesBox->AddItem( "st_attach_gl_to_pistol",  (void*)item_in_slot_2, INVENTORY_ATTACH_ADDON );
+			b_show			= true;
+		}
+		if ( item_in_slot_3 && item_in_slot_3->CanAttach(pGrenadeLauncher) )
+		{
+			shared_str str = CStringTable().translate("st_attach_gl_to_rifle");
+			str.printf("%s %s", str.c_str(), item_in_slot_3->m_name.c_str());
+			m_UIPropertiesBox->AddItem( str.c_str(),  (void*)item_in_slot_3, INVENTORY_ATTACH_ADDON );
+//			m_UIPropertiesBox->AddItem( "st_attach_gl_to_rifle",  (void*)item_in_slot_3, INVENTORY_ATTACH_ADDON );
 			b_show			= true;
 		}
 	}

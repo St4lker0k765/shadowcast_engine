@@ -49,6 +49,27 @@ struct hud_item_measures
 	Fvector							m_hands_attach[2];//pos,rot
 
 	void load						(const shared_str& sect_name, IKinematics* K);
+
+	struct inertion_params
+	{
+		float m_pitch_offset_r;
+		float m_pitch_offset_n;
+		float m_pitch_offset_d;
+		float m_pitch_low_limit;
+		float m_origin_offset;      //<-- outdated
+		float m_origin_offset_aim;  //<-- outdated
+		float m_tendto_speed;
+		float m_tendto_speed_aim;
+		float m_tendto_ret_speed;
+		float m_tendto_ret_speed_aim;
+
+		float m_min_angle;
+		float m_min_angle_aim;
+
+		Fvector4 m_offset_LRUD;
+		Fvector4 m_offset_LRUD_aim;
+	};
+	inertion_params m_inertion_params; //--#SM+#--	
 };
 
 struct attachable_hud_item
@@ -122,10 +143,10 @@ public:
 	u32				motion_length		(const MotionID& M, const CMotionDef*& md, float speed);
 	u32				motion_length		(const shared_str& anim_name, const shared_str& hud_name, const CMotionDef*& md);
 	void			OnMovementChanged	(ACTOR_DEFS::EMoveCommand cmd)	;
+	bool			inertion_allowed	();
 private:
 	void			update_inertion		(Fmatrix& trans);
 	void			update_additional	(Fmatrix& trans);
-	bool			inertion_allowed	();
 private:
 	const Fvector&	attach_rot			() const;
 	const Fvector&	attach_pos			() const;
