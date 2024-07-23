@@ -57,4 +57,16 @@
 	<string id="hbao">
 		<text>HBAO</text>
 	</string>
+	<string id="st_opt_extreme">
+		<text>макс. высоко</text>
+	</string>
+	<string id="st_cam_1">
+		<text>Вид от первого лица</text>
+	</string>
+	<string id="st_cam_2">
+		<text>Вид от третьего лица</text>
+	</string>
+	<string id="st_cam_3">
+		<text>Вид от третьего лица (Свободная камера)</text>
+	</string>
 </string_table>
