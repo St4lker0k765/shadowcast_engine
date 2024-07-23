@@ -327,7 +327,7 @@ void CUIHudStatesWnd::SetAmmoIcon( const shared_str& sect_name )
 			w = gridWidth * INV_GRID_WIDTH * (0.65f / 2);
 			if (gridWidth > 2.01f)
 			{
-				w = INV_GRID_WIDTH * 1.5f;
+				w = INV_GRID_WIDTH / 1.5f;
 			}
 		}
 		else {
@@ -335,7 +335,7 @@ void CUIHudStatesWnd::SetAmmoIcon( const shared_str& sect_name )
 			w = gridWidth * INV_GRID_WIDTH_LEGACY * (0.65f);
 			if (gridWidth > 2.01f)
 			{
-				w = INV_GRID_WIDTH_LEGACY * 1.5f;
+				w = INV_GRID_WIDTH_LEGACY / 1.5f;
 			}
 		}
 		bool is_16x10 = UI()->is_16_9_mode();

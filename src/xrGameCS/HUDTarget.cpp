@@ -76,6 +76,12 @@ void CHUDTarget::ShowCrosshair(bool b)
 {
 	m_bShowCrosshair = b;
 }
+
+void CHUDTarget::DefineCrosshairCastingPoint(const Fvector& point, const Fvector& direction)
+{
+	m_crosshairCastedFromPos = point;
+	m_crosshairCastedToDir = direction;
+}
 //. fVisTransparencyFactor
 float fCurrentPickPower;
 ICF static BOOL pick_trace_callback(collide::rq_result& result, LPVOID params)
@@ -110,9 +116,16 @@ void CHUDTarget::CursorOnFrame ()
 {
 	Fvector				p1,dir;
 
-	p1					= Device.vCameraPosition;
-	dir					= Device.vCameraDirection;
-	
+	if (psHUD_Flags.test(HUD_CROSSCHAIR_NEW))
+	{
+		p1 = m_crosshairCastedFromPos;
+		dir = m_crosshairCastedToDir;
+	}
+	else
+	{
+		p1 = Device.vCameraPosition;
+		dir = Device.vCameraDirection;
+	}
 	// Render cursor
 	if(Level().CurrentEntity())
 	{
@@ -149,20 +162,26 @@ void CHUDTarget::Render()
 	CEntity*	E		= smart_cast<CEntity*>(O);
 	if (0==E)	return;
 
-	Fvector p1				= Device.vCameraPosition;
-	Fvector dir				= Device.vCameraDirection;
-	
+	Fvector pos1 = m_crosshairCastedFromPos;
+	Fvector dir1 = m_crosshairCastedToDir;
+	Fvector pos2 = Device.vCameraPosition;
+	Fvector dir2 = Device.vCameraDirection;
+
 	// Render cursor
-	u32 C				= C_DEFAULT;
-	
-	//FVF::TL				PT;
+	u32 C = C_DEFAULT;
+
 	Fvector				p2;
-	p2.mad				(p1,dir,PP.RQ.range);
+
+	if (psHUD_Flags.test(HUD_CROSSCHAIR_NEW))
+	{
+		p2.mad(pos1, dir1, PP.RQ.range);
+	}
+	else
+		p2.mad(pos2, dir2, PP.RQ.range);
+
 	Fvector4			pt;
 	Device.mFullTransform.transform(pt, p2);
 	pt.y = -pt.y;
-	//PT.transform		(p2,Device.mFullTransform);
-	//float				di_size = C_SIZE/powf(PT.p.w,.2f);
 	float				di_size = C_SIZE/powf(pt.w,.2f);
 
 	CGameFont* F		= HUD().Font().GetFont(GRAFFITI19_FONT_NAME);
@@ -311,7 +330,7 @@ void CHUDTarget::Render()
 	}else{
 		//отрендерить прицел
 		HUDCrosshair.cross_color	= C;
-		HUDCrosshair.OnRender		();
+		HUDCrosshair.OnRender		(pt.x, pt.y);
 	}
 }
 

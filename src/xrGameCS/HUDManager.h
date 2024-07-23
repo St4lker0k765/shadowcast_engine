@@ -47,6 +47,8 @@ public:
 	void					SetFirstBulletCrosshairDisp(float fbdispf);
 #endif
 	void					ShowCrosshair		(bool show);
+	
+	void					DefineCrosshairCastingPoint(const Fvector& point, const Fvector& direction);
 
 	void					SetHitmarkType		( LPCSTR tex_name );
 	void					SetGrenadeMarkType	( LPCSTR tex_name );

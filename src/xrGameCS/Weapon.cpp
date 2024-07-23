@@ -72,6 +72,16 @@ CWeapon::CWeapon()
 	m_UIScope				= NULL;
 	m_set_next_ammoType_on_reload = u32(-1);
 	m_crosshair_inertion	= 0.f;
+	// new params for STCoP
+	m_zoom_params.m_f3dZoomFactor = 0.0f;
+	m_zoom_params.m_fSecondVPFovFactor = 0.0f;
+
+	//Mortan: new params
+	bUseAltScope = false;
+	bScopeIsHasTexture = false;
+	bNVsecondVPavaible = false;
+	bNVsecondVPstatus = false;
+
 }
 
 CWeapon::~CWeapon		()
@@ -1300,7 +1310,14 @@ void CWeapon::InitAddons()
 
 float CWeapon::CurrentZoomFactor()
 {
-	return IsScopeAttached() ? m_zoom_params.m_fScopeZoomFactor : m_zoom_params.m_fIronSightZoomFactor;
+	if (psActorFlags.test(AF_3DSCOPE_ENABLE) && IsScopeAttached())
+	{
+		return bIsSecondVPZoomPresent() ? m_zoom_params.m_f3dZoomFactor : m_zoom_params.m_fScopeZoomFactor;
+	}
+	else
+	{
+		return IsScopeAttached() ? m_zoom_params.m_fScopeZoomFactor : m_zoom_params.m_fIronSightZoomFactor;
+	}
 };
 
 void CWeapon::OnZoomIn()
@@ -1791,4 +1808,49 @@ bool CWeapon::MovingAnimAllowedNow()
 bool CWeapon::IsHudModeNow()
 {
 	return (HudItemData()!=NULL);
+}
+
+float CWeapon::GetSecondVPZoomFactor() const
+{
+	float dist_k = (100.f / m_zoom_params.m_f3dZoomFactor);
+
+	clamp(dist_k, 0.0f, 1.0f);
+
+	float result = (m_zoom_params.m_fSecondVPFovFactor / dist_k);
+
+	return result;
+}
+
+void CWeapon::Load3DScopeParams(LPCSTR section)
+{
+	m_zoom_params.m_fSecondVPFovFactor = READ_IF_EXISTS(pSettings, r_float, section, "3d_fov", 0.0f);
+	m_zoom_params.m_f3dZoomFactor = READ_IF_EXISTS(pSettings, r_float, section, "3d_zoom_factor", 100.0f);
+}
+
+// Обновление необходимости включения второго вьюпорта +SecondVP+
+// Вызывается только для активного оружия игрока
+void CWeapon::UpdateSecondVP(bool bInGrenade)
+{
+	bool b_is_active_item = (m_pInventory != NULL) && (m_pInventory->ActiveItem() == this);
+	R_ASSERT(ParentIsActor() && b_is_active_item); // Эта функция должна вызываться только для оружия в руках нашего игрока
+
+	CActor* pActor = smart_cast<CActor*>(H_Parent());
+
+	bool bCond_1 = bInZoomRightNow();													// Мы должны целиться
+
+	bool bCond_2 = bIsSecondVPZoomPresent() && psActorFlags.test(AF_3DSCOPE_ENABLE);	// В конфиге должен быть прописан фактор зума для линзы (scope_lense_factor
+	// больше чем 0)
+	bool bCond_3 = pActor->cam_Active() == pActor->cam_FirstEye();						// Мы должны быть от 1-го лица	
+
+	Device.m_SecondViewport.SetSVPActive(bCond_1 && bCond_2 && bCond_3 && !bInGrenade);
+}
+
+bool CWeapon::bChangeNVSecondVPStatus()
+{
+	if (!bNVsecondVPavaible || !IsZoomed())
+		return false;
+
+	bNVsecondVPstatus = !bNVsecondVPstatus;
+
+	return true;
 }

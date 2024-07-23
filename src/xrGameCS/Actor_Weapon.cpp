@@ -16,6 +16,11 @@
 #include "Grenade.h"
 #include "game_base_space.h"
 #include "Artefact.h"
+#include "WeaponMagazinedWGrenade.h"
+#include "WeaponRG6.h"
+#include "WeaponKnife.h"
+#include "WeaponRPG7.h"
+#include "HUDManager.h"
 
 static const float VEL_MAX		= 10.f;
 static const float VEL_A_MAX	= 10.f;
@@ -62,15 +67,38 @@ float CActor::GetWeaponAccuracy() const
 
 void CActor::g_fireParams	(const CHudItem* pHudItem, Fvector &fire_pos, Fvector &fire_dir)
 {
-	fire_pos		= Cameras().Position();
-	fire_dir		= Cameras().Direction();
+	fire_dir = Cameras().Direction();
+	fire_pos = Cameras().Position();
 
-	const CMissile	*pMissile = smart_cast <const CMissile*> (pHudItem);
-	if (pMissile)
+	CWeapon* weapon = smart_cast<CWeapon*>(inventory().ActiveItem());
+
+	const CMissile* pMissile = smart_cast <const CMissile*> (pHudItem);
+	const CMissile* pMissileA = smart_cast <const CMissile*> (weapon);
+	const CWeaponMagazinedWGrenade* WGren = smart_cast <const CWeaponMagazinedWGrenade*> (weapon);
+	const CWeaponRG6* RG6 = smart_cast <const CWeaponRG6*> (weapon);
+	const CWeaponRPG7* RPG7 = smart_cast <const CWeaponRPG7*> (weapon);
+	const CWeaponKnife* pKnife = smart_cast <const CWeaponKnife*> (weapon);
+
+	if (weapon && psHUD_Flags.test(HUD_CROSSCHAIR_NEW) && !pKnife)
 	{
-		Fvector offset;
-		XFORM().transform_dir(offset, m_vMissileOffset);
-		fire_pos.add(offset);
+		if (/*eacFirstEye == cam_active &&*/ !(weapon->IsZoomed() && weapon->ZoomTexture()))
+		{
+			fire_pos = weapon->get_LastFP();
+			fire_dir = weapon->get_LastFD();
+		}
+	}
+	else
+	{
+		if (HUDview() && pMissile)
+		{
+			Fvector offset;
+			XFORM().transform_dir(offset, pMissile->throw_point_offset());
+			fire_pos.add(offset);
+		}
+		if (!HUDview() && pMissileA && !RPG7 && !RG6 && !WGren && !pMissile)
+		{
+			fire_pos = pMissileA->XFORM().c;
+		}
 	}
 }
 

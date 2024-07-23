@@ -32,6 +32,22 @@ public:
 							CWeapon				();
 	virtual					~CWeapon			();
 
+	// STCoP
+
+	// аддоны и управление аддонами
+	bool			bUseAltScope;
+	bool			bScopeIsHasTexture;
+	bool            bNVsecondVPavaible;
+	bool            bNVsecondVPstatus;
+
+	virtual	bool			bInZoomRightNow() const { return m_zoom_params.m_fZoomRotationFactor > 0.05; }
+	IC		bool			bIsSecondVPZoomPresent() const { return GetSecondVPZoomFactor() > 0.000f; }
+	float					GetSecondVPZoomFactor() const;
+	void					Load3DScopeParams(LPCSTR section);
+	virtual void			UpdateSecondVP(bool bInGrenade = false);
+	virtual	bool            bMarkCanShow() { return IsZoomed(); }
+	bool					bChangeNVSecondVPStatus();
+
 	// Generic
 	virtual void			Load				(LPCSTR section);
 
@@ -197,12 +213,16 @@ protected:
 		bool			m_bIsZoomModeNow;		//когда режим приближения включен
 		float			m_fCurrentZoomFactor;	//текущий фактор приближения
 		float			m_fZoomRotateTime;		//время приближения
-	
+
+		float           m_f3dZoomFactor;        //коэффициент мирового зума при использовании второго вьюпорта
+
 		float			m_fIronSightZoomFactor;	//коэффициент увеличения прицеливания
 		float			m_fScopeZoomFactor;		//коэффициент увеличения прицела
 
 		float			m_fZoomRotationFactor;
-		
+
+		float           m_fSecondVPFovFactor;
+
 		Fvector			m_ZoomDof;
 		Fvector4		m_ReloadDof;
 
