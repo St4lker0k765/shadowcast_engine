@@ -7,7 +7,7 @@ class ENGINE_API DiscordSDK final
 	xr_string StatusDiscord_;
 	xr_string PhaseDiscord_;
 
-	std::atomic_bool NeedUpdateActivity_;
+	bool NeedUpdateActivity_;
 
 	discord::Activity ActivityDiscord_{};
 	discord::Core* core{};

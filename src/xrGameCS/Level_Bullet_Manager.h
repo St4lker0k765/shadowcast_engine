@@ -232,7 +232,7 @@ public:
 												ALife::EHitType e_hit_type, float maximum_distance, 
 												const CCartridge& cartridge, bool SendHit,bool AimBullet=false);
 
-	void					CommitEvents		();	// @ the start of frame
+	void	__stdcall		CommitEvents		();	// @ the start of frame
 	void					CommitRenderSet		();	// @ the end of frame
 	void 					Render				();
 };

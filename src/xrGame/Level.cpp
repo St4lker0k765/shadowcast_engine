@@ -412,7 +412,10 @@ void CLevel::OnFrame()
         psDeviceFlags.set(rsDisableObjectsAsCrows, false);
     // commit events from bullet manager from prev-frame
     Device.Statistic->TEST0.Begin();
-    BulletManager().CommitEvents();
+    if (g_mt_config.test(mtBullets))
+        Device.seqParallel.emplace_back(fastdelegate::FastDelegate0(m_pBulletManager, &CBulletManager::CommitEvents));
+    else
+        BulletManager().CommitEvents();    
     Device.Statistic->TEST0.End();
     // Client receive
     if (net_isDisconnected())
