@@ -931,7 +931,7 @@ void CApplication::DestroyLoadingScreen()
 
 LPCSTR CApplication::ShowCurrentVersion()
 {
-    return "1.7.01";
+    return "1.7.02";
 }
 
 #include "Render.h"
