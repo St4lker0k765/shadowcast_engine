@@ -568,10 +568,7 @@ void CLevel::OnFrame	()
 
 	// commit events from bullet manager from prev-frame
 	Device.Statistic->TEST0.Begin		();
-	if (g_mt_config.test(mtBullets))
-		Device.seqParallel.emplace_back(fastdelegate::FastDelegate0(m_pBulletManager, &CBulletManager::CommitEvents));
-	else
-		BulletManager().CommitEvents();
+	BulletManager().CommitEvents		();
 	Device.Statistic->TEST0.End			();
 
 	// Client receive
