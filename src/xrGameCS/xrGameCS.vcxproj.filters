@@ -2551,6 +2551,9 @@
     <Filter Include="Core\Client\Objects\items &amp; weapons\Devices\Dosimeter">
       <UniqueIdentifier>{d4cb7526-88b0-43ed-b57e-59efcee31875}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Client\Objects\items &amp; weapons\Weapons\Various weapons\Weapon AutomaticShotgun">
+      <UniqueIdentifier>{2d35b12d-71fb-4594-8da1-f964bef219ac}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mt_config.h">
@@ -7102,6 +7105,9 @@
       <Filter>UI</Filter>
     </ClInclude>
     <ClInclude Include="ui\UILoadingScreen.h" />
+    <ClInclude Include="WeaponAutomaticShotgun.h">
+      <Filter>Core\Client\Objects\items &amp; weapons\Weapons\Various weapons\Weapon AutomaticShotgun</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="damage_manager.cpp">
@@ -10399,6 +10405,9 @@
       <Filter>Core\Client\Objects\items &amp; weapons\Devices\Detectors</Filter>
     </ClCompile>
     <ClCompile Include="ui\UILoadingScreen.cpp" />
+    <ClCompile Include="WeaponAutomaticShotgun.cpp">
+      <Filter>Core\Client\Objects\items &amp; weapons\Weapons\Various weapons\Weapon AutomaticShotgun</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="graph_abstract.h">

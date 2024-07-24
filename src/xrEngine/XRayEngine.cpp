@@ -847,7 +847,8 @@ void CApplication::OnEvent(EVENT E, u64 P1, u64 P2)
             //! because I don't see any reason to reset device here
             //! Device.Reset (false);
             //-----------------------------------------------------------
-            g_pGamePersistent->PreStart(op_server);
+            if(!g_dedicated_server)
+                g_pGamePersistent->PreStart(op_server);
             //-----------------------------------------------------------
             g_pGameLevel = static_cast<IGame_Level*>(NEW_INSTANCE(CLSID_GAME_LEVEL));
             pApp->LoadBegin();
@@ -983,12 +984,12 @@ void CApplication::LoadStage()
     phase_timer.Start();
 	Msg("* phase cmem: %lld K", Memory.mem_usage() / 1024);
 
-    if (g_pGamePersistent->GameType() == 1 && !xr_strcmp(g_pGamePersistent->m_game_params.m_alife, "alife"))
+    if (g_pGamePersistent->GameType() == 1 && strstr(Core.Params, "alife"))
         max_load_stage = 17;
     else
         max_load_stage = 14;
     LoadDraw();
-    ++load_stage;
+	++load_stage;
 }
 
 void CApplication::LoadSwitch()
@@ -1330,7 +1331,8 @@ void doBenchmark(LPCSTR name)
         Startup();
     }
 }
-#pragma optimize("", off)
+#pragma optimize("g", off)
+
 void CApplication::load_draw_internal()
 {
     if (loadingScreen)
