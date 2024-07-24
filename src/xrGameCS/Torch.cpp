@@ -44,12 +44,6 @@ CTorch::CTorch(void)
 	fBrightness					= 1.f;
 
 	m_night_vision = NULL;
-
-	/*m_NightVisionRechargeTime	= 6.f;
-	m_NightVisionRechargeTimeMin= 2.f;
-	m_NightVisionDischargeTime	= 10.f;
-	m_NightVisionChargeTime		= 0.f;*/
-
 	m_prev_hp.set				(0,0);
 	m_delta_h					= 0;
 }
@@ -80,14 +74,7 @@ void CTorch::Load(LPCSTR section)
 	light_trace_bone		= pSettings->r_string(section,"light_trace_bone");
 
 
-	m_bNightVisionEnabled = !!pSettings->r_bool(section,"night_vision");
-	if(m_bNightVisionEnabled)
-	{
-		m_sounds.LoadSound(section,"snd_night_vision_on", "NightVisionOnSnd", SOUND_TYPE_ITEM_USING);
-		m_sounds.LoadSound(section,"snd_night_vision_off", "NightVisionOffSnd", SOUND_TYPE_ITEM_USING);
-		m_sounds.LoadSound(section,"snd_night_vision_idle", "NightVisionIdleSnd", SOUND_TYPE_ITEM_USING);
-		m_sounds.LoadSound(section,"snd_night_vision_broken", "NightVisionBrokenSnd", SOUND_TYPE_ITEM_USING);
-	}
+	m_bNightVisionEnabled = !!pSettings->r_bool(section, "night_vision");
 }
 
 void CTorch::SwitchNightVision()
@@ -100,15 +87,7 @@ void CTorch::SwitchNightVision(bool vision_on, bool use_sounds)
 {
 	if(!m_bNightVisionEnabled) return;
 	
-	if(vision_on /*&& (m_NightVisionChargeTime > m_NightVisionRechargeTimeMin || OnClient())*/)
-	{
-		//m_NightVisionChargeTime = m_NightVisionDischargeTime*m_NightVisionChargeTime/m_NightVisionRechargeTime;
-		m_bNightVisionOn = true;
-	}
-	else
-	{
-		m_bNightVisionOn = false;
-	}
+	m_bNightVisionOn = vision_on;
 
 	CActor *pA = smart_cast<CActor *>(H_Parent());
 
@@ -239,7 +218,8 @@ BOOL CTorch::net_Spawn(CSE_Abstract* DC)
 	Switch					(torch->m_active);
 	VERIFY					(!torch->m_active || (torch->ID_Parent != 0xffff));
 	
-	SwitchNightVision		(false);
+	if (torch->ID_Parent == 0)
+		SwitchNightVision(torch->m_nightvision_active, false);
 
 	m_delta_h				= PI_DIV_2-atan((range*0.5f)/_abs(TORCH_OFFSET.x));
 
@@ -496,10 +476,10 @@ void CTorch::enable(bool value)
 CNightVisionEffector::CNightVisionEffector(const shared_str& section)
 	:m_pActor(NULL)
 {
-	m_sounds.LoadSound(section.c_str(), "snd_night_vision_on", "NightVisionOnSnd", SOUND_TYPE_ITEM_USING);
-	m_sounds.LoadSound(section.c_str(), "snd_night_vision_off", "NightVisionOffSnd", SOUND_TYPE_ITEM_USING);
-	m_sounds.LoadSound(section.c_str(), "snd_night_vision_idle", "NightVisionIdleSnd", SOUND_TYPE_ITEM_USING);
-	m_sounds.LoadSound(section.c_str(), "snd_night_vision_broken", "NightVisionBrokenSnd", SOUND_TYPE_ITEM_USING);
+	m_sounds.LoadSound(section.c_str(),"snd_night_vision_on", "NightVisionOnSnd", false, SOUND_TYPE_ITEM_USING);
+	m_sounds.LoadSound(section.c_str(),"snd_night_vision_off", "NightVisionOffSnd", false, SOUND_TYPE_ITEM_USING);
+	m_sounds.LoadSound(section.c_str(),"snd_night_vision_idle", "NightVisionIdleSnd", false, SOUND_TYPE_ITEM_USING);
+	m_sounds.LoadSound(section.c_str(),"snd_night_vision_broken", "NightVisionBrokenSnd", false, SOUND_TYPE_ITEM_USING);
 }
 
 void CNightVisionEffector::Start(const shared_str& sect, CActor* pA, bool play_sound)

@@ -9,7 +9,7 @@
 
 CWeaponAutomaticShotgun::CWeaponAutomaticShotgun()
 {
-	m_eSoundClose_2 = ESoundTypes(SOUND_TYPE_WEAPON_SHOOTING);
+	m_eSoundClose = ESoundTypes(SOUND_TYPE_WEAPON_SHOOTING);
 	m_eSoundAddCartridge	= ESoundTypes(SOUND_TYPE_WEAPON_SHOOTING);
 	m_eSoundOpen = ESoundTypes(SOUND_TYPE_WEAPON_RECHARGING);
 }
@@ -26,11 +26,11 @@ void CWeaponAutomaticShotgun::Load(LPCSTR section)
 		m_bTriStateReload = !!pSettings->r_bool(section, "tri_state_reload");
 	};
 	if(m_bTriStateReload){
-		m_sounds.LoadSound(section, "snd_open_weapon", "sndOpen", m_eSoundOpen);
+		m_sounds.LoadSound(section, "snd_open_weapon", "sndOpen", false, m_eSoundOpen);
 
-		m_sounds.LoadSound(section, "snd_add_cartridge", "sndAddCartridge", m_eSoundAddCartridge);
+		m_sounds.LoadSound(section, "snd_add_cartridge", "sndAddCartridge", false, m_eSoundAddCartridge);
 
-		m_sounds.LoadSound(section, "snd_close_weapon", "sndClose_2", m_eSoundClose_2);
+		m_sounds.LoadSound(section, "snd_close_weapon", "sndClose", false, m_eSoundClose);
 	};
 
 }
@@ -141,7 +141,7 @@ void CWeaponAutomaticShotgun::switch2_AddCartgidge	()
 void CWeaponAutomaticShotgun::switch2_EndReload	()
 {
 	SetPending			(FALSE);
-	PlaySound			("sndClose_2",get_LastFP());
+	PlaySound			("sndClose",get_LastFP());
 	PlayAnimCloseWeapon	();
 }
 

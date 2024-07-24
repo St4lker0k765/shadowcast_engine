@@ -42,8 +42,7 @@ void CHudItem::Load(LPCSTR section)
 	hud_sect				= pSettings->r_string		(section,"hud");
 	m_animation_slot		= pSettings->r_u32			(section,"animation_slot");
 
-//	if(pSettings->line_exist(section,"snd_bore"))
-	m_sounds.LoadSound(section,"snd_bore","sndBore");
+	m_sounds.LoadSound(section, "snd_bore", "sndBore", true);
 }
 
 

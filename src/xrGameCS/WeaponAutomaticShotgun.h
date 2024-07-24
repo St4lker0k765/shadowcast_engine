@@ -37,7 +37,7 @@ protected:
 
 	ESoundTypes		m_eSoundOpen;
 	ESoundTypes		m_eSoundAddCartridge;
-	ESoundTypes		m_eSoundClose_2;
+	ESoundTypes		m_eSoundClose;
 
 	DECLARE_SCRIPT_REGISTER_FUNCTION
 };
