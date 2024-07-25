@@ -1293,7 +1293,7 @@ void						CCharacterPhysicsSupport::FlyTo(const	Fvector &disp)
 		R_ASSERT(m_pPhysicsShell);
 		float ammount=disp.magnitude();
 		if(fis_zero(ammount,EPS_L))	return;
-		ph_world->Freeze();
+		physics_world()->Freeze();
 		bool g=m_pPhysicsShell->get_ApplyByGravity();
 		m_pPhysicsShell->set_ApplyByGravity(false);
 		m_pPhysicsShell->add_ObjectContactCallback(StaticEnvironmentCB);
@@ -1316,7 +1316,7 @@ void						CCharacterPhysicsSupport::FlyTo(const	Fvector &disp)
 	m_pPhysicsShell->dbg_draw_force( 0.1f, D3DCOLOR_XRGB( 0, 0, 255 ) );
 //	DBG_ClosedCashedDraw( 50000 );
 #endif
-			ph_world->Step();
+			physics_world()->Step();
 #if	0
 //	DBG_OpenCashedDraw();
 	//m_pPhysicsShell->dbg_draw_geometry( 0.2f, D3DCOLOR_XRGB( 255, 100, 0 ) );
@@ -1329,7 +1329,7 @@ void						CCharacterPhysicsSupport::FlyTo(const	Fvector &disp)
 		m_pPhysicsShell->set_ApplyByGravity(g);
 		m_pPhysicsShell->set_CallbackData(cd);
 		m_pPhysicsShell->remove_ObjectContactCallback(StaticEnvironmentCB);
-		ph_world->UnFreeze();
+		physics_world()->UnFreeze();
 }
 
 void CCharacterPhysicsSupport::on_create_anim_mov_ctrl	()
