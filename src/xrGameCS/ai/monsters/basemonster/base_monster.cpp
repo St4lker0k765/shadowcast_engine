@@ -197,6 +197,18 @@ void CBaseMonster::update_pos_by_grouping_behaviour ()
 
 void CBaseMonster::UpdateCL()
 {
+#ifdef DEBUG
+	if ( Level().CurrentEntity() == this )
+	{
+		DBG().get_text_tree().clear();
+		add_debug_info(DBG().get_text_tree());
+	}
+	if ( is_paused () )
+	{
+		return;
+	}
+#endif
+
 	if ( EatedCorpse && !CorpseMemory.is_valid_corpse(EatedCorpse) )
 	{
 		EatedCorpse = NULL;
@@ -204,8 +216,9 @@ void CBaseMonster::UpdateCL()
 
 	inherited::UpdateCL();
 	
-	if (g_Alive()) 
+	if ( g_Alive() ) 
 	{
+//		update_enemy_accessible_and_at_home_info();
 		CStepManager::update();
 
 		update_pos_by_grouping_behaviour();
@@ -214,16 +227,6 @@ void CBaseMonster::UpdateCL()
 	control().update_frame();
 
 	m_pPhysics_support->in_UpdateCL();
-
-#ifdef DEBUG
-	if ( Level().CurrentEntity() == this ) 
-	{
-		// Lain: added
-		DBG().get_text_tree().clear();
-		add_debug_info(DBG().get_text_tree());
-	}
-
-#endif
 }
 
 void CBaseMonster::shedule_Update(u32 dt)
