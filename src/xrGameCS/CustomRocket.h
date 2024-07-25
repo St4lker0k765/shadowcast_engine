@@ -6,10 +6,11 @@
 #pragma once
 
 #include "physic_item.h"
-#include "../xrPhysics/PHObject.h"
+#include "../xrPhysics/PHUpdateObject.h"
 
 class CRocketLauncher;
-
+struct dContact;
+struct SGameMtl;
 struct SRoketContact
 {
 	bool contact;

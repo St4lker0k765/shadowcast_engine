@@ -11,6 +11,7 @@
 #include "CustomZone.h"
 #include "../xrPhysics/MathUtils.h"
 #include "actor.h"
+#include "physics_game.h"
 
 bool CHelicopter::isObjectVisible			(CObject* O)
 {

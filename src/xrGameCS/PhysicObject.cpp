@@ -1,19 +1,21 @@
 #include "pch_script.h"
 #include "physicobject.h"
-#include "../xrPhysics/PhysicsShell.h"
-#include "../xrPhysics/Physics.h"
+#include "../xrphysics/PhysicsShell.h"
+//#include "Physics.h"
 #include "xrserver_objects_alife.h"
 #include "Level.h"
 #include "../Include/xrRender/Kinematics.h"
 #include "../Include/xrRender/KinematicsAnimated.h"
 #include "../xrEngine/xr_collide_form.h"
 #include "../xrEngine/cf_dynamic_mesh.h"
-
+#include "PHSynchronize.h"
 #include "game_object_space.h"
-#include "../xrPhysics/PhysicsShellAnimator.h"
+//#include "../xrphysics/PhysicsShellAnimator.h"
 #include "moving_bones_snd_player.h"
+#include "../xrphysics/extendedgeom.h"
 #ifdef	DEBUG
 #include "phdebug.h"
+#include "../xrengine/objectdump.h"
 #endif
 
 CPhysicObject::CPhysicObject(void): 
@@ -265,7 +267,7 @@ void CPhysicObject::UpdateCL()
 	//двигаем объект за анимацией
 	if (m_pPhysicsShell->PPhysicsShellAnimator())
 	{
-		m_pPhysicsShell->PPhysicsShellAnimator()->OnFrame();
+		m_pPhysicsShell->AnimatorOnFrame();
 	}
 	
 	if (!IsGameTypeSingle())
@@ -412,11 +414,11 @@ void CPhysicObject::InitServerObject(CSE_Abstract * D)
 	if(!l_tpALifePhysicObject)return;
 	l_tpALifePhysicObject->type			= u32(m_type);
 }
-SCollisionHitCallback*	CPhysicObject::	get_collision_hit_callback ()	
+ICollisionHitCallback*	CPhysicObject::	get_collision_hit_callback ()	
 {
 	return m_collision_hit_callback;
 }
-bool					CPhysicObject::	set_collision_hit_callback	(SCollisionHitCallback *cc)	
+bool					CPhysicObject::	set_collision_hit_callback	(ICollisionHitCallback *cc)	
 {
 	if(!cc)
 	{

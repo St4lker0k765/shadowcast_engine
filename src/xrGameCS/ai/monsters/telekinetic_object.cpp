@@ -1,9 +1,10 @@
 #include "stdafx.h"
 #include "../../physicsshellholder.h"
 #include "telekinetic_object.h"
-#include "../../../xrPhysics/PhysicsShell.h"
-#include "../../../xrPhysics/PHInterpolation.h"
-#include "../../../xrPhysics/PHElement.h"
+#include "../../../xrphysics/PhysicsShell.h"
+#include "../../../xrphysics/MathUtils.h"
+//#include "../../PHInterpolation.h"
+//#include "../../PHElement.h"
 #include "../../level.h"
 #include "../../gameobject.h"
 
@@ -111,8 +112,8 @@ void CTelekineticObject::raise(float step)
 	float elem_size = float(object->m_pPhysicsShell->Elements().size());
 	dir.mul(elem_size*elem_size*strength);
 
-	if (OnServer()) (object->m_pPhysicsShell->Elements()[0])->applyGravityAccel(dir);
-
+	if (OnServer())
+		(object->m_pPhysicsShell->get_ElementByStoreOrder(0))->applyGravityAccel(dir);
 
 	update_hold_sound	();
 }
@@ -160,7 +161,8 @@ void CTelekineticObject::keep()
 	//float elem_size = float(object->m_pPhysicsShell->Elements().size());
 	dir.mul(5.0f);
 
-	if (OnServer()) (object->m_pPhysicsShell->Elements()[0])->applyGravityAccel(dir);
+	if (OnServer())
+		(object->m_pPhysicsShell->get_ElementByStoreOrder(0))->applyGravityAccel(dir);
 
 	// установить время последнего обновления
 	time_keep_updated = Device.dwTimeGlobal;
@@ -228,8 +230,8 @@ void CTelekineticObject::fire(const Fvector &target, float power)
 		if (OnServer()) 
 		{
 		// выполнить бросок
-			for (u32 i=0;i<object->m_pPhysicsShell->Elements().size();i++) 
-				object->m_pPhysicsShell->Elements()[i]->applyImpulse(dir, power * 20.f * object->m_pPhysicsShell->getMass() / object->m_pPhysicsShell->Elements().size());
+			for (u32 i=0;i<object->m_pPhysicsShell->get_ElementsNumber();i++) 
+				object->m_pPhysicsShell->get_ElementByStoreOrder(u16(i))->applyImpulse(dir, power * 20.f * object->m_pPhysicsShell->getMass() / object->m_pPhysicsShell->Elements().size());
 			
 		};
 };

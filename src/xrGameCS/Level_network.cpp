@@ -17,6 +17,7 @@
 #include "UIGameCustom.h"
 #include "string_table.h"
 #include "file_transfer.h"
+#include "../xrphysics/physicscommon.h"
 
 ENGINE_API bool g_dedicated_server;
 
@@ -253,7 +254,7 @@ void CLevel::ClientSave	()
 	}
 }
 
-extern		float		phTimefactor;
+//extern		float		phTimefactor;
 extern		BOOL		g_SV_Disable_Auth_Check;
 
 #pragma todo("remove next deadlock checking after testing...")

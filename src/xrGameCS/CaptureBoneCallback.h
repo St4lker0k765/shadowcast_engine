@@ -1,6 +1,7 @@
-#pragma once;
+#pragma once
 
-#include "../xrPhysics/physicsshell.h"
+
+#include "../xrphysics/physicsshell.h"
 
 struct	CPHCaptureBoneCallback :
 	public NearestToPointCallback

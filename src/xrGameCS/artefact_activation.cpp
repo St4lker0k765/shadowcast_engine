@@ -110,7 +110,7 @@ void SArtefactActivation::UpdateActivation()
 	UpdateEffects				();
 }
 
-void SArtefactActivation::PhDataUpdate(dReal step)
+void SArtefactActivation::PhDataUpdate(float step)
 {
 	R_ASSERT( m_af );
 	
@@ -120,7 +120,7 @@ void SArtefactActivation::PhDataUpdate(dReal step)
 	if (m_cur_activation_state==eFlying) {
 		Fvector dir	= {0, -1.f, 0};
 		if(Level().ObjectSpace.RayTest(m_af->Position(), dir, 1.0f, collide::rqtBoth,NULL,m_af) ){
-			dir.y = ph_world->Gravity()*1.1f; 
+			dir.y = physics_world()->Gravity() * 1.1f;
 			m_af->m_pPhysicsShell->applyGravityAccel(dir);
 		}
 	}

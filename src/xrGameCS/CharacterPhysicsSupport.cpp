@@ -30,6 +30,7 @@
 #include "activatingcharcollisiondelay.h"
 #include "ai/stalker/ai_stalker.h"
 #include "stalker_movement_manager_smart_cover.h"
+#include "../xrphysics/iActivationShape.h"
 
 //const float default_hinge_friction = 5.f;//gray_wolf comment
 #ifdef DEBUG
@@ -41,8 +42,8 @@ extern	BOOL death_anim_debug;
 
 #define USE_SMART_HITS
 #define USE_IK
-
-void  NodynamicsCollide( bool& do_colide, bool bo1, dContact& c, SGameMtl * /*material_1*/, SGameMtl * /*material_2*/ )
+/*
+void  NodynamicsCollide( bool& do_colide, bool bo1, dContact& c, SGameMtl * , SGameMtl *  )
 {
 	dBodyID body1=dGeomGetBody( c.geom.g1 );
 	dBodyID body2=dGeomGetBody( c.geom.g2 );
@@ -50,7 +51,7 @@ void  NodynamicsCollide( bool& do_colide, bool bo1, dContact& c, SGameMtl * /*ma
 		return;
 	do_colide = false; 
 }
-
+*/
 
 
 IC bool is_imotion(interactive_motion *im)
@@ -103,11 +104,11 @@ CCharacterPhysicsSupport::CCharacterPhysicsSupport( EType atype, CEntityAlive* a
 	{
 	case etActor:
 		m_PhysicMovementControl->AllocateCharacterObject(CPHMovementControl::actor);
-		m_PhysicMovementControl->SetRestrictionType(CPHCharacter::rtActor);
+		m_PhysicMovementControl->SetRestrictionType(rtActor);
 		break;
 	case etStalker:
 		m_PhysicMovementControl->AllocateCharacterObject(CPHMovementControl::ai);
-		m_PhysicMovementControl->SetRestrictionType(CPHCharacter::rtStalker);
+		m_PhysicMovementControl->SetRestrictionType(rtStalker);
 		m_PhysicMovementControl->SetActorMovable(false);
 		break;
 	case etBitting:
@@ -686,19 +687,20 @@ bool CCharacterPhysicsSupport::CollisionCorrectObjPos(const Fvector& start_from,
 	shift.add(activation_pos);
 	vbox.mul(2.f);
 	activation_pos.add(shift,m_EntityAlife.Position());
+	bool not_collide_characters =	!DoCharacterShellCollide() && !character_create;
+	bool set_rotation =				!character_create;
+	
+	Fvector activation_res = Fvector().set(0,0,0);
+////////////////
 
-	CPHActivationShape activation_shape;
-	activation_shape.Create(activation_pos,vbox,&m_EntityAlife);
-	if( !DoCharacterShellCollide() && !character_create )
-	{
-		CPHCollideValidator::SetCharacterClassNotCollide(activation_shape);
-	}
-	if( !character_create )
-			activation_shape.set_rotation( mXFORM );
-	bool ret = activation_shape.Activate(vbox,1,1.f,M_PI/8.f);
-	m_EntityAlife.Position().sub(activation_shape.Position(),shift);
+	bool ret = ActivateShapeCharacterPhysicsSupport( activation_res, vbox, activation_pos, mXFORM, not_collide_characters, set_rotation, &m_EntityAlife );
+//////////////////
 
-	activation_shape.Destroy();
+
+
+	m_EntityAlife.Position().sub(activation_res,shift);
+
+
 	if(m_pPhysicsShell)
 		m_pPhysicsShell->EnableCollision();
 	return ret;
@@ -754,7 +756,7 @@ void reset_root_bone_start_pose( CPhysicsShell& shell )
 																	  physics_root_to_anim_root_bind_transformation
 																	  );
 
-	physics_root_element->SetTransform( Fmatrix().mul_43( shell.mXFORM, physics_root_bone_corrected_pos ) );
+	physics_root_element->SetTransform( Fmatrix().mul_43( shell.mXFORM, physics_root_bone_corrected_pos ), mh_unspecified );
 
 	//physics_root_element->TransformPosition( Fmatrix().mul_43( Fmatrix().invert( K->LL_GetTransform( animation_root_bone_id ) ), physics_root_bone_corrected_pos ) );
 }
@@ -851,7 +853,7 @@ void	CCharacterPhysicsSupport::	RemoveActiveWeaponCollision		()
 	Fmatrix m1_to_e = Fmatrix().mul_43( Fmatrix().invert( m1 ), me );
 
 	Fmatrix m0e = Fmatrix().mul_43( m0, m1_to_e );
-	root->SetTransform( m0e );
+	root->SetTransform( m0e, mh_unspecified );
 
 	for( ;ii!=ee; ++ii )
 	{
@@ -869,7 +871,8 @@ void	CCharacterPhysicsSupport::	RemoveActiveWeaponCollision		()
 	
 	Fvector a_vel, l_vel;
 	const Fvector& mc = root->mass_Center();
-	dBodyGetPointVel( m_weapon_attach_bone->get_body(),mc.x, mc.y, mc.z, cast_fp(l_vel) );
+	//dBodyGetPointVel( m_weapon_attach_bone->get_body(),mc.x, mc.y, mc.z, cast_fp(l_vel) );
+	m_weapon_attach_bone->GetPointVel( l_vel, mc );
 	m_weapon_attach_bone->get_AngularVel( a_vel );
 	
 	root->set_AngularVel( a_vel );
@@ -1243,15 +1246,13 @@ void CCharacterPhysicsSupport::DestroyIKController()
 
 void		 CCharacterPhysicsSupport::in_NetRelcase(CObject* O)																													
 {
-	CPHCapture* c=m_PhysicMovementControl->PHCapture();
-	if(c)
-		c->RemoveConnection( O );
+	m_PhysicMovementControl->NetRelcase( O );
 
 	if( m_sv_hit.is_valide() && m_sv_hit.initiator() == O )
 		m_sv_hit = SHit();
 }
  
-bool CCharacterPhysicsSupport::set_collision_hit_callback( SCollisionHitCallback* cc )
+bool CCharacterPhysicsSupport::set_collision_hit_callback( ICollisionHitCallback* cc )
 {
 	if(!cc)
 	{
@@ -1265,11 +1266,11 @@ bool CCharacterPhysicsSupport::set_collision_hit_callback( SCollisionHitCallback
 		return true;
 	}else return false;
 }
-SCollisionHitCallback * CCharacterPhysicsSupport::get_collision_hit_callback()
+ICollisionHitCallback * CCharacterPhysicsSupport::get_collision_hit_callback()
 {
 	return m_collision_hit_callback;
 }
-
+/*
 void	StaticEnvironmentCB ( bool& do_colide, bool bo1, dContact& c, SGameMtl* material_1, SGameMtl* material_2 )
 {
 	dJointID contact_joint	= dJointCreateContact(0, ContactGroup, &c);
@@ -1286,7 +1287,7 @@ void	StaticEnvironmentCB ( bool& do_colide, bool bo1, dContact& c, SGameMtl* mat
 	}
 	do_colide=false;
 }
-
+*/
 void						CCharacterPhysicsSupport::FlyTo(const	Fvector &disp)
 {
 		R_ASSERT(m_pPhysicsShell);

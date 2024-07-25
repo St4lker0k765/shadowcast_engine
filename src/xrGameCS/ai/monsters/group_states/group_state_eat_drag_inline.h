@@ -86,7 +86,7 @@ void CStateGroupDragAbstract::initialize()
 	
 	m_failed = false;
 	
-	CPHCapture *capture = object->character_physics_support()->movement()->PHCapture();
+	IPHCapture *capture = object->character_physics_support()->movement()->PHCapture();
 	if (capture && !capture->Failed()) {
 		m_cover_vertex_id = object->Home->get_place_in_min_home();
 		if (m_cover_vertex_id != u32(-1)) {

@@ -1576,9 +1576,6 @@
     <Filter Include="Core\Client\Objects\base\UsableScriptObject">
       <UniqueIdentifier>{891b1973-557f-49f3-98b7-44bd0002dd44}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Client\Objects\base\CollideValidator">
-      <UniqueIdentifier>{c0f89e2d-d94d-49a4-bbf3-b059c506b02e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core\Client\Objects\physics">
       <UniqueIdentifier>{9b25d049-b116-4f6d-9d82-0345564dbec3}</UniqueIdentifier>
     </Filter>
@@ -6321,9 +6318,6 @@
     <ClInclude Include="PHMovementControl.h">
       <Filter>Physics\Base\Objects\PhyMove\MovementControl</Filter>
     </ClInclude>
-    <ClInclude Include="IColisiondamageInfo.h">
-      <Filter>Physics\Base\Objects\PhyMove\BaseCharacter</Filter>
-    </ClInclude>
     <ClInclude Include="PHCommander.h">
       <Filter>Physics\Base\Objects\PHCommander</Filter>
     </ClInclude>
@@ -6915,6 +6909,9 @@
     <ClInclude Include="ui\UILoadingScreen.h" />
     <ClInclude Include="WeaponAutomaticShotgun.h">
       <Filter>Core\Client\Objects\items &amp; weapons\Weapons\Various weapons\Weapon AutomaticShotgun</Filter>
+    </ClInclude>
+    <ClInclude Include="physics_game.h">
+      <Filter>Physics\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

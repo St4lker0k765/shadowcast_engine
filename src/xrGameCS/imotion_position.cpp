@@ -23,7 +23,15 @@ float dbg_imotion_draw_velocity_scale = 0.01;
 
 #endif
 
+imotion_position::imotion_position() :
+	interactive_motion(),
+	time_to_end(0.f),
+	saved_visual_callback(0),
+	blend(0),
+	shell_motion_has_history(false)
+{
 
+};
 static const float max_collide_timedelta = 0.02f;//0.005f;
 static const float end_delta = 0.5f * max_collide_timedelta;
 static const float collide_adwance_delta = 2.f*max_collide_timedelta;
@@ -165,7 +173,7 @@ void imotion_position::state_start( )
 	
 	if( !is_enabled( ) )
 				return;
-	CPhysicsShellHolder *obj= shell->get_ElementByStoreOrder( 0 )->PhysicsRefObject();
+	CPhysicsShellHolder *obj= static_cast<CPhysicsShellHolder*>( shell->get_ElementByStoreOrder( 0 )->PhysicsRefObject() );
 	VERIFY( obj );
 	obj->processing_activate();
 	shell->Disable( );
@@ -244,7 +252,7 @@ void	imotion_position::state_end( )
 	VERIFY( shell );
 	inherited::state_end( );
 	
-	CPhysicsShellHolder *obj= shell->get_ElementByStoreOrder( 0 )->PhysicsRefObject();
+	CPhysicsShellHolder *obj= static_cast<CPhysicsShellHolder*>( shell->get_ElementByStoreOrder( 0 )->PhysicsRefObject() );
 	VERIFY( obj );
 	obj->processing_deactivate();
 	shell->Enable();
@@ -378,7 +386,7 @@ float imotion_position::collide_animation	( float dt, IKinematicsAnimated& k )
 #ifdef	DEBUG
 	collide_anim_dbg_draw ( shell, dt );
 #endif
-	shell->ToAnimBonesPositions( );
+	shell->ToAnimBonesPositions( shell_motion_has_history ? mh_not_clear : mh_unspecified );
 	depth = 0;
 #ifdef DEBUG
 	if( dbg_imotion_collide_debug )
@@ -508,7 +516,8 @@ float imotion_position::move( float dt, IKinematicsAnimated& KA )
 			time_to_end -= ad;
 			force_calculate_bones( KA );
 			//advance_time += advance_animation( -( end_delta ), KA );//+ ad
-			shell->ToAnimBonesPositions( );
+			shell->ToAnimBonesPositions( shell_motion_has_history ? mh_not_clear : mh_unspecified );
+			shell_motion_has_history = true;
 
 #ifdef DEBUG
 		if( dbg_imotion_collide_debug )
@@ -600,7 +609,7 @@ float imotion_position::motion_collide( float dt, IKinematicsAnimated& KA )
 		time_to_end += (dt-advance_time);
 		advance_time += (dt-advance_time);
 		force_calculate_bones( KA );
-		shell->ToAnimBonesPositions( );
+		shell->ToAnimBonesPositions( shell_motion_has_history ? mh_clear : mh_unspecified );
 
 #ifdef DEBUG
 		if( dbg_imotion_collide_debug )

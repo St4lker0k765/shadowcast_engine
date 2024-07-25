@@ -47,6 +47,7 @@
 #include "message_filter.h"
 #include "CustomZone.h"
 #include "ZoneList.h"
+#include "../xrPhysics/console_vars.h"
 #ifdef DEBUG
 #	include "level_debug.h"
 #	include "ai/stalker/ai_stalker.h"
@@ -60,7 +61,6 @@
 
 ENGINE_API bool g_dedicated_server;
 
-extern BOOL	g_bDebugDumpPhysicsStep;
 extern CUISequencer * g_tutorial;
 extern CUISequencer * g_tutorial2;
 
@@ -113,7 +113,6 @@ CLevel::CLevel():IPureClient	(Device.GetTimerGlobal())
 	m_dwDeltaUpdate				= u32(fixed_step*1000);
 	m_dwLastNetUpdateTime		= 0;
 
-	physics_step_time_callback	= (PhysicsStepTimeCallback*) &PhisStepsCallback;
 	m_seniority_hierarchy_holder= xr_new<CSeniorityHierarchyHolder>();
 
 	if(!g_dedicated_server)
@@ -230,10 +229,10 @@ CLevel::~CLevel()
 	Engine.Event.Handler_Detach	(eDemoPlay,		this);
 	Engine.Event.Handler_Detach	(eChangeRP,		this);
 
-	if (ph_world)
+	if (physics_world())
 	{
-		ph_world->Destroy		();
-		xr_delete				(ph_world);
+		destroy_physics_world();
+		xr_delete(m_ph_commander_physics_worldstep);
 	}
 
 	// destroy PSs
@@ -964,7 +963,7 @@ void CLevel::make_NetCorrectionPrediction	()
 	m_bIn_CrPr		= true;
 	u64 NumPhSteps = ph_world->m_steps_num;
 	ph_world->m_steps_num -= m_dwNumSteps;
-	if(g_bDebugDumpPhysicsStep&&m_dwNumSteps>10)
+	if(ph_console::g_bDebugDumpPhysicsStep&&m_dwNumSteps>10)
 	{
 		Msg("!!!TOO MANY PHYSICS STEPS FOR CORRECTION PREDICTION = %d !!!",m_dwNumSteps);
 		m_dwNumSteps = 10;

@@ -17,10 +17,9 @@ struct tracks_update: public IUpdateTracksCallback
 	float			time_to_end;
 	UpdateCallback	saved_visual_callback;
 	CBlend			*blend;
-
+	bool			shell_motion_has_history;
 public:
-	imotion_position(): interactive_motion(), time_to_end(0.f), saved_visual_callback( 0 ), blend(0)
-	{};
+	imotion_position();
 private:
 	typedef			interactive_motion inherited;
 	virtual	void	move_update	(  );

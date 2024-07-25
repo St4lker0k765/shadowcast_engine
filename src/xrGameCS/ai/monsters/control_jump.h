@@ -14,6 +14,9 @@ struct SControlJumpData : public ControlCom::IComData {
 		eGlideOnPrepareFailed		= u32(1) << 3,  // if not set then cannot start jump
 		eGlidePlayAnimOnce			= u32(1) << 4,
 		eGroundSkip					= u32(1) << 5,
+		eUseTargetPosition			= u32(1) << 6,
+		eDontUseVelocityBounce		= u32(1) << 7,
+		eUseAutoAim					= u32(1) << 8,
 	};
 	
 	flags32					flags;
@@ -60,6 +63,8 @@ class CControlJump : public CControl_ComCustom<SControlJumpData> {
 	float			m_max_distance;
 	float			m_max_angle;
 	float			m_max_height;
+	float			m_auto_aim_factor;
+	Fvector			m_jump_start_pos;
 
 	// run-time params
 	u32				m_time_next_allowed;
@@ -85,6 +90,11 @@ public:
 	virtual void	on_release				();
 	virtual void	on_event				(ControlCom::EEventType, ControlCom::IEventData*);
 
+
+			float	relative_time			();
+			bool	in_auto_aim				();
+			float	get_auto_aim_factor		() const { return m_auto_aim_factor; }
+			Fvector get_jump_start_pos		() const { return m_jump_start_pos; }
 
 	// process jump
 	virtual void	update_frame			();

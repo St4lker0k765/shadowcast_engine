@@ -16,6 +16,7 @@
 #include "../states/monster_state_hitted.h"
 #include "../states/monster_state_controlled.h"
 #include "../states/monster_state_help_sound.h"
+#include "../group_states/group_state_home_point_attack.h"
 
 CStateManagerBoar::CStateManagerBoar(CAI_Boar *monster) : inherited(monster)
 {
