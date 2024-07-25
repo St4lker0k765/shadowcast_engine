@@ -33,7 +33,7 @@ protected:
 
 #pragma once
 #include "gameobject.h"
-#include "PhysicsShell.h"
+#include "../xrPhysics/PhysicsShell.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // –тутный шар

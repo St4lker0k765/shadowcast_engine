@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../../../PHCharacter.h"
-#include "../../../PHCapture.h"
+#include "../../../../xrPhysics/PHCharacter.h"
+#include "../../../../xrphysics/IPHCapture.h"
 #include "../../../CaptureBoneCallback.h"
 #include "../../../../include/xrrender/Kinematics.h"
 

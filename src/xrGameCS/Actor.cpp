@@ -2,7 +2,7 @@
 #include "Actor_Flags.h"
 #include "hudmanager.h"
 #ifdef DEBUG
-#	include "ode_include.h"
+#	include "../xrPhysics/ode_include.h"
 #	include "../xrEngine/StatGraph.h"
 #	include "PHDebug.h"
 #endif // DEBUG
@@ -35,7 +35,7 @@
 #include "ai_space.h"
 #include "trade.h"
 #include "inventory.h"
-#include "Physics.h"
+#include "../xrPhysics/Physics.h"
 #include "level.h"
 #include "GamePersistent.h"
 #include "game_cl_base.h"
@@ -44,7 +44,7 @@
 #include "string_table.h"
 #include "usablescriptobject.h"
 #include "../xrEngine/cl_intersect.h"
-#include "ExtendedGeom.h"
+#include "../xrPhysics/ExtendedGeom.h"
 #include "alife_registry_wrappers.h"
 #include "../Include/xrRender/Kinematics.h"
 #include "artefact.h"

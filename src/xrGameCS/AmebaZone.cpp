@@ -3,7 +3,7 @@
 #include "CustomZone.h"
 #include "../Include/xrRender/KinematicsAnimated.h"
 #include "ZoneVisual.h"
-#include "PHObject.h"
+#include "../xrPhysics/PHObject.h"
 #include "PHMovementControl.h"
 #include "AmebaZone.h"
 #include "hudmanager.h"

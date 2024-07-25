@@ -6,7 +6,7 @@
 #include "stdafx.h"
 
 #include "antirad.h"
-#include "PhysicsShell.h"
+#include "../xrPhysics/PhysicsShell.h"
 
 CAntirad::CAntirad(void) 
 {
