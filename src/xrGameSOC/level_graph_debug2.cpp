@@ -9,24 +9,39 @@
 #include "pch_script.h"
 
 #ifdef DEBUG
+#ifndef AI_COMPILER
 
 #include "level_graph.h"
+#include "../xrEngine/customhud.h"
 #include "ai_space.h"
 #include "ui_base.h"
 #include "game_graph.h"
+#include "game_sv_single.h"
 #include "custommonster.h"
+#include "ai/stalker/ai_stalker.h"
+#include "xrserver_objects_alife_monsters.h"
 #include "cover_point.h"
 #include "cover_manager.h"
+#include "cover_evaluators.h"
 #include "team_base_zone.h"
+#include "alife_simulator.h"
+#include "alife_graph_registry.h"
+#include "alife_object_registry.h"
+#include "game_cl_base.h"
 #include "space_restriction_manager.h"
 #include "space_restriction.h"
+#include "space_restrictor.h"
 #include "space_restriction_base.h"
 #include "detail_path_manager.h"
+#include "memory_manager.h"
+#include "enemy_manager.h"
+#include "memory_space.h"
 #include "level.h"
 #include "ai_object_location.h"
 #include "movement_manager.h"
 #include "graph_engine.h"
 #include "debug_renderer.h"
+#include "smart_cover_object.h"
 
 void CLevelGraph::draw_nodes	()
 {
@@ -64,13 +79,11 @@ void CLevelGraph::draw_nodes	()
 
 	Fvector	DUP;		DUP.set(0,1,0);
 
+	//RCache.set_Shader	(sh_debug);
 	DRender->SetShader(sh_debug);
+
 	F->SetColor			(color_rgba(255,255,255,255));
 
-	// если включён ai_dbg_frustum раскрасить ноды по light
-	// иначе раскрашивать по cover
-	bool			b_light = false;
-	
 	//////////////////////////////////////////////////////////////////////////
 	Fvector min_position,max_position;
 	max_position = min_position = Device.vCameraPosition;
@@ -105,8 +118,7 @@ void CLevelGraph::draw_nodes	()
 		float			sr	= header().cell_size();
 		if (::Render->ViewBase.testSphere_dirty(PC,sr)) {
 			
-			u32	LL = ((b_light) ?	iFloor(float(N.light())/15.f*255.f) : 
-									iFloor(vertex_cover(I)/4*255.f));
+			u32	LL = 255;
 			
 			u32	CC		= D3DCOLOR_XRGB(0,0,255);
 			u32	CT		= D3DCOLOR_XRGB(LL,LL,LL);
@@ -133,8 +145,10 @@ void CLevelGraph::draw_nodes	()
 			v.set(PC.x-st,PC.y,PC.z+st);	PL.intersectRayPoint(v,DUP,v4);	v4.mad(v4,PL.n,tt);	// minX,maxZ
 
 			// render quad
-			DRender->dbg_DrawTRI(Fidentity, v3, v2, v1, CT);
-			DRender->dbg_DrawTRI(Fidentity, v1, v4, v3, CT);
+			DRender->dbg_DrawTRI(Fidentity,v3,v2,v1,CT);
+			DRender->dbg_DrawTRI(Fidentity,v1,v4,v3,CT);
+			//RCache.dbg_DrawTRI	(Fidentity,v3,v2,v1,CT);
+			//RCache.dbg_DrawTRI	(Fidentity,v1,v4,v3,CT);
 
 			// render center
 			Level().debug_renderer().draw_aabb	(PC,sc,sc,sc,CC);
@@ -214,48 +228,93 @@ void CLevelGraph::draw_covers	()
 	xr_vector<CCoverPoint*>::const_iterator	E = nearest.end();
 	for ( ; I != E; ++I) {
 		Fvector				position = (*I)->position();
-		position.y			+= 1.f;
+		position.y			+= 1.5f;
 		Level().debug_renderer().draw_aabb	(position,half_size - .01f,1.f,ai().level_graph().header().cell_size()*.5f-.01f,D3DCOLOR_XRGB(0*255,255,0*255));
 
 		CVertex				*v = vertex((*I)->level_vertex_id());
 		Fvector				direction;
 		float				best_value = -1.f;
 
-		u32 j = 0;
-		for (u32 i=0; i<36; ++i) {
-			float				value = cover_in_direction(float(10*i)/180.f*PI,v);
+		for (u32 i=0, j = 0; i<36; ++i) {
+			float				value = high_cover_in_direction(float(10*i)/180.f*PI,v);
 			direction.setHP		(float(10*i)/180.f*PI,0);
 			direction.normalize	();
 			direction.mul		(value*half_size);
 			direction.add		(position);
 			direction.y			= position.y;
 			Level().debug_renderer().draw_line(Fidentity,position,direction,D3DCOLOR_XRGB(0,0,255));
-			value				= compute_square(float(10*i)/180.f*PI,PI/2.f,v);
+			value				= compute_high_square(float(10*i)/180.f*PI,PI/2.f,v);
 			if (value > best_value) {
 				best_value		= value;
 				j				= i;
 			}
 		}
 
-		direction.set		(position.x - half_size*float(v->cover(0))/15.f,position.y,position.z);
+		direction.set		(position.x - half_size*float(v->high_cover(0))/15.f,position.y,position.z);
 		Level().debug_renderer().draw_line(Fidentity,position,direction,D3DCOLOR_XRGB(255,0,0));
 
-		direction.set		(position.x,position.y,position.z + half_size*float(v->cover(1))/15.f);
+		direction.set		(position.x,position.y,position.z + half_size*float(v->high_cover(1))/15.f);
 		Level().debug_renderer().draw_line(Fidentity,position,direction,D3DCOLOR_XRGB(255,0,0));
 
-		direction.set		(position.x + half_size*float(v->cover(2))/15.f,position.y,position.z);
+		direction.set		(position.x + half_size*float(v->high_cover(2))/15.f,position.y,position.z);
 		Level().debug_renderer().draw_line(Fidentity,position,direction,D3DCOLOR_XRGB(255,0,0));
 
-		direction.set		(position.x,position.y,position.z - half_size*float(v->cover(3))/15.f);
+		direction.set		(position.x,position.y,position.z - half_size*float(v->high_cover(3))/15.f);
 		Level().debug_renderer().draw_line(Fidentity,position,direction,D3DCOLOR_XRGB(255,0,0));
 
-		float				value = cover_in_direction(float(10*j)/180.f*PI,v);
+		float				value = high_cover_in_direction(float(10*j)/180.f*PI,v);
 		direction.setHP		(float(10*j)/180.f*PI,0);
 		direction.normalize	();
 		direction.mul		(value*half_size);
 		direction.add		(position);
 		direction.y			= position.y;
 		Level().debug_renderer().draw_line	(Fidentity,position,direction,D3DCOLOR_XRGB(0,0,0));
+
+		// low
+		{
+		position			= (*I)->position();
+		position.y			+= 0.6f;
+		Level().debug_renderer().draw_aabb	(position,half_size - .01f,1.f,ai().level_graph().header().cell_size()*.5f-.01f,D3DCOLOR_XRGB(0*255,255,0*255));
+
+		CVertex				*v = vertex((*I)->level_vertex_id());
+		Fvector				direction;
+		float				best_value = -1.f;
+
+		for (u32 i=0, j = 0; i<36; ++i) {
+			float				value = low_cover_in_direction(float(10*i)/180.f*PI,v);
+			direction.setHP		(float(10*i)/180.f*PI,0);
+			direction.normalize	();
+			direction.mul		(value*half_size);
+			direction.add		(position);
+			direction.y			= position.y;
+			Level().debug_renderer().draw_line(Fidentity,position,direction,D3DCOLOR_XRGB(0,0,255));
+			value				= compute_low_square(float(10*i)/180.f*PI,PI/2.f,v);
+			if (value > best_value) {
+				best_value		= value;
+				j				= i;
+			}
+		}
+
+		direction.set		(position.x - half_size*float(v->low_cover(0))/15.f,position.y,position.z);
+		Level().debug_renderer().draw_line(Fidentity,position,direction,D3DCOLOR_XRGB(255,0,0));
+
+		direction.set		(position.x,position.y,position.z + half_size*float(v->low_cover(1))/15.f);
+		Level().debug_renderer().draw_line(Fidentity,position,direction,D3DCOLOR_XRGB(255,0,0));
+
+		direction.set		(position.x + half_size*float(v->low_cover(2))/15.f,position.y,position.z);
+		Level().debug_renderer().draw_line(Fidentity,position,direction,D3DCOLOR_XRGB(255,0,0));
+
+		direction.set		(position.x,position.y,position.z - half_size*float(v->low_cover(3))/15.f);
+		Level().debug_renderer().draw_line(Fidentity,position,direction,D3DCOLOR_XRGB(255,0,0));
+
+		float				value = low_cover_in_direction(float(10*j)/180.f*PI,v);
+		direction.setHP		(float(10*j)/180.f*PI,0);
+		direction.normalize	();
+		direction.mul		(value*half_size);
+		direction.add		(position);
+		direction.y			= position.y;
+		Level().debug_renderer().draw_line	(Fidentity,position,direction,D3DCOLOR_XRGB(0,0,0));
+		}
 	}
 }
 
@@ -278,6 +337,12 @@ void CLevelGraph::draw_objects	()
 				Fvector				temp = tpCustomMonster->movement().detail().path()[tpCustomMonster->movement().detail().path().size() - 1].position;
 				Level().debug_renderer().draw_aabb	(temp,1.f,1.f,1.f,D3DCOLOR_XRGB(0,0,255));
 			}
+		}
+
+		smart_cover::object	*smart_cover = smart_cast<smart_cover::object*>(_O);
+		if (smart_cover) {
+			smart_cover->OnRender	();
+			continue;
 		}
 	}
 }
@@ -312,3 +377,4 @@ void CLevelGraph::draw_debug_node()
 #endif
 
 #endif // AI_COMPILER
+#endif // DEBUG

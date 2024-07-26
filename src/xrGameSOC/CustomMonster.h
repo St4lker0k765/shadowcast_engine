@@ -26,6 +26,7 @@ class CMovementManager;
 class CSoundPlayer;
 class CAI_Stalker;
 class CDangerObject;
+class CLevelGraph;
 
 class CCustomMonster : 
 	public CEntityAlive, 

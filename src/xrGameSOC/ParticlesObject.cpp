@@ -6,7 +6,6 @@
 
 #include "ParticlesObject.h"
 #include "../xrEngine/defines.h"
-#include "..\Include\xrRender\RenderVisual.h"
 #include "../Include/xrRender/RenderVisual.h"
 #include "../Include/xrRender/ParticleCustom.h"
 #include "../xrEngine/render.h"
@@ -92,7 +91,7 @@ void CParticlesObject::UpdateSpatial()
 		renderable.xform.transform_tiny(P, vis.sphere.P);
 		R = vis.sphere.R;
 
-		if (!spatial.type)	
+		if (0==spatial.type)	
 		{
 			// First 'valid' update - register
 			spatial.type			= STYPE_RENDERABLE;
@@ -172,7 +171,7 @@ void CParticlesObject::shedule_Update	(u32 _dt)
 		if (0){//.psDeviceFlags.test(mtParticles))	{    //. AlexMX comment this line// NO UNCOMMENT - DON'T WORK PROPERLY
 			mt_dt					= dt;
 			fastdelegate::FastDelegate0<>		delegate	(this,&CParticlesObject::PerformAllTheWork_mt);
-			Device.seqParallel.emplace_back(delegate);
+			Device.seqParallel.push_back(delegate);
 		} else {
 			mt_dt					= 0;
 			IParticleCustom* V		= smart_cast<IParticleCustom*>(renderable.visual); VERIFY(V);
@@ -233,7 +232,8 @@ Fvector& CParticlesObject::Position		()
 		static Fvector _pos = Fvector().set(0,0,0);
 		return _pos;
 	}
-	return renderable.visual->getVisData().sphere.P;
+	vis_data& vis = renderable.visual->getVisData();
+	return vis.sphere.P;
 }
 
 float CParticlesObject::shedule_Scale		()	

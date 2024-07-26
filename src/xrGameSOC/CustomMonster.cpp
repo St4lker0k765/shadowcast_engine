@@ -5,12 +5,16 @@
 #include "pch_script.h"
 #include "ai_debug.h"
 #include "CustomMonster.h"
-#include "hudmanager.h"
 #include "ai_space.h"
+#include "ai/monsters/BaseMonster/base_monster.h"
 #include "xrserver_objects_alife_monsters.h"
 #include "xrserver.h"
+#include "seniority_hierarchy_holder.h"
+#include "team_hierarchy_holder.h"
+#include "squad_hierarchy_holder.h"
+#include "group_hierarchy_holder.h"
 #include "customzone.h"
-#include "..\include\xrRender\Kinematics.h"
+#include "../Include/xrRender/Kinematics.h"
 #include "detail_path_manager.h"
 #include "memory_manager.h"
 #include "visual_memory_manager.h"
@@ -33,15 +37,24 @@
 #include "profiler.h"
 #include "date_time.h"
 #include "characterphysicssupport.h"
+#include "ai/monsters/snork/snork.h"
 #include "ai/monsters/burer/burer.h"
 #include "GamePersistent.h"
 #include "actor.h"
+#include "alife_simulator.h"
 #include "alife_object_registry.h"
 #include "client_spawn_manager.h"
+#include "level_path_manager.h"
+
+// Lain: added
+#include "../xrEngine/IGame_Level.h"
+#include "../xrCore/_vector3d_ext.h"
+#include "../xrPhysics/IPHWorld.h"
 
 #ifdef DEBUG
 #	include "debug_renderer.h"
-#endif
+#   include "animation_movement_controller.h"
+#endif // DEBUG
 
 extern int g_AI_inactive_time;
 

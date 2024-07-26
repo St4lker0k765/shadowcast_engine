@@ -274,19 +274,19 @@ ICF const xrGUID &CLevelGraph::CHeader::guid() const
 	return				(hdrNODES::guid);
 }
 
-ICF u8	CLevelGraph::CVertex::light() const
-{
-	return				(NodeCompressed::light());
-}
-
 ICF u32	CLevelGraph::CVertex::link(int index) const
 {
 	return				(NodeCompressed::link(u8(index)));
 }
 
-ICF u16	CLevelGraph::CVertex::cover(u8 index) const
+ICF u16	CLevelGraph::CVertex::high_cover(u8 index) const
 {
-	return				(NodeCompressed::cover(index));
+	return				(high.cover(index));
+}
+
+ICF u16	CLevelGraph::CVertex::low_cover(u8 index) const
+{
+	return				(low.cover(index));
 }
 
 ICF u16	CLevelGraph::CVertex::plane() const
@@ -542,8 +542,8 @@ IC	void CLevelGraph::assign_y_values		(xr_vector<T> &path)
 	const CVertex				*_vertex;
 	u32							prev_id = u32(-1);
 
-	auto	I = path.begin();
-	auto	E = path.end();
+	xr_vector<T>::iterator		I = path.begin();
+	xr_vector<T>::iterator		E = path.end();
 	for ( ; I != E; ++I) {
 		if (prev_id != (*I).get_vertex_id()) {
 			_vertex				= vertex((*I).get_vertex_id());
@@ -577,12 +577,21 @@ IC	bool CLevelGraph::valid_vertex_position	(const Fvector &position) const
 	return				((vertex_position(position).xz() < (1 << MAX_NODE_BIT_COUNT) - 1));
 }
 
+
 IC	void CLevelGraph::set_mask				(const xr_vector<u32> &mask)
 {
 	xr_vector<u32>::const_iterator	I = mask.begin();
 	xr_vector<u32>::const_iterator	E = mask.end();
 	for ( ; I != E; ++I)
-		set_mask		(*I);
+		set_mask				(*I);
+}
+
+IC	void CLevelGraph::set_mask_no_check		(const xr_vector<u32> &mask)
+{
+	xr_vector<u32>::const_iterator	I = mask.begin();
+	xr_vector<u32>::const_iterator	E = mask.end();
+	for ( ; I != E; ++I)
+		set_mask_no_check		(*I);
 }
 
 IC	void CLevelGraph::clear_mask			(const xr_vector<u32> &mask)
@@ -590,18 +599,36 @@ IC	void CLevelGraph::clear_mask			(const xr_vector<u32> &mask)
 	xr_vector<u32>::const_iterator	I = mask.begin();
 	xr_vector<u32>::const_iterator	E = mask.end();
 	for ( ; I != E; ++I)
-		clear_mask		(*I);
+		clear_mask				(*I);
+}
+
+IC	void CLevelGraph::clear_mask_no_check	(const xr_vector<u32> &mask)
+{
+	xr_vector<u32>::const_iterator	I = mask.begin();
+	xr_vector<u32>::const_iterator	E = mask.end();
+	for ( ; I != E; ++I)
+		clear_mask_no_check		(*I);
 }
 
 IC	void CLevelGraph::set_mask				(u32 vertex_id)
 {
 	VERIFY						(m_access_mask[vertex_id]);
+	set_mask_no_check			(vertex_id);
+}
+
+IC	void CLevelGraph::set_mask_no_check		(u32 vertex_id)
+{
 	m_access_mask[vertex_id]	= false;
 }
 
 IC	void CLevelGraph::clear_mask			(u32 vertex_id)
 {
 	VERIFY						(!m_access_mask[vertex_id]);
+	clear_mask_no_check			(vertex_id);
+}
+
+IC	void CLevelGraph::clear_mask_no_check	(u32 vertex_id)
+{
 	m_access_mask[vertex_id]	= true;
 }
 
