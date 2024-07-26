@@ -399,6 +399,12 @@ void CCustomZone::net_Destroy()
 	m_ObjectInfoMap.clear();	
 }
 
+void CCustomZone::net_Import(NET_Packet& P)
+{
+	inherited::net_Import(P);
+	//	P.r_u32				(m_owner_id);
+}
+
 void CCustomZone::net_Export(NET_Packet& P)
 {
 	inherited::net_Export(P);
