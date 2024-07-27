@@ -2,6 +2,8 @@
 #pragma hdrstop
 #define ENGINE_API __declspec(dllimport)
 
+#pragma comment(lib, "xrEngine.lib")
+
 extern ENGINE_API bool CallOfPripyatMode;
 extern ENGINE_API bool ClearSkyMode;
 extern ENGINE_API bool ShadowOfChernobylMode;
