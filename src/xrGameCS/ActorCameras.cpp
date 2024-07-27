@@ -22,7 +22,7 @@
 #include "../xrPhysics/ActorCameraCollision.h"
 #include "PHMovementControl.h"
 
-extern BOOL dbg_draw_camera_collision;
+extern XRPHYSICS_API BOOL dbg_draw_camera_collision;
 //void	collide_camera( CCameraBase & camera, float _viewport_near  );
 
 void CActor::cam_Set	(EActorCameras style)

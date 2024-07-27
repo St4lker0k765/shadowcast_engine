@@ -203,10 +203,6 @@ void CBaseMonster::UpdateCL()
 		DBG().get_text_tree().clear();
 		add_debug_info(DBG().get_text_tree());
 	}
-	if ( is_paused () )
-	{
-		return;
-	}
 #endif
 
 	if ( EatedCorpse && !CorpseMemory.is_valid_corpse(EatedCorpse) )

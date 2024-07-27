@@ -10,6 +10,12 @@
 #include <fcntl.h>
 #include <sys\stat.h>
 #pragma warning(default:4995)
+#ifndef TRIVIAL_ENCRYPTOR_DECODER
+#define TRIVIAL_ENCRYPTOR_DECODER
+#endif
+#ifndef TRIVIAL_ENCRYPTOR_ENCODER
+#define TRIVIAL_ENCRYPTOR_ENCODER
+#endif
 
 #include "FS_internal.h"
 #include "stream_reader.h"

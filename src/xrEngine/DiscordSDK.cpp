@@ -4,6 +4,8 @@
 #include "x_ray.h"
 ENGINE_API DiscordSDK Discord;
 
+#pragma comment(lib, "discord_game_sdk.dll.lib")
+
 DiscordSDK::~DiscordSDK()
 {
 	delete core;

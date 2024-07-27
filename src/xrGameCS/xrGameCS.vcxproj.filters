@@ -6330,9 +6330,6 @@
     <ClInclude Include="PHSimpleCalls.h">
       <Filter>Physics\Base\Objects\PHCommander</Filter>
     </ClInclude>
-    <ClInclude Include="ObjectDump.h">
-      <Filter>Physics\Base\Debug</Filter>
-    </ClInclude>
     <ClInclude Include="PHDebug.h">
       <Filter>Physics\Base\Debug</Filter>
     </ClInclude>
@@ -9449,9 +9446,6 @@
     </ClCompile>
     <ClCompile Include="PHSimpleCallsScript.cpp">
       <Filter>Physics\Base\Objects\PHCommander</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjectDump.cpp">
-      <Filter>Physics\Base\Debug</Filter>
     </ClCompile>
     <ClCompile Include="PHDebug.cpp">
       <Filter>Physics\Base\Debug</Filter>

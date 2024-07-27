@@ -63,7 +63,7 @@ public:
 	virtual	const CCharacterPhysicsSupport	*character_physics_support	() const					{return NULL;}
 	virtual	CIKLimbsController			*character_ik_controller	()							{return NULL;}
 	virtual ICollisionHitCallback		*get_collision_hit_callback ()							{return NULL;}
-	virtual bool						set_collision_hit_callback	(ICollisionHitCallback *cc)	{return false;}
+	virtual void						set_collision_hit_callback	(ICollisionHitCallback *cc)	{;}
 	virtual void						enable_notificate			()							{;}
 public:
 

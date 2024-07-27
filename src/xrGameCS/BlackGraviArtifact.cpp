@@ -77,7 +77,7 @@ void CBlackGraviArtefact::net_Relcase(CObject* O)
 }
 void CBlackGraviArtefact::UpdateCLChild() 
 {
-	VERIFY(!ph_world->Processing());
+	VERIFY(!physics_world()->Processing());
 	inherited::UpdateCLChild	();
 
 	if (getVisible() && m_pPhysicsShell) {

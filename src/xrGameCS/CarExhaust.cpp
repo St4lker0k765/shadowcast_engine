@@ -21,7 +21,7 @@ CCar::SExhaust::~SExhaust()
 
 void CCar::SExhaust::Init()
 {
-	VERIFY(!ph_world->Processing());
+	VERIFY(!physics_world()->Processing());
 	pelement=(bone_map.find(bone_id))->second.element;
 	IKinematics* K=smart_cast<IKinematics*>(pcar->Visual());
 	CBoneData&	bone_data=K->LL_GetData(u16(bone_id));
@@ -64,13 +64,13 @@ void CCar::SExhaust::Clear()
 
 void CCar::SExhaust::Play()
 {
-	VERIFY(!ph_world->Processing());
+	VERIFY(!physics_world()->Processing());
 	p_pgobject->Play(false);
 	Update();
 }
 
 void CCar::SExhaust::Stop()
 {
-	VERIFY(!ph_world->Processing());
+	VERIFY(!physics_world()->Processing());
 	p_pgobject->Stop();
 }

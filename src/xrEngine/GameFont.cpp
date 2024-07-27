@@ -6,6 +6,8 @@
 #include "../Include/xrRender/FontRender.h"
 #include <freetype/freetype.h>
 
+#pragma comment(lib, "freetype.lib")
+
 #ifdef _EDITOR
 #include <xrEngine/device.h>
 ENGINE_API CRenderDevice Device;

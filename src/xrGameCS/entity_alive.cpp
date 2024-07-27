@@ -740,11 +740,11 @@ ICollisionHitCallback*	CEntityAlive::	get_collision_hit_callback		()
   else return false;
 }
 
-bool					CEntityAlive::	set_collision_hit_callback		(ICollisionHitCallback *cc)
+void					CEntityAlive::	set_collision_hit_callback		(ICollisionHitCallback *cc)
 {
 	CCharacterPhysicsSupport* cs=character_physics_support();
-	if(cs)return cs->set_collision_hit_callback(cc);
-	else return false;
+	if(cs)
+		cs->set_collision_hit_callback(cc);
 }
 
 void CEntityAlive::net_Relcase	(CObject *object)

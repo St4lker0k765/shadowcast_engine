@@ -3,6 +3,7 @@
 #include "xr_input_xinput.h"
 #include <xinput.h>
 
+#pragma comment(lib, "XInput")
 
 DXUT_GAMEPAD g_GamePads[XUSER_MAX_COUNT];
 

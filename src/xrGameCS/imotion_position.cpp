@@ -47,7 +47,7 @@ static void interactive_motion_diag( LPCSTR message, const CBlend &b, CPhysicsSh
 	VERIFY( s );
 	IKinematicsAnimated* KA = smart_cast<IKinematicsAnimated*>( s->PKinematics( ) );
 	VERIFY( KA );
-	CPhysicsShellHolder* O = s->get_ElementByStoreOrder( 0 )->PhysicsRefObject();
+	CPhysicsShellHolder* O = smart_cast<CPhysicsShellHolder*>(s->get_ElementByStoreOrder( 0 )->PhysicsRefObject());
 	VERIFY( O );
 	LPCSTR motion_name = KA->LL_MotionDefName_dbg( m ).first;
 	Msg( "death anims - interactive_motion:- %s, motion: %s, blend time %f , total blend time %f , time left: %f , obj: %s, model:  %s ", message, motion_name, b.timeCurrent, b.timeTotal, time_left, O->cName().c_str(), O->cNameVisual().c_str());
@@ -75,11 +75,11 @@ static void  get_depth( bool& do_colide, bool bo1, dContact& c, SGameMtl * /*mat
 		return;
 	dxGeomUserData* ud = 0;
 	if( bo1 )
-		ud = retrieveGeomUserData( c.geom.g2 );
+		ud = PHRetrieveGeomUserData( c.geom.g2 );
 	else
-		ud = retrieveGeomUserData( c.geom.g1 );
+		ud = PHRetrieveGeomUserData( c.geom.g1 );
 	if(ud)
-		collide_obj = ud->ph_ref_object;
+		collide_obj = static_cast<CPhysicsShellHolder*>(ud->ph_ref_object);
 	else
 		collide_obj = 0;
 #endif
@@ -372,7 +372,7 @@ void collide_anim_dbg_draw( CPhysicsShell	*shell, float dt )
 	if( dbg_imotion_draw_skeleton )
 	{
 		DBG_OpenCashedDraw();
-		CPhysicsShellHolder * sh = shell->get_ElementByStoreOrder( 0 )->PhysicsRefObject();
+		CPhysicsShellHolder * sh = static_cast<CPhysicsShellHolder*>( shell->get_ElementByStoreOrder( 0 )->PhysicsRefObject() );
 		DBG_PhysBones( *sh );
 		DBG_ClosedCashedDraw( 50000 );
 	}

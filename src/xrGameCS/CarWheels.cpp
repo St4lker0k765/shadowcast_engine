@@ -31,8 +31,8 @@ IC void CCar::SWheel::applywheelCollisionParams(const dxGeomUserData *ud,bool& d
 void  CCar::SWheel::WheellCollisionCallback(bool& do_colide,bool bo1,dContact& c,SGameMtl* material_1,SGameMtl* material_2)
 {
 	
-	dxGeomUserData					*ud1			=			retrieveGeomUserData(c.geom.g1)	;
-	dxGeomUserData					*ud2			=			retrieveGeomUserData(c.geom.g2)	;
+	dxGeomUserData					*ud1			=			PHRetrieveGeomUserData(c.geom.g1)	;
+	dxGeomUserData					*ud2			=			PHRetrieveGeomUserData(c.geom.g2)	;
 	applywheelCollisionParams		(ud1,do_colide,c,material_1,material_2)						;
 	applywheelCollisionParams		(ud2,do_colide,c,material_1,material_2)						;
 }
