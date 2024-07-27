@@ -66,7 +66,7 @@ void CScriptProcess::update()
 
 	run_scripts			();
 
-	if (m_scripts.empty())
+	if (m_scripts.empty() || !&m_scripts)
 		return;
 
 	// update script

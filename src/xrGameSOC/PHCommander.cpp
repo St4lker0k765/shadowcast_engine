@@ -113,8 +113,7 @@ void CPHCommander::add_call(CPHCondition* condition,CPHAction* action)
 }
 void CPHCommander::remove_call(PHCALL_I i,PHCALL_STORAGE& cs)
 {
-#pragma todo("restore???")
-/*
+
 #ifdef DEBUG
 	const CPHCallOnStepCondition* esc = smart_cast<const CPHCallOnStepCondition*>((*i)->condition());
 	const CPHConstForceAction* cfa = smart_cast<const CPHConstForceAction*>((*i)->action());
@@ -127,7 +126,7 @@ void CPHCommander::remove_call(PHCALL_I i,PHCALL_STORAGE& cs)
 		//Msg(" const force removed: force: %f,  remove step: %d  world step: %d ,dir(%f,%f,%f) ", m, esc->step(), (u32)physics_world()->StepsNum(), f.x, f.y , f.z ); 
 	}
 #endif
-*/
+
 	delete_call(*i);
 	cs.erase(i);
 }
