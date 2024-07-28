@@ -63,7 +63,7 @@ CCar::CCar()
 	b_engine_on=false;
 	e_state_steer=idle;
 	e_state_drive=neutral;
-	m_current_gear_ratio=dInfinity;
+	m_current_gear_ratio=phInfinity;
 	rsp=false;lsp=false;fwp=false;bkp=false;brp=false;
 	///////////////////////////////
 	//////////////////////////////
@@ -1610,7 +1610,7 @@ float CCar::DriveWheelsMeanAngleRate()
 }
 float CCar::EngineDriveSpeed()
 {
-	//float wheel_speed,drive_speed=dInfinity;
+	//float wheel_speed,drive_speed=phInfinity;
 	float calc_rpm=0.f;
 	if(b_transmission_switching)
 	{
@@ -1634,7 +1634,7 @@ float CCar::EngineDriveSpeed()
 	else
 		return		(1.f-m_rpm_decrement_factor)*m_current_rpm+m_rpm_decrement_factor*calc_rpm;
 
-	//if(drive_speed<dInfinity) return dFabs(drive_speed*m_current_gear_ratio);
+	//if(drive_speed<phInfinity) return dFabs(drive_speed*m_current_gear_ratio);
 	//else					  return 0.f;
 }
 

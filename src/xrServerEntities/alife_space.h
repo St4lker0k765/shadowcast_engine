@@ -94,9 +94,7 @@ namespace ALife {
 		eHitTypeStrike,
 		eHitTypeExplosion,
 		eHitTypeWound_2,		//knife's alternative fire
-#ifdef XRGAMECS_EXPORTS
-		eHitTypePhysicStrike,
-#endif
+//		eHitTypePhysicStrike,
 		eHitTypeLightBurn,
 		eHitTypeMax,
 	};

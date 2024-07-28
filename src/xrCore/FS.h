@@ -269,7 +269,9 @@ public:
                                     if (pos + length <= size - 8 && (r_u32() & 0x7ffffff0) == 0x810) break; // found start of next section
                                     length++;
                                 }
+#ifndef XRGAMESOC_EXPORTS
                                 Msg("!![%s] THM [%s] chunk [%u] fixed, wrong size = [%u], correct size = [%u]", __FUNCTION__, dbg_name, ID, dwSize, length);
+#endif
                             }
                         }
 

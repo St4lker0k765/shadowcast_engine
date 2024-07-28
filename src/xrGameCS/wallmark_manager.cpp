@@ -110,7 +110,7 @@ void CWalmarkManager::StartWorkflow()
 	CDB::RESULT*	R_begin                 = XRC.r_begin();
 	CDB::RESULT*    R_end                   = XRC.r_end();
 //.	Triangle		ntri;
-//.	float			ndist					= dInfinity;
+//.	float			ndist					= phInfinity;
 //.	Fvector			npoint;
 	u32				wm_count	= 0;
 

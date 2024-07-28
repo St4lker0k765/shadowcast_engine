@@ -176,6 +176,13 @@
     <Manifest>
       <AdditionalManifestFiles>as-invoker-manifest-part.xml;%(AdditionalManifestFiles)</AdditionalManifestFiles>
     </Manifest>
+    <PostBuildEvent>
+      <Command>copy /Y "$(xrSdkDir)binaries\x64\lua51.dll" "$(OutputPath)lua51.dll"
+copy /Y "$(xrSdkDir)binaries\x64\freetype.dll" "$(OutputPath)freetype.dll"
+copy /Y "$(xrSdkDir)binaries\x64\BugTrap-x64.dll" "$(OutputPath)BugTrap-x64.dll"
+copy /Y "$(xrSdkDir)binaries\x64\discord_game_sdk.dll" "$(OutputPath)discord_game_sdk.dll"
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -237,10 +244,10 @@
     </Manifest>
     <PostBuildEvent>
       <Command>copy /Y "$(xrSdkDir)binaries\x64\lua51.dll" "$(OutputPath)lua51.dll"
-copy /Y "$(xrSdkDir)binaries\x64\tbb.dll" "$(OutputPath)tbb.dll"
 copy /Y "$(xrSdkDir)binaries\x64\freetype.dll" "$(OutputPath)freetype.dll"
 copy /Y "$(xrSdkDir)binaries\x64\BugTrap-x64.dll" "$(OutputPath)BugTrap-x64.dll"
-copy /Y "$(xrSdkDir)binaries\x64\discord_game_sdk.dll" "$(OutputPath)discord_game_sdk.dll"</Command>
+copy /Y "$(xrSdkDir)binaries\x64\discord_game_sdk.dll" "$(OutputPath)discord_game_sdk.dll"
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_No_Optimization|x64'">
@@ -303,9 +310,10 @@ copy /Y "$(xrSdkDir)binaries\x64\discord_game_sdk.dll" "$(OutputPath)discord_gam
     </Manifest>
     <PostBuildEvent>
       <Command>copy /Y "$(xrSdkDir)binaries\x64\lua51.dll" "$(OutputPath)lua51.dll"
-copy /Y "$(xrSdkDir)binaries\x64\tbb.dll" "$(OutputPath)tbb.dll"
 copy /Y "$(xrSdkDir)binaries\x64\freetype.dll" "$(OutputPath)freetype.dll"
-copy /Y "$(xrSdkDir)binaries\x64\BugTrap-x64.dll" "$(OutputPath)BugTrap-x64.dll"</Command>
+copy /Y "$(xrSdkDir)binaries\x64\BugTrap-x64.dll" "$(OutputPath)BugTrap-x64.dll"
+copy /Y "$(xrSdkDir)binaries\x64\discord_game_sdk.dll" "$(OutputPath)discord_game_sdk.dll"
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_AVX|x64'">
@@ -366,6 +374,13 @@ copy /Y "$(xrSdkDir)binaries\x64\BugTrap-x64.dll" "$(OutputPath)BugTrap-x64.dll"
     <Manifest>
       <AdditionalManifestFiles>as-invoker-manifest-part.xml;%(AdditionalManifestFiles)</AdditionalManifestFiles>
     </Manifest>
+    <PostBuildEvent>
+      <Command>copy /Y "$(xrSdkDir)binaries\x64\lua51.dll" "$(OutputPath)lua51.dll"
+copy /Y "$(xrSdkDir)binaries\x64\freetype.dll" "$(OutputPath)freetype.dll"
+copy /Y "$(xrSdkDir)binaries\x64\BugTrap-x64.dll" "$(OutputPath)BugTrap-x64.dll"
+copy /Y "$(xrSdkDir)binaries\x64\discord_game_sdk.dll" "$(OutputPath)discord_game_sdk.dll"
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Mixed|x64'">
     <ClCompile>
@@ -425,9 +440,10 @@ copy /Y "$(xrSdkDir)binaries\x64\BugTrap-x64.dll" "$(OutputPath)BugTrap-x64.dll"
     </Manifest>
     <PostBuildEvent>
       <Command>copy /Y "$(xrSdkDir)binaries\x64\lua51.dll" "$(OutputPath)lua51.dll"
-copy /Y "$(xrSdkDir)binaries\x64\tbb.dll" "$(OutputPath)tbb.dll"
-
-copy /Y "$(xrSdkDir)binaries\x64\BugTrap-x64.dll" "$(OutputPath)BugTrap-x64.dll"</Command>
+copy /Y "$(xrSdkDir)binaries\x64\freetype.dll" "$(OutputPath)freetype.dll"
+copy /Y "$(xrSdkDir)binaries\x64\BugTrap-x64.dll" "$(OutputPath)BugTrap-x64.dll"
+copy /Y "$(xrSdkDir)binaries\x64\discord_game_sdk.dll" "$(OutputPath)discord_game_sdk.dll"
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
