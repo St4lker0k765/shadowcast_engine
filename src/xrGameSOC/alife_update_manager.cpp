@@ -201,7 +201,7 @@ bool CALifeUpdateManager::change_level	(NET_Packet &net_packet)
 	}
 
 	string256						autoave_name;
-	strconcat						(sizeof(autoave_name),autoave_name,Core.UserName,"_","autosave");
+	strconcat						(sizeof(autoave_name),autoave_name,Core.UserName," - ","autosave");
 	LPCSTR							temp0 = strstr(**m_server_command_line,"/");
 	VERIFY							(temp0);
 	string256						temp;
