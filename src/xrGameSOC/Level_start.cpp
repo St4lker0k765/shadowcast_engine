@@ -232,11 +232,15 @@ void CLevel::InitializeClientGame	(NET_Packet& P)
 		return;
 	
 	xr_delete(game);
+#ifdef DEBUG
 	Msg("- Game configuring : Started ");
+#endif // #ifdef DEBUG
 	CLASS_ID clsid			= game_GameState::getCLASS_ID(game_type_name,false);
 	game					= smart_cast<game_cl_GameState*> ( NEW_INSTANCE ( clsid ) );
-	game->set_type_name(game_type_name);
-	game->Init();
+	game->set_type_name		(game_type_name);
+	game->Init				();
 	m_bGameConfigStarted	= TRUE;
+
+	R_ASSERT				(Load_GameSpecific_After ());
 }
 
