@@ -279,6 +279,32 @@ public:
 			Level().SetGameTimeFactor(id1);
 		}
 	}
+		
+	virtual void	Save	(IWriter* /*F*/)	{}
+	virtual void	Status	(TStatus& S)
+	{	
+		if ( !g_pGameLevel )	return;
+
+		float v = Level().GetGameTimeFactor();
+		xr_sprintf	(S,sizeof(S),"%3.5f", v);
+		while	(xr_strlen(S) && ('0'==S[xr_strlen(S)-1]))	S[xr_strlen(S)-1] = 0;
+	}
+	virtual void	Info	(TInfo& I)
+	{	
+		if (!OnServer())	return;
+		float v = Level().GetGameTimeFactor();
+		xr_sprintf(I,sizeof(I)," value = %3.5f", v);
+	}
+	virtual void	fill_tips(vecTips& tips, u32 mode)
+	{
+		if (!OnServer())	return;
+		float v = Level().GetGameTimeFactor();
+
+		TStatus  str;
+		xr_sprintf( str, sizeof(str), "%3.5f  (current)  [0.0,1000.0]", v );
+		tips.emplace_back(str);
+		IConsole_Command::fill_tips( tips, mode );
+	}
 };
 
 class CCC_Spawn_to_inventory : public IConsole_Command {
@@ -483,6 +509,37 @@ bool valid_saved_game_name(LPCSTR file_name)
 }
 
 
+void get_files_list( xr_vector<shared_str>& files, LPCSTR dir, LPCSTR file_ext )
+{
+	VERIFY( dir && file_ext );
+	files.clear();
+
+	FS_Path* P = FS.get_path( dir );
+	P->m_Flags.set( FS_Path::flNeedRescan, TRUE );
+	FS.m_Flags.set( CLocatorAPI::flNeedCheck, TRUE );
+	FS.rescan_pathes();
+
+	LPCSTR fext;
+	STRCONCAT( fext, "*", file_ext );
+
+	FS_FileSet  files_set;
+	FS.file_list( files_set, dir, FS_ListFiles, fext );
+	u32 len_str_ext = xr_strlen( file_ext );
+
+	FS_FileSetIt itb = files_set.begin();
+	FS_FileSetIt ite = files_set.end();
+
+	for( ; itb != ite; ++itb )
+	{
+		LPCSTR fn_ext = (*itb).name.c_str();
+		VERIFY( xr_strlen(fn_ext) > len_str_ext );
+		string_path fn;
+		strncpy_s( fn, sizeof(fn), fn_ext, xr_strlen(fn_ext)-len_str_ext );
+		files.push_back( fn );
+	}
+	FS.m_Flags.set( CLocatorAPI::flNeedCheck, FALSE );
+}
+
 #include "UIGameCustom.h"
 #include "HUDManager.h"
 class CCC_ALifeSave : public IConsole_Command {
@@ -555,6 +612,11 @@ public:
 		Msg						("Screenshot overhead : %f milliseconds",timer.GetElapsed_sec()*1000.f);
 #endif
 	}
+	
+	virtual void fill_tips			(vecTips& tips, u32 mode)
+	{
+		get_files_list				(tips, "$game_saves$", SAVE_EXTENSION);
+	}
 };
 
 class CCC_ALifeLoadFrom : public IConsole_Command {
@@ -617,6 +679,10 @@ public:
 		net_packet.w_begin			(M_LOAD_GAME);
 		net_packet.w_stringZ		(saved_game);
 		Level().Send				(net_packet,net_flags(TRUE));
+	}
+	virtual void fill_tips(vecTips& tips, u32 mode)
+	{
+		get_files_list(tips, "$game_saves$", SAVE_EXTENSION);
 	}
 };
 
@@ -1129,6 +1195,21 @@ struct CCC_JumpToLevel : public IConsole_Command {
 			}
 		Msg							("! There is no level \"%s\" in the game graph!",level);
 	}
+	virtual void	fill_tips(vecTips& tips, u32 mode)
+	{
+		if ( !ai().get_alife() )
+		{
+			Msg				("! ALife simulator is needed to perform specified command!");
+			return;
+		}
+
+		GameGraph::LEVEL_MAP::const_iterator	itb = ai().game_graph().header().levels().begin();
+		GameGraph::LEVEL_MAP::const_iterator	ite = ai().game_graph().header().levels().end();
+		for ( ; itb != ite; ++itb )
+		{
+			tips.push_back( (*itb).second.name() );
+		}
+	}
 };
 class CCC_Script : public IConsole_Command {
 public:
@@ -1148,6 +1229,17 @@ public:
 			if (ai().script_engine().script_process(ScriptEngine::eScriptProcessorLevel))
 				ai().script_engine().script_process(ScriptEngine::eScriptProcessorLevel)->add_script(S,false,true);
 		}
+	}
+	
+	virtual void Status( TStatus& S )
+	{
+		xr_strcpy( S, "<script_name> (Specify script name!)" );
+	}
+	virtual void Save( IWriter* F ) {}
+
+	virtual void fill_tips( vecTips& tips, u32 mode )
+	{
+		get_files_list( tips, "$game_scripts$", ".script" );
 	}
 };
 
@@ -1179,6 +1271,23 @@ public:
 			ai().script_engine().print_output	(ai().script_engine().lua(),*m_script_name,l_iErrorCode);
 		}
 	}
+	
+	virtual void Status( TStatus& S )
+	{
+		xr_strcpy( S, "<script_name.function()> (Specify script and function name!)" );
+	}
+	virtual void Save( IWriter* F ) {}
+
+	virtual void fill_tips( vecTips& tips, u32 mode )
+	{
+		if ( mode == 1 )
+		{
+			get_files_list( tips, "$game_scripts$", ".script" );
+			return;
+		}
+
+		IConsole_Command::fill_tips( tips, mode );
+	}
 };
 class CCC_TimeFactor : public IConsole_Command {
 public:
@@ -1197,6 +1306,14 @@ public:
 	virtual void	Info	(TInfo& I)
 	{
 		strcpy_s				(I,"[0.001 - 1000.0]");
+	}
+	
+	virtual void	fill_tips(vecTips& tips, u32 mode)
+	{
+		TStatus  str;
+		xr_sprintf( str, sizeof(str), "%3.3f  (current)  [0.001 - 1000.0]", Device.time_factor() );
+		tips.push_back( str );
+		IConsole_Command::fill_tips( tips, mode );
 	}
 };
 

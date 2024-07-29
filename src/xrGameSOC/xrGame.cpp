@@ -12,23 +12,6 @@
 #include "xr_level_controller.h"
 #include "profiler.h"
 
-#pragma comment(lib,"xrEngine.lib")
-
-#ifdef USE_LUAJIT_ONE //defined in project props
-#pragma comment(lib, "LuaJIT-1.1.8.lib")
-#else
-#pragma comment(lib, "lua51.lib" )
-#endif
-
-#ifdef NDEBUG
-namespace std {
-	void _terminate()
-	{
-		abort();
-	}
-}
-#endif // #ifdef NDEBUG
-
 extern "C" {
 	DLL_API DLL_Pure*	__cdecl xrFactory_Create		(CLASS_ID clsid)
 	{
@@ -47,8 +30,8 @@ extern "C" {
 	}
 };
 
-extern void CCC_RegisterCommands();
-extern void setup_luabind_allocator();
+void CCC_RegisterCommands	();
+void setup_luabind_allocator();
 
 BOOL APIENTRY DllMain(HANDLE hModule, u32 ul_reason_for_call, LPVOID lpReserved)
 {
@@ -57,9 +40,9 @@ BOOL APIENTRY DllMain(HANDLE hModule, u32 ul_reason_for_call, LPVOID lpReserved)
 			// register console commands
 			CCC_RegisterCommands();
 			// keyboard binding
-			CCC_RegisterInput			();
+			CCC_RegisterInput	();
 
-			setup_luabind_allocator();
+			setup_luabind_allocator	();
 #ifdef DEBUG
 			g_profiler			= xr_new<CProfiler>();
 #endif

@@ -545,17 +545,15 @@ void CLevel::OnFrame	()
 //	g_pGamePersistent->Environment().SetGameTime	(GetGameDayTimeSec(),GetGameTimeFactor());
 	g_pGamePersistent->Environment().SetGameTime	(GetEnvironmentGameDayTimeSec(),GetGameTimeFactor());
 
-	//Device.Statistic->cripting.Begin	();
 	if (!g_dedicated_server)
 		ai().script_engine().script_process	(ScriptEngine::eScriptProcessorLevel)->update();
-	//Device.Statistic->Scripting.End	();
 	m_ph_commander->update				();
 	m_ph_commander_scripts->update		();
 //	autosave_manager().update			();
 
-	//просчитать полет пуль
-	BulletManager().CommitRenderSet		();
-
+    Device.Statistic->TEST0.Begin();
+    BulletManager().CommitRenderSet();
+    Device.Statistic->TEST0.End();
 	// update static sounds
 	if(!g_dedicated_server)
 	{

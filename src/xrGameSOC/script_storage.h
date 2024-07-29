@@ -14,11 +14,20 @@
 struct lua_State;
 class CScriptThread;
 
-#ifdef	DEBUG
-	#ifndef ENGINE_BUILD
-	#	define	USE_DEBUGGER
-	#endif
-#endif
+#ifndef MASTER_GOLD
+#	define USE_DEBUGGER
+#	define USE_LUA_STUDIO
+#endif // #ifndef MASTER_GOLD
+
+#ifdef XRGAMESOC_EXPORTS
+#	ifndef MASTER_GOLD
+#		define PRINT_CALL_STACK
+#	endif // #ifndef MASTER_GOLD
+#else // #ifdef XRGAMESOC_EXPORTS
+#	ifndef NDEBUG
+#		define PRINT_CALL_STACK
+#	endif // #ifndef NDEBUG
+#endif // #ifdef XRGAMESOC_EXPORTS
 
 using namespace ScriptStorage;
 
@@ -29,22 +38,25 @@ private:
 	BOOL						m_jit				;
 
 #ifdef DEBUG
-protected:
-	CMemoryWriter				m_output;
 public:
 	bool						m_stack_is_ready	;
-#endif
+#endif // #ifdef DEBUG
+
+#ifdef PRINT_CALL_STACK
+protected:
+	CMemoryWriter				m_output;
+#endif // #ifdef PRINT_CALL_STACK
 
 protected:
 	static	int					vscript_log					(ScriptStorage::ELuaMessageType tLuaMessageType, LPCSTR caFormat, va_list marker);
-			bool				parse_namespace				(LPCSTR caNamespaceName, LPSTR b, LPSTR c);
+			bool				parse_namespace				(LPCSTR caNamespaceName, LPSTR b, u32 const b_size, LPSTR c, u32 const c_size);
 			bool				do_file						(LPCSTR	caScriptName, LPCSTR caNameSpaceName);
 			void				reinit						(lua_State* LSVM);
 
 public:
-#ifdef DEBUG
+#ifdef PRINT_CALL_STACK
 			void				print_stack					();
-#endif
+#endif // #ifdef PRINT_CALL_STACK
 
 public:
 								CScriptStorage				();
@@ -58,9 +70,11 @@ public:
 			bool				object						(LPCSTR	caIdentifier, int type);
 			bool				object						(LPCSTR	caNamespaceName, LPCSTR	caIdentifier, int type);
 			luabind::object		name_space					(LPCSTR	namespace_name);
+			int					error_log					(LPCSTR	caFormat, ...);
 	static	int		__cdecl		script_log					(ELuaMessageType message,	LPCSTR	caFormat, ...);
 	static	bool				print_output				(lua_State *L,		LPCSTR	caScriptName,		int		iErorCode = 0);
 	static	void				print_error					(lua_State *L,		int		iErrorCode);
+	virtual	void				on_error					(lua_State *L) = 0;
 
 #ifdef DEBUG
 public:
