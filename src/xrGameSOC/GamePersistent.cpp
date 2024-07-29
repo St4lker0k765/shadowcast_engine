@@ -22,7 +22,9 @@
 #include "UIGameCustom.h"
 #include "ui/UIMainIngameWnd.h"
 #include "ui/UIPdaWnd.h"
-
+#include "../xrEngine/DiscordSDK.h"
+#include "GametaskManager.h"
+#include "GameTask.h"
 #ifdef DEBUG
 #include "profiler.h"
 #endif
@@ -176,10 +178,6 @@ void CGamePersistent::Disconnect()
 void CGamePersistent::OnGameStart()
 {
 	__super::OnGameStart		();
-	
-	EnabledTipsForZone_ = READ_IF_EXISTS(pSettings, r_bool, "tips_zone", "enable_tips_zone", true);
-	CountTipsForZone_ = READ_IF_EXISTS(pSettings, r_u16, "tips_zone", "count_tips_zone", 100);
-
 	UpdateGameType				();
 
 }
@@ -429,6 +427,14 @@ bool allow_intro ()
 extern int g_keypress_on_start;
 void CGamePersistent::game_loaded()
 {
+
+	if (g_pGameLevel)
+	{
+		SetGameDiscordStatus();
+		CGameTask* o = Actor()->GameTaskManager().ActiveTask();
+		xr_string TaskNameDiscord_ = CStringTable().translate(o ? o->m_Title.c_str() : "st_no_active_task").c_str();
+		Discord.SetPhase(TaskNameDiscord_);
+	}
 	if (Device.dwPrecacheFrame <= 2)
 	{
 		update_game_loaded();
@@ -765,4 +771,16 @@ void CGamePersistent::UpdateDof()
 	(m_dof[0].x < m_dof[2].x) ? clamp(m_dof[1].x, m_dof[0].x, m_dof[2].x) : clamp(m_dof[1].x, m_dof[2].x, m_dof[0].x);
 	(m_dof[0].y < m_dof[2].y) ? clamp(m_dof[1].y, m_dof[0].y, m_dof[2].y) : clamp(m_dof[1].y, m_dof[2].y, m_dof[0].y);
 	(m_dof[0].z < m_dof[2].z) ? clamp(m_dof[1].z, m_dof[0].z, m_dof[2].z) : clamp(m_dof[1].z, m_dof[2].z, m_dof[0].z);
+}
+
+void CGamePersistent::SetGameDiscordStatus() const
+{
+	if (!g_pGameLevel)
+		return;
+
+	xr_string LevelName_ = "В игре:";
+	LevelName_ += "\t";
+	LevelName_ += CStringTable().translate(g_pGameLevel->name()).c_str();
+
+	Discord.SetStatus(LevelName_);
 }
