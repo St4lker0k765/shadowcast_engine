@@ -10,7 +10,6 @@ _delta_pos = 0.000002
 _delta_rot = 0.000002
 
 [gameplay]
-death_sound_enable = true ; включить озвучки смерти у НПС
 SWM_3D_scopes      = true ; Включить поддержку второго вьюпорта
 use_hd_icons	   = true ; Включить иконки 100x100, если false, то используется 50x50
 
@@ -23,3 +22,8 @@ game_mode = soc
 rs_loadingstages = 1
 ; for STCoP 3.5
 ;g_hud_fov = 0.7
+
+[game_specific]
+; настройки, присутствующие только в определённой игре
+; cop - ЗП, cs - ЧН, soc - ТЧ
+cop_death_sound_enable = true ; включить озвучки смерти у НПС
