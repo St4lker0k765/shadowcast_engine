@@ -201,7 +201,7 @@ float game_sv_Single::GetEnvironmentGameTimeFactor		()
 
 void game_sv_Single::SetEnvironmentGameTimeFactor		(const float fTimeFactor)
 {
-//	return(inherited::SetGameTimeFactor(fTimeFactor));
+	return(inherited::SetGameTimeFactor(fTimeFactor));
 }
 
 bool game_sv_Single::change_level					(NET_Packet &net_packet, ClientID sender)
