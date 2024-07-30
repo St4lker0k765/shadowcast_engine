@@ -188,17 +188,31 @@ void CUIItemInfo::InitItem(CInventoryItem* pInvItem)
 		int iXPos							= pInvItem->GetXPos();
 		int iYPos							= pInvItem->GetYPos();
 
-		UIItemImage->GetUIStaticItem().SetOriginalRect(	float(iXPos*INV_GRID_WIDTH), float(iYPos*INV_GRID_HEIGHT),
-														float(iGridWidth*INV_GRID_WIDTH),	float(iGridHeight*INV_GRID_HEIGHT));
+		if (UseHDIcons) {
+			UIItemImage->GetUIStaticItem().SetOriginalRect(float(iXPos * INV_GRID_WIDTH), float(iYPos * INV_GRID_HEIGHT),
+				float(iGridWidth * INV_GRID_WIDTH), float(iGridHeight * INV_GRID_HEIGHT));
+		}
+		else {
+			UIItemImage->GetUIStaticItem().SetOriginalRect(float(iXPos * INV_GRID_WIDTH_LEGACY), float(iYPos * INV_GRID_HEIGHT_LEGACY),
+				float(iGridWidth * INV_GRID_WIDTH_LEGACY), float(iGridHeight * INV_GRID_HEIGHT_LEGACY));
+		}
 		UIItemImage->TextureOn				();
 		UIItemImage->ClipperOn				();
 		UIItemImage->SetStretchTexture		(true);
-		Frect v_r							= {	0.0f, 
-												0.0f, 
-												float(iGridWidth*INV_GRID_WIDTH),	
-												float(iGridHeight*INV_GRID_HEIGHT)};
-		if (UI().is_widescreen())
-			v_r.x2 /= 1.328f;
+		Frect v_r;
+		if (UseHDIcons) {
+			v_r = { 0.0f,
+													0.0f,
+													float(iGridWidth * INV_GRID_WIDTH/2),
+													float(iGridHeight * INV_GRID_HEIGHT)/2 };
+		}
+		else {
+			v_r = { 0.0f,
+										0.0f,
+										float(iGridWidth * INV_GRID_WIDTH_LEGACY),
+										float(iGridHeight * INV_GRID_HEIGHT_LEGACY) };
+		}
+		v_r.x2 *= UI().get_current_kx();
 
 		UIItemImage->GetUIStaticItem().SetRect	(v_r);
 		UIItemImage->SetWidth					(_min(v_r.width(),	UIItemImageSize.x));

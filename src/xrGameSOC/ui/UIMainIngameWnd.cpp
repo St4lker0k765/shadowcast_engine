@@ -333,17 +333,32 @@ void CUIMainIngameWnd::SetAmmoIcon (const shared_str& sect_name)
 	float iXPos				= pSettings->r_float(sect_name, "inv_grid_x");
 	float iYPos				= pSettings->r_float(sect_name, "inv_grid_y");
 
-	UIWeaponIcon.GetUIStaticItem().SetOriginalRect(	(iXPos		 * INV_GRID_WIDTH),
-													(iYPos		 * INV_GRID_HEIGHT),
-													(iGridWidth	 * INV_GRID_WIDTH),
-													(iGridHeight * INV_GRID_HEIGHT));
+	if (UseHDIcons) {
+		UIWeaponIcon.GetUIStaticItem().SetOriginalRect((iXPos * INV_GRID_WIDTH),
+			(iYPos * INV_GRID_HEIGHT),
+			(iGridWidth * INV_GRID_WIDTH),
+			(iGridHeight * INV_GRID_HEIGHT));
+	}
+	else {
+		UIWeaponIcon.GetUIStaticItem().SetOriginalRect((iXPos * INV_GRID_WIDTH_LEGACY),
+			(iYPos * INV_GRID_HEIGHT_LEGACY),
+			(iGridWidth * INV_GRID_WIDTH_LEGACY),
+			(iGridHeight * INV_GRID_HEIGHT_LEGACY));
+	}
 	UIWeaponIcon.SetStretchTexture(true);
 
 	// now perform only width scale for ammo, which (W)size >2
 	// all others ammo (1x1, 1x2) will be not scaled (original picture)
-	float w = ((iGridWidth>2)?1.6f:iGridWidth)*INV_GRID_WIDTH*0.9f;
-	float h = INV_GRID_HEIGHT*0.9f;//1 cell
-
+	float w;
+	float h;
+	if (UseHDIcons) {
+		w = ((iGridWidth > 2) ? 1.6f : iGridWidth) * INV_GRID_WIDTH * 0.45f;
+		h = INV_GRID_HEIGHT * 0.45f;//1 cell
+	}
+	else {
+		w = ((iGridWidth > 2) ? 1.6f : iGridWidth) * INV_GRID_WIDTH_LEGACY * 0.9f;
+		h = INV_GRID_HEIGHT_LEGACY * 0.9f;//1 cell
+	}
 	float x = UIWeaponIcon_rect.x1;
 	if	(iGridWidth<2)
 		x	+= ( UIWeaponIcon_rect.width() - w) / 2.0f;
@@ -1100,17 +1115,30 @@ void CUIMainIngameWnd::UpdatePickUpItem	()
 
 	float scale = scale_x<scale_y?scale_x:scale_y;
 
-	UIPickUpItemIcon.GetUIStaticItem().SetOriginalRect(
-		float(m_iXPos * INV_GRID_WIDTH),
-		float(m_iYPos * INV_GRID_HEIGHT),
-		float(m_iGridWidth * INV_GRID_WIDTH),
-		float(m_iGridHeight * INV_GRID_HEIGHT));
-
+	if (UseHDIcons) {
+		UIPickUpItemIcon.GetUIStaticItem().SetOriginalRect(
+			float(m_iXPos * INV_GRID_WIDTH),
+			float(m_iYPos * INV_GRID_HEIGHT),
+			float(m_iGridWidth * INV_GRID_WIDTH),
+			float(m_iGridHeight * INV_GRID_HEIGHT));
+	}
+	else {
+		UIPickUpItemIcon.GetUIStaticItem().SetOriginalRect(
+			float(m_iXPos * INV_GRID_WIDTH_LEGACY),
+			float(m_iYPos * INV_GRID_HEIGHT_LEGACY),
+			float(m_iGridWidth * INV_GRID_WIDTH_LEGACY),
+			float(m_iGridHeight * INV_GRID_HEIGHT_LEGACY));
+	}
 	UIPickUpItemIcon.SetStretchTexture(true);
 
-	UIPickUpItemIcon.SetWidth(m_iGridWidth*INV_GRID_WIDTH*scale*UI().get_current_kx());
-	UIPickUpItemIcon.SetHeight(m_iGridHeight*INV_GRID_HEIGHT*scale);
-
+	if (UseHDIcons) {
+		UIPickUpItemIcon.SetWidth(m_iGridWidth * INV_GRID_WIDTH * scale * UI().get_current_kx() /2);
+		UIPickUpItemIcon.SetHeight(m_iGridHeight * INV_GRID_HEIGHT * scale /2);
+	}
+	else {
+		UIPickUpItemIcon.SetWidth(m_iGridWidth * INV_GRID_WIDTH_LEGACY * scale * UI().get_current_kx());
+		UIPickUpItemIcon.SetHeight(m_iGridHeight * INV_GRID_HEIGHT_LEGACY * scale);
+	}
 	UIPickUpItemIcon.SetWndPos(m_iPickUpItemIconX + 
 		(m_iPickUpItemIconWidth - UIPickUpItemIcon.GetWidth())/2,
 		m_iPickUpItemIconY + 

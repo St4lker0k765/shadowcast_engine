@@ -888,9 +888,14 @@ void CWeaponMagazined::InitAddons()
 		if(m_eScopeStatus == ALife::eAddonAttachable)
 		{
 			m_sScopeName = pSettings->r_string(cNameSect(), "scope_name");
-			m_iScopeX	 = pSettings->r_s32(cNameSect(),"scope_x");
-			m_iScopeY	 = pSettings->r_s32(cNameSect(),"scope_y");
-
+			if (UseHDIcons) {
+				m_iScopeX = pSettings->r_s32(cNameSect(), "scope_x")*2;
+				m_iScopeY = pSettings->r_s32(cNameSect(), "scope_y")*2;
+			}
+			else {
+				m_iScopeX = pSettings->r_s32(cNameSect(), "scope_x");
+				m_iScopeY = pSettings->r_s32(cNameSect(), "scope_y");
+			}
 			shared_str scope_tex_name;
 			scope_tex_name = pSettings->r_string(*m_sScopeName, "scope_texture");
 			m_fScopeZoomFactor = pSettings->r_float	(*m_sScopeName, "scope_zoom_factor");

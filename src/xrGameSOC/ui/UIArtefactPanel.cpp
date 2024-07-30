@@ -33,10 +33,18 @@ void CUIArtefactPanel::InitIcons(const xr_vector<const CArtefact*>& artefacts)
 	{
 		const CArtefact* artefact = *it;
 		Frect rect;
-		rect.left = float(artefact->GetXPos()*INV_GRID_WIDTH);
-		rect.top = float(artefact->GetYPos()*INV_GRID_HEIGHT);
-		rect.right = rect.left + artefact->GetGridWidth()*INV_GRID_WIDTH;
-		rect.bottom = rect.top + artefact->GetGridHeight()*INV_GRID_HEIGHT;
+		if (UseHDIcons) {
+			rect.left = float(artefact->GetXPos() * INV_GRID_WIDTH);
+			rect.top = float(artefact->GetYPos() * INV_GRID_HEIGHT);
+			rect.right = rect.left + artefact->GetGridWidth() * INV_GRID_WIDTH;
+			rect.bottom = rect.top + artefact->GetGridHeight() * INV_GRID_HEIGHT;
+		}
+		else {
+			rect.left = float(artefact->GetXPos() * INV_GRID_WIDTH_LEGACY);
+			rect.top = float(artefact->GetYPos() * INV_GRID_HEIGHT_LEGACY);
+			rect.right = rect.left + artefact->GetGridWidth() * INV_GRID_WIDTH_LEGACY;
+			rect.bottom = rect.top + artefact->GetGridHeight() * INV_GRID_HEIGHT_LEGACY;
+		}
 		m_vRects.push_back(rect);
 	}
 }
