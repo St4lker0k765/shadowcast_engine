@@ -16,7 +16,7 @@
 #include "PHCommander.h"
 #include "PHScriptCall.h"
 #include "PHSimpleCalls.h"
-#include "../xrPhysics/IPHWorld.h"
+#include "phworld.h"
 void CScriptGameObject::SetTipText (LPCSTR tip_text)
 {
 	CUsableScriptObject	*l_tpUseableScriptObject = smart_cast<CUsableScriptObject*>(&object());

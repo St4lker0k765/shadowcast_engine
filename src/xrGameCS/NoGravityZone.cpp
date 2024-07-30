@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "nogravityzone.h"
-#include "../xrPhysics/physicsshell.h"
+#include "physicsshell.h"
 #include "entity_alive.h"
 #include "PHMovementControl.h"
-#include "../xrPhysics/IPHWorld.h"
+#include "PhWorld.h"
 #include "CharacterPhysicsSupport.h"
 extern CPHWorld	*ph_world;
 void CNoGravityZone::enter_Zone(SZoneObjectInfo& io)

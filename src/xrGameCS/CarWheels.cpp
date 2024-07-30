@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #ifdef DEBUG
-#include "../xrPhysics/ode_include.h"
+#include "ode_include.h"
 #include "../xrEngine/StatGraph.h"
 #include "PHDebug.h"
 #endif
@@ -9,7 +9,7 @@
 #include "PHDestroyable.h"
 #include "car.h"
 #include "../Include/xrRender/Kinematics.h"
-#include "../xrPhysics/ExtendedGeom.h"
+#include "ExtendedGeom.h"
 
 CCar::SWheel::SWheelCollisionParams::SWheelCollisionParams()
 {
@@ -35,13 +35,6 @@ void  CCar::SWheel::WheellCollisionCallback(bool& do_colide,bool bo1,dContact& c
 	dxGeomUserData					*ud2			=			retrieveGeomUserData(c.geom.g2)	;
 	applywheelCollisionParams		(ud1,do_colide,c,material_1,material_2)						;
 	applywheelCollisionParams		(ud2,do_colide,c,material_1,material_2)						;
-}
-
-float  CCar::SWheelSteer::GetSteerAngle()
-{
-	VERIFY(pwheel);
-	VERIFY(pwheel->joint);
-	return -pos_right * pwheel->joint->GetAxisAngle(0);//dJointGetHinge2Angle1 (pwheel->joint->GetDJoint());
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

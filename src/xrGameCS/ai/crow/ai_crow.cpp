@@ -7,7 +7,7 @@
 ////////////////////////////////////////////////////////////////////////////
 
 #include "pch_script.h"
-#include "../../../xrPhysics/PhysicsShell.h"
+#include "../../physicsshell.h"
 #include "ai_crow.h"
 #include "../../hudmanager.h"
 #include "../../level.h"
@@ -20,7 +20,7 @@
 #include "script_game_object.h"
 #include "hit.h"
 #ifdef	DEBUG
-#include "../xrPhysics/phvalide.h"
+#include "phvalide.h"
 #endif
 
 void CAI_Crow::SAnim::Load	(IKinematicsAnimated* visual, LPCSTR prefix)

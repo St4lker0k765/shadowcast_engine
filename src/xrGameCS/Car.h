@@ -3,11 +3,11 @@
 //#if 0
 
 #include "entity.h"
-#include "../xrPhysics/PHDynamicData.h"
-#include "../xrPhysics/PhysicsShell.h"
+#include "PHDynamicData.h"
+#include "PhysicsShell.h"
 #include "script_entity.h"
 #include "CarLights.h"
-#include "../xrPhysics/phobject.h"
+#include "phobject.h"
 #include "holder_custom.h"
 #include "PHSkeleton.h"
 #include "DamagableItem.h"
@@ -211,7 +211,10 @@ virtual void ApplyDamage			(u16 level);
 		float steering_velocity;
 		float steering_torque;
 		bool  limited;			//zero limited for idle steering drive
-		float GetSteerAngle	();
+		float GetSteerAngle()
+		{
+			return -pos_right*dJointGetHinge2Angle1 (pwheel->joint->GetDJoint());
+		}
 		void	 Init		()						;
 		void	 SteerRight	()						;
 		void	 SteerLeft	()						;

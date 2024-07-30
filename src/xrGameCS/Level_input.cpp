@@ -119,7 +119,7 @@ void CLevel::IR_OnKeyboardPress	(int key)
 		return;
 	}
 
-	if(	g_bDisableAllInput && _curr != kSCREENSHOT )	return;
+	if(	g_bDisableAllInput )	return;
 
 	switch ( _curr ) 
 	{

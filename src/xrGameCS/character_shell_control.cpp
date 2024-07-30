@@ -5,8 +5,8 @@
 #include "../Include/xrRender/Kinematics.h"
 #include "../xrEngine/bone.h"
 
-#include "../xrPhysics/Physics.h"
-#include "../xrPhysics/ExtendedGeom.h"
+#include "Physics.h"
+#include "ExtendedGeom.h"
 #include "hit.h"
 #include "level.h"
 #include "CustomZone.h"

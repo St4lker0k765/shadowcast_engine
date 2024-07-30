@@ -8,7 +8,7 @@
 #include "stdafx.h"
 #include "artefact_activation.h"
 
-#include "../xrPhysics/PhysicsShell.h"
+#include "PhysicsShell.h"
 #include "PhysicsShellHolder.h"
 #include "game_cl_base.h"
 
@@ -19,7 +19,7 @@
 #include "level.h"
 #include "ai_object_location.h"
 #include "xrServer_Objects_ALife_Monsters.h"
-#include "../xrPhysics/IPHWorld.h"
+#include "phworld.h"
 #include "restriction_space.h"
 #include "../xrEngine/IGame_Persistent.h"
 

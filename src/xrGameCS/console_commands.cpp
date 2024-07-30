@@ -24,7 +24,7 @@
 #include "xrServer_Objects.h"
 #include "ui/UIMainIngameWnd.h"
 #include "PhysicsGamePars.h"
-#include "../xrPhysics/IPHWorld.h"
+#include "phworld.h"
 #include "string_table.h"
 #include "autosave_manager.h"
 #include "ai_space.h"

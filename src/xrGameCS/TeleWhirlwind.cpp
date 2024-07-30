@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "telewhirlwind.h"
-#include "../xrPhysics/PhysicsShell.h"
+#include "PhysicsShell.h"
 #include "PhysicsShellHolder.h"
 #include "level.h"
 #include "hit.h"
@@ -8,7 +8,7 @@
 #include "xrmessages.h"
 #include "../Include/xrRender/Kinematics.h"
 #include "../Include/xrRender/KinematicsAnimated.h"
-#include "../xrPhysics/IPHWorld.h"
+#include "PHWorld.h"
 CTeleWhirlwind ::CTeleWhirlwind () 
 {
 	m_owner_object=NULL;

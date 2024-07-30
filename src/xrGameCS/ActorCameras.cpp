@@ -16,14 +16,14 @@
 #include "level.h"
 #include "../xrEngine/cl_intersect.h"
 
-#include "../xrPhysics/ielevatorstate.h"
+#include "elevatorstate.h"
 #include "CharacterPhysicsSupport.h"
 #include "EffectorShot.h"
-#include "../xrPhysics/ActorCameraCollision.h"
+
 #include "PHMovementControl.h"
 
 extern BOOL dbg_draw_camera_collision;
-//void	collide_camera( CCameraBase & camera, float _viewport_near  );
+void	collide_camera( CCameraBase & camera, float _viewport_near  );
 
 void CActor::cam_Set	(EActorCameras style)
 {
@@ -132,17 +132,15 @@ ICF BOOL test_point( const Fvector	&pt, xrXRC& xrc,  const Fmatrix33& mat, const
 	return FALSE;
 }
 
-//bool test_camera_box( const Fvector &box_size, const Fmatrix &xform );
-IC bool test_point(const Fvector& pt, const Fmatrix33& mat, const Fvector& ext, CActor* actor)
+bool test_camera_box( const Fvector &box_size, const Fmatrix &xform );
+IC bool test_point( const Fvector	&pt, const Fmatrix33& mat, const Fvector& ext  )
 {
 	Fmatrix fmat = Fidentity;
-	fmat.i.set(mat.i);
-	fmat.j.set(mat.j);
-	fmat.k.set(mat.k);
-	fmat.c.set(pt);
-	//IPhysicsShellHolder * ve = smart_cast<IPhysicsShellHolder*> ( Level().CurrentEntity() ) ;
-	VERIFY(actor);
-	return test_camera_box(ext, fmat, actor);
+	fmat.i.set( mat.i );
+	fmat.j.set( mat.j );
+	fmat.k.set( mat.k );
+	fmat.c.set( pt ); 
+	return test_camera_box( ext, fmat );
 }
 
 #ifdef	DEBUG

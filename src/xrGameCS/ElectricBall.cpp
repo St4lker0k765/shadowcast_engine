@@ -5,7 +5,7 @@
 
 #include "stdafx.h"
 #include "ElectricBall.h"
-#include "../xrPhysics/PhysicsShell.h"
+#include "PhysicsShell.h"
 
 
 CElectricBall::CElectricBall(void) 

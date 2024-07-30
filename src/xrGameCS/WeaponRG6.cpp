@@ -3,7 +3,7 @@
 #include "entity.h"
 #include "explosiveRocket.h"
 #include "level.h"
-#include "../xrPhysics/MathUtils.h"
+#include "MathUtils.h"
 #include "actor.h"
 
 #ifdef DEBUG

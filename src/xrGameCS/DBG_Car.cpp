@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #ifdef DEBUG
 
-#include "../xrPhysics/ode_include.h"
+#include "ode_include.h"
 #include "../xrEngine/StatGraph.h"
 #include "PHDebug.h"
 #include "alife_space.h"

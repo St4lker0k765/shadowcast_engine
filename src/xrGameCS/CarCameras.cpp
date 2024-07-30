@@ -1,10 +1,10 @@
 #include "stdafx.h"
 
 #ifdef DEBUG
-#include "../xrPhysics/ode_include.h"
+#include "ode_include.h"
 #include "../xrEngine/StatGraph.h"
 #include "PHDebug.h"
-#include "../xrPhysics/IPHWorld.h"
+#include "phworld.h"
 #endif
 #include "alife_space.h"
 #include "hit.h"

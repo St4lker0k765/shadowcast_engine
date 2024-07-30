@@ -9,9 +9,8 @@
 #include "CameraFirstEye.h"
 
 #include "ActorEffector.h"
-#include "../xrPhysics/ActorCameraCollision.h"
 
-#include "../xrPhysics/IPHWorld.h"
+#include "PHWorld.h"
 #include "level.h"
 #include "xr_level_controller.h"
 #include "game_cl_base.h"
@@ -43,7 +42,7 @@
 
 #ifdef DEBUG
 #	include "debug_renderer.h"
-#	include "../xrPhysics/Physics.h"
+#	include "Physics.h"
 #endif
 
 int			g_cl_InterpolationType		= 0;

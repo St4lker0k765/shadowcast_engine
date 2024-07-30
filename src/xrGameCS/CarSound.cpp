@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #ifdef DEBUG
-#include "../xrPhysics/ode_include.h"
+#include "ode_include.h"
 #include "../xrEngine/StatGraph.h"
 #include "PHDebug.h"
 #endif
@@ -9,7 +9,7 @@
 #include "PHDestroyable.h"
 #include "car.h"
 #include "../Include/xrRender/Kinematics.h"
-#include "../xrPhysics/IPHWorld.h"
+#include "PHWorld.h"
 extern CPHWorld*	ph_world;
 CCar::SCarSound::SCarSound(CCar* car)
 {
