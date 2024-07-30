@@ -701,6 +701,7 @@ void CGamePersistent::LoadTitle(LPCSTR str)
 }
 void CGamePersistent::SetLoadStageTitle(pcstr ls_title)
 {
+	Discord.SetStatus("Загрузка игрового уровня");
 	string256 buff;
 	if (ls_title)
 	{

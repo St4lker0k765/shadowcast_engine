@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="windows-1251" ?>
 <string_table>
+	<string id="renderer_r2.5">
+		<text>Улучшенное полное освещение</text>
+	</string>
+	<string id="renderer_r3">
+		<text>Улучшенное полное освещение (DX10)</text>
+	</string>
 	<string id="renderer_r4">
 		<text>Улучшенное полное освещение (DX11)</text>
 	</string>
