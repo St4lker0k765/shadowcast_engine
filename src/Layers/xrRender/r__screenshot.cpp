@@ -163,7 +163,17 @@ void CRender::ScreenshotImpl	(ScreenshotMode mode, LPCSTR name, CMemoryWriter* m
 			{
 				string64			t_stemp;
 				string_path			buf;
-
+				xr_sprintf			(buf,sizeof(buf),"ss_%s_%s_(%s).png",Core.UserName,timestamp(t_stemp),(g_pGameLevel)?g_pGameLevel->name().c_str():"mainmenu");
+				ID3DBlob			*saved	= 0;
+#ifdef USE_DX11
+				CHK_DX				(D3DX11SaveTextureToMemory(HW.pContext, pSrcTexture, D3DX11_IFF_PNG, &saved, 0));
+#else
+				CHK_DX				(D3DX10SaveTextureToMemory( pSrcTexture, D3DX10_IFF_PNG, &saved, 0));
+#endif
+				IWriter*		fs	= FS.w_open	("$screenshots$",buf); R_ASSERT(fs);
+				fs->w				(saved->GetBufferPointer(),static_cast<u32>(saved->GetBufferSize()));
+				FS.w_close			(fs);
+				_RELEASE			(saved);
 
 				if (strstr(Core.Params,"-ss_tga"))	
 				{ // hq
@@ -194,41 +204,6 @@ void CRender::ScreenshotImpl	(ScreenshotMode mode, LPCSTR name, CMemoryWriter* m
 					fs->w(saved->GetBufferPointer(), static_cast<u32>(saved->GetBufferSize()));
 					FS.w_close(fs);
 					_RELEASE(saved);
-				}
-				else {
-					ID3DTexture2D* pSrcPngTexture;
-
-					D3D_TEXTURE2D_DESC desc;
-					ZeroMemory(&desc, sizeof(desc));
-					desc.Width = Device.dwWidth;
-					desc.Height = Device.dwHeight;
-					desc.MipLevels = 1;
-					desc.ArraySize = 1;
-					desc.Format = DXGI_FORMAT_R32G32B32_TYPELESS;
-					desc.SampleDesc.Count = 1;
-					desc.Usage = D3D_USAGE_DEFAULT;
-					desc.BindFlags = D3D_BIND_SHADER_RESOURCE;
-					CHK_DX(HW.pDevice->CreateTexture2D(&desc, NULL, &pSrcPngTexture));
-#ifdef USE_DX11
-					CHK_DX(D3DX11LoadTextureFromTexture(HW.pContext, pSrcTexture,
-						NULL, pSrcPngTexture));
-#else
-					CHK_DX(D3DX10LoadTextureFromTexture(pSrcTexture,
-						NULL, pSrcPngTexture));
-#endif
-					xr_sprintf(buf, sizeof(buf), "ss_%s_%s_(%s).png", Core.UserName, timestamp(t_stemp), (g_pGameLevel) ? g_pGameLevel->name().c_str() : "mainmenu");
-					ID3DBlob* saved = 0;
-
-#ifdef USE_DX11
-					CHK_DX(D3DX11SaveTextureToMemory(HW.pContext, pSrcPngTexture, D3DX11_IFF_PNG, &saved, 0));
-#else
-					CHK_DX(D3DX10SaveTextureToMemory(pSrcPngTexture, D3DX10_IFF_PNG, &saved, 0));
-#endif
-					IWriter* fs = FS.w_open("$screenshots$", buf); R_ASSERT(fs);
-					fs->w(saved->GetBufferPointer(), static_cast<u32>(saved->GetBufferSize()));
-					FS.w_close(fs);
-					_RELEASE(saved);
-					_RELEASE(pSrcPngTexture);
 				}
 			}
 			break;
