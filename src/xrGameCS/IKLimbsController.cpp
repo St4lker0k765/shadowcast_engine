@@ -6,7 +6,7 @@
 #include "physicsshellholder.h"
 
 #include "ik_anim_state.h"
-#include "../xrPhysics/MathUtils.h"
+
 #include "../Include/xrRender/RenderVisual.h"
 #include "../Include/xrRender/Kinematics.h"
 #include "../xrPhysics/ode_include.h"
@@ -87,7 +87,7 @@ void	y_shift_bones( IKinematics* K, float shift )
 }
 float	CIKLimbsController::LegLengthShiftLimit			( float current_shift, const SCalculateData cd[max_size] )
 {
-	float shift_down = -phInfinity;
+	float shift_down = -dInfinity;
 	const u16 sz =(u16)_bone_chains.size();
 	for(u16 j = 0; sz > j; ++j )
 		if( cd[j].state.foot_step )

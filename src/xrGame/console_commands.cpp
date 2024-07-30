@@ -1185,62 +1185,6 @@ public:
 
 };
 
-class CCC_GiveInfo : public IConsole_Command {
-public:
-	CCC_GiveInfo(LPCSTR N) : IConsole_Command(N) { bEmptyArgsHandled = false; }
-	virtual void Execute(LPCSTR args)
-	{
-		if (!xr_strlen(args))
-		{
-			Log("* Specify info name!");
-		}
-		else if (!ai().get_alife())
-		{ 
-			Log("! ERROR: Cannot run give_info command if level isn't present!");
-		}
-		else
-		{
-			Actor()->TransferInfo(args, true);
-			Msg("Successfully gave info portion %s!", args);
-		}
-	}
-
-	virtual void Status(TStatus& S)
-	{
-		xr_strcpy(S, "<info_name> (Specify info name!)");
-	}
-	virtual void Save(IWriter* F) {}
-
-};
-
-class CCC_DisableInfo : public IConsole_Command {
-public:
-	CCC_DisableInfo(LPCSTR N) : IConsole_Command(N) { bEmptyArgsHandled = false; }
-	virtual void Execute(LPCSTR args)
-	{
-		if (!xr_strlen(args))
-		{
-			Log("* Specify info name!");
-		}
-		else if (!ai().get_alife())
-		{
-			Log("! ERROR: Cannot run disable_info command if level isn't present!");
-		}
-		else
-		{
-			Actor()->TransferInfo(args, false);
-			Msg("Successfully disabled info portion %s!", args);
-		}
-	}
-
-	virtual void Status(TStatus& S)
-	{
-		xr_strcpy(S, "<info_name> (Specify info name!)");
-	}
-	virtual void Save(IWriter* F) {}
-
-};
-
 class CCC_ScriptCommand : public IConsole_Command {
 public:
 	CCC_ScriptCommand	(LPCSTR N) : IConsole_Command(N)  { bEmptyArgsHandled = false; }
@@ -1880,9 +1824,6 @@ void CCC_RegisterCommands()
 	CMD1(CCC_Script,		"run_script")
 	CMD1(CCC_ScriptCommand,	"run_string")
 	CMD1(CCC_TimeFactor,	"time_factor")
-
-	CMD1(CCC_GiveInfo,		"give_info")
-	CMD1(CCC_DisableInfo,	"disable_info")
 
 	CMD3(CCC_Mask,		"g_autopickup",			&psActorFlags,	AF_AUTOPICKUP)
 	CMD3(CCC_Mask,		"g_dynamic_music",		&psActorFlags,	AF_DYNAMIC_MUSIC)

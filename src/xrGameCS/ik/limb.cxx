@@ -801,7 +801,7 @@ int Limb::try_singularities(int solves, float &swivel_angle, float x[])
 int Limb::Solve(float x[], float *new_swivel, float *new_pos)
 {
     int success; 
-    float swivel_angle=-phInfinity; 
+    float swivel_angle=-dInfinity; 
 
     x[3] = x3;
 
@@ -842,7 +842,7 @@ int Limb::Solve(float x[], float *new_swivel, float *new_pos)
 	swivel_angle = 0.0f;
 	success = SolveByAngle(swivel_angle, x);
     }
-	VERIFY(swivel_angle!=-phInfinity);
+	VERIFY(swivel_angle!=-dInfinity);
     if (new_swivel)
 	*new_swivel = swivel_angle;
     if (new_pos)

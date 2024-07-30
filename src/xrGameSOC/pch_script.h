@@ -11,6 +11,11 @@
 
 #include "stdafx.h"
 
+//#pragma warning(disable:4244)
+//#pragma warning(disable:4995)
+//#pragma warning(disable:4530)
+//#pragma warning(disable:4267)
+
 //AVO: lua re-org
 #include "lua.hpp"
 extern "C" {
