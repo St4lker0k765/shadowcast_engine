@@ -1,6 +1,6 @@
 --****************************** ESM-Engine Functions ******************************--
 --===================================================================
---printf("--LUAJIT version: ["..(jit.version or _VERSION).."]")
+--engine_log("--LUAJIT version: ["..(jit.version or _VERSION).."]")
 --===================================================================
 --Функциональная обёртка для log1(Неплохая обёртка из OGSR).
 --Делает дополнительную работу по конвертации параметров, которые не воспринимаются родной функцией string.format.
@@ -1134,7 +1134,7 @@ function abort(fmt, ...)
 	local reason = string.format(fmt, ...)
 	assert("ERROR: " .. reason)
 	printf("ERROR: " .. reason)
-	printf("%s")
+--	printf("%s")
 end
 
 function set_postprocess(name_ini_file)
