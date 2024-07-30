@@ -40,17 +40,14 @@ void CCar::SExhaust::Init()
 
 void CCar::SExhaust::Update()
 {
-	VERIFY(!physics_world()->Processing());
+	VERIFY(!ph_world->Processing());
 	Fmatrix global_transform;
 	pelement->InterpolateGlobalTransform(&global_transform);
 	global_transform.mulB_43(transform);
-
-	//dVector3 res;
-	//Fvector	 res_vel;
-	//dBodyGetPointVel(pelement->get_body(),global_transform.c.x,global_transform.c.y,global_transform.c.z,res);
-	//CopyMemory (&res_vel,res,sizeof(Fvector));
+	dVector3 res;
 	Fvector	 res_vel;
-	pelement->GetPointVel( res_vel, global_transform.c );
+	dBodyGetPointVel(pelement->get_body(),global_transform.c.x,global_transform.c.y,global_transform.c.z,res);
+	CopyMemory (&res_vel,res,sizeof(Fvector));
 	//velocity.mul(0.95f);
 	//res_vel.mul(0.05f);
 	//velocity.add(res_vel);

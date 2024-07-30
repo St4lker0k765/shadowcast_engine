@@ -67,7 +67,7 @@ private:
 	CPHMovementControl					*m_PhysicMovementControl																															;
 	CPHSoundPlayer						m_ph_sound_player																																	;
 	CIKLimbsController					*m_ik_controller																																	;
-	ICollisionHitCallback				*m_collision_hit_callback;
+	SCollisionHitCallback				*m_collision_hit_callback;
 	character_hit_animation_controller	m_hit_animations;
 	death_anims							m_death_anims;
 	float								m_BonceDamageFactor;
@@ -142,8 +142,8 @@ IC		CIKLimbsController				*ik_controller					( )	{ return m_ik_controller; }
 		void							on_create_anim_mov_ctrl			( );
 		void							on_destroy_anim_mov_ctrl		( );
 		void							PHGetLinearVell					( Fvector& velocity );
-		ICollisionHitCallback*			get_collision_hit_callback		( );
-		bool							set_collision_hit_callback		( ICollisionHitCallback* cc );
+		SCollisionHitCallback*			get_collision_hit_callback		( );
+		bool							set_collision_hit_callback		( SCollisionHitCallback* cc );
 		void							run_interactive					( CBlend* B );
 		void							update_interactive_anims		( );
 IC		physics_shell_animated			*animation_collision			( ){ return m_physics_shell_animated; }

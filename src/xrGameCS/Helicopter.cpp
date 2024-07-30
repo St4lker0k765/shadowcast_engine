@@ -397,7 +397,7 @@ void CHelicopter::UpdateCL()
 		return;
 	}
 	else
-		PPhysicsShell()->SetTransform(XFORM(), mh_unspecified);
+		PPhysicsShell()->SetTransform(XFORM());
 
 	m_movement.Update();
 

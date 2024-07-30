@@ -86,7 +86,6 @@ public:
 
 	void		critical_wound			(LPCSTR anim);
 
-	CControlJump*	get_jump_control	() { return m_jump; }
 private:
 
 	void		check_attack_jump		();

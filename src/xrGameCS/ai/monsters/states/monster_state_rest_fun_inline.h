@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../../../../xrphysics/PhysicsShell.h"
-//#include "../../../PHInterpolation.h"
-//#include "../../../PHElement.h"
+#include "../../../../xrPhysics/PhysicsShell.h"
+#include "../../../../xrPhysics/PHInterpolation.h"
+#include "../../../../xrPhysics/PHElement.h"
 
 #define TEMPLATE_SPECIALIZATION template <\
 	typename _Object\
@@ -64,8 +64,8 @@ void CStateMonsterRestFunAbstract::execute()
 			dir.normalize	();
 			
 			// выполнить бросок
-			for (u32 i=0; i<target->m_pPhysicsShell->get_ElementsNumber();i++) {
-				target->m_pPhysicsShell->get_ElementByStoreOrder((u16)i)->applyImpulse(dir, IMPULSE_TO_CORPSE * target->m_pPhysicsShell->getMass() / target->m_pPhysicsShell->Elements().size());
+			for (u32 i=0; i<target->m_pPhysicsShell->Elements().size();i++) {
+				target->m_pPhysicsShell->Elements()[i]->applyImpulse(dir, IMPULSE_TO_CORPSE * target->m_pPhysicsShell->getMass() / target->m_pPhysicsShell->Elements().size());
 			}
 
 			time_last_hit	= Device.dwTimeGlobal;

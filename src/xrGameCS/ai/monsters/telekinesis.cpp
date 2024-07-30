@@ -165,7 +165,7 @@ void CTelekinesis::schedule_update()
 	}
 }
 
-void CTelekinesis::PhDataUpdate(float step)
+void CTelekinesis::PhDataUpdate(dReal step)
 {
 	if (!active) return;
 
@@ -199,7 +199,7 @@ void  CTelekinesis::clear_notrelevant()
 	);
 }
 
-void  CTelekinesis::PhTune(float step)
+void  CTelekinesis::PhTune(dReal step)
 {
 	if (!active) return;
 	clear_notrelevant();

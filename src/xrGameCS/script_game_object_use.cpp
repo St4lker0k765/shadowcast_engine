@@ -1,6 +1,5 @@
 #include "pch_script.h"
 #include "script_game_object.h"
-#include "script_game_object_impl.h"
 #include "UsableScriptObject.h"
 #include "GameObject.h"
 #include "script_storage_space.h"
@@ -210,9 +209,7 @@ void CScriptGameObject::set_fastcall(const luabind::functor<bool> &functor, cons
 void CScriptGameObject::set_const_force(const Fvector &dir,float value,u32 time_interval)
 {
 	CPhysicsShell	*shell=object().cast_physics_shell_holder()->PPhysicsShell();
-	//if( !shell->isEnabled() )
-	//	shell->set_LinearVel( Fvector().set(0,0,0) );
-	if(!physics_world())	{
+	if(!ph_world)	{
 		ai().script_engine().script_log				(ScriptStorage::eLuaMessageTypeError,"set_const_force : ph_world do not exist!");
 		return;
 	}
@@ -220,14 +217,11 @@ void CScriptGameObject::set_const_force(const Fvector &dir,float value,u32 time_
 		ai().script_engine().script_log				(ScriptStorage::eLuaMessageTypeError,"set_const_force : object %s has no physics shell!",*object().cName());
 		return;
 	}
-//#ifdef DEBUG
-//	Msg( "const force added: force: %f,  time: %d ,dir(%f,%f,%f)", value, time_interval, dir.x, dir.y, dir.z );
-//#endif
+
 	Fvector force;force.set(dir);force.mul(value);
 	CPHConstForceAction *a=	xr_new<CPHConstForceAction>(shell,force);
 	CPHExpireOnStepCondition *cn=xr_new<CPHExpireOnStepCondition>();
 	cn->set_time_interval(time_interval);
-	//ph_world->AddCall(cn,a);
-	Level().ph_commander_physics_worldstep().add_call_threadsafety(cn,a);
+	ph_world->AddCall(cn,a);
 	
 }

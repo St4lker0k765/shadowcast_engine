@@ -8,16 +8,12 @@
 #pragma once
 
 #include "physicsshellholder.h"
-#include "../xrphysics/icollisiondamagereceiver.h"
 
-class	IPHStaticGeomShell;
+class	CPHStaticGeomShell;
 struct	dContact;
 struct	SGameMtl;
 
-class CBreakableObject: 
-	public CPhysicsShellHolder,
-	public ICollisionDamageReceiver
-{
+class CBreakableObject: public CPhysicsShellHolder {
 	typedef	CPhysicsShellHolder		inherited;
 private:
 		bool				b_resived_damage;
@@ -29,7 +25,7 @@ static	float				m_immunity_factor;
 		Fvector				m_contact_damage_dir;
 
 		float				fHealth;
-		IPHStaticGeomShell	*m_pUnbrokenObject;
+		CPHStaticGeomShell	*m_pUnbrokenObject;
 		CPhysicsShell		*m_Shell;
 static	u32					m_remove_time;
 		u32					m_break_time;
@@ -65,9 +61,7 @@ private:
 	void			ProcessDamage		();
 	void			SendDestroy			();
 	void			enable_notificate	();
-//	static 	void	ObjectContactCallback(bool& /**do_colide/**/,bool bo1,dContact& c,SGameMtl * /*material_1*/,SGameMtl * /*material_2*/);
-private:
-	virtual ICollisionDamageReceiver	*PHCollisionDamageReceiver	()								{return (this);}
-	virtual		void					CollisionHit				( u16 source_id, u16 bone_id, float power, const Fvector &dir, Fvector &pos );
+	static 	void	ObjectContactCallback(bool& /**do_colide/**/,bool bo1,dContact& c,SGameMtl * /*material_1*/,SGameMtl * /*material_2*/);
 };
+
 #endif //BreakableObjectH

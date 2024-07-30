@@ -81,8 +81,7 @@ protected:
 
 	CPHCommander				*m_ph_commander;
 	CPHCommander				*m_ph_commander_scripts;
-	CPHCommander				*m_ph_commander_physics_worldstep;
-
+	
 	// Local events
 	EVENT						eChangeRP;
 	EVENT						eDemoPlay;
@@ -305,7 +304,6 @@ public:
 
 	IC CPHCommander					&ph_commander				();
 	IC CPHCommander					&ph_commander_scripts		();
-	IC CPHCommander					&ph_commander_physics_worldstep();
 
 	// C/D
 	CLevel();
@@ -431,11 +429,6 @@ IC CPHCommander & CLevel::ph_commander_scripts()
 {
 	VERIFY(m_ph_commander_scripts);
 	return *m_ph_commander_scripts;
-}
-IC CPHCommander& CLevel::ph_commander_physics_worldstep()
-{
-	VERIFY(m_ph_commander_scripts);
-	return *m_ph_commander_physics_worldstep;
 }
 //by Mad Max 
 IC bool		OnServer()			{ return Level().IsServer();}

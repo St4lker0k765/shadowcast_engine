@@ -1355,7 +1355,7 @@ void CCar::TransmissionDown()
 
 
 
-void CCar::PhTune(float step)
+void CCar::PhTune(dReal step)
 {
 	
 
@@ -1363,9 +1363,7 @@ void CCar::PhTune(float step)
 	for(u16 i=PPhysicsShell()->get_ElementsNumber();i!=0;i--)	
 	{
 		CPhysicsElement* e=PPhysicsShell()->get_ElementByStoreOrder(i-1);
-		if(e->isActive()&&e->isEnabled())
-			e->applyForce( 0, e->getMass()*AntiGravityAccel(), 0 );
-			//dBodyAddForce(e->get_body(),0,e->getMass()*AntiGravityAccel(),0);
+		if(e->isActive()&&e->isEnabled())dBodyAddForce(e->get_body(),0,e->getMass()*AntiGravityAccel(),0);
 	}
 }
 float CCar::EffectiveGravity()
@@ -1728,7 +1726,7 @@ void CCar::ResetScriptData(void	*P)
 	CScriptEntity::ResetScriptData(P);
 }
 
-void CCar::PhDataUpdate(float step)
+void CCar::PhDataUpdate(dReal step)
 {
 		if(m_repairing)Revert();
 		LimitWheels();
@@ -2033,8 +2031,7 @@ Fvector	CCar::		ExitVelocity				()
 	if(!P||!P->isActive())return Fvector().set(0,0,0);
 	CPhysicsElement *E=P->get_ElementByStoreOrder(0);
 	Fvector v=ExitPosition();
-	E->GetPointVel( v, v );
-	//dBodyGetPointVel(E->get_body(),v.x,v.y,v.z,cast_fp(v));
+	dBodyGetPointVel(E->get_body(),v.x,v.y,v.z,cast_fp(v));
 	return v;
 }
 

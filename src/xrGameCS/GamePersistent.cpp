@@ -67,6 +67,11 @@ CGamePersistent::CGamePersistent(void)
 	m_last_stats_frame			= u32(-2);
 #endif
 	// 
+	dSetAllocHandler			(ode_alloc		);
+	dSetReallocHandler			(ode_realloc	);
+	dSetFreeHandler				(ode_free		);
+
+	// 
 	BOOL	bDemoMode	= (0!=strstr(Core.Params,"-demomode "));
 	if (bDemoMode)
 	{

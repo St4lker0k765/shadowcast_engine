@@ -43,7 +43,6 @@
 #include "cameralook.h"
 #include "character_hit_animations_params.h"
 #include "inventory_upgrade_manager.h"
-#include "../xrphysics/console_vars.h"
 
 #ifdef DEBUG
 #	include "PHDebug.h"
@@ -80,6 +79,7 @@ extern	int		g_dwInputUpdateDelta	;
 extern	BOOL	g_ShowAnimationInfo		;
 #endif // DEBUG
 extern	BOOL	g_bShowHitSectors		;
+extern	BOOL	g_bDebugDumpPhysicsStep	;
 extern	ESingleGameDifficulty g_SingleGameDifficulty;
 extern	BOOL	g_show_wnd_rect2			;
 //-----------------------------------------------------------
@@ -1087,8 +1087,7 @@ public:
 	  virtual void	Execute	(LPCSTR args)
 	  {
 		  CCC_Integer::Execute	(args);
-		  if (physics_world())
-			  physics_world()->StepNumIterations(phIterations);
+		  dWorldSetQuickStepNumIterations(NULL,phIterations);
 	  }
 };
 
@@ -1128,18 +1127,11 @@ public:
     CCC_PHFps(LPCSTR N)
         : CCC_Float(N, &m_dummy, 50.f, 200.f){};
 
-	  virtual void	Execute	(LPCSTR args)
-	  {
-		  auto step_count = static_cast<float>(atof(args));
-#ifndef		DEBUG
-		  clamp				(step_count,50.f,200.f);
-#endif
-		  //IPHWorld::SetStep(1.f/step_count);
-		  ph_console::ph_step_time = 1.f/step_count;
-		  //physics_world()->SetStep(1.f/step_count);
-		  if(physics_world())
-			 physics_world()->SetStep(ph_console::ph_step_time);
-	  }
+    void Execute(LPCSTR args) override
+    {
+        CCC_Float::Execute(args);
+        CPHWorld::SetStep(1.f / m_dummy);
+    }
 
     void Status(TStatus& S) override
     {
@@ -2070,7 +2062,7 @@ CMD4(CCC_FloatBlock,		"dbg_text_height_scale",	&dbg_text_height_scale	,			0.2f	,
 	CMD4(CCC_Float,		"dbg_imotion_draw_velocity_scale",	&dbg_imotion_draw_velocity_scale, 0.0001f, 100.0f );
 
 	CMD4(CCC_Integer,	"dbg_show_ani_info",		&g_ShowAnimationInfo,	0, 1)	;
-	CMD4(CCC_Integer,	"dbg_dump_physics_step",	&ph_console::g_bDebugDumpPhysicsStep, 0, 1);
+	CMD4(CCC_Integer,	"dbg_dump_physics_step",	&g_bDebugDumpPhysicsStep, 0, 1);
 	CMD1(CCC_InvUpgradesHierarchy,	"inv_upgrades_hierarchy");
 	CMD1(CCC_InvUpgradesCurItem,	"inv_upgrades_cur_item");
 	CMD4(CCC_Integer,	"inv_upgrades_log",	&g_upgrades_log, 0, 1);

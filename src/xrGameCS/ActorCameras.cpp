@@ -73,8 +73,8 @@ void CActor::camUpdateLadder(float dt)
 		cam_yaw								+= delta * _min(dt*10.f,1.f) ;
 	}
 
-	IElevatorState* es = character_physics_support()->movement()->ElevatorState();
-	if(es && es->State()==clbClimbingDown)
+	CElevatorState* es = character_physics_support()->movement()->ElevatorState();
+	if(es && es->State()==CElevatorState::clbClimbingDown)
 	{
 		float &cam_pitch					= cameras[eacFirstEye]->pitch;
 		const float ldown_pitch				= cameras[eacFirstEye]->lim_pitch.y;
@@ -247,7 +247,7 @@ void	CActor::cam_Lookout	( const Fmatrix &xform, float camera_height )
 				Fvector	ext		= {w,h,VIEWPORT_NEAR/2};
 				Fvector				pt;
 				calc_gl_point	( pt, xform, radius, alpha );
-				if ( test_point( pt, mat, ext, this ) )
+				if ( test_point( pt, mat, ext  ) )
 				{
 					da			= PI/1000.f;
 					if (!fis_zero(r_torso.roll))
@@ -257,7 +257,7 @@ void	CActor::cam_Lookout	( const Fmatrix &xform, float camera_height )
 					{
 						Fvector				pt;
 						calc_gl_point( pt, xform, radius, angle );
-						if (test_point( pt, mat,ext, this)) 
+						if (test_point( pt, mat,ext )) 
 							{ bIntersect=TRUE; break; } 
 					}
 					valid_angle	= bIntersect?angle:alpha;
@@ -301,7 +301,7 @@ void CActor::cam_Update(float dt, float fFOV)
 	float flCurrentPlayerY	= xform.c.y;
 
 	// Smooth out stair step ups
-	if ((character_physics_support()->movement()->Environment()== CPHMovementControl::peOnGround) && (flCurrentPlayerY-fPrevCamPos>0)){
+	if ((character_physics_support()->movement()->Environment()==peOnGround) && (flCurrentPlayerY-fPrevCamPos>0)){
 		fPrevCamPos			+= dt*1.5f;
 		if (fPrevCamPos > flCurrentPlayerY)
 			fPrevCamPos		= flCurrentPlayerY;
@@ -327,7 +327,7 @@ void CActor::cam_Update(float dt, float fFOV)
 		cameras[eacFirstEye]->f_fov		= fFOV;
 	} 
 	if (Level().CurrentEntity() == this)
-		collide_camera( *cameras[eacFirstEye], _viewport_near, this );
+		collide_camera( *cameras[eacFirstEye], _viewport_near );
 
 	if( psActorFlags.test(AF_PSP) )
 	{

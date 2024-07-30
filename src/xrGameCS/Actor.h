@@ -752,7 +752,7 @@ public:
 	virtual void			On_SetEntity();
 	virtual void			On_LostEntity();
 
-//static CPhysicsShell		*actor_camera_shell;
+static CPhysicsShell		*actor_camera_shell;
 
 private:
 	std::bitset<kNOTBINDED + 1> m_blockedActions;// Заблокированные действия

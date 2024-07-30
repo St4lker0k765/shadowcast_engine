@@ -18,7 +18,6 @@
 #ifdef DEBUG
 #include "../../level_debug.h"
 #endif
-#include "../../../xrPhysics/PHCharacter.h"
 
 void CControlJump::reinit()
 {
@@ -40,11 +39,6 @@ void CControlJump::load(LPCSTR section)
 	m_max_distance					= pSettings->r_float(section,"jump_max_distance");
 	m_max_angle						= pSettings->r_float(section,"jump_max_angle");
 	m_max_height					= pSettings->r_float(section,"jump_max_height");
-
-	m_auto_aim_factor = 0.f;
-
-	if (pSettings->line_exist(section, "jump_auto_aim_factor"))
-		m_auto_aim_factor = pSettings->r_float(section, "jump_auto_aim_factor");
 }
 
 bool CControlJump::check_start_conditions()
@@ -101,7 +95,6 @@ void CControlJump::start_jump(const Fvector &point)
 
 	m_time_started						= 0;
 	m_jump_time							= 0;
-	m_jump_start_pos					= m_object->Position();
 
 	// ignore collision hit when object is landing
 	m_object->set_ignore_collision_hit	(true);
@@ -213,9 +206,6 @@ void CControlJump::select_next_anim_state()
 		else 
 			m_anim_state_current = eStateGlide;
 	}
-
-	if (in_auto_aim())
-		m_object->character_physics_support()->movement()->PHCharacter()->SetAirControlFactor(100.f * m_auto_aim_factor);
 }
 
 
@@ -548,28 +538,3 @@ Fvector CControlJump::predict_position(CObject *obj, const Fvector &pos)
 //	return prediction_pos;
 }
 
-float CControlJump::relative_time()
-{
-	float time = ((Device.dwTimeGlobal - m_time_started) / 1000.f) / m_jump_time;
-	if (time > 1.f)
-		time = 1.f;
-
-	return			time;
-}
-
-bool CControlJump::in_auto_aim()
-{
-	if (!m_data.target_object)
-		return		false;
-
-	if (!m_data.flags.test(SControlJumpData::eUseAutoAim))
-		return		false;
-
-	if (!m_auto_aim_factor)
-		return		false;
-
-	if (m_anim_state_prev != eStateGlide)
-		return		false;
-
-	return			true;
-}

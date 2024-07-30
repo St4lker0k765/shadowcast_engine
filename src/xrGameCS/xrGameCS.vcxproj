@@ -1067,6 +1067,7 @@
     <ClInclude Include="HudSound.h" />
     <ClInclude Include="HUDTarget.h" />
     <ClInclude Include="hud_item_object.h" />
+    <ClInclude Include="IColisiondamageInfo.h" />
     <ClInclude Include="id_generator.h" />
     <ClInclude Include="IKFoot.h" />
     <ClInclude Include="IKFoot_inl.h" />
@@ -1275,7 +1276,6 @@
     <ClInclude Include="PhysicsGamePars.h" />
     <ClInclude Include="PhysicsShellHolder.h" />
     <ClInclude Include="PhysicsSkeletonObject.h" />
-    <ClInclude Include="physics_game.h" />
     <ClInclude Include="physics_shell_animated.h" />
     <ClInclude Include="physic_item.h" />
     <ClInclude Include="physic_item_inline.h" />

@@ -3,17 +3,18 @@
 #include	"phsimplecalls.h"
 #include	"../xrPhysics/phobject.h"
 #include	"../xrPhysics/IPHWorld.h"
+extern		CPHWorld			*ph_world;
 
 
 CPHCallOnStepCondition::CPHCallOnStepCondition()
 {
-	if(physics_world)set_step(physics_world()->StepsNum());
+	if(ph_world)set_step(ph_world->m_steps_num);
 	else		set_step(0);
 }
 
 IC bool CPHCallOnStepCondition::time_out() const
 {
-	return physics_world()->StepsNum()>m_step;
+	return ph_world->m_steps_num>m_step;
 }
 
 bool	CPHCallOnStepCondition::is_true()
@@ -28,7 +29,7 @@ bool	CPHCallOnStepCondition::obsolete() const
 
 void CPHCallOnStepCondition::set_steps_interval(u64 steps)
 {
-	set_step(physics_world()->StepsNum() + steps);
+	set_step(ph_world->m_steps_num+steps);
 }
 void CPHCallOnStepCondition::set_time_interval(float time)
 {
@@ -41,7 +42,7 @@ void CPHCallOnStepCondition::set_time_interval(u32 time)
 void CPHCallOnStepCondition::set_global_time(float time)
 {
 	float time_interval=Device.fTimeGlobal-time;
-	if(time_interval<0.f)set_step(physics_world()->StepsNum());
+	if(time_interval<0.f)set_step(ph_world->m_steps_num);
 	set_time_interval(time_interval);
 }
 void CPHCallOnStepCondition::set_global_time(u32 time)

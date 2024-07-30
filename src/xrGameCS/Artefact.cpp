@@ -285,7 +285,7 @@ void CArtefact::ActivateArtefact	()
 
 }
 
-void CArtefact::PhDataUpdate	(float step)
+void CArtefact::PhDataUpdate	(dReal step)
 {
 	if(m_activationObj && m_activationObj->IsInProgress())
 		m_activationObj->PhDataUpdate			(step);

@@ -2,10 +2,9 @@
 #include "climableobject.h "
 #include "../xrphysics/IPHStaticGeomShell.h"
 #include "xrServer_Objects_ALife.h"
-#include "../xrphysics/PHCharacter.h"
-#include "../xrphysics/MathUtils.h"
-#include "../xrphysics/extendedgeom.h"
-#include "../xrEngine/gamemtllib.h"
+#include "../xrPhysics/PHCharacter.h"
+#include "../xrPhysics/MathUtils.h"
+
 #ifdef DEBUG
 #	include "debug_renderer.h"
 #	include "level.h"
@@ -47,14 +46,33 @@ IC void OrientToNorm(const Fvector& normal,Fmatrix& form,Fobb& box)
 	}
 }
 
-
-
-CClimableObject::CClimableObject		():  m_pStaticShell ( NULL ), m_material(u16(-1)), m_radius(0.0f)
+class CPHLeaderGeomShell: public CPHStaticGeomShell
 {
-	
+CClimableObject		*m_pClimable;
+public:
+						CPHLeaderGeomShell		(CClimableObject* climable);
+void					near_callback			(CPHObject* obj);
+};
+
+CPHLeaderGeomShell::CPHLeaderGeomShell(CClimableObject* climable)
+{
+	m_pClimable=climable;
+}
+void CPHLeaderGeomShell::near_callback	(CPHObject* obj)
+{
+	if(obj && obj->CastType()==CPHObject::tpCharacter)
+	{
+		CPHCharacter* ch=static_cast<CPHCharacter*>(obj);
+		ch->SetElevator(m_pClimable);
+	}
 }
 
-CClimableObject::~CClimableObject	()
+
+	CClimableObject::CClimableObject		()
+{
+	m_pStaticShell=NULL;
+}
+	CClimableObject::~CClimableObject	()
 {
 
 }
@@ -66,17 +84,12 @@ BOOL CClimableObject::	net_Spawn			( CSE_Abstract* DC)
 {
 	CSE_Abstract				*e = (CSE_Abstract*)(DC);
 	CSE_ALifeObjectClimable	*CLB=smart_cast<CSE_ALifeObjectClimable*>(e);
-	R_ASSERT( CLB );
-	m_material = GMLib.GetMaterialIdx( CLB->material.c_str() );
 	const Fmatrix& b=CLB->shapes[0].data.box;
 	m_box.m_halfsize.set(b._11,b._22,b._33);
 	m_radius=_max(_max(m_box.m_halfsize.x,m_box.m_halfsize.y),m_box.m_halfsize.z);
 
 	//m_box.m_halfsize.set(1.f,1.f,1.f);
 	BOOL ret	= inherited::net_Spawn(DC);
-
-	spatial.type					&= ~STYPE_VISIBLEFORAI;
-
 	const float f_min_width=0.2f;
 	Fvector shift;shift.set(0.f,0.f,0.f);
 	SORT(b._11,m_axis.set(XFORM().i);m_axis.mul(m_box.m_halfsize.x),m_side.set(XFORM().i);m_side.mul(m_box.m_halfsize.x),m_norm.set(XFORM().i);if(m_box.m_halfsize.x<f_min_width){m_box.m_halfsize.x=f_min_width;shift.set(1.f,0.f,0.f);};m_norm.mul(m_box.m_halfsize.x),
@@ -88,11 +101,9 @@ BOOL CClimableObject::	net_Spawn			( CSE_Abstract* DC)
 	XFORM().transform_dir(shift);
 	CObject::Position().sub(shift);
 	m_box.xform_set(Fidentity);
-	
-	m_pStaticShell = P_BuildLeaderGeomShell(this, ObjectContactCallback, m_box );
-
-
-	
+	m_pStaticShell=xr_new<CPHLeaderGeomShell>(this);
+	P_BuildStaticGeomShell(smart_cast<CPHStaticGeomShell*>(m_pStaticShell),smart_cast<CGameObject*>(this),0,m_box);
+	m_pStaticShell->SetMaterial("materials\\fake_ladders");
 	
 	if(m_axis.y<0.f)
 	{
@@ -102,16 +113,14 @@ BOOL CClimableObject::	net_Spawn			( CSE_Abstract* DC)
 	}
 //	shedule_unregister();
 	processing_deactivate();
-	//m_pStaticShell->set_ObjectContactCallback(ObjectContactCallback);
+	m_pStaticShell->set_ObjectContactCallback(ObjectContactCallback);
 	return ret;
 }
 void CClimableObject::	net_Destroy			()
 {
 	inherited::net_Destroy();
-	DestroyStaticGeomShell( m_pStaticShell );
-
-	//m_pStaticShell->Deactivate();
-	//xr_delete(m_pStaticShell);
+	m_pStaticShell->Deactivate();
+	xr_delete(m_pStaticShell);
 }
 void CClimableObject::	shedule_Update		( u32 dt)							// Called by shedule
 {
@@ -309,8 +318,8 @@ BOOL CClimableObject::UsedAI_Locations()
 
 void CClimableObject::ObjectContactCallback(bool&	do_colide,bool bo1,dContact& c,SGameMtl * /*material_1*/,SGameMtl * /*material_2*/)
 {
-	dxGeomUserData* usr_data_1= PHRetrieveGeomUserData(c.geom.g1);
-	dxGeomUserData* usr_data_2=PHRetrieveGeomUserData(c.geom.g2);
+	dxGeomUserData* usr_data_1= retrieveGeomUserData(c.geom.g1);
+	dxGeomUserData* usr_data_2=retrieveGeomUserData(c.geom.g2);
 	dxGeomUserData* usr_data_ch=NULL;
 	dxGeomUserData* usr_data_lad=NULL;
 	CClimableObject* this_object=NULL;

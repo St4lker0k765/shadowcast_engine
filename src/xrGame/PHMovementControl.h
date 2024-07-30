@@ -2,6 +2,8 @@
 #ifndef CPHMOVEMENT_CONTROL_H
 #define CPHMOVEMENT_CONTROL_H
 
+//#include "../xrphysics/PHCharacter.h"
+//#include "../xrphysics/MathUtils.h"
 #include "../xrphysics/physicsexternalcommon.h"
 #include "../xrphysics/mathutils.h"
 #include "../xrphysics/movementboxdynamicactivate.h"
@@ -26,6 +28,8 @@ class CPHCapture;
 class IPHCapture;
 class CPHCharacter;
 class IPhysicsElement;
+
+
 
 class CPHMovementControl :
 	public IPHMovementControl

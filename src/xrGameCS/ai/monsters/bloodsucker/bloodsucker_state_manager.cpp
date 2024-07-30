@@ -57,7 +57,7 @@ void CStateManagerBloodsucker::drag_object()
 		object->character_physics_support()->movement()->PHCaptureObject(ph_obj, drag_bone);
 	}
 
-	IPHCapture* const capture = object->character_physics_support()->movement()->PHCapture();
+	CPHCapture* const capture = object->character_physics_support()->movement()->PHCapture();
 
 	if ( capture && !capture->Failed() && object->is_animated() ) 
 	{
