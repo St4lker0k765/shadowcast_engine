@@ -418,10 +418,20 @@ ICollisionHitCallback*	CPhysicObject::	get_collision_hit_callback ()
 {
 	return m_collision_hit_callback;
 }
-void	CPhysicObject::	set_collision_hit_callback	(ICollisionHitCallback *cc)	
+bool					CPhysicObject::	set_collision_hit_callback	(ICollisionHitCallback *cc)	
 {
-	xr_delete( m_collision_hit_callback );
-	m_collision_hit_callback = cc;
+	if(!cc)
+	{
+		m_collision_hit_callback=NULL;
+		return true;
+	}
+	if(PPhysicsShell())
+	{
+		VERIFY2(cc->m_collision_hit_callback!=0,"No callback function");
+		m_collision_hit_callback=cc;
+		return true;
+	}
+	else return false;
 }
 
 //////////////////////////////////////////////////////////////////////////

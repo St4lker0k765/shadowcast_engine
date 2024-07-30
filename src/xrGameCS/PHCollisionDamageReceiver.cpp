@@ -6,7 +6,7 @@
 #include "../xrPhysics/geometry.h"
 #include "../xrPhysics/PhysicsShell.h"
 #include "../xrEngine/gamemtllib.h"
-//#include "../xrPhysics/Physics.h"
+#include "../xrPhysics/Physics.h"
 #include "xrMessages.h"
 #include "CharacterPhysicsSupport.h"
 void CPHCollisionDamageReceiver::BoneInsert(u16 id,float k)

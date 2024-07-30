@@ -10,7 +10,7 @@
 #include "entity.h"
 //#include "PSObject.h"
 #include "ParticlesObject.h"
-#include "../xrPhysics/IPHWorld.h"
+
 //для вызова статических функций поражения осколками
 #include "Weapon.h"
 
@@ -26,7 +26,7 @@
 #	include "PHDebug.h"
 #endif
 
-//#include "../xrPhysics/Physics.h"
+#include "../xrPhysics/Physics.h"
 #include "../xrPhysics/MathUtils.h"
 #include "../xrPhysics/phvalidevalues.h"
 #include "../xrPhysics/PHActivationShape.h"
@@ -316,7 +316,7 @@ void CExplosive::Explode()
 {
 	VERIFY(0xffff != Initiator());
 	VERIFY(m_explosion_flags.test(flReadyToExplode));//m_bReadyToExplode
-	VERIFY(!physics_world()->Processing());
+	VERIFY(!ph_world->Processing());
 	//m_bExploding = true;
 	m_explosion_flags.set(flExploding,TRUE);
 	cast_game_object()->processing_activate();
@@ -466,7 +466,7 @@ void CExplosive::GetExplVelocity(Fvector &v)
 void CExplosive::UpdateCL() 
 {
 	//VERIFY(!this->getDestroy());
-	VERIFY(!physics_world()->Processing());
+	VERIFY(!ph_world->Processing());
 	if(!m_explosion_flags.test(flExploding)) return;// !m_bExploding
 	if(m_explosion_flags.test(flExploded))
 	{
@@ -628,7 +628,7 @@ void CExplosive::FindNormal(Fvector& normal)
 void CExplosive::StartLight	()
 {
 
-	VERIFY(!physics_world()->Processing());
+	VERIFY(!ph_world->Processing());
 	if(m_fLightTime>0)
 	{
 		
@@ -644,7 +644,7 @@ void CExplosive::StartLight	()
 void CExplosive::StopLight		()
 {
 	if	(m_pLight){
-		VERIFY						(!physics_world()->Processing());
+		VERIFY						(!ph_world->Processing());
 		m_pLight->set_active		(false);
 		LightDestroy				();
 	}

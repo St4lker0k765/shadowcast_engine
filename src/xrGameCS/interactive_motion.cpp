@@ -18,7 +18,7 @@ void interactive_motion_diagnostic( LPCSTR message, const MotionID &m, CPhysicsS
 	VERIFY( s );
 	IKinematicsAnimated* KA = smart_cast<IKinematicsAnimated*>( s->PKinematics( ) );
 	VERIFY( KA );
-	CPhysicsShellHolder* O = smart_cast<CPhysicsShellHolder*>(s->get_ElementByStoreOrder( 0 )->PhysicsRefObject());
+	CPhysicsShellHolder* O = s->get_ElementByStoreOrder( 0 )->PhysicsRefObject();
 	VERIFY( O );
 	LPCSTR motion_name = KA->LL_MotionDefName_dbg( m ).first;
 	Msg( "death anims - interactive_motion:- %s, motion: %s, obj: %s, model:  %s ", message, motion_name, O->cName().c_str(), O->cNameVisual().c_str());

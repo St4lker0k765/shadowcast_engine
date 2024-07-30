@@ -43,9 +43,8 @@
 
 #ifdef DEBUG
 #	include "debug_renderer.h"
-//#	include "../xrPhysics/Physics.h"
+#	include "../xrPhysics/Physics.h"
 #endif
-#include "../xrPhysics/phvalide.h"
 
 int			g_cl_InterpolationType		= 0;
 u32			g_cl_InterpolationMaxPoints = 0;

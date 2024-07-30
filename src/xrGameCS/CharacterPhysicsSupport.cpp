@@ -9,9 +9,9 @@
 #include "../Include/xrRender/KinematicsAnimated.h"
 #include "Actor.h"
 
-//#include "../xrPhysics/Extendedgeom.h"
-//#include "../xrPhysics/Physics.h"
-#include "../xrPhysics/IPHWorld.h"
+#include "../xrPhysics/Extendedgeom.h"
+#include "../xrPhysics/Physics.h"
+
 #include "../xrPhysics/PHActivationShape.h"
 #include "IKLimbsController.h"
 #include "../xrphysics/IPHCapture.h"
@@ -1252,12 +1252,19 @@ void		 CCharacterPhysicsSupport::in_NetRelcase(CObject* O)
 		m_sv_hit = SHit();
 }
  
-void CCharacterPhysicsSupport::set_collision_hit_callback( ICollisionHitCallback* cc )
+bool CCharacterPhysicsSupport::set_collision_hit_callback( ICollisionHitCallback* cc )
 {
-	
-	xr_delete( m_collision_hit_callback );
-	m_collision_hit_callback = cc;
-
+	if(!cc)
+	{
+		m_collision_hit_callback=NULL;
+		return true;
+	}
+	if(m_pPhysicsShell)
+	{
+		VERIFY2(cc->m_collision_hit_callback!=0,"No callback function");
+		m_collision_hit_callback=cc;
+		return true;
+	}else return false;
 }
 ICollisionHitCallback * CCharacterPhysicsSupport::get_collision_hit_callback()
 {

@@ -18,9 +18,7 @@
 #include "physics_shell_animated.h"
 #include "../xrPhysics/IActivationShape.h"
 #include "../xrEngine/iphysicsshell.h"
-#ifdef	DEBUG
-#include "../xrengine/objectdump.h"
-#endif
+
 CPhysicsShellHolder::CPhysicsShellHolder()
 {
 	init();

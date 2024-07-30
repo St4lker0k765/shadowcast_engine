@@ -1,17 +1,14 @@
 #include	"stdafx.h"
-#include	"../xrphysics/physicsshell.h"
+#include	"../xrPhysics/physicsshell.h"
 #include	"phsimplecalls.h"
-//#include	"phobject.h"
-//#include	"PHWorld.h"
-//extern		CPHWorld			*ph_world;
-#include "../xrphysics/IPHWorld.h"
+#include	"../xrPhysics/phobject.h"
+#include	"../xrPhysics/IPHWorld.h"
+
 
 CPHCallOnStepCondition::CPHCallOnStepCondition()
 {
-	if(physics_world())
-		set_step(physics_world()->StepsNum());
-	else		
-		set_step(0);
+	if(physics_world)set_step(physics_world()->StepsNum());
+	else		set_step(0);
 }
 
 IC bool CPHCallOnStepCondition::time_out() const
@@ -31,7 +28,7 @@ bool	CPHCallOnStepCondition::obsolete() const
 
 void CPHCallOnStepCondition::set_steps_interval(u64 steps)
 {
-	set_step(physics_world()->StepsNum()+steps);
+	set_step(physics_world()->StepsNum() + steps);
 }
 void CPHCallOnStepCondition::set_time_interval(float time)
 {

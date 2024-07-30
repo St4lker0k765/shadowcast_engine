@@ -1,18 +1,20 @@
+
 #include "stdafx.h"
-#include "car.h"
+
 //#if 0
 
 #include "ParticlesObject.h"
-//#include "Physics.h"
+#include "../xrPhysics/Physics.h"
 
 #ifdef DEBUG
 #	include "../xrEngine/StatGraph.h"
 #	include "PHDebug.h"
 #endif // DEBUG
 
-//#include "hit.h"
+#include "hit.h"
 #include "PHDestroyable.h"
-#include "HUDManager.h"
+#include "car.h"
+#include "hudmanager.h"
 #include "cameralook.h"
 #include "camerafirsteye.h"
 #include "Actor.h"
@@ -27,13 +29,13 @@
 #include "CarWeapon.h"
 #include "game_object_space.h"
 #include "../xrEngine/gamemtllib.h"
-//#include "PHActivationShape.h"
+#include "../xrPhysics/PHActivationShape.h"
 #include "CharacterPhysicsSupport.h"
 #include "car_memory.h"
-#include "../xrphysics/IPHWorld.h"
+
 BONE_P_MAP CCar::bone_map=BONE_P_MAP();
 
-//extern CPHWorld*	ph_world;
+extern CPHWorld*	ph_world;
 
 CCar::CCar()
 {
@@ -1368,17 +1370,17 @@ void CCar::PhTune(float step)
 }
 float CCar::EffectiveGravity()
 {
-	float g= physics_world()->Gravity();
+	float g= ph_world->Gravity();
 	if(CPHUpdateObject::IsActive())g*=0.5f;
 	return g;
 }
 float CCar::AntiGravityAccel()
 {
-	return physics_world()->Gravity() - EffectiveGravity();
+	return ph_world->Gravity()-EffectiveGravity();
 }
 float CCar::GravityFactorImpulse()
 {
-	return _sqrt(EffectiveGravity()/physics_world()->Gravity());
+	return _sqrt(EffectiveGravity()/ph_world->Gravity());
 }
 void CCar::UpdateBack()
 {

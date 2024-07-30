@@ -1,8 +1,7 @@
 #include "stdafx.h"
 #include "actor_mp_server.h"
-//#include "../xrPhysics/Physics.h"
-//#include "../xrPhysics/mathutils.h"
-#include "../xrphysics/phvalide.h"
+#include "../xrPhysics/Physics.h"
+#include "../xrPhysics/mathutils.h"
 
 
 void CSE_ActorMP::fill_state	(actor_mp_state &state)

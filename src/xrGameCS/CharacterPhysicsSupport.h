@@ -143,7 +143,7 @@ IC		CIKLimbsController				*ik_controller					( )	{ return m_ik_controller; }
 		void							on_destroy_anim_mov_ctrl		( );
 		void							PHGetLinearVell					( Fvector& velocity );
 		ICollisionHitCallback*			get_collision_hit_callback		( );
-		void							set_collision_hit_callback		( ICollisionHitCallback* cc );
+		bool							set_collision_hit_callback		( ICollisionHitCallback* cc );
 		void							run_interactive					( CBlend* B );
 		void							update_interactive_anims		( );
 IC		physics_shell_animated			*animation_collision			( ){ return m_physics_shell_animated; }

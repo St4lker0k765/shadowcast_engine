@@ -3,7 +3,7 @@
 #include "xrserver_objects_alife.h"
 #include "../xrphysics/IPHStaticGeomShell.h"
 #include "../xrPhysics/PhysicsShell.h"
-//#include "../xrPhysics/Physics.h"
+#include "../xrPhysics/Physics.h"
 #include "../xrEngine/xr_collide_form.h"
 #include "../Include/xrRender/Kinematics.h"
 
@@ -157,11 +157,9 @@ void CBreakableObject::CreateBroken()
 	m_Shell->set_PhysicsRefObject(this);
 	m_Shell->Build();
 	m_Shell->setMass(m_Shell->getMass()*0.1f*100.f);
-
-	//dMass m;
-	//dMassSetBox(&m,m_Shell->getMass()/100.f,1.f,1.f,1.f);
-	//m_Shell->addEquelInertiaToEls(m);
-	m_Shell->MassAddBox( m_Shell->getMass()/100.f, Fvector().set(1,1,1) );
+	dMass m;
+	dMassSetBox(&m,m_Shell->getMass()/100.f,1.f,1.f,1.f);
+	m_Shell->addEquelInertiaToEls(m);
 	m_Shell->SmoothElementsInertia(0.3f);
 	Fobb b;
 	Visual()->getVisData().box.getradius(b.m_halfsize);

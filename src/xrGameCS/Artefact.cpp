@@ -137,7 +137,7 @@ void CArtefact::OnH_A_Chield()
 
 void CArtefact::OnH_B_Independent(bool just_before_destroy) 
 {
-	VERIFY(!physics_world()->Processing());
+	VERIFY(!ph_world->Processing());
 	inherited::OnH_B_Independent(just_before_destroy);
 
 	StartLights();
@@ -191,7 +191,7 @@ void CArtefact::Interpolate()
 void CArtefact::UpdateWorkload		(u32 dt) 
 {
 
-	VERIFY(!physics_world()->Processing());
+	VERIFY(!ph_world->Processing());
 	// particles - velocity
 	Fvector vel = {0, 0, 0};
 	if (H_Parent()) 
@@ -244,7 +244,7 @@ void CArtefact::create_physic_shell	()
 
 void CArtefact::StartLights()
 {
-	VERIFY(!physics_world()->Processing());
+	VERIFY(!ph_world->Processing());
 	if(!m_bLightsEnabled)		return;
 
 	VERIFY							(m_pTrailLight == NULL);
@@ -259,7 +259,7 @@ void CArtefact::StartLights()
 
 void CArtefact::StopLights()
 {
-	VERIFY(!physics_world()->Processing());
+	VERIFY(!ph_world->Processing());
 	if(!m_bLightsEnabled || !m_pTrailLight) 
 		return;
 
@@ -269,7 +269,7 @@ void CArtefact::StopLights()
 
 void CArtefact::UpdateLights()
 {
-	VERIFY(!physics_world()->Processing());
+	VERIFY(!ph_world->Processing());
 	if(!m_bLightsEnabled || !m_pTrailLight ||!m_pTrailLight->get_active()) return;
 	m_pTrailLight->set_position(Position());
 }

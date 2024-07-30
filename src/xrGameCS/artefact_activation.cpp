@@ -55,7 +55,7 @@ void SArtefactActivation::Load()
 
 void SArtefactActivation::Start()
 {
-	VERIFY(!physics_world()->Processing());
+	VERIFY(!ph_world->Processing());
 	m_af->StopLights				();
 	m_cur_activation_state			= eStarting;
 	m_cur_state_time				= 0.0f;
@@ -86,7 +86,7 @@ void SArtefactActivation::UpdateActivation()
 	if (!m_in_process)
 		return;
 
-	VERIFY(!physics_world()->Processing());
+	VERIFY(!ph_world->Processing());
 	m_cur_state_time				+=	Device.fTimeDelta;
 	if(m_cur_state_time				>=	m_activation_states[int(m_cur_activation_state)].m_time){
 		m_cur_activation_state		=	(EActivationStates)(int)(m_cur_activation_state+1);
@@ -128,7 +128,7 @@ void SArtefactActivation::PhDataUpdate(float step)
 }
 void SArtefactActivation::ChangeEffects()
 {
-	VERIFY(!physics_world()->Processing());
+	VERIFY(!ph_world->Processing());
 	SStateDef& state_def = m_activation_states[(int)m_cur_activation_state];
 	
 	if(m_snd._feedback())
@@ -162,7 +162,7 @@ void SArtefactActivation::ChangeEffects()
 
 void SArtefactActivation::UpdateEffects()
 {
-	VERIFY(!physics_world()->Processing());
+	VERIFY(!ph_world->Processing());
 	if(m_snd._feedback())
 		m_snd.set_position( m_af->Position() );
 	
@@ -171,7 +171,7 @@ void SArtefactActivation::UpdateEffects()
 
 void SArtefactActivation::SpawnAnomaly()
 {
-	VERIFY(!physics_world()->Processing());
+	VERIFY(!ph_world->Processing());
 	string128 tmp;
 	LPCSTR str			= pSettings->r_string("artefact_spawn_zones",*m_af->cNameSect());
 	VERIFY3(3==_GetItemCount(str),"Bad record format in artefact_spawn_zones",str);

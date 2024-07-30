@@ -5,8 +5,7 @@
 #include "GamePersistent.h"
 #include "game_cl_base.h"
 #include "../xrEngine/camerabase.h"
-//#include "../xrPhysics/Physics.h"
-#include "../xrphysics/phvalide.h"
+#include "../xrPhysics/Physics.h"
 
 void CActorMP::net_Import	( NET_Packet &P)
 {

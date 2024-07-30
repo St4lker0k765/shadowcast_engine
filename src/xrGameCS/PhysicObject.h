@@ -88,7 +88,7 @@ public:
 	virtual	BOOL						net_SaveRelevant				()																				;
 	virtual BOOL						UsedAI_Locations				()																				;
 	virtual ICollisionHitCallback		*get_collision_hit_callback		()																				;
-	virtual void						set_collision_hit_callback		(ICollisionHitCallback *cc)														;
+	virtual bool						set_collision_hit_callback		(ICollisionHitCallback *cc)														;
 	virtual	bool						is_ai_obstacle					() const;
 
 	virtual void						net_Export						(NET_Packet& P);

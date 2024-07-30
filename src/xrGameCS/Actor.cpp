@@ -35,7 +35,7 @@
 #include "ai_space.h"
 #include "trade.h"
 #include "inventory.h"
-//#include "../xrPhysics/Physics.h"
+#include "../xrPhysics/Physics.h"
 #include "level.h"
 #include "GamePersistent.h"
 #include "game_cl_base.h"

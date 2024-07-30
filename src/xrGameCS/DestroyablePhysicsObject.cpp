@@ -15,6 +15,7 @@
 #include "../xrPhysics/PhysicsShell.h"
 #ifdef DEBUG
 #include "../xrPhysics/IPHWorld.h"
+extern CPHWorld			*ph_world;
 #endif
 CDestroyablePhysicsObject ::CDestroyablePhysicsObject()
 {
@@ -95,7 +96,7 @@ void	CDestroyablePhysicsObject::Hit					(SHit* pHDS)
 }
 void CDestroyablePhysicsObject::Destroy()
 {
-	VERIFY(!physics_world()->Processing());
+	VERIFY(!ph_world->Processing());
 	const CGameObject *who_object = smart_cast<const CGameObject*>(FatalHit().initiator());
 	callback(GameObject::eDeath)(lua_game_object(),who_object  ? who_object : 0);
 	CPHDestroyable::Destroy(ID(),"physic_destroyable_object");

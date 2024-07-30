@@ -48,7 +48,7 @@ void CGraviArtefact::Load(LPCSTR section)
 void CGraviArtefact::UpdateCLChild() 
 {
 
-	VERIFY(!physics_world()->Processing());
+	VERIFY(!ph_world->Processing());
 	if (getVisible() && m_pPhysicsShell) {
 		if (m_fJumpHeight) {
 			Fvector dir; 
