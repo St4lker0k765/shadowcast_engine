@@ -472,15 +472,14 @@ void CWeaponMagazinedWGrenade::OnAnimationEnd(u32 state)
 	switch (state)
 	{
 	case eSwitch:
+	{
+		SwitchState(eIdle);
+	}
+	break;	
 	case eFire:
 	{
-		if (state == eSwitch || state == eFire && m_bGrenadeMode)
-		{
-			SwitchState(eIdle);
-			break;
-		}
-
-		Reload();	
+		if (m_bGrenadeMode)
+			Reload();
 	}
 	break;
 }

@@ -1104,11 +1104,23 @@ void CUIMainIngameWnd::UpdatePickUpItem	()
 	int m_iXPos			= pSettings->r_u32(sect_name, "inv_grid_x");
 	int m_iYPos			= pSettings->r_u32(sect_name, "inv_grid_y");
 
-	float scale_x = m_iPickUpItemIconWidth/
-		float(m_iGridWidth*INV_GRID_WIDTH);
+	float scale_x;
+	float scale_y;
 
-	float scale_y = m_iPickUpItemIconHeight/
-		float(m_iGridHeight*INV_GRID_HEIGHT);
+	if (UseHDIcons) {
+		scale_x = m_iPickUpItemIconWidth /
+			float(m_iGridWidth * INV_GRID_WIDTH / 2);
+
+		scale_y = m_iPickUpItemIconHeight /
+			float(m_iGridHeight * INV_GRID_HEIGHT / 2);
+	}
+	else {
+		scale_x = m_iPickUpItemIconWidth /
+			float(m_iGridWidth * INV_GRID_WIDTH_LEGACY);
+
+		scale_y = m_iPickUpItemIconHeight /
+			float(m_iGridHeight * INV_GRID_HEIGHT_LEGACY);
+	}
 
 	scale_x = (scale_x>1) ? 1.0f : scale_x;
 	scale_y = (scale_y>1) ? 1.0f : scale_y;

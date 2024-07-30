@@ -155,13 +155,6 @@ void CWeaponMagazined::FireStart		()
 		if (eReload != GetState() && eMisfire != GetState())
 		{
 			OnMagazineEmpty();
-
-			const auto* WGrenade = smart_cast<CWeaponMagazinedWGrenade*>(this);
-
-			if (WGrenade && !WGrenade->m_bGrenadeMode && !IsMisfire())
-				CurrentGameUI()->AddCustomStatic("gun_empty", true);
-			else if (WGrenade && WGrenade->m_bGrenadeMode && !IsMisfire())
-				CurrentGameUI()->AddCustomStatic("gun_empty_grenade", true);
 		}
 	}
 }
@@ -391,11 +384,6 @@ void CWeaponMagazined::OnStateSwitch	(u32 S)
 		break;
 	case eMagEmpty:
 		switch2_Empty	();
-
-		if (GetNextState() != eReload)
-		{
-			SwitchState(eIdle);
-		}
 		break;
 	case eReload:
 		switch2_Reload	();
@@ -651,9 +639,6 @@ void CWeaponMagazined::switch2_Fire	()
 }
 void CWeaponMagazined::switch2_Empty()
 {
-		OnEmptyClick();
-		return;
-
 	OnZoomOut();
 	
 	if(!TryReload())
