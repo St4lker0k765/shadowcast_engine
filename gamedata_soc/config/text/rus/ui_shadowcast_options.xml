@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="windows-1251" ?>
+<string_table>
+	<string id="renderer_r4">
+		<text>Улучшенное полное освещение (DX11)</text>
+	</string>
+	<string id="ui_mm_detail_height">
+		<text>Высота травы</text>
+	</string>
+	<string id="ui_mm_detail_radius">
+		<text>Дальность травы</text>
+	</string>
+	<string id="ui_mm_r4_enable_tessellation">
+		<text>Тесселяция</text>
+	</string>
+	<string id="ui_mm_fov">
+		<text>Угол обзора</text>
+	</string>
+	<string id="ui_mm_crouch_toggle">
+		<text>Режим сесть/встать</text>
+	</string>
+	<string id="ui_mm_hud_draw">
+		<text>Показывать интерфейс</text>
+	</string>
+	<string id="ui_mm_r2_smap_quality">
+		<text>Качество теней</text>
+	</string>
+	<string id="smap1024">
+		<text>1024 пикселя</text>
+	</string>
+	<string id="smap1536">
+		<text>1536 пикселей</text>
+	</string>
+	<string id="smap2048">
+		<text>2048 пикселей</text>
+	</string>
+	<string id="smap2560">
+		<text>2560 пикселей</text>
+	</string>
+	<string id="smap3072">
+		<text>3072 пикселя</text>
+	</string>
+	<string id="smap4096">
+		<text>4096 пикселей</text>
+	</string>
+	<string id="ui_mm_ssao_text">
+		<text>Режим SSAO</text>
+	</string>
+	<string id="disabled">
+		<text>отключено</text>
+	</string>
+	<string id="default">
+		<text>по умолчанию</text>
+	</string>
+	<string id="hdao">
+		<text>HDAO</text>
+	</string>
+	<string id="hbao">
+		<text>HBAO</text>
+	</string>
+	<string id="st_opt_extreme">
+		<text>макс. высоко</text>
+	</string>
+	<string id="st_cam_1">
+		<text>Вид от первого лица</text>
+	</string>
+	<string id="st_cam_2">
+		<text>Вид от третьего лица</text>
+	</string>
+	<string id="st_cam_3">
+		<text>Вид от третьего лица (Свободная камера)</text>
+	</string>
+</string_table>
