@@ -5,7 +5,7 @@
 #include "../xrEngine/bone.h"
 #include "xrMessages.h"
 #include "Level.h"
-#include "../xrPhysics/MathUtils.h"
+#include "MathUtils.h"
 
 SHit::SHit(float powerA, float power_criticalA, Fvector &dirA, CObject *whoA, u16 elementA, Fvector p_in_bone_spaceA,\
 		   float impulseA, ALife::EHitType hit_typeA, float armor_piercingA, bool AimBullet)
@@ -42,17 +42,17 @@ void SHit::invalidate()
 	PACKET_TYPE				= 0;
 	DestID					= 0;
 
-	power					=-phInfinity;
-	power_critical			=-phInfinity;
-	dir						.set(-phInfinity,-phInfinity,-phInfinity)	;
+	power					=-dInfinity;
+	power_critical			=-dInfinity;
+	dir						.set(-dInfinity,-dInfinity,-dInfinity)	;
 	who						=NULL									;
 	whoID					= 0;
 	weaponID				= 0;
 
 	boneID					=BI_NONE								;
-	p_in_bone_space		.set(-phInfinity,-phInfinity,-phInfinity)	;
+	p_in_bone_space		.set(-dInfinity,-dInfinity,-dInfinity)	;
 
-	impulse					=-phInfinity;
+	impulse					=-dInfinity;
 	hit_type				=ALife::eHitTypeMax						;
 
 	armor_piercing			= 0.0f;	
