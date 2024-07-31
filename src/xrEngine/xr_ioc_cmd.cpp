@@ -676,7 +676,7 @@ ENGINE_API float hud_adj_delta_rot = 0.05f;
 ENGINE_API float adj_delta_pos = 0.0005f;
 ENGINE_API float adj_delta_rot = 0.05f;
 
-ENGINE_API float psSVPImageSizeK = 0.7f;
+ENGINE_API float psSVPImageSizeK = 1.0f;
 #ifndef _EDTIOR
 ENGINE_API int psSVPFrameDelay = 1;
 #endif
