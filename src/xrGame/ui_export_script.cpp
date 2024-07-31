@@ -48,7 +48,7 @@ void UIRegistrator::script_register(lua_State *L)
 			],
 				
 		class_<CMainMenu>("CMainMenu")
-			.def("GetGSVer", []() {pApp->ShowCurrentVersion(); })
+			.def("GetGSVer",				&CApplication::ShowCurrentVersion)
 			.def("GetDemoInfo",				&CMainMenu::GetDemoInfo)
 	];
 
