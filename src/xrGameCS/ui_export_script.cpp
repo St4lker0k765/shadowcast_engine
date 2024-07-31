@@ -3,6 +3,7 @@
 #include "script_ui_registrator.h"
 #include "UI\UIMultiTextStatic.h"
 #include "MainMenu.h"
+#include "../xrEngine/x_ray.h"
 
 using namespace luabind;
 
@@ -36,7 +37,7 @@ void UIRegistrator::script_register(lua_State *L)
 			.def("GetPatchProgress",		&CMainMenu::GetPatchProgress)
 			.def("CancelDownload",			&CMainMenu::CancelDownload)
 			.def("ValidateCDKey",			&CMainMenu::ValidateCDKey)
-			.def("GetGSVer",				&CMainMenu::GetGSVer)
+			.def("GetGSVer", []() {pApp->ShowCurrentVersion(); })
 	],
 	module(L,"main_menu")
 	[

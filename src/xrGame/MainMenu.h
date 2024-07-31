@@ -92,7 +92,6 @@ public:
 
 	void			SetNeedVidRestart				();
 	virtual void	OnDeviceReset					();
-	static LPCSTR			GetGSVer						();
 	
 	demo_info const *	GetDemoInfo					(LPCSTR file_name);
 };

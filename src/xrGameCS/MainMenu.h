@@ -154,7 +154,6 @@ public:
 	void			Hide_CTMS_Dialog				();
 	void			SetNeedVidRestart				();
 	virtual void	OnDeviceReset					();
-	LPCSTR			GetGSVer						();
 
 	static	LPCSTR	AddHyphens						(LPCSTR str);
 	static	LPCSTR	DelHyphens						(LPCSTR str);

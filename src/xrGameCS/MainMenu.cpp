@@ -719,11 +719,6 @@ void CMainMenu::OnConnectToMasterServerOkClicked(CUIWindow*, void*)
 	Hide_CTMS_Dialog();
 }
 
-LPCSTR CMainMenu::GetGSVer()
-{
-	return pApp->ShowCurrentVersion();
-}
-
 
 void CMainMenu::Show_DownloadMPMap(LPCSTR text, LPCSTR url)
 {

@@ -2,6 +2,7 @@
 
 #include "script_ui_registrator.h"
 #include "MainMenu.h"
+#include "../xrEngine/x_ray.h"
 
 #include "UIGameCustom.h"
 #include "UI/UIScriptWnd.h"
@@ -45,9 +46,9 @@ void UIRegistrator::script_register(lua_State *L)
 				value("alRight",					int(CGameFont::alRight)),
 				value("alCenter",					int(CGameFont::alCenter))
 			],
-
+				
 		class_<CMainMenu>("CMainMenu")
-			.def("GetGSVer",				&CMainMenu::GetGSVer)
+			.def("GetGSVer", []() {pApp->ShowCurrentVersion(); })
 			.def("GetDemoInfo",				&CMainMenu::GetDemoInfo)
 	];
 

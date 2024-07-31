@@ -506,11 +506,6 @@ LPCSTR DelHyphens( LPCSTR c )
 	return buf;
 }
 
-LPCSTR CMainMenu::GetGSVer()
-{
-	return pApp->ShowCurrentVersion();
-}
-
 demo_info const * CMainMenu::GetDemoInfo(LPCSTR file_name)
 {
 	if (!m_demo_info_loader)
