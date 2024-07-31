@@ -10,7 +10,9 @@ ENGINE_API extern BOOL bDebug;
 extern ENGINE_API bool CallOfPripyatMode;
 extern ENGINE_API bool ClearSkyMode;
 extern ENGINE_API bool ShadowOfChernobylMode;
+// вс€ка€ вс€чина
 extern ENGINE_API bool UseHDIcons;
+extern ENGINE_API bool CSUseNewWeaponMisfire;
 
 #define _RELEASE(x) { if(x) { (x)->Release(); (x)=NULL; } }
 #define _SHOW_REF(msg, x) { if(x) { x->AddRef(); Log(msg,u32(x->Release()));}}

@@ -27,7 +27,10 @@ ENGINE_API string_path g_sLaunchWorkingFolder;
 ENGINE_API bool CallOfPripyatMode = true;
 ENGINE_API bool ClearSkyMode = false;
 ENGINE_API bool ShadowOfChernobylMode = false;
-ENGINE_API bool UseHDIcons = true;
+
+// всякая всячина
+ENGINE_API bool UseHDIcons = false;
+ENGINE_API bool CSUseNewWeaponMisfire = false;
 
 ENGINE_API int ps_rs_loading_stages = 1;
 
@@ -133,7 +136,8 @@ void InitSettings()
 	InitConfig(pGameIni, "game.ltx");
 
     LPCSTR gameMode = READ_IF_EXISTS(pSCSettings, r_string, "compatibility", "game_mode", "cop");
-    UseHDIcons = READ_IF_EXISTS(pSCSettings, r_bool, "gameplay", "use_hd_icons", true);
+    UseHDIcons = READ_IF_EXISTS(pSCSettings, r_bool, "gameplay", "use_hd_icons", false);
+    CSUseNewWeaponMisfire = READ_IF_EXISTS(pSCSettings, r_bool, "game_specific", "cs_use_new_weapon_misfire", false);
 
     if (!xr_strcmp(gameMode, "cs"))
     {
