@@ -973,6 +973,9 @@ void CApplication::SetLoadStageTitle(pcstr _ls_title)
     if (ps_rs_loading_stages && loadingScreen)
         loadingScreen->SetStageTitle(_ls_title);
     Log(_ls_title);
+    // для корректной работы лоадскрина в ЧН и ТЧ
+    if(!CallOfPripyatMode)
+        ++load_stage;
 }
 
 void CApplication::LoadTitleInt(LPCSTR str1, LPCSTR str2, LPCSTR str3)
