@@ -93,7 +93,7 @@ void CEngine::Initialize_dll()
             g_current_renderer = 3;
     }
 
-    if (psDeviceFlags.test(rsR2))
+    if (psDeviceFlags.test(rsR2) || !h_render)
     {
         // try to initialize R2
         psDeviceFlags.set(rsR4, false);

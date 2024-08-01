@@ -628,6 +628,7 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance, HINSTANCE, char* lpCmdLine, int n
     {
         // Already running
         CloseHandle(hCheckPresenceMutex);
+        MessageBox(Device.m_hWnd, "Unable to launch the game: The game process is already running.\nIf you cannot close the game, kill game process via Task Manager.", "Fatal Error!", MB_ICONERROR);
         return 1;
     }
 #endif
