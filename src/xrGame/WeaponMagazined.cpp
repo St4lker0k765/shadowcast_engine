@@ -52,6 +52,8 @@ CWeaponMagazined::CWeaponMagazined(ESoundTypes eSoundType) : CWeapon()
 	m_bHasDifferentFireModes	= false;
 
 	bHasBulletsToHide			= false;
+
+	m_bUseFiremodeChangeAnim = true;
 }
 
 CWeaponMagazined::~CWeaponMagazined()
@@ -105,6 +107,9 @@ void CWeaponMagazined::Load	(LPCSTR section)
 		m_sounds.LoadSound(section, "snd_reload_empty", "sndReloadEmpty", true, m_eSoundReload);
 	if (WeaponSoundExist(section, "snd_reload_misfire"))
 		m_sounds.LoadSound(section, "snd_reload_misfire", "sndReloadMisfire", true, m_eSoundReload);
+	if (WeaponSoundExist(section, "snd_reload_jammed"))
+		m_sounds.LoadSound(section, "snd_reload_jammed", "sndReloadJammed", true, m_eSoundReload);
+
 	if (WeaponSoundExist(section, "snd_pump_gun"))
 		m_sounds.LoadSound(section, "snd_pump_gun", "sndPumpGun", true, m_eSoundReload);
 
@@ -175,6 +180,8 @@ void CWeaponMagazined::Load	(LPCSTR section)
 	}
 
 	LoadSilencerKoeffs();
+
+	m_bUseFiremodeChangeAnim = READ_IF_EXISTS(pSettings, r_bool, section, "use_firemode_change_anim", false);
 }
 
 bool CWeaponMagazined::UseScopeTexture()
@@ -922,12 +929,20 @@ void CWeaponMagazined::switch2_Unmis()
 	{
 		if (m_sounds.FindSoundItem("sndReloadMisfire", false) && psWpnAnimsFlag.test(ANM_MISFIRE))
 			PlaySound("sndReloadMisfire", get_LastFP());
+		else if (m_sounds.FindSoundItem("sndReloadJammed", false) && isHUDAnimationExist("anm_reload_jammed"))
+			PlaySound("sndReloadJammed", get_LastFP());
 		else
 			PlayReloadSound();
 	}
 
-	if (psWpnAnimsFlag.test(ANM_MISFIRE))
-		PlayHUDMotion("anm_reload_misfire", TRUE, this, GetState());
+	if (psWpnAnimsFlag.test(ANM_MISFIRE) || isHUDAnimationExist("anm_reload_jammed"))
+	{
+		PlayHUDMotionIfExists({ "anm_reload_misfire", "anm_reload_jammed", "anm_reload" }, true, GetState());
+		// Shell Drop
+		Fvector vel;
+		PHGetLinearVell(vel);
+		OnShellDrop(get_LastSP(), vel);
+	}
 	else
 		PlayAnimReload();
 }
@@ -1321,6 +1336,8 @@ void CWeaponMagazined::PlayAnimShow()
 
 	if (iAmmoElapsed == 0 && psWpnAnimsFlag.test(ANM_SHOW_EMPTY))
 		PlayHUDMotion("anm_show_empty", FALSE, this, GetState());
+	else if (IsMisfire() && isHUDAnimationExist("anm_show_jammed"))
+		PlayHUDMotion("anm_show_jammed", false, this, GetState());
 	else
 		PlayHUDMotion("anm_show", FALSE, this, GetState());
 }
@@ -1331,6 +1348,8 @@ void CWeaponMagazined::PlayAnimHide()
 
 	if(iAmmoElapsed==0 && psWpnAnimsFlag.test(ANM_HIDE_EMPTY))
 		PlayHUDMotion("anm_hide_empty", TRUE, this, GetState());
+	else if (IsMisfire() && isHUDAnimationExist("anm_hide_jammed"))
+		PlayHUDMotion("anm_hide_jammed", true, this, GetState());
 	else
 		PlayHUDMotion("anm_hide", TRUE, this, GetState());
 	
@@ -1348,6 +1367,8 @@ void CWeaponMagazined::PlayAnimIdleSprint()
 {
 	if (iAmmoElapsed == 0 && psWpnAnimsFlag.test(ANM_SPRINT_EMPTY))
 		PlayHUDMotion("anm_idle_sprint_empty", TRUE, NULL, GetState());
+	else if (IsMisfire() && isHUDAnimationExist("anm_idle_sprint_jammed"))
+		PlayHUDMotion("anm_idle_sprint_jammed", true, nullptr, GetState());
 	else
 		inherited::PlayAnimIdleSprint();
 }
@@ -1356,6 +1377,8 @@ void CWeaponMagazined::PlayAnimIdleMoving()
 {
 	if (iAmmoElapsed == 0 && psWpnAnimsFlag.test(ANM_MOVING_EMPTY))
 		PlayHUDMotion("anm_idle_moving_empty", TRUE, NULL, GetState());
+	else if (IsMisfire() && isHUDAnimationExist("anm_idle_moving_jammed"))
+		PlayHUDMotion("anm_idle_moving_jammed", true, nullptr, GetState());
 	else
 		inherited::PlayAnimIdleMoving();	
 }
@@ -1374,6 +1397,8 @@ void CWeaponMagazined::PlayAnimAim()
 {
 	if (iAmmoElapsed == 0 && psWpnAnimsFlag.test(ANM_AIM_EMPTY))
 		PlayHUDMotion("anm_idle_aim_empty", TRUE, NULL, GetState());
+	else if (IsMisfire() && isHUDAnimationExist("anm_idle_aim_jammed"))
+		PlayHUDMotion("anm_idle_aim_jammed", true, nullptr, GetState());
 	else
 		PlayHUDMotion("anm_idle_aim", TRUE, NULL, GetState());
 }
@@ -1388,6 +1413,8 @@ void CWeaponMagazined::PlayAnimIdle()
 		PlayAnimAim();
 	else if(iAmmoElapsed == 0 && psWpnAnimsFlag.test(ANM_IDLE_EMPTY))
 		PlayHUDMotion("anm_idle_empty", TRUE, NULL, GetState());
+	else if (IsMisfire() && isHUDAnimationExist("anm_idle_jammed") && !TryPlayAnimIdle())
+		PlayHUDMotion("anm_idle_jammed", true, nullptr, GetState());
 	else
 		inherited::PlayAnimIdle();
 }

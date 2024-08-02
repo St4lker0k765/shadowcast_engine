@@ -146,6 +146,7 @@ protected:
 	//только разных типов патронов
 	bool m_bLockType;
 
+	bool m_bUseFiremodeChangeAnim;
 public:
 	virtual void	OnZoomIn			();
 	virtual void	OnZoomOut			();

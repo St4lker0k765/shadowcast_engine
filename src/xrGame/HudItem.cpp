@@ -369,7 +369,10 @@ void CHudItem::PlayAnimIdle()
 {
 	if (TryPlayAnimIdle()) return;
 
-	PlayHUDMotion("anm_idle", TRUE, NULL, GetState());
+	if (IsMisfireNow())
+		PlayHUDMotionIfExists({ "anm_idle_jammed", "anm_idle" }, true, GetState());
+	else
+		PlayHUDMotion("anm_idle", TRUE, NULL, GetState());
 }
 
 bool CHudItem::TryPlayAnimIdle()
@@ -398,12 +401,18 @@ bool CHudItem::TryPlayAnimIdle()
 
 void CHudItem::PlayAnimIdleMoving()
 {
-	PlayHUDMotion("anm_idle_moving", TRUE, NULL, GetState());
+	if (IsMisfireNow())
+		PlayHUDMotionIfExists({ "anm_idle_moving_jammed", "anm_idle_moving", "anm_idle" }, true, GetState());
+	else
+		PlayHUDMotion("anm_idle_moving", TRUE, NULL, GetState());
 }
 
 void CHudItem::PlayAnimIdleSprint()
 {
-	PlayHUDMotion("anm_idle_sprint", TRUE, NULL,GetState());
+	if (IsMisfireNow())
+		PlayHUDMotionIfExists({ "anm_idle_sprint_jammed", "anm_idle_sprint", "anm_idle" }, true, GetState());
+	else
+		PlayHUDMotion("anm_idle_sprint", TRUE, NULL,GetState());
 }
 
 void CHudItem::OnMovementChanged(ACTOR_DEFS::EMoveCommand cmd)
@@ -433,4 +442,39 @@ attachable_hud_item* CHudItem::HudItemData()
 		return hi;
 
 	return NULL;
+
+}
+u32 CHudItem::PlayHUDMotionIfExists(std::initializer_list<const char*> Ms, const bool bMixIn, const u32 state, const bool randomAnim, float speed)
+{
+	for (const auto* M : Ms)
+		if (isHUDAnimationExist(M))
+			return PlayHUDMotionNew(M, bMixIn, state, randomAnim, speed);
+
+	std::string dbg_anim_name;
+	for (const auto* M : Ms)
+	{
+		dbg_anim_name += M;
+		dbg_anim_name += ", ";
+	}
+	Msg("~~[%s] Motions [%s] not found for [%s]", __FUNCTION__, dbg_anim_name.c_str(), HudSection().c_str());
+
+	return 0;
+}
+
+u32 CHudItem::PlayHUDMotionNew(const shared_str& M, const bool bMixIn, const u32 state, const bool randomAnim, float speed)
+{
+	//Msg("~~[%s] Playing motion [%s] for [%s]", __FUNCTION__, M.c_str(), HudSection().c_str());
+	u32 anim_time = PlayHUDMotion_noCB(M, bMixIn, speed);
+	if (anim_time > 0)
+	{
+		m_bStopAtEndAnimIsRunning = true;
+		m_dwMotionStartTm = Device.dwTimeGlobal;
+		m_dwMotionCurrTm = m_dwMotionStartTm;
+		m_dwMotionEndTm = m_dwMotionStartTm + anim_time;
+		m_startedMotionState = state;
+	}
+	else
+		m_bStopAtEndAnimIsRunning = false;
+
+	return anim_time;
 }

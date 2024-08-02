@@ -2782,3 +2782,8 @@ void CWeapon::ParseCurrentItem(CGameFont* F)
 {
 	F->OutNext("WEAPON IN STRAPPED MOD [%d]", m_strapped_mode);
 }
+
+bool CWeapon::IsMisfireNow()
+{
+	return IsMisfire();
+}
