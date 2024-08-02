@@ -381,14 +381,6 @@ void CUIActorMenu::InitCellForSlot( u16 slot_idx )
 	curr_list->SetItem( cell_item );
 	if ( m_currMenuMode == mmTrade && m_pPartnerInvOwner )
 		ColorizeItem( cell_item, !CanMoveToPartner( item ) );
-
-	//CCustomOutfit* outfit = smart_cast<CCustomOutfit*>(item);
-	//if(outfit)
-	//	outfit->ReloadBonesProtection();
-
-	//CHelmet* helmet = smart_cast<CHelmet*>(item);
-	//if(helmet)
-	//	helmet->ReloadBonesProtection();
 }
 
 void CUIActorMenu::InitInventoryContents(CUIDragDropListEx* pBagList)
@@ -436,14 +428,6 @@ void CUIActorMenu::InitInventoryContents(CUIDragDropListEx* pBagList)
 		curr_list->SetItem(itm);
 		if ( m_currMenuMode == mmTrade && m_pPartnerInvOwner )
 			ColorizeItem( itm, !CanMoveToPartner( *itb ) );
-
-		//CCustomOutfit* outfit = smart_cast<CCustomOutfit*>(*itb);
-		//if(outfit)
-		//	outfit->ReloadBonesProtection();
-
-		//CHelmet* helmet = smart_cast<CHelmet*>(*itb);
-		//if(helmet)
-		//	helmet->ReloadBonesProtection();
 	}
 	m_pQuickSlot->ReloadReferences(m_pActorInvOwner);
 }
