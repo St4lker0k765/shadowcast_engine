@@ -202,7 +202,12 @@ void CHUDTarget::Render()
 			if (IsGameTypeSingle())
 			{
 				CInventoryOwner* our_inv_owner		= smart_cast<CInventoryOwner*>(pCurEnt);
-				if (E && E->g_Alive() && !E->cast_base_monster())
+
+				if (E && E->g_Alive() && E->cast_base_monster())
+				{
+					C = C_ON_ENEMY;
+				}
+				else if (E && E->g_Alive() && !E->cast_base_monster())
 				{
 					CInventoryOwner* others_inv_owner	= smart_cast<CInventoryOwner*>(E);
 
