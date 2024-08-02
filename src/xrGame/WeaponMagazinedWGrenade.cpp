@@ -722,24 +722,33 @@ void CWeaponMagazinedWGrenade::PlayAnimIdle()
 
 void CWeaponMagazinedWGrenade::PlayAnimShoot()
 {
-	if(m_bGrenadeMode)
+	if (m_bGrenadeMode)
 	{
-		PlayHUDMotion("anm_shots_g" , FALSE, this, eFire);
+		string_path guns_shoot_anm{};
+		strconcat(sizeof(guns_shoot_anm), guns_shoot_anm, "anm_shoot", (this->IsZoomed() && !this->IsRotatingToZoom()) ? "_aim" : "", "_g");
+
+		PlayHUDMotionIfExists({ guns_shoot_anm, "anm_shots_g" }, false, GetState());
 	}
 	else
 	{
 		//HUD_VisualBulletUpdate();
 
-		VERIFY(GetState()==eFire);
+		VERIFY(GetState() == eFire);
+
 		if (IsGrenadeLauncherAttached())
 		{
-			if (IsZoomed() && psWpnAnimsFlag.test(ANM_SHOT_AIM_GL) && IsScopeAttached())
-				PlayHUDMotion("anm_shots_w_gl_when_aim", FALSE, this, GetState());
+			string_path guns_shoot_anm{};
+			strconcat(sizeof(guns_shoot_anm), guns_shoot_anm, (isHUDAnimationExist("anm_shoot") ? "anm_shoot" : "anm_shots"), (iAmmoElapsed == 1) ? "_last" : "", (this->IsZoomed() && !this->IsRotatingToZoom()) ? (this->IsScopeAttached() ? "_aim_scope" : "_aim") : "", this->IsSilencerAttached() ? "_sil" : "", "_w_gl");
+
+			if (iAmmoElapsed == 1)
+				PlayHUDMotionIfExists({ guns_shoot_anm, "anm_shot_l_w_gl", "anm_shots_w_gl" }, false, GetState());
 			else
-				PlayHUDMotion("anm_shots_w_gl", FALSE, this, GetState());
+				PlayHUDMotionIfExists({ guns_shoot_anm, "anm_shots_w_gl" }, false, GetState());
 		}
 		else
+		{
 			inherited::PlayAnimShoot();
+		}
 	}
 }
 

@@ -270,6 +270,7 @@ public:
 
 	BOOL					IsMisfire() const;
 	BOOL					CheckForMisfire();
+	BOOL					IsEmptyMagazine() const;
 
 
 	BOOL					AutoSpawnAmmo() const { return m_bAutoSpawnAmmo; };
@@ -452,6 +453,7 @@ protected:
 
 	virtual bool			MovingAnimAllowedNow();
 	virtual bool			IsMisfireNow		();
+	virtual bool			IsMagazineEmpty();
 	virtual void			OnStateSwitch(u32 S);
 	virtual void			OnAnimationEnd(u32 state);
 
