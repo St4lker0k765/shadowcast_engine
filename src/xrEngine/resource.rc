@@ -74,7 +74,6 @@ END
 //
 
 IDB_PNG1                PNG                     "shadowcast_engine_logo.png"
-IDB_PNG2                PNG                     "shadowcast_engine_logo_cs.png"
 
 #endif    // Русский (Россия) resources
 /////////////////////////////////////////////////////////////////////////////

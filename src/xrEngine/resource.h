@@ -8,7 +8,6 @@
 #define IDB_BITMAP2                     116
 #define IDB_BITMAP3                     120
 #define IDB_PNG1                        125
-#define IDB_PNG2						126
 #define IDI_SPLASHIMAGE                 127
 #define IDC_LIST                        1000
 #define IDC_FILE                        1001
