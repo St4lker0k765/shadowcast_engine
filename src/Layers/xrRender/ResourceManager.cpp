@@ -389,6 +389,7 @@ void	CResourceManager::_GetMemoryUsage(u32& m_base, u32& c_base, u32& m_lmaps, u
 }
 void	CResourceManager::_DumpMemoryUsage		()
 {
+#ifdef DEBUG
 	xr_multimap<u32,std::pair<u32,shared_str> >		mtex	;
 
 	// sort
@@ -410,6 +411,7 @@ void	CResourceManager::_DumpMemoryUsage		()
 		for (; I!=E; I++)
 			Msg			("* %4.1f : [%4d] %s",float(I->first)/1024.f, I->second.first, I->second.second.c_str());
 	}
+#endif
 }
 
 void	CResourceManager::Evict()
