@@ -171,8 +171,8 @@ CUIDragItem* CUICellItem::CreateDragItem()
 	if( m_UIStaticItem.GetFixedLTWhileHeading() )
 	{
 		float t1,t2;
-		t1				= r.width()/UI()->get_current_kx();
-		t2				= r.height();
+		t1				= r.width();
+		t2				= r.height()*UI()->get_current_kx();
 
 		Fvector2 cp = GetUICursor()->GetCursorPosition();
 
@@ -181,6 +181,13 @@ CUIDragItem* CUICellItem::CreateDragItem()
 		r.x2			= r.x1 + t2;
 		r.y2			= r.y1 + t1;
 	}
+
+	if (Heading() && UI()->is_16_9_mode())
+	{
+		r.y2 /= UI()->get_current_kx() * 1.26f;
+		r.x2 /= UI()->get_current_kx() * 1.3f;
+	}
+
 	tmp->Init(GetShader(), r, GetUIStaticItem().GetOriginalRect());
 	return tmp;
 }
