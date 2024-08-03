@@ -68,6 +68,7 @@ public:
 	virtual bool	GetBriefInfo			(II_BriefInfo& info);
 
 	virtual bool	IsNecessaryItem	    (const shared_str& item_sect);
+	bool			IsGrenadeMode() const override { return m_bGrenadeMode; }
 
 	//виртуальные функции для проигрывания анимации HUD
 	virtual void	PlayAnimShow		();
@@ -99,6 +100,10 @@ public:
 
 	CCartridge				m_DefaultCartridge2;
 	u8						iAmmoElapsed2;
+
+	int						iAmmoElapsedMain;
+
+	bool					IsMainMagazineEmpty() { return iAmmoElapsedMain <= 0; }
 
 	virtual void UpdateGrenadeVisibility(bool visibility);
 };

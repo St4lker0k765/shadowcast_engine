@@ -597,6 +597,8 @@ void CWeaponMagazined::UpdateCL			()
 		case eShowing:
 		case eHiding:
 		case eReload:
+		case eSprintStart:
+		case eSprintEnd:
 		case eIdle:
 			{
 				fShotTimeCounter	-=	dt;
