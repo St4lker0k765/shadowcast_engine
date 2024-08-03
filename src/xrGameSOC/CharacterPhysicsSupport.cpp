@@ -12,14 +12,14 @@
 #include "../Include/xrRender/KinematicsAnimated.h"
 
 
-#include "../xrPhysics/PhysicsShell.h"
-#include "../xrPhysics/iActivationShape.h"
-//#include "../xrphysics/Extendedgeom.h"
-#include "../xrPhysics/geometry.h"
-//#include "../xrphysics/phdynamicdata.h"
-#include "../xrPhysics/IPHCapture.h"
-//#include "../xrphysics/ICollideValidator.h"
-#include "../xrPhysics/IPHWorld.h"
+#include "../xrPhysicsSOC/PhysicsShell.h"
+#include "../xrPhysicsSOC/iActivationShape.h"
+//#include "../xrPhysicsSOC/Extendedgeom.h"
+#include "../xrPhysicsSOC/geometry.h"
+//#include "../xrPhysicsSOC/phdynamicdata.h"
+#include "../xrPhysicsSOC/IPHCapture.h"
+//#include "../xrPhysicsSOC/ICollideValidator.h"
+#include "../xrPhysicsSOC/IPHWorld.h"
 
 //#include "Physics.h"
 

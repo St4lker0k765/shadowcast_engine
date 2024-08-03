@@ -6,7 +6,7 @@
 #include "../../xrCore/net_utils.h"
 #include "xrMessages.h"
 #include "Level.h"
-#include "../xrPhysics/mathutils.h"
+#include "../xrPhysicsSOC/mathutils.h"
 SHit::SHit(float aPower,Fvector &adir,CObject *awho, u16 aelement, Fvector ap_in_bone_space, float aimpulse,  ALife::EHitType ahit_type, float aAP, bool AimBullet)
 {
 		power					=aPower									;

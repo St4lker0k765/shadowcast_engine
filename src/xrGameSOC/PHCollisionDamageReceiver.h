@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../xrPhysics/icollisiondamagereceiver.h"
+#include "../xrPhysicsSOC/icollisiondamagereceiver.h"
 
 class CPhysicsShellHolder;
 //struct dContact;

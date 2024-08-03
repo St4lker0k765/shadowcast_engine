@@ -1,15 +1,15 @@
 #include "stdafx.h"
 #ifdef DEBUG
-//#include "../xrPhysics/physics.h"
-//#include "../xrPhysics/MathUtils.h"
+//#include "../xrPhysicsSOC/physics.h"
+//#include "../xrPhysicsSOC/MathUtils.h"
 #include "../xrEngine/StatGraph.h"
 #include "PHDebug.h"
 //#include "physics.h"
-#include "../xrphysics/MathUtils.h"
+#include "../xrPhysicsSOC/MathUtils.h"
 //#include "PHObject.h"
-#include "../xrphysics/ExtendedGeom.h"
-#include "../xrphysics/iphworld.h"
-#include "../xrphysics/physicsshell.h"
+#include "../xrPhysicsSOC/ExtendedGeom.h"
+#include "../xrPhysicsSOC/iphworld.h"
+#include "../xrPhysicsSOC/physicsshell.h"
 
 
 #include "Level.h"

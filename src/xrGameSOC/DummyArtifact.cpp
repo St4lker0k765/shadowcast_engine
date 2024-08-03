@@ -5,7 +5,7 @@
 
 #include "stdafx.h"
 #include "DummyArtifact.h"
-#include "../xrPhysics/PhysicsShell.h"
+#include "../xrPhysicsSOC/PhysicsShell.h"
 
 
 CDummyArtefact::CDummyArtefact() 

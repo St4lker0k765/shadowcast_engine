@@ -1,7 +1,7 @@
 #pragma once
 
 #include "physicsshellholder.h"
-#include "../xrPhysics/icollisiondamagereceiver.h"
+#include "../xrPhysicsSOC/icollisiondamagereceiver.h"
 
 class	IPHStaticGeomShell;
 //struct	dContact;

@@ -7,7 +7,7 @@
 #include "ai_space.h"
 #include "game_cl_base.h"
 #include "string_table.h"
-#include "../xrPhysics/iphworld.h"
+#include "../xrPhysicsSOC/iphworld.h"
 #include "PHCommander.h"
 #include "physics_game.h"
 

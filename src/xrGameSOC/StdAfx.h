@@ -27,7 +27,7 @@ IC	void		throw_and_log(const xr_string &s) {Msg("! %s",s.c_str()); throw *shared
 #include "../xrEngine/xr_object.h"
 #include "../xrEngine/igame_level.h"
 #include "../xrEngine/bone.h"
-#include "../xrphysics/xrphysics.h"
+#include "../xrPhysicsSOC/xrPhysics.h"
 
 #define REGISTRY_VALUE_GSCDKEY	"InstallCDKEY"
 #define REGISTRY_VALUE_VERSION	"InstallVers"

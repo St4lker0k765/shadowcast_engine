@@ -32,9 +32,9 @@
 
 #include <functional>
 
-#include "../xrPhysics/PhysicsShell.h"
-#include "../xrPhysics/iphworld.h"
-#include "../xrPhysics/console_vars.h"
+#include "../xrPhysicsSOC/PhysicsShell.h"
+#include "../xrPhysicsSOC/iphworld.h"
+#include "../xrPhysicsSOC/console_vars.h"
 
 #ifdef DEBUG
 #include "space_restrictor.h"

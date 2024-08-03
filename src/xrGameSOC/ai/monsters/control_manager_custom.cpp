@@ -4,7 +4,7 @@
 #include "control_sequencer.h"
 #include "control_run_attack.h"
 #include "control_threaten.h"
-#include "../../xrPhysics/PhysicsShell.h"
+#include "../../xrPhysicsSOC/PhysicsShell.h"
 #include "../../detail_path_manager.h"
 #include "../../level.h"
 #include "control_animation_base.h"

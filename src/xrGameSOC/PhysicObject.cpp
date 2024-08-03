@@ -1,6 +1,6 @@
 #include "pch_script.h"
 #include "physicobject.h"
-#include "../xrPhysics/PhysicsShell.h"
+#include "../xrPhysicsSOC/PhysicsShell.h"
 //#include "Physics.h"
 #include "xrserver_objects_alife.h"
 #include "Level.h"

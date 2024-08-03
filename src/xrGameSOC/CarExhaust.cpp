@@ -8,7 +8,7 @@
 #include "PHDestroyable.h"
 #include "car.h"
 #include "..\include\xrRender\Kinematics.h"
-#include "../xrPhysics/IPHWorld.h"
+#include "../xrPhysicsSOC/IPHWorld.h"
 //#include "PHWorld.h"
 //extern CPHWorld*	ph_world;
 

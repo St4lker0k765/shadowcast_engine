@@ -3,14 +3,14 @@
 #include "../xrEngine/gamemtllib.h"
 #include "level.h"
 #include "gamepersistent.h"
-#include "../xrPhysics/Extendedgeom.h"
+#include "../xrPhysicsSOC/Extendedgeom.h"
 #include "PhysicsGamePars.h"
 //#include "PhysicsCommon.h"
 #include "PhSoundPlayer.h"
 #include "PhysicsShellHolder.h"
 #include "PHCommander.h"
-#include "../xrPhysics/MathUtils.h"
-#include "../xrPhysics/iPHWorld.h"
+#include "../xrPhysicsSOC/MathUtils.h"
+#include "../xrPhysicsSOC/iPHWorld.h"
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 static const float PARTICLE_EFFECT_DIST=70.f;

@@ -9,10 +9,10 @@
 //#include "Level.h"
 //#include "../xrEngine/gamemtllib.h"
 //#include "IPhysicsShellHolder.h"
-//#include "../xrphysics/IPHWorld.h"
+//#include "../xrPhysicsSOC/IPHWorld.h"
 //extern	class CPHWorld	*ph_world;
-#include "../xrPhysics/phcharacter.h"
-#include "../xrPhysics/iphysicsshellholder.h"
+#include "../xrPhysicsSOC/phcharacter.h"
+#include "../xrPhysicsSOC/iphysicsshellholder.h"
 bool CPHMovementControl::ActivateBoxDynamic(DWORD id, int num_it/*=8*/, int num_steps/*5*/, float resolve_depth/*=0.01f*/)
 {
 	bool  character_exist = CharacterExist();

@@ -10,7 +10,7 @@
 #include "..\include\xrRender\Kinematics.h"
 //#include "PHWorld.h"
 //extern CPHWorld*	ph_world;
-#include "../xrPhysics/IPHWorld.h"
+#include "../xrPhysicsSOC/IPHWorld.h"
 CCar::SCarSound::SCarSound(CCar* car)
 {
 	volume                 =1.f;

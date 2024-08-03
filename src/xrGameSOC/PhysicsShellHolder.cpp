@@ -1,6 +1,6 @@
 #include "pch_script.h"
 #include "PhysicsShellHolder.h"
-#include "../xrPhysics/PhysicsShell.h"
+#include "../xrPhysicsSOC/PhysicsShell.h"
 #include "xrMessages.h"
 #include "ph_shell_interface.h"
 #include "..\include\xrRender\Kinematics.h"
@@ -12,8 +12,8 @@
 #include "Grenade.h"
 
 //#include "phactivationshape.h"
-#include "../xrPhysics/iphworld.h"
-#include "../xrPhysics/iActivationShape.h"
+#include "../xrPhysicsSOC/iphworld.h"
+#include "../xrPhysicsSOC/iActivationShape.h"
 //#include "phvalide.h"
 #include "characterphysicssupport.h"
 #include "phmovementcontrol.h"

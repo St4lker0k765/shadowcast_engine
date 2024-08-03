@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "ElectricBall.h"
-#include "../xrPhysics/PhysicsShell.h"
+#include "../xrPhysicsSOC/PhysicsShell.h"
 
 
 CElectricBall::CElectricBall() 

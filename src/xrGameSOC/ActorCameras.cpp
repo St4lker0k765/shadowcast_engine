@@ -13,10 +13,10 @@
 #include "level.h"
 #include "../xrEngine/cl_intersect.h"
 #include "../xrEngine/gamemtllib.h"
-#include "../xrPhysics/ielevatorstate.h"
+#include "../xrPhysicsSOC/ielevatorstate.h"
 #include "CharacterPhysicsSupport.h"
 #include "EffectorShot.h"
-#include "../xrPhysics/PHShell.h"
+#include "../xrPhysicsSOC/PHShell.h"
 
 void CActor::cam_Set	(EActorCameras style)
 {

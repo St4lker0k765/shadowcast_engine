@@ -2,7 +2,7 @@
 #include "entity_alive.h"
 #include "inventoryowner.h"
 #include "inventory.h"
-#include "../xrPhysics/physicsshell.h"
+#include "../xrPhysicsSOC/physicsshell.h"
 #include "../xrEngine/GameMtlLib.h"
 #include "phmovementcontrol.h"
 #include "wound.h"

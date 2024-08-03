@@ -7,7 +7,7 @@
 #include "object_factory.h"
 #include "xrServer_Objects_ALife.h"
 #include "Level.h"
-#include "../xrPhysics/PhysicsShell.h"
+#include "../xrPhysicsSOC/PhysicsShell.h"
 #include "Actor.h"
 #include "CharacterPhysicsSupport.h"
 #include "ai_object_location.h"
@@ -15,9 +15,9 @@
 #include "game_graph.h"
 //#include "PHCollideValidator.h"
 //#include "PHShell.h"
-#include "../xrPhysics/MathUtils.h"
+#include "../xrPhysicsSOC/MathUtils.h"
 #ifdef DEBUG
-#include "../xrPhysics/IPHWorld.h"
+#include "../xrPhysicsSOC/IPHWorld.h"
 #endif
 
 #include "../Include/xrRender/Kinematics.h"

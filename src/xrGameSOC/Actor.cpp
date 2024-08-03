@@ -20,7 +20,7 @@
 #include "CustomOutfit.h"
 #include "actorcondition.h"
 #include "UIGameCustom.h"
-#include "../xrPhysics/matrix_utils.h"
+#include "../xrPhysicsSOC/matrix_utils.h"
 #include "game_cl_base_weapon_usage_statistic.h"
 
 // breakpoints
@@ -44,7 +44,7 @@
 #include "artifact.h"
 #include "CharacterPhysicsSupport.h"
 #include "material_manager.h"
-#include "../xrPhysics/IColisiondamageInfo.h"
+#include "../xrPhysicsSOC/IColisiondamageInfo.h"
 #include "ui/UIMainIngameWnd.h"
 #include "ui/UIArtefactPanel.h"
 #include "GameTaskManager.h"

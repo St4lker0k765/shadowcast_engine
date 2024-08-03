@@ -9,7 +9,7 @@
 #include "car.h"
 #include "../../xrCore/net_utils.h"
 #include "..\include\xrRender\Kinematics.h"
-#include "../xrPhysics/MathUtils.h"
+#include "../xrPhysicsSOC/MathUtils.h"
 #include "game_object_space.h"
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool CCar::DoorHit(float P,s16 element,ALife::EHitType hit_type)

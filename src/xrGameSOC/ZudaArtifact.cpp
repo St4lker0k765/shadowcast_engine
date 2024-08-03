@@ -5,7 +5,7 @@
 
 #include "stdafx.h"
 #include "ZudaArtifact.h"
-#include "../xrPhysics/PhysicsShell.h"
+#include "../xrPhysicsSOC/PhysicsShell.h"
 
 
 CZudaArtefact::CZudaArtefact() 

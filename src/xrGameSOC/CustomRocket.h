@@ -6,7 +6,7 @@
 #pragma once
 
 #include "physic_item.h"
-#include "../xrPhysics/PHUpdateObject.h"
+#include "../xrPhysicsSOC/PHUpdateObject.h"
 
 class CRocketLauncher;
 struct dContact;

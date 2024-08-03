@@ -6,7 +6,7 @@
 
 #include "stdafx.h"
 #include "BlackGraviArtifact.h"
-#include "../xrPhysics/PhysicsShell.h"
+#include "../xrPhysicsSOC/PhysicsShell.h"
 #include "entity_alive.h"
 #include "ParticlesObject.h"
 #include "phmovementcontrol.h"
@@ -14,7 +14,7 @@
 #include "physicsshellholder.h"
 #include "explosive.h"
 #include "../../xrCore/net_utils.h"
-#include "../xrPhysics/IPHWorld.h"
+#include "../xrPhysicsSOC/IPHWorld.h"
 #include "CharacterPhysicsSupport.h"
 //extern CPHWorld*	ph_world;
 CBlackGraviArtefact::CBlackGraviArtefact(void) 

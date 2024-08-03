@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "physics_shell_animated.h"
 
-#include	"../xrphysics/physicsshell.h"
+#include	"../xrPhysicsSOC/physicsshell.h"
 
 #include	"../Include/xrRender/Kinematics.h"
 

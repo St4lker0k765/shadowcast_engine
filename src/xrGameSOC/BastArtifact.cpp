@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "BastArtifact.h"
-#include "../xrPhysics/PhysicsShell.h"
-#include "../xrPhysics/extendedgeom.h"
+#include "../xrPhysicsSOC/PhysicsShell.h"
+#include "../xrPhysicsSOC/extendedgeom.h"
 #include "ParticlesObject.h"
 
 

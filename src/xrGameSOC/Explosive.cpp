@@ -2,7 +2,7 @@
 
 #include "explosive.h"
 
-#include "../xrPhysics/PhysicsShell.h"
+#include "../xrPhysicsSOC/PhysicsShell.h"
 #include "entity.h"
 //#include "PSObject.h"
 #include "ParticlesObject.h"
@@ -22,10 +22,10 @@
 #include "PHDebug.h"
 #endif
 //#include "Physics.h"
-#include "../xrPhysics/MathUtils.h"
+#include "../xrPhysicsSOC/MathUtils.h"
 //#include "phvalidevalues.h"
-#include "../xrPhysics/iActivationShape.h"
-#include "../xrPhysics/IPHWorld.h"
+#include "../xrPhysicsSOC/iActivationShape.h"
+#include "../xrPhysicsSOC/IPHWorld.h"
 #include "game_base_space.h"
 #include "profiler.h"
 #include "..\include\xrRender\Kinematics.h"

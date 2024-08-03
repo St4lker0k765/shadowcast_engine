@@ -7,7 +7,7 @@
 ////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
-#include "../../xrPhysics/physicsshell.h"
+#include "../../xrPhysicsSOC/physicsshell.h"
 #include "ai_crow.h"
 #include "../../hudmanager.h"
 #include "../../level.h"

@@ -11,7 +11,7 @@
 #include "saved_game_wrapper.h"
 #include "level_graph.h"
 #include "clsid_game.h"
-#include "../xrPhysics/IPHWorld.h"
+#include "../xrPhysicsSOC/IPHWorld.h"
 
 void CLevel::ClientReceive()
 {

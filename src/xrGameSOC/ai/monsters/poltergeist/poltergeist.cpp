@@ -13,7 +13,7 @@
 #include "../control_animation_base.h"
 #include "../control_movement_base.h"
 #include "../control_path_builder_base.h"
-#include "../../../xrPhysics/PhysicsShell.h"
+#include "../../../xrPhysicsSOC/PhysicsShell.h"
 
 #define HEIGHT_CHANGE_VELOCITY	0.5f
 #define HEIGHT_CHANGE_MIN_TIME	3000
@@ -222,7 +222,7 @@ void CPoltergeist::net_Destroy()
 
 void CPoltergeist::Die(CObject* who)
 {
-#pragma todo("This commented code show body poltergeist at death. Do we need this? If it comes in handy, adapt it to xrPhysics. Or delete if not comes in handy. SoC-CoP Warning!")
+#pragma todo("This commented code show body poltergeist at death. Do we need this? If it comes in handy, adapt it to xrPhysicsSOC. Or delete if not comes in handy. SoC-CoP Warning!")
 // 	if (m_tele) {
 // 		if (state_invisible) {
 // 			setVisible(true);

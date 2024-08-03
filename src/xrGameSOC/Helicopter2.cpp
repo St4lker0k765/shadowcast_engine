@@ -8,11 +8,11 @@
 #include "script_callback_ex.h"
 #include "ai/stalker/ai_stalker.h"
 #include "CustomZone.h"
-#include "../xrphysics/PhysicsShell.h"
+#include "../xrPhysicsSOC/PhysicsShell.h"
 #include "physics_game.h"
 
 #ifdef DEBUG
-#include "../xrPhysics/MathUtils.h"
+#include "../xrPhysicsSOC/MathUtils.h"
 #endif
 
 bool CHelicopter::isObjectVisible			(CObject* O)
@@ -253,7 +253,7 @@ void CHelicopter::PHHit(SHit &H)
 }
 
 
-#include "../xrPhysics/extendedgeom.h"
+#include "../xrPhysicsSOC/extendedgeom.h"
 void CollisionCallbackDead(bool& do_colide,bool bo1,dContact& c,SGameMtl* material_1,SGameMtl* material_2)
 {	
 	do_colide=true; 

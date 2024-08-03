@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "physicsskeletonobject.h"
-#include "../xrPhysics/PhysicsShell.h"
+#include "../xrPhysicsSOC/PhysicsShell.h"
 #include "phsynchronize.h"
 #include "xrserver_objects_alife.h"
 #include "..\include\xrRender\Kinematics.h"

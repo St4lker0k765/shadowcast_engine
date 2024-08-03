@@ -3,7 +3,7 @@
 #include "Actor.h"
 #include "ai_sounds.h"
 #include "bolt.h"
-#include "../xrPhysics/PhysicsShell.h"
+#include "../xrPhysicsSOC/PhysicsShell.h"
 
 CBolt::CBolt() 
 {

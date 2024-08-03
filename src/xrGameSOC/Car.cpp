@@ -27,7 +27,7 @@
 #include "../xrEngine/GameMtlLib.h"
 #include "CharacterPhysicsSupport.h"
 #include "car_memory.h"
-#include "../xrPhysics/IPHWorld.h"
+#include "../xrPhysicsSOC/IPHWorld.h"
 
 BONE_P_MAP CCar::bone_map=BONE_P_MAP();
 
@@ -325,7 +325,7 @@ void CCar::RestoreNetState(CSE_PHSkeleton* po)
 			i->second.RestoreNetState(*ii);
 		}
 	}
-#pragma todo("If it is necessary for the car, then adapt it to xrPhysics")
+#pragma todo("If it is necessary for the car, then adapt it to xrPhysicsSOC")
 /*
 	//as later may kill diable/enable state save it;
 	bool enable = PPhysicsShell()->isEnabled();

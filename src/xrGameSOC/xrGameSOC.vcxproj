@@ -221,7 +221,7 @@
       <AdditionalLibraryDirectories>$(xrLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <LinkTimeCodeGeneration />
       <ImportLibrary>$(xrLibDir)\$(Platform)\$(Configuration)\$(TargetName).lib</ImportLibrary>
-      <AdditionalDependencies>ode.lib;xrPhysics.lib;xrEngine.lib;xrSound.lib;xrAPI.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ode.lib;xrPhysicsSOC.lib;xrEngine.lib;xrSound.lib;xrAPI.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -4528,8 +4528,8 @@
     <ProjectReference Include="..\xrParticles\xrParticles.vcxproj">
       <Project>{94a1c366-3d19-48e6-8170-4adc2e70df97}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\xrPhysics\xrPhysics.vcxproj">
-      <Project>{98d24a3d-7666-4c11-9d6e-b10393ce8cba}</Project>
+    <ProjectReference Include="..\xrPhysicsSOC\xrPhysicsSOC.vcxproj">
+      <Project>{e1e8356c-0b28-47d6-a754-131d4443dc28}</Project>
     </ProjectReference>
     <ProjectReference Include="..\xrXMLParser\xrXMLParser.vcxproj">
       <Project>{94a1c366-3d19-48e6-8170-4adc2e70df98}</Project>

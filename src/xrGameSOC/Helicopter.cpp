@@ -1,7 +1,7 @@
 #include "pch_script.h"
 #include "helicopter.h"
 #include "xrserver_objects_alife.h"
-#include "../xrPhysics/PhysicsShell.h"
+#include "../xrPhysicsSOC/PhysicsShell.h"
 #include "level.h"
 #include "ai_sounds.h"
 #include "clsid_game.h"

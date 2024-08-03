@@ -49,7 +49,7 @@
 // Lain: added
 #include "../xrEngine/IGame_Level.h"
 #include "../xrCore/_vector3d_ext.h"
-#include "../xrPhysics/IPHWorld.h"
+#include "../xrPhysicsSOC/IPHWorld.h"
 
 #ifdef DEBUG
 #	include "debug_renderer.h"

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "FadedBall.h"
-#include "../xrPhysics/PhysicsShell.h"
+#include "../xrPhysicsSOC/PhysicsShell.h"
 
 
 CFadedBall::CFadedBall() 

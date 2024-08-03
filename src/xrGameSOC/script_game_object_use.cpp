@@ -17,7 +17,7 @@
 #include "PHCommander.h"
 #include "PHScriptCall.h"
 #include "PHSimpleCalls.h"
-#include "../xrPhysics/iphworld.h"
+#include "../xrPhysicsSOC/iphworld.h"
 
 void CScriptGameObject::SetTipText (LPCSTR tip_text)
 {
