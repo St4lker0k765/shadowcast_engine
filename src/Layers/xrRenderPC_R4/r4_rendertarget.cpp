@@ -1076,8 +1076,6 @@ CRenderTarget::~CRenderTarget	()
 	xr_delete					(b_accum_point			);
 	xr_delete					(b_accum_direct			);
 	xr_delete					(b_ssao					);
-	xr_delete					(b_postprocess_msaa		);
-	xr_delete					(b_bloom_msaa			);
 
    if( RImplementation.o.dx10_msaa )
    {
