@@ -736,6 +736,11 @@ public:
 	
 			float				GetRestoreSpeed					(ALife::EConditionRestoreType const& type);
 
+			IC u32 get_state() const
+			{
+				return this->mstate_real;
+			}
+
 public:
 	virtual void			On_SetEntity();
 	virtual void			On_LostEntity() {};

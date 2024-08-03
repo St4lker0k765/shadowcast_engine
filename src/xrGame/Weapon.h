@@ -383,6 +383,7 @@ public:
 	virtual void			OnZoomOut();
 	IC		bool			IsZoomed()	const { return m_zoom_params.m_bIsZoomModeNow; };
 	CUIWindow* ZoomTexture();
+	bool			IsPartlyReloading();
 
 
 	bool			ZoomHideCrosshair();
@@ -393,6 +394,7 @@ public:
 	virtual	float			CurrentZoomFactor();
 	//показывает, что оружие находится в соостоянии поворота для приближенного прицеливания
 	bool			IsRotatingToZoom() const { return (m_zoom_params.m_fZoomRotationFactor < 1.f); }
+	bool			IsRotatingFromZoom() const { return (m_zoom_params.m_fZoomRotationFactor > 0.f); }
 
 	virtual	u8				GetCurrentHudOffsetIdx();
 
@@ -590,6 +592,7 @@ public:
 	bool					m_bHasTracers;
 	u8						m_u8TracerColorID;
 	u8						m_set_next_ammoType_on_reload;
+	bool					m_bUseAimSilShotAnim;
 	// Multitype ammo support
 	xr_vector<CCartridge>	m_magazine;
 	CCartridge				m_DefaultCartridge;

@@ -54,6 +54,7 @@ CWeaponMagazined::CWeaponMagazined(ESoundTypes eSoundType) : CWeapon()
 	bHasBulletsToHide			= false;
 
 	m_bUseFiremodeChangeAnim = true;
+	m_opened = false;
 }
 
 CWeaponMagazined::~CWeaponMagazined()
@@ -944,7 +945,7 @@ void CWeaponMagazined::switch2_Unmis()
 		OnShellDrop(get_LastSP(), vel);
 	}
 	else
-		PlayAnimReload();
+		PlayHUDMotionIfExists({ "anm_reload_empty", "anm_reload" }, true, GetState());
 }
 
 void CWeaponMagazined::switch2_Hidden()
@@ -1332,6 +1333,11 @@ void CWeaponMagazined::PlayAnimShow()
 {
 	VERIFY(GetState()==eShowing);
 
+	if (iAmmoElapsed >= 1)
+		m_opened = false;
+	else
+		m_opened = true;
+
 	HUD_VisualBulletUpdate();
 
 	if (iAmmoElapsed == 0 && psWpnAnimsFlag.test(ANM_SHOW_EMPTY))
@@ -1387,14 +1393,49 @@ void CWeaponMagazined::PlayAnimReload()
 {	
 	VERIFY(GetState()==eReload);
 
-	if (iAmmoElapsed == 0 && psWpnAnimsFlag.test(ANM_RELOAD_EMPTY))
-		PlayHUDMotion("anm_reload_empty", TRUE, this, GetState());
+	if (iAmmoElapsed == 0)
+		PlayHUDMotionIfExists({ "anm_reload_empty", "anm_reload" }, true, GetState());
 	else
 		PlayHUDMotion("anm_reload", TRUE, this, GetState());
 }
 
+const char* CWeaponMagazined::GetAnimAimName()
+{
+	auto pActor = smart_cast<const CActor*>(H_Parent());
+	if (pActor)
+	{
+		if (const u32 state = pActor->get_state() && state & mcAnyMove)
+		{
+			if (IsScopeAttached())
+			{
+				strcpy_s(guns_aim_anm, "anm_idle_aim_scope_moving");
+				return guns_aim_anm;
+			}
+			else
+				return strconcat(sizeof(guns_aim_anm), guns_aim_anm, "anm_idle_aim_moving", (state & mcFwd) ? "_forward" : ((state & mcBack) ? "_back" : ""), (state & mcLStrafe) ? "_left" : ((state & mcRStrafe) ? "_right" : ""));
+		}
+	}
+	return nullptr;
+}
 void CWeaponMagazined::PlayAnimAim()
 {
+	if (IsRotatingToZoom())
+	{
+		if (isHUDAnimationExist("anm_idle_aim_start"))
+		{
+			PlayHUDMotionNew("anm_idle_aim_start", true, GetState());
+			return;
+		}
+	}
+
+	if (const char* guns_aim_anm = GetAnimAimName())
+	{
+		if (isHUDAnimationExist(guns_aim_anm))
+		{
+			PlayHUDMotionNew(guns_aim_anm, true, GetState());
+			return;
+		}
+	}
 	if (iAmmoElapsed == 0 && psWpnAnimsFlag.test(ANM_AIM_EMPTY))
 		PlayHUDMotion("anm_idle_aim_empty", TRUE, NULL, GetState());
 	else if (IsMisfire() && isHUDAnimationExist("anm_idle_aim_jammed"))
@@ -1424,7 +1465,7 @@ void CWeaponMagazined::PlayAnimShoot()
 	VERIFY(GetState()==eFire);
 
 	string_path guns_shoot_anm{};
-	strconcat(sizeof(guns_shoot_anm), guns_shoot_anm, (isHUDAnimationExist("anm_shoot") ? "anm_shoot" : "anm_shots"), (iAmmoElapsed == 1) ? "_last" : "", (IsZoomed() && !IsRotatingToZoom()) ? (IsScopeAttached() ? "_aim_scope" : "_aim") : "", IsSilencerAttached() ? "_sil" : "");
+	strconcat(sizeof(guns_shoot_anm), guns_shoot_anm, (isHUDAnimationExist("anm_shoot") ? "anm_shoot" : "anm_shots"), (iAmmoElapsed == 1) ? "_last" : "", (IsZoomed() && !IsRotatingToZoom()) ? (IsScopeAttached() ? "_aim_scope" : "_aim") : "", (IsSilencerAttached() && m_bUseAimSilShotAnim) ? "_sil" : "");
 
 	//HUD_VisualBulletUpdate();
 

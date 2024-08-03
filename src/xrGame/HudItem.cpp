@@ -377,22 +377,37 @@ void CHudItem::PlayAnimIdle()
 
 bool CHudItem::TryPlayAnimIdle()
 {
-	if(MovingAnimAllowedNow())
+	if (MovingAnimAllowedNow())
 	{
 		CActor* pActor = smart_cast<CActor*>(object().H_Parent());
-		if(pActor)
+		if (pActor)
 		{
-			CEntity::SEntityState st;
-			pActor->g_State(st);
-			if(st.bSprint)
+			const u32 State = pActor->get_state();
+			if (State & mcSprint)
 			{
 				PlayAnimIdleSprint();
 				return true;
-			}else
-			if(!st.bCrouch && pActor->AnyMove())
+			}
+			else if (State & mcAnyMove)
 			{
-				PlayAnimIdleMoving();
-				return true;
+				if (!(State & mcCrouch))
+				{
+					if (State & mcAccel) //Ходьба медленная (SHIFT)
+						PlayAnimIdleMovingSlow();
+					else
+						PlayAnimIdleMoving();
+					return true;
+				}
+				else if (State & mcAccel) //Ходьба в присяде (CTRL+SHIFT)
+				{
+					PlayAnimIdleMovingCrouchSlow();
+					return true;
+				}
+				else
+				{
+					PlayAnimIdleMovingCrouch();
+					return true;
+				}
 			}
 		}
 	}
@@ -449,11 +464,8 @@ void CHudItem::OnMovementChanged(ACTOR_DEFS::EMoveCommand cmd)
 {
 	if(GetState()==eIdle && !m_bStopAtEndAnimIsRunning)
 	{
-		if( (cmd == ACTOR_DEFS::mcSprint) || (cmd == ACTOR_DEFS::mcAnyMove)  )
-		{
-			PlayAnimIdle						();
-			ResetSubStateTime					();
-		}
+		PlayAnimIdle						();
+		ResetSubStateTime					();
 	}
 }
 

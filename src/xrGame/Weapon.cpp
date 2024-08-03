@@ -507,7 +507,7 @@ void CWeapon::Load(LPCSTR section)
 	conditionDecreasePerShot = pSettings->r_float(section, "condition_shot_dec");
 	conditionDecreasePerQueueShot = READ_IF_EXISTS(pSettings, r_float, section, "condition_queue_shot_dec", conditionDecreasePerShot);
 
-
+	m_bUseAimSilShotAnim = READ_IF_EXISTS(pSettings, r_bool, section, "enable_aim_silencer_shoot_anm", false);
 
 
 	vLoadedFirePoint = pSettings->r_fvector3(section, "fire_point");
@@ -2796,4 +2796,9 @@ BOOL CWeapon::IsEmptyMagazine() const
 bool CWeapon::IsMagazineEmpty()
 {
 	return IsEmptyMagazine();
+}
+
+bool CWeapon::IsPartlyReloading()
+{
+	return (m_set_next_ammoType_on_reload == u32(-1) && GetAmmoElapsed() > 0 && !IsMisfire());
 }
