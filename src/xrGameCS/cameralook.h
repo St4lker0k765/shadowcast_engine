@@ -7,6 +7,7 @@ class CCameraLook	: public CCameraBase
 	typedef CCameraBase inherited;
 
 	Fvector2		lim_zoom;
+protected:
 	float			dist, prev_d;
 public:
 					CCameraLook		( CObject* p, u32 flags=0);
@@ -19,6 +20,8 @@ public:
 
 	virtual float	GetWorldYaw		( )	{ return -yaw;	};
 	virtual float	GetWorldPitch	( )	{ return pitch; };
+protected:
+			void	UpdateDistance	(Fvector& point);
 };
 
 class CCameraLook2	: public CCameraLook
