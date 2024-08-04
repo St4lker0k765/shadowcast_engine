@@ -28,4 +28,5 @@
 * **textures\ui\ui_console.dds** (текстура для консоли)
 
 ## А как всё это адаптировать?
-Если в вашем моде не планируется использовать иконки 100x100, то откройте файл gamedata\configs\shadowcast_config.ltx и смените значение у параметра use_hd_icons с true на false.
+* Если в вашем моде не планируется использовать иконки 100x100, то откройте файл gamedata\configs\shadowcast_config.ltx и смените значение у параметра use_hd_icons с true на false.
+* Если вы не планируете испоьзовать ЗП систему оружия, то откройте файл gamedata\configs\shadowcast_config.ltx и смените значение у параметра cs_use_new_weapon_misfire с true на false.
