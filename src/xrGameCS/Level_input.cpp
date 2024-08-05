@@ -22,6 +22,7 @@
 #include "../xrEngine/xr_input.h"
 #include "saved_game_wrapper.h"
 #include "../Include/xrRender/DebugRender.h"
+#include "string_table.h"
 #ifdef DEBUG
 #	include "ai/monsters/BaseMonster/base_monster.h"
 #   include "level_debug.h"
@@ -172,7 +173,7 @@ void CLevel::IR_OnKeyboardPress	(int key)
 		FS.rescan_pathes			();
 #endif // DEBUG
 		string_path					saved_game,command;
-		strconcat					(sizeof(saved_game),saved_game,Core.UserName," - ","quicksave");
+		strconcat					(sizeof(saved_game),saved_game,Core.UserName," - ",CStringTable().translate("st_quicksave").c_str());
 		if (!CSavedGameWrapper::valid_saved_game(saved_game))
 			return;
 

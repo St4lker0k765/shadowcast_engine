@@ -584,7 +584,7 @@ public:
 		timer.Start				();
 #endif
 		if (!xr_strlen(S)){
-			strconcat			(sizeof(S),S,Core.UserName," - ","quicksave");
+			strconcat			(sizeof(S),S,Core.UserName," - ",CStringTable().translate("st_quicksave").c_str());
 			NET_Packet			net_packet;
 			net_packet.w_begin	(M_SAVE_GAME);
 			net_packet.w_stringZ(S);
