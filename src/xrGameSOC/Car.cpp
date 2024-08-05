@@ -1710,7 +1710,7 @@ void CCar::ResetScriptData(void	*P)
 	CScriptEntity::ResetScriptData(P);
 }
 
-void CCar::PhDataUpdate(dReal step)
+void CCar::PhDataUpdate(float step)
 {
 		if(m_repairing)Revert();
 		LimitWheels();

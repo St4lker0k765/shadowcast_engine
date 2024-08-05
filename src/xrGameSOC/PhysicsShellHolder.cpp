@@ -1,9 +1,9 @@
 #include "pch_script.h"
 #include "PhysicsShellHolder.h"
-#include "../xrPhysics/PhysicsShell.h"
+#include "../xrphysics/PhysicsShell.h"
 #include "xrMessages.h"
 #include "ph_shell_interface.h"
-#include "..\include\xrRender\Kinematics.h"
+#include "../Include/xrRender/Kinematics.h"
 #include "script_callback_ex.h"
 #include "Level.h"
 #include "PHCommander.h"
@@ -12,58 +12,59 @@
 #include "Grenade.h"
 
 //#include "phactivationshape.h"
-#include "../xrPhysics/iphworld.h"
-#include "../xrPhysics/iActivationShape.h"
-//#include "phvalide.h"
+#include "../xrphysics/iphworld.h"
+#include "../xrphysics/iActivationShape.h"
+//#include "../xrphysics/phvalide.h"
 #include "characterphysicssupport.h"
 #include "phmovementcontrol.h"
 #include "physics_shell_animated.h"
+#include "phcollisiondamagereceiver.h"
 #include "../xrEngine/iphysicsshell.h"
+#ifdef	DEBUG
+#include "../xrengine/objectdump.h"
+#endif
 CPhysicsShellHolder::CPhysicsShellHolder()
 {
 	init();
 }
-CPhysicsShellHolder::	~CPhysicsShellHolder()
+CPhysicsShellHolder::	~CPhysicsShellHolder						()
 {
-	VERIFY(!m_pPhysicsShell);
-	//#ifndef MASTER_GOLD
-		//R_ASSERT( !m_pPhysicsShell );
-	//#endif
-	destroy_physics_shell(m_pPhysicsShell);
+	VERIFY ( !m_pPhysicsShell );
+//#ifndef MASTER_GOLD
+	//R_ASSERT( !m_pPhysicsShell );
+//#endif
+	destroy_physics_shell( m_pPhysicsShell );
 }
-const IObjectPhysicsCollision* CPhysicsShellHolder::physics_collision()
+const IObjectPhysicsCollision*CPhysicsShellHolder::physics_collision	()
 {
-	CCharacterPhysicsSupport* char_support = character_physics_support();
-	if (char_support)
+	CCharacterPhysicsSupport	*char_support = character_physics_support();
+	if( char_support )
 		char_support->create_animation_collision();
 	return this;
 }
-
-const IPhysicsShell* CPhysicsShellHolder::physics_shell() const
+const IPhysicsShell	*CPhysicsShellHolder::physics_shell() const	
 {
-	if (m_pPhysicsShell)
+	if( m_pPhysicsShell )
 		return m_pPhysicsShell;
-	const CCharacterPhysicsSupport* char_support = character_physics_support();
-	if (!char_support || !char_support->animation_collision())
-		return 0;
-	return  char_support->animation_collision()->shell();
+	const CCharacterPhysicsSupport	*char_support = character_physics_support();
+	if( !char_support || !char_support->animation_collision() )
+				return 0;
+	return  char_support->animation_collision()->shell(); 
 }
 
 IPhysicsShell* CPhysicsShellHolder::physics_shell()
 {
-	return  m_pPhysicsShell;
+	return  m_pPhysicsShell; 
 }
 const IPhysicsElement* CPhysicsShellHolder::physics_character()  const
 {
-	const CCharacterPhysicsSupport* char_support = character_physics_support();
-	if (!char_support)
-		return 0;
-	const CPHMovementControl* mov = character_physics_support()->movement();
-	VERIFY(mov);
+	const CCharacterPhysicsSupport	*char_support = character_physics_support();
+	if( !char_support )
+				return 0;
+	const CPHMovementControl		*mov		  = character_physics_support()->movement();
+	VERIFY( mov );
 	return mov->IElement();
 }
-
-
 void CPhysicsShellHolder::net_Destroy()
 {
 	//remove calls
@@ -81,32 +82,37 @@ void CPhysicsShellHolder::net_Destroy()
 	xr_delete									(m_pPhysicsShell);
 }
 
-static enum EEnableState
+enum EEnableState
 {
 	stEnable			=0	,
 	stDisable				,
 	stNotDefitnite		
 };
+
 static u8 st_enable_state=(u8)stNotDefitnite;
-BOOL CPhysicsShellHolder::net_Spawn(CSE_Abstract* DC)
+BOOL CPhysicsShellHolder::net_Spawn				(CSE_Abstract*	DC)
 {
-	CParticlesPlayer::net_SpawnParticles();
-	st_enable_state = (u8)stNotDefitnite;
-	b_sheduled = true;
-	//create_physic_shell			();
-	if (PPhysicsShell() && PPhysicsShell()->isFullActive())
+	CParticlesPlayer::net_SpawnParticles		();
+	st_enable_state=(u8)stNotDefitnite;
+	b_sheduled									=	true;
+	BOOL ret=inherited::net_Spawn				(DC);//load
+		//create_physic_shell			();
+	if(PPhysicsShell()&&PPhysicsShell()->isFullActive())
 	{
 		PPhysicsShell()->GetGlobalTransformDynamic(&XFORM());
+		PPhysicsShell()->mXFORM = XFORM();
 		switch (EEnableState(st_enable_state))
 		{
-		case stEnable:	PPhysicsShell()->Enable(); break;
-		case stDisable:	PPhysicsShell()->Disable(); break;
-		case stNotDefitnite:; break;
+		case stEnable		:	PPhysicsShell()->Enable()	;break;
+		case stDisable		:	PPhysicsShell()->Disable()	;break;
+		case stNotDefitnite	:								;break;
 		}
-		ApplySpawnIniToPhysicShell(pSettings, PPhysicsShell(), false);
-		st_enable_state = (u8)stNotDefitnite;
+		ApplySpawnIniToPhysicShell(pSettings,PPhysicsShell(),false);
+
+
+		st_enable_state=(u8)stNotDefitnite;
 	}
-	return inherited::net_Spawn(DC);
+	return ret;
 }
 
 void	CPhysicsShellHolder::PHHit( SHit &H )
@@ -120,7 +126,7 @@ void	CPhysicsShellHolder::PHHit( SHit &H )
 void	CPhysicsShellHolder::Hit					(SHit* pHDS)
 {
 	bool const is_special_burn_hit_2_self	=	(pHDS->who == this) && (pHDS->boneID == BI_NONE) && 
-												( (pHDS->hit_type == ALife::eHitTypeBurn)/*|| (pHDS->hit_type == ALife::eHitTypeLightBurn)*/);
+												( pHDS->hit_type == ALife::eHitTypeBurn );
 	if ( !is_special_burn_hit_2_self )
 	{
 		PHHit(*pHDS);
@@ -140,13 +146,41 @@ void CPhysicsShellHolder::init			()
 	m_pPhysicsShell				=	NULL		;
 	b_sheduled					=	false		;
 }
+bool	 CPhysicsShellHolder::has_shell_collision_place( const CPhysicsShellHolder* obj ) const
+{
+#pragma todo("Do these functions later!")
+//	if(character_physics_support())
+//			return character_physics_support()->has_shell_collision_place( obj );
+	return false;
+}
+void	CPhysicsShellHolder::on_child_shell_activate ( CPhysicsShellHolder* obj )
+{
+	
+//	if(character_physics_support())
+//		character_physics_support()->on_child_shell_activate ( obj );
+
+}
+
+
 void CPhysicsShellHolder::correct_spawn_pos()
 {
 	VERIFY								(PPhysicsShell());
+	
+	if( H_Parent() )
+	{
+		CPhysicsShellHolder	* P = smart_cast<CPhysicsShellHolder*>(H_Parent());
+		if( P && P->has_shell_collision_place(this) )
+			return;
+	}
 
 	Fvector								size;
 	Fvector								c;
 	get_box								(PPhysicsShell(),XFORM(),size,c);
+
+	R_ASSERT2( _valid( c ), make_string( "object: %s model: %s ", cName().c_str(), cNameVisual().c_str() ) );
+	R_ASSERT2( _valid( size ), make_string( "object: %s model: %s ", cName().c_str(), cNameVisual().c_str() ) );
+	R_ASSERT2( _valid( XFORM() ), make_string( "object: %s model: %s ", cName().c_str(), cNameVisual().c_str() ) );
+	PPhysicsShell()->DisableCollision	();
 
 	Fvector								ap = Fvector().set(0,0,0);
 	ActivateShapePhysShellHolder		( this, XFORM(), size, c, ap );
@@ -159,12 +193,13 @@ void CPhysicsShellHolder::correct_spawn_pos()
 //		activation_shape.Activate		(size,1,1.f,M_PI/8.f);
 ////		VERIFY							(valid_pos(activation_shape.Position(),phBoundaries));
 //	}
-
+	
 	PPhysicsShell()->EnableCollision	();
+
 	
 
 
-
+	
 	Fmatrix								trans;
 	trans.identity						();
 	trans.c.sub							(ap,c);
@@ -193,10 +228,10 @@ void CPhysicsShellHolder::activate_physic_shell()
 	if(H_Parent()&&H_Parent()->Visual())
 	{
 		smart_cast<IKinematics*>(H_Parent()->Visual())->CalculateBones_Invalidate	();
-		smart_cast<IKinematics*>(H_Parent()->Visual())->CalculateBones	();
+		smart_cast<IKinematics*>(H_Parent()->Visual())->CalculateBones	(TRUE);
 	}
 	smart_cast<IKinematics*>(Visual())->CalculateBones_Invalidate	();
-	smart_cast<IKinematics*>(Visual())->CalculateBones();
+	smart_cast<IKinematics*>(Visual())->CalculateBones(TRUE);
 	if(!IsGameTypeSingle())
 	{
 		if(!smart_cast<CCustomRocket*>(this)&&!smart_cast<CGrenade*>(this)) PPhysicsShell()->SetIgnoreDynamic();
@@ -204,8 +239,25 @@ void CPhysicsShellHolder::activate_physic_shell()
 //	XFORM().set					(l_p1);
 	correct_spawn_pos();
 
-m_pPhysicsShell->set_LinearVel(l_fw);
+	Fvector overriden_vel;
+	if ( ActivationSpeedOverriden (overriden_vel, true) )
+	{
+		m_pPhysicsShell->set_LinearVel(overriden_vel);
+	}
+	else
+	{
+		m_pPhysicsShell->set_LinearVel(l_fw);
+	}
 	m_pPhysicsShell->GetGlobalTransformDynamic(&XFORM());
+
+	if(H_Parent()&&H_Parent()->Visual())
+	{
+		smart_cast<IKinematics*>(H_Parent()->Visual())->CalculateBones_Invalidate	();
+		smart_cast<IKinematics*>(H_Parent()->Visual())->CalculateBones	(TRUE);
+	}
+	CPhysicsShellHolder* P = smart_cast<CPhysicsShellHolder*>( H_Parent() );
+	if( P )
+		P->on_child_shell_activate( this );
 }
 
 void CPhysicsShellHolder::setup_physic_shell	()
@@ -214,15 +266,17 @@ void CPhysicsShellHolder::setup_physic_shell	()
 	create_physic_shell			();
 	m_pPhysicsShell->Activate	(XFORM(),0,XFORM());
 	smart_cast<IKinematics*>(Visual())->CalculateBones_Invalidate	();
-	smart_cast<IKinematics*>(Visual())->CalculateBones();
+	smart_cast<IKinematics*>(Visual())->CalculateBones(TRUE);
+		
+	ApplySpawnIniToPhysicShell(spawn_ini(),PPhysicsShell(),false);
+	correct_spawn_pos();
 	m_pPhysicsShell->GetGlobalTransformDynamic(&XFORM());
+
 }
 
 void CPhysicsShellHolder::deactivate_physics_shell()
 {
-	if (m_pPhysicsShell)
-		m_pPhysicsShell->Deactivate	();
-	xr_delete(m_pPhysicsShell);
+	destroy_physics_shell( m_pPhysicsShell );
 }
 void CPhysicsShellHolder::PHSetMaterial(u16 m)
 {
@@ -287,6 +341,7 @@ void	CPhysicsShellHolder::PHFreeze()
 void CPhysicsShellHolder::OnChangeVisual()
 {
 	inherited::OnChangeVisual();
+
 	if (0==renderable.visual) 
 	{
 		CCharacterPhysicsSupport	*char_support = character_physics_support();
@@ -423,9 +478,9 @@ void CPhysicsShellHolder::on_physics_disable()
 	if (IsGameTypeSingle())
 		return;
 
-	NET_Packet			net_packet;
+	/*NET_Packet			net_packet;
 	u_EventGen			(net_packet,GE_FREEZE_OBJECT,ID());
-	Level().Send		(net_packet,net_flags(TRUE,TRUE));
+	Level().Send		(net_packet,net_flags(TRUE,TRUE));*/
 }
 
 
@@ -455,7 +510,7 @@ bool CPhysicsShellHolder::ObjectGetDestroy()const
 }
 ICollisionHitCallback* CPhysicsShellHolder::ObjectGetCollisionHitCallback()
 {
-	return get_collision_hit_callback();
+	return get_collision_hit_callback ();
 }
 u16	CPhysicsShellHolder::ObjectID()const
 {
@@ -466,7 +521,7 @@ ICollisionForm* CPhysicsShellHolder::ObjectCollisionModel()
 	return collidable.model;
 }
 
-IKinematics* CPhysicsShellHolder::ObjectKinematics()
+IKinematics	*CPhysicsShellHolder::ObjectKinematics()
 {
 	VERIFY(Visual());
 	return Visual()->dcast_PKinematics();
@@ -503,14 +558,13 @@ bool CPhysicsShellHolder::has_parent_object()
 //{
 //
 //}
-
-IPHCapture* CPhysicsShellHolder::PHCapture()
+IPHCapture*	CPhysicsShellHolder::PHCapture()
 {
 	CCharacterPhysicsSupport* ph_sup = character_physics_support();
-	if (!ph_sup)
+	if( !ph_sup )
 		return 0;
-	CPHMovementControl* mov = ph_sup->movement();
-	if (!mov)
+	CPHMovementControl	*mov = ph_sup->movement();
+	if( !mov )
 		return 0;
 	return mov->PHCapture();
 }
@@ -522,57 +576,50 @@ bool CPhysicsShellHolder::IsActor()
 {
 	return !!cast_actor();
 }
-bool CPhysicsShellHolder::IsStalker()
+bool CPhysicsShellHolder::IsStalker()	
 {
 	return !!cast_stalker();
 }
 //void						SetWeaponHideState( u16 State, bool bSet )
-void CPhysicsShellHolder::HideAllWeapons(bool v)
+void CPhysicsShellHolder::HideAllWeapons( bool v )	
 {
 
 }
 
-
-void	CPhysicsShellHolder::MovementCollisionEnable(bool enable)
+void	CPhysicsShellHolder::MovementCollisionEnable				( bool enable )
 {
-	/*
-	VERIFY(character_physics_support());
-	VERIFY(character_physics_support()->movement());
-	character_physics_support()->movement()->CollisionEnable(enable);
-	*/
+ 	VERIFY( character_physics_support() );
+	VERIFY( character_physics_support()->movement() );
+	character_physics_support()->movement()->CollisionEnable( enable );
 }
 
-ICollisionDamageReceiver* CPhysicsShellHolder::ObjectPhCollisionDamageReceiver()
+ICollisionDamageReceiver* CPhysicsShellHolder::ObjectPhCollisionDamageReceiver()						
 {
 	return PHCollisionDamageReceiver();
 }
 
-
-void	CPhysicsShellHolder::BonceDamagerCallback(float& damage_factor)
+void	CPhysicsShellHolder::BonceDamagerCallback(float &damage_factor)	
 {
-	//CCharacterPhysicsSupport* phs=static_cast<CPhysicsShellHolder*>(o_damager)->character_physics_support();
-	//if(phs->IsSpecificDamager())damager_material_factor=phs->BonceDamageFactor();
-	CCharacterPhysicsSupport* phs = character_physics_support();
-	if (phs->IsSpecificDamager())
-		damage_factor = phs->BonceDamageFactor();
+		//CCharacterPhysicsSupport* phs=static_cast<CPhysicsShellHolder*>(o_damager)->character_physics_support();
+		//if(phs->IsSpecificDamager())damager_material_factor=phs->BonceDamageFactor();
+		CCharacterPhysicsSupport* phs=character_physics_support();
+		if(phs->IsSpecificDamager())
+			damage_factor=phs->BonceDamageFactor();
 }
 
 #ifdef	DEBUG
 std::string	CPhysicsShellHolder::dump(EDumpType type) const
 {
-/*
-	switch (type)
+	switch(type)
 	{
-
-	case	base:				return dbg_object_base_dump_string(this);						break;
-	case	poses:				return dbg_object_poses_dump_string(this);					break;
-	case	vis_geom:			return dbg_object_visual_geom_dump_string(this);				break;
-	case	props:				return dbg_object_props_dump_string(this);					break;
-	case	full:				return dbg_object_full_dump_string(this);						break;
-	case	full_capped:		return dbg_object_full_capped_dump_string(this);				break;
+	case	base:				return dbg_object_base_dump_string( this );						break;   
+	case	poses:				return dbg_object_poses_dump_string( this );					break;
+	case	vis_geom:			return dbg_object_visual_geom_dump_string( this );				break;
+	case	props:				return dbg_object_props_dump_string( this );					break;
+	case	full:				return dbg_object_full_dump_string( this);						break;
+	case	full_capped:		return dbg_object_full_capped_dump_string( this );				break;
 	default: NODEFAULT;			return std::string("fail!");
 	}
-*/	
-	return "";
+
 }
 #endif

@@ -2,11 +2,11 @@
 #ifndef CPHMOVEMENT_CONTROL_H
 #define CPHMOVEMENT_CONTROL_H
 
-#include "../xrPhysics/PHCharacter.h"
+//#include "../xrphysics/PHCharacter.h"
 //#include "../xrphysics/MathUtils.h"
-#include "../xrPhysics/physicsexternalcommon.h"
-#include "../xrPhysics/mathutils.h"
-#include "../xrPhysics/movementboxdynamicactivate.h"
+#include "../xrphysics/physicsexternalcommon.h"
+#include "../xrphysics/mathutils.h"
+#include "../xrphysics/movementboxdynamicactivate.h"
 namespace ALife {
 	enum EHitType;
 };
@@ -40,12 +40,12 @@ static const int path_few_point=10;
 
 public:
 CObject					*ParentObject		(){ return pObject; }
-IElevatorState			*ElevatorState  ();
-void 					in_shedule_Update( u32 DT );
+IElevatorState			*ElevatorState		();
+void 					in_shedule_Update	( u32 DT );
 void					PHCaptureObject 	( CPhysicsShellHolder* object, CPHCaptureBoneCallback* cb =0 );
 void					PHCaptureObject 	( CPhysicsShellHolder* object, u16 element );
 IPHCapture*				PHCapture			( );
-CPHCharacter*			PHCharacter		(){return m_character;}
+CPHCharacter*			PHCharacter			( ){ return m_character; }
 const CPHCharacter*		PHCharacter			( )const{ return m_character; }
 const IPhysicsElement*	IElement			( )const;
 void					PHReleaseObject		( );
@@ -76,9 +76,9 @@ bool					JumpState( );
 bool					PhysicsOnlyMode( );
 void					GetJumpMinVelParam( Fvector &min_vel, float &time, JumpType &type, const Fvector &end_point );	//returns vector of velocity of jump with minimal start speed
 																													//in min_vel and correspondent jump time in time
-float					JumpMinVelTime(const Fvector &end_point); // return time of jump with min start speed
+float					JumpMinVelTime( const Fvector &end_point ); // return time of jump with min start speed
 // input: end_point and time; return velocity and type of jump
-void					GetJumpParam(Fvector &velocity, JumpType &type,const Fvector &end_point, float time);
+void					GetJumpParam( Fvector &velocity, JumpType &type, const Fvector &end_point, float time );
 bool					b_exect_position;
 int						in_dead_area_count;
 public:
@@ -94,15 +94,15 @@ public:
 		actor,
 		ai
 	};
-	bool				isOutBorder			(){return in_dead_area_count>0;}
-	void				setOutBorder		(){in_dead_area_count=1;}
+	bool				isOutBorder			( ){ return in_dead_area_count>0; }
+	void				setOutBorder		( ){ in_dead_area_count=1; }
 private:
-	void				TraceBorder			(const Fvector &previous_position);
-	void				CheckEnvironment	(const Fvector& V);
+	void				TraceBorder			( const Fvector &previous_position );
+	void				CheckEnvironment	( const Fvector& V );
 
 	CharacterType		eCharacterType;
 	CPHCharacter*		m_character;
-	IPHCapture*		m_capture;
+	IPHCapture  *		m_capture;
 
 	float				m_fGroundDelayFactor;
 	BOOL				bIsAffectedByGravity;
@@ -205,14 +205,14 @@ public:
 	void				CollisionEnable 			(BOOL enable);
 	void				SetBox						(DWORD id, const Fbox &BB)	{ boxes[id].set(BB); aabb.set(BB); }
 	void				SetMass						(float M);	
-	float				GetMass						()			{ return fMass;	}
-	void				SetCrashSpeeds	(float min, float max)
-	{	fMinCrashSpeed	= min; 	fMaxCrashSpeed	= max; 	}
 
-	void				SetPosition		(const Fvector &P);
-	void				GetPosition		(Fvector &P);
+	float				GetMass					()						{ return fMass;	}
+	void				SetCrashSpeeds			(float min, float max)  {	fMinCrashSpeed	= min; 	fMaxCrashSpeed	= max; 	}
+
+	void				SetPosition				(const Fvector &P);
+	void				GetPosition				(Fvector &P);
 	void				GetCharacterPosition	(Fvector &P);
-	void				InterpolatePosition(Fvector& P);
+	void				InterpolatePosition		(Fvector	&P);
 	bool				TryPosition				(Fvector& pos);
 	bool				IsCharacterEnabled		();
 	void				DisableCharacter		();
@@ -270,7 +270,7 @@ public:
 	void				EnableCharacter			()																		;
 	void				SetOjectContactCallback (ObjectContactCallbackFun* callback)									;
 	void				SetFootCallBack			(ObjectContactCallbackFun* callback)									;
-	static BOOL BorderTraceCallback(collide::rq_result& result, LPVOID params);
+	static BOOL CPHMovementControl::BorderTraceCallback(collide::rq_result& result, LPVOID params);
 	ObjectContactCallbackFun* ObjectContactCallback()			;
 	u16					ContactBone				()				;
 	const ICollisionDamageInfo	*CollisionDamageInfo ()const	;
@@ -287,8 +287,9 @@ public:
 private:
 	void				actor_calculate			(Fvector& vAccel,const Fvector& camDir, float ang_speed, float jump, float dt, bool bLight);
 	void				UpdateCollisionDamage	( );
-//	bool				MakeJumpPath			(xr_vector<DetailPathManager::STravelPathPoint> & out_path, 
-//												 u32 & travel_point,
-//												 Fvector & dist_to_enemy);
+/*	bool				MakeJumpPath(xr_vector<DetailPathManager::STravelPathPoint>& out_path,
+												 u32 & travel_point,
+												 Fvector & dist_to_enemy);*/
 };
+
 #endif

@@ -3,10 +3,10 @@
 #include "PhysicsShellHolder.h"
 #include "xrServer_Objects_ALife.h"
 #include "Level.h"
-#include "../xrPhysics/PHDefs.h"
-#include "../xrPhysics/PhysicsShell.h"
+#include "../xrphysics/PHDefs.h"
+#include "../xrphysics/PhysicsShell.h"
 #include "PHSynchronize.h"
-#include "../xrPhysics/MathUtils.h"
+#include "../xrphysics/MathUtils.h"
 #include "../Include/xrRender/Kinematics.h"
 //#include "PHObject.h"
 //#include "../xrphysics/PHCollideValidator.h"
@@ -82,7 +82,7 @@ bool CPHSkeleton::Spawn(CSE_Abstract *D)
 	}
 	if(source)
 	{
-
+		
 		R_ASSERT2(source,"no source");
 		source->UnsplitSingle(this);
 		m_flags.set				(CSE_PHSkeleton::flSpawnCopy,FALSE);
@@ -253,7 +253,7 @@ void CPHSkeleton::RestoreNetState(CSE_PHSkeleton* po)
 	CPhysicsShellHolder* obj=PPhysicsShellHolder();
 	PHNETSTATE_VECTOR& saved_bones=po->saved_bones.bones;
 	VERIFY( saved_bones.size() == obj->PHGetSyncItemsNumber() );
-
+	
 	PHNETSTATE_I i=saved_bones.begin(),e=saved_bones.end();
 	if(obj->PPhysicsShell()&&obj->PPhysicsShell()->isActive())
 	{
@@ -270,6 +270,7 @@ void CPHSkeleton::RestoreNetState(CSE_PHSkeleton* po)
 	po->_flags.set(CSE_PHSkeleton::flSavedData,FALSE);
 	m_flags.set(CSE_PHSkeleton::flSavedData,FALSE);
 }
+
 
 void CPHSkeleton::ClearUnsplited()
 {

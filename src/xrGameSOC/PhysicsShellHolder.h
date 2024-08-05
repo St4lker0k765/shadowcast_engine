@@ -4,8 +4,7 @@
 #include "GameObject.h"
 #include "ParticlesPlayer.h"
 #include "../xrEngine/iobjectphysicscollision.h"
-#include "../xrPhysics/iphysicsshellholder.h"
-
+#include "../xrphysics/iphysicsshellholder.h"
 
 class CPHDestroyable;
 class CPHCollisionDamageReceiver;
@@ -15,10 +14,14 @@ class CPHSkeleton;
 class CCharacterPhysicsSupport;
 class ICollisionDamageInfo;
 class CIKLimbsController;
+
+
+
 class CPhysicsShellHolder:  public CGameObject,
 							public CParticlesPlayer,
-	                        public IObjectPhysicsCollision,
-	                        public IPhysicsShellHolder
+							public IObjectPhysicsCollision,
+							public IPhysicsShellHolder
+	
 {
 	bool				b_sheduled;
 public:
@@ -33,10 +36,10 @@ public:
 	CPhysicsShell			*m_pPhysicsShell;
 
 
-	CPhysicsShellHolder							();
+			CPhysicsShellHolder							();
 	virtual	~CPhysicsShellHolder						();
 
-
+	virtual bool		ActivationSpeedOverriden (Fvector& dest, bool clear_override) { return false; }
 
 	IC CPhysicsShell	*&PPhysicsShell				()		
 	{
@@ -63,7 +66,7 @@ public:
 	virtual	CIKLimbsController			*character_ik_controller	()							{return NULL;}
 	virtual ICollisionHitCallback		*get_collision_hit_callback ()							{return NULL;}
 	virtual void						set_collision_hit_callback	(ICollisionHitCallback *cc)	{;}
-	virtual void						enable_notificate			()							{;}
+	virtual void			_BCL			enable_notificate			()							{;}
 public:
 
 	virtual void			PHGetLinearVell		(Fvector& velocity);
@@ -97,12 +100,14 @@ public:
 	//для наследования CParticlesPlayer
 	virtual void			UpdateCL			();
 			void			correct_spawn_pos	();
-
+protected:
+	virtual	bool			has_shell_collision_place( const CPhysicsShellHolder* obj ) const;
+	virtual void			on_child_shell_activate	 ( CPhysicsShellHolder* obj );
 public:
 	virtual bool			register_schedule	() const;
 
 public:
-	virtual	void			on_physics_disable	();
+	virtual	void					_BCL					on_physics_disable					();
 private://IPhysicsShellHolder
 	virtual	Fmatrix&				_BCL					ObjectXFORM							()						;
 	virtual	Fvector&				_BCL					ObjectPosition						()						;

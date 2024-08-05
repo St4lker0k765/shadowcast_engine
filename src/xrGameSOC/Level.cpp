@@ -597,7 +597,8 @@ void CLevel::OnRender()
 	::Render->BeforeWorldRender();	//--#SM+#-- +SecondVP+
 
 	inherited::OnRender	();
-	
+	if (!game)
+		return;
 	Game().OnRender();
 	//отрисовать трассы пуль
 	//Device.Statistic->TEST1.Begin();
