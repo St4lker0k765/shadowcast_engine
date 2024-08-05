@@ -1057,6 +1057,11 @@ CRenderTarget::~CRenderTarget	()
     xr_delete					(b_cut					);
 	xr_delete					(b_accum_mask			);
 	xr_delete					(b_occq					);
+	if (RImplementation.o.dx10_msaa)
+	{
+		xr_delete( b_postprocess_msaa );
+		xr_delete( b_bloom_msaa );
+	}
 }
 
 void CRenderTarget::reset_light_marker( bool bResetStencil)
