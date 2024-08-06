@@ -8,7 +8,7 @@
 
 * **configs\gameplay\encyclopedia_social.xml** (без замены этого файла вылет из-за неправильного форматирования, привет ТЧ)  
 * **Папка configs\graphic_presets** (Пресеты графики перенесены в эту папку)  
-* **configs\text\rus\ui_shadowcast_options.xml** (Этот файл необходим для корректного отображения текста, связанного с движком)  
+* **configs\text\rus\st_shadowcast.xml** (Этот файл необходим для корректного отображения текста, связанного с движком)  
 * **configs\ui\textures_descr\ui_mm_loading_screen.xml** (необходим для корректного отображения загрузочного экрана: если отсутствует, будут фиолетовые текстуры)  
 * **configs\ui\ui_mm_load.xml** (нужен для меню Загрузить игру: без него будут проблемы с превью сейва)  
 * **configs\ui\ui_mm_loading_screen.xml** (без него будет вылет игры: нужен для лоадскрина)  
@@ -28,4 +28,5 @@
 * **textures\ui\ui_console.dds** (текстура для консоли)
 
 ## А как всё это адаптировать?
-Если в вашем моде не планируется использовать иконки 100x100, то откройте файл gamedata\configs\shadowcast_config.ltx и смените значение у параметра use_hd_icons с true на false.
+* Если в вашем моде не планируется использовать иконки 100x100, то откройте файл gamedata\configs\shadowcast_config.ltx и смените значение у параметра use_hd_icons с true на false.
+* Если вы не планируете испоьзовать ЗП систему оружия, то откройте файл gamedata\configs\shadowcast_config.ltx и смените значение у параметра cs_use_new_weapon_misfire с true на false.

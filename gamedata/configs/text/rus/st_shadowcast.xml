@@ -39,4 +39,22 @@
 	<string id="st_cam_3">
 		<text>Вид от третьего лица (Свободная камера)</text>
 	</string>
+	<string id="st_server_starting">
+		<text>Сервер: Старт</text>
+	</string>
+	<string id="st_client_connecting_to">
+		<text>Клиент: Соединение с</text>
+	</string>
+	<string id="st_client_spawning">
+		<text>Клиент: Создание</text>
+	</string>
+	<string id="st_client_synchronising">
+		<text>Клиент: Синхронизация</text>
+	</string>
+	<string id="st_quicksave">
+		<text>быстрое сохранение</text>
+	</string>
+	<string id="st_autosave">
+		<text>автосохранение</text>
+	</string>
 </string_table>

@@ -11,7 +11,7 @@ DiscordSDK::~DiscordSDK()
 
 void DiscordSDK::InitSDK()
 {
-	auto ResultSDK_ = discord::Core::Create(1263598008340316263, DiscordCreateFlags_Default, &core);
+	auto ResultSDK_ = discord::Core::Create(1263598008340316263, DiscordCreateFlags_NoRequireDiscord, &core);
 	
 	if (!core)
 	{

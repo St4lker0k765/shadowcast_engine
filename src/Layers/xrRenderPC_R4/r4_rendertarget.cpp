@@ -1079,7 +1079,7 @@ CRenderTarget::~CRenderTarget	()
 
    if( RImplementation.o.dx10_msaa )
    {
-     int bound = RImplementation.o.dx10_msaa_samples;
+      int bound = RImplementation.o.dx10_msaa_samples;
 
       if( RImplementation.o.dx10_msaa_opt )
          bound = 1;
@@ -1104,9 +1104,9 @@ CRenderTarget::~CRenderTarget	()
 	xr_delete					(b_hdao_cs				);
 	if( RImplementation.o.dx10_msaa )
 	{
+        xr_delete( b_hdao_msaa_cs );
 		xr_delete( b_postprocess_msaa );
 		xr_delete( b_bloom_msaa );
-		xr_delete( b_hdao_msaa_cs );
     }
 }
 

@@ -43,6 +43,8 @@
 #include "cameralook.h"
 #include "character_hit_animations_params.h"
 #include "inventory_upgrade_manager.h"
+#include "HUDManager.h"
+#include "ai_object_location.h"
 
 #ifdef DEBUG
 #	include "PHDebug.h"
@@ -135,22 +137,33 @@ class CCC_Spawn : public IConsole_Command {
 public:
 	CCC_Spawn(LPCSTR N) : IConsole_Command(N) {}
 
-	virtual void		Execute(LPCSTR args)
+	void Execute(LPCSTR args)
 	{
 		if (!g_pGameLevel)
 		{
-			Msg("! The level is not loaded!");
+			Msg("# Required load the level!");
 			return;
 		}
 
-		if (!pSettings->section_exist(args))
+		int CountItems_ = 1;
+		string256 SectionName_;
+
+		sscanf_s(args, "%s %d", SectionName_, (u32)sizeof SectionName_, &CountItems_);
+
+		if (!pSettings->section_exist(SectionName_))
 		{
-			Msg("! Section [%s] isn`t exits...", args);
+			Msg("! Can't find section: %s", SectionName_);
 			return;
 		}
 
-		Fvector pos = Actor()->Position();
-		Level().g_cl_Spawn(args, 0xff, M_SPAWN_OBJECT_LOCAL, pos);
+		Fvector CamPos_;
+		CamPos_.mad(Device.vCameraPosition, Device.vCameraDirection, HUD().GetCurrentRayQuery().range);
+
+		if (auto tpGame = smart_cast<game_sv_Single*>(Level().Server->game))
+		{
+			for (int i = 0; i < CountItems_; i++)
+				tpGame->alife().spawn_item(SectionName_, CamPos_, /*Actor()->ai_location().level_vertex_id()*/0, Actor()->ai_location().game_vertex_id(), ALife::_OBJECT_ID(-1));
+		}
 	}
 	virtual void		Save(IWriter* /*F*/) {}
 
@@ -571,7 +584,7 @@ public:
 		timer.Start				();
 #endif
 		if (!xr_strlen(S)){
-			strconcat			(sizeof(S),S,Core.UserName," - ","quicksave");
+			strconcat			(sizeof(S),S,Core.UserName," - ",CStringTable().translate("st_quicksave").c_str());
 			NET_Packet			net_packet;
 			net_packet.w_begin	(M_SAVE_GAME);
 			net_packet.w_stringZ(S);

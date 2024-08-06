@@ -885,11 +885,6 @@ void CCharacterPhysicsSupport::ActivateShell			( CObject* who )
 	m_pPhysicsShell->Enable();
 	m_pPhysicsShell->set_LinearVel( Fvector().set(0,-1,0) );
 }
-//void	CCharacterPhysicsSupport::	on_active_weapon_shell_activate()
-//{
-//	if( !m_weapon_geoms.empty() )
-//		RemoveActiveWeaponCollision		();
-//}
 bool	CCharacterPhysicsSupport::has_shell_collision_place		( const CPhysicsShellHolder* obj ) const
 {
 	return m_active_item_obj && obj == m_active_item_obj;
