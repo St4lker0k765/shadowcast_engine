@@ -83,6 +83,9 @@ public:
 	
 	virtual float			CalcCondition		(float hit);
 
+	// if false - hits go through and dont hit
+	virtual bool            in_solid_state      () { return true; }
+
 	int						g_Team				()const	{ return id_Team;	}
 	int						g_Squad				()const	{ return id_Squad;	}
 	int						g_Group				()const	{ return id_Group;	}

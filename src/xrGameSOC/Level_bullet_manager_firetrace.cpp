@@ -13,6 +13,7 @@
 #include "character_info.h"
 #include "../xrEngine/xr_collide_form.h"
 #include "weapon.h"
+#include "ai/monsters/basemonster/base_monster.h"
 
 //константы shoot_factor, определяющие 
 //поведение пули при столкновении с объектом
@@ -279,17 +280,29 @@ void CBulletManager::DynamicObjectHit	(CBulletManager::_event& E)
 {
 	//только для динамических объектов
 	VERIFY(E.R.O);
+	
+	if ( CEntity* entity = smart_cast<CEntity*>(E.R.O) )
+	{
+		if ( !entity->in_solid_state() )
+		{
+			return;
+		}
+	}
 	if (g_clear) E.Repeated = false;
 	if (GameID() == GAME_SINGLE) E.Repeated = false;
 	bool NeedShootmark = true;//!E.Repeated;
 	
-	if (E.R.O->CLS_ID == CLSID_OBJECT_ACTOR)
+	if (smart_cast<CActor*>(E.R.O))
 	{
 		game_PlayerState* ps = Game().GetPlayerByGameID(E.R.O->ID());
 		if (ps && ps->testFlag(GAME_PLAYER_FLAG_INVINCIBLE))
 		{
 			NeedShootmark = false;
 		};
+	}
+	else if ( CBaseMonster * monster = smart_cast<CBaseMonster *>(E.R.O) )
+	{
+		NeedShootmark	=	monster->need_shotmark();
 	}
 	
 	//визуальное обозначение попадание на объекте

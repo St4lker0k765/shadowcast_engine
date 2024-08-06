@@ -64,6 +64,8 @@ public:
 			void			start_invisible_predator	();
 			void			stop_invisible_predator		();
 
+			virtual bool    in_solid_state				();
+
 	//--------------------------------------------------------------------
 	// Vampire
 	//--------------------------------------------------------------------

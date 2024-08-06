@@ -665,25 +665,29 @@ struct zero_wm_pred
 
 void CKinematics::CalculateWallmarks()
 {
-	if (!wallmarks.empty()&&(wm_frame!=RDEVICE.dwFrame)){
-		wm_frame			= RDEVICE.dwFrame;
-		bool need_remove	= false; 
-		for (SkeletonWMVecIt it=wallmarks.begin(); it!=wallmarks.end(); it++){
-			intrusive_ptr<CSkeletonWallmark>& wm = *it;
-			float w	= (RDEVICE.fTimeGlobal-wm->TimeStart())/LIFE_TIME;
-			if (w<1.f){
-				// append wm to WallmarkEngine
-				if (::Render->ViewBase.testSphere_dirty(wm->m_Bounds.P,wm->m_Bounds.R))
-					//::Render->add_SkeletonWallmark	(wm);
-					::RImplementation.add_SkeletonWallmark	(wm);
-			}else{
-				// remove wallmark				
-				need_remove							= true;
+#pragma todo("Fix bloodmarks for SoC!")
+	if (!ShadowOfChernobylMode) {
+		if (!wallmarks.empty() && (wm_frame != RDEVICE.dwFrame)) {
+			wm_frame = RDEVICE.dwFrame;
+			bool need_remove = false;
+			for (SkeletonWMVecIt it = wallmarks.begin(); it != wallmarks.end(); it++) {
+				intrusive_ptr<CSkeletonWallmark>& wm = *it;
+				float w = (RDEVICE.fTimeGlobal - wm->TimeStart()) / LIFE_TIME;
+				if (w < 1.f) {
+					// append wm to WallmarkEngine
+					if (::Render->ViewBase.testSphere_dirty(wm->m_Bounds.P, wm->m_Bounds.R))
+						//::Render->add_SkeletonWallmark	(wm);
+						::RImplementation.add_SkeletonWallmark(wm);
+				}
+				else {
+					// remove wallmark				
+					need_remove = true;
+				}
 			}
-		}
-		if (need_remove){
-			SkeletonWMVecIt new_end= std::remove_if(wallmarks.begin(),wallmarks.end(),zero_wm_pred());
-			wallmarks.erase	(new_end,wallmarks.end());
+			if (need_remove) {
+				SkeletonWMVecIt new_end = std::remove_if(wallmarks.begin(), wallmarks.end(), zero_wm_pred());
+				wallmarks.erase(new_end, wallmarks.end());
+			}
 		}
 	}
 }

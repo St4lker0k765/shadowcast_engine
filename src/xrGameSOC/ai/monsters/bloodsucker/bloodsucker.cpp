@@ -419,6 +419,11 @@ void CAI_Bloodsucker::HitEntity(const CEntity *pEntity, float fDamage, float imp
 	}
 }
 
+bool CAI_Bloodsucker::in_solid_state ()
+{
+	return true;
+}
+
 void CAI_Bloodsucker::start_invisible_predator()
 {
 	state_invisible				= true;
