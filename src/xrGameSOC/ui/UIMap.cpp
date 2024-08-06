@@ -34,6 +34,12 @@ void CUICustomMap::Update()
 	CUIStatic::Update		();
 }
 
+void CUICustomMap::Draw()
+{
+	UI().PushScissor(GetClipperRect());
+	CUIStatic::Draw();
+	UI().PopScissor();
+}
 
 void CUICustomMap::Init	(shared_str name, CInifile& gameLtx, LPCSTR sh_name)
 {
