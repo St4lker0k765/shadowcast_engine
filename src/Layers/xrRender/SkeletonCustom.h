@@ -30,7 +30,7 @@ class  CSkeletonWallmark : public intrusive_base // 4+4+4+12+4+16+16 = 60 + 4 = 
 	const Fmatrix*		m_XForm;		// 4
 	ref_shader			m_Shader;		// 4
 	Fvector3			m_ContactPoint;	// 12		model space
-	float				m_fTimeStart;	// 4
+	float				m_fTimeStart = 0.f;	// 4
 public:
 #ifdef DEBUG
 	u32					used_in_render;	

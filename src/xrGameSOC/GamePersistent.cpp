@@ -25,6 +25,8 @@
 #include "../xrEngine/DiscordSDK.h"
 #include "GametaskManager.h"
 #include "GameTask.h"
+#include "Actor_Flags.h"
+#include "xrServer_Objects_ALife_Monsters.h"
 #ifdef DEBUG
 #include "profiler.h"
 #endif
@@ -534,6 +536,36 @@ void CGamePersistent::OnFrame	()
 
 				Actor()->Cameras().UpdateFromCamera		(C);
 				Actor()->Cameras().ApplyDevice	(VIEWPORT_NEAR);
+				if (psActorFlags.test(AF_NO_CLIP))
+				{
+					Actor()->dbg_update_cl = 0;
+					Actor()->dbg_update_shedule = 0;
+					Device.dwTimeDelta = 0;
+					Device.fTimeDelta = 0.01f;
+					Actor()->UpdateCL();
+					Actor()->shedule_Update(0);
+					Actor()->dbg_update_cl = 0;
+					Actor()->dbg_update_shedule = 0;
+
+					CSE_Abstract* e = Level().Server->ID_to_entity(Actor()->ID());
+					VERIFY(e);
+					CSE_ALifeCreatureActor* s_actor = smart_cast<CSE_ALifeCreatureActor*>(e);
+					VERIFY(s_actor);
+					xr_vector<u16>::iterator it = s_actor->children.begin();
+					for (; it != s_actor->children.end(); it++)
+					{
+						CObject* obj = Level().Objects.net_Find(*it);
+						if (obj && Engine.Sheduler.Registered(obj))
+						{
+							obj->dbg_update_shedule = 0;
+							obj->dbg_update_cl = 0;
+							obj->shedule_Update(0);
+							obj->UpdateCL();
+							obj->dbg_update_shedule = 0;
+							obj->dbg_update_cl = 0;
+						}
+					}
+				}
 				}
 			}
 		}
@@ -548,6 +580,36 @@ void CGamePersistent::OnFrame	()
 
 			Actor()->Cameras().UpdateFromCamera		(C);
 			Actor()->Cameras().ApplyDevice	(VIEWPORT_NEAR);
+			if (psActorFlags.test(AF_NO_CLIP))
+			{
+				Actor()->dbg_update_cl = 0;
+				Actor()->dbg_update_shedule = 0;
+				Device.dwTimeDelta = 0;
+				Device.fTimeDelta = 0.01f;
+				Actor()->UpdateCL();
+				Actor()->shedule_Update(0);
+				Actor()->dbg_update_cl = 0;
+				Actor()->dbg_update_shedule = 0;
+
+				CSE_Abstract* e = Level().Server->ID_to_entity(Actor()->ID());
+				VERIFY(e);
+				CSE_ALifeCreatureActor* s_actor = smart_cast<CSE_ALifeCreatureActor*>(e);
+				VERIFY(s_actor);
+				xr_vector<u16>::iterator it = s_actor->children.begin();
+				for (; it != s_actor->children.end(); it++)
+				{
+					CObject* obj = Level().Objects.net_Find(*it);
+					if (obj && Engine.Sheduler.Registered(obj))
+					{
+						obj->dbg_update_shedule = 0;
+						obj->dbg_update_cl = 0;
+						obj->shedule_Update(0);
+						obj->UpdateCL();
+						obj->dbg_update_shedule = 0;
+						obj->dbg_update_cl = 0;
+					}
+				}
+			}
 		}
 #endif // MASTER_GOLD
 	}

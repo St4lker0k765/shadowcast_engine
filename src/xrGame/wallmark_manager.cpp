@@ -41,17 +41,6 @@ void CWalmarkManager::AddWallmark(const Fvector& dir, const Fvector& start_pos,
 		{		
 			::Render->add_StaticWallmark(&wallmarks_vector, end_point, wallmark_size, pTri, pVerts);
 		}
-
-		/*
-		ref_shader* pWallmarkShader = wallmarks_vector.empty()?NULL:
-		&wallmarks_vector[::Random.randI(0,wallmarks_vector.size())];
-
-		if (pWallmarkShader)
-		{
-			//добавить отметку на материале
-			::Render->add_StaticWallmark(*pWallmarkShader, end_point, wallmark_size, pTri, pVerts);
-		}
-		*/
 	}
 }
 

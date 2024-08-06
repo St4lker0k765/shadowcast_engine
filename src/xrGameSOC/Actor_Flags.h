@@ -11,6 +11,7 @@ enum{
 		AF_CROUCH_TOGGLE    =(1<<7),
 		AF_WALK_TOGGLE      =(1<<8),
 		AF_SPRINT_TOGGLE    =(1<<9),
+		AF_NO_CLIP			=(1<<10),
 };
 
 extern Flags32 psActorFlags;
