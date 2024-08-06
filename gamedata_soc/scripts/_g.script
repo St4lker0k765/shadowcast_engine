@@ -1303,6 +1303,9 @@ quest_section["bar_ecolog_flash"]	= true
 quest_section["bar_tiran_pda"]		= true
 quest_section["bar_lucky_pda"]		= true
 
+local save_markers = {}
+
+-- Функции для проверки корректности сейв лоад
 function set_save_marker(p, mode, check, prefix)
 
 	local result = ""

@@ -75,4 +75,10 @@
 	<string id="st_cam_3">
 		<text>Вид от третьего лица (Свободная камера)</text>
 	</string>
+	<string id="st_quicksave">
+		<text>быстрое сохранение</text>
+	</string>
+	<string id="st_autosave">
+		<text>автосохранение</text>
+	</string>
 </string_table>
