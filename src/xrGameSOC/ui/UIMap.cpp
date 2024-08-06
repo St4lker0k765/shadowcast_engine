@@ -530,7 +530,7 @@ void CUIMiniMap::Init(shared_str name, CInifile& gameLtx, LPCSTR sh_name)
 		tex = "ui\\ui_nomap2";
 		tmp.set(-10000.0f,-10000.0f,10000.0f,10000.0f);
 	}
-	m_BoundRect.set		(tmp.y, tmp.x, tmp.w, tmp.z);
+	m_BoundRect.set		(tmp.x, tmp.y, tmp.z, tmp.w);
 	CUIStatic::InitEx	(tex, sh_name, 0, 0, m_BoundRect.width(), m_BoundRect.height() );
 	
 	SetStretchTexture	(true);
