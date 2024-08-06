@@ -150,7 +150,7 @@ void CUIMainIngameWnd::Init()
 
 	//индикаторы 
 	UIZoneMap->Init				();
-	UIZoneMap->SetScale			(DEFAULT_MAP_SCALE);
+//	UIZoneMap->SetScale			(DEFAULT_MAP_SCALE);
 
 	if(IsGameTypeSingle())
 	{
