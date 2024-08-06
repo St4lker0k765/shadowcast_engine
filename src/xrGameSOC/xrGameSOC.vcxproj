@@ -222,6 +222,8 @@
       <LinkTimeCodeGeneration />
       <ImportLibrary>$(xrLibDir)\$(Platform)\$(Configuration)\$(TargetName).lib</ImportLibrary>
       <AdditionalDependencies>ode.lib;xrPhysicsSOC.lib;xrEngine.lib;xrSound.lib;xrAPI.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

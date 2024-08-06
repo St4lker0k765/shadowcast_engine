@@ -856,6 +856,15 @@ float CActor::currentFOV()
 
 void CActor::UpdateCL	()
 {
+	if (g_Alive() && Level().CurrentViewEntity() == this)
+	{
+		if (CurrentGameUI() && nullptr == CurrentGameUI()->TopInputReceiver())
+		{
+			int dik = get_action_dik(kUSE);
+			if (dik && pInput->iGetAsyncKeyState(dik))
+				m_bPickupMode = true;
+		}
+	}
 	if(m_feel_touch_characters>0)
 	{
 		for(xr_vector<CObject*>::iterator it = feel_touch.begin(); it != feel_touch.end(); it++)
@@ -945,6 +954,7 @@ void CActor::UpdateCL	()
 		else
 			xr_delete(m_sndShockEffector);
 	}
+	m_bPickupMode = false;
 }
 
 float	NET_Jump = 0;
