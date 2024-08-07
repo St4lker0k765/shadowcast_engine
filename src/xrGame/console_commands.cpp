@@ -1699,7 +1699,7 @@ void CCC_RegisterCommands()
 	CMD3(CCC_Mask,				"hud_crosshair_dist",	&psHUD_Flags,	HUD_CROSSHAIR_DIST)
 
 	CMD4(CCC_Float,				"g_hud_fov",			&psHUD_FOV_def,	0.1f,	1.0f) // [FFT++]: изменено в коллизии шокера
-	CMD4(CCC_Float,				"fov",					&g_fov,			5.0f,	180.0f)
+	CMD4(CCC_Float,				"fov",					&g_fov,			50.0f,	120.0f)
 
 	CMD1(CCC_Spawn_to_inventory, "g_spawn_to_inventory")
 	CMD1(CCC_Spawn, "g_spawn")
