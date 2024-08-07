@@ -65,7 +65,10 @@ void CUIFrameLine::UpdateSize()
 	// Right or bottom texture
 	float s_width		= elements[flSecond].GetOriginalRect().width();
 	float s_height		= elements[flSecond].GetOriginalRect().height();
-	
+
+	if (bHorizontalOrientation && UI().is_widescreen())
+		s_width /= 1.2f;
+
 	(bHorizontalOrientation) ?
 		elements[flSecond].SetPos(iPos.x + iSize - s_width, iPos.y) :
 		elements[flSecond].SetPos(iPos.x, iPos.y + iSize - s_height);
