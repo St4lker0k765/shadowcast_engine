@@ -99,8 +99,10 @@ void CUICustomItem::Render(const Fvector2& pos_ns, u32 color, float angle)
 	float sinA = _sin(angle);
 
 	// Rotation
-	if (!(uFlags & flValidHeadingPivot))	pivot.set(iVisRect.x2 / 2.f, iVisRect.y2 / 2.f);
-	else								pivot.set(iHeadingPivot.x, iHeadingPivot.y);
+	if (!(uFlags & flValidHeadingPivot))	
+		pivot.set(iVisRect.x2 / 2.f, iVisRect.y2 / 2.f);
+	else								
+		pivot.set(iHeadingPivot.x, iHeadingPivot.y);
 
 	pivot.set(pivot);
 	offset.set(pos_ns);

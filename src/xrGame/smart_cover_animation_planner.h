@@ -8,7 +8,6 @@
 #ifndef SMART_COVER_ANIMATION_PLANNER_H_INCLUDED
 #define SMART_COVER_ANIMATION_PLANNER_H_INCLUDED
 
-#include <boost/noncopyable.hpp>
 #include "smart_cover_detail.h"
 #include "action_planner_script.h"
 #include "stalker_decision_space.h"
@@ -23,8 +22,7 @@ class cover;
 class target_selector;
 
 class animation_planner final: 
-	public CActionPlannerScript<CAI_Stalker>,
-	private boost::noncopyable
+	public CActionPlannerScript<CAI_Stalker>
 {
 private:
 	typedef CActionPlannerScript<CAI_Stalker> inherited;

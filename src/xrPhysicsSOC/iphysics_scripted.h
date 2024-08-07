@@ -2,7 +2,6 @@
 #define	_IPHYSICS_SCRIPTED_
 
 #pragma once
-//#include <boost/noncopyable.hpp>
 
 
 

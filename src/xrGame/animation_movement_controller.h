@@ -1,6 +1,4 @@
 #pragma once
-#include <boost/noncopyable.hpp>
-
 #include "../Include/xrRender/KinematicsAnimated.h"
 #include "poses_blending.h"
 
@@ -9,8 +7,7 @@ class poses_blending;
 class CBlend;
 
 class animation_movement_controller : 
-	public  IBlendDestroyCallback, 
-	private boost::noncopyable
+	public  IBlendDestroyCallback
 {
 	Fmatrix&			m_pObjXForm;
 	Fmatrix				m_startObjXForm;

@@ -9,7 +9,6 @@
 #define SMART_COVER_PLANNER_ACTIONS_H_INCLUDED
 
 #include "smart_cover_detail.h"
-#include <boost/noncopyable.hpp>
 #include "stalker_combat_action_base.h"
 
 class CAI_Stalker;

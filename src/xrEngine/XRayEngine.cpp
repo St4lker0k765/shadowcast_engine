@@ -760,8 +760,6 @@ int stack_overflow_exception_filter(int exception_code)
         return EXCEPTION_CONTINUE_SEARCH;
 }
 
-#include <boost/crc.hpp>
-
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, char* lpCmdLine, int nCmdShow)
 {
     __try

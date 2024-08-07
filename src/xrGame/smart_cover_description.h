@@ -8,7 +8,6 @@
 #ifndef SMART_COVER_DESCRIPTION_H_INCLUDED
 #define SMART_COVER_DESCRIPTION_H_INCLUDED
 
-#include <boost/noncopyable.hpp>
 #include "smart_cover_detail.h"
 #include "graph_abstract.h"
 
@@ -22,7 +21,6 @@ namespace transitions {
 }
 
 class description final: 
-	private boost::noncopyable, 
 	public  detail::intrusive_base_time
 {
 public:

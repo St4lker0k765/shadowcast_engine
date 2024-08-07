@@ -526,21 +526,7 @@ CUIMiniMap::~CUIMiniMap()
 
 void CUIMiniMap::Init(shared_str name, CInifile& gameLtx, LPCSTR sh_name)
 {
-	m_name				= name;
-	LPCSTR tex;
-	Fvector4 tmp;
-	if( gameLtx.line_exist(m_name,"texture") ){
-		tex			= gameLtx.r_string(m_name,"texture");
-		tmp		= gameLtx.r_fvector4(m_name,"bound_rect");
-	}else{
-		tex = "ui\\ui_nomap2";
-		tmp.set(-10000.0f,-10000.0f,10000.0f,10000.0f);
-	}
-	m_BoundRect.set		(tmp.x, tmp.y, tmp.z, tmp.w);
-	CUIStatic::InitEx	(tex, sh_name, 0, 0, m_BoundRect.width(), m_BoundRect.height() );
-	
-	SetStretchTexture	(true);
-	ClipperOn			();	
+	inherited::Init(name, gameLtx, sh_name);
 	CUIStatic::SetColor(0x7fffffff);
 }
 
