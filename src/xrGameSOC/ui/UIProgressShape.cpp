@@ -62,7 +62,7 @@ void CUIProgressShape::Draw()
 	UIRender->SetShader(*m_pTexture->GetShader());
 	Fvector2						tsize;
 	UIRender->GetActiveTextureResolution(tsize);
-	UIRender->StartPrimitive(m_sectorCount * 3, IUIRender::ptTriList, IUIRender::ePointType::pttTL);
+	UIRender->StartPrimitive(m_sectorCount * 3, IUIRender::ptTriList, UI().m_currentPointType);
 
 	Frect pos_rect;
 	m_pTexture->GetAbsoluteRect		(pos_rect);

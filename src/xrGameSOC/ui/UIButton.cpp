@@ -158,8 +158,8 @@ void CUIButton::DrawTexture()
 		else
 		{
 			Frect r = { 0,0,
-				m_UIStaticItem.GetOriginalRectScaled().width(),
-				m_UIStaticItem.GetOriginalRectScaled ().height() };
+				m_UIStaticItem.GetOriginalRect().width(),
+				m_UIStaticItem.GetOriginalRect().height() };
 			m_UIStaticItem.SetRect(r);
 		}
 

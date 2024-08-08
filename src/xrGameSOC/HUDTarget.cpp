@@ -239,7 +239,7 @@ void CHUDTarget::Render()
 	//отрендерить кружочек или крестик
 	if(!m_bShowCrosshair){
 		// actual rendering
-		UIRender->StartPrimitive(6, IUIRender::ptTriList, IUIRender::ePointType::pttTL);
+		UIRender->StartPrimitive(6, IUIRender::ptTriList, UI().m_currentPointType);
 		
 		Fvector2		scr_size;
 		scr_size.set	(float(Device.dwWidth) ,float(Device.dwHeight));

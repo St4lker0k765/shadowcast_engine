@@ -57,7 +57,7 @@ public:
 	virtual void		InitTextureEx				(LPCSTR tex_name, LPCSTR sh_name="hud\\default");
 	CUIStaticItem*		GetStaticItem				()							{return &m_UIStaticItem;}
 			void		SetOriginalRect				(float x, float y, float width, float height)	{m_UIStaticItem.SetOriginalRect(x,y,width,height);}
-			void		SetHeadingPivot				(const Fvector2& p)			{m_UIStaticItem.SetHeadingPivot(p);}
+			void		SetHeadingPivot				(const Fvector2& p, const Fvector2& offset, bool fixedLT)				{m_UIStaticItem.SetHeadingPivot(p,offset,fixedLT);}
 			void		SetMask						(CUIFrameWindow *pMask);
 	virtual void		SetTextureOffset			(float x, float y)			{ m_TextureOffset.set(x, y); }
 			Fvector2	GetTextureOffeset			() const					{ return m_TextureOffset; }

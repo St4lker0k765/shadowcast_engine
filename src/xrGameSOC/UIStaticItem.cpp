@@ -39,7 +39,8 @@ void CUIStaticItem::CreateShader(LPCSTR tex, LPCSTR sh)
 #ifdef DEBUG
 	dbg_tex_name = tex;
 #endif
-	uFlags &= !flValidRect;
+	uFlags.set(flValidRect, FALSE);
+	uFlags.set(flValidOriginalRect, FALSE);
 }
 
 void CUIStaticItem::SetShader(const ui_shader& sh)
@@ -50,7 +51,7 @@ void CUIStaticItem::SetShader(const ui_shader& sh)
 
 void CUIStaticItem::Init(LPCSTR tex, LPCSTR sh, float left, float top, u32 align)
 {
-	uFlags &= !flValidRect;
+	uFlags.set(flValidRect, FALSE);
 
 	CreateShader	(tex,sh);
 	SetPos			(left,top);
@@ -79,7 +80,7 @@ void CUIStaticItem::Render()
 	int tile_y					= fis_zero(iRemY)?iTileY:iTileY+1;
 	if (!(tile_x&&tile_y))		return;
 	// render
-	UIRender->StartPrimitive(8 * tile_x * tile_y, IUIRender::ptTriList, IUIRender::ePointType::pttTL);
+	UIRender->StartPrimitive(8 * tile_x * tile_y, IUIRender::ptTriList, UI().m_currentPointType);
 	for (int x = 0; x < tile_x; ++x) 
 	{
 		for (int y = 0; y<tile_y; ++y){
@@ -114,7 +115,7 @@ void CUIStaticItem::Render(float angle)
 
 
 	// actual rendering
-	UIRender->StartPrimitive(32, IUIRender::ptTriList, IUIRender::ePointType::pttTL);
+	UIRender->StartPrimitive(32, IUIRender::ptTriList, UI().m_currentPointType);
 	inherited::Render(bp_ns, dwColor, angle);
 
 	UIRender->FlushPrimitive();

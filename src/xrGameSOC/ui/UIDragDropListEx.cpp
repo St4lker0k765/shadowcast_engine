@@ -702,7 +702,7 @@ void CUICellContainer::Draw()
 
 	// fill cell buffer
 	u32 max_prim_cnt = ((tgt_cells.width() + 1) * (tgt_cells.height() + 1) * 6);
-	UIRender->StartPrimitive(max_prim_cnt, IUIRender::ptTriList, IUIRender::ePointType::pttTL);
+	UIRender->StartPrimitive(max_prim_cnt, IUIRender::ptTriList, UI().m_currentPointType);
 
 	for (int x=0; x<=tgt_cells.width(); ++x)
 	{

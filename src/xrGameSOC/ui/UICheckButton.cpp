@@ -56,7 +56,7 @@ void CUICheckButton::Init(Fvector2 pos, Fvector2 size, LPCSTR texture_name)
 void CUICheckButton::InitTexture(LPCSTR texture_name)
 {
 	CUI3tButton::InitTexture(texture_name);
-	Frect r = m_background.GetE()->GetStaticItem()->GetOriginalRectScaled();
+	Frect r = m_background.GetE()->GetStaticItem()->GetOriginalRect();
 	CUI3tButton::SetTextX(GetTextX() + r.width());
 }
 

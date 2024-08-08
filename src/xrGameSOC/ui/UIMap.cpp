@@ -191,7 +191,7 @@ void CUICustomMap::SetActivePoint(const Fvector &vNewPoint)
 	clip_abs_rect.getcenter(clip_center);
 	clip_center.sub(pos_abs);
 	MoveWndDelta				(clip_center);
-	SetHeadingPivot				(pos_on_map);
+	SetHeadingPivot				(pos_on_map, Fvector2().set(0,0), false);
 }
 
 bool CUICustomMap::IsRectVisible(Frect r)

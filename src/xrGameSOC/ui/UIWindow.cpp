@@ -50,7 +50,7 @@ void draw_rect(Frect& r, u32 color)
 
 	DRender->SetDebugShader(IDebugRender::dbgShaderWindow);
 
-	UIRender->StartPrimitive(5, IUIRender::ptLineStrip, IUIRender::ePointType::pttTL);
+	UIRender->StartPrimitive(5, IUIRender::ptLineStrip, UI().m_currentPointType);
 
 	UIRender->PushPoint(r.lt.x, r.lt.y, 0, color, 0, 0);
 	UIRender->PushPoint(r.rb.x, r.lt.y, 0, color, 0, 0);

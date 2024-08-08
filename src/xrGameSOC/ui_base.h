@@ -57,6 +57,8 @@ public:
 	static	bool	is_widescreen					();
 	static	float	get_current_kx					();
 	shared_str		get_xml_name					(LPCSTR fn);
+
+	IUIRender::ePointType		m_currentPointType;
 private:
 	bool m_bPostprocess;
 };
