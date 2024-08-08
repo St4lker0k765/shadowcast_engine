@@ -14,12 +14,20 @@ CUICursor::CUICursor()
 	m_b_use_win_cursor = false;
 	InitInternal			();
 	Device.seqRender.Add	(this,2);
+	Device.seqResolutionChanged.Add(this);
 }
 //--------------------------------------------------------------------
 CUICursor::~CUICursor	()
 {
 	xr_delete				(m_static);
 	Device.seqRender.Remove	(this);
+	Device.seqResolutionChanged.Remove(this);
+}
+
+void CUICursor::OnScreenResolutionChanged()
+{
+	xr_delete(m_static);
+	InitInternal();
 }
 
 void CUICursor::InitInternal()
