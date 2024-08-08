@@ -22,7 +22,7 @@
 		<text>Показывать интерфейс</text>
 	</string>
 	<string id="ui_mm_r2_smap_quality">
-		<text>Качество теней</text>
+		<text>Качество карты теней</text>
 	</string>
 	<string id="smap1024">
 		<text>1024 пикселя</text>
