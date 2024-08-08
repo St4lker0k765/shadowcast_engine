@@ -70,7 +70,7 @@ function options_dialog:InitControls()
 	
 	self.message_box = CUIMessageBoxEx()
 	
-	self.b_r2_restart_shown		= false
+	self.b_restart_system_shown	= false
 	
 end
 
@@ -101,20 +101,34 @@ end
 
 function options_dialog:UpdateDependControls()
 	
-	local _current_id	= self.combo_r2:CurrentID()
-
+	local _current_id		= self.combo_r2:CurrentID()
+	local _ssample_trb_val	= self.ss_trb:GetIValue()
+	local _ssample_cb_val	= self.ss_cb:CurrentID()
+	
 	for i,j in pairs(self.m_preconditions) do
-		j				(i, _current_id)
+		j				(i, _current_id, _ssample_trb_val, _ssample_cb_val)
 	end
---[[	
-	if self.combo_r2:CurrentID()==1 then
-		self.ch_r2_sun:Enable			(true)
-		self.ch_r2_sun_det:Enable		(true)
+
+	self:UpdateMSAA()
+end
+
+function options_dialog:UpdateMSAA()
+	local _r3_msaa_opt_enabled	= self.chk_r3_msaa_opt:GetCheck()
+	local bNeedResetValue = false
+	local _id = 2
+	if _r3_msaa_opt_enabled then
+		self.r3_msaa_alphatest:enable_id(_id)
 	else
-		self.ch_r2_sun:Enable			(false)
-		self.ch_r2_sun_det:Enable		(false)
+		bNeedResetValue = (self.r3_msaa_alphatest:CurrentID()==_id)
+		self.r3_msaa_alphatest:disable_id(_id)
 	end
-]]
+
+	self.r3_msaa_alphatest:SetCurrentValue()
+
+	if bNeedResetValue then
+		self.r3_msaa_alphatest:SetCurrentID(1)
+	end
+
 end
 
 function options_dialog:InitCallBacks()
@@ -124,7 +138,7 @@ function options_dialog:InitCallBacks()
 	self:AddCallback("btn_cancel",			ui_events.BUTTON_CLICKED,	self.OnBtnCancel,			self)
 	self:AddCallback("btn_default_graphic",	ui_events.BUTTON_CLICKED,	self.OnBtnDefGraph,			self)	
 	self:AddCallback("btn_default_sound",	ui_events.BUTTON_CLICKED,	self.OnBtnDefSound,			self)	
-	self:AddCallback("combo_r2",			ui_events.LIST_ITEM_SELECT,	self.OnR2changed,			self)	
+	self:AddCallback("combo_r2",			ui_events.LIST_ITEM_SELECT,	self.OnR2changed,	self)	
 	self:AddCallback("combo_preset",		ui_events.LIST_ITEM_SELECT,	self.OnPresetChanged,		self)	
 	self:AddCallback("btn_simply_graphic",	ui_events.BUTTON_CLICKED,	self.OnSimplyGraphic,		self)	
 	self:AddCallback("btn_keyb_default",	ui_events.BUTTON_CLICKED,	self.OnBtnDefault,			self)
@@ -151,18 +165,6 @@ function options_dialog:OnPresetChanged()
 	local opt					= COptionsManager()
 	opt:SetCurrentValues		("mm_opt_video")
 	opt:SetCurrentValues		("mm_opt_video_adv")
-end
-
-function options_dialog:OnR2changed()	
-
-	self:UpdateDependControls				()
-	
-	if false==self.b_r2_restart_shown then
-		self.b_r2_restart_shown			 = true
-		self.message_box:Init			("message_box_restart_game")
-		self:GetHolder():start_stop_menu(self.message_box,true)
-	end
-	
 end
 
 function options_dialog:OnBtnDefGraph()
@@ -192,6 +194,15 @@ function options_dialog:OnBtnAccept()
 	self:GetHolder():start_stop_menu	(self.owner, true) --new(show main window)
 	self:GetHolder():start_stop_menu	(self,true)
 	self.owner:Show						(true)
+	
+	if false==self.b_restart_system_shown then
+		local opt = COptionsManager()
+		if opt:NeedSystemRestart() then
+			self.b_restart_system_shown		 = true
+			self.message_box:InitMessageBox	("message_box_restart_game")
+			self.owner:GetHolder():start_stop_menu(self.message_box,true)
+		end
+	end
 	
 end
 
@@ -265,6 +276,25 @@ end
 function options_dialog:Update()
 	CUIScriptWnd.Update(self)
 	
-	local mm = main_menu.get_main_menu()
+	
+	if false==self.b_restart_system_shown then
+		local opt = COptionsManager()
+		if opt:NeedSystemRestart() then
+			self.b_restart_system_shown		 = true
+			self.message_box:Init	("message_box_restart_game")
+			self:GetHolder():start_stop_menu(self.message_box,true)
+		end
+	end
 end
 
+function options_dialog:OnR2changed()	
+
+	self:UpdateDependControls				()
+	
+	if false==self.b_restart_system_shown then
+		self.b_restart_system_shown			 = true
+		self.message_box:Init			("message_box_restart_game")
+		self:GetHolder():start_stop_menu(self.message_box,true)
+	end
+	
+end

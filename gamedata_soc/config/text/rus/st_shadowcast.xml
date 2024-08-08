@@ -28,7 +28,7 @@
 		<text>Показывать интерфейс</text>
 	</string>
 	<string id="ui_mm_r2_smap_quality">
-		<text>Качество теней</text>
+		<text>Качество карты теней</text>
 	</string>
 	<string id="smap1024">
 		<text>1024 пикселя</text>
@@ -80,5 +80,62 @@
 	</string>
 	<string id="st_autosave">
 		<text>автосохранение</text>
+	</string>
+	<string id="st_opt_off">
+		<text>отключено</text>
+	</string>
+	<string id="ui_mm_r2_detail_bump">
+		<text>Детальный рельеф</text>
+	</string>
+	<string id="ui_mm_r2_steep_parallax">
+		<text>Steep parallax</text>
+	</string>
+	<string id="ui_mm_r2_sun_quality">
+		<text>Качество солнца</text>
+	</string>
+	<string id="st_opt_high">
+		<text>высоко</text>
+	</string>
+	<string id="st_opt_low">
+		<text>низко</text>
+	</string>
+	<string id="st_opt_medium">
+		<text>средне</text>
+	</string>
+	<string id="st_opt_off">
+		<text>отключено</text>
+	</string>
+	<string id="st_opt_ultra">
+		<text>очень высоко</text>
+	</string>
+	<string id="ui_mm_sun_shafts">
+		<text>Солнечные лучи</text>
+	</string>
+	<string id="ui_mm_ssao">
+		<text>Качество SSAO</text>
+	</string>
+	<string id="ui_mm_soft_water">
+		<text>Мягкая вода</text>
+	</string>
+	<string id="ui_mm_soft_particles">
+		<text>Мягкие частицы</text>
+	</string>
+	<string id="ui_mm_dof">
+		<text>Глубина резкости</text>
+	</string>
+	<string id="ui_mm_volumetric_light">
+		<text>Объёмный свет</text>
+	</string>
+	<string id="ui_mm_msaa_alphatest">
+		<text>Сглаживать А-тестовые объекты</text>
+	</string>
+	<string id="ui_mm_r3_dynamic_wet_surfaces">
+		<text>Намокание плоскостей</text>
+	</string>
+	<string id="ui_mm_r3_volumetric_smoke">
+		<text>Объёмный дым</text>
+	</string>
+	<string id="ui_mm_r3_DX10_1">
+		<text>Использовать DX10.1</text>
 	</string>
 </string_table>
