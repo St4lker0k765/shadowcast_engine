@@ -16,8 +16,8 @@ public:
 	virtual void OnH_A_Chield();
 	virtual void OnEvent(NET_Packet& P, u16 type);
 	
-	virtual bool Activate();
-	virtual void Deactivate();
+	virtual bool Activate(bool now);
+	virtual void Deactivate(bool now);
 	
 	virtual	void SetInitiator(u16 id);
 	virtual	u16	 Initiator();

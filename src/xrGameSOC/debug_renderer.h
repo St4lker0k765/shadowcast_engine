@@ -10,7 +10,6 @@
 
 #include "../Include/xrRender/DebugRender.h"
 
-#ifdef DEBUG
 class CDebugRenderer {
 private:
 	enum {line_vertex_limit	= 32767};
@@ -36,4 +35,3 @@ public:
 
 #include "debug_renderer_inline.h"
 
-#endif

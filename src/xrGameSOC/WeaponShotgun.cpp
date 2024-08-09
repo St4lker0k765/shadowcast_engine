@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "weaponshotgun.h"
-#include "WeaponHUD.h"
 #include "entity.h"
 #include "ParticlesObject.h"
 #include "xr_level_controller.h"
@@ -8,14 +7,16 @@
 #include "level.h"
 #include "actor.h"
 
-CWeaponShotgun::CWeaponShotgun() : CWeaponCustomPistol("TOZ34")
+CWeaponShotgun::CWeaponShotgun(void) : CWeaponCustomPistol("TOZ34")
 {
     m_eSoundShotBoth		= ESoundTypes(SOUND_TYPE_WEAPON_SHOOTING);
-	m_eSoundClose			= ESoundTypes(SOUND_TYPE_WEAPON_SHOOTING);
-	m_eSoundAddCartridge	= ESoundTypes(SOUND_TYPE_WEAPON_SHOOTING);
+	m_eSoundClose			= ESoundTypes(SOUND_TYPE_WEAPON_RECHARGING);
+	m_eSoundAddCartridge	= ESoundTypes(SOUND_TYPE_WEAPON_RECHARGING);
+	m_bLockType = true; // Запрещает заряжать в дробовики патроны разного типа
+	m_stop_triStateReload = false;
 }
 
-CWeaponShotgun::~CWeaponShotgun()
+CWeaponShotgun::~CWeaponShotgun(void)
 {
 	// sounds
 	HUD_SOUND::DestroySound(sndShotBoth);
@@ -36,37 +37,29 @@ void CWeaponShotgun::Load	(LPCSTR section)
 
 	// Звук и анимация для выстрела дуплетом
 	HUD_SOUND::LoadSound(section, "snd_shoot_duplet", sndShotBoth, m_eSoundShotBoth);
-	animGet	(mhud_shot_boths,	pSettings->r_string(*hud_sect,"anim_shoot_both"));
 
-	if(pSettings->line_exist(section, "tri_state_reload")){
+	if (pSettings->line_exist(section, "tri_state_reload"))
+	{
 		m_bTriStateReload = !!pSettings->r_bool(section, "tri_state_reload");
-	};
-	if(m_bTriStateReload){
+	}
+
+	if (m_bTriStateReload)
+	{
 		HUD_SOUND::LoadSound(section, "snd_open_weapon", m_sndOpen, m_eSoundOpen);
-		animGet	(mhud_open,	pSettings->r_string(*hud_sect,"anim_open_weapon"));
-
 		HUD_SOUND::LoadSound(section, "snd_add_cartridge", m_sndAddCartridge, m_eSoundAddCartridge);
-		animGet	(mhud_add_cartridge,	pSettings->r_string(*hud_sect,"anim_add_cartridge"));
-
 		HUD_SOUND::LoadSound(section, "snd_close_weapon", m_sndClose, m_eSoundClose);
-		animGet	(mhud_close,	pSettings->r_string(*hud_sect,"anim_close_weapon"));
-	};
-
+	}
 }
-
-
-
 
 void CWeaponShotgun::OnShot () 
 {
-//.?std::swap(m_pHUD->FirePoint(), m_pHUD->FirePoint2());
-//.	std::swap(vLoadedFirePoint, vLoadedFirePoint2);
 	inherited::OnShot();
 }
 
 void CWeaponShotgun::Fire2Start () 
 {
-	if(m_bPending) return;
+	if (IsPending()) 
+		return;
 
 	inherited::Fire2Start();
 
@@ -78,21 +71,17 @@ void CWeaponShotgun::Fire2Start ()
 			if (GetState()==eShowing)		return;
 			if (GetState()==eHiding)		return;
 
+			CWeapon::FireStart();
+
 			if (!iAmmoElapsed)	
-			{
-				CWeapon::FireStart			();
-				SwitchState					(eMagEmpty);
-			}
+				SwitchState(eMagEmpty);
 			else					
-			{
-				CWeapon::FireStart			();
-				SwitchState					((iAmmoElapsed < iMagazineSize)?eFire:eFire2);
-			}
+				SwitchState((iAmmoElapsed < iMagazineSize)?eFire:eFire2);
 		}
-	}else{
-		if (!iAmmoElapsed)	
-			SwitchState						(eMagEmpty);
 	}
+	else
+		if (!iAmmoElapsed)
+			SwitchState(eMagEmpty);
 }
 
 void CWeaponShotgun::Fire2End () 
@@ -118,7 +107,7 @@ void CWeaponShotgun::OnShotBoth()
 	AddShotEffector		();
 	
 	// анимация дуплета
-	m_pHUD->animPlay			(random_anim(mhud_shot_boths),FALSE,this,GetState());
+	PlayHUDMotion("anim_shoot_both", "anm_shots_both", false, this, GetState());
 	
 	// Shell Drop
 	Fvector vel; 
@@ -130,17 +119,52 @@ void CWeaponShotgun::OnShotBoth()
 	StartFlameParticles2		();
 
 	//дым из 2х стволов
-	CParticlesObject* pSmokeParticles = NULL;
-	CShootingObject::StartParticles(pSmokeParticles, *m_sSmokeParticlesCurrent, get_LastFP(),  zero_vel, true);
-	pSmokeParticles = NULL;
-	CShootingObject::StartParticles(pSmokeParticles, *m_sSmokeParticlesCurrent, get_LastFP2(), zero_vel, true);
+	if ( ParentIsActor() ) {
+	  CParticlesObject* pSmokeParticles = NULL;
+	  CShootingObject::StartParticles(pSmokeParticles, *m_sSmokeParticlesCurrent, get_LastFP(),  zero_vel, true);
+	  pSmokeParticles = NULL;
+	  CShootingObject::StartParticles(pSmokeParticles, *m_sSmokeParticlesCurrent, get_LastFP2(), zero_vel, true);
+	}
 
+}
+
+void CWeaponShotgun::UpdateCL()
+{
+	float dt = Device.fTimeDelta;
+
+	//когда происходит апдейт состояния оружия
+	//ничего другого не делать
+	if (GetNextState() == GetState())
+	{
+		switch (GetState())
+		{
+		case eFire2:
+			//if (iAmmoElapsed > 0)
+			//	state_Fire(dt);
+
+			if (fTime <= 0)
+			{
+				if (iAmmoElapsed == 0)
+					OnMagazineEmpty();
+				StopShooting();
+			}
+			else
+			{
+				fTime -= dt;
+			}
+
+			break;
+		}
+	}
+
+	inherited::UpdateCL();
+	
 }
 
 void CWeaponShotgun::switch2_Fire	()
 {
+	SetPending(TRUE);
 	inherited::switch2_Fire	();
-	bWorking = false;
 }
 
 void CWeaponShotgun::switch2_Fire2	()
@@ -149,6 +173,8 @@ void CWeaponShotgun::switch2_Fire2	()
 
 	if (fTime<=0)
 	{
+		SetPending(TRUE);
+
 		// Fire
 		Fvector						p1, d; 
 		p1.set	(get_LastFP()); 
@@ -156,7 +182,8 @@ void CWeaponShotgun::switch2_Fire2	()
 
 		CEntity*					E = smart_cast<CEntity*>(H_Parent());
 		if (E){
-		CInventoryOwner* io		= smart_cast<CInventoryOwner*>(H_Parent());
+#ifdef DEBUG
+			CInventoryOwner* io		= smart_cast<CInventoryOwner*>(H_Parent());
 			if(NULL == io->inventory().ActiveItem())
 			{
 			Log("current_state", GetState() );
@@ -165,6 +192,7 @@ void CWeaponShotgun::switch2_Fire2	()
 			Log("item_sect", cNameSect().c_str());
 			Log("H_Parent", H_Parent()->cNameSect().c_str());
 			}
+#endif
 			E->g_fireParams		(this, p1,d);
 		}
 		
@@ -184,23 +212,58 @@ void CWeaponShotgun::switch2_Fire2	()
 void CWeaponShotgun::UpdateSounds	()
 {
 	inherited::UpdateSounds();
-	if (sndShotBoth.playing())		sndShotBoth.set_position		(get_LastFP());
+	if (sndShotBoth.playing())       sndShotBoth.set_position       (get_LastFP());
+	if (m_sndOpen.playing())         m_sndOpen.set_position         (get_LastFP());
+	if (m_sndAddCartridge.playing()) m_sndAddCartridge.set_position (get_LastFP());
+	if (m_sndClose.playing())        m_sndClose.set_position        (get_LastFP());
 }
+
+#ifdef DUPLET_STATE_SWITCH
+void CWeaponShotgun::SwitchDuplet()
+{
+	is_duplet_enabled = !is_duplet_enabled;
+}
+#endif
 
 bool CWeaponShotgun::Action			(s32 cmd, u32 flags) 
 {
+#ifdef DUPLET_STATE_SWITCH
+
+	if (is_duplet_enabled)
+	{
+		switch (cmd)
+		{
+		case kWPN_FIRE:
+		{
+			if (flags&CMD_START)
+			{
+				if (IsPending()) return false;
+				Fire2Start();
+			}
+			else
+				Fire2End();
+
+			return true;
+		}
+		}
+	}
+
+#endif // !DUPLET_STATE_SWITCH
+
 	if(inherited::Action(cmd, flags)) return true;
 
 	if(	m_bTriStateReload && GetState()==eReload &&
-		cmd==kWPN_FIRE && flags&CMD_START &&
-		m_sub_state==eSubstateReloadInProcess		)//остановить перезагрузку
+		( cmd == kWPN_FIRE || cmd == kWPN_NEXT ) && flags&CMD_START &&
+		(m_sub_state==eSubstateReloadInProcess	|| m_sub_state == eSubstateReloadBegin) )//остановить перезагрузку
 	{
-		AddCartridge(1);
-		m_sub_state = eSubstateReloadEnd;
+		m_stop_triStateReload = true;
 		return true;
 	}
+
+#ifndef DUPLET_STATE_SWITCH
+
 	//если оружие чем-то занято, то ничего не делать
-	if(IsPending()) return false;
+	if (IsPending()) return false;
 
 	switch(cmd) 
 	{
@@ -211,6 +274,9 @@ bool CWeaponShotgun::Action			(s32 cmd, u32 flags)
 			}
 			return true;
 	}
+
+#endif // !DUPLET_STATE_SWITCH
+
 	return false;
 }
 
@@ -226,7 +292,7 @@ void CWeaponShotgun::OnAnimationEnd(u32 state)
 		}break;
 
 		case eSubstateReloadInProcess:{
-			if( 0 != AddCartridge(1) ){
+			if( 0 != AddCartridge(1) || m_stop_triStateReload){
 				m_sub_state = eSubstateReloadEnd;
 			}
 			SwitchState(eReload);
@@ -242,10 +308,12 @@ void CWeaponShotgun::OnAnimationEnd(u32 state)
 
 void CWeaponShotgun::Reload() 
 {
+	OnZoomOut();
 	if(m_bTriStateReload){
+		m_stop_triStateReload = false;
 		TriStateReload();
 	}else
-		inherited::Reload();
+		TryReload();
 }
 
 void CWeaponShotgun::TriStateReload()
@@ -255,17 +323,16 @@ void CWeaponShotgun::TriStateReload()
 	SwitchState			(eReload);
 }
 
-void CWeaponShotgun::OnStateSwitch	(u32 S)
+void CWeaponShotgun::OnStateSwitch	(u32 S, u32 oldState)
 {
 	if(!m_bTriStateReload || S != eReload){
-		inherited::OnStateSwitch(S);
+		inherited::OnStateSwitch(S, oldState);
 		return;
 	}
 
-	CWeapon::OnStateSwitch(S);
+	CWeapon::OnStateSwitch(S, oldState);
 
-	if( m_magazine.size() == (u32)iMagazineSize || !HaveCartridgeInInventory(1) ){
-			switch2_EndReload		();
+	if ( m_magazine.size() >= (u32)iMagazineSize || !HaveCartridgeInInventory(1) ) {
 			m_sub_state = eSubstateReloadEnd;
 	};
 
@@ -276,8 +343,8 @@ void CWeaponShotgun::OnStateSwitch	(u32 S)
 			switch2_StartReload	();
 		break;
 	case eSubstateReloadInProcess:
-			if( HaveCartridgeInInventory(1) )
-				switch2_AddCartgidge	();
+		if( HaveCartridgeInInventory(1) )
+			switch2_AddCartgidge	();
 		break;
 	case eSubstateReloadEnd:
 			switch2_EndReload		();
@@ -289,64 +356,74 @@ void CWeaponShotgun::switch2_StartReload()
 {
 	PlaySound			(m_sndOpen,get_LastFP());
 	PlayAnimOpenWeapon	();
-	m_bPending = true;
+	SetPending(TRUE);
 }
 
 void CWeaponShotgun::switch2_AddCartgidge	()
 {
 	PlaySound	(m_sndAddCartridge,get_LastFP());
 	PlayAnimAddOneCartridgeWeapon();
-	m_bPending = true;
+	SetPending(TRUE);
 }
 
 void CWeaponShotgun::switch2_EndReload	()
 {
-	m_bPending = false;
 	PlaySound			(m_sndClose,get_LastFP());
 	PlayAnimCloseWeapon	();
+	SetPending(TRUE);
 }
 
 void CWeaponShotgun::PlayAnimOpenWeapon()
 {
 	VERIFY(GetState()==eReload);
-	m_pHUD->animPlay(random_anim(mhud_open),TRUE,this,GetState());
+
+	PlayHUDMotion("anim_open_weapon", "anm_open", FALSE, this, GetState());
 }
+
 void CWeaponShotgun::PlayAnimAddOneCartridgeWeapon()
 {
 	VERIFY(GetState()==eReload);
-	m_pHUD->animPlay(random_anim(mhud_add_cartridge),TRUE,this,GetState());
+
+	PlayHUDMotion("anim_add_cartridge", "anm_add_cartridge", FALSE, this, GetState());
 }
+
 void CWeaponShotgun::PlayAnimCloseWeapon()
 {
 	VERIFY(GetState()==eReload);
-	m_pHUD->animPlay(random_anim(mhud_close),TRUE,this,GetState());
+
+	PlayHUDMotion("anim_close_weapon", "anm_close", FALSE, this, GetState());
 }
 
-bool CWeaponShotgun::HaveCartridgeInInventory		(u8 cnt)
-{
-	if (unlimited_ammo()) return true;
-	m_pAmmo = NULL;
-	if(m_pCurrentInventory) 
-	{
-		//попытаться найти в инвентаре патроны текущего типа 
-		m_pAmmo = smart_cast<CWeaponAmmo*>(m_pCurrentInventory->GetAny(*m_ammoTypes[m_ammoType]));
-		
-		if(!m_pAmmo )
-		{
-			for(u32 i = 0; i < m_ammoTypes.size(); ++i) 
-			{
-				//проверить патроны всех подходящих типов
-				m_pAmmo = smart_cast<CWeaponAmmo*>(m_pCurrentInventory->GetAny(*m_ammoTypes[i]));
-				if(m_pAmmo) 
-				{ 
-					m_ammoType = i; 
-					break; 
-				}
-			}
-		}
-	}
-	return (m_pAmmo!=NULL)&&(m_pAmmo->m_boxCurr>=cnt) ;
+bool CWeaponShotgun::HaveCartridgeInInventory( u8 cnt ) {
+  if ( unlimited_ammo() ) return true;
+  if ( !m_pCurrentInventory ) return false;
+
+  if ( m_set_next_ammoType_on_reload != u32(-1) ) {
+    m_ammoType = m_set_next_ammoType_on_reload;
+    m_set_next_ammoType_on_reload = u32(-1);
+    if ( !m_magazine.empty() )
+      UnloadMagazine();
+  }
+
+  u32 ac = GetAmmoCount( m_ammoType, cnt );
+  if ( ac == 0 && ( m_magazine.empty() || !m_bLockType ) ) {
+    u8 skip_ammo_type = m_ammoType;
+    for ( u8 i = 0; i < u8( m_ammoTypes.size() ); ++i ) {
+      if ( i == skip_ammo_type ) continue;
+      ac = GetAmmoCount( i, cnt );
+      if ( ac >= cnt ) {
+        m_ammoType = i;
+        break;
+      }
+      else if ( ac > 0 && !m_ammoType )
+        m_ammoType = i;
+    }
+  }
+  m_pAmmo = smart_cast<CWeaponAmmo*>( m_pCurrentInventory->GetAny( *m_ammoTypes[ m_ammoType ]) );
+
+  return ( m_pAmmo && ac >= cnt );
 }
+
 
 u8 CWeaponShotgun::AddCartridge		(u8 cnt)
 {
@@ -355,31 +432,28 @@ u8 CWeaponShotgun::AddCartridge		(u8 cnt)
 	if(m_set_next_ammoType_on_reload != u32(-1)){
 		m_ammoType						= m_set_next_ammoType_on_reload;
 		m_set_next_ammoType_on_reload	= u32(-1);
-
 	}
 
-	if( !HaveCartridgeInInventory(1) )
-		return 0;
+	if(m_magazine.size() >= (u32)iMagazineSize || !HaveCartridgeInInventory(1) )
+		return cnt;
 
 	VERIFY((u32)iAmmoElapsed == m_magazine.size());
 
-
 	if (m_DefaultCartridge.m_LocalAmmoType != m_ammoType)
 		m_DefaultCartridge.Load(*m_ammoTypes[m_ammoType], u8(m_ammoType));
+
 	CCartridge l_cartridge = m_DefaultCartridge;
-	while(cnt)// && m_pAmmo->Get(l_cartridge)) 
+	while(cnt && m_magazine.size() < (u32)iMagazineSize)// && m_pAmmo->Get(l_cartridge)) 
 	{
 		if (!unlimited_ammo())
 		{
-			if (!m_pAmmo->Get(l_cartridge)) break;
+			if (!m_pAmmo->Get(l_cartridge)) break; //-V595
 		}
 		--cnt;
 		++iAmmoElapsed;
 		l_cartridge.m_LocalAmmoType = u8(m_ammoType);
 		m_magazine.push_back(l_cartridge);
-//		m_fCurrentCartirdgeDisp = l_cartridge.m_kDisp;
 	}
-	m_ammoName = (m_pAmmo) ? m_pAmmo->m_nameShort : NULL;
 
 	VERIFY((u32)iAmmoElapsed == m_magazine.size());
 
@@ -399,4 +473,54 @@ void	CWeaponShotgun::net_Export	(NET_Packet& P)
 		CCartridge& l_cartridge = *(m_magazine.begin()+i);
 		P.w_u8(l_cartridge.m_LocalAmmoType);
 	}
+}
+
+void	CWeaponShotgun::net_Import	(NET_Packet& P)
+{
+	inherited::net_Import(P);	
+	u8 AmmoCount = P.r_u8();
+	for (u32 i=0; i<AmmoCount; i++)
+	{
+		u8 LocalAmmoType = P.r_u8();
+		if (i>=m_magazine.size()) continue;
+		CCartridge& l_cartridge = *(m_magazine.begin()+i);
+		if (LocalAmmoType == l_cartridge.m_LocalAmmoType) continue;
+#ifdef DEBUG
+		Msg("! %s reload to %s", *l_cartridge.m_ammoSect, *(m_ammoTypes[LocalAmmoType]));
+#endif
+		l_cartridge.Load(*(m_ammoTypes[LocalAmmoType]), LocalAmmoType); 
+//		m_fCurrentCartirdgeDisp = m_DefaultCartridge.m_kDisp;		
+	}
+}
+
+
+void CWeaponShotgun::TryReload() {
+  if ( m_pCurrentInventory ) {
+    if ( HaveCartridgeInInventory( 1 ) || unlimited_ammo() || ( IsMisfire() && iAmmoElapsed ) ) {
+      SetPending(TRUE);
+      SwitchState( eReload ); 
+      return;
+    }
+  }
+  SwitchState( eIdle );
+}
+
+
+void CWeaponShotgun::ReloadMagazine() {
+  m_dwAmmoCurrentCalcFrame = 0;	
+  if ( IsMisfire() ) bMisfire = false;
+  if ( !m_pCurrentInventory ) return;
+
+  u8 cnt = AddCartridge( 1 );
+  while ( cnt == 0 ) {
+    cnt = AddCartridge( 1 );
+  }
+}
+
+
+void CWeaponShotgun::StopHUDSounds() {
+  HUD_SOUND::StopSound( m_sndOpen );
+  HUD_SOUND::StopSound( m_sndAddCartridge );
+  HUD_SOUND::StopSound( m_sndClose );
+  inherited::StopHUDSounds();
 }

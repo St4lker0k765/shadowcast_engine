@@ -26,6 +26,8 @@ class CEncyclopediaRegistryWrapper;
 class CGameTaskRegistryWrapper;
 class CGameNewsRegistryWrapper;
 class CCharacterPhysicsSupport;
+class CCameraManager;
+class CActorCameraManager;
 // refs
 class ENGINE_API CCameraBase;
 class ENGINE_API CBoneInstance;
@@ -189,6 +191,7 @@ public:
 	virtual float						Radius				() const;
 	virtual void						g_PerformDrop		();
 
+	virtual bool						unlimited_ammo			();
 
 	virtual bool						NeedToDestroyObject()  const;
 	virtual ALife::_TIME_ID				TimePassedAfterDeath() const;
@@ -340,7 +343,7 @@ public:
 	// Cameras and effectors
 	//////////////////////////////////////////////////////////////////////////
 public:
-	CCameraManager&			Cameras				() 	{VERIFY(m_pActorEffector); return *m_pActorEffector;}
+	CActorCameraManager&	Cameras				() 	{VERIFY(m_pActorEffector); return *m_pActorEffector;}
 	IC CCameraBase*			cam_Active			()	{return cameras[cam_active];}
 	IC CCameraBase*			cam_FirstEye		()	{return cameras[eacFirstEye];}
 	CCameraBase*			cameras[eacMaxCam];
@@ -369,7 +372,7 @@ protected:
 	CSleepEffectorPP*		m_pSleepEffectorPP;
 
 	//менеджер эффекторов, есть у каждого актрера
-	CCameraManager*			m_pActorEffector;
+	CActorCameraManager*	m_pActorEffector;
 	static float			f_Ladder_cam_limit;
 	////////////////////////////////////////////
 	// для взаимодействия с другими персонажами 
@@ -449,6 +452,7 @@ public:
 	bool					AnyAction				()	{return (mstate_real & mcAnyAction) != 0;};
 
 	bool					is_jump					();		
+	u32						MovingState				() const {return mstate_real;}
 protected:
 	u32						mstate_wishful;
 	u32						mstate_old;

@@ -35,17 +35,16 @@ void CBolt::OnEvent(NET_Packet& P, u16 type)
 	inherited::OnEvent(P,type);
 }
 
-bool CBolt::Activate() 
+bool CBolt::Activate( bool now )
 {
-	Show();
+	Show( now );
 	return true;
 }
 
-void CBolt::Deactivate() 
+void CBolt::Deactivate( bool now )
 {
-	Hide();
+	Hide( now || ( GetState() == eThrowStart || GetState() == eReady || GetState() == eThrow ) );
 }
-
 void CBolt::Throw() 
 {
 	if (const auto actor = smart_cast<CActor*>(H_Parent()))
@@ -65,7 +64,9 @@ bool CBolt::Useful() const
 
 bool CBolt::Action(s32 cmd, u32 flags) 
 {
-	return inherited::Action(cmd, flags);
+	if (inherited::Action(cmd, flags))
+		return true;
+	return false;
 }
 
 void CBolt::Destroy()

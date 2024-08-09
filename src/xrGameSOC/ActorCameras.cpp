@@ -8,7 +8,7 @@
 #include "Car.h"
 
 #include "Weapon.h"
-
+#include "ActorEffector.h"
 #include "SleepEffector.h"
 #include "level.h"
 #include "../xrEngine/cl_intersect.h"

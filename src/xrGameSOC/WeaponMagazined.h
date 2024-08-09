@@ -1,5 +1,3 @@
-#ifndef __XR_WEAPON_MAG_H__
-#define __XR_WEAPON_MAG_H__
 #pragma once
 
 #include "weapon.h"
@@ -12,9 +10,11 @@ class ENGINE_API CMotionDef;
 //заканчиваем стрельбу, только, если кончились патроны
 #define WEAPON_ININITE_QUEUE -1
 
+class CBinocularsVision;
 
 class CWeaponMagazined: public CWeapon
 {
+	friend class CWeaponScript;
 private:
 	typedef CWeapon inherited;
 protected:
@@ -23,7 +23,10 @@ protected:
 	HUD_SOUND		sndHide;
 	HUD_SOUND		sndShot;
 	HUD_SOUND		sndEmptyClick;
-	HUD_SOUND		sndReload;
+	HUD_SOUND		sndReload, sndReloadPartly;
+	bool sndReloadPartlyExist{};
+	HUD_SOUND		sndFireModes;
+	HUD_SOUND		sndZoomChange;
 	//звук текущего выстрела
 	HUD_SOUND*		m_pSndShotCurrent;
 
@@ -39,17 +42,7 @@ protected:
 	ESoundTypes		m_eSoundShot;
 	ESoundTypes		m_eSoundEmptyClick;
 	ESoundTypes		m_eSoundReload;
-	struct SWMmotions{
-		MotionSVec		mhud_idle;
-		MotionSVec		mhud_idle_aim;
-		MotionSVec		mhud_reload;	//
-		MotionSVec		mhud_hide;		//
-		MotionSVec		mhud_show;		//
-		MotionSVec		mhud_shots;		//
-		MotionSVec		mhud_idle_sprint;
-	};
-	SWMmotions			mhud;	
-	
+
 	// General
 	//кадр момента пересчета UpdateSounds
 	u32				dwUpdateSounds_Frame;
@@ -70,12 +63,11 @@ protected:
 	virtual void	OnEmptyClick	();
 
 	virtual void	OnAnimationEnd	(u32 state);
-	virtual void	OnStateSwitch	(u32 S);
+	virtual void	OnStateSwitch	(u32 S, u32 oldState);
 
 	virtual void	UpdateSounds	();
 
 	bool			TryReload		();
-	bool			TryPlayAnimIdle	();
 
 protected:
 	virtual void	ReloadMagazine	();
@@ -98,8 +90,10 @@ public:
 	
 
 	virtual	void	UpdateCL		();
+//	virtual BOOL	net_Spawn(CSE_Abstract* DC);
 	virtual void	net_Destroy		();
 	virtual void			net_Export			(NET_Packet& P);
+	virtual void			net_Import			(NET_Packet& P);
 
 	virtual void	OnH_A_Chield		();
 
@@ -109,9 +103,9 @@ public:
 	virtual bool	CanDetach(const char* item_section_name);
 
 	virtual void	InitAddons();
+	virtual void	InitZoomParams(LPCSTR section, bool useTexture);
 
 	virtual bool	Action			(s32 cmd, u32 flags);
-	virtual void	onMovementChanged	(ACTOR_DEFS::EMoveCommand cmd);
 	bool			IsAmmoAvailable	();
 	virtual void	UnloadMagazine	(bool spawn_ammo = true);
 
@@ -151,10 +145,18 @@ protected:
 	int				m_iCurFireMode;
 	string16		m_sCurFireMode;
 	int				m_iPrefferedFireMode;
+	u32 m_fire_zoomout_time = u32(-1);
 
 	//переменная блокирует использование
 	//только разных типов патронов
 	bool m_bLockType;
+
+	const char* m_str_count_tmpl;
+
+	// режим выделения рамкой противников
+protected:
+	bool					m_bVision;
+	CBinocularsVision*		m_binoc_vision;
 
 	//////////////////////////////////////////////
 	// режим приближения
@@ -162,10 +164,11 @@ protected:
 public:
 	virtual void	OnZoomIn			();
 	virtual void	OnZoomOut			();
+	virtual void	OnZoomChanged		();
 	virtual	void	OnNextFireMode		();
 	virtual	void	OnPrevFireMode		();
 	virtual bool	HasFireModes		() { return m_bHasDifferentFireModes; };
-	virtual	int		GetCurrentFireMode	() { return m_aFireModes[m_iCurFireMode]; };	
+	virtual	int		GetCurrentFireMode	() { return m_bHasDifferentFireModes ? m_aFireModes[m_iCurFireMode] : 1; };
 	virtual LPCSTR	GetCurrentFireModeStr	() {return m_sCurFireMode;};
 
 	virtual void	save				(NET_Packet &output_packet);
@@ -175,17 +178,19 @@ protected:
 	virtual bool	AllowFireWhileWorking() {return false;}
 
 	//виртуальные функции для проигрывания анимации HUD
-	virtual void	PlayAnimShow();
-	virtual void	PlayAnimHide();
-	virtual void	PlayAnimReload();
-	virtual void	PlayAnimIdle();
-	virtual void	PlayAnimShoot();
+	virtual void	PlayAnimShow		();
+	virtual void	PlayAnimHide		();
+	virtual void	PlayAnimReload		();
+	virtual void	PlayAnimIdle		();
+	virtual void	PlayAnimAim			();
+	virtual void	PlayAnimShoot		();
 	virtual void	PlayReloadSound		();
 
-	virtual void	StartIdleAnim		();
 	virtual	int		ShotsFired			() { return m_iShotNum; }
 	virtual float	GetWeaponDeterioration	();
 
-};
+	virtual void	OnDrawUI();
+//	virtual void	net_Relcase(CObject *object);
 
-#endif //__XR_WEAPON_MAG_H__
+  bool ScopeRespawn( PIItem );
+};

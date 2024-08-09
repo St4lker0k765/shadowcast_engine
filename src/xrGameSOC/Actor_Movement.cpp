@@ -7,6 +7,7 @@
 #include "inventory.h"
 #include "weapon.h"
 #include "../xrEngine/CameraBase.h"
+#include "player_hud.h"
 
 #include "level.h"
 #include "UIGameCustom.h"
@@ -573,8 +574,11 @@ void CActor::StopAnyMove()
 {
 	mstate_wishful	&=		~mcAnyMove;
 	mstate_real		&=		~mcAnyMove;
+	if (this == Level().CurrentViewEntity())
+	{
+		g_player_hud->OnMovementChanged((EMoveCommand)0);
+	}
 }
-
 
 bool CActor::is_jump()
 {

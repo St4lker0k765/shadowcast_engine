@@ -66,6 +66,7 @@ public:
 
 	virtual CInventoryOwner				*cast_inventory_owner		() {return this;}
 	virtual CGameObject*				cast_game_object			() {return this;}
+	virtual bool						unlimited_ammo() { return false; };
 
 public:
 	

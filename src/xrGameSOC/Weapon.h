@@ -1,15 +1,18 @@
 // Weapon.h: interface for the CWeapon class.
 #pragma once
 
+#include "WeaponAmmo.h"
 #include "../xrPhysicsSOC/PhysicsShell.h"
-#include "weaponammo.h"
 #include "PHShellCreator.h"
-
 #include "ShootingObject.h"
 #include "hud_item_object.h"
 #include "Actor_Flags.h"
+#include "..\Include/xrRender/KinematicsAnimated.h"
 #include "game_cl_single.h"
-
+#include "xrServer_Objects_ALife.h"
+#include "xrServer_Objects_ALife_Items.h"
+#include "actor.h"
+#include "firedeps.h"
 
 // refs
 class CEntity;
@@ -20,9 +23,15 @@ class CWeaponMagazined;
 class CParticlesObject;
 class CUIStaticItem;
 
+ENGINE_API extern float psHUD_FOV_def;
+
+constexpr float def_min_zoom_k = 0.3f;
+constexpr float def_zoom_step_count = 4.0f;
+
 class CWeapon : public CHudItemObject,
 				public CShootingObject
 {
+	friend class CWeaponScript;
 private:
 	typedef CHudItemObject inherited;
 
@@ -36,6 +45,7 @@ public:
 	virtual BOOL			net_Spawn			(CSE_Abstract* DC);
 	virtual void			net_Destroy			();
 	virtual void			net_Export			(NET_Packet& P);
+	virtual void			net_Import			(NET_Packet& P);
 	
 	virtual CWeapon			*cast_weapon			()					{return this;}
 	virtual CWeaponMagazined*cast_weapon_magazined	()					{return 0;}
@@ -51,6 +61,7 @@ public:
 
 	virtual void			renderable_Render	();
 	virtual void			OnDrawUI			();
+	virtual bool			need_renderable		();
 
 	virtual void			OnH_B_Chield		();
 	virtual void			OnH_A_Chield		();
@@ -67,14 +78,17 @@ public:
 	virtual void			setup_physic_shell	();
 
 	virtual void			SwitchState			(u32 S);
-	virtual bool			Activate			();
+	virtual bool			Activate( bool = false );
 
-	virtual void			Hide				();
-	virtual void			Show				();
+	virtual void			Hide( bool = false );
+	virtual void			Show( bool = false );
 
 	//инициализация если вещь в активном слоте или спрятана на OnH_B_Chield
 	virtual void			OnActiveItem		();
 	virtual void			OnHiddenItem		();
+
+	// Callback function added by Cribbledirge.
+	virtual IC void	StateSwitchCallback(GameObject::ECallbackType actor_type, GameObject::ECallbackType npc_type);
 
 //////////////////////////////////////////////////////////////////////////
 //  Network
@@ -85,19 +99,12 @@ public:
 	virtual CInventoryItem	*can_kill			(CInventory *inventory) const;
 	virtual const CInventoryItem *can_kill		(const xr_vector<const CGameObject*> &items) const;
 	virtual bool			ready_to_kill		() const;
-	virtual bool			NeedToDestroyObject	() const; 
-	virtual ALife::_TIME_ID	TimePassedAfterIndependant() const;
-protected:
-	//время удаления оружия
-	ALife::_TIME_ID			m_dwWeaponRemoveTime;
-	ALife::_TIME_ID			m_dwWeaponIndependencyTime;
 
 //////////////////////////////////////////////////////////////////////////
 //  Animation 
 //////////////////////////////////////////////////////////////////////////
 public:
 
-//	void					animGet				(MotionSVec& lst, LPCSTR prefix);
 	void					signal_HideComplete	();
 
 //////////////////////////////////////////////////////////////////////////
@@ -106,18 +113,14 @@ public:
 public:
 	virtual bool			Action(s32 cmd, u32 flags);
 
-//////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////
 //  Weapon state
 //////////////////////////////////////////////////////////////////////////
 public:
 	enum EWeaponStates {
-		eIdle		= 0,
-		eFire,
+		eFire = eLastBaseState + 1,
 		eFire2,
 		eReload,
-		eShowing,
-		eHiding,
-		eHidden,
 		eMisfire,
 		eMagEmpty,
 		eSwitch,
@@ -142,19 +145,21 @@ public:
 	BOOL					IsMisfire			() const;
 	BOOL					CheckForMisfire		();
 
-
 	BOOL					AutoSpawnAmmo		() const		{ return m_bAutoSpawnAmmo; };
 	bool					IsTriStateReload	() const		{ return m_bTriStateReload;}
 	EWeaponSubStates		GetReloadState		() const		{ return (EWeaponSubStates)m_sub_state;}
+	u8 idle_state();
 protected:
 	bool					m_bTriStateReload;
 	u8						m_sub_state;
+	u8						m_idle_state;
 	// Weapon fires now
 	bool					bWorking2;
 	// a misfire happens, you'll need to rearm weapon
-	bool					bMisfire;				
+	bool					bMisfire;
 
 	BOOL					m_bAutoSpawnAmmo;
+
 //////////////////////////////////////////////////////////////////////////
 //  Weapon Addons
 //////////////////////////////////////////////////////////////////////////
@@ -168,10 +173,12 @@ public:
 			bool IsScopeAttached			() const;
 			bool IsSilencerAttached			() const;
 
-	virtual bool GrenadeLauncherAttachable();
-	virtual bool ScopeAttachable();
-	virtual bool SilencerAttachable();
-	virtual bool UseScopeTexture() {return true;};
+	bool			IsGrenadeMode() const;
+
+	virtual bool GrenadeLauncherAttachable() const;
+	virtual bool ScopeAttachable() const;
+	virtual bool SilencerAttachable() const;
+	virtual bool UseScopeTexture();
 
 	//обновление видимости для косточек аддонов
 			void UpdateAddonsVisibility();
@@ -187,12 +194,30 @@ public:
 	int	GetGrenadeLauncherX() {return m_iGrenadeLauncherX;}
 	int	GetGrenadeLauncherY() {return m_iGrenadeLauncherY;}
 
-	const shared_str& GetGrenadeLauncherName	()		{return m_sGrenadeLauncherName;}
-	const shared_str& GetScopeName				()		{return m_sScopeName;}
-	const shared_str& GetSilencerName			()		{return m_sSilencerName;}
+	const shared_str& GetGrenadeLauncherName	() const		{return m_sGrenadeLauncherName;}
+	const shared_str& GetScopeName				() const		{return m_sScopeName;}
+	const shared_str& GetSilencerName			() const		{return m_sSilencerName;}
 
 	u8		GetAddonsState						()		const		{return m_flagsAddOnState;};
 	void	SetAddonsState						(u8 st)	{m_flagsAddOnState=st;}//dont use!!! for buy menu only!!!
+
+                                                                               //названия секций подключаемых аддонов
+    shared_str		m_sScopeName;
+    std::vector<shared_str> m_allScopeNames;
+    shared_str		m_sSilencerName;
+    shared_str		m_sGrenadeLauncherName;
+
+	shared_str m_sWpn_scope_bone;
+	shared_str m_sWpn_silencer_bone;
+	shared_str m_sWpn_launcher_bone;
+	shared_str m_sHud_wpn_scope_bone;
+	shared_str m_sHud_wpn_silencer_bone;
+	shared_str m_sHud_wpn_launcher_bone;
+
+private:
+	std::vector<shared_str> hidden_bones;
+	std::vector<shared_str> hud_hidden_bones;
+
 protected:
 	//состояние подключенных аддонов
 	u8 m_flagsAddOnState;
@@ -202,31 +227,20 @@ protected:
 	ALife::EWeaponAddonStatus	m_eSilencerStatus;
 	ALife::EWeaponAddonStatus	m_eGrenadeLauncherStatus;
 
-	//названия секций подключаемых аддонов
-	shared_str		m_sScopeName;
-	shared_str		m_sSilencerName;
-	shared_str		m_sGrenadeLauncherName;
 
 	//смещение иконов апгрейдов в инвентаре
 	int	m_iScopeX, m_iScopeY;
 	int	m_iSilencerX, m_iSilencerY;
 	int	m_iGrenadeLauncherX, m_iGrenadeLauncherY;
-
-protected:
-	struct SZoomParams
-	{
-		    bool m_bZoomDofEnabled;
-
-			Fvector			m_ZoomDof;
-		    Fvector4		m_ReloadDof;
-			Fvector4		m_ReloadEmptyDof;
-
-	} m_zoom_params;
-
+		
 ///////////////////////////////////////////////////
 //	для режима приближения и снайперского прицела
 ///////////////////////////////////////////////////
 protected:
+	//разрешение регулирования приближения. Real Wolf.
+	bool			m_bScopeDynamicZoom;
+	//run-time zoom factor
+	float			m_fRTZoomFactor;
 	//разрешение режима приближения
 	bool			m_bZoomEnabled;
 	//текущий фактор приближения
@@ -244,26 +258,58 @@ protected:
 	//от 0 до 1, показывает насколько процентов
 	//мы перемещаем HUD  
 	float			m_fZoomRotationFactor;
+	//коэффициент увеличения во втором вьюпорте при зуме
+	float			m_fSecondVPZoomFactor;
+	//прятать перекрестие в режиме прицеливания
 	bool			m_bHideCrosshairInZoom;
+	//разрешить инерцию оружия в режиме прицеливания
+	bool			m_bZoomInertionAllow;
+	// или в режиме прицеливания через оптику
+	bool			m_bScopeZoomInertionAllow;
+	//Целевой HUD FOV при зуме
+	float			m_fZoomHudFov;
+	//Целевой HUD FOV для линзы
+	float			m_fSecondVPHudFov;
+
+	bool m_bUseScopeZoom			= false;
+	bool m_bUseScopeGrenadeZoom		= false;
+	bool m_bUseScopeDOF = true;
+	bool m_bForceScopeDOF = false;
+	bool m_bScopeShowIndicators = true;
+	bool m_bIgnoreScopeTexture = false;
+
+	float m_fMinZoomK			= def_min_zoom_k;
+	float m_fZoomStepCount		= def_zoom_step_count;
+
+	float			m_fScopeInertionFactor;
 public:
 
 	IC bool					IsZoomEnabled		()	const	{return m_bZoomEnabled;}
-	virtual	void			ZoomInc				(){};
-	virtual	void			ZoomDec				(){};
+	void					GetZoomData			(float scope_factor, float& delta, float& min_zoom_factor);
+	virtual	void			ZoomChange			(bool inc);
 	virtual void			OnZoomIn			();
 	virtual void			OnZoomOut			();
 			bool			IsZoomed			()	const	{return m_bZoomMode;};
 	CUIStaticItem*			ZoomTexture			();	
-			bool			ZoomHideCrosshair	()			{return m_bHideCrosshairInZoom || ZoomTexture();}
+	bool ZoomHideCrosshair()
+	{
+		auto* pA = smart_cast<CActor*>(H_Parent());
+		if (pA && pA->cam_Active() == pA->cameras[eacLookAt])
+			return false;
+
+		return (m_bHideCrosshairInZoom || ZoomTexture());
+	}
+
+	virtual void			OnZoomChanged		() {}
 
 	IC float				GetZoomFactor		() const		{	return m_fZoomFactor;	}
 	virtual	float			CurrentZoomFactor	();
 	//показывает, что оружие находится в соостоянии поворота для приближенного прицеливания
 			bool			IsRotatingToZoom	() const		{	return (m_fZoomRotationFactor<1.f);}
 
-			void			LoadZoomOffset		(LPCSTR section, LPCSTR prefix);
-
-	virtual float				Weight			();		
+	virtual float			Weight				() const;		
+	virtual u32				Cost				() const;
+	virtual float			GetControlInertionFactor() const;
 
 public:
     virtual EHandDependence		HandDependence		()	const		{	return eHandDependence;}
@@ -289,43 +335,36 @@ protected:
 
 public:
 	//загружаемые параметры
-	Fvector					vLoadedFirePoint	;
-	Fvector					vLoadedFirePoint2	;
-
+	Fvector					vLoadedFirePoint;
+	Fvector					vLoadedFirePoint2;
 private:
-	//текущее положение и напрвление для партиклов
-	struct					_firedeps
-	{
-		Fmatrix				m_FireParticlesXForm;	//направление для партиклов огня и дыма
-		Fvector				vLastFP, vLastFP2	;	//огня
-		Fvector				vLastFD				;	// direction
-		Fvector				vLastSP				;	//гильз	
+	firedeps				m_current_firedeps{};
 
-		_firedeps()			{
-			m_FireParticlesXForm.identity();
-			vLastFP.set			(0,0,0);
-			vLastFP2.set		(0,0,0);
-			vLastFD.set			(0,0,0);
-			vLastSP.set			(0,0,0);
-		}
-	}						m_firedeps			;
 protected:
 	virtual void			UpdateFireDependencies_internal	();
 	virtual void			UpdatePosition			(const Fmatrix& transform);	//.
 	virtual void			UpdateXForm				();
+
+	float					m_fLR_MovingFactor; // !!!!
+	Fvector					m_strafe_offset[3][2]; //pos,rot,data/ normal,aim-GL --#SM+#--
+
+	virtual	u8				GetCurrentHudOffsetIdx	() override;
+	virtual bool			MovingAnimAllowedNow	();
 	virtual void			UpdateHudAdditonal		(Fmatrix&);
+	virtual bool			IsHudModeNow			();
+
 	IC		void			UpdateFireDependencies	()			{ if (dwFP_Frame==Device.dwFrame) return; UpdateFireDependencies_internal(); };
 
 	virtual void			LoadFireParams		(LPCSTR section, LPCSTR prefix);
 public:	
-	IC		const Fvector&	get_LastFP				()			{ UpdateFireDependencies(); return m_firedeps.vLastFP;	}
-	IC		const Fvector&	get_LastFP2				()			{ UpdateFireDependencies(); return m_firedeps.vLastFP2;	}
-	IC		const Fvector&	get_LastFD				()			{ UpdateFireDependencies(); return m_firedeps.vLastFD;	}
-	IC		const Fvector&	get_LastSP				()			{ UpdateFireDependencies(); return m_firedeps.vLastSP;	}
+	IC		const Fvector&	get_LastFP				()			{ UpdateFireDependencies(); return m_current_firedeps.vLastFP;	}
+	IC		const Fvector&	get_LastFP2				()			{ UpdateFireDependencies(); return m_current_firedeps.vLastFP2;	}
+	IC		const Fvector&	get_LastFD				()			{ UpdateFireDependencies(); return m_current_firedeps.vLastFD;	}
+	IC		const Fvector&	get_LastSP				()			{ UpdateFireDependencies(); return m_current_firedeps.vLastSP;	}
 
 	virtual const Fvector&	get_CurrentFirePoint	()			{ return get_LastFP();				}
 	virtual const Fvector&	get_CurrentFirePoint2	()			{ return get_LastFP2();				}
-	virtual const Fmatrix&	get_ParticlesXFORM		()			{ UpdateFireDependencies(); return m_firedeps.m_FireParticlesXForm;	}
+	virtual const Fmatrix&	get_ParticlesXFORM		()			{ UpdateFireDependencies(); return m_current_firedeps.m_FireParticlesXForm;	}
 	virtual void			ForceUpdateFireParticles();
 
 	//////////////////////////////////////////////////////////////////////////
@@ -334,10 +373,8 @@ public:
 protected:
 	virtual void			SetDefaults			();
 
-	virtual void			OnStateSwitch(u32 S);
-
 	//трассирование полета пули
-			void			FireTrace			(const Fvector& P, const Fvector& D);
+	virtual void			FireTrace			(const Fvector& P, const Fvector& D);
 	virtual float			GetWeaponDeterioration	();
 
 	virtual void			FireStart			() {CShootingObject::FireStart();}
@@ -387,6 +424,8 @@ protected:
 	float					misfireConditionK;
 	//увеличение изношености при выстреле
 	float					conditionDecreasePerShot;
+	float					conditionDecreasePerShotOnHit;
+	float					conditionDecreasePerShotSilencer;
 
 	//  [8/2/2005]
 	float					m_fPDM_disp_base			;
@@ -422,10 +461,15 @@ protected:
 //////////////////////////////////////////////////////////////////////////
 // Weapon and ammo
 //////////////////////////////////////////////////////////////////////////
+protected:
+	int GetAmmoCount_forType( shared_str const& ammo_type, u32 = 0 ) const;
+	int GetAmmoCount( u8 ammo_type, u32 = 0 ) const;
+
 public:
 	IC int					GetAmmoElapsed		()	const		{	return /*int(m_magazine.size())*/iAmmoElapsed;}
 	IC int					GetAmmoMagSize		()	const		{	return iMagazineSize;						}
 	int						GetAmmoCurrent		(bool use_item_to_spawn = false)  const;
+	IC void					SetAmmoMagSize		(int _size) { iMagazineSize = _size; }
 
 	void					SetAmmoElapsed		(int ammo_count);
 
@@ -448,18 +492,15 @@ protected:
 	//для подсчета в GetAmmoCurrent
 	mutable int				iAmmoCurrent;
 	mutable u32				m_dwAmmoCurrentCalcFrame;	//кадр на котором просчитали кол-во патронов
-	//  [10/5/2005]
-	bool					m_bAmmoWasSpawned;
-	//  [10/5/2005]
 
 	virtual bool			IsNecessaryItem	    (const shared_str& item_sect);
 
 public:
 	xr_vector<shared_str>	m_ammoTypes;
+	xr_vector<shared_str>	m_highlightAddons;
 
 	CWeaponAmmo*			m_pAmmo;
 	u32						m_ammoType;
-	shared_str				m_ammoName;
 	BOOL					m_bHasTracers;
 	u8						m_u8TracerColorID;
 	u32						m_set_next_ammoType_on_reload;
@@ -468,10 +509,11 @@ public:
 	CCartridge				m_DefaultCartridge;
 	float					m_fCurrentCartirdgeDisp;
 
-		bool				unlimited_ammo				() const;
+		bool				unlimited_ammo				();
 	IC	bool				can_be_strapped				() const {return m_can_be_strapped;};
 
-	LPCSTR					GetCurrentAmmo_ShortName() const;
+	LPCSTR					GetCurrentAmmo_ShortName	();
+
 
 protected:
 	u32						m_ef_main_weapon_type;
@@ -480,7 +522,6 @@ protected:
 public:
 	virtual u32				ef_main_weapon_type	() const;
 	virtual u32				ef_weapon_type		() const;
-	u8 idle_state();
 
 protected:
 	// This is because when scope is attached we can't ask scope for these params
@@ -488,7 +529,15 @@ protected:
 	float					m_addon_holder_range_modifier;
 	float					m_addon_holder_fov_modifier;
 
-	u8 m_idle_state;
+	float m_nearwall_last_hud_fov;
+
+	float m_nearwall_target_hud_fov = 0.f;
+	float m_nearwall_dist_max = 0.f;
+	float m_nearwall_dist_min = 0.f;
+	float m_nearwall_speed_mod = 0.f;
+
+	bool m_nearwall_on = false;
+
 public:
 	virtual	void			modify_holder_params		(float &range, float &fov) const;
 	virtual bool			use_crosshair				()	const {return true;}
@@ -502,4 +551,12 @@ private:
 
 public:
 	const float				&hit_probability			() const;
+	void UpdateSecondVP(); //
+	float GetZRotatingFactor() const { return m_fZoomRotationFactor; } //--#SM+#--
+	float GetSecondVPFov() const; //--#SM+#--
+	bool SecondVPEnabled() const;
+	float GetHudFov();
+
+	virtual void OnBulletHit();
+	bool IsPartlyReloading();
 };

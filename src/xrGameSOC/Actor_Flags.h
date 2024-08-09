@@ -12,6 +12,7 @@ enum{
 		AF_WALK_TOGGLE      =(1<<8),
 		AF_SPRINT_TOGGLE    =(1<<9),
 		AF_NO_CLIP			=(1<<10),
+		AF_3DSCOPE_ENABLE	=(1<<11),
 };
 
 extern Flags32 psActorFlags;

@@ -7,6 +7,7 @@
 #include "../../../../xrEngine/CustomHUD.h"
 #include "../../../../xrEngine/effector.h"
 #include "../../../../xrEngine/effectorPP.h"
+#include "../../../ActorEffector.h"
 
 #define EFFECTOR_ID_GEN(type) (type( u32(u64(this) & u32(-1)) ))
 

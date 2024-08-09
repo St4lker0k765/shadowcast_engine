@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "grenade.h"
 #include "../xrPhysicsSOC/PhysicsShell.h"
-#include "WeaponHUD.h"
 #include "entity.h"
 #include "ParticlesObject.h"
 #include "actor.h"
@@ -88,18 +87,18 @@ void CGrenade::OnH_A_Chield()
 	inherited::OnH_A_Chield				();
 }
 
-void CGrenade::State(u32 state) 
+void CGrenade::State(u32 state, u32 oldState)
 {
 	switch (state)
 	{
-	case MS_THREATEN:
-		{
+	case eThrowStart:
+	{
 			Fvector						C;
 			Center						(C);
 			PlaySound					(sndCheckout,C);
 		}break;
-	case MS_HIDDEN:
-		{
+	case eThrowEnd:
+	{
 			if(m_thrown)
 			{
 				if (m_pPhysicsShell)	m_pPhysicsShell->Deactivate();
@@ -120,7 +119,7 @@ void CGrenade::State(u32 state)
 			};
 		}break;
 	};
-	inherited::State(state);
+	inherited::State(state, oldState);
 }
 
 void CGrenade::Throw() 
@@ -195,16 +194,23 @@ void CGrenade::PutNextToSlot()
 			pNext->u_EventSend			(P);
 			m_pCurrentInventory->SetActiveSlot(pNext->GetSlot());
 		}
+		else
+		{
+			CActor* pActor = smart_cast<CActor*>(m_pCurrentInventory->GetOwner());
+
+			if (pActor)
+				pActor->OnPrevWeaponSlot();
+		}
 /////	m_thrown				= false;
 	}
 }
 
-void CGrenade::OnAnimationEnd(u32 state) 
+void CGrenade::OnAnimationEnd(u32 state)
 {
-	switch(state){
-	case MS_END: SwitchState(MS_HIDDEN);	break;
-//.	case MS_END: SwitchState(MS_RESTORE);	break;
-		default : inherited::OnAnimationEnd(state);
+	switch (state)
+	{
+	case eThrowEnd: SwitchState(eHidden);	break;
+	default: inherited::OnAnimationEnd(state);
 	}
 }
 
@@ -220,7 +226,8 @@ void CGrenade::UpdateCL()
 
 bool CGrenade::Action(s32 cmd, u32 flags) 
 {
-	if(inherited::Action(cmd, flags)) return true;
+	if(inherited::Action(cmd, flags)) 
+		return true;
 
 	switch(cmd) 
 	{
@@ -282,8 +289,8 @@ void CGrenade::net_Relcase(CObject* O )
 void CGrenade::Deactivate()
 {
 	//Drop grenade if primed
-	m_pHUD->StopCurrentAnimWithoutCallback();
-	if (!GetTmpPreDestroy() && Local() && (GetState() == MS_THREATEN || GetState() == MS_READY || GetState() == MS_THROW))
+	StopCurrentAnimWithoutCallback();
+	if (!GetTmpPreDestroy() && Local() && (GetState() == eThrowStart || GetState() == eReady || GetState() == eThrow))
 	{
 		if (m_fake_missile)
 		{

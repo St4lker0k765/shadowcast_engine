@@ -9,6 +9,7 @@
 #include "../xrPhysicsSOC/IPHWorld.h"
 #include "restriction_space.h"
 #include "../xrEngine/IGame_Persistent.h"
+#include "../Include/xrRender/KinematicsAnimated.h"
 
 #define	FASTMODE_DISTANCE (50.f)	//distance to camera from sphere, when zone switches to fast update sequence
 
@@ -60,9 +61,9 @@ CArtefact::CArtefact(void)
 {
 	shedule.t_min				= 20;
 	shedule.t_max				= 50;
-	m_sParticlesName			= NULL;
-	m_pTrailLight				= NULL;
-	m_activationObj				= NULL;
+	m_sParticlesName			= nullptr;
+	m_pTrailLight				= nullptr;
+	m_activationObj				= nullptr;
 }
 
 
@@ -95,13 +96,6 @@ void CArtefact::Load(LPCSTR section)
 			m_ArtefactHitImmunities.LoadImmunities(pSettings->r_string(section,"hit_absorbation_sect"),pSettings);
 	}
 	m_bCanSpawnZone = !!pSettings->line_exist("artefact_spawn_zones", section);
-
-
-	animGet				(m_anim_idle,					pSettings->r_string(*hud_sect,"anim_idle"));
-	animGet				(m_anim_idle_sprint,			pSettings->r_string(*hud_sect,"anim_idle_sprint"));
-	animGet				(m_anim_hide,					pSettings->r_string(*hud_sect,"anim_hide"));
-	animGet				(m_anim_show,					pSettings->r_string(*hud_sect,"anim_show"));
-	animGet				(m_anim_activate,				pSettings->r_string(*hud_sect,"anim_activate"));
 }
 
 BOOL CArtefact::net_Spawn(CSE_Abstract* DC) 
@@ -289,12 +283,12 @@ bool CArtefact::CanTake() const
 	return (m_activationObj==NULL);
 }
 
-void CArtefact::Hide()
+void CArtefact::Hide( bool now )
 {
 	SwitchState(eHiding);
 }
 
-void CArtefact::Show()
+void CArtefact::Show( bool now )
 {
 	SwitchState(eShowing);
 }
@@ -366,38 +360,34 @@ bool CArtefact::Action(s32 cmd, u32 flags)
 	return inherited::Action(cmd,flags);
 }
 
-void CArtefact::onMovementChanged	(ACTOR_DEFS::EMoveCommand cmd)
+void CArtefact::OnStateSwitch(u32 S, u32 oldState)
 {
-	if( (cmd == ACTOR_DEFS::mcSprint)&&(GetState()==eIdle)  )
-		PlayAnimIdle		();
-}
-
-void CArtefact::OnStateSwitch		(u32 S)
-{
-	inherited::OnStateSwitch	(S);
-	switch(S){
-	case eShowing:
-		{
-			m_pHUD->animPlay(random_anim(m_anim_show),		FALSE, this, S);
-		}break;
+	inherited::OnStateSwitch(S, oldState);
+	switch (S)
+	{
+	case eShowing: 
+	{ 
+		PlayHUDMotion("anim_show", "anm_show", FALSE, this, S);
+	} break;
 	case eHiding:
-		{
-			m_pHUD->animPlay(random_anim(m_anim_hide),		FALSE, this, S);
-		}break;
+	{
+		if (oldState != eHiding)
+			PlayHUDMotion("anim_hide", "anm_hide", FALSE, this, S);
+	} break;
 	case eActivating:
-		{
-			m_pHUD->animPlay(random_anim(m_anim_activate),	FALSE, this, S);
-		}break;
+	{
+		PlayHUDMotion("anim_activate", "anm_activate", FALSE, this, S);
+	} break;
 	case eIdle:
-		{
-			PlayAnimIdle();
-		}break;
+	{ 
+		PlayAnimIdle();
+	} break;
 	};
 }
 
 void CArtefact::PlayAnimIdle()
-{
-	m_pHUD->animPlay(random_anim(m_anim_idle),		FALSE, NULL, eIdle);
+{ 
+	PlayHUDMotion("anim_idle", "anm_idle", FALSE, nullptr, eIdle);
 }
 
 void CArtefact::OnAnimationEnd		(u32 state)

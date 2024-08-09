@@ -42,9 +42,9 @@ void CHudItemObject::SwitchState		(u32 S)
 	CHudItem::SwitchState		(S);
 }
 
-void CHudItemObject::OnStateSwitch		(u32 S)
+void CHudItemObject::OnStateSwitch(u32 S, u32 oldState)
 {
-	CHudItem::OnStateSwitch		(S);
+	CHudItem::OnStateSwitch(S, oldState);
 }
 
 void CHudItemObject::OnEvent			(NET_Packet& P, u16 type)
@@ -91,9 +91,9 @@ void CHudItemObject::net_Destroy		()
 	CInventoryItemObject::net_Destroy	();
 }
 
-bool CHudItemObject::Activate			()
+bool CHudItemObject::Activate( bool now )
 {
-	return						(CHudItem::Activate());
+  return CHudItem::Activate( now );
 }
 
 void CHudItemObject::Deactivate			()

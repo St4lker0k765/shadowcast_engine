@@ -9,6 +9,7 @@
 #include "cameraEffector.h"
 #include "actor.h"
 #include "ai_sounds.h"
+#include "ActorEffector.h"
 
 ZONE_INFO::ZONE_INFO	()
 {

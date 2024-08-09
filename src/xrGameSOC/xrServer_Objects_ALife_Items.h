@@ -133,7 +133,8 @@ SERVER_ENTITY_DECLARE_BEGIN(CSE_ALifeItemWeapon,CSE_ALifeItem)
 	{
 		eWeaponAddonScope = 0x01,
 		eWeaponAddonGrenadeLauncher = 0x02,
-		eWeaponAddonSilencer = 0x04
+		eWeaponAddonSilencer = 0x04,
+		eForcedNotexScope = 0x80
 	};
 
 	EWeaponAddonStatus				m_scope_status;
@@ -185,6 +186,8 @@ add_to_type_list(CSE_ALifeItemWeaponMagazined)
 
 SERVER_ENTITY_DECLARE_BEGIN(CSE_ALifeItemWeaponMagazinedWGL, CSE_ALifeItemWeaponMagazined)
 bool			m_bGrenadeMode;
+u8			ammo_type2;
+u16			a_elapsed2;
 CSE_ALifeItemWeaponMagazinedWGL(LPCSTR caSection);
 virtual							~CSE_ALifeItemWeaponMagazinedWGL();
 

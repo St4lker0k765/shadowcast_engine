@@ -17,6 +17,7 @@
 #include "../../../xr_level_controller.h"
 #include "../../../ActorCondition.h"
 #include "../../../CharacterPhysicsSupport.h"
+#include "../../../ActorEffector.h"
 
 #ifdef DEBUG
 #include <dinput.h>

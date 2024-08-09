@@ -29,6 +29,7 @@
 #include "trade_parameters.h"
 #include "clsid_game.h"
 #include "MainMenu.h"
+#include "player_hud.h"
 
 #include <functional>
 
@@ -101,9 +102,9 @@ CLevel::CLevel():IPureClient	(Device.GetTimerGlobal())
 		m_space_restriction_manager = xr_new<CSpaceRestrictionManager>();
 		m_client_spawn_manager		= xr_new<CClientSpawnManager>();
 		m_autosave_manager			= xr_new<CAutosaveManager>();
+		m_debug_renderer			= xr_new<CDebugRenderer>();
 
 	#ifdef DEBUG
-		m_debug_renderer			= xr_new<CDebugRenderer>();
 		m_level_debug				= xr_new<CLevelDebug>();
 	#endif
 
@@ -180,10 +181,14 @@ CLevel::CLevel():IPureClient	(Device.GetTimerGlobal())
 	}
 	*/
 	//---------------------------------------------------------	
+
+	g_player_hud = xr_new<player_hud>();
+	g_player_hud->load_default();
 }
 
 CLevel::~CLevel()
 {
+	xr_delete					(g_player_hud);
 //	g_pGameLevel		= NULL;
 	Msg							("- Destroying level");
 

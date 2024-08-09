@@ -5025,9 +5025,6 @@
     <ClInclude Include="weaponBM16.h">
       <Filter>Core\Client\Objects\items &amp; weapons\Weapons\Various weapons\BM-16</Filter>
     </ClInclude>
-    <ClInclude Include="WeaponHUD.h">
-      <Filter>Core\Client\Objects\items &amp; weapons\Weapons\HUD</Filter>
-    </ClInclude>
     <ClInclude Include="WeaponMounted.h">
       <Filter>Core\Client\Objects\items &amp; weapons\Weapons\Mounted Weapon</Filter>
     </ClInclude>
@@ -6068,6 +6065,8 @@
     <ClInclude Include="ui\UIHelper.h">
       <Filter>UI\Common\InventoryUtilities</Filter>
     </ClInclude>
+    <ClInclude Include="firedeps.h" />
+    <ClInclude Include="player_hud.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="damage_manager.cpp">
@@ -7807,9 +7806,6 @@
     <ClCompile Include="weaponBM16_script.cpp">
       <Filter>Core\Client\Objects\items &amp; weapons\Weapons\Various weapons\BM-16</Filter>
     </ClCompile>
-    <ClCompile Include="WeaponHUD.cpp">
-      <Filter>Core\Client\Objects\items &amp; weapons\Weapons\HUD</Filter>
-    </ClCompile>
     <ClCompile Include="WeaponMounted.cpp">
       <Filter>Core\Client\Objects\items &amp; weapons\Weapons\Mounted Weapon</Filter>
     </ClCompile>
@@ -8912,6 +8908,8 @@
     <ClCompile Include="ui\UIHelper.cpp">
       <Filter>UI\Common\InventoryUtilities</Filter>
     </ClCompile>
+    <ClCompile Include="player_hud.cpp" />
+    <ClCompile Include="player_hud_tune.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="graph_abstract.h">

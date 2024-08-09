@@ -10,6 +10,8 @@
 #include "UIGameCustom.h"
 #include "game_cl_base.h"
 #include "UIFontDefines.h"
+#include "Car.h"
+#include "Spectator.h"
 
 extern CUIGameCustom*	CurrentGameUI()	{return HUD().GetGameUI();}
 //--------------------------------------------------------------------
@@ -51,12 +53,31 @@ void CHUDManager::OnFrame()
 
 ENGINE_API extern float psHUD_FOV;
 
+bool need_render_hud()
+{
+	CObject* O = (g_pGameLevel) ? g_pGameLevel->CurrentViewEntity() : nullptr;
+	if (!O)
+		return false;
+
+	CActor* A = smart_cast<CActor*>(O);
+	if (A && (!A->HUDview() || !A->g_Alive()))
+		return false;
+
+	if (smart_cast<CCar*>(O) || smart_cast<CSpectator*>(O))
+		return false;
+
+	return true;
+}
+
 void CHUDManager::Render_First()
 {
 	if (!psHUD_Flags.is(HUD_WEAPON|HUD_WEAPON_RT))
 		return;
 
 	if (!pUIGame)						
+		return;
+
+	if (!need_render_hud())
 		return;
 
 	CObject*	O					= g_pGameLevel->CurrentViewEntity();
@@ -217,36 +238,19 @@ CDialogHolder* CurrentDialogHolder()
 		return HUD().GetGameUI();
 }
 
-
-bool   CHUDManager::RenderActiveItemUIQuery()
-{
-	return 0;
-}
-
-void   CHUDManager::RenderActiveItemUI()
-{
-}
-
-//restore????
-/*
 #include "player_hud.h"
-bool   CHUDManager::RenderActiveItemUIQuery()
+bool CHUDManager::RenderActiveItemUIQuery()
 {
-	if (!psHUD_Flags.is(HUD_DRAW_RT2))
+	if (!psHUD_Flags.is(HUD_WEAPON | HUD_WEAPON_RT))
 		return false;
 
-	if (!psHUD_Flags.is(HUD_WEAPON|HUD_WEAPON_RT|HUD_WEAPON_RT2))return false;
+	if (!need_render_hud())
+		return false;
 
-	if(!need_render_hud())			return false;
-
-	return (g_player_hud && g_player_hud->render_item_ui_query() );
+	return (g_player_hud && g_player_hud->render_item_ui_query());
 }
 
-void   CHUDManager::RenderActiveItemUI()
+void CHUDManager::RenderActiveItemUI()
 {
-	if (!psHUD_Flags.is(HUD_DRAW_RT2))
-		return;
-
-	g_player_hud->render_item_ui		();
+	g_player_hud->render_item_ui();
 }
-*/

@@ -22,6 +22,7 @@
 #include "UIGameCustom.h"
 #include "../xrPhysicsSOC/matrix_utils.h"
 #include "game_cl_base_weapon_usage_statistic.h"
+#include "player_hud.h"
 
 // breakpoints
 #include "../xrEngine/xr_input.h"
@@ -951,6 +952,17 @@ void CActor::UpdateCL	()
 		else
 			xr_delete(m_sndShockEffector);
 	}
+
+	Fmatrix trans;
+	if (cam_Active() == cam_FirstEye())
+	{
+		Cameras().hud_camera_Matrix(trans);
+	}
+	else
+		Cameras().camera_Matrix(trans);
+
+	if (IsFocused())
+		g_player_hud->update(trans);
 	m_bPickupMode = false;
 }
 
@@ -959,10 +971,39 @@ void CActor::shedule_Update	(u32 DT)
 {
 	setSVU(OnServer());
 
-	//установить режим показа HUD для текущего активного слота
-	CHudItem* pHudItem = smart_cast<CHudItem*>(inventory().ActiveItem());	
-	if(pHudItem) 
-		pHudItem->SetHUDmode(HUDview());
+	if (IsFocused())
+	{
+		BOOL bHudView = HUDview();
+		if (bHudView)
+		{
+			CInventoryItem* pInvItem = inventory().ActiveItem();
+			if (pInvItem)
+			{
+				CHudItem* pHudItem = smart_cast<CHudItem*>(pInvItem);
+				if (pHudItem)
+				{
+					if (pHudItem->IsHidden())
+					{
+						g_player_hud->detach_item(pHudItem);
+					}
+					else
+					{
+						g_player_hud->attach_item(pHudItem);
+					}
+				}
+			}
+			else
+			{
+				g_player_hud->detach_item_idx(0);
+				// Msg("---No active item in inventory(), item 0 detached.");
+			}
+		}
+		else
+		{
+			g_player_hud->detach_all_items();
+			// Msg("---No hud view found, all items detached.");
+		}
+	}
 
 	//обновление инвентаря
 	UpdateInventoryOwner			(DT);
@@ -1240,12 +1281,7 @@ extern	BOOL	g_ShowAnimationInfo		;
 // HUD
 void CActor::OnHUDDraw	(CCustomHUD* /**hud/**/)
 {
-	CHudItem* pHudItem = smart_cast<CHudItem*>(inventory().ActiveItem());
-	if (pHudItem && pHudItem->GetHUDmode())
-//	if(inventory().ActiveItem()  ) 
-	{
-		inventory().ActiveItem()->renderable_Render();
-	}
+	g_player_hud->render_hud();
 
 #if 0//ndef NDEBUG
 	if (Level().CurrentControlEntity() == this && g_ShowAnimationInfo)
@@ -1709,4 +1745,9 @@ CCustomOutfit* CActor::GetOutfit() const
 {
 	PIItem _of	= inventory().m_slots[OUTFIT_SLOT].m_pIItem;
 	return _of?smart_cast<CCustomOutfit*>(_of):NULL;
+}
+
+bool CActor::unlimited_ammo()
+{
+	return psActorFlags.test(AF_UNLIMITEDAMMO);
 }
