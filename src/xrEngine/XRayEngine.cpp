@@ -32,6 +32,9 @@ ENGINE_API bool ShadowOfChernobylMode = false;
 ENGINE_API bool UseHDIcons = false;
 ENGINE_API bool CSUseNewWeaponMisfire = false;
 
+ENGINE_API s64 DiscordRichPresenceID = 0;
+ENGINE_API const char* DiscordRichPrsenceLargeIcon = nullptr;
+
 ENGINE_API int ps_rs_loading_stages = 1;
 
 XRCORE_API LPCSTR build_date;
@@ -138,6 +141,8 @@ void InitSettings()
     LPCSTR gameMode = READ_IF_EXISTS(pSCSettings, r_string, "compatibility", "game_mode", "cop");
     UseHDIcons = READ_IF_EXISTS(pSCSettings, r_bool, "gameplay", "use_hd_icons", false);
     CSUseNewWeaponMisfire = READ_IF_EXISTS(pSCSettings, r_bool, "game_specific", "cs_use_new_weapon_misfire", false);
+    DiscordRichPresenceID = READ_IF_EXISTS(pSCSettings, r_s64, "discord_rich_presence", "id", 1263598008340316263);
+    DiscordRichPrsenceLargeIcon = READ_IF_EXISTS(pSCSettings, r_string, "discord_rich_presence", "default_icon_large", "shadowcast_engine_logo_rpc");
 
     if (!xr_strcmp(gameMode, "cs"))
     {

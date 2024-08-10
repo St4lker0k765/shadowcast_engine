@@ -4,6 +4,9 @@
 #include "x_ray.h"
 ENGINE_API DiscordSDK Discord;
 
+extern ENGINE_API s64 DiscordRichPresenceID;
+extern ENGINE_API const char* DiscordRichPrsenceLargeIcon;
+
 DiscordSDK::~DiscordSDK()
 {
 	delete core;
@@ -11,15 +14,15 @@ DiscordSDK::~DiscordSDK()
 
 void DiscordSDK::InitSDK()
 {
-	auto ResultSDK_ = discord::Core::Create(1263598008340316263, DiscordCreateFlags_NoRequireDiscord, &core);
+	auto ResultSDK_ = discord::Core::Create(DiscordRichPresenceID, DiscordCreateFlags_NoRequireDiscord, &core);
 	
 	if (!core)
 	{
-		Msg("! [DISCORD SDK]: Error to init SDK. Code error: [%d]", static_cast<int>(ResultSDK_));
+		Msg("! [Discord Rich Presence]: Init failure. Error code: [%d]", static_cast<int>(ResultSDK_));
 		return;
 	}
 
-	ActivityDiscord_.GetAssets().SetLargeImage("shadowcast_engine_logo_rpc");
+	ActivityDiscord_.GetAssets().SetLargeImage(DiscordRichPrsenceLargeIcon);
 
 	if (CallOfPripyatMode)
 	{
