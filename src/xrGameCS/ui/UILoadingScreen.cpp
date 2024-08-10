@@ -11,11 +11,10 @@
 
 #include "StdAfx.h"
 #include "UILoadingScreen.h"
-
+#include "UIHelper.h"
 #include "xrEngine/x_ray.h"
 #include "xrEngine/GameFont.h"
 #include "UIXmlInit.h"
-#include "UIHelper.h"
 
 extern ENGINE_API int ps_rs_loading_stages;
 

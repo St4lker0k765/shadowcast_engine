@@ -2531,6 +2531,10 @@ bool CWeapon::ZoomHideCrosshair()
 	if (hud_adj_mode != 0)
 		return false;
 
+	const auto pA = smart_cast<CActor*>(H_Parent());
+	if (pA && pA->cam_Active() == pA->cam_LookAt())
+		return false;
+
 	return m_zoom_params.m_bHideCrosshairInZoom || ZoomTexture();
 }
 

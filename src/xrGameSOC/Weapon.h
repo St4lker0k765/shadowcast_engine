@@ -254,7 +254,7 @@ public:
 	virtual void			OnZoomOut			();
 			bool			IsZoomed			()	const	{return m_bZoomMode;};
 	CUIStaticItem*			ZoomTexture			();	
-			bool			ZoomHideCrosshair	()			{return m_bHideCrosshairInZoom || ZoomTexture();}
+			bool			ZoomHideCrosshair	();
 
 	IC float				GetZoomFactor		() const		{	return m_fZoomFactor;	}
 	virtual	float			CurrentZoomFactor	();

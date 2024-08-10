@@ -1612,3 +1612,12 @@ void CWeapon::OnStateSwitch(u32 S)
 		}
 	}
 }
+
+bool CWeapon::ZoomHideCrosshair()
+{
+	const auto pA = smart_cast<CActor*>(H_Parent());
+	if (pA && pA->cam_Active() == pA->cameras[eacLookAt])
+		return false;
+
+	return m_bHideCrosshairInZoom || ZoomTexture();
+}
