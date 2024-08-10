@@ -78,7 +78,7 @@
 	<string id="st_quicksave">
 		<text>быстрое сохранение</text>
 	</string>
-	<string id="st_autosave">
+	<string id="st_game_autosave">
 		<text>автосохранение</text>
 	</string>
 	<string id="st_opt_off">
@@ -101,9 +101,6 @@
 	</string>
 	<string id="st_opt_medium">
 		<text>средне</text>
-	</string>
-	<string id="st_opt_off">
-		<text>отключено</text>
 	</string>
 	<string id="st_opt_ultra">
 		<text>очень высоко</text>
