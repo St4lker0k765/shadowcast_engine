@@ -67,6 +67,10 @@ static int start_day = 10;
 static int start_month = 6;
 static int start_year = 2023;
 
+#pragma comment(lib, "XInput")
+#pragma comment(lib, "discord_game_sdk.dll.lib")
+#pragma comment(lib, "freetype")
+
 // binary hash, mainly for copy-protection
 #include <cctype>
 #include <thread>

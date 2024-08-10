@@ -830,27 +830,6 @@ public:
 
 };
 
-
-
-class CCC_DebugFonts : public IConsole_Command {
-	CUIDebugFonts* UIDebugFont_;
-public:
-	CCC_DebugFonts(LPCSTR N) : IConsole_Command(N) { bEmptyArgsHandled = true; }
-	virtual void Execute(LPCSTR args)
-	{
-		if (!UIDebugFont_)
-			UIDebugFont_ = xr_new<CUIDebugFonts>();
-
-		if (!UIDebugFont_->IsShown())
-			UIDebugFont_->ShowDialog(true);
-		else
-		{
-			UIDebugFont_->HideDialog();
-			xr_delete(UIDebugFont_);
-		}
-	}
-};
-
 class CCC_DebugNode : public IConsole_Command {
 public:
 	CCC_DebugNode(LPCSTR N) : IConsole_Command(N)  { };
@@ -1593,7 +1572,6 @@ void CCC_RegisterCommands()
 	CMD1(CCC_ScriptDbg,			"script_debug_restart");
 	
 	CMD1(CCC_ShowMonsterInfo,	"ai_monster_info");
-	CMD1(CCC_DebugFonts,		"debug_fonts");
 	CMD1(CCC_TuneAttachableItem,"dbg_adjust_attachable_item");
 
 	// adjust mode support

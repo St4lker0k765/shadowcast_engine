@@ -127,6 +127,36 @@ enum E_COMMON_FLAGS{
 	flAiUseTorchDynamicLights = 1
 };
 
+typedef void (*full_memory_stats_callback_type) ();
+XRCORE_API full_memory_stats_callback_type g_full_memory_stats_callback;
+
+static void full_memory_stats()
+{
+	Memory.mem_compact();
+	size_t	_process_heap = ::Memory.mem_usage();
+	int		_eco_strings = static_cast<int>(g_pStringContainer->stat_economy());
+	int		_eco_smem = static_cast<int>(g_pSharedMemoryContainer->stat_economy());
+	u32		m_base = 0, c_base = 0, m_lmaps = 0, c_lmaps = 0;
+
+
+	//if (Device.Resources)	Device.Resources->_GetMemoryUsage	(m_base,c_base,m_lmaps,c_lmaps);
+	//	Resource check moved to m_pRender
+	if (Device.m_pRender) Device.m_pRender->ResourcesGetMemoryUsage(m_base, c_base, m_lmaps, c_lmaps);
+
+	log_vminfo();
+
+	Msg("* [ D3D ]: textures[%d K]", (m_base + m_lmaps) / 1024);
+
+	Msg("* [x-ray]: process heap[%u K]", _process_heap / 1024);
+
+	Msg("* [x-ray]: economy: strings[%d K], smem[%d K]", _eco_strings / 1024, _eco_smem);
+
+#ifdef FS_DEBUG
+	Msg("* [x-ray]: file mapping: memory[%d K], count[%d]", g_file_mapped_memory / 1024, g_file_mapped_count);
+	dump_file_mappings();
+#endif // DEBUG
+}
+
 #ifndef PURE_ALLOC
 #	ifndef USE_MEMORY_MONITOR
 #		define SEVERAL_ALLOCATORS
@@ -181,39 +211,11 @@ public:
 class CCC_MemStats : public IConsole_Command
 {
 public:
-	CCC_MemStats(LPCSTR N) : IConsole_Command(N)  { bEmptyArgsHandled = TRUE; };
+	CCC_MemStats(LPCSTR N) : IConsole_Command(N) {
+		bEmptyArgsHandled = TRUE;
+	}
 	virtual void Execute(LPCSTR args) {
-		Memory.mem_compact		();
-		u32		_crt_heap		= mem_usage_impl((HANDLE)_get_heap_handle(),0,0);
-		u32		_process_heap	= mem_usage_impl(GetProcessHeap(),0,0);
-#ifdef SEVERAL_ALLOCATORS
-		u32		_render			= ::Render->memory_usage();
-#endif // SEVERAL_ALLOCATORS
-		int		_eco_strings	= (int)g_pStringContainer->stat_economy			();
-		int		_eco_smem		= (int)g_pSharedMemoryContainer->stat_economy	();
-		u32		m_base=0,c_base=0,m_lmaps=0,c_lmaps=0;
-		
-
-		//if (Device.Resources)	Device.Resources->_GetMemoryUsage	(m_base,c_base,m_lmaps,c_lmaps);
-		//	Resource check moved to m_pRender
-		if (Device.m_pRender) Device.m_pRender->ResourcesGetMemoryUsage(m_base,c_base,m_lmaps,c_lmaps);
-		
-		log_vminfo	();
-		
-		Msg		("* [ D3D ]: textures[%d K]", (m_base+m_lmaps)/1024);
-
-#ifndef SEVERAL_ALLOCATORS
-		Msg		("* [x-ray]: crt heap[%d K], process heap[%d K]",_crt_heap/1024,_process_heap/1024);
-#else // SEVERAL_ALLOCATORS
-		Msg		("* [x-ray]: crt heap[%d K], process heap[%d K], game lua[??? K], render[%d K]",_crt_heap/1024,_process_heap/1024,_render/1024);
-#endif // SEVERAL_ALLOCATORS
-
-		Msg		("* [x-ray]: economy: strings[%d K], smem[%d K]",_eco_strings/1024,_eco_smem);
-
-#ifdef DEBUG
-		Msg		("* [x-ray]: file mapping: memory[%d K], count[%d]",g_file_mapped_memory/1024,g_file_mapped_count);
-		dump_file_mappings	();
-#endif // DEBUG
+		full_memory_stats();
 	}
 };
 
@@ -1006,14 +1008,6 @@ public:
 };
 
 
-
-class CCC_DebugFonts : public IConsole_Command {
-public:
-	CCC_DebugFonts (LPCSTR N) : IConsole_Command(N) {bEmptyArgsHandled = true; }
-	virtual void Execute				(LPCSTR args) {
-		HUD().GetUI()->StartStopMenu( xr_new<CUIDebugFonts>(), true);		
-	}
-};
 
 class CCC_DebugNode : public IConsole_Command {
 public:
@@ -1861,7 +1855,6 @@ CMD4(CCC_Integer,			"hit_anims_tune",						&tune_hit_anims,		0, 1);
 #endif // #if defined(USE_DEBUGGER) && defined(USE_LUA_STUDIO)
 	
 	CMD1(CCC_ShowMonsterInfo,	"ai_monster_info");
-	CMD1(CCC_DebugFonts,		"debug_fonts");
 #endif
 #ifndef MASTER_GOLD
 	CMD1(CCC_TuneAttachableItem,"dbg_adjust_attachable_item");

@@ -198,9 +198,6 @@
     <ClCompile Include="PHContactBodyEffector.cpp">
       <Filter>physics\Base\Objects\BodyEffectors</Filter>
     </ClCompile>
-    <ClCompile Include="..\xrGame\PHNetState.cpp">
-      <Filter>physics\Base\Objects\PHNet</Filter>
-    </ClCompile>
     <ClCompile Include="PHMoveStorage.cpp">
       <Filter>physics\Base\Objects\MoveStorage</Filter>
     </ClCompile>
@@ -312,6 +309,7 @@
     <ClCompile Include="collisiondamagereceiver.cpp">
       <Filter>physics\damage_receiver</Filter>
     </ClCompile>
+    <ClCompile Include="..\xrGameSOC\PHNetState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -430,9 +428,6 @@
     </ClInclude>
     <ClInclude Include="PHContactBodyEffector.h">
       <Filter>physics\Base\Objects\BodyEffectors</Filter>
-    </ClInclude>
-    <ClInclude Include="..\xrGame\PHNetState.h">
-      <Filter>physics\Base\Objects\PHNet</Filter>
     </ClInclude>
     <ClInclude Include="PHMoveStorage.h">
       <Filter>physics\Base\Objects\MoveStorage</Filter>
@@ -584,5 +579,6 @@
     <ClInclude Include="icollisiondamagereceiver.h">
       <Filter>physics\damage_receiver</Filter>
     </ClInclude>
+    <ClInclude Include="..\xrGameSOC\PHNetState.h" />
   </ItemGroup>
 </Project>

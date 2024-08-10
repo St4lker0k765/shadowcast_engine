@@ -151,6 +151,9 @@
     <Filter Include="CPU">
       <UniqueIdentifier>{d5c34dea-5824-4ae9-b3e4-0779ba0fc541}</UniqueIdentifier>
     </Filter>
+    <Filter Include="DiscordSDK">
+      <UniqueIdentifier>{bd48713a-2e85-408e-a8ec-2c2fdd15497a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="_d3d_extensions.h">
@@ -426,25 +429,63 @@
     <ClInclude Include="FontManager.h">
       <Filter>Render\Font output</Filter>
     </ClInclude>
-    <ClInclude Include="ILoadingScreen.h" />
-    <ClInclude Include="DiscordSDK.h" />
-    <ClInclude Include="..\..\sdk\include\DiscordSDK\achievement_manager.h" />
-    <ClInclude Include="..\..\sdk\include\DiscordSDK\activity_manager.h" />
-    <ClInclude Include="..\..\sdk\include\DiscordSDK\application_manager.h" />
-    <ClInclude Include="..\..\sdk\include\DiscordSDK\core.h" />
-    <ClInclude Include="..\..\sdk\include\DiscordSDK\discord.h" />
-    <ClInclude Include="..\..\sdk\include\DiscordSDK\event.h" />
-    <ClInclude Include="..\..\sdk\include\DiscordSDK\ffi.h" />
-    <ClInclude Include="..\..\sdk\include\DiscordSDK\image_manager.h" />
-    <ClInclude Include="..\..\sdk\include\DiscordSDK\lobby_manager.h" />
-    <ClInclude Include="..\..\sdk\include\DiscordSDK\network_manager.h" />
-    <ClInclude Include="..\..\sdk\include\DiscordSDK\overlay_manager.h" />
-    <ClInclude Include="..\..\sdk\include\DiscordSDK\relationship_manager.h" />
-    <ClInclude Include="..\..\sdk\include\DiscordSDK\storage_manager.h" />
-    <ClInclude Include="..\..\sdk\include\DiscordSDK\store_manager.h" />
-    <ClInclude Include="..\..\sdk\include\DiscordSDK\types.h" />
-    <ClInclude Include="..\..\sdk\include\DiscordSDK\user_manager.h" />
-    <ClInclude Include="..\..\sdk\include\DiscordSDK\voice_manager.h" />
+    <ClInclude Include="..\..\sdk\include\DiscordSDK\achievement_manager.h">
+      <Filter>DiscordSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sdk\include\DiscordSDK\activity_manager.h">
+      <Filter>DiscordSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sdk\include\DiscordSDK\application_manager.h">
+      <Filter>DiscordSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sdk\include\DiscordSDK\core.h">
+      <Filter>DiscordSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sdk\include\DiscordSDK\discord.h">
+      <Filter>DiscordSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="DiscordSDK.h">
+      <Filter>DiscordSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sdk\include\DiscordSDK\event.h">
+      <Filter>DiscordSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sdk\include\DiscordSDK\ffi.h">
+      <Filter>DiscordSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="ILoadingScreen.h">
+      <Filter>DiscordSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sdk\include\DiscordSDK\image_manager.h">
+      <Filter>DiscordSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sdk\include\DiscordSDK\lobby_manager.h">
+      <Filter>DiscordSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sdk\include\DiscordSDK\network_manager.h">
+      <Filter>DiscordSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sdk\include\DiscordSDK\overlay_manager.h">
+      <Filter>DiscordSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sdk\include\DiscordSDK\relationship_manager.h">
+      <Filter>DiscordSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sdk\include\DiscordSDK\storage_manager.h">
+      <Filter>DiscordSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sdk\include\DiscordSDK\store_manager.h">
+      <Filter>DiscordSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sdk\include\DiscordSDK\types.h">
+      <Filter>DiscordSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sdk\include\DiscordSDK\user_manager.h">
+      <Filter>DiscordSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sdk\include\DiscordSDK\voice_manager.h">
+      <Filter>DiscordSDK</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="defines.cpp">
@@ -693,28 +734,60 @@
     <ClCompile Include="xrSASH.cpp">
       <Filter>OpenAutomate</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sdk\include\OpenAutomate\src\OpenAutomate.c" />
     <ClCompile Include="FontAtlas.cpp">
       <Filter>Render\Font output</Filter>
     </ClCompile>
     <ClCompile Include="FontManager.cpp">
       <Filter>Render\Font output</Filter>
     </ClCompile>
-    <ClCompile Include="DiscordSDK.cpp" />
-    <ClCompile Include="..\..\sdk\include\DiscordSDK\achievement_manager.cpp" />
-    <ClCompile Include="..\..\sdk\include\DiscordSDK\activity_manager.cpp" />
-    <ClCompile Include="..\..\sdk\include\DiscordSDK\application_manager.cpp" />
-    <ClCompile Include="..\..\sdk\include\DiscordSDK\core.cpp" />
-    <ClCompile Include="..\..\sdk\include\DiscordSDK\image_manager.cpp" />
-    <ClCompile Include="..\..\sdk\include\DiscordSDK\lobby_manager.cpp" />
-    <ClCompile Include="..\..\sdk\include\DiscordSDK\network_manager.cpp" />
-    <ClCompile Include="..\..\sdk\include\DiscordSDK\overlay_manager.cpp" />
-    <ClCompile Include="..\..\sdk\include\DiscordSDK\relationship_manager.cpp" />
-    <ClCompile Include="..\..\sdk\include\DiscordSDK\storage_manager.cpp" />
-    <ClCompile Include="..\..\sdk\include\DiscordSDK\store_manager.cpp" />
-    <ClCompile Include="..\..\sdk\include\DiscordSDK\types.cpp" />
-    <ClCompile Include="..\..\sdk\include\DiscordSDK\user_manager.cpp" />
-    <ClCompile Include="..\..\sdk\include\DiscordSDK\voice_manager.cpp" />
+    <ClCompile Include="..\..\sdk\include\DiscordSDK\achievement_manager.cpp">
+      <Filter>DiscordSDK</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sdk\include\DiscordSDK\activity_manager.cpp">
+      <Filter>DiscordSDK</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sdk\include\DiscordSDK\application_manager.cpp">
+      <Filter>DiscordSDK</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sdk\include\DiscordSDK\core.cpp">
+      <Filter>DiscordSDK</Filter>
+    </ClCompile>
+    <ClCompile Include="DiscordSDK.cpp">
+      <Filter>DiscordSDK</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sdk\include\DiscordSDK\image_manager.cpp">
+      <Filter>DiscordSDK</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sdk\include\DiscordSDK\lobby_manager.cpp">
+      <Filter>DiscordSDK</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sdk\include\DiscordSDK\network_manager.cpp">
+      <Filter>DiscordSDK</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sdk\include\DiscordSDK\overlay_manager.cpp">
+      <Filter>DiscordSDK</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sdk\include\DiscordSDK\relationship_manager.cpp">
+      <Filter>DiscordSDK</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sdk\include\DiscordSDK\storage_manager.cpp">
+      <Filter>DiscordSDK</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sdk\include\DiscordSDK\store_manager.cpp">
+      <Filter>DiscordSDK</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sdk\include\DiscordSDK\types.cpp">
+      <Filter>DiscordSDK</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sdk\include\DiscordSDK\user_manager.cpp">
+      <Filter>DiscordSDK</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sdk\include\DiscordSDK\voice_manager.cpp">
+      <Filter>DiscordSDK</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sdk\include\OpenAutomate\src\OpenAutomate.c">
+      <Filter>OpenAutomate</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc">
