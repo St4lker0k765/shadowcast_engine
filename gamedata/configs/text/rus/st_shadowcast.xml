@@ -39,9 +39,6 @@
 	<string id="st_cam_3">
 		<text>Вид от третьего лица (Свободная камера)</text>
 	</string>
-	<string id="st_server_starting">
-		<text>Сервер: Старт</text>
-	</string>
 	<string id="st_client_connecting_to">
 		<text>Клиент: Соединение с</text>
 	</string>
