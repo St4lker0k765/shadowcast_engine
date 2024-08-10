@@ -41,7 +41,6 @@
 #include "movement_manager.h"
 #include "graph_engine.h"
 #include "debug_renderer.h"
-#include "smart_cover_object.h"
 
 void CLevelGraph::draw_nodes	()
 {
@@ -235,7 +234,8 @@ void CLevelGraph::draw_covers	()
 		Fvector				direction;
 		float				best_value = -1.f;
 
-		for (u32 i=0, j = 0; i<36; ++i) {
+		u32 j = 0;
+		for (u32 i=0; i<36; ++i) {
 			float				value = high_cover_in_direction(float(10*i)/180.f*PI,v);
 			direction.setHP		(float(10*i)/180.f*PI,0);
 			direction.normalize	();
@@ -337,12 +337,6 @@ void CLevelGraph::draw_objects	()
 				Fvector				temp = tpCustomMonster->movement().detail().path()[tpCustomMonster->movement().detail().path().size() - 1].position;
 				Level().debug_renderer().draw_aabb	(temp,1.f,1.f,1.f,D3DCOLOR_XRGB(0,0,255));
 			}
-		}
-
-		smart_cover::object	*smart_cover = smart_cast<smart_cover::object*>(_O);
-		if (smart_cover) {
-			smart_cover->OnRender	();
-			continue;
 		}
 	}
 }

@@ -108,7 +108,6 @@ CLevelGraph::CLevelGraph(LPCSTR filename)
 CLevelGraph::CLevelGraph()
 #endif
 {
-		VERIFY(Device->IsEditorMode() == false);
 #ifndef AI_COMPILER
 #ifdef DEBUG
 	sh_debug->create				("debug\\ai_nodes","$null");

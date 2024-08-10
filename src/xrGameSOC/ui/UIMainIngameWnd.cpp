@@ -1219,7 +1219,7 @@ void test_key	(int dik)
 		if(!pUIFrame)
 		{
 			CUIXml uiXML;
-			uiXML.Init(CONFIG_PATH, UI_PATH, "talk.xml");
+			uiXML.Load(CONFIG_PATH, UI_PATH, "talk.xml");
 
 			pUIFrame					= xr_new<CUIFrameWindow>();
 			CUIXmlInit::InitFrameWindow	(uiXML, "frame_window", 0, pUIFrame);

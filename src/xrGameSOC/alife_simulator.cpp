@@ -17,10 +17,6 @@
 #include "alife_object_registry.h"
 #include "../xrEngine/xr_ioconsole.h"
 
-#ifdef DEBUG
-#	include "moving_objects.h"
-#endif // DEBUG
-
 LPCSTR alife_section = "alife";
 
 extern void destroy_lua_wpn_params	();
@@ -35,9 +31,6 @@ void restart_all				()
 	xr_delete					(g_object_factory);
 	ai().script_engine().init	();
 
-#ifdef DEBUG
-	ai().moving_objects().clear	();
-#endif // DEBUG
 }
 
 CALifeSimulator::CALifeSimulator		(xrServer *server, shared_str *command_line) :

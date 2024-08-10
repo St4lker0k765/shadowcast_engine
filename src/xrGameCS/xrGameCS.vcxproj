@@ -302,7 +302,7 @@
       <LargeAddressAware>true</LargeAddressAware>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <AdditionalDependencies>xrEngine.lib;shlwapi.lib;lua51.lib;ode.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>shlwapi.lib;lua51.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>$(xrLibDir)\$(Platform)\$(Configuration)\$(TargetName).lib</ImportLibrary>
     </Link>
   </ItemDefinitionGroup>

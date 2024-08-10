@@ -30,6 +30,12 @@ extern "C" {
 	}
 };
 
+#pragma comment(lib, "xrEngine")
+#pragma comment(lib, "xrPhysicsSOC")
+#pragma comment(lib, "xrSound")
+#pragma comment(lib, "ode")
+#pragma comment(lib, "xrAPI")
+
 void CCC_RegisterCommands	();
 void setup_luabind_allocator();
 

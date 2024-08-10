@@ -27,6 +27,7 @@
 #include "debug_renderer.h"
 #include "PHDebug.h"
 #include "profiler.h"
+#include "../xrEngine/xr_collide_form.h"
 #endif
 
 ENGINE_API bool g_dedicated_server;

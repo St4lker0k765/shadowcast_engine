@@ -36,6 +36,7 @@
 #include "clsid_game.h"
 
 #ifdef DEBUG
+#include "../xrEngine/xr_collide_form.h"
 #include "level_debug.h"
 #include "debug_renderer.h"
 #endif

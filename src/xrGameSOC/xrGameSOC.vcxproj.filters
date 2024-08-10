@@ -6068,6 +6068,9 @@
     <ClInclude Include="ui\UIHelper.h">
       <Filter>UI\Common\InventoryUtilities</Filter>
     </ClInclude>
+    <ClInclude Include="lua_studio.h">
+      <Filter>AI\AScript</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="damage_manager.cpp">
@@ -8911,6 +8914,9 @@
     <ClCompile Include="ui\UILoadingScreen.cpp" />
     <ClCompile Include="ui\UIHelper.cpp">
       <Filter>UI\Common\InventoryUtilities</Filter>
+    </ClCompile>
+    <ClCompile Include="lua_studio.cpp">
+      <Filter>AI\AScript</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

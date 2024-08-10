@@ -740,6 +740,7 @@ public:
 	}
 };
 
+#if defined(USE_DEBUGGER) && !defined(USE_LUA_STUDIO)
 class CCC_ScriptDbg : public IConsole_Command {
 public:
 	CCC_ScriptDbg(LPCSTR N) : IConsole_Command(N)  { bEmptyArgsHandled = true; };
@@ -777,6 +778,7 @@ public:
 			strcpy_s(I,"restarts script debugger or start if no script debugger presents"); 
 	}
 };
+#endif // #if defined(USE_DEBUGGER) && !defined(USE_LUA_STUDIO)
 
 class CCC_DumpInfos : public IConsole_Command {
 public:
@@ -1567,9 +1569,12 @@ void CCC_RegisterCommands()
 	CMD4(CCC_Integer,			"ai_dbg_inactive_time",	&g_AI_inactive_time, 0, 1000000);
 	
 	CMD1(CCC_DebugNode,			"ai_dbg_node");
-	CMD1(CCC_ScriptDbg,			"script_debug_break");
-	CMD1(CCC_ScriptDbg,			"script_debug_stop");
-	CMD1(CCC_ScriptDbg,			"script_debug_restart");
+
+#if defined(USE_DEBUGGER) && !defined(USE_LUA_STUDIO)
+	CMD1(CCC_ScriptDbg,			"script_debug_break")
+	CMD1(CCC_ScriptDbg,			"script_debug_stop")
+	CMD1(CCC_ScriptDbg,			"script_debug_restart")
+#endif // #if defined(USE_DEBUGGER) && !defined(USE_LUA_STUDIO)
 	
 	CMD1(CCC_ShowMonsterInfo,	"ai_monster_info");
 	CMD1(CCC_TuneAttachableItem,"dbg_adjust_attachable_item");

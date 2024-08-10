@@ -58,6 +58,10 @@ public:
 	bool 			obsolete						()															;
 	bool			equal							(CPHReqComparerV* cmp_condition,CPHReqComparerV* cmp_action);
 	bool			is_any							(CPHReqComparerV* v)										;
+#ifdef DEBUG
+const CPHAction		*action							()const{	return m_action;	}
+const CPHCondition	*condition						()const{	return m_condition;	}
+#endif
 };
 
 DEFINE_VECTOR(CPHCall*,PHCALL_STORAGE,PHCALL_I);

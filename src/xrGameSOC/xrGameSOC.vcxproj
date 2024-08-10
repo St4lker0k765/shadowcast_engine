@@ -102,13 +102,13 @@
       <ProgramDataBaseFileName>$(IntDir)</ProgramDataBaseFileName>
       <BrowseInformation>
       </BrowseInformation>
-      <WarningLevel>Level4</WarningLevel>
+      <WarningLevel>Level1</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <DisableSpecificWarnings>4237;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir);../3rd party/DX9SDK/Include;../3rd party/ode/Public/;../3rd party/DiscordSDK/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)3rd party/luabind/include;../3rd party/ode/Public/;$(xrExternals)luajit\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ConformanceMode>false</ConformanceMode>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -148,13 +148,15 @@
       <ProgramDataBaseFileName>$(IntDir)</ProgramDataBaseFileName>
       <BrowseInformation>
       </BrowseInformation>
-      <WarningLevel>Level4</WarningLevel>
+      <WarningLevel>Level1</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <DisableSpecificWarnings>4237;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir);../3rd party/DX9SDK/Include;../3rd party/ode/Public/;../3rd party/DiscordSDK/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)3rd party/luabind/include;../3rd party/ode/Public/;$(xrExternals)luajit\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ConformanceMode>false</ConformanceMode>
+      <Optimization>MaxSpeed</Optimization>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -203,11 +205,12 @@
       <PreprocessToFile>false</PreprocessToFile>
       <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)3rd party/luabind/include;../3rd party/ode/Public/;$(xrExternals)luajit\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <Optimization>Full</Optimization>
+      <Optimization>MaxSpeed</Optimization>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
       <ConformanceMode>false</ConformanceMode>
       <MinimalRebuild>false</MinimalRebuild>
       <WholeProgramOptimization>true</WholeProgramOptimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -223,7 +226,7 @@
       <AdditionalLibraryDirectories>$(xrLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <LinkTimeCodeGeneration />
       <ImportLibrary>$(xrLibDir)\$(Platform)\$(Configuration)\$(TargetName).lib</ImportLibrary>
-      <AdditionalDependencies>ode.lib;xrPhysicsSOC.lib;xrEngine.lib;xrSound.lib;xrAPI.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>xrAPI.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
     </Link>
@@ -238,6 +241,7 @@
     <ClInclude Include="IKFoot_inl.h" />
     <ClInclude Include="imotion_position.h" />
     <ClInclude Include="imotion_velocity.h" />
+    <ClInclude Include="lua_studio.h" />
     <ClInclude Include="mt_config.h" />
     <ClInclude Include="damage_manager.h" />
     <ClInclude Include="damage_manager_inline.h" />
@@ -1566,6 +1570,7 @@
     <ClCompile Include="IKFoot.cpp" />
     <ClCompile Include="imotion_position.cpp" />
     <ClCompile Include="imotion_velocity.cpp" />
+    <ClCompile Include="lua_studio.cpp" />
     <ClCompile Include="PHCommander.cpp" />
     <ClCompile Include="PHDebug.cpp" />
     <ClCompile Include="PHMovementDynamicActivate.cpp" />
