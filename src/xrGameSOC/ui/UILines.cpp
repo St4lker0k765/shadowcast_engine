@@ -22,7 +22,9 @@ CUILines::CUILines()
 	m_eVTextAlign = valTop;
 	m_dwTextColor = 0xffffffff;
 	m_dwCursorColor = 0xAAFFFF00;
-
+	m_text = "";
+	m_wndSize.set(0.f, 0.f);
+	m_wndPos.set(0.f, 0.f);
 	m_bShowMe = true;
 	uFlags.zero();
 	uFlags.set(flNeedReparse,		FALSE);
@@ -340,7 +342,7 @@ void CUILines::SetFont(CGameFont* pFont){
 void CUILines::Draw(float x, float y){
 	static string256 passText;
 
-	if (m_text.empty())
+	if (m_text.size() == 0)
 		return;
 
 	R_ASSERT(m_pFont);
@@ -387,7 +389,7 @@ void CUILines::Draw(float x, float y){
 		{
 			pos.x = x + GetIndentByAlign();
 			m_lines[i].Draw(m_pFont, pos.x, pos.y);
-			pos.y+= height + m_interval;
+			pos.y+= height;
 		}
 
 	}
