@@ -6,7 +6,8 @@
 
 #include "../3rd party/ode/include/ode/memory.h"
 
-//#pragma comment(lib,"xrEngine.lib")
+#pragma comment(lib,"ode.lib")
+#pragma comment(lib, "xrCDB")
 
 #ifdef _MANAGED
 #pragma managed(push, off)

@@ -16,6 +16,10 @@
 
 #include "D3DX10Core.h"
 
+#pragma comment(lib, "xrEngine")
+#pragma comment(lib, "xrCDB")
+#pragma comment(lib, "d3d9")
+
 CRender										RImplementation;
 
 //////////////////////////////////////////////////////////////////////////

@@ -70,6 +70,14 @@ static int start_year = 2023;
 #pragma comment(lib, "XInput")
 #pragma comment(lib, "discord_game_sdk.dll.lib")
 #pragma comment(lib, "freetype")
+#pragma comment(lib, "xrAPI")
+#pragma comment(lib, "xrSound")
+#pragma comment(lib, "xrCDB")
+#pragma comment(lib, "dinput8")
+#pragma comment(lib, "dxguid")
+#pragma comment(lib, "d3dx9")
+#pragma comment(lib, "psapi")
+#pragma comment(lib, "winmm")
 
 // binary hash, mainly for copy-protection
 #include <cctype>

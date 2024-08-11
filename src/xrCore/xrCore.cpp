@@ -20,6 +20,8 @@ namespace CPU
 extern void Detect();
 };
 
+#pragma comment(lib, "winmm.lib")
+
 static u32 init_counter = 0;
 
 //extern char g_application_path[256];

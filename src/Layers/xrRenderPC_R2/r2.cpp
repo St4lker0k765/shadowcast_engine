@@ -12,6 +12,10 @@
 #include "../xrRender/dxUIShader.h"
 //#include "../../xrServerEntities/smart_cast.h"
 
+#pragma comment(lib, "xrEngine")
+#pragma comment(lib, "xrCDB")
+#pragma comment(lib, "d3d9")
+
 #ifdef _EDITOR
 #include <Layers/xrRender/DetailManager.h>
 #endif

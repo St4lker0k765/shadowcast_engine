@@ -22,6 +22,10 @@
 //-AVO
 
 //#pragma comment(lib,"ode.lib")
+#pragma comment(lib, "xrEngine")
+#pragma comment(lib, "xrCDB")
+#pragma comment(lib, "xrSound")
+#pragma comment(lib, "shell32")
 
 extern "C" {
 	DLL_API DLL_Pure*	__cdecl xrFactory_Create		(CLASS_ID clsid)

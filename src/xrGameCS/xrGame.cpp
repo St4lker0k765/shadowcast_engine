@@ -14,6 +14,9 @@
 
 #pragma comment(lib, "xrEngine")
 #pragma comment(lib, "ode")
+#pragma comment(lib, "xrAPI")
+#pragma comment(lib, "xrCDB")
+#pragma comment(lib, "xrSound")
 
 extern "C" {
 	DLL_API DLL_Pure*	__cdecl xrFactory_Create		(CLASS_ID clsid)

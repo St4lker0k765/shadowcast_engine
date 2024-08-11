@@ -35,6 +35,7 @@ extern "C" {
 #pragma comment(lib, "xrSound")
 #pragma comment(lib, "ode")
 #pragma comment(lib, "xrAPI")
+#pragma comment(lib, "xrCDB")
 
 void CCC_RegisterCommands	();
 void setup_luabind_allocator();

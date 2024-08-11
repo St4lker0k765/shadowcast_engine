@@ -15,6 +15,10 @@
 
 #include "D3DX10Core.h"
 
+#pragma comment(lib, "xrEngine")
+#pragma comment(lib, "xrCDB")
+#pragma comment(lib, "d3d9") // каво? зачем d3d9 в R3?
+
 CRender										RImplementation;
 
 //////////////////////////////////////////////////////////////////////////
