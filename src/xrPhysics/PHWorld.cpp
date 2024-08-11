@@ -16,8 +16,8 @@
 //#include "PHCommander.h"
 //#include "PHSimpleCalls.h"
 #ifdef XRGAMESOC_EXPORTS
-#include "../xrGame/PHSynchronize.h"
-#include "../xrGame/phnetstate.h"
+#include "../xrGameSOC/PHSynchronize.h"
+#include "../xrGameSOC/phnetstate.h"
 #else
 #include "../xrserverentities/PHSynchronize.h"
 #include "../xrserverentities/phnetstate.h"
