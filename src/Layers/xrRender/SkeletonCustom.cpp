@@ -665,8 +665,6 @@ struct zero_wm_pred
 
 void CKinematics::CalculateWallmarks()
 {
-#pragma todo("Fix bloodmarks for SoC!")
-	if (!ShadowOfChernobylMode) {
 		if (!wallmarks.empty() && (wm_frame != RDEVICE.dwFrame)) {
 			wm_frame = RDEVICE.dwFrame;
 			bool need_remove = false;
@@ -689,7 +687,6 @@ void CKinematics::CalculateWallmarks()
 				wallmarks.erase(new_end, wallmarks.end());
 			}
 		}
-	}
 }
 
 void CKinematics::RenderWallmark(intrusive_ptr<CSkeletonWallmark> wm, FVF::LIT* &V)
