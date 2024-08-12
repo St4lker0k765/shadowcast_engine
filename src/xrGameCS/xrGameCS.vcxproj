@@ -1638,7 +1638,6 @@
     <ClInclude Include="UICustomItem.h" />
     <ClInclude Include="UIDialogHolder.h" />
     <ClInclude Include="UIFontDefines.h" />
-    <ClInclude Include="UIFrameRect.h" />
     <ClInclude Include="UIGameCustom.h" />
     <ClInclude Include="UIGameSP.h" />
     <ClInclude Include="UIGame_custom_script.h" />
@@ -5261,7 +5260,6 @@
       <ShowIncludes Condition="'$(Configuration)|$(Platform)'=='Debug-LLVM|x64'">false</ShowIncludes>
     </ClCompile>
     <ClCompile Include="UIDialogHolder.cpp" />
-    <ClCompile Include="UIFrameRect.cpp" />
     <ClCompile Include="UIGameCustom.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pch_script.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug-LLVM|x64'">pch_script.h</PrecompiledHeaderFile>

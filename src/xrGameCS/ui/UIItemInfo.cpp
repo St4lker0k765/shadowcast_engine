@@ -259,7 +259,7 @@ void CUIItemInfo::InitItem(CInventoryItem* pInvItem, CInventoryItem* pCompareIte
 			new_size.y						= _max(105.0f, new_size.y);
 			SetWndSize						(new_size);
 			if(UIBackground)
-				UIBackground->InitFrameWindow(UIBackground->GetWndPos(), new_size);
+				UIBackground->SetWndSize(new_size);
 		}
 
 		UIDesc->ScrollToBegin				();

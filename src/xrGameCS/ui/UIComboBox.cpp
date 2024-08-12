@@ -62,8 +62,9 @@ void CUIComboBox::InitComboBox(Fvector2 pos, float width)
 	m_list_box.SetSelectionTexture		("ui_cb_listline");
 	m_list_box.SetItemHeight			(CUITextureMaster::GetTextureHeight("ui_cb_listline_b"));
 	// frame(texture) for list
-	m_list_frame.InitFrameWindow		(Fvector2().set(0.0f, CB_HEIGHT), Fvector2().set(width, m_list_box.GetItemHeight()*m_iListHeight) );
 	m_list_frame.InitTexture			("ui_cb_listbox");
+	m_list_frame.SetWndSize				(Fvector2().set(width, m_list_box.GetItemHeight()*m_iListHeight) );
+	m_list_frame.SetWndPos				(Fvector2().set(0.0f, CB_HEIGHT));
 
 	m_list_box.Show						(true);
 	m_list_frame.Show					(false);

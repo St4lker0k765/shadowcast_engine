@@ -176,7 +176,7 @@ void CUIWindow::script_register(lua_State *L)
 		.def(					constructor<>())
 		.def("SetWidth",				&CUIFrameWindow::SetWidth)
 		.def("SetHeight",				&CUIFrameWindow::SetHeight)
-		.def("SetColor",				&CUIFrameWindow::SetColor),
+		.def("SetColor",				&CUIFrameWindow::SetTextureColor),
 
 		class_<CUIFrameLineWnd, CUIWindow>("CUIFrameLineWnd")
 		.def(					constructor<>())

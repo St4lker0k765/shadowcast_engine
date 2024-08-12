@@ -20,7 +20,8 @@ CUIEditBoxEx::~CUIEditBoxEx()
 
 void CUIEditBoxEx::InitCustomEdit(Fvector2 pos, Fvector2 size)
 {
-	m_pFrameWindow->InitFrameWindow	(Fvector2().set(0,0), size);
+	m_pFrameWindow->SetWndSize		(size);
+	m_pFrameWindow->SetWndPos		(Fvector2().set(0,0));
 	CUICustomEdit::InitCustomEdit	(pos, size);
 }
 

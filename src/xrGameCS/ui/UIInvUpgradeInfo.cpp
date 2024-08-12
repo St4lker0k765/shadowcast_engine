@@ -149,8 +149,8 @@ bool UIInvUpgradeInfo::init_upgrade( Upgrade_type* upgr, CInventoryItem* inv_ite
 	new_size.x = GetWndSize().x;
 	new_size.y = m_properties_wnd->GetWndPos().y + m_properties_wnd->GetWndSize().y + 10.0f;
 	SetWndSize( new_size );
-	m_background->InitFrameWindow( m_background->GetWndPos(), new_size );
-	
+	m_background->SetWndSize(new_size);
+
 	return true;
 }
 

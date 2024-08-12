@@ -6990,9 +6990,6 @@
     <ClInclude Include="ui\UIFrameLine.h">
       <Filter>UI\UIWindows\Frames</Filter>
     </ClInclude>
-    <ClInclude Include="UIFrameRect.h">
-      <Filter>UI\UIWindows\Frames</Filter>
-    </ClInclude>
     <ClInclude Include="ui\UIScrollView.h">
       <Filter>UI\UIWindows\ScrollView</Filter>
     </ClInclude>
@@ -10282,9 +10279,6 @@
       <Filter>UI\UIWindows\TrackBar</Filter>
     </ClCompile>
     <ClCompile Include="ui\UIFrameLine.cpp">
-      <Filter>UI\UIWindows\Frames</Filter>
-    </ClCompile>
-    <ClCompile Include="UIFrameRect.cpp">
       <Filter>UI\UIWindows\Frames</Filter>
     </ClCompile>
     <ClCompile Include="ui\UIScrollView.cpp">

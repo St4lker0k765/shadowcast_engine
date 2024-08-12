@@ -121,8 +121,6 @@ bool CUIXmlInit::InitFrameWindow(CUIXml& xml_doc, LPCSTR path,
 
 	InitWindow(xml_doc, path, index, pWnd);
 	InitTexture(xml_doc, path, index, pWnd);
-
-	pWnd->InitFrameWindow(pWnd->GetWndPos(),pWnd->GetWndSize());
 	return true;
 }
 
