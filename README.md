@@ -22,14 +22,15 @@
 * Разблокированы Debug команды (g_god, g_unlimitedammo, g_no_clip)
 * Настраиваемые карты теней (1024-4096)
 * HD иконки сохранений
-* Вырезан мультилпеер
+* Вырезан мультиплеер
 * Скриншоты в формате .png
 
 ## Отдельные благодарности:
 * abramcumner - за порт ЧН на VS2022
-* IX-Ray Team - за TTF шрифты
+* X-Ray Oxygen - за TTF шрифты;
 * OpenXRay - за загрузочный экран в XML
-
+* mortan - за STCoP Engine, x64 и 3D прицелы;
+* Hrusteckiy - за иконки 100x100
 
 [**Гайд по адаптации модификаций под Shadowcast Engine (ЗП)**](/assets/cop_mod_adaptation_guide.md)
 
