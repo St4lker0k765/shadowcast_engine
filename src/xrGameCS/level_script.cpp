@@ -121,6 +121,21 @@ bool is_wfx_playing	()
 	return			(g_pGamePersistent->Environment().IsWFXPlaying());
 }
 
+float get_wfx_time	()
+{
+	return			(g_pGamePersistent->Environment().wfx_time);
+}
+
+bool start_weather_fx_from_time	(LPCSTR weather_name, float time)
+{
+	return		(g_pGamePersistent->Environment().StartWeatherFXFromTime(weather_name, time));
+}
+
+void stop_weather_fx()
+{
+	g_pGamePersistent->Environment().StopWFX();
+}
+
 void set_time_factor(float time_factor)
 {
 	if (!OnServer())
@@ -661,7 +676,10 @@ void CLevel::script_register(lua_State *L)
 		def("get_weather",						get_weather),
 		def("set_weather",						set_weather),
 		def("set_weather_fx",					set_weather_fx),
+		def("start_weather_fx_from_time",		start_weather_fx_from_time),
 		def("is_wfx_playing",					is_wfx_playing),
+		def("get_wfx_time",						get_wfx_time),
+		def("stop_weather_fx",					stop_weather_fx),
 
 		def("environment",						environment),
 		
