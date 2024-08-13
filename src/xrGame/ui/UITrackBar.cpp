@@ -5,6 +5,8 @@
 #include "UITextureMaster.h"
 #include "../../xrEngine/xr_input.h"
 
+bool UseOldTrackbarTex = READ_IF_EXISTS(pSCSettings, r_bool, "game_specific", "cop_old_trackbar_texture", false);
+
 #define DEF_CONTROL_HEIGHT		16.0f
 
 CUITrackBar::CUITrackBar()
@@ -98,18 +100,27 @@ void CUITrackBar::InitTrackBar(Fvector2 pos, Fvector2 size)
 	float				item_height;
 	float				item_width;
 
+	pcstr slider_bar_tex = "ui_inGame2_opt_slider_bar";
+	pcstr slider_box_tex = "ui_inGame2_opt_slider_box";
+	pcstr slider_box_e_tex = "ui_inGame2_opt_slider_box";
+	if (UseOldTrackbarTex)
+	{
+		slider_bar_tex = "ui_slider_e";
+		slider_box_tex = "ui_slider_button";
+		slider_box_e_tex = "ui_slider_button_e";
+	}
 	InitIB				(pos, size);
-		InitState(S_Enabled, "ui_inGame2_opt_slider_bar");
-		InitState(S_Disabled, "ui_inGame2_opt_slider_bar");
+		InitState(S_Enabled, slider_bar_tex);
+		InitState(S_Disabled, slider_bar_tex);
 
-		item_width = CUITextureMaster::GetTextureWidth("ui_inGame2_opt_slider_box_e");
-		item_height = CUITextureMaster::GetTextureHeight("ui_inGame2_opt_slider_box_e");
+		item_width = CUITextureMaster::GetTextureWidth(slider_box_e_tex);
+		item_height = CUITextureMaster::GetTextureHeight(slider_box_e_tex);
 
 		item_width *= UI().get_current_kx();
 
 		m_pSlider->InitButton(Fvector2().set(0.0f, 0.0f) /*(size.y - item_height)/2.0f)*/,
 			Fvector2().set(item_width, item_height));			//size
-		m_pSlider->InitTexture("ui_inGame2_opt_slider_box");
+		m_pSlider->InitTexture(slider_box_tex);
 	SetCurrentState(S_Enabled);
 }	
 
