@@ -102,14 +102,18 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Mixed|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IntDir>$(xrIntDir)$(Platform)\$(Configuration)\$(TargetName)</IntDir>
+    <IntDir>$(xrIntDir)$(Platform)\$(Configuration)\$(TargetName)\</IntDir>
     <OutDir>$(xrBinDir)$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <IntDir>$(xrIntDir)$(Platform)\$(Configuration)\$(TargetName)\</IntDir>
+    <OutDir>$(xrBinDir)$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug-LLVM|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <IntDir>$(xrIntDir)$(Platform)\$(Configuration)\$(TargetName)\</IntDir>
+    <OutDir>$(xrBinDir)$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
