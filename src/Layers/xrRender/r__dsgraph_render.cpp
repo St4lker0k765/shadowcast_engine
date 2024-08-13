@@ -5,6 +5,7 @@
 #include "../../xrEngine/igame_persistent.h"
 #include "../../xrEngine/environment.h"
 #include "../../xrEngine/CustomHUD.h"
+#include "../../xrEngine/xr_object.h"
 
 #include "FBasicVisual.h"
 
@@ -727,6 +728,11 @@ void	R_dsgraph_structure::r_dsgraph_render_subspace	(IRender_Sector* _sector, CF
 				if (0==renderable)				continue;					// unknown, but renderable object (r1_glow???)
 
 				renderable->renderable_Render	();
+			}
+		}
+		if (phase == RImplementation.PHASE_SMAP) {
+			if (g_pGameLevel && g_pGameLevel->CurrentViewEntity()) {
+				g_pGameLevel->CurrentViewEntity()->renderable_Render();
 			}
 		}
 	}
