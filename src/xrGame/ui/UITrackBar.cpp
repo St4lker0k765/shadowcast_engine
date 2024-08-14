@@ -102,7 +102,7 @@ void CUITrackBar::InitTrackBar(Fvector2 pos, Fvector2 size)
 
 	pcstr slider_bar_tex = "ui_inGame2_opt_slider_bar";
 	pcstr slider_box_tex = "ui_inGame2_opt_slider_box";
-	pcstr slider_box_e_tex = "ui_inGame2_opt_slider_box";
+	pcstr slider_box_e_tex = "ui_inGame2_opt_slider_box_e";
 	if (UseOldTrackbarTex)
 	{
 		slider_bar_tex = "ui_slider_e";
