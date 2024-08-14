@@ -264,11 +264,11 @@ void CActor::IR_OnKeyboardRelease(int cmd)
 
 		switch(cmd)
 		{
-		case kJUMP:		mstate_wishful &=~mcJump;		break;
-#pragma todo("morrazzzz: The problem with kDROP is here, understand the reason and fix it.")
+		case kJUMP:		
+			mstate_wishful &=~mcJump;
+			break;
 		case kDROP:		
-			if(GAME_PHASE_INPROGRESS == Game().Phase()) 
-				g_PerformDrop();
+			g_PerformDrop();
 			break;
 		}
 	}

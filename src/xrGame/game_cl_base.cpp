@@ -196,15 +196,6 @@ void game_cl_GameState::shedule_Update		(u32 dt)
 			m_game_ui_custom = CurrentGameUI();
 	} 
 	//---------------------------------------
-	switch (Phase())
-	{
-	case GAME_PHASE_INPROGRESS:
-		{
-		}break;
-	default:
-		{
-		}break;
-	};
 };
 
 void game_cl_GameState::sv_GameEventGen(NET_Packet& P)
@@ -247,29 +238,6 @@ void game_cl_GameState::u_EventGen(NET_Packet& P, u16 type, u16 dest)
 void game_cl_GameState::u_EventSend(NET_Packet& P)
 {
 	Level().Send(P,net_flags(TRUE,TRUE));
-}
-
-void				game_cl_GameState::OnSwitchPhase			(u32 old_phase, u32 new_phase)
-{
-	switch (old_phase)
-	{
-	case GAME_PHASE_INPROGRESS:
-		{
-		}break;
-	default:
-		{
-		}break;
-	};
-
-	switch (new_phase)
-	{
-		case GAME_PHASE_INPROGRESS:
-			{
-			}break;
-		default:
-			{
-			}break;
-	}	
 }
 
 void game_cl_GameState::SendPickUpEvent(u16 ID_who, u16 ID_what)
