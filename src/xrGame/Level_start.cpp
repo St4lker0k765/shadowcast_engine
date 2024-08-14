@@ -4,6 +4,7 @@
 #include "xrserver.h"
 #include "game_cl_base.h"
 #include "xrmessages.h"
+#include "xrGameSpyServer.h"
 #include "../xrEngine/x_ray.h"
 #include "../xrEngine/device.h"
 #include "../xrEngine/IGame_Persistent.h"
@@ -11,6 +12,7 @@
 #include "MainMenu.h"
 #include "string_table.h"
 #include "UIGameCustom.h"
+#include "ui/UICDkey.h"
 
 int		g_cl_save_demo = 0;
 extern XRCORE_API bool g_allow_heap_min;
@@ -31,6 +33,15 @@ bool CLevel::net_Start(const char* op_server, const char* op_client)
 
 	pApp->LoadBegin				();
 
+	string64	player_name;
+	GetPlayerName_FromRegistry( player_name, sizeof(player_name) );
+
+	if ( xr_strlen(player_name) == 0 )
+	{
+		xr_strcpy( player_name, xr_strlen(Core.UserName) ? Core.UserName : Core.CompName );
+	}
+	VERIFY( xr_strlen(player_name) );
+
 	//make Client Name if options doesn't have it
 	LPCSTR	NameStart	= strstr(op_client,"/name=");
 	if (!NameStart)
@@ -38,7 +49,7 @@ bool CLevel::net_Start(const char* op_server, const char* op_client)
 		string512 tmp;
 		xr_strcpy(tmp, op_client);
 		xr_strcat(tmp, "/name=");
-		xr_strcat(tmp, xr_strlen(Core.UserName) ? Core.UserName : Core.CompName);
+		xr_strcat(tmp, player_name);
 		m_caClientOptions			= tmp;
 	} else {
 		string1024	ret="";
@@ -49,7 +60,7 @@ bool CLevel::net_Start(const char* op_server, const char* op_client)
 			string1024 tmpstr;
 			xr_strcpy(tmpstr, op_client);
 			*(strstr(tmpstr, "name=")+5) = 0;
-			xr_strcat(tmpstr, xr_strlen(Core.UserName) ? Core.UserName : Core.CompName);
+			xr_strcat(tmpstr, player_name);
 			const char* ptmp = strstr(strstr(op_client, "name="), "/");
 			if (ptmp)
 				xr_strcat(tmpstr, ptmp);

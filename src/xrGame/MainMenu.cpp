@@ -12,16 +12,26 @@
 #include <xinput.h>
 #include "ui\UIBtnHint.h"
 #include "UICursor.h"
+#include "gamespy/GameSpy_Full.h"
+#include "gamespy/GameSpy_HTTP.h"
+#include "gamespy/GameSpy_Available.h"
+#include "gamespy/CdkeyDecode/cdkeydecode.h"
 #include "string_table.h"
 #include "../xrCore/os_clipboard.h"
 #include "../xrEngine/DiscordSDK.h"
 #include "DemoInfo.h"
 #include "DemoInfo_Loader.h"
 
+#include "ui/UICDkey.h"
+
 #include <shellapi.h>
 
 #include "object_broker.h"
 #include "../xrEngine/x_ray.h"
+
+#include "account_manager.h"
+#include "login_manager.h"
+#include "stats_submitter.h"
 
 //#define DEMO_BUILD
 

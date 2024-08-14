@@ -2,7 +2,7 @@
 #include "UIListBox.h"
 #include "UIListBoxItem.h"
 #include "UIListBoxItemMsgChain.h"
-#include "UIComboBox.h"
+#include "ServerList.h"
 
 using namespace luabind;
 
@@ -18,7 +18,7 @@ struct CUIListBoxItemMsgChainWrapper : public CUIListBoxItemMsgChain, public lua
 };
 
 
-#pragma optimize("",on)
+#pragma optimize("s",on)
 void CUIListBox::script_register(lua_State *L)
 {
 
@@ -47,5 +47,32 @@ void CUIListBox::script_register(lua_State *L)
 		.def("SetTextColor",			&CUIListBoxItem::SetTextColor),
 
 		class_<CUIListBoxItemMsgChain, CUIListBoxItem, CUIListBoxItemMsgChainWrapper>("CUIListBoxItemMsgChain")
+		.def(							constructor<float>()),
+
+		class_<SServerFilters>("SServerFilters")
+		.def(							constructor<>())
+		.def_readwrite("empty",				&SServerFilters::empty)
+		.def_readwrite("full",				&SServerFilters::full)
+		.def_readwrite("with_pass",			&SServerFilters::with_pass)
+		.def_readwrite("without_pass",		&SServerFilters::without_pass)
+		.def_readwrite("without_ff",		&SServerFilters::without_ff)
+		.def_readwrite("listen_servers",	&SServerFilters::listen_servers),
+
+		class_<CServerList, CUIWindow>("CServerList")
+		.def(							constructor<>())
+		.enum_("enum_connect_errcode")
+		[
+			value("ece_unique_nick_not_registred", int(ece_unique_nick_not_registred)),
+			value("ece_unique_nick_expired", int(ece_unique_nick_expired))
+		]
+		.def("SetConnectionErrCb",		&CServerList::SetConnectionErrCb)
+		.def("ConnectToSelected",		&CServerList::ConnectToSelected)
+		.def("SetFilters",				&CServerList::SetFilters)
+		.def("SetPlayerName",			&CServerList::SetPlayerName)
+		.def("RefreshList",				&CServerList::RefreshGameSpyList)
+		.def("RefreshQuick",			&CServerList::RefreshQuick)
+		.def("ShowServerInfo",			&CServerList::ShowServerInfo)
+		.def("NetRadioChanged",			&CServerList::NetRadioChanged)
+		.def("SetSortFunc",				&CServerList::SetSortFunc)
 	];
 }

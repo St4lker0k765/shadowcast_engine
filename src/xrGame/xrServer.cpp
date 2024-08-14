@@ -1000,7 +1000,7 @@ void xrServer::GetServerInfo( CServerInfo* si )
 	si->AddItem( "Uptime", time, RGB(255,228,0) );
 
 //	xr_strcpy( tmp256, get_token_name(game_types, game->Type() ) );
-	xr_strcpy( tmp256, "single" );
+	xr_strcpy( tmp256, GameTypeToString( game->Type(), true ) );
 	si->AddItem( "Game type", tmp256, RGB(128,255,255) );
 
 	if ( g_pGameLevel )

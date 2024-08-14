@@ -9,10 +9,12 @@
 #include "ui\UITabControl.h"
 #include "ui\UIFrameWindow.h"
 #include "ui\UILabel.h"
+#include "ui\ServerList.h"
 #include "ui\UIKeyBinding.h"
 #include "ui\UIEditBox.h"
 #include "ui\UIAnimatedStatic.h"
 #include "ui\UITrackBar.h"
+#include "ui\UICDkey.h"
 #include "ui\UIMMShniaga.h"
 #include "ui\UIScrollView.h"
 #include "ui\UIProgressBar.h"
@@ -172,6 +174,15 @@ CUITabControl* CScriptXmlInit::InitTab(LPCSTR path, CUIWindow* parent)
 	return pWnd;	
 }
 
+
+CServerList* CScriptXmlInit::InitServerList(LPCSTR path, CUIWindow* parent)
+{
+	CServerList* pWnd = xr_new<CServerList>();
+	pWnd->InitFromXml(m_xml, path);	
+	_attach_child(pWnd, parent);
+	return pWnd;	
+}
+
 CUIMMShniaga* CScriptXmlInit::InitMMShniaga(LPCSTR path, CUIWindow* parent)
 {
 	CUIMMShniaga* pWnd	= xr_new<CUIMMShniaga>();
@@ -202,6 +213,24 @@ CUIProgressBar* CScriptXmlInit::InitProgressBar(LPCSTR path, CUIWindow* parent)
 	return							pWnd;	
 }
 
+CUIEditBox* CScriptXmlInit::InitCDkey(LPCSTR path, CUIWindow* parent)
+{
+	CUICDkey* pWnd					= xr_new<CUICDkey>();
+	CUIXmlInit::InitEditBox			(m_xml, path, 0, pWnd);
+	pWnd->assign_callbacks			( );
+	_attach_child					(pWnd, parent);
+	pWnd->SetCurrentOptValue		();
+	return							pWnd;	
+}
+
+CUIEditBox* CScriptXmlInit::InitMPPlayerName(LPCSTR path, CUIWindow* parent)
+{
+	CUIMPPlayerName* pWnd			= xr_new<CUIMPPlayerName>();
+	CUIXmlInit::InitEditBox			(m_xml, path, 0, pWnd);
+	_attach_child					(pWnd, parent);
+	return							pWnd;	
+}
+
 #pragma optimize("s",on)
 void CScriptXmlInit::script_register(lua_State *L){
 	module(L)
@@ -224,7 +253,10 @@ void CScriptXmlInit::script_register(lua_State *L){
 		.def("InitSpinText",			&CScriptXmlInit::InitSpinText)
 		.def("InitComboBox",			&CScriptXmlInit::InitComboBox)		
 		.def("InitTab",					&CScriptXmlInit::InitTab)
+		.def("InitServerList",			&CScriptXmlInit::InitServerList)
 		.def("InitTrackBar",			&CScriptXmlInit::InitTrackBar)
+		.def("InitCDkey",				&CScriptXmlInit::InitCDkey)
+		.def("InitMPPlayerName",		&CScriptXmlInit::InitMPPlayerName)
 		.def("InitKeyBinding",			&CScriptXmlInit::InitKeyBinding)
 		.def("InitMMShniaga",			&CScriptXmlInit::InitMMShniaga)
 		.def("InitScrollView",			&CScriptXmlInit::InitScrollView)
