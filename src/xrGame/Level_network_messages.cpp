@@ -276,7 +276,6 @@ void CLevel::ClientReceive()
 			}break;
 		case M_GAMESPY_CDKEY_VALIDATION_CHALLENGE:
 			{
-				OnGameSpyChallenge(P);
 			}break;
 		case M_AUTH_CHALLENGE:
 			{
@@ -313,7 +312,6 @@ void CLevel::ClientReceive()
 			}break;
 		case M_SV_DIGEST:
 			{
-				SendClientDigestToServer();
 			}break;
 		case M_BULLET_CHECK_RESPOND:
 			{
