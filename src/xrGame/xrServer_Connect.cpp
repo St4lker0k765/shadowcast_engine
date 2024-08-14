@@ -151,7 +151,8 @@ void xrServer::ProcessClientDigest(xrClientData* xrCL, NET_Packet* P)
 {
 	R_ASSERT(xrCL);
 	IClient* tmp_client = static_cast<IClient*>(xrCL);
-
+	
+	GetPooledState				(xrCL);
 	PerformSecretKeysSync		(xrCL);
 	Check_BuildVersion_Success	(tmp_client);	
 }

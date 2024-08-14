@@ -146,8 +146,17 @@ void		xrServer::client_Destroy	(IClient* C)
 	//VERIFY(alife_client);
 	if (alife_client)
 	{
-		CSE_Abstract* pOwner	= static_cast<xrClientData*>(alife_client)->owner; //???
-		
+		CSE_Abstract* pOwner	= static_cast<xrClientData*>(alife_client)->owner;
+		CSE_Spectator* pS		= smart_cast<CSE_Spectator*>(pOwner);
+		if (pS)
+		{
+			NET_Packet			P;
+			P.w_begin			(M_EVENT);
+			P.w_u32				(Level().timeServer());//Device.TimerAsync());
+			P.w_u16				(GE_DESTROY);
+			P.w_u16				(pS->ID);
+			SendBroadcast		(C->ID,P,net_flags(TRUE,TRUE));
+		};
 
 		DelayedPacket pp;
 		pp.SenderID = alife_client->ID;
@@ -161,13 +170,32 @@ void		xrServer::client_Destroy	(IClient* C)
 			}else
 				break;
 		}while(true);
-
-#pragma todo("morrazzzz: Some strange code from below, we need to figure it out!")
+		
 		if (pOwner)
 		{
 			game->CleanDelayedEventFor(pOwner->ID);
 		}
+		
+//.		if (!alife_client->flags.bVerified)
+		xrClientData*	xr_client = static_cast<xrClientData*>(alife_client);
+		m_disconnected_clients.Add(xr_client); //xr_delete(alife_client);				
 	}
+}
+
+void xrServer::GetPooledState(xrClientData* xrCL)
+{
+	xrClientData* pooled_client = m_disconnected_clients.Get(xrCL);
+	if (!pooled_client)
+		return;
+
+	NET_Packet	tmp_packet;
+	u16			tmp_fake;
+	tmp_packet.w_begin				(M_SPAWN);
+	pooled_client->ps->net_Export	(tmp_packet, TRUE);
+	tmp_packet.r_begin				(tmp_fake);
+	xrCL->ps->net_Import			(tmp_packet);
+	xrCL->flags.bReconnect			= TRUE;
+	xr_delete						(pooled_client);
 }
 
 //--------------------------------------------------------------------
@@ -481,6 +509,9 @@ u32 xrServer::OnMessage	(NET_Packet& P, ClientID sender)			// Non-Zero means bro
 		}break;
 	case M_CLIENTREADY:
 		{
+			game->OnPlayerConnectFinished(sender);
+			//game->signal_Syncronize	();
+			VERIFY					(verify_entities());
 		}break;
 	case M_SWITCH_DISTANCE:
 		{
@@ -522,6 +553,8 @@ u32 xrServer::OnMessage	(NET_Packet& P, ClientID sender)			// Non-Zero means bro
 		}break;
 	case M_CHAT_MESSAGE:
 		{
+			xrClientData *l_pC			= ID_to_client(sender);
+			OnChatMessage				(&P, l_pC);
 		}break;
 	case M_SV_MAP_NAME:
 		{
@@ -763,6 +796,46 @@ CSE_Abstract*	xrServer::GetEntity			(u32 Num)
 		if (C == Num) return I->second;
 	};
 	return NULL;
+};
+
+
+void		xrServer::OnChatMessage(NET_Packet* P, xrClientData* CL)
+{
+	if (!CL->net_Ready)
+		return;
+
+	struct MessageSenderController
+	{
+		xrServer*			m_owner;
+		s16					m_team;
+		game_PlayerState*	m_sender_ps;
+		NET_Packet*			m_packet;
+		MessageSenderController(xrServer* owner) :
+			m_owner(owner)
+		{}
+		void operator()(IClient* client)
+		{
+			xrClientData* xr_client = static_cast<xrClientData*>(client);
+			game_PlayerState* ps = xr_client->ps;
+			if (!ps)
+				return;
+			if (!xr_client->net_Ready)
+				return;
+			if (m_team != -1 && ps->team != m_team)
+				return;
+			if (m_sender_ps->testFlag(GAME_PLAYER_FLAG_VERY_VERY_DEAD) &&
+				!ps->testFlag(GAME_PLAYER_FLAG_VERY_VERY_DEAD))
+			{
+				return;
+			}
+			m_owner->SendTo(client->ID, *m_packet);
+		}
+	};
+	MessageSenderController	mesenger(this);
+	mesenger.m_team			= P->r_s16();
+	mesenger.m_sender_ps	= CL->ps;
+	mesenger.m_packet		= P;
+	ForEachClientDoSender(mesenger);
 };
 
 #ifdef DEBUG

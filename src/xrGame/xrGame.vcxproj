@@ -1180,7 +1180,9 @@
     <ClInclude Include="GametaskManager.h" />
     <ClInclude Include="game_base.h" />
     <ClInclude Include="game_base_kill_type.h" />
+    <ClInclude Include="game_base_menu_events.h" />
     <ClInclude Include="game_cl_base.h" />
+    <ClInclude Include="game_cl_base_weapon_usage_statistic.h" />
     <ClInclude Include="game_cl_single.h" />
     <ClInclude Include="game_graph.h" />
     <ClInclude Include="game_graph_inline.h" />
@@ -1193,6 +1195,7 @@
     <ClInclude Include="game_path_manager.h" />
     <ClInclude Include="game_path_manager_inline.h" />
     <ClInclude Include="game_sv_base.h" />
+    <ClInclude Include="game_sv_base_console_vars.h" />
     <ClInclude Include="game_sv_event_queue.h" />
     <ClInclude Include="game_sv_item_respawner.h" />
     <ClInclude Include="game_sv_single.h" />
@@ -2704,6 +2707,8 @@
       <PrecompiledHeaderFile>pch_script.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
+    <ClCompile Include="game_cl_base_weapon_usage_statistic.cpp" />
+    <ClCompile Include="game_cl_base_weapon_usage_statistic_save.cpp" />
     <ClCompile Include="game_cl_single.cpp">
       <PrecompiledHeaderFile>pch_script.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
@@ -2714,6 +2719,7 @@
     </ClCompile>
     <ClCompile Include="game_news.cpp" />
     <ClCompile Include="game_sv_base.cpp" />
+    <ClCompile Include="game_sv_base_console_vars.cpp" />
     <ClCompile Include="game_sv_event_queue.cpp" />
     <ClCompile Include="game_sv_item_respawner.cpp" />
     <ClCompile Include="game_sv_single.cpp" />
