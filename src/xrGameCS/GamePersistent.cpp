@@ -497,13 +497,17 @@ void CGamePersistent::update_game_intro			()
 extern CUISequencer * g_tutorial;
 extern CUISequencer * g_tutorial2;
 
+bool NeedUpdateLevel_ = true;
+
 void CGamePersistent::OnFrame	()
 {
+	if (Device.dwPrecacheFrame)
+		NeedUpdateLevel_ = true;
+
 	if(g_tutorial2){ 
 		g_tutorial2->Destroy	();
 		xr_delete				(g_tutorial2);
 	}
-	ILoadingScreen* loadingScreen;
 
 	if(g_tutorial && !g_tutorial->IsActive()){
 		xr_delete(g_tutorial);
@@ -514,16 +518,17 @@ void CGamePersistent::OnFrame	()
 #endif
 	if (!g_dedicated_server && !m_intro_event.empty())	m_intro_event();
 
-	if (!g_dedicated_server && Device.dwPrecacheFrame == 0) 
+	if (!g_dedicated_server && Device.dwPrecacheFrame == 0)
+	{
 		load_screen_renderer.stop();
 
-	if (g_pGameLevel && !loadingScreen)
-	{
-		SetGameDiscordStatus();
-		CGameTask* o = Level().GameTaskManager().ActiveTask(eTaskTypeStoryline);
-		xr_string TaskNameDiscord_ = CStringTable().translate(o ? o->m_Title.c_str() : "st_no_active_task").c_str();
-		Discord.SetPhase(TaskNameDiscord_);
+		if (NeedUpdateLevel_)
+		{
+			SetGameDiscordStatus();
+			NeedUpdateLevel_ = false;
+		}
 	}
+
 	if( !m_pMainMenu->IsActive() )
 		m_pMainMenu->DestroyInternal(false);
 
