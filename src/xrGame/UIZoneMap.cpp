@@ -18,6 +18,8 @@
 #include "ui/UIInventoryUtilities.h"
 //////////////////////////////////////////////////////////////////////////
 
+bool UseSquareMinimap = READ_IF_EXISTS(pSCSettings, r_bool, "game_specific", "cop_square_minimap", false);
+
 CUIZoneMap::CUIZoneMap()
 :m_current_map_idx(u8(-1)),
 visible(true)
@@ -30,10 +32,52 @@ CUIZoneMap::~CUIZoneMap()
 
 void CUIZoneMap::Init()
 {
-		CUIXml uiXml;
+	CUIXml							uiXml;
+	CUIXmlInit						xml_init;
+	if (UseSquareMinimap)
+	{
 		uiXml.Load(CONFIG_PATH, UI_PATH, "zone_map.xml");
 
-		CUIXmlInit						xml_init;
+		xml_init.InitStatic(uiXml, "minimap:background", 0, &m_background);
+
+		if (IsGameTypeSingle())
+		{
+			xml_init.InitTextWnd(uiXml, "minimap:background:dist_text", 0, &m_pointerDistanceText);
+			m_background.AttachChild(&m_pointerDistanceText);
+		}
+
+		xml_init.InitWindow(uiXml, "minimap:level_frame", 0, &m_clipFrame);
+
+		xml_init.InitStatic(uiXml, "minimap:center", 0, &m_center);
+
+
+		m_activeMap = xr_new<CUIMiniMap>();
+		m_clipFrame.AttachChild(m_activeMap);
+		m_activeMap->SetAutoDelete(true);
+
+		m_activeMap->EnableHeading(true);
+		xml_init.InitStatic(uiXml, "minimap:compass", 0, &m_compass);
+		m_background.AttachChild(&m_compass);
+
+		if (IsGameTypeSingle())
+		{
+			xml_init.InitStatic(uiXml, "minimap:static_counter", 0, &m_Counter);
+			m_background.AttachChild(&m_Counter);
+			xml_init.InitTextWnd(uiXml, "minimap:static_counter:text_static", 0, &m_Counter_text);
+			m_Counter.AttachChild(&m_Counter_text);
+		}
+
+		m_clipFrame.AttachChild(&m_center);
+		m_center.SetWndPos(Fvector2().set(m_clipFrame.GetWidth() / 2.0f, m_clipFrame.GetHeight() / 2.0f));
+
+		m_Counter_text.SetText("");
+		visible = true;
+	}
+	else 
+	{
+		uiXml;
+		uiXml.Load(CONFIG_PATH, UI_PATH, "zone_map.xml");
+
 		xml_init.InitStatic(uiXml, "minimap:background", 0, &m_background);
 		xml_init.InitWindow(uiXml, "minimap:level_frame", 0, &m_clipFrame);
 		xml_init.InitStatic(uiXml, "minimap:center", 0, &m_center);
@@ -99,6 +143,7 @@ void CUIZoneMap::Init()
 			rel_pos.mul(m_background.GetWndSize());
 			m_Counter.SetWndPos(rel_pos);
 		}
+	}
 }
 
 void CUIZoneMap::Render()
@@ -109,6 +154,8 @@ void CUIZoneMap::Render()
 	}
 	m_clipFrame.Draw();
 	m_background.Draw();
+	if (UseSquareMinimap)
+		m_compass.Draw();
 }
 
 void CUIZoneMap::Update()
@@ -137,7 +184,8 @@ void CUIZoneMap::Update()
 	float h, p;
 	Device.vCameraDirection.getHP(h, p);
 	SetHeading(-h);
-	m_clock_wnd->TextItemControl()->SetText(InventoryUtilities::GetGameTimeAsString(InventoryUtilities::etpTimeToMinutes).c_str());
+	if(!UseSquareMinimap)
+		m_clock_wnd->TextItemControl()->SetText(InventoryUtilities::GetGameTimeAsString(InventoryUtilities::etpTimeToMinutes).c_str());
 }
 
 void CUIZoneMap::SetHeading(float angle)
@@ -151,6 +199,17 @@ void CUIZoneMap::UpdateRadar(Fvector pos)
 	m_clipFrame.Update();
 	m_background.Update();
 	m_activeMap->SetActivePoint(pos);
+		
+	if(IsGameTypeSingle() && UseSquareMinimap)
+	{
+		if(m_activeMap->GetPointerDistance()>0.5f){
+			string64	str;
+			sprintf_s		(str,"%.0f m",m_activeMap->GetPointerDistance());
+			m_pointerDistanceText.SetText(str);
+		}else{
+			m_pointerDistanceText.SetText("");
+		}
+	}
 }
 
 bool CUIZoneMap::ZoomIn()
