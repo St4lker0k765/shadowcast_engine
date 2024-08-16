@@ -530,7 +530,7 @@ void CSE_ALifeItemWeapon::UPDATE_Read(NET_Packet	&tNetPacket)
 	tNetPacket.r_u8				(ammo_type);
 	tNetPacket.r_u8				(wpn_state);
 	tNetPacket.r_u8				(m_bZoom);
-	if (m_wVersion > 123)
+	if (m_wVersion > 124)
 		tNetPacket.r_u8             (cur_scope);
 }
 
@@ -564,7 +564,7 @@ void CSE_ALifeItemWeapon::STATE_Read(NET_Packet	&tNetPacket, u16 size)
 	if (m_wVersion > 122)
 		a_elapsed_grenades.unpack_from_byte(tNetPacket.r_u8());
 
-	if (m_wVersion > 123)
+	if (m_wVersion > 124)
 		tNetPacket.r_u8(cur_scope);
 }
 
