@@ -646,6 +646,10 @@ void  CUIMiniMap::Draw()
 
 bool CUIMiniMap::GetPointerTo(const Fvector2& src, float item_radius, Fvector2& pos, float& heading)
 {
+	if (UseSquareMinimap)
+		return inherited::GetPointerTo(src, item_radius, pos, heading);
+	else 
+	{
 		Fvector2 clip_center = GetStaticItem()->GetHeadingPivot();
 		float map_radius = WorkingArea().width() / 2.0f;
 		Fvector2			direction;
@@ -660,10 +664,15 @@ bool CUIMiniMap::GetPointerTo(const Fvector2& src, float item_radius, Fvector2& 
 		pos.add(clip_center);
 
 		return				true;
+	}
 }
 
 bool CUIMiniMap::NeedShowPointer(Frect r)
 {
+	if (UseSquareMinimap)
+		return inherited::NeedShowPointer(r);
+	else 
+	{
 		Fvector2 clip_center = GetStaticItem()->GetHeadingPivot();
 
 		Fvector2			spot_pos;
@@ -671,14 +680,20 @@ bool CUIMiniMap::NeedShowPointer(Frect r)
 		float dist = clip_center.distance_to(spot_pos);
 		float spot_radius = r.width() / 2.0f;
 		return				(dist + spot_radius > WorkingArea().width() / 2.0f);
+	}
 }
 
 bool CUIMiniMap::IsRectVisible(Frect r)
 {
+	if (UseSquareMinimap)
+		return inherited::IsRectVisible(r);
+	else 
+	{
 		Fvector2 clip_center = GetStaticItem()->GetHeadingPivot();
 		float vis_radius = WorkingArea().width() / 2.0f;
 		Fvector2				rect_center;
 		r.getcenter(rect_center);
 		float spot_radius = r.width() / 2.0f;
 		return clip_center.distance_to(rect_center) + spot_radius < vis_radius; //assume that all minimap spots are circular
+	}
 }
