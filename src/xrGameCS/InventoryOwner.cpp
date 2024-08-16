@@ -41,6 +41,7 @@ CInventoryOwner::CInventoryOwner			()
 	m_known_info_registry		= xr_new<CInfoPortionWrapper>();
 	m_tmp_active_slot_num		= NO_ACTIVE_SLOT;
 	m_need_osoznanie_mode		= FALSE;
+	m_play_show_hide_reload_sounds	= true;
 }
 
 DLL_Pure *CInventoryOwner::_construct		()

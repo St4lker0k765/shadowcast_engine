@@ -153,6 +153,7 @@ class_<CScriptGameObject> script_register_game_object2(class_<CScriptGameObject>
 		.def("disable_inv_upgrade",			&CScriptGameObject::DisableInvUpgrade)
 		.def("is_inv_upgrade_enabled",		&CScriptGameObject::IsInvUpgradeEnabled)
 
+		.def("disable_show_hide_sounds",	&CScriptGameObject::SetPlayShHdRldSounds)
 		.def("inventory_for_each",			&CScriptGameObject::ForEachInventoryItems)
 		.def("drop_item",					&CScriptGameObject::DropItem)
 		.def("drop_item_and_teleport",		&CScriptGameObject::DropItemAndTeleport)

@@ -227,6 +227,7 @@ public:
 			CScriptGameObject	*GetCurrentWeapon	() const;
 			CScriptGameObject	*GetFood			() const;
 			CScriptGameObject	*GetMedikit			() const;
+			void				SetPlayShHdRldSounds(bool val);
 
 	// CAI_Bloodsucker
 	

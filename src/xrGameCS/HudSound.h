@@ -57,8 +57,6 @@ struct HUD_SOUND_ITEM
 
 class HUD_SOUND_COLLECTION
 {
-	xr_vector<HUD_SOUND_ITEM>	m_sound_items;
-	HUD_SOUND_ITEM*				FindSoundItem	(	LPCSTR alias, bool b_assert);
 public:
 								~HUD_SOUND_COLLECTION();
 	void						PlaySound		(	LPCSTR alias, 
@@ -75,6 +73,9 @@ public:
 													LPCSTR alias,		
 													bool exclusive = false,
 													int type = sg_SourceType);
+
+	xr_vector<HUD_SOUND_ITEM>	m_sound_items;
+	HUD_SOUND_ITEM*				FindSoundItem	(	LPCSTR alias, bool b_assert);
 
 	void						SetPosition		(	LPCSTR alias, 	const Fvector& pos);
 	void						StopAllSounds	();
