@@ -1317,12 +1317,20 @@ void CActor::shedule_Update	(u32 DT)
 	//что актер видит перед собой
 	collide::rq_result& RQ				= HUD().GetCurrentRayQuery();
 	
-	float use_radius = 2.0f;
-	if (cam_Active() != cam_FirstEye())
-		use_radius = 4.0f;
-	
+#include "ai/monsters/ai_monster_utils.h"
 
-	if(!input_external_handler_installed() && RQ.O && RQ.O->getVisible() &&  RQ.range<use_radius) 
+	float InteractionDist;
+	if (eacFirstEye != cam_active) {
+		InteractionDist = 2.4f;
+	}
+	else {
+		InteractionDist = 2.0f;
+	}
+
+	float dist_to_obj = RQ.range;
+	if (RQ.O && eacFirstEye != cam_active)
+		dist_to_obj = get_bone_position(this, "bip01_spine").distance_to((smart_cast<CGameObject*>(RQ.O))->Position());
+	if (!input_external_handler_installed() && RQ.O && dist_to_obj < InteractionDist)	
 	{
 		m_pObjectWeLookingAt			= smart_cast<CGameObject*>(RQ.O);
 		
