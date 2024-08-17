@@ -931,12 +931,114 @@ void CWeaponMagazinedWGrenade::PlayAnimBore()
 {
 	if(IsGrenadeLauncherAttached())
 	{
-		if(m_bGrenadeMode)
-			PlayHUDMotion	("anm_bore_g", TRUE, this, GetState());
+		if (m_bGrenadeMode)
+		{
+			if (IsMisfireNow())
+				PlayHUDMotionIfExists({ "anm_bore_g_jammed", "anm_bore_jammed_g", "anm_bore_g", "anm_bore" }, true, GetState());
+			else if (IsMainMagazineEmpty())
+				PlayHUDMotionIfExists({ "anm_bore_g_empty", "anm_bore_empty_g", "anm_bore_g", "anm_bore" }, true, GetState());
+			else
+				PlayHUDMotion("anm_bore_g", TRUE, this, GetState());
+		}
 		else
-			PlayHUDMotion	("anm_bore_w_gl", TRUE, this, GetState());
-	}else
+		{
+			if (IsMisfireNow())
+				PlayHUDMotionIfExists({ "anm_bore_w_gl_jammed", "anm_bore_jammed_w_gl", "anm_bore_w_gl", "anm_bore" }, true, GetState());
+			else if (IsMagazineEmpty())
+				PlayHUDMotionIfExists({ "anm_bore_w_gl_empty", "anm_bore_empty_w_gl", "anm_bore_w_gl", "anm_bore" }, true, GetState());
+			else
+				PlayHUDMotion("anm_bore_w_gl", TRUE, this, GetState());
+		}
+	}
+	else
 		inherited::PlayAnimBore();
+}
+
+void CWeaponMagazinedWGrenade::PlayAnimFireMode()
+{
+	if (!IsGrenadeLauncherAttached())
+	{
+		inherited::PlayAnimFireMode();
+		return;
+	}
+
+	string_path guns_firemode_anm{};
+
+	if (isHUDAnimationExist("anm_changefiremode"))
+	{
+		strconcat(sizeof(guns_firemode_anm), guns_firemode_anm, "anm_changefiremode", m_bGrenadeMode ? "_g" : "_w_gl", (IsMisfire() ? "_jammed" : (IsMagazineEmpty()) ? "_empty" : ""));
+
+		if (isHUDAnimationExist(guns_firemode_anm))
+		{
+			PlayHUDMotionNew(guns_firemode_anm, true, GetState());
+			return;
+		}
+		else if (strstr(guns_firemode_anm, "_jammed"))
+		{
+			char new_guns_firemode_anm[256];
+			strcpy(new_guns_firemode_anm, guns_firemode_anm);
+			new_guns_firemode_anm[strlen(guns_firemode_anm) - strlen("_jammed")] = '\0';
+
+			if (isHUDAnimationExist(new_guns_firemode_anm))
+			{
+				PlayHUDMotionNew(new_guns_firemode_anm, true, GetState());
+				return;
+			}
+		}
+		else if (strstr(guns_firemode_anm, "_empty"))
+		{
+			char new_guns_firemode_anm[256];
+			strcpy(new_guns_firemode_anm, guns_firemode_anm);
+			new_guns_firemode_anm[strlen(guns_firemode_anm) - strlen("_empty")] = '\0';
+
+			if (isHUDAnimationExist(new_guns_firemode_anm))
+			{
+				PlayHUDMotionNew(new_guns_firemode_anm, true, GetState());
+				return;
+			}
+		}
+	}
+
+	strconcat(sizeof(guns_firemode_anm), guns_firemode_anm, "anm_changefiremode_from_", (m_iCurFireMode == 0) ? "a_to_1" : (m_iCurFireMode == 1) ? (m_aFireModes.size() == 3) ? "1_to_2" : "1_to_a" : (m_iCurFireMode == 2) ? "2_to_a" : "a_to_1");
+
+	string64 guns_aim_anm_full;
+	strconcat(sizeof(guns_aim_anm_full), guns_aim_anm_full, guns_firemode_anm, m_bGrenadeMode ? "_g" : "_w_gl", (IsMisfire() ? "_jammed" : (IsMagazineEmpty()) ? "_empty" : ""));
+
+	if (isHUDAnimationExist(guns_aim_anm_full))
+	{
+		PlayHUDMotionNew(guns_aim_anm_full, true, GetState());
+		return;
+	}
+	else if (strstr(guns_aim_anm_full, "_jammed"))
+	{
+		char new_guns_aim_anm[256];
+		strcpy(new_guns_aim_anm, guns_aim_anm_full);
+		new_guns_aim_anm[strlen(guns_aim_anm_full) - strlen("_jammed")] = '\0';
+
+		if (isHUDAnimationExist(new_guns_aim_anm))
+		{
+			PlayHUDMotionNew(new_guns_aim_anm, true, GetState());
+			return;
+		}
+		else
+			inherited::PlayAnimFireMode();
+	}
+	else if (strstr(guns_aim_anm_full, "_empty"))
+	{
+		char new_guns_aim_anm[256];
+		strcpy(new_guns_aim_anm, guns_aim_anm_full);
+		new_guns_aim_anm[strlen(guns_aim_anm_full) - strlen("_empty")] = '\0';
+
+		if (isHUDAnimationExist(new_guns_aim_anm))
+		{
+			PlayHUDMotionNew(new_guns_aim_anm, true, GetState());
+			return;
+		}
+		else
+			inherited::PlayAnimFireMode();
+	}
+	else
+		inherited::PlayAnimFireMode();
 }
 
 void CWeaponMagazinedWGrenade::UpdateSounds	()

@@ -9,7 +9,8 @@ struct HUD_SOUND_ITEM
 										ref_sound& hud_snd,
 										int type = sg_SourceType,
 										float* volume = NULL,
-										float* delay = NULL);
+										float* delay = NULL,
+										float* freq = NULL);
 
 	static void		LoadSound		(	LPCSTR section, 
 										LPCSTR line,
@@ -46,6 +47,7 @@ struct HUD_SOUND_ITEM
 		ref_sound	snd;
 		float		delay;		//задержка перед проигрыванием
 		float		volume;		//громкость
+		float		freq;		//коэффициент частоты
 	};
 	shared_str		m_alias;
 	SSnd*			m_activeSnd;

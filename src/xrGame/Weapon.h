@@ -247,14 +247,17 @@ public:
 	void					signal_HideComplete();
 	virtual bool			Action(u16 cmd, u32 flags);
 
-	enum EWeaponStates {
-		eFire = eLastBaseState + 1,
+	enum EWeaponStates 
+	{
+		eFire		= eLastBaseState+1,
 		eFire2,
 		eReload,
 		eMisfire,
 		eMagEmpty,
 		eSwitch,
 		eUnMisfire,
+		eFiremodePrev,
+		eFiremodeNext,
 	};
 	enum EWeaponSubStates {
 		eSubstateReloadBegin = 0,
