@@ -1454,12 +1454,22 @@ void CWeaponMagazined::PlayAnimIdle()
 
 	if(IsZoomed())
 		PlayAnimAim();
-	else if(iAmmoElapsed == 0 && psWpnAnimsFlag.test(ANM_IDLE_EMPTY))
+	else if (iAmmoElapsed == 0 && psWpnAnimsFlag.test(ANM_IDLE_EMPTY))
 		PlayHUDMotion("anm_idle_empty", TRUE, NULL, GetState());
 	else if (IsMisfire() && isHUDAnimationExist("anm_idle_jammed") && !TryPlayAnimIdle())
 		PlayHUDMotion("anm_idle_jammed", true, nullptr, GetState());
 	else
+	{
+		if (IsRotatingFromZoom())
+		{
+			if (isHUDAnimationExist("anm_idle_aim_end"))
+			{
+				PlayHUDMotionNew("anm_idle_aim_end", true, GetState());
+				return;
+			}
+		}
 		inherited::PlayAnimIdle();
+	}
 }
 
 void CWeaponMagazined::PlayAnimShoot()
