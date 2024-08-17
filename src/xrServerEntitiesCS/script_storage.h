@@ -14,19 +14,19 @@
 struct lua_State;
 class CScriptThread;
 
-//#ifndef MASTER_GOLD
-//#	define USE_DEBUGGER
-//#	define USE_LUA_STUDIO
-//#endif // #ifndef MASTER_GOLD
+#ifndef MASTER_GOLD
+#	define USE_DEBUGGER
+#	define USE_LUA_STUDIO
+#endif // #ifndef MASTER_GOLD
 
 #ifdef XRGAME_EXPORTS
-//#	ifndef MASTER_GOLD
+#	ifndef MASTER_GOLD
 #		define PRINT_CALL_STACK
-//#	endif // #ifndef MASTER_GOLD
+#	endif // #ifndef MASTER_GOLD
 #else // #ifdef XRGAME_EXPORTS
-//#	ifndef NDEBUG
+#	ifndef NDEBUG
 #		define PRINT_CALL_STACK
-//#	endif // #ifndef NDEBUG
+#	endif // #ifndef NDEBUG
 #endif // #ifdef XRGAME_EXPORTS
 
 using namespace ScriptStorage;
@@ -49,9 +49,9 @@ protected:
 
 protected:
 	static	int					vscript_log					(ScriptStorage::ELuaMessageType tLuaMessageType, LPCSTR caFormat, va_list marker);
-			bool				parse_namespace				(LPCSTR caNamespaceName, LPSTR b, LPSTR c);
+			bool				parse_namespace				(LPCSTR caNamespaceName, LPSTR b, u32 const b_size, LPSTR c, u32 const c_size);
 			bool				do_file						(LPCSTR	caScriptName, LPCSTR caNameSpaceName);
-			void				reinit						();
+			void				reinit						(lua_State* LSVM);
 
 public:
 #ifdef PRINT_CALL_STACK

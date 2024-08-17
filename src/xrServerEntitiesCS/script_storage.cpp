@@ -10,7 +10,6 @@
 #include "script_storage.h"
 #include "script_thread.h"
 #include <stdarg.h>
-#include "doug_lea_memory_allocator.h"
 
 #ifndef DEBUG
 #	include "opt.lua.h"
@@ -59,10 +58,33 @@ LPCSTR	file_header = 0;
 #endif
 
 #ifndef PURE_ALLOC
-#	ifndef USE_MEMORY_MONITOR
+//#	ifndef USE_MEMORY_MONITOR
 #		define USE_DL_ALLOCATOR
-#	endif // USE_MEMORY_MONITOR
+//#	endif // USE_MEMORY_MONITOR
 #endif // PURE_ALLOC
+
+const char* get_lua_traceback(lua_State* L)
+{
+	luaL_traceback(L, L, nullptr, 0);
+	auto tb = lua_tostring(L, -1);
+	lua_pop(L, 1);
+	return tb;
+}
+
+static void *lua_alloc		(void *ud, void *ptr, size_t osize, size_t nsize) {
+  (void)ud;
+  (void)osize;
+  if (!nsize) 
+  {
+    xr_free	(ptr);
+    return	NULL;
+  }
+  else
+	  return xr_realloc(ptr, nsize);
+}
+
+
+BOOL escapeSequences = false;
 
 static LPVOID __cdecl luabind_allocator	(
 		luabind::memory_allocation_function_parameter const,
@@ -70,26 +92,18 @@ static LPVOID __cdecl luabind_allocator	(
 		size_t const size
 	)
 {
-	if (!size) {
-		LPVOID	non_const_pointer = const_cast<LPVOID>(pointer);
-		xr_free	(non_const_pointer);
-		return	( 0 );
+	if (!size)
+	{
+		void* non_const_pointer = const_cast<LPVOID>(pointer);
+		xr_free(non_const_pointer);
+		return nullptr;
 	}
-
-	if (!pointer) {
-#ifdef DEBUG
-		return	( Memory.mem_alloc(size, "luabind") );
-#else // #ifdef DEBUG
-		return	( Memory.mem_alloc(size) );
-#endif // #ifdef DEBUG
+	if (!pointer)
+	{
+		return xr_malloc(size);
 	}
-
-	LPVOID		non_const_pointer = const_cast<LPVOID>(pointer);
-#ifdef DEBUG
-	return		( Memory.mem_realloc(non_const_pointer, size, "luabind") );
-#else // #ifdef DEBUG
-	return		( Memory.mem_realloc(non_const_pointer, size) );
-#endif // #ifdef DEBUG
+	void* non_const_pointer = const_cast<LPVOID>(pointer);
+	return xr_realloc(non_const_pointer, size);
 }
 
 void setup_luabind_allocator		()
@@ -182,7 +196,7 @@ CScriptStorage::CScriptStorage		()
 
 #ifdef USE_LUA_STUDIO
 #	ifndef USE_DEBUGGER
-		static_assert(false, "Do Not Define USE LUA STUDIO macro without USE DEBUGGER macro");
+		STATIC_CHECK( false, Do_Not_Define_USE_LUA_STUDIO_macro_without_USE_DEBUGGER_macro );
 #	endif // #ifndef USE_DEBUGGER
 #endif // #ifdef USE_LUA_STUDIO
 }
@@ -206,71 +220,42 @@ static void put_function	(lua_State* state, u8 const* buffer, u32 const buffer_s
 }
 #endif // #ifndef DEBUG
 
-void CScriptStorage::reinit	()
+// initialize lua standard library functions 
+struct luajit
 {
-	if (m_virtual_machine)
-		lua_close			(m_virtual_machine);
-
-	m_virtual_machine		= luaL_newstate();
-
-	if (!m_virtual_machine) {
-		Msg					("! ERROR : Cannot initialize script virtual machine!");
-		return;
+	static void open_lib(lua_State* L, pcstr module_name, lua_CFunction function)
+	{
+		lua_pushcfunction(L, function);
+		lua_pushstring(L, module_name);
+		lua_call(L, 1, 0);
 	}
+}; // struct lua;
 
-	// initialize lua standard library functions 
-	struct luajit {
-		static void open_lib	(lua_State *L, pcstr module_name, lua_CFunction function)
-		{
-			lua_pushcfunction	(L, function);
-			lua_pushstring		(L, module_name);
-			lua_call			(L, 1, 0);
-		}
-	}; // struct lua;
-
-	luajit::open_lib	(lua(),	"",					luaopen_base);
-	luajit::open_lib	(lua(),	LUA_LOADLIBNAME,	luaopen_package);
-	luajit::open_lib	(lua(),	LUA_TABLIBNAME,		luaopen_table);
-	luajit::open_lib	(lua(),	LUA_IOLIBNAME,		luaopen_io);
-	luajit::open_lib	(lua(),	LUA_OSLIBNAME,		luaopen_os);
-	luajit::open_lib	(lua(),	LUA_MATHLIBNAME,	luaopen_math);
-	luajit::open_lib	(lua(),	LUA_STRLIBNAME,		luaopen_string);
-
-#ifdef DEBUG
-	luajit::open_lib	(lua(),	LUA_DBLIBNAME,		luaopen_debug);
-#endif // #ifdef DEBUG
-
-	if (!strstr(Core.Params,"-nojit")) {
-		luajit::open_lib(lua(),	LUA_JITLIBNAME,		luaopen_jit);
-#ifndef DEBUG
-		put_function	(lua(), opt_lua_binary, sizeof(opt_lua_binary), "jit.opt");
-		put_function	(lua(), opt_inline_lua_binary, sizeof(opt_lua_binary), "jit.opt_inline");
-		dojitopt		(lua(), "2");
-#endif // #ifndef DEBUG
+void CScriptStorage::reinit	(lua_State* LSVM)
+{
+	if (m_virtual_machine) // ак вы€снилось, такое происходит при загрузке игры на этапе старта сервера 
+	{
+		//Msg("[CScriptStorage] Found working LuaJIT WM! Close it!");
+		lua_close(m_virtual_machine);
 	}
+	m_virtual_machine = LSVM;
 
-	if (strstr(Core.Params,"-_g"))
-		file_header			= file_header_new;
-	else
-		file_header			= file_header_old;
+	file_header = file_header_old;
+	//Debug.set_crashhandler(ScriptCrashHandler);
 }
 
 int CScriptStorage::vscript_log		(ScriptStorage::ELuaMessageType tLuaMessageType, LPCSTR caFormat, va_list marker)
 {
 #ifndef NO_XRGAME_SCRIPT_ENGINE
-//#	ifdef DEBUG
-//	if (!psAI_Flags.test(aiLua) && (tLuaMessageType != ScriptStorage::eLuaMessageTypeError))
-//		return(0);
-//#	endif
+#	ifdef DEBUG
+	if (!psAI_Flags.test(aiLua) && (tLuaMessageType != ScriptStorage::eLuaMessageTypeError))
+		return(0);
+#	endif
 #endif
 
 #ifndef PRINT_CALL_STACK
 	return		(0);
 #else // #ifdef PRINT_CALL_STACK
-#	ifndef NO_XRGAME_SCRIPT_ENGINE
-		//if (!psAI_Flags.test(aiLua) && (tLuaMessageType != ScriptStorage::eLuaMessageTypeError))
-		//	return(0);
-#	endif // #ifndef NO_XRGAME_SCRIPT_ENGINE
 
 	LPCSTR		S = "", SS = "";
 	LPSTR		S1;
@@ -315,23 +300,19 @@ int CScriptStorage::vscript_log		(ScriptStorage::ELuaMessageType tLuaMessageType
 			S	= "[LUA][HOOK_TAIL_RETURN] ";
 			SS	= "[TAIL_RETURN] ";
 			break;
-		case ScriptStorage::eLuaMessageTypeUser:
-			S = "";
-			SS = "";
-			break;
 		}
 		default : NODEFAULT;
 	}
 	
-	strcpy_s	(S2,S);
+	xr_strcpy	(S2,S);
 	S1		= S2 + xr_strlen(S);
 	int		l_iResult = vsprintf(S1,caFormat,marker);
 	Msg		("%s",S2);
 	
-	strcpy_s	(S2,SS);
+	xr_strcpy	(S2,SS);
 	S1		= S2 + xr_strlen(SS);
 	vsprintf(S1,caFormat,marker);
-	strcat	(S2,"\r\n");
+	xr_strcat	(S2,"\r\n");
 
 #ifdef DEBUG
 #	ifndef ENGINE_BUILD
@@ -390,16 +371,16 @@ int __cdecl CScriptStorage::script_log	(ScriptStorage::ELuaMessageType tLuaMessa
 	return			(result);
 }
 
-bool CScriptStorage::parse_namespace(LPCSTR caNamespaceName, LPSTR b, LPSTR c)
+bool CScriptStorage::parse_namespace(LPCSTR caNamespaceName, LPSTR b, u32 const b_size, LPSTR c, u32 const c_size)
 {
-	strcpy			(b,"");
-	strcpy			(c,"");
-	LPSTR			S2	= xr_strdup(caNamespaceName);
+	*b				= 0;
+	*c				= 0;
+	LPSTR			S2;
+	STRCONCAT		(S2,caNamespaceName);
 	LPSTR			S	= S2;
 	for (int i=0;;++i) {
 		if (!xr_strlen(S)) {
 			script_log	(ScriptStorage::eLuaMessageTypeError,"the namespace name %s is incorrect!",caNamespaceName);
-			xr_free		(S2);
 			return		(false);
 		}
 		LPSTR			S1 = strchr(S,'.');
@@ -407,62 +388,72 @@ bool CScriptStorage::parse_namespace(LPCSTR caNamespaceName, LPSTR b, LPSTR c)
 			*S1				= 0;
 
 		if (i)
-			strcat		(b,"{");
-		strcat			(b,S);
-		strcat			(b,"=");
+			xr_strcat		(b,b_size,"{");
+		xr_strcat			(b,b_size,S);
+		xr_strcat			(b,b_size,"=");
 		if (i)
-			strcat		(c,"}");
+			xr_strcat		(c,c_size,"}");
 		if (S1)
 			S			= ++S1;
 		else
 			break;
 	}
-	xr_free			(S2);
+
 	return			(true);
 }
 
-bool CScriptStorage::load_buffer	(lua_State *L, LPCSTR caBuffer, size_t tSize, LPCSTR caScriptName, LPCSTR caNameSpaceName)
+bool CScriptStorage::load_buffer(lua_State* L, LPCSTR caBuffer, size_t tSize, LPCSTR caScriptName, LPCSTR caNameSpaceName)
 {
-	int					l_iErrorCode;
-	if (caNameSpaceName && xr_strcmp("_G",caNameSpaceName)) {
+	int l_iErrorCode;
+
+	if (caNameSpaceName && xr_strcmp("_G", caNameSpaceName))
+	{
 		string512		insert, a, b;
 
 		LPCSTR			header = file_header;
 
-		if (!parse_namespace(caNameSpaceName,a,b))
-			return		(false);
+		if (!parse_namespace(caNameSpaceName, a, sizeof(a), b, sizeof(b)))
+			return(false);
 
-		sprintf_s		(insert,header,caNameSpaceName,a,b);
-		u32				str_len = xr_strlen(insert);
-		LPSTR			script = xr_alloc<char>(str_len + tSize);
-		strcpy_s		(script, str_len + tSize, insert);
-		CopyMemory		(script + str_len,caBuffer,u32(tSize));
-//		try 
+		xr_sprintf(insert, header, caNameSpaceName, a, b);
+
+		u32 str_len = xr_strlen(insert);
+		LPSTR script = xr_alloc<char>(str_len + tSize);
+
+		xr_strcpy(script, str_len + tSize, insert);
+
+		CopyMemory(script + str_len, caBuffer, u32(tSize));
+		//		try
 		{
-			l_iErrorCode= luaL_loadbuffer(L,script,tSize + str_len,caScriptName);
+			l_iErrorCode = luaL_loadbuffer(L, script, tSize + str_len, caScriptName);
 		}
-//		catch(...) {
-//			l_iErrorCode= LUA_ERRSYNTAX;
-//		}
-		xr_free			(script);
+		//		catch(...) {
+		//			l_iErrorCode= LUA_ERRSYNTAX;
+		//		}
+
+		xr_free(script);
 	}
-	else {
-//		try
+	else
+	{
+		//		try
 		{
-			l_iErrorCode= luaL_loadbuffer(L,caBuffer,tSize,caScriptName);
-		}
-//		catch(...) {
-//			l_iErrorCode= LUA_ERRSYNTAX;
-//		}
+			l_iErrorCode = luaL_loadbuffer(L, caBuffer, tSize, caScriptName);
+	}
+		//		catch(...) {
+		//			l_iErrorCode= LUA_ERRSYNTAX;
+		//		}
 	}
 
-	if (l_iErrorCode) {
-		print_output	(L,caScriptName,l_iErrorCode);
-		on_error		(L);
-		return			(false);
+	if (l_iErrorCode)
+	{
+		print_output(L, caScriptName, l_iErrorCode);
+
+		return(false);
 	}
-	return				(true);
+
+	return(true);
 }
+
 
 bool CScriptStorage::do_file	(LPCSTR caScriptName, LPCSTR caNameSpaceName)
 {
@@ -510,7 +501,9 @@ bool CScriptStorage::do_file	(LPCSTR caScriptName, LPCSTR caNameSpaceName)
 #	endif // #ifndef USE_LUA_STUDIO
 #endif // #ifdef USE_DEBUGGER
 	if (l_iErrorCode) {
+#ifdef DEBUG
 		print_output(lua(),caScriptName,l_iErrorCode);
+#endif
 		on_error	(lua());
 		lua_settop	(lua(),start);
 		return		(false);
@@ -536,7 +529,7 @@ bool CScriptStorage::namespace_loaded(LPCSTR N, bool remove_from_stack)
 	lua_pushstring 			(lua(),"_G"); 
 	lua_rawget 				(lua(),LUA_GLOBALSINDEX); 
 	string256				S2;
-	strcpy_s					(S2,N);
+	xr_strcpy					(S2,N);
 	LPSTR					S = S2;
 	for (;;) { 
 		if (!xr_strlen(S)) {
@@ -618,7 +611,7 @@ bool CScriptStorage::object	(LPCSTR namespace_name, LPCSTR identifier, int type)
 luabind::object CScriptStorage::name_space(LPCSTR namespace_name)
 {
 	string256			S1;
-	strcpy_s				(S1,namespace_name);
+	xr_strcpy				(S1,namespace_name);
 	LPSTR				S = S1;
 	luabind::object		lua_namespace = luabind::get_globals(lua());
 	for (;;) {
@@ -633,40 +626,75 @@ luabind::object CScriptStorage::name_space(LPCSTR namespace_name)
 	}
 }
 
+struct raii_guard {
+	int m_error_code;
+	LPCSTR const& m_error_description;
+	raii_guard	(int error_code, LPCSTR const& m_description) : m_error_code(error_code), m_error_description(m_description) {}
+	~raii_guard	()
+	{
+#ifdef DEBUG
+		bool lua_studio_connected = !!ai().script_engine().debugger();
+		if (!lua_studio_connected)
+#endif //#ifdef DEBUG
+		{
+#ifdef DEBUG
+			static bool const break_on_assert	= !!strstr(Core.Params,"-break_on_assert");
+#else // #ifdef DEBUG
+			static bool const break_on_assert	= true;
+#endif // #ifdef DEBUG
+			if ( !m_error_code  )
+				return;
+
+			if ( break_on_assert )
+				R_ASSERT2		( !m_error_code, m_error_description );
+			else
+				Msg				( "! SCRIPT ERROR: %s", m_error_description );
+		}
+	}
+}; // struct raii_guard
+
 bool CScriptStorage::print_output(lua_State *L, LPCSTR caScriptFileName, int iErorCode)
-{
-	if (iErorCode)
-		print_error		(L,iErorCode);
-
-	if (!lua_isstring(L,-1))
-		return			(false);
-
-	LPCSTR				S = lua_tostring(L,-1);
-	if (!xr_strcmp(S,"cannot resume dead coroutine")) {
-		VERIFY2	("Please do not return any values from main!!!",caScriptFileName);
-#ifdef USE_DEBUGGER
-#	ifndef USE_LUA_STUDIO
-		if(ai().script_engine().debugger() && ai().script_engine().debugger()->Active() ){
-			ai().script_engine().debugger()->Write(S);
-			ai().script_engine().debugger()->ErrorBreak();
+{	
+	auto Prefix = "";
+	if (iErorCode) {
+		switch (iErorCode) {
+		case LUA_ERRRUN:
+			Prefix = "SCRIPT RUNTIME ERROR";
+			break;
+		case LUA_ERRMEM:
+			Prefix = "SCRIPT ERROR (memory allocation)";
+			break;
+		case LUA_ERRERR:
+			Prefix = "SCRIPT ERROR (while running the error handler function)";
+			break;
+		case LUA_ERRFILE:
+			Prefix = "SCRIPT ERROR (while running file)";
+			break;
+		case LUA_ERRSYNTAX:
+			Prefix = "SCRIPT SYNTAX ERROR";
+			break;
+		case LUA_YIELD:
+			Prefix = "Thread is yielded";
+			break;
+		default: NODEFAULT;
 		}
-#	endif // #ifndef USE_LUA_STUDIO
-#endif // #ifdef USE_DEBUGGER
 	}
-	else {
-		if (!iErorCode)
-			script_log	(ScriptStorage::eLuaMessageTypeInfo,"Output from %s",caScriptFileName);
-		script_log		(iErorCode ? ScriptStorage::eLuaMessageTypeError : ScriptStorage::eLuaMessageTypeMessage,"%s",S);
-#ifdef USE_DEBUGGER
-#	ifndef USE_LUA_STUDIO
-		if (ai().script_engine().debugger() && ai().script_engine().debugger()->Active()) {
-			ai().script_engine().debugger()->Write		(S);
-			ai().script_engine().debugger()->ErrorBreak	();
-		}
-#	endif // #ifndef USE_LUA_STUDIO
-#endif // #ifdef USE_DEBUGGER
+
+	auto traceback = get_lua_traceback(L);
+
+	if (!lua_isstring(L, -1)) //Ќ≈ ”ƒјЋя“№! »наче будут вылeты без лога!
+	{
+		Msg("*********************************************************************************");
+		Msg("[print_output(%s)] %s!\n%s", caScriptFileName, Prefix, traceback);
+		Msg("*********************************************************************************");
+		return false;
 	}
-	return				(true);
+
+	auto S = lua_tostring(L, -1);
+	Msg("*********************************************************************************");
+	Msg("[print_output(%s)] %s:\n%s\n%s", caScriptFileName, Prefix, S, traceback);
+	Msg("*********************************************************************************");
+	return true;
 }
 
 void CScriptStorage::print_error(lua_State *L, int iErrorCode)
@@ -718,7 +746,7 @@ int CScriptStorage::error_log	(LPCSTR	format, ...)
 	LPCSTR			S = "! [LUA][ERROR] ";
 	LPSTR			S1;
 	string4096		S2;
-	strcpy_s		(S2,S);
+	xr_strcpy		(S2,S);
 	S1				= S2 + xr_strlen(S);
 
 	int				result = vsprintf(S1,format,marker);

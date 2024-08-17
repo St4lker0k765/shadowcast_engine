@@ -17,7 +17,6 @@ namespace ScriptStorage {
 		eLuaMessageTypeHookReturn,
 		eLuaMessageTypeHookLine,
 		eLuaMessageTypeHookCount,
-		eLuaMessageTypeUser,
 		eLuaMessageTypeHookTailReturn = u32(-1),
 	};
 }
