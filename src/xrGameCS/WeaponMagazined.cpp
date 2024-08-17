@@ -1125,9 +1125,13 @@ void CWeaponMagazined::PlayAnimHide()
 }
 
 void CWeaponMagazined::PlayAnimReload()
-{
+{	
 	VERIFY(GetState()==eReload);
-	PlayHUDMotion("anm_reload", TRUE, this, GetState());
+
+	if (iAmmoElapsed == 0)
+		PlayHUDMotionIfExists({ "anm_reload_empty", "anm_reload" }, true, GetState());
+	else
+		PlayHUDMotion("anm_reload", TRUE, this, GetState());
 }
 
 void CWeaponMagazined::PlayAnimAim()

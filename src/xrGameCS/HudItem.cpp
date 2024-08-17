@@ -10,6 +10,7 @@
 #include "../xrEngine/CameraBase.h"
 #include "player_hud.h"
 #include "../xrEngine/SkeletonMotions.h"
+#include "ui_base.h"
 
 CHudItem::CHudItem()
 {
@@ -419,4 +420,61 @@ attachable_hud_item* CHudItem::HudItemData()
 		return hi;
 
 	return NULL;
+}
+u32 CHudItem::PlayHUDMotionIfExists(std::initializer_list<const char*> Ms, const bool bMixIn, const u32 state, const bool randomAnim, float speed)
+{
+	for (const auto* M : Ms)
+		if (isHUDAnimationExist(M))
+			return PlayHUDMotionNew(M, bMixIn, state, randomAnim, speed);
+
+	std::string dbg_anim_name;
+	for (const auto* M : Ms)
+	{
+		dbg_anim_name += M;
+		dbg_anim_name += ", ";
+	}
+	Msg("~~[%s] Motions [%s] not found for [%s]", __FUNCTION__, dbg_anim_name.c_str(), HudSection().c_str());
+
+	return 0;
+}
+
+u32 CHudItem::PlayHUDMotionNew(const shared_str& M, const bool bMixIn, const u32 state, const bool randomAnim, float speed)
+{
+	//Msg("~~[%s] Playing motion [%s] for [%s]", __FUNCTION__, M.c_str(), HudSection().c_str());
+	u32 anim_time = PlayHUDMotion_noCB(M, bMixIn, speed);
+	if (anim_time > 0)
+	{
+		m_bStopAtEndAnimIsRunning = true;
+		m_dwMotionStartTm = Device.dwTimeGlobal;
+		m_dwMotionCurrTm = m_dwMotionStartTm;
+		m_dwMotionEndTm = m_dwMotionStartTm + anim_time;
+		m_startedMotionState = state;
+	}
+	else
+		m_bStopAtEndAnimIsRunning = false;
+
+	return anim_time;
+}
+
+
+//AVO: check if animation exists
+bool CHudItem::isHUDAnimationExist(LPCSTR anim_name)
+{
+	if (HudItemData()) // First person
+	{
+		string256 anim_name_r;
+		bool is_16x9 = UI()->is_16_9_mode();
+		u16 attach_place_idx = pSettings->r_u16(HudItemData()->m_sect_name, "attach_place_idx");
+		xr_sprintf(anim_name_r, "%s%s", anim_name, (attach_place_idx == 1 && is_16x9) ? "_16x9" : "");
+		player_hud_motion* anm = HudItemData()->m_hand_motions.find_motion(anim_name_r);
+		if (anm)
+			return true;
+	}
+	else // Third person
+		if (g_player_hud->motion_length(anim_name, HudSection(), m_current_motion_def) > 100)
+			return true;
+#ifdef DEBUG
+	Msg("~ [WARNING] ------ Animation [%s] does not exist in [%s]", anim_name, HudSection().c_str());
+#endif
+	return false;
 }
