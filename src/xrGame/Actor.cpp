@@ -1317,8 +1317,12 @@ void CActor::shedule_Update	(u32 DT)
 	//что актер видит перед собой
 	collide::rq_result& RQ				= HUD().GetCurrentRayQuery();
 	
+	float use_radius = 2.0f;
+	if (cam_Active() != cam_FirstEye())
+		use_radius = 4.0f;
+	
 
-	if(!input_external_handler_installed() && RQ.O && RQ.O->getVisible() &&  RQ.range<2.0f) 
+	if(!input_external_handler_installed() && RQ.O && RQ.O->getVisible() &&  RQ.range<use_radius) 
 	{
 		m_pObjectWeLookingAt			= smart_cast<CGameObject*>(RQ.O);
 		

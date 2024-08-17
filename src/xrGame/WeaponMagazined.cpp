@@ -550,14 +550,12 @@ void CWeaponMagazined::OnStateSwitch	(u32 S)
 	{
 	case eFiremodeNext:
 	{
-		if(WeaponSoundExist(m_section_id.c_str(), "snd_changefiremode"))
-			PlaySound("sndFireModes", get_LastFP());
+		PlaySound("sndFireModes", get_LastFP());
 		switch2_ChangeFireMode();
 	}break;
 	case eFiremodePrev:
 	{
-		if (WeaponSoundExist(m_section_id.c_str(), "snd_changefiremode"))
-			PlaySound("sndFireModes", get_LastFP());
+		PlaySound("sndFireModes", get_LastFP());
 		switch2_ChangeFireMode();
 	}break;
 	case eIdle:
