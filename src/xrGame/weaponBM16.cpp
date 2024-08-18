@@ -128,6 +128,9 @@ void  CWeaponBM16::PlayAnimIdleMoving()
 	case 2:
 		PlayHUDMotion("anm_idle_moving_2",TRUE,this,GetState());
 		break;
+	default:
+		PlayHUDMotion("anm_idle_moving_2", TRUE, this, GetState());
+		break;
 	}
 }
 
