@@ -40,6 +40,9 @@ void CWeaponBM16::PlayAnimShoot()
 	case 2:
 		PlayHUDMotionIfExists({ "anm_shoot_2", "anm_shot_2" }, false, GetState());
 		break;
+	default:
+		PlayHUDMotionIfExists({ "anm_shoot_2", "anm_shot_2" }, false, GetState());
+		break;
 	}
 }
 
@@ -54,6 +57,9 @@ void CWeaponBM16::PlayAnimShow()
 		PlayHUDMotion("anm_show_1",TRUE,this,GetState());
 		break;
 	case 2:
+		PlayHUDMotion("anm_show_2",TRUE,this,GetState());
+		break;
+	default:
 		PlayHUDMotion("anm_show_2",TRUE,this,GetState());
 		break;
 	}
@@ -71,6 +77,9 @@ void CWeaponBM16::PlayAnimHide()
 		break;
 	case 2:
 		PlayHUDMotion("anm_hide_2",TRUE,this,GetState());
+		break;
+	default:
+		PlayHUDMotion("anm_hide_2", TRUE, this, GetState());
 		break;
 	}
 }
@@ -135,6 +144,9 @@ void CWeaponBM16::PlayAnimIdleMovingSlow()
 	case 2:
 		PlayHUDMotionIfExists({ "anm_idle_moving_slow_2", "anm_idle_moving_2" }, true, GetState());
 		break;
+	default:
+		PlayHUDMotionIfExists({ "anm_idle_moving_slow_2", "anm_idle_moving_2" }, true, GetState());
+		break;
 	}
 }
 
@@ -149,6 +161,9 @@ void CWeaponBM16::PlayAnimIdleMovingCrouch()
 		PlayHUDMotionIfExists({ "anm_idle_moving_crouch_1", "anm_idle_moving_1" }, true, GetState());
 		break;
 	case 2:
+		PlayHUDMotionIfExists({ "anm_idle_moving_crouch_2", "anm_idle_moving_2" }, true, GetState());
+		break;
+	default:
 		PlayHUDMotionIfExists({ "anm_idle_moving_crouch_2", "anm_idle_moving_2" }, true, GetState());
 		break;
 	}
@@ -167,6 +182,9 @@ void CWeaponBM16::PlayAnimIdleMovingCrouchSlow()
 	case 2:
 		PlayHUDMotionIfExists({ "anm_idle_moving_crouch_slow_2", "anm_idle_moving_crouch_2", "anm_idle_moving_2" }, true, GetState());
 		break;
+	default:
+		PlayHUDMotionIfExists({ "anm_idle_moving_crouch_slow_2", "anm_idle_moving_crouch_2", "anm_idle_moving_2" }, true, GetState());
+		break;
 	}
 }
 void  CWeaponBM16::PlayAnimIdleSprint()
@@ -181,6 +199,9 @@ void  CWeaponBM16::PlayAnimIdleSprint()
 		break;
 	case 2:
 		PlayHUDMotion("anm_idle_sprint_2",TRUE,this,GetState());
+		break;
+	default:
+		PlayHUDMotion("anm_idle_sprint_2", TRUE, this, GetState());
 		break;
 	}
 }
@@ -200,15 +221,48 @@ void CWeaponBM16::PlayAnimIdle()
 				return;
 			}
 		}
-		if (const char* guns_aim_anm = GetAnimAimName()) 
+		if (const char* guns_aim_anm = GetAnimAimName())
 		{
 			string64 guns_aim_anm_full;
 			strconcat(sizeof(guns_aim_anm_full), guns_aim_anm_full, guns_aim_anm, "_", std::to_string(m_magazine.size()).c_str());
-			if (isHUDAnimationExist(guns_aim_anm_full)) {
+
+			if (isHUDAnimationExist(guns_aim_anm_full))
+			{
 				PlayHUDMotionNew(guns_aim_anm_full, true, GetState());
 				return;
 			}
+			else if (strstr(guns_aim_anm_full, "_jammed"))
+			{
+				char* jammed_position = strstr(guns_aim_anm_full, "_jammed");
+				int jammed_length = strlen("_jammed");
+
+				char new_guns_aim_anm[100];
+				strncpy(new_guns_aim_anm, guns_aim_anm_full, jammed_position - guns_aim_anm_full);
+				strcpy(new_guns_aim_anm + (jammed_position - guns_aim_anm_full), guns_aim_anm_full + (jammed_position - guns_aim_anm_full) + jammed_length);
+
+				if (isHUDAnimationExist(new_guns_aim_anm))
+				{
+					PlayHUDMotionNew(new_guns_aim_anm, true, GetState());
+					return;
+				}
+			}
+			else if (strstr(guns_aim_anm_full, "_empty"))
+			{
+				char* empty_position = strstr(guns_aim_anm_full, "_empty");
+				int empty_length = strlen("_empty");
+
+				char new_guns_aim_anm[100];
+				strncpy(new_guns_aim_anm, guns_aim_anm_full, empty_position - guns_aim_anm_full);
+				strcpy(new_guns_aim_anm + (empty_position - guns_aim_anm_full), guns_aim_anm_full + (empty_position - guns_aim_anm_full) + empty_length);
+
+				if (isHUDAnimationExist(new_guns_aim_anm))
+				{
+					PlayHUDMotionNew(new_guns_aim_anm, true, GetState());
+					return;
+				}
+			}
 		}
+
 		switch (m_magazine.size())
 		{
 		case 0:
@@ -220,15 +274,18 @@ void CWeaponBM16::PlayAnimIdle()
 		case 2:
 			PlayHUDMotionIfExists({ "anim_zoomed_idle_2", "anim_zoomedidle_2", "anm_idle_aim_2" }, true, GetState());
 			break;
+		default:
+			PlayHUDMotionIfExists({ "anim_zoomed_idle_2", "anim_zoomedidle_2", "anm_idle_aim_2" }, true, GetState());
+			break;
 		}
 	}
 	else
 	{
-		if (IsRotatingFromZoom()) 
+		if (IsRotatingFromZoom())
 		{
 			string32 guns_aim_anm;
 			strconcat(sizeof(guns_aim_anm), guns_aim_anm, "anm_idle_aim_end_", std::to_string(m_magazine.size()).c_str());
-			if (isHUDAnimationExist(guns_aim_anm)) 
+			if (isHUDAnimationExist(guns_aim_anm))
 			{
 				PlayHUDMotionNew(guns_aim_anm, true, GetState());
 				return;
@@ -246,6 +303,10 @@ void CWeaponBM16::PlayAnimIdle()
 			PlayHUDMotion("anm_idle_1", TRUE, NULL, GetState());
 		}break;
 		case 2:
+		{
+			PlayHUDMotion("anm_idle_2", TRUE, NULL, GetState());
+		}break;
+		default:
 		{
 			PlayHUDMotion("anm_idle_2", TRUE, NULL, GetState());
 		}break;
