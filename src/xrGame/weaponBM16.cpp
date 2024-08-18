@@ -25,7 +25,7 @@ void CWeaponBM16::PlayAnimShoot()
 		return;
 
 	string_path guns_shoot_anm{};
-	strconcat(sizeof(guns_shoot_anm), guns_shoot_anm, "anm_shoot", (this->IsZoomed() && !this->IsRotatingToZoom()) ? "_aim_" : "_", std::to_string(m_magazine.size()).c_str());
+	strconcat(sizeof(guns_shoot_anm), guns_shoot_anm, (isHUDAnimationExist("anm_shoot") ? "anm_shoot" : "anm_shots"), (this->IsZoomed() && !this->IsRotatingToZoom()) ? "_aim_" : "_", std::to_string(m_magazine.size()).c_str());
 	if (isHUDAnimationExist(guns_shoot_anm)) 
 	{
 		PlayHUDMotionNew(guns_shoot_anm, false, GetState());
@@ -317,7 +317,7 @@ void CWeaponBM16::PlayAnimIdle()
 void CWeaponBM16::PlayAnimSprintStart()
 {
 	string_path guns_sprint_start_anm{};
-	strconcat(sizeof(guns_sprint_start_anm), guns_sprint_start_anm, "anm_idle_sprint_start", std::to_string(m_magazine.size()).c_str(), IsMisfire() ? "_jammed" : "");
+	strconcat(sizeof(guns_sprint_start_anm), guns_sprint_start_anm, "anm_idle_sprint_start_", std::to_string(m_magazine.size()).c_str(), IsMisfire() ? "_jammed" : "");
 
 	if (isHUDAnimationExist(guns_sprint_start_anm))
 		PlayHUDMotionNew(guns_sprint_start_anm, true, GetState());
@@ -340,7 +340,7 @@ void CWeaponBM16::PlayAnimSprintStart()
 void CWeaponBM16::PlayAnimSprintEnd()
 {
 	string_path guns_sprint_end_anm{};
-	strconcat(sizeof(guns_sprint_end_anm), guns_sprint_end_anm, "anm_idle_sprint_end", std::to_string(m_magazine.size()).c_str(), IsMisfire() ? "_jammed" : "");
+	strconcat(sizeof(guns_sprint_end_anm), guns_sprint_end_anm, "anm_idle_sprint_end_", std::to_string(m_magazine.size()).c_str(), IsMisfire() ? "_jammed" : "");
 
 	if (isHUDAnimationExist(guns_sprint_end_anm))
 		PlayHUDMotionNew(guns_sprint_end_anm, true, GetState());
