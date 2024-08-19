@@ -690,7 +690,7 @@ ENGINE_API float d_material_weight = 0.0f;
 ENGINE_API shared_str d_texture_name = NULL;
 ENGINE_API bool override_material = false;
 
-ENGINE_API float fps_limit = 60.0f;
+ENGINE_API float fps_limit = 900.0f;
 
 //extern int psSkeletonUpdate;
 extern int rsDVB_Size;
