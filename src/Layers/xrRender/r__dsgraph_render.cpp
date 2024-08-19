@@ -730,8 +730,10 @@ void	R_dsgraph_structure::r_dsgraph_render_subspace	(IRender_Sector* _sector, CF
 				renderable->renderable_Render	();
 			}
 		}
-		if (phase == RImplementation.PHASE_SMAP) {
-			if (g_pGameLevel && g_pGameLevel->CurrentViewEntity()) {
+		if (phase == RImplementation.PHASE_SMAP) 
+		{
+			if (g_pGameLevel && g_pGameLevel->CurrentViewEntity()) 
+			{
 				g_pGameLevel->CurrentViewEntity()->renderable_Render();
 			}
 		}
