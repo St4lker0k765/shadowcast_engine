@@ -75,4 +75,13 @@
 	<string id="st_game_autosave">
 		<text>автосохранение</text>
 	</string>
+	<string id="st_discord_main_menu">
+		<text>В главном меню</text>
+	</string>
+	<string id="st_discord_loading_level">
+		<text>Загрузка игрового уровня</text>
+	</string>
+	<string id="st_discord_in_game">
+		<text>В игре:</text>
+	</string>
 </string_table>

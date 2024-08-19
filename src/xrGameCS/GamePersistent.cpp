@@ -753,7 +753,7 @@ void CGamePersistent::LoadTitle(LPCSTR str)
 }
 void CGamePersistent::SetLoadStageTitle(pcstr ls_title)
 {
-	Discord.SetStatus("Загрузка игрового уровня");
+	Discord.SetStatus(CStringTable().translate("st_discord_loading_level").c_str());
 	string256 buff;
 	if (ls_title)
 	{
@@ -844,7 +844,7 @@ void CGamePersistent::SetGameDiscordStatus() const
 	if (!g_pGameLevel)
 		return;
 
-	xr_string LevelName_ = "В игре:";
+	xr_string LevelName_ = CStringTable().translate("st_discord_in_game").c_str();
 	LevelName_ += "\t";
 	LevelName_ += CStringTable().translate(g_pGameLevel->name()).c_str();
 
