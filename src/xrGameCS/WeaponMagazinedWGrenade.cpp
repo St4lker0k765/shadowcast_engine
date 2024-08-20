@@ -863,3 +863,32 @@ void CWeaponMagazinedWGrenade::net_Spawn_install_upgrades	( Upgrades_type saved_
 	// do not delete this
 	// this is intended behaviour
 }
+
+
+void CWeaponMagazinedWGrenade::switch2_Unmis()
+{
+	if (m_bGrenadeMode) return;
+
+	VERIFY(GetState() == eUnMisfire);
+
+	if (GrenadeLauncherAttachable() && IsGrenadeLauncherAttached())
+	{
+		if (m_sounds_enabled)
+		{
+			if (m_sounds.FindSoundItem("sndReloadMisfire", false) && psWpnAnimsFlag.test(ANM_MISFIRE_GL))
+				PlaySound("sndReloadMisfire", get_LastFP());
+			else if (m_sounds.FindSoundItem("sndReloadEmpty", false) && psWpnAnimsFlag.test(ANM_RELOAD_EMPTY_GL))
+				PlaySound("sndReloadEmpty", get_LastFP());
+			else
+				PlaySound("sndReload", get_LastFP());
+		}
+		if (psWpnAnimsFlag.test(ANM_MISFIRE_GL))
+			PlayHUDMotion("anm_reload_misfire_w_gl", TRUE, this, GetState());
+		else if (psWpnAnimsFlag.test(ANM_RELOAD_EMPTY_GL))
+			PlayHUDMotion("anm_reload_empty_w_gl", TRUE, this, GetState());
+		else
+			PlayHUDMotion("anm_reload_w_gl", TRUE, this, GetState());
+	}
+	else
+		inherited::switch2_Unmis();
+}

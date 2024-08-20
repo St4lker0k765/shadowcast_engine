@@ -112,6 +112,9 @@ public:
 	virtual void				PlayAnimBore		();
 	bool						TryPlayAnimIdle		();
 	virtual bool				MovingAnimAllowedNow ()				{return true;}
+	virtual bool				IsMisfireNow		()				{ return false; }
+	virtual bool				IsMagazineEmpty		()				{ return false; }
+	virtual bool				IsGrenadeMode		() const { return false; }
 
 	virtual void				PlayAnimIdleMoving	();
 	virtual void				PlayAnimIdleSprint	();

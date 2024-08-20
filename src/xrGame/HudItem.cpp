@@ -171,7 +171,12 @@ void CHudItem::OnAnimationEnd(u32 state)
 
 void CHudItem::PlayAnimBore()
 {
-	PlayHUDMotion	("anm_bore", TRUE, this, GetState());
+	if (IsMisfireNow())
+		PlayHUDMotionIfExists({ "anm_bore_jammed", "anm_bore" }, true, GetState());
+	else if (IsMagazineEmpty())
+		PlayHUDMotionIfExists({ "anm_bore_empty", "anm_bore" }, true, GetState());
+	else
+		PlayHUDMotion("anm_bore", TRUE, this, GetState());
 }
 
 bool CHudItem::ActivateItem() 
@@ -398,6 +403,8 @@ void CHudItem::PlayAnimIdle()
 
 	if (IsMisfireNow())
 		PlayHUDMotionIfExists({ "anm_idle_jammed", "anm_idle" }, true, GetState());
+	else if (IsMagazineEmpty())
+		PlayHUDMotionIfExists({ "anm_idle_empty", "anm_idle" }, true, GetState());
 	else
 		PlayHUDMotion("anm_idle", TRUE, NULL, GetState());
 }

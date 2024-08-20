@@ -42,7 +42,8 @@ protected:
 	virtual void	switch2_Hiding	();
 	virtual void	switch2_Hidden	();
 	virtual void	switch2_Showing	();
-	
+	virtual void    switch2_Unmis	();
+
 	virtual void	OnShot			();	
 	
 	virtual void	OnEmptyClick	();
@@ -130,6 +131,7 @@ protected:
 	//только разных типов патронов
 	bool m_bLockType;
 
+	bool m_bUseFiremodeChangeAnim;
 public:
 	virtual void	OnZoomIn			();
 	virtual void	OnZoomOut			();

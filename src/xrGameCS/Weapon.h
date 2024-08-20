@@ -255,6 +255,8 @@ public:
 		eMagEmpty,
 		eSwitch,
 		eUnMisfire,
+		eFiremodePrev,
+		eFiremodeNext,
 	};
 	enum EWeaponSubStates {
 		eSubstateReloadBegin = 0,
@@ -270,6 +272,7 @@ public:
 
 	BOOL					IsMisfire() const;
 	BOOL					CheckForMisfire();
+	BOOL					IsEmptyMagazine() const;
 
 
 	BOOL					AutoSpawnAmmo() const { return m_bAutoSpawnAmmo; };
@@ -451,6 +454,8 @@ protected:
 	virtual void			SetDefaults();
 
 	virtual bool			MovingAnimAllowedNow();
+	virtual bool			IsMisfireNow();
+	virtual bool			IsMagazineEmpty();
 	virtual void			OnStateSwitch(u32 S);
 	virtual void			OnAnimationEnd(u32 state);
 

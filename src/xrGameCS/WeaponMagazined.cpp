@@ -82,6 +82,10 @@ void CWeaponMagazined::Load	(LPCSTR section)
 
 	if (WeaponSoundExist(section, "snd_reload_empty"))
 		m_sounds.LoadSound(section, "snd_reload_empty", "sndReloadEmpty", true, m_eSoundReload);
+	if (WeaponSoundExist(section, "snd_reload_misfire"))
+		m_sounds.LoadSound(section, "snd_reload_misfire", "sndReloadMisfire", true, m_eSoundReload);
+	if (WeaponSoundExist(section, "snd_reload_jammed"))
+		m_sounds.LoadSound(section, "snd_reload_jammed", "sndReloadJammed", true, m_eSoundReload);
 
 	m_sSndShotCurrent = "sndShot";
 		
@@ -133,10 +137,20 @@ void CWeaponMagazined::FireStart		()
 		{
 			if(!IsWorking() || AllowFireWhileWorking())
 			{
-				if(GetState()==eReload) return;
-				if(GetState()==eShowing) return;
-				if(GetState()==eHiding) return;
-				if(GetState()==eMisfire) return;
+				if (GetState()==eReload) 
+					return;
+				if (GetState()==eShowing) 
+					return;
+				if (GetState()==eHiding) 
+					return;
+				if (GetState()==eMisfire) 
+					return;
+				if (GetState() == eUnMisfire)
+					return;
+				if (GetState() == eFiremodePrev)
+					return;
+				if (GetState() == eFiremodeNext)
+					return;
 
 				inherited::FireStart();
 				
@@ -396,6 +410,11 @@ void CWeaponMagazined::OnStateSwitch	(u32 S)
 	case eFire:
 		switch2_Fire	();
 		break;
+	case eUnMisfire:
+		if (owner)
+			m_sounds_enabled = owner->CanPlayShHdRldSounds();
+		switch2_Unmis();
+		break;
 	case eMisfire:
 		if(smart_cast<CActor*>(this->H_Parent()) && (Level().CurrentViewEntity()==H_Parent()) )
 			HUD().GetUI()->AddInfoMessage("gun_jammed");
@@ -628,6 +647,27 @@ void CWeaponMagazined::OnAnimationEnd(u32 state)
 		case eHiding:	SwitchState(eHidden);   break;	// End of Hide
 		case eShowing:	SwitchState(eIdle);		break;	// End of Show
 		case eIdle:		switch2_Idle();			break;  // Keep showing idle
+		case eUnMisfire:
+		{
+			bMisfire = false;
+			if (iAmmoElapsed > 0 && psWpnAnimsFlag.test(ANM_MISFIRE))
+			{
+				--iAmmoElapsed;
+				m_magazine.pop_back();
+			}
+
+			SwitchState(eIdle);
+		}break; // End of UnMisfire animation
+		case eFiremodePrev:
+		{
+			SwitchState(eIdle);
+			break;
+		}
+		case eFiremodeNext:
+		{
+			SwitchState(eIdle);
+			break;
+		}
 	}
 	inherited::OnAnimationEnd(state);
 }
@@ -729,6 +769,26 @@ void CWeaponMagazined::switch2_Hiding()
 
 	PlayAnimHide		();
 	SetPending			(TRUE);
+}
+
+void CWeaponMagazined::switch2_Unmis()
+{
+	VERIFY(GetState() == eUnMisfire);
+
+	if (m_sounds_enabled)
+	{
+		if (m_sounds.FindSoundItem("sndReloadMisfire", false) && psWpnAnimsFlag.test(ANM_MISFIRE))
+			PlaySound("sndReloadMisfire", get_LastFP());
+		else if (m_sounds.FindSoundItem("sndReloadJammed", false) && isHUDAnimationExist("anm_reload_jammed"))
+			PlaySound("sndReloadJammed", get_LastFP());
+		else
+			PlayReloadSound();
+	}
+
+	if (psWpnAnimsFlag.test(ANM_MISFIRE) || isHUDAnimationExist("anm_reload_jammed"))
+		PlayHUDMotionIfExists({ "anm_reload_misfire", "anm_reload_jammed", "anm_reload" }, true, GetState());
+	else
+		PlayHUDMotionIfExists({ "anm_reload_empty", "anm_reload" }, true, GetState());
 }
 
 void CWeaponMagazined::switch2_Hidden()

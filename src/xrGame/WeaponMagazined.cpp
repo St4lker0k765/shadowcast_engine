@@ -1065,7 +1065,7 @@ bool CWeaponMagazined::Action(u16 cmd, u32 flags)
 			if(flags&CMD_START) 
 				if (iAmmoElapsed < iMagazineSize || IsMisfire())
 				{
-					if (GetState() == eUnMisfire) // Rietmon: Запрещаем перезарядку, если играет анима передергивания затвора
+					if (GetState() ==	eUnMisfire) // Rietmon: Запрещаем перезарядку, если играет анима передергивания затвора
 						return false;
 
 					PIItem Det = Actor()->inventory().ItemFromSlot(DETECTOR_SLOT);
