@@ -22,7 +22,9 @@ enum EHudStates {
 		eHiding,
 		eHidden,
 		eBore,
-		eLastBaseState = eBore,
+		eSprintStart,
+		eSprintEnd,
+		eLastBaseState = eSprintEnd,
 };
 
 private:
@@ -117,7 +119,12 @@ public:
 	virtual bool				IsGrenadeMode		() const { return false; }
 
 	virtual void				PlayAnimIdleMoving	();
+	virtual void				PlayAnimIdleMovingSlow();
+	virtual void				PlayAnimIdleMovingCrouch();
+	virtual void				PlayAnimIdleMovingCrouchSlow();
 	virtual void				PlayAnimIdleSprint	();
+	virtual void				PlayAnimSprintStart	();
+	virtual void				PlayAnimSprintEnd	();
 
 	virtual void				UpdateCL			();
 	virtual void				renderable_Render	();
@@ -187,5 +194,6 @@ public:
 	virtual void				debug_draw_firedeps		() {};
 
 	virtual CHudItem*			cast_hud_item			()				{ return this; }
+	bool  m_bSprintType;
 };
 

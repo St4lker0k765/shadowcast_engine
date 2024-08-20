@@ -460,6 +460,8 @@ void CWeaponMagazined::UpdateCL			()
 		case eShowing:
 		case eHiding:
 		case eReload:
+		case eSprintStart:
+		case eSprintEnd:
 		case eIdle:
 			{
 				fShotTimeCounter	-=	dt;
@@ -1488,4 +1490,23 @@ void CWeaponMagazined::SetAnimFlag(u32 flag, LPCSTR anim_name)
 		psWpnAnimsFlag.set(flag, TRUE);
 	else
 		psWpnAnimsFlag.set(flag, FALSE);
+}
+
+const char* CWeaponMagazined::GetAnimAimName()
+{
+	auto pActor = smart_cast<const CActor*>(H_Parent());
+	if (pActor)
+	{
+		if (const u32 state = pActor->get_state() && state & mcAnyMove)
+		{
+			if (IsScopeAttached())
+			{
+				strcpy_s(guns_aim_anm, "anm_idle_aim_scope_moving");
+				return guns_aim_anm;
+			}
+			else
+				return strconcat(sizeof(guns_aim_anm), guns_aim_anm, "anm_idle_aim_moving", (state & mcFwd) ? "_forward" : ((state & mcBack) ? "_back" : ""), (state & mcLStrafe) ? "_left" : ((state & mcRStrafe) ? "_right" : ""));
+		}
+	}
+	return nullptr;
 }
