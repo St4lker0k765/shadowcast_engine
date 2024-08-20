@@ -14,7 +14,6 @@
 #include "../actor.h"
 #include "../alife_registry_wrappers.h"
 #include "dinput.h"
-#include "xinput.h"
 
 #define				TALK_XML				"talk.xml"
 

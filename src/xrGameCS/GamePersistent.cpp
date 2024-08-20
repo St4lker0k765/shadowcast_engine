@@ -849,4 +849,8 @@ void CGamePersistent::SetGameDiscordStatus() const
 	LevelName_ += CStringTable().translate(g_pGameLevel->name()).c_str();
 
 	Discord.SetStatus(LevelName_);
+	CGameTask* o = Level().GameTaskManager().ActiveTask(eTaskTypeStoryline);
+	xr_string TaskNameDiscord_ = CStringTable().translate(o ? o->m_Title.c_str() : "st_no_active_task").c_str();
+	Discord.SetPhase(TaskNameDiscord_);
+
 }
