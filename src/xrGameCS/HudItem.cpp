@@ -156,6 +156,16 @@ void CHudItem::OnAnimationEnd(u32 state)
 		{
 			SwitchState	(eIdle);
 		} break;
+	case eSprintStart:
+		{
+			m_bSprintType = true;
+			SwitchState(eIdle);
+		} break;
+	case eSprintEnd:
+		{
+			m_bSprintType = false;
+			SwitchState(eIdle);
+		} break;
 	}
 }
 

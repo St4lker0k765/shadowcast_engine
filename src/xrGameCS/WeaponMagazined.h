@@ -43,6 +43,7 @@ protected:
 	virtual void	switch2_Hidden	();
 	virtual void	switch2_Showing	();
 	virtual void    switch2_Unmis	();
+	virtual void	switch2_ChangeFireMode();
 
 	virtual void	OnShot			();	
 	
@@ -157,7 +158,11 @@ protected:
 	virtual void	PlayAnimShoot		();
 	virtual void	PlayReloadSound		();
 	virtual void	PlayAnimAim			();
-	
+	virtual void	PlayAnimBore		();
+	virtual void	PlayAnimIdleSprint	();
+	virtual void	PlayAnimIdleMoving	();
+	virtual void	PlayAnimFireMode	();
+
 private:
 	string64 guns_aim_anm;
 protected:

@@ -404,6 +404,16 @@ void CWeaponMagazined::OnStateSwitch	(u32 S)
 	CInventoryOwner* owner = smart_cast<CInventoryOwner*>(this->H_Parent());
 	switch (S)
 	{
+	case eFiremodeNext:
+	{
+		PlaySound("sndFireModes", get_LastFP());
+		switch2_ChangeFireMode();
+	}break;
+	case eFiremodePrev:
+	{
+		PlaySound("sndFireModes", get_LastFP());
+		switch2_ChangeFireMode();
+	}break;
 	case eIdle:
 		switch2_Idle	();
 		break;
@@ -1171,6 +1181,8 @@ void CWeaponMagazined::PlayAnimShow()
 
 	if (iAmmoElapsed == 0 && psWpnAnimsFlag.test(ANM_SHOW_EMPTY))
 		PlayHUDMotion("anm_show_empty", FALSE, this, GetState());
+	else if (IsMisfire() && isHUDAnimationExist("anm_show_jammed"))
+		PlayHUDMotion("anm_show_jammed", false, this, GetState());
 	else
 		PlayHUDMotion("anm_show", FALSE, this, GetState());
 }
@@ -1181,9 +1193,40 @@ void CWeaponMagazined::PlayAnimHide()
 
 	if(iAmmoElapsed==0 && psWpnAnimsFlag.test(ANM_HIDE_EMPTY))
 		PlayHUDMotion("anm_hide_empty", TRUE, this, GetState());
+	else if (IsMisfire() && isHUDAnimationExist("anm_hide_jammed"))
+		PlayHUDMotion("anm_hide_jammed", true, this, GetState());
 	else
 		PlayHUDMotion("anm_hide", TRUE, this, GetState());
 	
+}
+
+void CWeaponMagazined::PlayAnimIdleSprint()
+{
+	if (iAmmoElapsed == 0 && psWpnAnimsFlag.test(ANM_SPRINT_EMPTY))
+		PlayHUDMotion("anm_idle_sprint_empty", TRUE, NULL, GetState());
+	else if (IsMisfire() && isHUDAnimationExist("anm_idle_sprint_jammed"))
+		PlayHUDMotion("anm_idle_sprint_jammed", true, nullptr, GetState());
+	else
+		inherited::PlayAnimIdleSprint();
+}
+
+void CWeaponMagazined::PlayAnimIdleMoving()
+{
+	if (iAmmoElapsed == 0 && psWpnAnimsFlag.test(ANM_MOVING_EMPTY))
+		PlayHUDMotion("anm_idle_moving_empty", TRUE, NULL, GetState());
+	else if (IsMisfire() && isHUDAnimationExist("anm_idle_moving_jammed"))
+		PlayHUDMotion("anm_idle_moving_jammed", true, nullptr, GetState());
+	else
+		inherited::PlayAnimIdleMoving();
+}
+
+
+void CWeaponMagazined::PlayAnimBore()
+{
+	if (iAmmoElapsed == 0 && psWpnAnimsFlag.test(ANM_BORE_EMPTY))
+		PlayHUDMotion("anm_bore_empty", TRUE, this, GetState());
+	else
+		inherited::PlayAnimBore();
 }
 
 void CWeaponMagazined::PlayAnimReload()
@@ -1198,8 +1241,27 @@ void CWeaponMagazined::PlayAnimReload()
 
 void CWeaponMagazined::PlayAnimAim()
 {
+	if (IsRotatingToZoom())
+	{
+		if (isHUDAnimationExist("anm_idle_aim_start"))
+		{
+			PlayHUDMotionNew("anm_idle_aim_start", true, GetState());
+			return;
+		}
+	}
+
+	if (const char* guns_aim_anm = GetAnimAimName())
+	{
+		if (isHUDAnimationExist(guns_aim_anm))
+		{
+			PlayHUDMotionNew(guns_aim_anm, true, GetState());
+			return;
+		}
+	}
 	if (iAmmoElapsed == 0 && psWpnAnimsFlag.test(ANM_AIM_EMPTY))
 		PlayHUDMotion("anm_idle_aim_empty", TRUE, NULL, GetState());
+	else if (IsMisfire() && isHUDAnimationExist("anm_idle_aim_jammed"))
+		PlayHUDMotion("anm_idle_aim_jammed", true, nullptr, GetState());
 	else
 		PlayHUDMotion("anm_idle_aim", TRUE, NULL, GetState());
 }
@@ -1213,16 +1275,37 @@ void CWeaponMagazined::PlayAnimIdle()
 
 	if(IsZoomed())
 		PlayAnimAim();
-	else if(iAmmoElapsed == 0 && psWpnAnimsFlag.test(ANM_IDLE_EMPTY))
+	else if (iAmmoElapsed == 0 && psWpnAnimsFlag.test(ANM_IDLE_EMPTY))
 		PlayHUDMotion("anm_idle_empty", TRUE, NULL, GetState());
+	else if (IsMisfire() && isHUDAnimationExist("anm_idle_jammed") && !TryPlayAnimIdle())
+		PlayHUDMotion("anm_idle_jammed", true, nullptr, GetState());
 	else
+	{
+		if (IsRotatingFromZoom())
+		{
+			if (isHUDAnimationExist("anm_idle_aim_end"))
+			{
+				PlayHUDMotionNew("anm_idle_aim_end", true, GetState());
+				return;
+			}
+		}
 		inherited::PlayAnimIdle();
+	}
 }
 
 void CWeaponMagazined::PlayAnimShoot()
 {
 	VERIFY(GetState()==eFire);
-	PlayHUDMotion("anm_shots", FALSE, this, GetState());
+
+	string_path guns_shoot_anm{};
+	strconcat(sizeof(guns_shoot_anm), guns_shoot_anm, (isHUDAnimationExist("anm_shoot") ? "anm_shoot" : "anm_shots"), (iAmmoElapsed == 1) ? "_last" : "", (IsZoomed() && !IsRotatingToZoom()) ? (IsScopeAttached() ? "_aim_scope" : "_aim") : "", (IsSilencerAttached() && m_bUseAimSilShotAnim) ? "_sil" : "");
+
+	//HUD_VisualBulletUpdate();
+
+	if (iAmmoElapsed == 1)
+		PlayHUDMotionIfExists({ guns_shoot_anm, "anm_shot_l", "anm_shots" }, false, GetState());
+	else
+		PlayHUDMotionIfExists({ guns_shoot_anm, "anm_shots" }, false, GetState());
 }
 
 void CWeaponMagazined::OnZoomIn			()
@@ -1509,4 +1592,62 @@ const char* CWeaponMagazined::GetAnimAimName()
 		}
 	}
 	return nullptr;
+}
+
+void CWeaponMagazined::PlayAnimFireMode()
+{
+	string_path guns_firemode_anm{};
+
+	if (isHUDAnimationExist("anm_changefiremode"))
+	{
+		strconcat(sizeof(guns_firemode_anm), guns_firemode_anm, "anm_changefiremode", (IsMisfire() ? "_jammed" : (IsMagazineEmpty()) ? "_empty" : ""));
+
+		PlayHUDMotionIfExists({ guns_firemode_anm, "anm_changefiremode" }, true, GetState());
+		return;
+	}
+
+	strconcat(sizeof(guns_firemode_anm), guns_firemode_anm, "anm_changefiremode_from_", (m_iCurFireMode == 0) ? "a_to_1" : (m_iCurFireMode == 1) ? "1_to_2" : (m_iCurFireMode == 2) ? "2_to_a" : "a_to_1");
+
+	string64 guns_aim_anm_full;
+	strconcat(sizeof(guns_aim_anm_full), guns_aim_anm_full, guns_firemode_anm, (IsMisfire() ? "_jammed" : (IsMagazineEmpty()) ? "_empty" : ""));
+
+	if (isHUDAnimationExist(guns_aim_anm_full))
+	{
+		PlayHUDMotionNew(guns_aim_anm_full, true, GetState());
+		return;
+	}
+	else if (strstr(guns_aim_anm_full, "_jammed"))
+	{
+		char new_guns_aim_anm[256];
+		strcpy(new_guns_aim_anm, guns_aim_anm_full);
+		new_guns_aim_anm[strlen(guns_aim_anm_full) - strlen("_jammed")] = '\0';
+
+		if (isHUDAnimationExist(new_guns_aim_anm))
+		{
+			PlayHUDMotionNew(new_guns_aim_anm, true, GetState());
+			return;
+		}
+	}
+	else if (strstr(guns_aim_anm_full, "_empty"))
+	{
+		char new_guns_aim_anm[256];
+		strcpy(new_guns_aim_anm, guns_aim_anm_full);
+		new_guns_aim_anm[strlen(guns_aim_anm_full) - strlen("_empty")] = '\0';
+
+		if (isHUDAnimationExist(new_guns_aim_anm))
+		{
+			PlayHUDMotionNew(new_guns_aim_anm, true, GetState());
+			return;
+		}
+	}
+}
+
+void CWeaponMagazined::switch2_ChangeFireMode()
+{
+	if (GetState() != eFiremodeNext && GetState() != eFiremodePrev)
+		return;
+
+	FireEnd();
+	PlayAnimFireMode();
+	SetPending(TRUE);
 }

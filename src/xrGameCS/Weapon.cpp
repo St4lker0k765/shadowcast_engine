@@ -512,7 +512,7 @@ void CWeapon::Load(LPCSTR section)
 		conditionDecreasePerQueueShot = READ_IF_EXISTS(pSettings, r_float, section, "condition_queue_shot_dec", conditionDecreasePerShot);
 	}
 
-
+	m_bUseAimSilShotAnim = READ_IF_EXISTS(pSettings, r_bool, section, "enable_aim_silencer_shoot_anm", false);
 
 	vLoadedFirePoint = pSettings->r_fvector3(section, "fire_point");
 

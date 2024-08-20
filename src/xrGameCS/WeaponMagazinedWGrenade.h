@@ -67,7 +67,8 @@ public:
 	virtual void	PlayAnimShoot		();
 	virtual void	PlayAnimModeSwitch	();
 	virtual void	PlayAnimBore		();
-	
+	virtual void	PlayAnimFireMode	();
+
 private:
 	virtual	void	net_Spawn_install_upgrades	( Upgrades_type saved_upgrades );
 	virtual bool	install_upgrade_impl		( LPCSTR section, bool test );
@@ -87,6 +88,9 @@ public:
 
 	CCartridge				m_DefaultCartridge2;
 	int						iAmmoElapsed2;
+	int						iAmmoElapsedMain;
+
+	bool					IsMainMagazineEmpty() { return iAmmoElapsedMain <= 0; }
 
 	virtual void UpdateGrenadeVisibility(bool visibility);
 };

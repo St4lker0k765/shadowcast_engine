@@ -594,6 +594,7 @@ public:
 	bool					m_bHasTracers;
 	u8						m_u8TracerColorID;
 	u8						m_set_next_ammoType_on_reload;
+	bool					m_bUseAimSilShotAnim;
 	// Multitype ammo support
 	xr_vector<CCartridge>	m_magazine;
 	CCartridge				m_DefaultCartridge;
