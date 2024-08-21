@@ -34,6 +34,11 @@ void DiscordSDK::InitSDK()
 		ActivityDiscord_.GetAssets().SetSmallImage("shadowcast_engine_cs");
 		ActivityDiscord_.GetAssets().SetSmallText("Clear Sky");
 	}
+	else if (ShadowOfChernobylMode)
+	{
+		ActivityDiscord_.GetAssets().SetSmallImage("shadowcast_engine_soc");
+		ActivityDiscord_.GetAssets().SetSmallText("Shadow of Chernobyl");
+	}
 	ActivityDiscord_.SetInstance(true);
 	ActivityDiscord_.SetType(discord::ActivityType::Playing);
 

@@ -26,6 +26,7 @@ ENGINE_API string_path g_sLaunchWorkingFolder;
 
 ENGINE_API bool CallOfPripyatMode = true;
 ENGINE_API bool ClearSkyMode = false;
+ENGINE_API bool ShadowOfChernobylMode = false;
 
 // всякая всячина
 ENGINE_API bool UseHDIcons = false;
@@ -158,6 +159,12 @@ void InitSettings()
     if (!xr_strcmp(gameMode, "cs"))
     {
         ClearSkyMode = true;
+        CallOfPripyatMode = false;
+        return;
+    }
+    else if (!xr_strcmp(gameMode, "soc"))
+    {
+        ShadowOfChernobylMode = true;
         CallOfPripyatMode = false;
         return;
     }

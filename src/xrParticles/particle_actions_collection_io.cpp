@@ -2,6 +2,10 @@
 #pragma hdrstop
 #define ENGINE_API __declspec(dllimport)
 
+#pragma comment(lib, "xrEngine.lib")
+
+extern ENGINE_API bool ShadowOfChernobylMode;
+
 #include "particle_actions_collection.h"
 using namespace PAPI;
 
@@ -384,8 +388,11 @@ void PATargetColor::Load	(IReader& F)
 	F.r_fvector3	(color);
     alpha			= F.r_float();
 	scale			= F.r_float();
-	timeFrom		= F.r_float();
-	timeTo			= F.r_float();
+	if (!ShadowOfChernobylMode) 
+	{
+		timeFrom = F.r_float();
+		timeTo = F.r_float();
+	}
 }
 
 void PATargetColor::Save	(IWriter& F)
@@ -394,8 +401,11 @@ void PATargetColor::Save	(IWriter& F)
 	F.w_fvector3	(color);
 	F.w_float		(alpha);
 	F.w_float		(scale);
-	F.w_float		(timeFrom);
-	F.w_float		(timeTo);
+	if (!ShadowOfChernobylMode) 
+	{
+		F.w_float(timeFrom);
+		F.w_float(timeTo);
+	}
 }
 
 void PATargetSize::Load		(IReader& F)

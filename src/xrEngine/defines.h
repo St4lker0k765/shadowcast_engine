@@ -9,6 +9,7 @@ ENGINE_API extern BOOL bDebug;
 
 extern ENGINE_API bool CallOfPripyatMode;
 extern ENGINE_API bool ClearSkyMode;
+extern ENGINE_API bool ShadowOfChernobylMode;
 // вс€ка€ вс€чина
 extern ENGINE_API bool UseHDIcons;
 extern ENGINE_API bool CSUseNewWeaponMisfire;

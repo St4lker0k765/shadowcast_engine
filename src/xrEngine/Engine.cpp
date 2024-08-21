@@ -117,6 +117,10 @@ void CEngine::Initialize_dll()
             {
                 g_name = "xrGameCS.dll";
             }
+            else if (ShadowOfChernobylMode)
+            {
+                g_name = "xrGameSOC.dll";
+            }
         }
 
         Msg("# [Engine]: Loading DLL: [%s]", g_name);
