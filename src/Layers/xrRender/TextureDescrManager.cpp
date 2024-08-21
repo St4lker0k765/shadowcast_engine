@@ -197,6 +197,10 @@ void CTextureDescrMngr::Load()
 	CTimer					TT;
 	TT.Start				();
 #endif // #ifdef DEBUG
+	
+	// for Clear Sky and Call of Pripyat we don't need to load textures.ltx
+	if(ShadowOfChernobylMode)
+		LoadLTX				();
 
 	LoadTHM					("$game_textures$");
 	LoadTHM					("$level$");
