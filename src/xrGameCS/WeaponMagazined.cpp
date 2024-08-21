@@ -30,6 +30,7 @@ CWeaponMagazined::CWeaponMagazined(ESoundTypes eSoundType) : CWeapon()
 	m_eSoundShot				= ESoundTypes(SOUND_TYPE_WEAPON_SHOOTING | eSoundType);
 	m_eSoundEmptyClick			= ESoundTypes(SOUND_TYPE_WEAPON_EMPTY_CLICKING | eSoundType);
 	m_eSoundReload				= ESoundTypes(SOUND_TYPE_WEAPON_RECHARGING | eSoundType);
+	m_eSoundClose				= ESoundTypes(SOUND_TYPE_WEAPON_RECHARGING);
 	m_sounds_enabled = true;
 
 	psWpnAnimsFlag = { 0 };
@@ -79,6 +80,13 @@ void CWeaponMagazined::Load	(LPCSTR section)
 	m_sounds.LoadSound(section,"snd_shoot", "sndShot"		, false, m_eSoundShot		);
 	m_sounds.LoadSound(section,"snd_empty", "sndEmptyClick"	, false, m_eSoundEmptyClick	);
 	m_sounds.LoadSound(section,"snd_reload", "sndReload"		, true, m_eSoundReload		);
+	
+	if (WeaponSoundExist(section, "snd_changefiremode"))
+		m_sounds.LoadSound(section, "snd_changefiremode", "sndFireModes", false, m_eSoundEmptyClick	);
+
+	// Звуки из класса пистолета
+	if (WeaponSoundExist(section, "snd_close"))
+		m_sounds.LoadSound(section, "snd_close", "sndClose", false, m_eSoundClose);
 
 	if (WeaponSoundExist(section, "snd_reload_empty"))
 		m_sounds.LoadSound(section, "snd_reload_empty", "sndReloadEmpty", true, m_eSoundReload);
@@ -500,6 +508,10 @@ void CWeaponMagazined::UpdateSounds	()
 	Fvector P						= get_LastFP();
 	m_sounds.SetPosition("sndShow", P);
 	m_sounds.SetPosition("sndHide", P);
+	if(psWpnAnimsFlag.test(ANM_HIDE_EMPTY) && WeaponSoundExist(m_section_id.c_str(),"snd_close")) 
+		m_sounds.SetPosition("sndClose",P);
+	if (WeaponSoundExist(m_section_id.c_str(), "snd_changefiremode"))
+		m_sounds.SetPosition("sndFireModes", P);
 //. nah	m_sounds.SetPosition("sndShot", P);
 	m_sounds.SetPosition("sndReload", P);
 //. nah	m_sounds.SetPosition("sndEmptyClick", P);
@@ -777,7 +789,13 @@ void CWeaponMagazined::switch2_Hiding()
 	OnZoomOut();
 	CWeapon::FireEnd();
 	
-	PlaySound			("sndHide",get_LastFP());
+	if (m_sounds_enabled)
+	{
+		if(iAmmoElapsed == 0 && psWpnAnimsFlag.test(ANM_HIDE_EMPTY) && WeaponSoundExist(m_section_id.c_str(), "snd_close"))
+			PlaySound("sndClose", get_LastFP());
+		else
+			PlaySound("sndHide", get_LastFP());
+	}
 
 	PlayAnimHide		();
 	SetPending			(TRUE);
