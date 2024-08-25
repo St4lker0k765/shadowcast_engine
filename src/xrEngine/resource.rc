@@ -53,12 +53,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "Underground Collective"
             VALUE "FileDescription", "Shadowcast Engine"
-            VALUE "FileVersion", "1.7.06"
+            VALUE "FileVersion", "1.7.07"
             VALUE "InternalName", "xrEngine"
             VALUE "LegalCopyright", "Underground Collective, 2024"
             VALUE "OriginalFilename", "xrEngine.exe"
             VALUE "ProductName", "Shadowcast Engine"
-            VALUE "ProductVersion", "1.7.06"
+            VALUE "ProductVersion", "1.7.07"
         END
     END
     BLOCK "VarFileInfo"
