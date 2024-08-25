@@ -16,13 +16,15 @@
 
 void CStalkerAnimationManager::play_delayed_callbacks	()
 {
-	if (m_call_script_callback) {
+	if (m_call_script_callback) 
+	{
 		m_call_script_callback	= false;
 		object().callback		(GameObject::eScriptAnimation)	();
 		return;
 	}
 
-	if (m_call_global_callback) {
+	if (m_call_global_callback) 
+	{
 		m_call_global_callback	= false;
 		if (m_global_callback)
 			m_global_callback	();
@@ -64,7 +66,8 @@ IC	void CStalkerAnimationManager::play_script_impl			()
 
 	const CStalkerAnimationScript	&selected = assign_script_animation();
 	script().animation		(selected.animation());
-	if (selected.use_movement_controller()) {
+	if (selected.use_movement_controller()) 
+	{
 		script().target_matrix	(selected.transform(object()));
 	}
 
@@ -109,7 +112,8 @@ IC	void CStalkerAnimationManager::play_script_impl			()
 
 bool CStalkerAnimationManager::play_script					()
 {
-	if (script_animations().empty()) {
+	if (script_animations().empty()) 
+	{
 		script().reset		();
 		return				(false);
 	}
@@ -164,7 +168,8 @@ bool CStalkerAnimationManager::play_global					()
 {
 	bool					animation_movement_controller = false;
 	const MotionID			&global_animation = assign_global_animation(animation_movement_controller);
-	if (!global_animation) {
+	if (!global_animation) 
+	{
 		clear_unsafe_callbacks	();
 		global().reset		();
 		return				(false);
@@ -193,14 +198,16 @@ void CStalkerAnimationManager::play_legs					()
 	bool					first_time = !legs().animation();
 	bool					result = legs().animation(assign_legs_animation());
 	
-	if (!first_time && !result && legs().blend()) {
+	if (!first_time && !result && legs().blend()) 
+	{
 		float				amount = legs().blend()->blendAmount;
 		m_previous_speed	= (m_target_speed - m_previous_speed)*amount + m_previous_speed;
 	}
 
 	legs().play				(m_skeleton_animated,legs_play_callback,false,false,!fis_zero(m_target_speed));
 	
-	if (result && legs().blend()) {
+	if (result && legs().blend()) 
+	{
 		float				amount = legs().blend()->blendAmount;
 		speed				= (m_target_speed - m_previous_speed)*amount + m_previous_speed;
 	}
@@ -238,12 +245,21 @@ void CStalkerAnimationManager::update_impl					()
 void CStalkerAnimationManager::update						()
 {
 	START_PROFILE("stalker/client_update/animations")
-	try {
+	try 
+	{
 		update_impl			();
 	}
-	catch(...) {
-		Msg					("! error in stalker with visual %s",*object().cNameVisual());
-		throw;
+	catch(...) 
+	{
+		Msg("! error in stalker with visual %s", *object().cNameVisual());
+		/* avo: prevent game from crashing */
+		global().reset();
+		head().reset();
+		torso().reset();
+		legs().reset();
+		return;
+		//throw;
+		/* avo: end */
 	}
 	STOP_PROFILE
 }
