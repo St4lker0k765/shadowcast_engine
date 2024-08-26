@@ -205,6 +205,7 @@ public:
 
 	virtual void						OnEvent								(NET_Packet& P, u16 type);
 	virtual void						feel_touch_new						(CObject* O);
+	virtual void						feel_touch_delete					(CObject* O);
 			void						on_ownership_reject					( CObject*O, bool just_before_destroy );
 	virtual void						renderable_Render					();
 	virtual void						Exec_Look							(float dt);
@@ -649,6 +650,14 @@ public:
 
 private:
 	bool								m_take_items_enabled;
+	
+public:
+	typedef xr_vector<CObject*>			ignored_touched_objects_type;
+	inline	ignored_touched_objects_type& ignored_touched_objects					() { return m_ignored_touched_objects; }
+			void						generate_take_event							( CObject const* const object ) const;
+
+private:
+	ignored_touched_objects_type		m_ignored_touched_objects;
 
 public:
 	DECLARE_SCRIPT_REGISTER_FUNCTION

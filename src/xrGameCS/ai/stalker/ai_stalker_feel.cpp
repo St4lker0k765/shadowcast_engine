@@ -23,12 +23,12 @@
 bool CAI_Stalker::feel_vision_isRelevant(CObject* O)
 {
 	if (!g_Alive())
-		return		FALSE;
+		return		false;
 	CEntityAlive*	E = smart_cast<CEntityAlive*>		(O);
 	CInventoryItem*	I = smart_cast<CInventoryItem*>	(O);
-	if (!E && !I)	return	(FALSE);
-//	if (E && (E->g_Team() == g_Team()))			return FALSE;
-	return(TRUE);
+	if (!E && !I)	return	(false);
+//	if (E && (E->g_Team() == g_Team()))			return false;
+	return(true);
 }
 
 void CAI_Stalker::renderable_Render	()
@@ -58,18 +58,18 @@ bool CAI_Stalker::bfCheckForNodeVisibility(u32 dwNodeID, bool bIfRayPick)
 
 bool CAI_Stalker::feel_touch_contact	(CObject *O)
 {
-	if (!m_take_items_enabled)
-		return						(FALSE);
+	if ( !m_take_items_enabled && smart_cast<CInventoryItem*>(O) )
+		return						(false);
 
 	if (O == this)
-		return						(FALSE);
+        return						(false);
 
 	if (!inherited::feel_touch_contact(O))
-		return						(FALSE);
+        return						(false);
 
 	CGameObject						*game_object = smart_cast<CGameObject*>(O);
 	if (!game_object)
-		return						(FALSE);
+        return						(false);
 
 	return							(game_object->feel_touch_on_contact(this));
 }
@@ -79,7 +79,16 @@ BOOL CAI_Stalker::feel_touch_on_contact	(CObject *O)
 	VERIFY							(O != this);
 
 	if ((O->spatial.type | STYPE_VISIBLEFORAI) != O->spatial.type)
-		return	(FALSE);
+        return	(FALSE);
 
 	return		(inherited::feel_touch_on_contact(O));
+}
+
+void CAI_Stalker::feel_touch_delete		(CObject* O)
+{
+	ignored_touched_objects_type::iterator	i = std::find(m_ignored_touched_objects.begin(), m_ignored_touched_objects.end(), O);
+	if ( i == m_ignored_touched_objects.end() )
+		return;
+
+	m_ignored_touched_objects.erase			( i );
 }
