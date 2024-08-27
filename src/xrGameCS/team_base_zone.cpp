@@ -140,7 +140,7 @@ void CTeamBaseZone::feel_touch_delete	(CObject *tpObject)
 bool CTeamBaseZone::feel_touch_contact	(CObject* O)
 {
 	CActor*	pActor = smart_cast<CActor*>(O);
-	if (!pActor) return (FALSE);
+	if (!pActor) return (false);
 	return ((CCF_Shape*)CFORM())->Contact(O);
 }
 

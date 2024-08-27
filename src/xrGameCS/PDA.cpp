@@ -107,12 +107,12 @@ bool CPda::feel_touch_contact(CObject* O)
 		{
 			CEntityAlive* pEntityAlive = smart_cast<CEntityAlive*>(O);
 			if(pEntityAlive && !pEntityAlive->cast_base_monster() )
-				return TRUE;
+				return true;
 		}else
-		return FALSE;
+		return false;
 	}
 
-	return FALSE;
+	return false;
 }
 
 void CPda::OnH_A_Chield() 

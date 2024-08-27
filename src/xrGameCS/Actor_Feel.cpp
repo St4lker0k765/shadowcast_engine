@@ -40,16 +40,16 @@ bool CActor::feel_touch_contact		(CObject *O)
 	CInventoryOwner	*inventory_owner = smart_cast<CInventoryOwner*>(O);
 
 	if (item && item->Useful() && !item->object().H_Parent()) 
-		return TRUE;
+		return true;
 
 	if(inventory_owner && inventory_owner != smart_cast<CInventoryOwner*>(this))
 	{
 		//CPhysicsShellHolder* sh=smart_cast<CPhysicsShellHolder*>(O);
 		//if(sh&&sh->character_physics_support()) m_feel_touch_characters++;
-		return TRUE;
+		return true;
 	}
 
-	return		(FALSE);
+	return		(false);
 }
 
 BOOL CActor::feel_touch_on_contact	(CObject *O)

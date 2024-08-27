@@ -152,9 +152,9 @@ bool CBlackGraviArtefact::feel_touch_contact(CObject* O)
 	CGameObject* pGameObject = static_cast<CGameObject*>(O);
 
 	if(pGameObject)
-		return TRUE;
+		return true;
 	else
-		return FALSE;
+		return false;
 }
 
 void CBlackGraviArtefact::GraviStrike()

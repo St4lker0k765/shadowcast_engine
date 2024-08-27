@@ -604,19 +604,19 @@ void CCustomZone::feel_touch_delete(CObject* O)
 
 bool CCustomZone::feel_touch_contact(CObject* O) 
 {
-	if (smart_cast<CCustomZone*>(O))				return FALSE;
-	if (smart_cast<CBreakableObject*>(O))			return FALSE;
-	if (0==smart_cast<IKinematics*>(O->Visual()))	return FALSE;
+	if (smart_cast<CCustomZone*>(O))				return false;
+	if (smart_cast<CBreakableObject*>(O))			return false;
+	if (0==smart_cast<IKinematics*>(O->Visual()))	return false;
 
 	if (O->ID() == ID())
-		return		(FALSE);
+		return		(false);
 
 	CGameObject *object = smart_cast<CGameObject*>(O);
     if (!object || !object->IsVisibleForZones())
-		return		(FALSE);
+		return		(false);
 
 	if (!((CCF_Shape*)CFORM())->Contact(O))
-		return		(FALSE);
+		return		(false);
 
 	return			(object->feel_touch_on_contact(this));
 }
