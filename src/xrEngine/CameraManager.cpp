@@ -17,8 +17,10 @@
 #include "render.h"
 
 #pragma warning(disable:4995)
-#include <D3DX10Math.h>
+#include <DirectXMath.h>
 #pragma warning(default:4995)
+
+using namespace DirectX;
 
 float psCamInert = 0.f;
 float psCamSlideInert = 0.25f;
@@ -513,7 +515,8 @@ void CCameraManager::ApplyDeviceInternal(float _viewport_near)
     {
         Device.mFullTransform.mul(Device.mProject, Device.mView);
         Device.m_pRender->SetCacheXform(Device.mView, Device.mProject);
-        D3DXMatrixInverse((D3DXMATRIX*)&Device.mInvFullTransform, 0, (D3DXMATRIX*)&Device.mFullTransform);
+        XMMATRIX camera_transform = XMLoadFloat4x4(reinterpret_cast<XMFLOAT4X4*>(&Device.mFullTransform));
+        XMMatrixInverse(0, camera_transform);
     }
 
     if (g_pGamePersistent && g_pGamePersistent->m_pMainMenu->IsActive())

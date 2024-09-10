@@ -75,7 +75,6 @@ static int start_year = 2023;
 #pragma comment(lib, "xrCDB")
 #pragma comment(lib, "dinput8")
 #pragma comment(lib, "dxguid")
-#pragma comment(lib, "d3dx9")
 #pragma comment(lib, "psapi")
 #pragma comment(lib, "winmm")
 

@@ -83,9 +83,9 @@ void CRender::ScreenshotImpl	(ScreenshotMode mode, LPCSTR name, CMemoryWriter* m
 				// save (logical & physical)
 				ID3DBlob*		saved	= 0;
 #ifdef USE_DX11
-				HRESULT hr = D3DX11SaveTextureToMemory(HW.pContext, pSrcSmallTexture, D3DX11_IFF_DDS, &saved, 0);
+				HRESULT hr = D3DX11SaveTextureToMemory(HW.pContext, pSrcSmallTexture, D3DX11_IFF_DDS, &saved, D3DX11_CHANNEL_RED | D3DX11_CHANNEL_GREEN | D3DX11_CHANNEL_BLUE);
 #else
-				HRESULT hr					= D3DX10SaveTextureToMemory( pSrcSmallTexture, D3DX10_IFF_DDS, &saved, 0);
+				HRESULT hr					= D3DX10SaveTextureToMemory( pSrcSmallTexture, D3DX10_IFF_DDS, &saved, D3DX10_CHANNEL_RED | D3DX10_CHANNEL_GREEN | D3DX10_CHANNEL_BLUE);
 				//HRESULT hr					= D3DXSaveTextureToFileInMemory (&saved,D3DXIFF_DDS,texture,0);
 #endif
 				if(hr==D3D_OK)
