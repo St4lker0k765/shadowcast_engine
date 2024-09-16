@@ -166,9 +166,9 @@ void CRender::ScreenshotImpl	(ScreenshotMode mode, LPCSTR name, CMemoryWriter* m
 				xr_sprintf			(buf,sizeof(buf),"ss_%s_%s_(%s).png",Core.UserName,timestamp(t_stemp),(g_pGameLevel)?g_pGameLevel->name().c_str():"mainmenu");
 				ID3DBlob			*saved	= 0;
 #ifdef USE_DX11
-				CHK_DX				(D3DX11SaveTextureToMemory(HW.pContext, pSrcTexture, D3DX11_IFF_PNG, &saved, 0));
+				CHK_DX				(D3DX11SaveTextureToMemory(HW.pContext, pSrcTexture, D3DX11_IFF_PNG, &saved, D3DX11_CHANNEL_RED | D3DX11_CHANNEL_GREEN | D3DX11_CHANNEL_BLUE));
 #else
-				CHK_DX				(D3DX10SaveTextureToMemory( pSrcTexture, D3DX10_IFF_PNG, &saved, 0));
+				CHK_DX				(D3DX10SaveTextureToMemory( pSrcTexture, D3DX10_IFF_PNG, &saved, D3DX10_CHANNEL_RED | D3DX10_CHANNEL_GREEN | D3DX10_CHANNEL_BLUE));
 #endif
 				IWriter*		fs	= FS.w_open	("$screenshots$",buf); R_ASSERT(fs);
 				fs->w				(saved->GetBufferPointer(),static_cast<u32>(saved->GetBufferSize()));
