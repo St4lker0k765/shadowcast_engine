@@ -29,6 +29,7 @@
 * abramcumner - за порт ЧН на VS2022
 * X-Ray Oxygen - за TTF шрифты;
 * OpenXRay - за загрузочный экран в XML
+* IX-Ray Engine - различные фиксы
 * mortan - за STCoP Engine, x64 и 3D прицелы;
 * Hrusteckiy - за иконки 100x100
 
