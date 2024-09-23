@@ -6,6 +6,7 @@
 #include "../../xrEngine/xr_input.h"
 
 bool UseOldTrackbarTex = READ_IF_EXISTS(pSCSettings, r_bool, "game_specific", "cop_old_trackbar_texture", false);
+bool EnableTrackbarScaling = READ_IF_EXISTS(pSCSettings, r_bool, "ui", "enable_trackbar_scaling", false);
 
 #define DEF_CONTROL_HEIGHT		16.0f
 
@@ -117,7 +118,11 @@ void CUITrackBar::InitTrackBar(Fvector2 pos, Fvector2 size)
 		item_height = CUITextureMaster::GetTextureHeight(slider_box_e_tex);
 
 		item_width *= UI().get_current_kx();
-
+		if (EnableTrackbarScaling)
+		{
+			item_width /= 2.0f;
+			item_height /= 2.0f;
+		}
 		m_pSlider->InitButton(Fvector2().set(0.0f, 0.0f) /*(size.y - item_height)/2.0f)*/,
 			Fvector2().set(item_width, item_height));			//size
 		m_pSlider->InitTexture(slider_box_tex);

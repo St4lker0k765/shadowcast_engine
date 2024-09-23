@@ -7,6 +7,8 @@
 #include "UITextureMaster.h"
 #include "../../xrEngine/xr_input.h"
 
+bool EnableTrackbarScaling = READ_IF_EXISTS(pSCSettings, r_bool, "ui", "enable_trackbar_scaling", false);
+
 #define DEF_CONTROL_HEIGHT		21.0f
 #define FRAME_LINE_TEXTURE		"ui_slider_e"
 #define FRAME_LINE_TEXTURE_D	"ui_slider_d"
@@ -95,7 +97,11 @@ void CUITrackBar::InitTrackBar(Fvector2 pos, Fvector2 size)
     item_height			= CUITextureMaster::GetTextureHeight(buf);
 
 	item_width			*= UI()->get_current_kx();
-
+	if (EnableTrackbarScaling)
+	{
+		item_width /= 2.0f;
+		item_height /= 2.0f;
+	}
 	m_pSlider->InitButton(	Fvector2().set(0.0f, (size.y - item_height)/2.0f), //pos
 							Fvector2().set(item_width, item_height) );			//size
 	m_pSlider->InitTexture(SLIDER_TEXTURE);
