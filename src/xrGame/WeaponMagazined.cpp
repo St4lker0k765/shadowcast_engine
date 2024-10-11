@@ -830,11 +830,12 @@ void CWeaponMagazined::OnAnimationEnd(u32 state)
 		case eUnMisfire:
 		{
 			bMisfire = false;
+/* St4lker0k765: WTF???
 			if (iAmmoElapsed > 0 && psWpnAnimsFlag.test(ANM_MISFIRE))
 			{
 				--iAmmoElapsed;
 				m_magazine.pop_back();
-			}
+			}*/
 
 			SwitchState(eIdle);
 		}break; // End of UnMisfire animation
