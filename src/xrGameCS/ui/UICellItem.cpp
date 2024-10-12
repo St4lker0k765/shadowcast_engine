@@ -11,6 +11,9 @@
 #include "UIProgressBar.h"
 #include "../CustomOutfit.h"
 #include "../weapon.h"
+#include "../eatable_item.h"
+#include "UIGameCustom.h"
+#include "UIActorMenu.h"
 
 CUICellItem* CUICellItem::m_mouse_selected_item = NULL;
 
@@ -146,6 +149,7 @@ bool CUICellItem::OnMouse(float x, float y, EUIMessages mouse_action)
 	else if ( mouse_action == WINDOW_LBUTTON_DB_CLICK )
 	{
 		GetMessageTarget()->SendMessage( this, DRAG_DROP_ITEM_DB_CLICK, NULL );
+		HUD().GetUI()->UIGame()->ActorMenu().SetCurrentConsumable(this);
 		return true;
 	}
 	else if ( mouse_action == WINDOW_RBUTTON_DOWN )
@@ -214,10 +218,39 @@ void CUICellItem::UpdateConditionProgressBar()
 	if(m_pParentList && m_pParentList->GetConditionProgBarVisibility())
 	{
 		PIItem itm = (PIItem)m_pData;
-		CWeapon* pWeapon = smart_cast<CWeapon*>(itm);
-		CCustomOutfit* pOutfit = smart_cast<CCustomOutfit*>(itm);
-		if(pWeapon || pOutfit)
+		if ( itm->IsUsingCondition())
 		{
+			float cond = itm->GetCondition();
+
+			CEatableItem* eitm = smart_cast<CEatableItem*>( itm );
+			if ( eitm )
+			{
+				u16 max_uses = eitm->GetMaxUses();
+				if ( max_uses > 1 )
+				{
+					u16 remaining_uses = eitm->GetRemainingUses();
+					if ( remaining_uses < 1 )
+					{
+						cond = 0.0f;
+					}
+					else if ( max_uses > 8 )
+					{
+						cond = ( float )remaining_uses / ( float )max_uses;
+					}
+					else
+					{
+						cond = (( float )remaining_uses * 0.125f ) - 0.0625f;
+					}
+
+					if (max_uses < 8)
+					{
+						m_pConditionState->ShowBackground( false );
+					}
+
+					m_pConditionState->m_bUseGradient = false;
+				}
+			}
+
 			Ivector2 itm_grid_size = GetGridSize();
 			if(m_pParentList->GetVerticalPlacement())
 				std::swap(itm_grid_size.x, itm_grid_size.y);
@@ -228,13 +261,14 @@ void CUICellItem::UpdateConditionProgressBar()
 			float y = itm_grid_size.y * (cell_size.y + cell_space.y) - m_pConditionState->GetHeight() - 2.f;
 
 			m_pConditionState->SetWndPos(Fvector2().set(x,y));
-			m_pConditionState->SetProgressPos(iCeil(itm->GetCondition()*13.0f)/13.0f);
+			m_pConditionState->SetProgressPos( iCeil( cond * 13.0f ) / 13.0f );
 			m_pConditionState->Show(true);
 			return;
 		}
 	}
 	m_pConditionState->Show(false);
 }
+
 bool CUICellItem::EqualTo(CUICellItem* itm)
 {
 	return (m_grid_size.x==itm->GetGridSize().x) && (m_grid_size.y==itm->GetGridSize().y);

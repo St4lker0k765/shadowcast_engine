@@ -74,6 +74,7 @@ protected:
 	CUICellItem*				m_InfoCellItem;
 	u32							m_InfoCellItem_timer;
 	CUICellItem*				m_pCurrentCellItem;
+	CUICellItem*				m_pCurrentConsumable;
 	CUICellItem*				m_upgrade_selected;
 	CUIPropertiesBox*			m_UIPropertiesBox;
 
@@ -288,7 +289,10 @@ public:
 	void		xr_stdcall		OnBtnExitClicked			(CUIWindow* w, void* d);
 	void		xr_stdcall		TakeAllFromPartner			(CUIWindow* w, void* d);
 	void						TakeAllFromInventoryBox		();
+	void						UpdateConditionProgressBars	();
 
 	IC	UIHint*					get_hint_wnd				() { return m_hint_wnd; }
-
+	CUICellItem* GetCurrentConsumable() { return m_pCurrentConsumable; };
+	void SetCurrentConsumable(CUICellItem* ci) { m_pCurrentConsumable = ci; };
+	void RefreshConsumableCells();
 }; // class CUIActorMenu

@@ -383,9 +383,9 @@ void CWeapon::Load(LPCSTR section)
 	iMagazineSize = pSettings->r_s32(section, "ammo_mag_size");
 
 	////////////////////////////////////////////////////
-	// дисперсия стрельбы
+	// РґРёСЃРїРµСЂСЃРёСЏ СЃС‚СЂРµР»СЊР±С‹
 
-	//подбрасывание камеры во время отдачи
+	//РїРѕРґР±СЂР°СЃС‹РІР°РЅРёРµ РєР°РјРµСЂС‹ РІРѕ РІСЂРµРјСЏ РѕС‚РґР°С‡Рё
 	u8 rm = READ_IF_EXISTS(pSettings, r_u8, section, "cam_return", 1);
 	cam_recoil.ReturnMode = (rm == 1);
 
@@ -433,8 +433,8 @@ void CWeapon::Load(LPCSTR section)
 
 	cam_recoil.DispersionFrac = _abs(READ_IF_EXISTS(pSettings, r_float, section, "cam_dispersion_frac", 0.7f));
 
-	//подбрасывание камеры во время отдачи в режиме zoom ==> ironsight or scope
-	//zoom_cam_recoil.Clone( cam_recoil ); ==== нельзя !!!!!!!!!!
+	//РїРѕРґР±СЂР°СЃС‹РІР°РЅРёРµ РєР°РјРµСЂС‹ РІРѕ РІСЂРµРјСЏ РѕС‚РґР°С‡Рё РІ СЂРµР¶РёРјРµ zoom ==> ironsight or scope
+	//zoom_cam_recoil.Clone( cam_recoil ); ==== РЅРµР»СЊР·СЏ !!!!!!!!!!
 	zoom_cam_recoil.RelaxSpeed = cam_recoil.RelaxSpeed;
 	zoom_cam_recoil.RelaxSpeed_AI = cam_recoil.RelaxSpeed_AI;
 	zoom_cam_recoil.DispersionFrac = cam_recoil.DispersionFrac;
@@ -531,7 +531,7 @@ void CWeapon::Load(LPCSTR section)
 	m_fMaxRadius = pSettings->r_float(section, "max_radius");
 
 
-	// информация о возможных апгрейдах и их визуализации в инвентаре
+	// РёРЅС„РѕСЂРјР°С†РёСЏ Рѕ РІРѕР·РјРѕР¶РЅС‹С… Р°РїРіСЂРµР№РґР°С… Рё РёС… РІРёР·СѓР°Р»РёР·Р°С†РёРё РІ РёРЅРІРµРЅС‚Р°СЂРµ
 	m_eScopeStatus = (ALife::EWeaponAddonStatus)pSettings->r_s32(section, "scope_status");
 	m_eSilencerStatus = (ALife::EWeaponAddonStatus)pSettings->r_s32(section, "silencer_status");
 	m_eGrenadeLauncherStatus = (ALife::EWeaponAddonStatus)pSettings->r_s32(section, "grenade_launcher_status");
@@ -542,6 +542,9 @@ void CWeapon::Load(LPCSTR section)
 	m_zoom_params.m_bUseDynamicZoom = FALSE;
 	m_zoom_params.m_sUseZoomPostprocess = 0;
 	m_zoom_params.m_sUseBinocularVision = 0;
+
+	// Added by Axel, to enable optional condition use on any item
+	m_flags.set(FUsingCondition, READ_IF_EXISTS(pSettings, r_bool, section, "use_condition", TRUE));
 
 	LoadModParams(section);
 
@@ -636,30 +639,30 @@ void CWeapon::LoadFireParams(LPCSTR section)
 
 void CWeapon::LoadModParams(LPCSTR section)
 {
-	// Модификатор для HUD FOV от бедра
+	// РњРѕРґРёС„РёРєР°С‚РѕСЂ РґР»СЏ HUD FOV РѕС‚ Р±РµРґСЂР°
 	m_hud_fov_add_mod = READ_IF_EXISTS(pSettings, r_float, section, "hud_fov_addition_modifier", 0.f);
 
-	// Параметры изменения HUD FOV, когда игрок стоит вплотную к стене
+	// РџР°СЂР°РјРµС‚СЂС‹ РёР·РјРµРЅРµРЅРёСЏ HUD FOV, РєРѕРіРґР° РёРіСЂРѕРє СЃС‚РѕРёС‚ РІРїР»РѕС‚РЅСѓСЋ Рє СЃС‚РµРЅРµ
 	m_nearwall_dist_min = READ_IF_EXISTS(pSettings, r_float, section, "nearwall_dist_min", 0.5f);
 	m_nearwall_dist_max = READ_IF_EXISTS(pSettings, r_float, section, "nearwall_dist_max", 1.f);
 	m_nearwall_target_hud_fov = READ_IF_EXISTS(pSettings, r_float, section, "nearwall_target_hud_fov", 0.27f);
 	m_nearwall_speed_mod = READ_IF_EXISTS(pSettings, r_float, section, "nearwall_speed_mod", 10.f);
 
 
-	// Настройки стрейфа (боковая ходьба)
+	// РќР°СЃС‚СЂРѕР№РєРё СЃС‚СЂРµР№С„Р° (Р±РѕРєРѕРІР°СЏ С…РѕРґСЊР±Р°)
 	const Fvector vZero = { 0.f, 0.f, 0.f };
 	Fvector vDefStrafeValue;
 	vDefStrafeValue.set(vZero);
 
-	//--> Смещение в стрейфе
+	//--> РЎРјРµС‰РµРЅРёРµ РІ СЃС‚СЂРµР№С„Рµ
 	m_strafe_offset[0][0] = READ_IF_EXISTS(pSettings, r_fvector3, section, "strafe_hud_offset_pos", vDefStrafeValue);
 	m_strafe_offset[1][0] = READ_IF_EXISTS(pSettings, r_fvector3, section, "strafe_hud_offset_rot", vDefStrafeValue);
 
-	//--> Поворот в стрейфе
+	//--> РџРѕРІРѕСЂРѕС‚ РІ СЃС‚СЂРµР№С„Рµ
 	m_strafe_offset[0][1] = READ_IF_EXISTS(pSettings, r_fvector3, section, "strafe_aim_hud_offset_pos", vDefStrafeValue);
 	m_strafe_offset[1][1] = READ_IF_EXISTS(pSettings, r_fvector3, section, "strafe_aim_hud_offset_rot", vDefStrafeValue);
 
-	// Параметры стрейфа
+	// РџР°СЂР°РјРµС‚СЂС‹ СЃС‚СЂРµР№С„Р°
 	bool  bStrafeEnabled = READ_IF_EXISTS(pSettings, r_bool, section, "strafe_enabled", false);
 	bool  bStrafeEnabled_aim = READ_IF_EXISTS(pSettings, r_bool, section, "strafe_aim_enabled", false);
 	float fFullStrafeTime = READ_IF_EXISTS(pSettings, r_float, section, "strafe_transition_time", 0.01f);
@@ -856,7 +859,7 @@ void CWeapon::net_Destroy()
 {
 	inherited::net_Destroy();
 
-	//удалить объекты партиклов
+	//СѓРґР°Р»РёС‚СЊ РѕР±СЉРµРєС‚С‹ РїР°СЂС‚РёРєР»РѕРІ
 	StopFlameParticles();
 	StopFlameParticles2();
 	StopLight();
@@ -1066,7 +1069,7 @@ void CWeapon::OnActiveItem()
 	//-
 
 	inherited::OnActiveItem();
-	//если мы занружаемся и оружие было в руках
+	//РµСЃР»Рё РјС‹ Р·Р°РЅСЂСѓР¶Р°РµРјСЃСЏ Рё РѕСЂСѓР¶РёРµ Р±С‹Р»Рѕ РІ СЂСѓРєР°С…
 //.	SetState					(eIdle);
 //.	SetNextState				(eIdle);
 }
@@ -1124,10 +1127,10 @@ void CWeapon::UpdateCL()
 {
 	inherited::UpdateCL();
 	UpdateHUDAddonsVisibility();
-	//подсветка от выстрела
+	//РїРѕРґСЃРІРµС‚РєР° РѕС‚ РІС‹СЃС‚СЂРµР»Р°
 	UpdateLight();
 
-	//нарисовать партиклы
+	//РЅР°СЂРёСЃРѕРІР°С‚СЊ РїР°СЂС‚РёРєР»С‹
 	UpdateFlameParticles();
 	UpdateFlameParticles2();
 
@@ -1204,11 +1207,11 @@ void CWeapon::renderable_Render()
 {
 	UpdateXForm();
 
-	//нарисовать подсветку
+	//РЅР°СЂРёСЃРѕРІР°С‚СЊ РїРѕРґСЃРІРµС‚РєСѓ
 
 	RenderLight();
 
-	//если мы в режиме снайперки, то сам HUD рисовать не надо
+	//РµСЃР»Рё РјС‹ РІ СЂРµР¶РёРјРµ СЃРЅР°Р№РїРµСЂРєРё, С‚Рѕ СЃР°Рј HUD СЂРёСЃРѕРІР°С‚СЊ РЅРµ РЅР°РґРѕ
 	if (IsZoomed() && !IsRotatingToZoom() && ZoomTexture())
 		RenderHud(FALSE);
 	else
@@ -1260,7 +1263,7 @@ bool CWeapon::Action(u16 cmd, u32 flags)
 	}
 	case kWPN_FIRE:
 	{
-		//если оружие чем-то занято, то ничего не делать
+		//РµСЃР»Рё РѕСЂСѓР¶РёРµ С‡РµРј-С‚Рѕ Р·Р°РЅСЏС‚Рѕ, С‚Рѕ РЅРёС‡РµРіРѕ РЅРµ РґРµР»Р°С‚СЊ
 		{
 			if (IsPending())
 				return				false;
@@ -1417,7 +1420,7 @@ int CWeapon::GetSuitableAmmoTotal(bool use_item_to_spawn) const
 		return ae_count;
 	}
 
-	//чтоб не делать лишних пересчетов
+	//С‡С‚РѕР± РЅРµ РґРµР»Р°С‚СЊ Р»РёС€РЅРёС… РїРµСЂРµСЃС‡РµС‚РѕРІ
 	if (m_pInventory->ModifyFrame() <= m_BriefInfo_CalcFrame)
 	{
 		return ae_count + m_iAmmoCurrentTotal;
@@ -1734,7 +1737,7 @@ float CWeapon::CurrentZoomFactor()
 	}
 };
 
-// Чувствительность мышкии с оружием в руках
+// Р§СѓРІСЃС‚РІРёС‚РµР»СЊРЅРѕСЃС‚СЊ РјС‹С€РєРёРё СЃ РѕСЂСѓР¶РёРµРј РІ СЂСѓРєР°С…
 float CWeapon::GetControlInertionFactor() const
 {
 	float fInertionFactor = inherited::GetControlInertionFactor();
@@ -1795,7 +1798,7 @@ void CWeapon::OnZoomIn()
 	else
 		SetZoomFactor(psActorFlags.test(AF_3DSCOPE_ENABLE) && bIsSecondVPZoomPresent() ? m_zoom_params.m_f3dZoomFactor : m_fRTZoomFactor);
 
-	// Отключаем инерцию (Заменено GetInertionFactor())
+	// РћС‚РєР»СЋС‡Р°РµРј РёРЅРµСЂС†РёСЋ (Р—Р°РјРµРЅРµРЅРѕ GetInertionFactor())
 	// EnableHudInertion(FALSE);
 
 	//if(m_zoom_params.m_bZoomDofEnabled && !IsScopeAttached())
@@ -1832,11 +1835,11 @@ void CWeapon::OnZoomIn()
 void CWeapon::OnZoomOut()
 {
 	if (!bIsSecondVPZoomPresent() && psActorFlags.test(AF_3DSCOPE_ENABLE))
-		m_fRTZoomFactor = GetZoomFactor(); // Сохраняем текущий динамический зум
+		m_fRTZoomFactor = GetZoomFactor(); // РЎРѕС…СЂР°РЅСЏРµРј С‚РµРєСѓС‰РёР№ РґРёРЅР°РјРёС‡РµСЃРєРёР№ Р·СѓРј
 	m_zoom_params.m_bIsZoomModeNow = false;
 	SetZoomFactor(g_fov);
 	psActorFlags.set(AF_ZOOM_NEW_FD, false);
-	// Включаем инерцию (также заменено  GetInertionFactor())
+	// Р’РєР»СЋС‡Р°РµРј РёРЅРµСЂС†РёСЋ (С‚Р°РєР¶Рµ Р·Р°РјРµРЅРµРЅРѕ  GetInertionFactor())
 	// EnableHudInertion	(TRUE);
 
 
@@ -2105,7 +2108,7 @@ void CWeapon::UpdateHudAdditonal(Fmatrix& trans)
 
 	u8 idx = GetCurrentHudOffsetIdx();
 
-	//============= Поворот ствола во время аима =============//
+	//============= РџРѕРІРѕСЂРѕС‚ СЃС‚РІРѕР»Р° РІРѕ РІСЂРµРјСЏ Р°РёРјР° =============//
 	if ((IsZoomed() && m_zoom_params.m_fZoomRotationFactor <= 1.f) || (!IsZoomed() && m_zoom_params.m_fZoomRotationFactor > 0.f))
 	{
 		Fvector curr_offs, curr_rot;
@@ -2138,7 +2141,7 @@ void CWeapon::UpdateHudAdditonal(Fmatrix& trans)
 		clamp(m_zoom_params.m_fZoomRotationFactor, 0.f, 1.0f);
 	}
 
-	//============= Подготавливаем общие переменные =============//
+	//============= РџРѕРґРіРѕС‚Р°РІР»РёРІР°РµРј РѕР±С‰РёРµ РїРµСЂРµРјРµРЅРЅС‹Рµ =============//
 
 	clamp(idx, u8(0), u8(1));
 	bool bForAim = (idx == 1);
@@ -2151,40 +2154,40 @@ void CWeapon::UpdateHudAdditonal(Fmatrix& trans)
 	static float fAvgTimeDelta = Device.fTimeDelta;
 	_inertion(fAvgTimeDelta, Device.fTimeDelta, 0.8f);
 
-	//======== Проверяем доступность инерции и стрейфа ========//
+	//======== РџСЂРѕРІРµСЂСЏРµРј РґРѕСЃС‚СѓРїРЅРѕСЃС‚СЊ РёРЅРµСЂС†РёРё Рё СЃС‚СЂРµР№С„Р° ========//
 	if (!g_player_hud->inertion_allowed())
 		return;
 
-	//============= Боковой стрейф с оружием =============//
-	float fStrafeMaxTime = m_strafe_offset[2][idx].y; // Макс. время в секундах, за которое мы наклонимся из центрального положения
+	//============= Р‘РѕРєРѕРІРѕР№ СЃС‚СЂРµР№С„ СЃ РѕСЂСѓР¶РёРµРј =============//
+	float fStrafeMaxTime = m_strafe_offset[2][idx].y; // РњР°РєСЃ. РІСЂРµРјСЏ РІ СЃРµРєСѓРЅРґР°С…, Р·Р° РєРѕС‚РѕСЂРѕРµ РјС‹ РЅР°РєР»РѕРЅРёРјСЃСЏ РёР· С†РµРЅС‚СЂР°Р»СЊРЅРѕРіРѕ РїРѕР»РѕР¶РµРЅРёСЏ
 	if (fStrafeMaxTime <= EPS)
 		fStrafeMaxTime = 0.01f;
 
-	float fStepPerUpd = fAvgTimeDelta / fStrafeMaxTime; // Величина изменение фактора поворота
+	float fStepPerUpd = fAvgTimeDelta / fStrafeMaxTime; // Р’РµР»РёС‡РёРЅР° РёР·РјРµРЅРµРЅРёРµ С„Р°РєС‚РѕСЂР° РїРѕРІРѕСЂРѕС‚Р°
 
-	// Добавляем боковой наклон от движения камеры
-	float fCamReturnSpeedMod = 1.5f; // Восколько ускоряем нормализацию наклона, полученного от движения камеры (только от бедра)
-	// Высчитываем минимальную скорость поворота камеры для начала инерции
+	// Р”РѕР±Р°РІР»СЏРµРј Р±РѕРєРѕРІРѕР№ РЅР°РєР»РѕРЅ РѕС‚ РґРІРёР¶РµРЅРёСЏ РєР°РјРµСЂС‹
+	float fCamReturnSpeedMod = 1.5f; // Р’РѕСЃРєРѕР»СЊРєРѕ СѓСЃРєРѕСЂСЏРµРј РЅРѕСЂРјР°Р»РёР·Р°С†РёСЋ РЅР°РєР»РѕРЅР°, РїРѕР»СѓС‡РµРЅРЅРѕРіРѕ РѕС‚ РґРІРёР¶РµРЅРёСЏ РєР°РјРµСЂС‹ (С‚РѕР»СЊРєРѕ РѕС‚ Р±РµРґСЂР°)
+	// Р’С‹СЃС‡РёС‚С‹РІР°РµРј РјРёРЅРёРјР°Р»СЊРЅСѓСЋ СЃРєРѕСЂРѕСЃС‚СЊ РїРѕРІРѕСЂРѕС‚Р° РєР°РјРµСЂС‹ РґР»СЏ РЅР°С‡Р°Р»Р° РёРЅРµСЂС†РёРё
 	float fStrafeMinAngle = _lerp(
 		m_strafe_offset[3][0].y,
 		m_strafe_offset[3][1].y,
 		m_zoom_params.m_fZoomRotationFactor);
 
-	// Высчитываем мксимальный наклон от поворота камеры
+	// Р’С‹СЃС‡РёС‚С‹РІР°РµРј РјРєСЃРёРјР°Р»СЊРЅС‹Р№ РЅР°РєР»РѕРЅ РѕС‚ РїРѕРІРѕСЂРѕС‚Р° РєР°РјРµСЂС‹
 	float fCamLimitBlend = _lerp(
 		m_strafe_offset[3][0].x,
 		m_strafe_offset[3][1].x,
 		m_zoom_params.m_fZoomRotationFactor);
 
-	// Считаем стрейф от поворота камеры
+	// РЎС‡РёС‚Р°РµРј СЃС‚СЂРµР№С„ РѕС‚ РїРѕРІРѕСЂРѕС‚Р° РєР°РјРµСЂС‹
 	if (abs(fYMag) > (m_fLR_CameraFactor == 0.0f ? fStrafeMinAngle : 0.0f))
-	{ //--> Камера крутится по оси Y
+	{ //--> РљР°РјРµСЂР° РєСЂСѓС‚РёС‚СЃСЏ РїРѕ РѕСЃРё Y
 		m_fLR_CameraFactor -= (fYMag * 0.025f);
 
 		clamp(m_fLR_CameraFactor, -fCamLimitBlend, fCamLimitBlend);
 	}
 	else
-	{ //--> Камера не поворачивается - убираем наклон
+	{ //--> РљР°РјРµСЂР° РЅРµ РїРѕРІРѕСЂР°С‡РёРІР°РµС‚СЃСЏ - СѓР±РёСЂР°РµРј РЅР°РєР»РѕРЅ
 		if (m_fLR_CameraFactor < 0.0f)
 		{
 			m_fLR_CameraFactor += fStepPerUpd * (bForAim ? 1.0f : fCamReturnSpeedMod);
@@ -2196,22 +2199,22 @@ void CWeapon::UpdateHudAdditonal(Fmatrix& trans)
 			clamp(m_fLR_CameraFactor, 0.0f, fCamLimitBlend);
 		}
 	}
-	// Добавляем боковой наклон от ходьбы вбок
-	float fChangeDirSpeedMod = 3; // Восколько быстро меняем направление направление наклона, если оно в другую сторону от текущего
+	// Р”РѕР±Р°РІР»СЏРµРј Р±РѕРєРѕРІРѕР№ РЅР°РєР»РѕРЅ РѕС‚ С…РѕРґСЊР±С‹ РІР±РѕРє
+	float fChangeDirSpeedMod = 3; // Р’РѕСЃРєРѕР»СЊРєРѕ Р±С‹СЃС‚СЂРѕ РјРµРЅСЏРµРј РЅР°РїСЂР°РІР»РµРЅРёРµ РЅР°РїСЂР°РІР»РµРЅРёРµ РЅР°РєР»РѕРЅР°, РµСЃР»Рё РѕРЅРѕ РІ РґСЂСѓРіСѓСЋ СЃС‚РѕСЂРѕРЅСѓ РѕС‚ С‚РµРєСѓС‰РµРіРѕ
 
 	u32 iMovingState = pActor->MovingState();
 	if ((iMovingState & mcLStrafe) != 0)
-	{ // Движемся влево
+	{ // Р”РІРёР¶РµРјСЃСЏ РІР»РµРІРѕ
 		float fVal = (m_fLR_MovingFactor > 0.f ? fStepPerUpd * fChangeDirSpeedMod : fStepPerUpd);
 		m_fLR_MovingFactor -= fVal;
 	}
 	else if ((iMovingState & mcRStrafe) != 0)
-	{ // Движемся вправо
+	{ // Р”РІРёР¶РµРјСЃСЏ РІРїСЂР°РІРѕ
 		float fVal = (m_fLR_MovingFactor < 0.f ? fStepPerUpd * fChangeDirSpeedMod : fStepPerUpd);
 		m_fLR_MovingFactor += fVal;
 	}
 	else
-	{ // Двигаемся в любом другом направлении - плавно убираем наклон
+	{ // Р”РІРёРіР°РµРјСЃСЏ РІ Р»СЋР±РѕРј РґСЂСѓРіРѕРј РЅР°РїСЂР°РІР»РµРЅРёРё - РїР»Р°РІРЅРѕ СѓР±РёСЂР°РµРј РЅР°РєР»РѕРЅ
 		if (m_fLR_MovingFactor < 0.0f)
 		{
 			m_fLR_MovingFactor += fStepPerUpd;
@@ -2224,14 +2227,14 @@ void CWeapon::UpdateHudAdditonal(Fmatrix& trans)
 		}
 	}
 
-	clamp(m_fLR_MovingFactor, -1.0f, 1.0f); // Фактор боковой ходьбы не должен превышать эти лимиты
+	clamp(m_fLR_MovingFactor, -1.0f, 1.0f); // Р¤Р°РєС‚РѕСЂ Р±РѕРєРѕРІРѕР№ С…РѕРґСЊР±С‹ РЅРµ РґРѕР»Р¶РµРЅ РїСЂРµРІС‹С€Р°С‚СЊ СЌС‚Рё Р»РёРјРёС‚С‹
 
-	// Вычисляем и нормализируем итоговый фактор наклона
+	// Р’С‹С‡РёСЃР»СЏРµРј Рё РЅРѕСЂРјР°Р»РёР·РёСЂСѓРµРј РёС‚РѕРіРѕРІС‹Р№ С„Р°РєС‚РѕСЂ РЅР°РєР»РѕРЅР°
 	float fLR_Factor = m_fLR_MovingFactor + (m_fLR_CameraFactor * fInertiaPower);
-	clamp(fLR_Factor, -1.0f, 1.0f); // Фактор боковой ходьбы не должен превышать эти лимиты
+	clamp(fLR_Factor, -1.0f, 1.0f); // Р¤Р°РєС‚РѕСЂ Р±РѕРєРѕРІРѕР№ С…РѕРґСЊР±С‹ РЅРµ РґРѕР»Р¶РµРЅ РїСЂРµРІС‹С€Р°С‚СЊ СЌС‚Рё Р»РёРјРёС‚С‹
 
-	// Производим наклон ствола для нормального режима и аима
-	for (int _idx = 0; _idx <= 1; _idx++)//<-- Для плавного перехода
+	// РџСЂРѕРёР·РІРѕРґРёРј РЅР°РєР»РѕРЅ СЃС‚РІРѕР»Р° РґР»СЏ РЅРѕСЂРјР°Р»СЊРЅРѕРіРѕ СЂРµР¶РёРјР° Рё Р°РёРјР°
+	for (int _idx = 0; _idx <= 1; _idx++)//<-- Р”Р»СЏ РїР»Р°РІРЅРѕРіРѕ РїРµСЂРµС…РѕРґР°
 	{
 		bool bEnabled = (m_strafe_offset[2][_idx].x != 0.0f);
 		if (!bEnabled)
@@ -2239,23 +2242,23 @@ void CWeapon::UpdateHudAdditonal(Fmatrix& trans)
 
 		Fvector curr_offs, curr_rot;
 
-		// Смещение позиции худа в стрейфе
+		// РЎРјРµС‰РµРЅРёРµ РїРѕР·РёС†РёРё С…СѓРґР° РІ СЃС‚СЂРµР№С„Рµ
 		curr_offs = m_strafe_offset[0][_idx]; //pos
-		curr_offs.mul(fLR_Factor);                   // Умножаем на фактор стрейфа
+		curr_offs.mul(fLR_Factor);                   // РЈРјРЅРѕР¶Р°РµРј РЅР° С„Р°РєС‚РѕСЂ СЃС‚СЂРµР№С„Р°
 
-		// Поворот худа в стрейфе
+		// РџРѕРІРѕСЂРѕС‚ С…СѓРґР° РІ СЃС‚СЂРµР№С„Рµ
 		curr_rot = m_strafe_offset[1][_idx]; //rot
-		curr_rot.mul(-PI / 180.f);                          // Преобразуем углы в радианы
-		curr_rot.mul(fLR_Factor);                   // Умножаем на фактор стрейфа
+		curr_rot.mul(-PI / 180.f);                          // РџСЂРµРѕР±СЂР°Р·СѓРµРј СѓРіР»С‹ РІ СЂР°РґРёР°РЅС‹
+		curr_rot.mul(fLR_Factor);                   // РЈРјРЅРѕР¶Р°РµРј РЅР° С„Р°РєС‚РѕСЂ СЃС‚СЂРµР№С„Р°
 
-		// Мягкий переход между бедром \ прицелом
+		// РњСЏРіРєРёР№ РїРµСЂРµС…РѕРґ РјРµР¶РґСѓ Р±РµРґСЂРѕРј \ РїСЂРёС†РµР»РѕРј
 		if (_idx == 0)
-		{ // От бедра
+		{ // РћС‚ Р±РµРґСЂР°
 			curr_offs.mul(1.f - m_zoom_params.m_fZoomRotationFactor);
 			curr_rot.mul(1.f - m_zoom_params.m_fZoomRotationFactor);
 		}
 		else
-		{ // Во время аима
+		{ // Р’Рѕ РІСЂРµРјСЏ Р°РёРјР°
 			curr_offs.mul(m_zoom_params.m_fZoomRotationFactor);
 			curr_rot.mul(m_zoom_params.m_fZoomRotationFactor);
 		}
@@ -2278,8 +2281,8 @@ void CWeapon::UpdateHudAdditonal(Fmatrix& trans)
 		trans.mulB_43(hud_rotation);
 	}
 
-	//============= Инерция оружия =============//
-   // Параметры инерции
+	//============= РРЅРµСЂС†РёСЏ РѕСЂСѓР¶РёСЏ =============//
+   // РџР°СЂР°РјРµС‚СЂС‹ РёРЅРµСЂС†РёРё
 	float fInertiaSpeedMod = _lerp(
 		hi->m_measures.m_inertion_params.m_tendto_speed,
 		hi->m_measures.m_inertion_params.m_tendto_speed_aim,
@@ -2313,7 +2316,7 @@ void CWeapon::UpdateHudAdditonal(Fmatrix& trans)
 		hi->m_measures.m_inertion_params.m_offset_LRUD_aim.w,
 		m_zoom_params.m_fZoomRotationFactor) * fInertiaPower;
 
-	// Высчитываем инерцию из поворотов камеры
+	// Р’С‹СЃС‡РёС‚С‹РІР°РµРј РёРЅРµСЂС†РёСЋ РёР· РїРѕРІРѕСЂРѕС‚РѕРІ РєР°РјРµСЂС‹
 	bool bIsInertionPresent = m_fLR_InertiaFactor != 0.0f || m_fUD_InertiaFactor != 0.0f;
 	if (abs(fYMag) > fInertiaMinAngle || bIsInertionPresent)
 	{
@@ -2321,10 +2324,10 @@ void CWeapon::UpdateHudAdditonal(Fmatrix& trans)
 		if (fYMag > 0.0f && m_fLR_InertiaFactor > 0.0f ||
 			fYMag < 0.0f && m_fLR_InertiaFactor < 0.0f)
 		{
-			fSpeed *= 2.f; //--> Ускоряем инерцию при движении в противоположную сторону
+			fSpeed *= 2.f; //--> РЈСЃРєРѕСЂСЏРµРј РёРЅРµСЂС†РёСЋ РїСЂРё РґРІРёР¶РµРЅРёРё РІ РїСЂРѕС‚РёРІРѕРїРѕР»РѕР¶РЅСѓСЋ СЃС‚РѕСЂРѕРЅСѓ
 		}
 
-		m_fLR_InertiaFactor -= (fYMag * fAvgTimeDelta * fSpeed); // Горизонталь (м.б. > |1.0|)
+		m_fLR_InertiaFactor -= (fYMag * fAvgTimeDelta * fSpeed); // Р“РѕСЂРёР·РѕРЅС‚Р°Р»СЊ (Рј.Р±. > |1.0|)
 	}
 
 	if (abs(fPMag) > fInertiaMinAngle || bIsInertionPresent)
@@ -2333,20 +2336,20 @@ void CWeapon::UpdateHudAdditonal(Fmatrix& trans)
 		if (fPMag > 0.0f && m_fUD_InertiaFactor > 0.0f ||
 			fPMag < 0.0f && m_fUD_InertiaFactor < 0.0f)
 		{
-			fSpeed *= 2.f; //--> Ускоряем инерцию при движении в противоположную сторону
+			fSpeed *= 2.f; //--> РЈСЃРєРѕСЂСЏРµРј РёРЅРµСЂС†РёСЋ РїСЂРё РґРІРёР¶РµРЅРёРё РІ РїСЂРѕС‚РёРІРѕРїРѕР»РѕР¶РЅСѓСЋ СЃС‚РѕСЂРѕРЅСѓ
 		}
 
-		m_fUD_InertiaFactor -= (fPMag * fAvgTimeDelta * fSpeed); // Вертикаль (м.б. > |1.0|)
+		m_fUD_InertiaFactor -= (fPMag * fAvgTimeDelta * fSpeed); // Р’РµСЂС‚РёРєР°Р»СЊ (Рј.Р±. > |1.0|)
 	}
 
 	clamp(m_fLR_InertiaFactor, -1.0f, 1.0f);
 	clamp(m_fUD_InertiaFactor, -1.0f, 1.0f);
 
-	// Плавное затухание инерции (основное, но без линейной никогда не опустит инерцию до полного 0.0f)
+	// РџР»Р°РІРЅРѕРµ Р·Р°С‚СѓС…Р°РЅРёРµ РёРЅРµСЂС†РёРё (РѕСЃРЅРѕРІРЅРѕРµ, РЅРѕ Р±РµР· Р»РёРЅРµР№РЅРѕР№ РЅРёРєРѕРіРґР° РЅРµ РѕРїСѓСЃС‚РёС‚ РёРЅРµСЂС†РёСЋ РґРѕ РїРѕР»РЅРѕРіРѕ 0.0f)
 	m_fLR_InertiaFactor *= clampr(1.f - fAvgTimeDelta * fInertiaReturnSpeedMod, 0.0f, 1.0f);
 	m_fUD_InertiaFactor *= clampr(1.f - fAvgTimeDelta * fInertiaReturnSpeedMod, 0.0f, 1.0f);
 
-	// Минимальное линейное затухание инерции при покое (горизонталь)
+	// РњРёРЅРёРјР°Р»СЊРЅРѕРµ Р»РёРЅРµР№РЅРѕРµ Р·Р°С‚СѓС…Р°РЅРёРµ РёРЅРµСЂС†РёРё РїСЂРё РїРѕРєРѕРµ (РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊ)
 	if (fYMag == 0.0f)
 	{
 		float fRetSpeedMod = (fYMag == 0.0f ? 1.0f : 0.75f) * (fInertiaReturnSpeedMod * 0.075f);
@@ -2362,7 +2365,7 @@ void CWeapon::UpdateHudAdditonal(Fmatrix& trans)
 		}
 	}
 
-	// Минимальное линейное затухание инерции при покое (вертикаль)
+	// РњРёРЅРёРјР°Р»СЊРЅРѕРµ Р»РёРЅРµР№РЅРѕРµ Р·Р°С‚СѓС…Р°РЅРёРµ РёРЅРµСЂС†РёРё РїСЂРё РїРѕРєРѕРµ (РІРµСЂС‚РёРєР°Р»СЊ)
 	if (fPMag == 0.0f)
 	{
 		float fRetSpeedMod = (fPMag == 0.0f ? 1.0f : 0.75f) * (fInertiaReturnSpeedMod * 0.075f);
@@ -2378,7 +2381,7 @@ void CWeapon::UpdateHudAdditonal(Fmatrix& trans)
 		}
 	}
 
-	// Применяем инерцию к худу
+	// РџСЂРёРјРµРЅСЏРµРј РёРЅРµСЂС†РёСЋ Рє С…СѓРґСѓ
 	float fLR_lim = (m_fLR_InertiaFactor < 0.0f ? vIOffsets.x : vIOffsets.y);
 	float fUD_lim = (m_fUD_InertiaFactor < 0.0f ? vIOffsets.z : vIOffsets.w);
 
@@ -2688,26 +2691,26 @@ u32 CWeapon::Cost() const
 
 }
 
-// Получить HUD FOV текущего оружия
+// РџРѕР»СѓС‡РёС‚СЊ HUD FOV С‚РµРєСѓС‰РµРіРѕ РѕСЂСѓР¶РёСЏ
 float CWeapon::GetHudFov()
 {
-	// Рассчитываем HUD FOV от бедра (с учётом упирания в стены)
+	// Р Р°СЃСЃС‡РёС‚С‹РІР°РµРј HUD FOV РѕС‚ Р±РµРґСЂР° (СЃ СѓС‡С‘С‚РѕРј СѓРїРёСЂР°РЅРёСЏ РІ СЃС‚РµРЅС‹)
 	if (ParentIsActor() && Level().CurrentViewEntity() == H_Parent())
 	{
-		// Получаем расстояние от камеры до точки в прицеле
+		// РџРѕР»СѓС‡Р°РµРј СЂР°СЃСЃС‚РѕСЏРЅРёРµ РѕС‚ РєР°РјРµСЂС‹ РґРѕ С‚РѕС‡РєРё РІ РїСЂРёС†РµР»Рµ
 		collide::rq_result& RQ = HUD().GetCurrentRayQuery();
 		float dist = RQ.range;
 
-		// Интерполируем расстояние в диапазон от 0 (min) до 1 (max)
+		// РРЅС‚РµСЂРїРѕР»РёСЂСѓРµРј СЂР°СЃСЃС‚РѕСЏРЅРёРµ РІ РґРёР°РїР°Р·РѕРЅ РѕС‚ 0 (min) РґРѕ 1 (max)
 		clamp(dist, m_nearwall_dist_min, m_nearwall_dist_max);
 		float fDistanceMod =
 			((dist - m_nearwall_dist_min) / (m_nearwall_dist_max - m_nearwall_dist_min)); // 0.f ... 1.f
 
-		// Рассчитываем базовый HUD FOV от бедра
+		// Р Р°СЃСЃС‡РёС‚С‹РІР°РµРј Р±Р°Р·РѕРІС‹Р№ HUD FOV РѕС‚ Р±РµРґСЂР°
 		float fBaseFov = psHUD_FOV_def + m_hud_fov_add_mod;
 		clamp(fBaseFov, 0.0f, FLT_MAX);
 
-		// Плавно высчитываем итоговый FOV от бедра
+		// РџР»Р°РІРЅРѕ РІС‹СЃС‡РёС‚С‹РІР°РµРј РёС‚РѕРіРѕРІС‹Р№ FOV РѕС‚ Р±РµРґСЂР°
 		float src = m_nearwall_speed_mod * Device.fTimeDelta;
 		clamp(src, 0.f, 1.f);
 
@@ -2728,7 +2731,7 @@ float CWeapon::GetSecondVPZoomFactor() const
 	return result;
 }
 
-// Получить FOV от текущего оружия игрока для второго рендера
+// РџРѕР»СѓС‡РёС‚СЊ FOV РѕС‚ С‚РµРєСѓС‰РµРіРѕ РѕСЂСѓР¶РёСЏ РёРіСЂРѕРєР° РґР»СЏ РІС‚РѕСЂРѕРіРѕ СЂРµРЅРґРµСЂР°
 
 float CWeapon::GetSecondVPFov() const
 {
@@ -2738,20 +2741,20 @@ float CWeapon::GetSecondVPFov() const
 	return GetSecondVPZoomFactor() * 75.f;//g_fov; 75.f
 }
 
-// Обновление необходимости включения второго вьюпорта +SecondVP+
-// Вызывается только для активного оружия игрока
+// РћР±РЅРѕРІР»РµРЅРёРµ РЅРµРѕР±С…РѕРґРёРјРѕСЃС‚Рё РІРєР»СЋС‡РµРЅРёСЏ РІС‚РѕСЂРѕРіРѕ РІСЊСЋРїРѕСЂС‚Р° +SecondVP+
+// Р’С‹Р·С‹РІР°РµС‚СЃСЏ С‚РѕР»СЊРєРѕ РґР»СЏ Р°РєС‚РёРІРЅРѕРіРѕ РѕСЂСѓР¶РёСЏ РёРіСЂРѕРєР°
 void CWeapon::UpdateSecondVP(bool bInGrenade)
 {
 	bool b_is_active_item = (m_pInventory != NULL) && (m_pInventory->ActiveItem() == this);
-	R_ASSERT(ParentIsActor() && b_is_active_item); // Эта функция должна вызываться только для оружия в руках нашего игрока
+	R_ASSERT(ParentIsActor() && b_is_active_item); // Р­С‚Р° С„СѓРЅРєС†РёСЏ РґРѕР»Р¶РЅР° РІС‹Р·С‹РІР°С‚СЊСЃСЏ С‚РѕР»СЊРєРѕ РґР»СЏ РѕСЂСѓР¶РёСЏ РІ СЂСѓРєР°С… РЅР°С€РµРіРѕ РёРіСЂРѕРєР°
 
 	CActor* pActor = smart_cast<CActor*>(H_Parent());
 
-	bool bCond_1 = bInZoomRightNow();													// Мы должны целиться
+	bool bCond_1 = bInZoomRightNow();													// РњС‹ РґРѕР»Р¶РЅС‹ С†РµР»РёС‚СЊСЃСЏ
 
-	bool bCond_2 = bIsSecondVPZoomPresent() && psActorFlags.test(AF_3DSCOPE_ENABLE);	// В конфиге должен быть прописан фактор зума для линзы (scope_lense_factor
-	// больше чем 0)
-	bool bCond_3 = pActor->cam_Active() == pActor->cam_FirstEye();						// Мы должны быть от 1-го лица	
+	bool bCond_2 = bIsSecondVPZoomPresent() && psActorFlags.test(AF_3DSCOPE_ENABLE);	// Р’ РєРѕРЅС„РёРіРµ РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РїСЂРѕРїРёСЃР°РЅ С„Р°РєС‚РѕСЂ Р·СѓРјР° РґР»СЏ Р»РёРЅР·С‹ (scope_lense_factor
+	// Р±РѕР»СЊС€Рµ С‡РµРј 0)
+	bool bCond_3 = pActor->cam_Active() == pActor->cam_FirstEye();						// РњС‹ РґРѕР»Р¶РЅС‹ Р±С‹С‚СЊ РѕС‚ 1-РіРѕ Р»РёС†Р°	
 
 	Device.m_SecondViewport.SetSVPActive(bCond_1 && bCond_2 && bCond_3 && !bInGrenade);
 }

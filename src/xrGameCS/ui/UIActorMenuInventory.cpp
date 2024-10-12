@@ -29,6 +29,7 @@
 #include "../player_hud.h"
 #include "CustomDetector.h"
 #include "../string_table.h"
+#include "../UIGameCustom.h"
 
 void move_item_from_to(u16 from_id, u16 to_id, u16 what_id);
 
@@ -637,6 +638,9 @@ bool CUIActorMenu::TryUseItem( CUICellItem* cell_itm )
 	{
 		return false;
 	}
+
+	cell_itm->UpdateConditionProgressBar(); //Alundaio
+
 	u16 recipient = m_pActorInvOwner->object_id();
 	if ( item->parent_id() != recipient )
 	{
@@ -729,7 +733,7 @@ void CUIActorMenu::PropertiesBoxForSlots( PIItem item, bool& b_show )
 	CCustomOutfit* pOutfit = smart_cast<CCustomOutfit*>( item );
 	CInventory*  inv = &m_pActorInvOwner->inventory();
 
-	// Флаг-признак для невлючения пункта контекстного меню: Dreess Outfit, если костюм уже надет
+	// Р¤Р»Р°Рі-РїСЂРёР·РЅР°Рє РґР»СЏ РЅРµРІР»СЋС‡РµРЅРёСЏ РїСѓРЅРєС‚Р° РєРѕРЅС‚РµРєСЃС‚РЅРѕРіРѕ РјРµРЅСЋ: Dreess Outfit, РµСЃР»Рё РєРѕСЃС‚СЋРј СѓР¶Рµ РЅР°РґРµС‚
 	bool bAlreadyDressed = false;
 	u32 const cur_slot = item->GetSlot();
 
@@ -768,7 +772,7 @@ void CUIActorMenu::PropertiesBoxForSlots( PIItem item, bool& b_show )
 
 void CUIActorMenu::PropertiesBoxForWeapon( CUICellItem* cell_item, PIItem item, bool& b_show )
 {
-	//отсоединение аддонов от вещи
+	//РѕС‚СЃРѕРµРґРёРЅРµРЅРёРµ Р°РґРґРѕРЅРѕРІ РѕС‚ РІРµС‰Рё
 	CWeapon*	pWeapon = smart_cast<CWeapon*>( item );
 	if ( !pWeapon )
 	{
@@ -815,7 +819,7 @@ void CUIActorMenu::PropertiesBoxForWeapon( CUICellItem* cell_item, PIItem item, 
 
 void CUIActorMenu::PropertiesBoxForAddon( PIItem item, bool& b_show )
 {
-	//присоединение аддонов к активному слоту (2 или 3)
+	//РїСЂРёСЃРѕРµРґРёРЅРµРЅРёРµ Р°РґРґРѕРЅРѕРІ Рє Р°РєС‚РёРІРЅРѕРјСѓ СЃР»РѕС‚Сѓ (2 РёР»Рё 3)
 
 	CScope*				pScope				= smart_cast<CScope*>			(item);
 	CSilencer*			pSilencer			= smart_cast<CSilencer*>		(item);
@@ -961,7 +965,10 @@ void CUIActorMenu::ProcessPropertiesBoxClicked( CUIWindow* w, void* d )
 	case INVENTORY_TO_SLOT_ACTION:	ToSlot( cell_item, true  );		break;
 	case INVENTORY_TO_BELT_ACTION:	ToBelt( cell_item, false );		break;
 	case INVENTORY_TO_BAG_ACTION:	ToBag ( cell_item, false );		break;
-	case INVENTORY_EAT_ACTION:		TryUseItem( cell_item );		break;
+	case INVENTORY_EAT_ACTION:
+		HUD().GetUI()->UIGame()->ActorMenu().SetCurrentConsumable(cell_item);
+		TryUseItem(cell_item);
+		break;		
 	case INVENTORY_DROP_ACTION:
 		{
 			void* d = m_UIPropertiesBox->GetClickedItem()->GetData();
@@ -1071,4 +1078,36 @@ void CUIActorMenu::MoveArtefactsToBag()
 		ToBag( ci, false );
 	}//for i
 	m_pInventoryBeltList->ClearAll( true );
+}
+
+void CUIActorMenu::RefreshConsumableCells()
+{
+	CUICellItem* ci = GetCurrentConsumable();
+	if (ci)
+	{
+		CEatableItem* eitm = smart_cast<CEatableItem*>((CEatableItem*)ci->m_pData);
+		if (eitm)
+		{
+			Fvector2 cp = GetUICursor()->GetCursorPosition();
+			CUIDragDropListEx* invlist = GetListByType(iActorBag);
+
+			CUICellItem* parent = invlist->RemoveItem(ci, true);
+			u32 c = parent->ChildsCount();
+			if (c > 0)
+			{
+				while (parent->ChildsCount())
+				{
+					CUICellItem* child = parent->PopChild(NULL);
+					invlist->SetItem(child);
+				}
+
+				invlist->SetItem(parent);
+			}
+			else
+			{
+				invlist->SetItem(parent);
+			}
+		}
+		SetCurrentConsumable(NULL);
+	}
 }

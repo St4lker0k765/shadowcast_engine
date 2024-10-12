@@ -12,6 +12,10 @@ private:
 private:
 	CPhysicItem		*m_physic_item;
 
+	u16				m_iMaxUses;
+	u16				m_iRemainingUses;
+	bool			m_bRemoveAfterUse;
+
 public:
 							CEatableItem				();
 	virtual					~CEatableItem				();
@@ -19,6 +23,8 @@ public:
 	virtual CEatableItem	*cast_eatable_item			()	{return this;}
 
 	virtual void			Load						(LPCSTR section);
+	virtual void			load						(IReader& packet);
+	virtual void			save						(NET_Packet& packet);
 	virtual bool			Useful						() const;
 
 	virtual BOOL			net_Spawn					(CSE_Abstract* DC);
@@ -26,21 +32,20 @@ public:
 	virtual void			OnH_B_Independent			(bool just_before_destroy);
 	virtual void			OnH_A_Independent			();
 	virtual	void			UseBy						(CEntityAlive* npc);
-	virtual	bool			Empty						()						{return PortionsNum()==0;};
-			int				PortionsNum					()	const				{return m_iPortionsNum;}
 protected:	
-	//влияние при поедании вещи на параметры игрока
+	//РІР»РёСЏРЅРёРµ РїСЂРё РїРѕРµРґР°РЅРёРё РІРµС‰Рё РЅР° РїР°СЂР°РјРµС‚СЂС‹ РёРіСЂРѕРєР°
 	float					m_fHealthInfluence;
 	float					m_fPowerInfluence;
 	float					m_fSatietyInfluence;
 	float					m_fRadiationInfluence;
 	float					m_fMaxPowerUpInfluence;
-	//заживление ран на кол-во процентов
+	//Р·Р°Р¶РёРІР»РµРЅРёРµ СЂР°РЅ РЅР° РєРѕР»-РІРѕ РїСЂРѕС†РµРЅС‚РѕРІ
 	float					m_fWoundsHealPerc;
+public:
+			bool			Empty						() const { return m_iRemainingUses == 0; };
+			bool			CanDelete					() const { return m_bRemoveAfterUse == true; };
+	virtual u16				GetMaxUses					() const { return m_iMaxUses; };
+	virtual u16				GetRemainingUses			() const { return m_iRemainingUses; };
 
-	//количество порций еды, 
-	//-1 - порция одна и больше не бывает (чтоб не выводить надпись в меню)
-	int						m_iPortionsNum;
-	int						m_iStartPortionsNum;
 };
 
