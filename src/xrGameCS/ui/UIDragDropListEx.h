@@ -41,6 +41,7 @@ private:
 	Flags8					m_flags;
 	CUICellItem*			m_selected_item;
 	Ivector2				m_orig_cell_capacity;
+	bool					m_bConditionProgBarVisible;
 
 protected:
 	
@@ -101,6 +102,9 @@ public:
 			void			SetVerticalPlacement(bool b);
 			bool			GetVerticalPlacement();
 			void			SetAlwaysShowScroll	(bool b);
+
+			bool			GetConditionProgBarVisibility() { return m_bConditionProgBarVisible; };
+			void			SetConditionProgBarVisibility(bool b) { m_bConditionProgBarVisible = b; };
 public:
 			// items management
 			virtual void	SetItem				(CUICellItem* itm); //auto

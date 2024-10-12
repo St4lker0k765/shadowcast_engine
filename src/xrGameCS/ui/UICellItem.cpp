@@ -8,6 +8,9 @@
 #include "../level.h"
 #include "object_broker.h"
 #include "UIXmlInit.h"
+#include "UIProgressBar.h"
+#include "../CustomOutfit.h"
+#include "../weapon.h"
 
 CUICellItem* CUICellItem::m_mouse_selected_item = NULL;
 
@@ -19,6 +22,7 @@ CUICellItem::CUICellItem()
 	m_text				= NULL;
 //-	m_mark				= NULL;
 	m_upgrade			= NULL;
+	m_pConditionState	= NULL;
 	m_drawn_frame		= 0;
 	SetAccelerator		(0);
 	m_b_destroy_childs	= true;
@@ -60,6 +64,12 @@ void CUICellItem::init()
 	CUIXmlInit::InitStatic	( uiXml, "cell_item_upgrade", 0, m_upgrade );
 	m_upgrade_pos			= m_upgrade->GetWndPos();
 	m_upgrade->Show			( false );
+
+	m_pConditionState = xr_new<CUIProgressBar>();
+	m_pConditionState->SetAutoDelete(true);
+	AttachChild(m_pConditionState);
+	CUIXmlInit::InitProgressBar(uiXml, "condition_progess_bar", 0, m_pConditionState);
+	m_pConditionState->Show(true);
 }
 
 void CUICellItem::Draw()
@@ -195,8 +205,36 @@ CUIDragItem* CUICellItem::CreateDragItem()
 void CUICellItem::SetOwnerList(CUIDragDropListEx* p)	
 {
 	m_pParentList=p;
+	UpdateConditionProgressBar();
 }
 
+void CUICellItem::UpdateConditionProgressBar()
+{
+
+	if(m_pParentList && m_pParentList->GetConditionProgBarVisibility())
+	{
+		PIItem itm = (PIItem)m_pData;
+		CWeapon* pWeapon = smart_cast<CWeapon*>(itm);
+		CCustomOutfit* pOutfit = smart_cast<CCustomOutfit*>(itm);
+		if(pWeapon || pOutfit)
+		{
+			Ivector2 itm_grid_size = GetGridSize();
+			if(m_pParentList->GetVerticalPlacement())
+				std::swap(itm_grid_size.x, itm_grid_size.y);
+
+			Ivector2 cell_size = m_pParentList->CellSize();
+			Ivector2 cell_space = m_pParentList->CellsSpacing();
+			float x = 1.f;
+			float y = itm_grid_size.y * (cell_size.y + cell_space.y) - m_pConditionState->GetHeight() - 2.f;
+
+			m_pConditionState->SetWndPos(Fvector2().set(x,y));
+			m_pConditionState->SetProgressPos(iCeil(itm->GetCondition()*13.0f)/13.0f);
+			m_pConditionState->Show(true);
+			return;
+		}
+	}
+	m_pConditionState->Show(false);
+}
 bool CUICellItem::EqualTo(CUICellItem* itm)
 {
 	return (m_grid_size.x==itm->GetGridSize().x) && (m_grid_size.y==itm->GetGridSize().y);
