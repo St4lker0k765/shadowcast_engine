@@ -569,14 +569,12 @@ void CRenderDevice::OnWM_Activate(WPARAM wParam, LPARAM lParam)
             Device.seqAppActivate.Process(rp_AppActivate);
             app_inactive_time += TimerMM.GetElapsed_ms() - app_inactive_time_start;
         	ShowCursor(FALSE);
-            XInputEnable(TRUE);
         }
         else
         {
             app_inactive_time_start = TimerMM.GetElapsed_ms();
             Device.seqAppDeactivate.Process(rp_AppDeactivate);
             ShowCursor(TRUE);
-            XInputEnable(FALSE);
 			//ClipCursor(NULL);
         }
     }

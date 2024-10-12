@@ -8,7 +8,6 @@
 #pragma warning(push)
 #pragma warning(disable:4995)
 #include <malloc.h>
-#include <dxerr.h>
 
 //#pragma warning(pop)
 
@@ -607,8 +606,6 @@ void	IPureClient::SendTo_LL(void* data, u32 size, u32 dwFlags, u32 dwTimeout)
 	{
 		Msg	("! ERROR: Failed to send net-packet, reason: %s",::Debug.error2string(hr));
 //		const char* x = DXGetErrorString9(hr);
-		string1024 tmp="";
-		DXTRACE_ERR(tmp, hr);
 	}
 
 //	UpdateStatistic();

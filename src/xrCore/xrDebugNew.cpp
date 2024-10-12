@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "xrdebug.h"
 #include "os_clipboard.h"
-#include "dxerr.h"
 #include "blackbox/CrashHandler.h"
 #pragma warning(push)
 #pragma warning(disable:4995)

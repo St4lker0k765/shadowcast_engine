@@ -14,7 +14,7 @@
 #include "../xrRenderDX10/3DFluid/dx103DFluidManager.h"
 #include "../xrRender/ShaderResourceTraits.h"
 
-#include "D3DX10Core.h"
+#include "D3D10shader.h"
 
 #pragma comment(lib, "xrEngine")
 #pragma comment(lib, "xrCDB")
@@ -744,11 +744,6 @@ void CRender::addShaderOption(const char* name, const char* value)
 	m_ShaderOptions.push_back(macro);
 }
 
-// XXX nitrocaster: workaround to eliminate conflict between different GUIDs from DXSDK/Windows SDK
-// 0a233719-3960-4578-9d7c-203b8b1d9cc1
-static const GUID guidShaderReflection =
-{0x0a233719, 0x3960, 0x4578, {0x9d, 0x7c, 0x20, 0x3b, 0x8b, 0x1d, 0x9c, 0xc1}};
-
 template <typename T>
 static HRESULT create_shader				(
 		LPCSTR const	pTarget,
@@ -763,7 +758,7 @@ static HRESULT create_shader				(
 
 	ID3DShaderReflection *pReflection = 0;
 
-	HRESULT const _hr	= D3DReflect( buffer, buffer_size, guidShaderReflection, (void**)&pReflection);
+	HRESULT const _hr	= D3DReflect( buffer, buffer_size, IID_ID3DShaderReflection, (void**)&pReflection);
 	if (SUCCEEDED(_hr) && pReflection)
 	{
 		// Parse constant table data
@@ -805,7 +800,7 @@ static HRESULT create_shader				(
 		ID3DShaderReflection *pReflection = 0;
 
 #ifdef USE_DX11
-        _result			= D3DReflect( buffer, buffer_size, guidShaderReflection, (void**)&pReflection);
+        _result			= D3DReflect( buffer, buffer_size, IID_ID3DShaderReflection, (void**)&pReflection);
 #else
 		_result			= D3D10ReflectShader( buffer, buffer_size, &pReflection);
 #endif
@@ -841,7 +836,7 @@ static HRESULT create_shader				(
 
 		ID3DShaderReflection *pReflection = 0;
 #ifdef USE_DX11
-        _result			= D3DReflect( buffer, buffer_size, guidShaderReflection, (void**)&pReflection);
+        _result			= D3DReflect( buffer, buffer_size, IID_ID3DShaderReflection, (void**)&pReflection);
 #else
 		_result			= D3D10ReflectShader( buffer, buffer_size, &pReflection);
 #endif
@@ -889,7 +884,7 @@ static HRESULT create_shader				(
 		ID3DShaderReflection *pReflection = 0;
 
 #ifdef USE_DX11
-		_result			= D3DReflect( buffer, buffer_size, guidShaderReflection, (void**)&pReflection);
+		_result			= D3DReflect( buffer, buffer_size, IID_ID3DShaderReflection, (void**)&pReflection);
 #else
 		_result			= D3D10ReflectShader( buffer, buffer_size, &pReflection);
 #endif

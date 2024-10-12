@@ -13,11 +13,11 @@
 
 #include "..\xrRenderDX10\3DFluid\dx103DFluidManager.h"
 
-#include "D3DX10Core.h"
+#include "D3D10shader.h"
 
 #pragma comment(lib, "xrEngine")
 #pragma comment(lib, "xrCDB")
-#pragma comment(lib, "d3d9") // каво? зачем d3d9 в R3?
+#pragma comment(lib, "d3d9") // РєР°РІРѕ? Р·Р°С‡РµРј d3d9 РІ R3?
 
 CRender										RImplementation;
 
