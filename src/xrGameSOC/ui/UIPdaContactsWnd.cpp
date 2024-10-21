@@ -10,7 +10,7 @@
 #include "UIScrollView.h"
 #include "../actor.h"
 #include "../string_table.h"
-#include "xrGame/game_object_space.h"
+#include "xrGameSOC/game_object_space.h"
 
 #define PDA_CONTACT_HEIGHT 70
 

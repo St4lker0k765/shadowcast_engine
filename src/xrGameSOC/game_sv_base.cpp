@@ -42,42 +42,18 @@ xr_token	round_end_result_str[]=
 	{ 0,						0							}
 };
 
-// Main
-game_PlayerState*	game_sv_GameState::get_it					(u32 it)
-{
-	xrClientData*	C	= (xrClientData*)m_server->client_Get			(it);
-	if (0==C)			return 0;
-	else				return C->ps;
-}
 
 game_PlayerState*	game_sv_GameState::get_id					(ClientID id)							
 {
-	xrClientData*	C	= (xrClientData*)m_server->ID_to_client	(id);
-	if (0==C)			return NULL;
+	xrClientData* C = (xrClientData*)m_server->ID_to_client(id);
+	if (0 == C)			return NULL;
 	else				return C->ps;
-}
-
-ClientID				game_sv_GameState::get_it_2_id				(u32 it)
-{
-	xrClientData*	C	= (xrClientData*)m_server->client_Get		(it);
-	if (0==C){
-		ClientID clientID;clientID.set(0);
-		return clientID;
-	}
-	else				return C->ID;
-}
-
-LPCSTR				game_sv_GameState::get_name_it				(u32 it)
-{
-	xrClientData*	C	= (xrClientData*)m_server->client_Get		(it);
-	if (0==C)			return 0;
-	else				return *C->name;
 }
 
 LPCSTR				game_sv_GameState::get_name_id				(ClientID id)							
 {
-	xrClientData*	C	= (xrClientData*)m_server->ID_to_client	(id);
-	if (0==C)			return 0;
+	xrClientData* C = (xrClientData*)m_server->ID_to_client(id);
+	if (0 == C)			return 0;
 	else				return *C->name;
 }
 
@@ -92,7 +68,7 @@ LPCSTR				game_sv_GameState::get_player_name_id				(ClientID id)
 
 u32					game_sv_GameState::get_players_count		()
 {
-	return				m_server->client_Count();
+	return				m_server->GetClientsCount();
 }
 
 u16					game_sv_GameState::get_id_2_eid				(ClientID id)
@@ -112,7 +88,7 @@ game_PlayerState*	game_sv_GameState::get_eid (u16 id) //if exist
 	{
 		if (entity->owner)
 		{
-			if(entity->owner->ps)
+			if (entity->owner->ps)
 			{
 				if (entity->owner->ps->GameID == id)
 					return entity->owner->ps;
@@ -120,14 +96,23 @@ game_PlayerState*	game_sv_GameState::get_eid (u16 id) //if exist
 		}
 	}
 	//-------------------------------------------------
-	u32		cnt		= get_players_count	();
-	for		(u32 it=0; it<cnt; ++it)	
+	struct id_searcher
 	{
-		game_PlayerState*	ps	=	get_it	(it);
-		if (!ps) continue;
-		if (ps->HasOldID(id)) return ps;
+		u16 id_to_search;
+		bool operator()(IClient* client)
+		{
+			xrClientData* tmp_client = static_cast<xrClientData*>(client);
+			if (!tmp_client->ps)
+				return false;
+			return tmp_client->ps->HasOldID(id_to_search);
+		}
 	};
-	//-------------------------------------------------
+	id_searcher tmp_predicate;
+	tmp_predicate.id_to_search = id;
+	xrClientData* tmp_client = static_cast<xrClientData*>(
+		m_server->FindClient(tmp_predicate));
+	if (tmp_client)
+		return tmp_client->ps;
 	return NULL;
 }
 
@@ -136,15 +121,6 @@ void* game_sv_GameState::get_client (u16 id) //if exist
 	CSE_Abstract* entity = get_entity_from_eid(id);
 	if (entity && entity->owner && entity->owner->ps && entity->owner->ps->GameID == id)
 		return entity->owner;
-	//-------------------------------------------------
-	u32		cnt		= get_players_count	();
-	for		(u32 it=0; it<cnt; ++it)	
-	{
-		xrClientData*	C	= (xrClientData*)m_server->client_Get		(it);
-		if (!C || !C->ps) continue;
-//		game_PlayerState*	ps	=	get_it	(it);
-		if (C->ps->HasOldID(id)) return C;
-	};
 	//-------------------------------------------------
 	return NULL;
 }
@@ -159,12 +135,6 @@ u32					game_sv_GameState::get_alive_count			(u32 team)
 {
 	u32		cnt		= get_players_count	();
 	u32		alive	= 0;
-	for		(u32 it=0; it<cnt; ++it)	
-	{
-		game_PlayerState*	ps	=	get_it	(it);
-		if (!ps) continue;
-		if (u32(ps->team) == team)	alive	+=	(ps->testFlag(GAME_PLAYER_FLAG_VERY_VERY_DEAD))?0:1;
-	}
 	return alive;
 }
 
@@ -242,44 +212,9 @@ void game_sv_GameState::net_Export_State						(NET_Packet& P, ClientID to)
 	// Players
 //	u32	p_count			= get_players_count() - ((g_dedicated_server)? 1 : 0);
 	u32 p_count = 0;
-	for (u32 p_it=0; p_it<get_players_count(); ++p_it)
-	{
-		xrClientData*	C		=	(xrClientData*)	m_server->client_Get	(p_it);		
-		if (!C->net_Ready || (C->ps->IsSkip() && C->ID != to)) continue;
-		p_count++;
-	};
 
 	P.w_u16				(u16(p_count));
 	game_PlayerState*	Base	= get_id(to);
-	for (u32 p_it=0; p_it<get_players_count(); ++p_it)
-	{
-		string64	p_name;
-		xrClientData*	C		=	(xrClientData*)	m_server->client_Get	(p_it);
-		game_PlayerState* A		=	get_it			(p_it);
-		if (!C->net_Ready || (A->IsSkip() && C->ID != to)) continue;
-		if (0==C)	strcpy(p_name,"Unknown");
-		else 
-		{
-			CSE_Abstract* C_e		= C->owner;
-			if (0==C_e)		strcpy(p_name,"Unknown");
-			else 
-			{
-				strcpy	(p_name,C_e->name_replace());
-			}
-		}
-
-		A->setName(p_name);
-		u16 tmp_flags = A->flags__;
-
-		if (Base==A)	
-			A->setFlag(GAME_PLAYER_FLAG_LOCAL);
-
-		ClientID clientID = get_it_2_id	(p_it);
-		P.w_clientID			(clientID);
-		A->net_Export			(P, TRUE);
-		
-		A->flags__ = tmp_flags;
-	}
 
 	net_Export_GameTime(P);
 }
@@ -557,10 +492,6 @@ void game_sv_GameState::u_EventSend(NET_Packet& P, u32 dwFlags)
 
 void game_sv_GameState::Update		()
 {
-	for (u32 it=0; it<m_server->client_Count(); ++it) {
-		xrClientData*	C			= (xrClientData*)	m_server->client_Get(it);
-		C->ps->ping					= u16(C->stats.getPing());
-	}
 	
 	if (!g_dedicated_server)
 	{
@@ -703,20 +634,24 @@ void game_sv_GameState::OnEvent (NET_Packet &tNetPacket, u16 type, u32 time, Cli
 
 bool game_sv_GameState::NewPlayerName_Exists( void* pClient, LPCSTR NewName )
 {
-	if ( !pClient || !NewName ) return false;
-	IClient* CL = (IClient*)pClient;
-	if ( !CL->name || xr_strlen( CL->name.c_str() ) == 0 ) return false;
-
-	u32	cnt	= get_players_count();
-	for ( u32 it = 0; it < cnt; ++it )	
+	if (!pClient || !NewName) return false;
+	struct client_finder
 	{
-		IClient*	pIC	= m_server->client_Get(it);
-		if ( !pIC || pIC == CL ) continue;
-		string64 xName;
-		strcpy( xName, pIC->name.c_str() );
-		if ( !xr_strcmp(NewName, xName) ) return true;
+		IClient* CL;
+		LPCSTR NewName;
+		bool operator()(IClient* client)
+		{
+			if (client == CL) return false;
+			if (!xr_strcmp(NewName, client->name.c_str())) return true;
+			return false;
+		}
 	};
-	return false;
+	client_finder tmp_predicate;
+	tmp_predicate.CL = static_cast<IClient*>(pClient);
+	tmp_predicate.NewName = NewName;
+	if (!tmp_predicate.CL->name || xr_strlen(tmp_predicate.CL->name.c_str()) == 0) return false;
+	IClient* ret_client = m_server->FindClient(tmp_predicate);
+	return (ret_client != NULL);
 }
 
 void game_sv_GameState::NewPlayerName_Generate( void* pClient, LPSTR NewPlayerName )

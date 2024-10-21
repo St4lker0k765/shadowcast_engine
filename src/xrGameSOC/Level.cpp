@@ -484,7 +484,7 @@ void CLevel::OnFrame	()
 			if ( IsServer() )
 			{
 				const IServerStatistic* S = Server->GetStatistic();
-				F->SetHeightI	(0.015f);
+				F->SetHeight	(0.015f);
 				F->OutSetI	(0.0f,0.5f);
 				F->SetColor	(D3DCOLOR_XRGB(0,255,0));
 				F->OutNext	("IN:  %4d/%4d (%2.1f%%)",	S->bytes_in_real,	S->bytes_in,	100.f*float(S->bytes_in_real)/float(S->bytes_in));
@@ -494,9 +494,9 @@ void CLevel::OnFrame	()
 				F->OutNext	("sv_urate/cl_urate : %4d/%4d", psNET_ServerUpdate, psNET_ClientUpdate);
 
 				F->SetColor	(D3DCOLOR_XRGB(255,255,255));
-				for (u32 I=0; I<Server->client_Count(); ++I)	
+				for (u32 I=0; I<Server->GetClientsCount(); ++I)	
 				{
-					IClient*	C = Server->client_Get(I);
+					IClient*	C;
 					Server->UpdateClientStatistic(C);
 					F->OutNext("P(%d), BPS(%2.1fK), MRR(%2d), MSR(%2d), Retried(%2d), Blocked(%2d)",
 						//Server->game->get_option_s(*C->Name,"name",*C->Name),
@@ -514,7 +514,7 @@ void CLevel::OnFrame	()
 			{
 				IPureClient::UpdateStatistic();
 
-				F->SetHeightI(0.015f);
+				F->SetHeight(0.015f);
 				F->OutSetI	(0.0f,0.5f);
 				F->SetColor	(D3DCOLOR_XRGB(0,255,0));
 				F->OutNext	("client_2_sever ping: %d",	net_Statistic.getPing());
@@ -530,8 +530,7 @@ void CLevel::OnFrame	()
 					net_Statistic.getMPS_Send	(),
 					net_Statistic.getRetriedCount(),
 					net_Statistic.dwTimesBlocked,
-					net_Statistic.dwBytesSended,
-					net_Statistic.dwBytesPerSec
+					net_Statistic.dwBytesSended
 					);
 			}
 		}
@@ -962,11 +961,13 @@ void CLevel::SetGameTimeFactor(ALife::_TIME_ID GameTime, const float fTimeFactor
 	game->SetGameTimeFactor(GameTime, fTimeFactor);
 //	Server->game->SetGameTimeFactor(fTimeFactor);
 }
-void CLevel::SetEnvironmentGameTimeFactor(ALife::_TIME_ID GameTime, const float fTimeFactor)
+void CLevel::SetEnvironmentGameTimeFactor(u64 const& GameTime, float const& fTimeFactor)
 {
+	if (!game)
+		return;
 	game->SetEnvironmentGameTimeFactor(GameTime, fTimeFactor);
-//	Server->game->SetGameTimeFactor(fTimeFactor);
-}/*
+}
+/*
 void CLevel::SetGameTime(ALife::_TIME_ID GameTime)
 {
 	game->SetGameTime(GameTime);
@@ -981,7 +982,7 @@ bool CLevel::IsServer ()
 		return IsServerDemo();
 	};	
 	if (!Server) return false;
-	return (Server->client_Count() != 0);
+	return (Server->GetClientsCount() != 0);
 
 }
 
@@ -993,7 +994,7 @@ bool CLevel::IsClient ()
 		return IsClientDemo();
 	};	
 	if (!Server) return true;
-	return (Server->client_Count() == 0);
+	return (Server->GetClientsCount() == 0);
 }
 
 void CLevel::OnSessionTerminate		(LPCSTR reason)

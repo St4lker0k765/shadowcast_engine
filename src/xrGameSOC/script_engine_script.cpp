@@ -153,9 +153,7 @@ struct profile_timer_script {
 
 	IC		float					time					() const
 	{
-		FPU::m64r				();
 		float					result = (float(double(m_accumulator)/double(CPU::clk_per_second))*1000000.f);
-		FPU::m24r				();
 		return					(result);
 	}
 };
@@ -194,8 +192,8 @@ void CScriptEngine::script_register(lua_State *L)
 			.def("start",&profile_timer_script::start)
 			.def("stop",&profile_timer_script::stop)
 			.def("time",&profile_timer_script::time),
-			//morrazzzz: Приколы с удалением log из движка, это же полный бред!
-			def("log", &LuaLog), //morrazzzz: Решил вкинуть это опять в движок, не понимаю зачем в OGSR его удалили
+			//morrazzzz: РџСЂРёРєРѕР»С‹ СЃ СѓРґР°Р»РµРЅРёРµРј log РёР· РґРІРёР¶РєР°, СЌС‚Рѕ Р¶Рµ РїРѕР»РЅС‹Р№ Р±СЂРµРґ!
+			def("log", &LuaLog), //morrazzzz: Р РµС€РёР» РІРєРёРЅСѓС‚СЊ СЌС‚Рѕ РѕРїСЏС‚СЊ РІ РґРІРёР¶РѕРє, РЅРµ РїРѕРЅРёРјР°СЋ Р·Р°С‡РµРј РІ OGSR РµРіРѕ СѓРґР°Р»РёР»Рё
 			def("prefetch", [](const char* file_name) { ai().script_engine().process_file(file_name); }), def("editor", [] { return false; }),
 
 			def("bit_and", [](const int i, const int j) { return i & j; }), def("bit_or", [](const int i, const int j) { return i | j; }),

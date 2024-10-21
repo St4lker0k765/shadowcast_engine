@@ -164,13 +164,13 @@ bool game_cl_mp::OnKeyboardPress(int key)
 
 				if (kCHAT_TEAM == key)
 				{
-					prefix.sprintf("%s> ", *st.translate("st_mp_say_to_team"));
+					prefix.printf("%s> ", *st.translate("st_mp_say_to_team"));
 					
 					pChatWnd->TeamChat();
 				}
 				else
 				{
-					prefix.sprintf("%s> ", *st.translate("st_mp_say_to_all"));					
+					prefix.printf("%s> ", *st.translate("st_mp_say_to_all"));					
 					pChatWnd->AllChat();
 				}
 
@@ -615,7 +615,7 @@ void game_cl_mp::OnSwitchPhase			(u32 old_phase, u32 new_phase)
 		{
 			m_bSpectatorSelected = FALSE;
 
-			if (Level().pHUD && HUD().GetUI())
+			if (&HUD() && HUD().GetUI())
 			{
 				HUD().GetUI()->ShowGameIndicators();
 			};
@@ -637,7 +637,7 @@ void game_cl_mp::OnSwitchPhase			(u32 old_phase, u32 new_phase)
 
 	default:
 		{
-			if (Level().pHUD && HUD().GetUI())
+			if (&HUD() && HUD().GetUI())
 			{
 				HUD().GetUI()->HideGameIndicators();
 			};
@@ -1055,7 +1055,7 @@ void	game_cl_mp::OnEventMoneyChanged			(NET_Packet& P)
 			}break;
 		case SKT_KIR: 
 			{				
-				BName.sprintf("%d_kill_in_row", BonusKills);
+				BName.printf("%d_kill_in_row", BonusKills);
 				
 				sprintf_s		(MoneyStr, sizeof(MoneyStr), "%d", BonusKills);
 				BMS.m_killer.m_name = MoneyStr;

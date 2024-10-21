@@ -1,6 +1,7 @@
 #pragma once
 
 #include "script_object.h"
+#include "../xrEngine/bone.h"
 
 class CLAItem;
 

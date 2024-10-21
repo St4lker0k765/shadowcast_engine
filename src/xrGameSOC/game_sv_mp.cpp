@@ -704,18 +704,18 @@ void game_sv_mp::OnVoteStart				(LPCSTR VoteCommand, ClientID sender)
 			string256 WeatherTime = "", WeatherName = "";
 			sscanf(CommandParams, "%s %s", WeatherName, WeatherTime );
 
-			m_pVoteCommand.sprintf("%s %s", votecommands[i].command, WeatherTime);
+			m_pVoteCommand.printf("%s %s", votecommands[i].command, WeatherTime);
 			sprintf_s(resVoteCommand, "%s %s", votecommands[i].name, WeatherName);
 		}
 		else
 		{
-			m_pVoteCommand.sprintf("%s %s", votecommands[i].command, CommandParams);
+			m_pVoteCommand.printf("%s %s", votecommands[i].command, CommandParams);
 			strcpy(resVoteCommand, VoteCommand);
 		}		
 	}
 	else
 	{
-		m_pVoteCommand.sprintf("%s", VoteCommand+1);
+		m_pVoteCommand.printf("%s", VoteCommand+1);
 	};
 
 	xrClientData *pStartedPlayer = NULL;
@@ -1388,7 +1388,7 @@ void game_sv_mp::DumpOnlineStatistic()
 		ini.w_string				("map_rotation", num_buf, str_buff);
 	}
 
-	for(u32 idx=0; idx<m_server->client_Count(); ++idx)
+	for(u32 idx=0; idx<m_server->GetClientsCount(); ++idx)
 	{
 		xrClientData *l_pC			= (xrClientData*)m_server->client_Get(idx);
 		

@@ -16,12 +16,12 @@ CScriptIniFile *get_system_ini()
 	return	((CScriptIniFile*)pSettings);
 }
 
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 CScriptIniFile *get_game_ini()
 {
 	return	((CScriptIniFile*)pGameIni);
 }
-#endif // XRGAME_EXPORTS
+#endif // XRGAMESOC_EXPORTS
 
 bool r_line(CScriptIniFile *self, LPCSTR S, int L, string_class& N, string_class& V)
 {
@@ -41,6 +41,23 @@ bool r_line(CScriptIniFile *self, LPCSTR S, int L, string_class& N, string_class
 		V			= v;
 	return			(true);
 }
+
+#pragma warning(push)
+#pragma warning(disable:4238)
+CScriptIniFile* create_ini_file(LPCSTR ini_string)
+{
+	return			(
+		(CScriptIniFile*)
+		xr_new<CInifile>(
+			&IReader(
+				(void*)ini_string,
+				xr_strlen(ini_string)
+			),
+			FS.get_path("$game_config$")->m_Path
+		)
+		);
+}
+#pragma warning(pop)
 
 #pragma optimize("s",on)
 void CScriptIniFile::script_register(lua_State *L)
@@ -64,15 +81,9 @@ void CScriptIniFile::script_register(lua_State *L)
 			.def("r_line",			&::r_line, out_value<4>() + out_value<5>()),
 
 		def("system_ini",			&get_system_ini),
-#ifdef XRGAME_EXPORTS
+#ifdef XRGAMESOC_EXPORTS
 		def("game_ini",				&get_game_ini),
-#endif // XRGAME_EXPORTS
-		def(
-			"create_ini_file", // чтение ini как текста, без возможности сохранить
-			[](const char* ini_string) {
-				IReader reader((void*)ini_string, strlen(ini_string));
-				return static_cast<CScriptIniFile*>(xr_new<CInifile>(&reader, FS.get_path("$game_config$")->m_Path));
-			},
-			adopt<result>())
+#endif // XRGAMESOC_EXPORTS
+			def("create_ini_file", &create_ini_file, adopt<result>())
 	];
 }

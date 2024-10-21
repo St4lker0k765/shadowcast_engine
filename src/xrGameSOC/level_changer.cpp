@@ -16,7 +16,7 @@
 #include "ai_space.h"
 #include "level_graph.h"
 #include "game_level_cross_table.h"
-
+#include "../xrEngine/xr_collide_form.h"
 #include "HudManager.h"
 #include "UIGameSP.h"
 

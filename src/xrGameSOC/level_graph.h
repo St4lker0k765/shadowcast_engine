@@ -9,9 +9,9 @@
 #pragma once
 
 #ifndef AI_COMPILER
-	#include "../xrEngine/xrLevel.h"
+#	include "../xrEngine/xrLevel.h"
 #else
-	#include "xrLevel.h"
+#	include "../../xrEngine/xrLevel.h"
 #endif
 
 #include "alife_space.h"
@@ -58,9 +58,11 @@ private:
 	u32						m_column_length;
 	u32						m_max_x;
 	u32						m_max_z;
+	xr_vector<NodeCompressed> m_old_nodes;	// ноды для аи-сетки старых версий
 
-protected:
+private:
 			u32		vertex						(const Fvector &position) const;
+			u32		guess_vertex_id				(u32 const &current_vertex_id, Fvector const &position) const;
 
 public:
 	typedef u32 const_iterator;
@@ -90,10 +92,19 @@ public:
 	virtual			~CLevelGraph				();
 	IC		const_vertex_iterator begin			() const;
 	IC		const_vertex_iterator end			() const;
+	
 	IC		void	set_mask					(const xr_vector<u32> &mask);
+	IC		void	set_mask_no_check			(const xr_vector<u32> &mask);
+	
 	IC		void	set_mask					(u32 vertex_id);
+	IC		void	set_mask_no_check			(u32 vertex_id);
+
 	IC		void	clear_mask					(const xr_vector<u32> &mask);
+	IC		void	clear_mask_no_check			(const xr_vector<u32> &mask);
+
 	IC		void	clear_mask					(u32 vertex_id);
+	IC		void	clear_mask_no_check			(u32 vertex_id);
+
 	IC		bool	is_accessible				(const u32 vertex_id) const;
 	IC		void	level_id					(const GameGraph::_LEVEL_ID &level_id);
 	IC		u32		max_x						() const;
@@ -163,20 +174,28 @@ public:
 	IC		float	nearest						(Fvector &destination, const Fvector &position, const Fvector &point0, const Fvector &point1) const;
 	IC		void	contour						(SContour &contour, u32 vertex_id) const;
 	IC		void	contour						(SContour &contour, const CVertex *vertex) const;
-	IC		void	nearest						(Fvector &destination, const Fvector &position, const SContour &contour) const;
+	IC		float	nearest						(Fvector &destination, const Fvector &position, const SContour &contour) const;
 	IC		bool	intersect					(Fvector &destination, const Fvector &v1, const Fvector& v2, const Fvector& v3, const Fvector& v4) const;
 	IC		float	square						(float a1, float b1, float alpha = PI_DIV_2) const;
 	IC		float	compute_square				(float angle, float AOV, float b0, float b1, float b2, float b3) const;
-	IC		float	compute_square				(float angle, float AOV, const CVertex *vertex) const;
-	IC		float	compute_square				(float angle, float AOV, u32 dwNodeID) const;
-	IC		float	vertex_cover				(const CLevelGraph::CVertex *vertex) const;
-	IC		float	vertex_cover				(const u32 vertex_id) const;
+	IC		float	compute_high_square			(float angle, float AOV, const CVertex *vertex) const;
+	IC		float	compute_low_square			(float angle, float AOV, const CVertex *vertex) const;
+	IC		float	compute_high_square			(float angle, float AOV, u32 dwNodeID) const;
+	IC		float	compute_low_square			(float angle, float AOV, u32 dwNodeID) const;
+	IC		float	vertex_high_cover			(const CLevelGraph::CVertex *vertex) const;
+	IC		float	vertex_low_cover			(const CLevelGraph::CVertex *vertex) const;
+	IC		float	vertex_high_cover			(const u32 vertex_id) const;
+	IC		float	vertex_low_cover			(const u32 vertex_id) const;
 			float	cover_in_direction			(float angle, float b0, float b1, float b2, float b3) const;
-	IC		float	cover_in_direction			(float angle, const CVertex *vertex) const;
-	IC		float	cover_in_direction			(float angle, u32 vertex_id) const;
+	IC		float	high_cover_in_direction		(float angle, const CVertex *vertex) const;
+	IC		float	low_cover_in_direction		(float angle, const CVertex *vertex) const;
+	IC		float	high_cover_in_direction		(float angle, u32 vertex_id) const;
+	IC		float	low_cover_in_direction		(float angle, u32 vertex_id) const;
 
 	template <class _predicate>
-	IC		float	vertex_cover_angle			(u32 vertex_id, float inc_angle, _predicate compare_predicate) const;
+	IC		float	vertex_high_cover_angle		(u32 vertex_id, float inc_angle, _predicate compare_predicate) const;
+	template <class _predicate>
+	IC		float	vertex_low_cover_angle		(u32 vertex_id, float inc_angle, _predicate compare_predicate) const;
 	IC		void	set_invalid_vertex			(u32 &vertex_id, CVertex **vertex = NULL) const;
 	IC		const u32 vertex_id					(const CLevelGraph::CVertex *vertex) const;
 			u32		vertex_id					(const Fvector &position) const;
@@ -207,8 +226,10 @@ public:
 			bool	neighbour_in_direction		(const Fvector &direction, u32 start_vertex_id) const;
 
 #ifdef DEBUG
+#	ifndef AI_COMPILER
 private:
-	debug_shader sh_debug;
+	//ref_shader			sh_debug;
+	debug_shader			sh_debug;
 
 private:
 	int					m_current_level_id;
@@ -238,6 +259,7 @@ private:
 public:
 			void		render					();
 #	endif
+#endif
 };
 
 IC	bool operator<		(const CLevelGraph::CVertex &vertex, const u32 &vertex_xz);

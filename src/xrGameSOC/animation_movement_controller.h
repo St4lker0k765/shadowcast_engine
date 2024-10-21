@@ -1,4 +1,5 @@
 #pragma once
+#include "../xrEngine/bone.h"
 class CBlend;
 class animation_movement_controller
 {

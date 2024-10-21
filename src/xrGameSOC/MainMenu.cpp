@@ -10,6 +10,7 @@
 #include <dinput.h>
 #include "ui/UIBtnHint.h"
 #include "UICursor.h"
+#include "../xrEngine/x_ray.h"
 
 #include "object_broker.h"
 #include "../xrEngine/DiscordSDK.h"
@@ -509,5 +510,5 @@ void CMainMenu::OnConnectToMasterServerOkClicked(CUIWindow*, void*)
 
 LPCSTR CMainMenu::GetGSVer()
 {
-	return "ESM Engine x64 b1.02";
+	return pApp->ShowCurrentVersion();
 }
