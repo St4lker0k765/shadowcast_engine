@@ -418,6 +418,7 @@
     <ClInclude Include="damage_manager_inline.h" />
     <ClInclude Include="DamageSource.h" />
     <ClInclude Include="script_crandom.h" />
+    <ClInclude Include="UIFontDefines.h" />
     <ClInclude Include="ui_defs.h" />
     <ClInclude Include="wrapper_abstract.h" />
     <ClInclude Include="wrapper_abstract_inline.h" />

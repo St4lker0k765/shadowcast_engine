@@ -11,7 +11,7 @@
 #include "../xrEngine/xr_ioconsole.h"
 #include "MainMenu.h"
 
-BOOL CLevel::net_Start	( LPCSTR op_server, LPCSTR op_client )
+bool CLevel::net_Start	( LPCSTR op_server, LPCSTR op_client )
 {
 	net_start_result_total				= TRUE;
 
@@ -117,7 +117,7 @@ bool CLevel::net_start1				()
 
 			m_name					= l_name;
 
-			int						id = pApp->Level_ID(l_name);
+			int						id = pApp->Level_ID(l_name, "", true);
 
 			if (id<0) {
 				pApp->LoadEnd				();
@@ -237,19 +237,9 @@ bool xr_stdcall net_start_finalizer()
 		Msg				("! Failed to start client. Check the connection or level existance.");
 		DEL_INSTANCE	(g_pGameLevel);
 		Console->Execute("main_menu on");
-
-		if (g_connect_server_err==xrServer::ErrBELoad)
-		{
-			MainMenu()->OnLoadError("BattlEye/BEServer.dll");
-		}else
-		if(g_connect_server_err==xrServer::ErrConnect && !psNET_direct_connect && !g_dedicated_server) 
+		if (g_connect_server_err == xrServer::ErrConnect && !psNET_direct_connect && !g_dedicated_server)
 		{
 			MainMenu()->SwitchToMultiplayerMenu();
-		}else
-		if(g_connect_server_err==xrServer::ErrNoLevel)
-		{
-			MainMenu()->SwitchToMultiplayerMenu();
-			MainMenu()->OnLoadError(ln.c_str());
 		}
 	}
 	return true;
@@ -305,5 +295,6 @@ void CLevel::InitializeClientGame	(NET_Packet& P)
 	game->set_type_name(game_type_name);
 	game->Init();
 	m_bGameConfigStarted	= TRUE;
+	R_ASSERT(Load_GameSpecific_After());
 }
 

@@ -6,7 +6,7 @@
 #include "../xrEngine/igame_level.h"
 #include "clsid_game.h"
 #include "GamePersistent.h"
-
+#include "UIFontDefines.h"
 
 //--------------------------------------------------------------------
 CHUDManager::CHUDManager()
@@ -105,7 +105,7 @@ void  CHUDManager::RenderUI()
 	draw_wnds_rects		();
 
 	if( Device.Paused() && bShowPauseString){
-		CGameFont* pFont	= Font().pFontGraffiti50Russian;
+		CGameFont* pFont	= Font().GetFont(GRAFFITI50_FONT_NAME);
 		pFont->SetColor		(0x80FF0000	);
 		LPCSTR _str			= CStringTable().translate("st_game_paused").c_str();
 		

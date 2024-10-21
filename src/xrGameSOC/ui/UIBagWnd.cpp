@@ -11,6 +11,7 @@
 #include "../weapon.h"
 #include "../xrServer_Objects_ALife_Items.h"
 #include "../game_cl_Deathmatch.h"
+#include "UIFontDefines.h"
 
 CUIBagWnd::CUIBagWnd()
 {
@@ -164,7 +165,7 @@ bool CUIBagWnd::IsBlueTeamItem(CUICellItem* itm)
 
 	for (int i = 1; i < 20; ++i)
 	{
-		// Èìÿ ïîëÿ
+		// Ð˜Ð¼Ñ Ð¿Ð¾Ð»Ñ
 		sprintf_s			(wpnSection, "slot%i", i);
 
 		if (!pSettings->line_exist(m_sectionName, wpnSection)) 
@@ -238,16 +239,16 @@ void CUIBagWnd::InitWpnSectStorage()
 	string1024			wpnNames, wpnSingleName;
 
 
-	// Ïîëå strSectionName äîëæíî ñîäåðæàòü èìÿ ñåêöèè
+	// ÐŸÐ¾Ð»Ðµ strSectionName Ð´Ð¾Ð»Ð¶Ð½Ð¾ ÑÐ¾Ð´ÐµÑ€Ð¶Ð°Ñ‚ÑŒ Ð¸Ð¼Ñ ÑÐµÐºÑ†Ð¸Ð¸
 	R_ASSERT			(m_sectionName != "");
 	R_ASSERT3			(pSettings->section_exist(m_sectionName), "Section doesn't exist", m_sectionName.c_str());
 
 	for (int i = 1; i < 20; ++i)
 	{
-		// Î÷èùàåì áóôåð
+		// ÐžÑ‡Ð¸Ñ‰Ð°ÐµÐ¼ Ð±ÑƒÑ„ÐµÑ€
 		wpnOneType.clear();
 
-		// Èìÿ ïîëÿ
+		// Ð˜Ð¼Ñ Ð¿Ð¾Ð»Ñ
 		sprintf_s			(wpnSection, "slot%i", i);
 		if (!pSettings->line_exist(m_sectionName, wpnSection)) 
 		{
@@ -313,7 +314,7 @@ void CUIBagWnd::FillUpGroup(const u32 group)
 
             // Set custom draw
 			itoa						(j+1, tmp_str ,10);
-			CBuyItemCustomDrawCell* p	= xr_new<CBuyItemCustomDrawCell>(tmp_str,UI()->Font()->pFontLetterica16Russian);
+			CBuyItemCustomDrawCell* p	= xr_new<CBuyItemCustomDrawCell>(tmp_str,UI()->Font()->GetFont(LETTERICA16_FONT_NAME));
 			itm->SetCustomDraw			(p);
             
 			// Set Number
@@ -449,7 +450,7 @@ void CUIBagWnd::PutItemToGroup(CUICellItem* pItem, int iGroup)
 		++subSection_group3[iActiveSection - GROUP_31];
 		
 		sprintf_s						(tmp_str, "%d", subSection_group3[iActiveSection - GROUP_31]);
-		CBuyItemCustomDrawCell* p	= xr_new<CBuyItemCustomDrawCell>(tmp_str, UI()->Font()->pFontLetterica16Russian);
+		CBuyItemCustomDrawCell* p	= xr_new<CBuyItemCustomDrawCell>(tmp_str, UI()->Font()->GetFont(LETTERICA16_FONT_NAME));
 		pItem->SetCustomDraw		(p);
 
 		m_info[pItem->m_index].short_cut = subSection_group3[iActiveSection - GROUP_31] % 10;
@@ -842,7 +843,7 @@ u8 CUIBagWnd::GetItemIndex(CUICellItem* pItem, u8 &sectionNum){
 	//returnID = static_cast<u8>(pDDItem->GetPosInSectionsGroup());
 	//sectionNum = static_cast<u8>(pDDItem->GetSectionGroupID());
 
-	//// Ïðîâåðÿåì íà íàëè÷èå ïðèàòòà÷åíûõ àääîíîâ ê îðóæèþ
+	//// ÐŸÑ€Ð¾Ð²ÐµÑ€ÑÐµÐ¼ Ð½Ð° Ð½Ð°Ð»Ð¸Ñ‡Ð¸Ðµ Ð¿Ñ€Ð¸Ð°Ñ‚Ñ‚Ð°Ñ‡ÐµÐ½Ñ‹Ñ… Ð°Ð´Ð´Ð¾Ð½Ð¾Ð² Ðº Ð¾Ñ€ÑƒÐ¶Ð¸ÑŽ
 	//if (pDDItem->bAddonsAvailable)
 	//{
 	//	u8	flags = 0;
@@ -853,7 +854,7 @@ u8 CUIBagWnd::GetItemIndex(CUICellItem* pItem, u8 &sectionNum){
 	//		flags = flags << 1;
 	//	}
 	//	flags = flags << 4;
-	//	// Â ðåçóëüòàòå ñòàðøèå 3 áèòà ÿâëÿþòñÿ ôëàãàìè ïðèçíàêîâ àääîíîâ:
+	//	// Ð’ Ñ€ÐµÐ·ÑƒÐ»ÑŒÑ‚Ð°Ñ‚Ðµ ÑÑ‚Ð°Ñ€ÑˆÐ¸Ðµ 3 Ð±Ð¸Ñ‚Ð° ÑÐ²Ð»ÑÑŽÑ‚ÑÑ Ñ„Ð»Ð°Ð³Ð°Ð¼Ð¸ Ð¿Ñ€Ð¸Ð·Ð½Ð°ÐºÐ¾Ð² Ð°Ð´Ð´Ð¾Ð½Ð¾Ð²:
 	//	// FF - Scope, FE - Silencer, FD - Grenade Launcher
 	//	returnID |= flags;
 	//}

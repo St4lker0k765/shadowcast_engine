@@ -35,8 +35,7 @@ void CUIPdaContactsWnd::Show(bool status)
 void CUIPdaContactsWnd::Init()
 {
 	CUIXml		uiXml;
-	bool xml_result =uiXml.Init(CONFIG_PATH, UI_PATH, PDA_CONTACTS_XML);
-	R_ASSERT3(xml_result, "xml file not found", PDA_CONTACTS_XML);
+	uiXml.Load							(CONFIG_PATH, UI_PATH, PDA_CONTACTS_XML);
 
 	CUIXmlInit	xml_init;
 
@@ -127,7 +126,7 @@ void CUIPdaContactsWnd::RemoveContact(CPda* pda)
 	}
 }
 
-//óäàëèòü âñå êîíòàêòû èç ñïèñêà
+//ÑƒÐ´Ð°Ð»Ð¸Ñ‚ÑŒ Ð²ÑÐµ ÐºÐ¾Ð½Ñ‚Ð°ÐºÑ‚Ñ‹ Ð¸Ð· ÑÐ¿Ð¸ÑÐºÐ°
 void CUIPdaContactsWnd::RemoveAll()
 {
 	UIListWnd->Clear		();
@@ -164,7 +163,7 @@ void CUIPdaContactItem::SetSelected	(bool b)
 
 		ADD_TEXT_TO_VIEW2( *(chInfo.Bio()), m_cw->UIDetailsWnd);
 
-		//Ïåðåíåñòè!
+		//ÐŸÐµÑ€ÐµÐ½ÐµÑÑ‚Ð¸!
 //.		g_actor->callback(GameObject::eSelectPdaContact)(UIInfo->OwnerID());
 	}
 }

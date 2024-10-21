@@ -13,7 +13,7 @@
 #include "ui/UIProgressShape.h"
 #include "ui/UIXmlInit.h"
 #include "ui/UIMessageBoxEx.h"
-
+#include "uifontdefines.h"
 #include "object_broker.h"
 
 #define MSGS_OFFS 510
@@ -30,7 +30,7 @@
 CUIGameAHunt::CUIGameAHunt()
 {
 	CUIXml							uiXml;
-	uiXml.Init						(CONFIG_PATH, UI_PATH, "ui_game_ahunt.xml");
+	uiXml.Load						(CONFIG_PATH, UI_PATH, "ui_game_ahunt.xml");
 	if(m_pFragLimitIndicator)
 		xr_delete(m_pFragLimitIndicator);
 
@@ -62,8 +62,7 @@ void CUIGameAHunt::SetClGame (game_cl_GameState* g)
 void CUIGameAHunt::Init	()
 {
 	CUIXml xml_doc;
-	bool xml_result = xml_doc.Init(CONFIG_PATH, UI_PATH, "stats.xml");
-	R_ASSERT2(xml_result, "xml file not found");
+	xml_doc.Load(CONFIG_PATH, UI_PATH, "stats.xml");
 
 	CUIFrags2* pFragList		= xr_new<CUIFrags2>();			pFragList->SetAutoDelete(true);
 	//-----------------------------------------------------------
@@ -98,11 +97,11 @@ void CUIGameAHunt::Init	()
 	//-----------------------------------------------------------
 
 	m_todo_caption					=	"ah_todo";
-	GameCaptions()->addCustomMessage(m_todo_caption, 0.0f, -0.8f, 0.02f, HUD().Font().pFontGraffiti19Russian, CGameFont::alCenter, TODO_MSG_COLOR, "");
+	GameCaptions()->addCustomMessage(m_todo_caption, 0.0f, -0.8f, 0.02f, HUD().Font().GetFont(GRAFFITI19_FONT_NAME), CGameFont::alCenter, TODO_MSG_COLOR, "");
 	GameCaptions()->customizeMessage(m_todo_caption, CUITextBanner::tbsFlicker)->fPeriod = 0.5f;
 
 	m_buy_msg_caption				=	"ah_buy";
-	GameCaptions()->addCustomMessage(m_buy_msg_caption, DI2PX(0.0f), DI2PY(0.9f), SZ(0.02f), HUD().Font().pFontGraffiti19Russian, CGameFont::alCenter, BUY_MSG_COLOR, "");
+	GameCaptions()->addCustomMessage(m_buy_msg_caption, DI2PX(0.0f), DI2PY(0.9f), SZ(0.02f), HUD().Font().GetFont(GRAFFITI19_FONT_NAME), CGameFont::alCenter, BUY_MSG_COLOR, "");
 	//-----------------------------------------------------------
 	FrameRect = pStatisticWnd->GetFrameRect ();
 	FrameW	= FrameRect.right - FrameRect.left;

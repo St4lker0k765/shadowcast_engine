@@ -25,7 +25,7 @@ CUIGameTDM::CUIGameTDM()
 
 	CUIXml							uiXml;
 	CUIXmlInit						xml_init;
-	uiXml.Init						(CONFIG_PATH, UI_PATH, "ui_game_tdm.xml");
+	uiXml.Load						(CONFIG_PATH, UI_PATH, "ui_game_tdm.xml");
 	m_team1_icon					= xr_new<CUIStatic>();
 	m_team2_icon					= xr_new<CUIStatic>();
 	m_team1_score					= xr_new<CUIStatic>();

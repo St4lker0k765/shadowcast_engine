@@ -758,29 +758,24 @@ void			xrServer::entity_Destroy	(CSE_Abstract *&P)
 
 //--------------------------------------------------------------------
 void			xrServer::Server_Client_Check	( IClient* CL )
-{
-	clients_Lock	();
-	
+{	
 	if (SV_Client && SV_Client->ID == CL->ID)
 	{
 		if (!CL->flags.bConnected)
 		{
 			SV_Client = NULL;
 		};
-		clients_Unlock	();
 		return;
 	};
 
 	if (SV_Client && SV_Client->ID != CL->ID)
 	{
-		clients_Unlock	();
 		return;
 	};
 
 
 	if (!CL->flags.bConnected) 
 	{
-		clients_Unlock();
 		return;
 	};
 
@@ -794,7 +789,6 @@ void			xrServer::Server_Client_Check	( IClient* CL )
 		CL->flags.bLocal	= 0;
 	}
 
-	clients_Unlock();
 };
 
 bool		xrServer::OnCL_QueryHost		() 

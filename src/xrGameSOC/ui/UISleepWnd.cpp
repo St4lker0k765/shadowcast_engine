@@ -1,4 +1,4 @@
-// UISleepWnd.cpp:  окошко для выбора того, сколько спать
+// UISleepWnd.cpp:  РѕРєРѕС€РєРѕ РґР»СЏ РІС‹Р±РѕСЂР° С‚РѕРіРѕ, СЃРєРѕР»СЊРєРѕ СЃРїР°С‚СЊ
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
@@ -21,8 +21,7 @@ CUISleepWnd::~CUISleepWnd()
 void CUISleepWnd::Init()
 {
 	CUIXml uiXml;
-	bool xml_result = uiXml.Init(CONFIG_PATH, UI_PATH, "sleep_dialog_new.xml");
-	R_ASSERT2(xml_result, "xml file not found sleep_dialog_new.xml");
+	uiXml.Load				(CONFIG_PATH, UI_PATH, "sleep_dialog_new.xml");
 
 	CUIXmlInit	xml_init;
 
@@ -93,15 +92,15 @@ void CUISleepWnd::SendMessage(CUIWindow *pWnd, s16 msg, void *pData)
 void CUISleepWnd::ModifyRestTime(s8 dHours, s8 dMinutes)
 {
 
-	// Проверка на влидный интервал
+	// РџСЂРѕРІРµСЂРєР° РЅР° РІР»РёРґРЅС‹Р№ РёРЅС‚РµСЂРІР°Р»
 	R_ASSERT(dMinutes < 61);
 
 	s8 oldMin = m_Minutes;
 
-	// Увеличиваем минуты
+	// РЈРІРµР»РёС‡РёРІР°РµРј РјРёРЅСѓС‚С‹
 	m_Minutes = m_Minutes + dMinutes;
 
-	// Проверяем выходы за пределы допуска
+	// РџСЂРѕРІРµСЂСЏРµРј РІС‹С…РѕРґС‹ Р·Р° РїСЂРµРґРµР»С‹ РґРѕРїСѓСЃРєР°
 	if (m_Minutes > 59)
 	{
 		++m_Hours;
@@ -113,7 +112,7 @@ void CUISleepWnd::ModifyRestTime(s8 dHours, s8 dMinutes)
 		m_Minutes = m_Minutes + 60;
 	}
 
-	// Тоже самое и для часов
+	// РўРѕР¶Рµ СЃР°РјРѕРµ Рё РґР»СЏ С‡Р°СЃРѕРІ
 	m_Hours = m_Hours + dHours;
 	if (m_Hours > 99)
 	{

@@ -26,7 +26,7 @@ void CUITextureMaster::WriteLog(){
 }
 void CUITextureMaster::ParseShTexInfo(LPCSTR xml_file){
 	CUIXml xml;
-	xml.Init(CONFIG_PATH, UI_PATH, xml_file);
+	xml.Load(CONFIG_PATH, UI_PATH, xml_file);
 	shared_str file = xml.Read("file_name",0,""); 
 
 //	shared_textures_it	sht_it = m_shTex.find(texture);
@@ -46,9 +46,9 @@ void CUITextureMaster::ParseShTexInfo(LPCSTR xml_file){
 			info.rect.y2 = xml.ReadAttribFlt("texture",i,"height") + info.rect.y1;
 			shared_str id = xml.ReadAttrib("texture",i,"id");
 
-			m_textures.insert(mk_pair(id,info));
+			m_textures.insert(std::make_pair(id,info));
 		}
-//		m_shTex.insert(mk_pair(texture, regs));
+//		m_shTex.insert(std::make_pair(texture, regs));
 //	}
 }
 

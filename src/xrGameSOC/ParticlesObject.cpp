@@ -121,7 +121,7 @@ const shared_str CParticlesObject::Name()
 }
 
 //----------------------------------------------------
-void CParticlesObject::Play		()
+void CParticlesObject::Play		(bool)
 {
 	if(g_dedicated_server)		return;
 

@@ -7,7 +7,7 @@
 #include "UIDragDropListEx.h"
 #include "../string_table.h"
 #include "UIMpItemsStoreWnd.h"
-
+#include "../UIFontDefines.h"
 
 extern "C"
 DLL_Pure*	__cdecl xrFactory_Create		(CLASS_ID clsid);
@@ -404,7 +404,7 @@ void CUIMpTradeWnd::StorePreset(ETradePreset idx, bool bSilent, bool check_allow
 	ITEMS_vec_cit it_e				= m_all_items.end();
 
 	preset_items&	v				= m_preset_storage[idx];
-	v.clear_not_free				();
+	v.clear				();
 	for(;it!=it_e; ++it)
 	{
 		SBuyItemInfo* iinfo			= *it;
@@ -712,7 +712,7 @@ void CUICellItemTradeMenuDraw::OnDraw(CUICellItem* cell)
 		string64							buff;
 
 		sprintf_s								(buff,"%d", acc - DIK_ESCAPE);
-		CGameFont* pFont					= UI()->Font()->pFontLetterica16Russian;
+		CGameFont* pFont					= UI()->Font()->GetFont(LETTERICA16_FONT_NAME);
 		pFont->SetColor						(color_rgba(135,123,116,255));
 		pFont->Out							(pos.x, pos.y, buff);
 		pFont->OnRender						();

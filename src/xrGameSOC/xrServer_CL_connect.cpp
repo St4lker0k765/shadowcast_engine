@@ -53,7 +53,7 @@ void xrServer::Perform_connect_spawn(CSE_Abstract* E, xrClientData* CL, NET_Pack
 
 void xrServer::SendConnectionData(IClient* _CL)
 {
-	g_perform_spawn_ids.clear_not_free();
+	g_perform_spawn_ids.clear();
 	xrClientData*	CL				= (xrClientData*)_CL;
 	NET_Packet		P;
 	u32			mode				= net_flags(TRUE,TRUE);
@@ -73,8 +73,6 @@ void xrServer::OnCL_Connected		(IClient* _CL)
 	CL->net_Accepted = TRUE;
 ///	Server_Client_Check(CL); 
 
-	csPlayers.Enter					();
-
 	Export_game_type(CL);
 	Perform_game_export();
 	SendConnectionData(CL);
@@ -86,7 +84,6 @@ void xrServer::OnCL_Connected		(IClient* _CL)
 	P.r_pos = 0;
 	ClientID clientID;clientID.set	(0);
 	game->AddDelayedEvent			(P,GAME_EVENT_PLAYER_CONNECTED, 0, clientID);
-	csPlayers.Leave					();
 	game->ProcessDelayedEvent		();
 }
 

@@ -21,7 +21,7 @@
 #include "ui/UIMoneyIndicator.h"
 #include "ui/UIRankIndicator.h"
 #include "ui/UIVoteStatusWnd.h"
-
+#include "UIFontDefines.h"
 #include "object_broker.h"
 
 #define MSGS_OFFS 510
@@ -48,27 +48,27 @@ CUIGameDM::CUIGameDM()
 	m_pStatisticWnds					= xr_new<CUIWindow>();
 
 	m_time_caption = "timelimit";
-	GameCaptions()->addCustomMessage(m_time_caption, DI2PX(0.0f), DI2PY(-0.8f), SZ(0.03f), HUD().Font().pFontGraffiti19Russian, CGameFont::alCenter, TIME_MSG_COLOR, "");
+	GameCaptions()->addCustomMessage(m_time_caption, DI2PX(0.0f), DI2PY(-0.8f), SZ(0.03f), HUD().Font().GetFont(GRAFFITI19_FONT_NAME), CGameFont::alCenter, TIME_MSG_COLOR, "");
 	m_spectrmode_caption = "spetatormode";
-	GameCaptions()->addCustomMessage(m_spectrmode_caption, DI2PX(0.0f), DI2PY(-0.7f), SZ(0.03f), HUD().Font().pFontGraffiti19Russian, CGameFont::alCenter, SPECTRMODE_MSG_COLOR, "");
+	GameCaptions()->addCustomMessage(m_spectrmode_caption, DI2PX(0.0f), DI2PY(-0.7f), SZ(0.03f), HUD().Font().GetFont(GRAFFITI19_FONT_NAME), CGameFont::alCenter, SPECTRMODE_MSG_COLOR, "");
 	m_spectator_caption = "spectator";
-	GameCaptions()->addCustomMessage(m_spectator_caption, DI2PX(0.0f), DI2PY(0.0f), SZ(0.03f), HUD().Font().pFontGraffiti19Russian, CGameFont::alCenter, NORMAL_MSG_COLOR, "");
+	GameCaptions()->addCustomMessage(m_spectator_caption, DI2PX(0.0f), DI2PY(0.0f), SZ(0.03f), HUD().Font().GetFont(GRAFFITI19_FONT_NAME), CGameFont::alCenter, NORMAL_MSG_COLOR, "");
 	m_pressjump_caption = "pressjump";
-	GameCaptions()->addCustomMessage(m_pressjump_caption, DI2PX(0.0f), DI2PY(0.9f), SZ(0.02f), HUD().Font().pFontGraffiti19Russian, CGameFont::alCenter, NORMAL_MSG_COLOR, "");
+	GameCaptions()->addCustomMessage(m_pressjump_caption, DI2PX(0.0f), DI2PY(0.9f), SZ(0.02f), HUD().Font().GetFont(GRAFFITI19_FONT_NAME), CGameFont::alCenter, NORMAL_MSG_COLOR, "");
 	m_pressbuy_caption = "pressbuy";
-	GameCaptions()->addCustomMessage(m_pressbuy_caption, DI2PX(0.0f), DI2PY(0.95f), SZ(0.02f), HUD().Font().pFontGraffiti19Russian, CGameFont::alCenter, NORMAL_MSG_COLOR, "");
+	GameCaptions()->addCustomMessage(m_pressbuy_caption, DI2PX(0.0f), DI2PY(0.95f), SZ(0.02f), HUD().Font().GetFont(GRAFFITI19_FONT_NAME), CGameFont::alCenter, NORMAL_MSG_COLOR, "");
 	m_round_result_caption =	"round_result";
-	GameCaptions()->addCustomMessage(m_round_result_caption, DI2PX(0.0f), DI2PY(-0.1f), SZ(0.03f), HUD().Font().pFontGraffiti19Russian, CGameFont::alCenter, ROUND_RESULT_COLOR, "");
+	GameCaptions()->addCustomMessage(m_round_result_caption, DI2PX(0.0f), DI2PY(-0.1f), SZ(0.03f), HUD().Font().GetFont(GRAFFITI19_FONT_NAME), CGameFont::alCenter, ROUND_RESULT_COLOR, "");
 	m_force_respawn_time_caption =	"force_respawn_time";
-	GameCaptions()->addCustomMessage(m_force_respawn_time_caption, DI2PX(0.0f), DI2PY(-0.9f), SZ(0.02f), HUD().Font().pFontGraffiti19Russian, CGameFont::alCenter, NORMAL_MSG_COLOR, "");
+	GameCaptions()->addCustomMessage(m_force_respawn_time_caption, DI2PX(0.0f), DI2PY(-0.9f), SZ(0.02f), HUD().Font().GetFont(GRAFFITI19_FONT_NAME), CGameFont::alCenter, NORMAL_MSG_COLOR, "");
 	m_demo_play_caption =	"demo_play";
-	GameCaptions()->addCustomMessage(m_demo_play_caption, DI2PX(-1.0f), DI2PY(-0.95f), SZ(0.05f), HUD().Font().pFontGraffiti19Russian, CGameFont::alLeft, DEMOPLAY_COLOR, "");
+	GameCaptions()->addCustomMessage(m_demo_play_caption, DI2PX(-1.0f), DI2PY(-0.95f), SZ(0.05f), HUD().Font().GetFont(GRAFFITI19_FONT_NAME), CGameFont::alLeft, DEMOPLAY_COLOR, "");
 	
 	m_warm_up_caption =	"warm_up";
-	GameCaptions()->addCustomMessage(m_warm_up_caption, DI2PX(0.0f), DI2PY(-0.75f), SZ(0.05f), HUD().Font().pFontGraffiti19Russian, CGameFont::alCenter, WARM_UP_COLOR, "");
+	GameCaptions()->addCustomMessage(m_warm_up_caption, DI2PX(0.0f), DI2PY(-0.75f), SZ(0.05f), HUD().Font().GetFont(GRAFFITI19_FONT_NAME), CGameFont::alCenter, WARM_UP_COLOR, "");
 
 	CUIXml							uiXml;
-	uiXml.Init						(CONFIG_PATH, UI_PATH, "ui_game_dm.xml");
+	uiXml.Load						(CONFIG_PATH, UI_PATH, "ui_game_dm.xml");
 	m_pMoneyIndicator				= xr_new<CUIMoneyIndicator>();
 	m_pMoneyIndicator->InitFromXML	(uiXml);
 	m_pRankIndicator				= xr_new<CUIRankIndicator>();
@@ -104,8 +104,7 @@ void CUIGameDM::SetClGame (game_cl_GameState* g)
 void	CUIGameDM::Init				()
 {
 	CUIXml xml_doc;
-	bool xml_result = xml_doc.Init(CONFIG_PATH, UI_PATH, "stats.xml");
-	R_ASSERT2(xml_result, "xml file not found");
+	xml_doc.Load(CONFIG_PATH, UI_PATH, "stats.xml");
 
 	CUIFrags* pFragList		= xr_new<CUIFrags>();
 	CUIFrags* pPlayerList	= xr_new<CUIFrags>();
@@ -256,7 +255,7 @@ void CUIGameDM::SetVoteMessage					(LPCSTR str)
 		if(!m_voteStatusWnd)
 		{
 			CUIXml							uiXml;
-			uiXml.Init						(CONFIG_PATH, UI_PATH, "ui_game_dm.xml");
+			uiXml.Load						(CONFIG_PATH, UI_PATH, "ui_game_dm.xml");
 			m_voteStatusWnd					= xr_new<UIVoteStatusWnd>();
 			m_voteStatusWnd->InitFromXML	(uiXml);
 		}
