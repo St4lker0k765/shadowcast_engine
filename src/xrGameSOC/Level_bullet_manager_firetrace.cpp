@@ -13,6 +13,7 @@
 #include "character_info.h"
 #include "../xrEngine/xr_collide_defs.h"
 #include "weapon.h"
+#include "../xrEngine/xr_collide_form.h"
 
 //константы shoot_factor, определяющие 
 //поведение пули при столкновении с объектом

@@ -16,6 +16,7 @@
 #include "..\include\xrRender\Kinematics.h"
 #include "zone_effector.h"
 #include "breakableobject.h"
+#include "../xrEngine/xr_collide_form.h"
 
 //////////////////////////////////////////////////////////////////////////
 #define PREFETCHED_ARTEFACTS_NUM 1	//количество предварительно проспавненых артефактов

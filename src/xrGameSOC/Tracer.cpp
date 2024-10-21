@@ -24,7 +24,7 @@ CTracer::CTracer()
 	for (u8 i=0; i<255; i++)
 	{
 		shared_str LineName;
-		LineName.sprintf("color_%d", i);
+		LineName.printf("color_%d", i);
 		if (!pSettings->line_exist(TRACERS_COLOR_TABLE, LineName)) break;
 		float r, g, b;
 		sscanf(pSettings->r_string(TRACERS_COLOR_TABLE, *LineName),	"%f,%f,%f", &r, &g, &b);		

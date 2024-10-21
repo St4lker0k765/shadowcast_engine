@@ -47,7 +47,7 @@
 CGamePersistent::CGamePersistent(void)
 {
     m_bPickableDOF = false;
-	m_game_params.m_e_game_type	= GAME_ANY;
+	m_game_params.m_e_game_type	= eGameIDNoGame;
 	ambient_effect_next_time = 0;
 	ambient_effect_stop_time = 0;
 	ambient_particles = 0;
@@ -174,7 +174,7 @@ void CGamePersistent::Disconnect()
 	__super::Disconnect			();
 	// stop all played emitters
 	::Sound->stop_emitters		();
-	m_game_params.m_e_game_type	= GAME_ANY;
+	m_game_params.m_e_game_type	= eGameIDNoGame;
 }
 
 #include "xr_level_controller.h"
@@ -194,19 +194,19 @@ void CGamePersistent::UpdateGameType			()
 {
 	__super::UpdateGameType		();
 	//  [7/11/2005]
-	if (!xr_strcmp(m_game_params.m_game_type, "single")) m_game_params.m_e_game_type = GAME_SINGLE;
+	if (!xr_strcmp(m_game_params.m_game_type, "single")) m_game_params.m_e_game_type = eGameIDSingle;
 	else
-		if (!xr_strcmp(m_game_params.m_game_type, "deathmatch")) m_game_params.m_e_game_type = GAME_DEATHMATCH;
+		if (!xr_strcmp(m_game_params.m_game_type, "deathmatch")) m_game_params.m_e_game_type = eGameIDDeathmatch;
 		else
-			if (!xr_strcmp(m_game_params.m_game_type, "teamdeathmatch")) m_game_params.m_e_game_type = GAME_TEAMDEATHMATCH;
+			if (!xr_strcmp(m_game_params.m_game_type, "teamdeathmatch")) m_game_params.m_e_game_type = eGameIDTeamDeathmatch;
 			else
-				if (!xr_strcmp(m_game_params.m_game_type, "artefacthunt")) m_game_params.m_e_game_type = GAME_ARTEFACTHUNT;
-				else m_game_params.m_e_game_type = GAME_ANY;
+				if (!xr_strcmp(m_game_params.m_game_type, "artefacthunt")) m_game_params.m_e_game_type = eGameIDArtefactHunt;
+				else m_game_params.m_e_game_type = eGameIDNoGame;
 	//  [7/11/2005]
 
-	if(	m_game_params.m_e_game_type == GAME_DEATHMATCH ||
-		m_game_params.m_e_game_type == GAME_TEAMDEATHMATCH ||
-		m_game_params.m_e_game_type == GAME_ARTEFACTHUNT
+	if(	m_game_params.m_e_game_type == eGameIDDeathmatch ||
+		m_game_params.m_e_game_type == eGameIDTeamDeathmatch ||
+		m_game_params.m_e_game_type == eGameIDArtefactHunt
 		)
 	g_current_keygroup = _mp;
 	else

@@ -61,13 +61,13 @@ bool	CLevel::net_start_client3				()
 			level_name	= ai().get_alife() ? *name() : net_SessionName	();
 
 		// Determine internal level-ID
-		int						level_id = pApp->Level_ID(level_name);
+		int						level_id = pApp->Level_ID(level_name, "", true);
 		if (level_id<0)	{
 			Disconnect			();
 			pApp->LoadEnd		();
 			connected_to_server = FALSE;
 			m_name				= level_name;
-			m_connect_server_err = xrServer::ErrNoLevel;
+			m_connect_server_err = xrServer::ErrConnect;
 			return				false;
 		}
 		pApp->Level_Set			(level_id);
@@ -143,7 +143,6 @@ bool	CLevel::net_start_client5				()
 		// Textures
 		if	(!g_dedicated_server)
 		{
-			pHUD->Load							();
 //			g_pGamePersistent->LoadTitle				("st_loading_textures");
 			g_pGamePersistent->LoadTitle();
 			Device.m_pRender->DeferredLoad(FALSE);

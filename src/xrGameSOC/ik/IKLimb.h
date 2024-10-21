@@ -4,6 +4,7 @@
 #include "limb.h"
 #include "../ik_anim_state.h"
 #include "../ikfoot.h"
+#include "../xrEngine/bone.h"
 class	IKinematics	;
 class	CDB::TRI	;
 struct SCalculateData;

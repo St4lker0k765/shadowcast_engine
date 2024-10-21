@@ -6,6 +6,7 @@
 #include "entity_alive.h"
 #include "PHMovementControl.h"
 #include "CharacterPhysicsSupport.h"
+#include "../xrEngine/xr_collide_form.h"
 
 bool CHairsZone::BlowoutState()
 {
@@ -86,7 +87,7 @@ void CHairsZone::Affect(SZoneObjectInfo* O)
 	float power = Power(pGameObject->Position().distance_to(P));
 	float impulse = m_fHitImpulseScale*power*pGameObject->GetMass();
 
-	//ñòàòèñòèêà ïî îáúåêòó
+	//ÑÑ‚Ğ°Ñ‚Ğ¸ÑÑ‚Ğ¸ĞºĞ° Ğ¿Ğ¾ Ğ¾Ğ±ÑŠĞµĞºÑ‚Ñƒ
 	O->total_damage += power;
 	O->hit_num++;
 

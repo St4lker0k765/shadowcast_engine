@@ -16,10 +16,6 @@
 void CLevel::ClientReceive()
 {
 
-	Demo_StartFrame();
-
-	Demo_Update();
-
 	m_dwRPC = 0;
 	m_dwRPS = 0;
 
@@ -70,6 +66,7 @@ void CLevel::ClientReceive()
 			if (g_bDebugEvents)		ProcessGameEvents();
 			break;
 		case M_EVENT_PACK:
+		{
 			NET_Packet	tmpP;
 			while (!P->r_eof())
 			{
@@ -77,18 +74,19 @@ void CLevel::ClientReceive()
 				P->r(&tmpP.B.data, tmpP.B.count);
 				tmpP.timeReceive = P->timeReceive;
 
-				game_events->insert		(tmpP);
+				game_events->insert(tmpP);
 				if (g_bDebugEvents)		ProcessGameEvents();
-			};			
+			};
 			break;
+		}
 		case M_UPDATE:
 			{
 				game->net_import_update	(*P);
 				//-------------------------------------------
 				if (OnServer()) break;
 				//-------------------------------------------
-			};	// ни в коем случае нельзя здесь ставить break, т.к. в случае если все объекты не влазят в пакет M_UPDATE,
-				// они досылаются через M_UPDATE_OBJECTS
+			};	// РЅРё РІ РєРѕРµРј СЃР»СѓС‡Р°Рµ РЅРµР»СЊР·СЏ Р·РґРµСЃСЊ СЃС‚Р°РІРёС‚СЊ break, С‚.Рє. РІ СЃР»СѓС‡Р°Рµ РµСЃР»Рё РІСЃРµ РѕР±СЉРµРєС‚С‹ РЅРµ РІР»Р°Р·СЏС‚ РІ РїР°РєРµС‚ M_UPDATE,
+				// РѕРЅРё РґРѕСЃС‹Р»Р°СЋС‚СЃСЏ С‡РµСЂРµР· M_UPDATE_OBJECTS
 		case M_UPDATE_OBJECTS:
 			{
 				Objects.net_Import		(P);

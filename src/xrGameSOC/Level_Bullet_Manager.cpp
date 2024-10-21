@@ -422,7 +422,7 @@ void CBulletManager::CommitEvents			()	// @ the start of frame
 	}
 
 	m_Lock.Enter();
-	m_Events.clear_and_reserve();
+	m_Events.clear();
 	m_Lock.Leave();
 }
 
