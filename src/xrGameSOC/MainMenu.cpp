@@ -11,7 +11,7 @@
 #include "ui/UIBtnHint.h"
 #include "UICursor.h"
 #include "../xrEngine/x_ray.h"
-
+#include "string_table.h"
 #include "object_broker.h"
 #include "../xrEngine/DiscordSDK.h"
 
@@ -138,7 +138,7 @@ void CMainMenu::Activate	(bool bActivate)
 
 		if (!g_pGameLevel) 
 		{
-			Discord.SetStatus("В главном меню");
+			Discord.SetStatus(CStringTable().translate("st_discord_main_menu").c_str());
 			Discord.SetPhase("");
 		}
 

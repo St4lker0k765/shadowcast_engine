@@ -43,7 +43,6 @@ public:
 
 	void					SetHitmarkType		(LPCSTR tex_name);
 	virtual void			OnScreenResolutionChanged();
-	virtual void			OnScreenRatioChanged();
 	virtual void			OnDisconnected		();
 	virtual void			OnConnected			();
 

@@ -149,7 +149,7 @@ void CHUDManager::SetHitmarkType		(LPCSTR tex_name)
 	HitMarker.InitShader				(tex_name);
 }
 #include "ui\UIMainInGameWnd.h"
-void CHUDManager::OnScreenRatioChanged()
+void CHUDManager::OnScreenResolutionChanged()
 {
 	xr_delete							(pUI->UIMainIngameWnd);
 
@@ -180,20 +180,6 @@ void CHUDManager::net_Relcase	(CObject *object)
 {
 	VERIFY						(m_pHUDTarget);
 	m_pHUDTarget->net_Relcase	(object);
-}
-
-void CHUDManager::OnScreenResolutionChanged()
-{
-/*
-	pUIGame->HideShownDialogs();
-
-	xr_delete(pWpnScopeXml);
-
-	pUIGame->UnLoad();
-	pUIGame->Load();
-
-	pUIGame->OnConnected();
-*/
 }
 
 bool   CHUDManager::RenderActiveItemUIQuery()

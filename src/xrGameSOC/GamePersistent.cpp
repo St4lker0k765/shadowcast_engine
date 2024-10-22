@@ -780,7 +780,7 @@ void CGamePersistent::SetGameDiscordStatus()
 	if (!g_pGameLevel)
 		return;
 
-	xr_string LevelName_ = "В игре:";
+	xr_string LevelName_ = CStringTable().translate("st_discord_in_game").c_str();
 	LevelName_ += "\t";
 	LevelName_ += CStringTable().translate(g_pGameLevel->name()).c_str();
 
