@@ -6513,6 +6513,12 @@
     <ClInclude Include="UIFontDefines.h">
       <Filter>UI</Filter>
     </ClInclude>
+    <ClInclude Include="ui\UIHelper.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UILoadingScreen.h">
+      <Filter>UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="damage_manager.cpp">
@@ -9616,6 +9622,12 @@
     </ClCompile>
     <ClCompile Include="script_crandom_script.cpp">
       <Filter>AI\AScript\ScriptClasses\ScriptCRandom</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UIHelper.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UILoadingScreen.cpp">
+      <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

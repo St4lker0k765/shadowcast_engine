@@ -592,6 +592,8 @@ extern void draw_wnds_rects();
 
 void CLevel::OnRender()
 {
+	::Render->BeforeWorldRender();	//--#SM+#-- +SecondVP+
+
 	inherited::OnRender	();
 	
 	Game().OnRender();
@@ -600,6 +602,9 @@ void CLevel::OnRender()
 	BulletManager().Render();
 	//Device.Statistic->TEST1.End();
 	//отрисовать интерфейc пользователя
+
+	::Render->AfterWorldRender(); //--#SM+#-- +SecondVP+
+
 	HUD().RenderUI();
 
 	draw_wnds_rects();
@@ -1005,6 +1010,23 @@ void CLevel::OnSessionTerminate		(LPCSTR reason)
 u32	GameID()
 {
 	return Game().Type();
+}
+
+#include "../xrEngine/CameraManager.h"
+#include "ActorEffector.h"
+
+void CLevel::ApplyCamera()
+{
+	inherited::ApplyCamera();
+
+	/*if (g_actor)
+	{
+		Actor()->Cameras().ApplyDevice(VIEWPORT_NEAR);
+	}*/
+
+	if (lastApplyCameraVPNear > -1.f)
+		lastApplyCamera(lastApplyCameraVPNear);
+
 }
 
 bool	IsGameTypeSingle()

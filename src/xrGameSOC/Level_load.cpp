@@ -16,7 +16,7 @@ ENGINE_API	bool g_dedicated_server;
 bool CLevel::Load_GameSpecific_Before()
 {
 	// AI space
-//	g_pGamePersistent->LoadTitle		("st_loading_ai_objects");
+	g_pGamePersistent->SetLoadStageTitle("st_loading_ai_objects");
 	g_pGamePersistent->LoadTitle();
 	string_path							fn_game;
 	

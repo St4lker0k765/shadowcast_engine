@@ -426,6 +426,8 @@
     <ClInclude Include="DamageSource.h" />
     <ClInclude Include="script_crandom.h" />
     <ClInclude Include="UIFontDefines.h" />
+    <ClInclude Include="ui\UIHelper.h" />
+    <ClInclude Include="ui\UILoadingScreen.h" />
     <ClInclude Include="ui_defs.h" />
     <ClInclude Include="wrapper_abstract.h" />
     <ClInclude Include="wrapper_abstract_inline.h" />
@@ -2067,6 +2069,8 @@
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
+    <ClCompile Include="ui\UIHelper.cpp" />
+    <ClCompile Include="ui\UILoadingScreen.cpp" />
     <ClCompile Include="visual_memory_manager.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch_script.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pch_script.h</PrecompiledHeaderFile>
@@ -6631,17 +6635,20 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\3rd party\luabind\luabind.vcxproj">
+      <Project>{252e63ce-f4ee-4358-b10d-eb2c508a264d}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\3rd party\ode\contrib\msvc7\ode_default\default.vcxproj">
       <Project>{1bf75feb-87dd-486c-880b-227987d191c2}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Luabind\Luabind.vcxproj">
-      <Project>{6fdbcdb3-d190-486d-bdac-3c4ac527da3b}</Project>
     </ProjectReference>
     <ProjectReference Include="..\xrCDB\xrCDB.vcxproj">
       <Project>{a19b1df2-82ec-4364-8bdf-85d13a1c89b5}</Project>
     </ProjectReference>
     <ProjectReference Include="..\xrCore\xrCore.vcxproj">
       <Project>{a0f7d1fb-59a7-4717-a7e4-96f37e91998e}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\xrEngine\xrEngine.vcxproj">
+      <Project>{2578c6d8-660d-48ae-9322-7422f8664f06}</Project>
     </ProjectReference>
     <ProjectReference Include="..\xrNetServer\xrNetServer.vcxproj">
       <Project>{435bac9a-b225-457d-ab40-c9bd0cc8838c}</Project>
@@ -6651,9 +6658,6 @@
     </ProjectReference>
     <ProjectReference Include="..\xrXMLParser\xrXMLParser.vcxproj">
       <Project>{94a1c366-3d19-48e6-8170-4adc2e70df98}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\xr_3da\XR_3DA.vcxproj">
-      <Project>{2578c6d8-660d-48ae-9322-7422f8664f06}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

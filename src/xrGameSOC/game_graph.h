@@ -56,7 +56,7 @@ public:
 	IC 								CGameGraph				();
 #else // !defined(AI_COMPILER) && !defined(PRIQUEL)
 #	ifdef AI_COMPILER
-		IC 							CGameGraph				(LPCSTR file_name, u32 current_version = XRAI_CURRENT_VERSION);
+		IC 							CGameGraph				(LPCSTR file_name, u32 current_version = XRAI_CURRENT_VERSION_SOC);
 #	endif // AI_COMPILER
 #endif // !defined(AI_COMPILER) && !defined(PRIQUEL)
 

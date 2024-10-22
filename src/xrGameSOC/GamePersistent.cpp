@@ -15,7 +15,7 @@
 #include "stalker_velocity_holder.h"
 #include "string_table.h"
 #include "../xrEngine/x_ray.h"
-
+#include "ui/UILoadingScreen.h"
 #include "../xrEngine/CameraManager.h"
 #include "ai_space.h"
 #include "script_engine.h"
@@ -103,6 +103,12 @@ CGamePersistent::~CGamePersistent(void)
 	Device.seqFrame.Remove		(this);
 	Engine.Event.Handler_Detach	(eDemoStart,this);
 	Engine.Event.Handler_Detach	(eQuickLoad,this);
+}
+
+void CGamePersistent::PreStart(LPCSTR op)
+{
+	pApp->SetLoadingScreen(new UILoadingScreen());
+	IGame_Persistent::PreStart(op);
 }
 
 void CGamePersistent::RegisterModel(IRenderVisual* V)
@@ -438,18 +444,7 @@ void CGamePersistent::game_loaded()
 	if (Device.dwPrecacheFrame <= 2)
 	{
 		SetGameDiscordStatus();
-		if (g_pGameLevel &&
-			g_pGameLevel->bReady &&
-			(allow_intro() && g_keypress_on_start) &&
-			load_screen_renderer.b_need_user_input)
-//			m_game_params.m_e_game_type == GAME_SINGLE)
-		{
-			VERIFY(NULL == m_intro);
-			m_intro = xr_new<CUISequencer>();
-			m_intro->Start("game_loaded");
-			Msg("intro_start game_loaded");
-			m_intro->m_on_destroy_event.bind(this, &CGamePersistent::update_game_loaded);
-		}
+		update_game_loaded();
 		m_intro_event = 0;
 	}
 }
@@ -699,28 +694,23 @@ void CGamePersistent::OnRenderPPUI_PP()
 }
 #include "string_table.h"
 #include "../xrEngine/x_ray.h"
-void CGamePersistent::LoadTitle(bool change_tip, shared_str map_name)
+
+void CGamePersistent::LoadTitle(LPCSTR str)
 {
-	Discord.SetStatus("Загрузка игрового уровня");
-
 	pApp->LoadStage();
-	if (change_tip && EnabledTipsForZone_)
+}
+
+void CGamePersistent::SetLoadStageTitle(pcstr ls_title)
+{
+	Discord.SetStatus(CStringTable().translate("st_discord_loading_level").c_str());
+	string256 buff;
+	if (ls_title)
 	{
-		string512				buff;
-		u16						tip_num;
-
-		tip_num = static_cast<u16>(Random.randI(1, CountTipsForZone_));
-		//		tip_num = 83;
-		xr_sprintf(buff, "%s%d:", CStringTable().translate("ls_tip_number").c_str(), tip_num);
-		shared_str				tmp = buff;
-
-		xr_sprintf(buff, "ls_tip_%d", tip_num);
-
-		string128 TipsHeader_; 
-		xr_sprintf(TipsHeader_, "%d %s", CountTipsForZone_, CStringTable().translate("ls_header_text").c_str());
-
-		pApp->LoadTitleInt(TipsHeader_, tmp.c_str(), CStringTable().translate(buff).c_str());
+		xr_sprintf(buff, "%s%s", CStringTable().translate(ls_title).c_str(), "...");
+		pApp->SetLoadStageTitle(buff);
 	}
+	else
+		pApp->SetLoadStageTitle("");
 }
 
 bool CGamePersistent::CanBePaused()

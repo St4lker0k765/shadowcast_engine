@@ -63,7 +63,7 @@ bool CLevel::net_start1				()
 	// Start client and server if need it
 	if (m_caServerOptions.size())
 	{
-//		g_pGamePersistent->LoadTitle		("st_server_starting");
+		g_pGamePersistent->SetLoadStageTitle("st_server_starting");
 		g_pGamePersistent->LoadTitle();
 
 		typedef IGame_Persistent::params params;
