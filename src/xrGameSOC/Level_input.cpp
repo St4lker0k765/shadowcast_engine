@@ -5,7 +5,7 @@
 #include "level.h"
 #include "xr_level_controller.h"
 #include "game_cl_base.h"
-
+#include "string_Table.h"
 #include "ui/UIDialogWnd.h"
 #include "../xrEngine/xr_input.h"
 #include "saved_game_wrapper.h"
@@ -133,7 +133,7 @@ void CLevel::IR_OnKeyboardPress	(int key)
 		FS.rescan_pathes			();
 #endif // DEBUG
 		string_path					saved_game,command;
-		strconcat					(sizeof(saved_game),saved_game,Core.UserName,"_","quicksave");
+		strconcat					(sizeof(saved_game),saved_game,Core.UserName," - ",CStringTable().translate("st_quicksave").c_str());
 		if (!CSavedGameWrapper::valid_saved_game(saved_game))
 			return;
 

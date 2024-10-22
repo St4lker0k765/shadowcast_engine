@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="windows-1251" ?>
+<string_table>
+	<string id="renderer_r2.5">
+		<text>Улучшенное полное освещение</text>
+	</string>
+	<string id="renderer_r3">
+		<text>Улучшенное полное освещение (DX10)</text>
+	</string>
+	<string id="renderer_r4">
+		<text>Улучшенное полное освещение (DX11)</text>
+	</string>
+	<string id="ui_mm_detail_height">
+		<text>Высота травы</text>
+	</string>
+	<string id="ui_mm_detail_radius">
+		<text>Дальность травы</text>
+	</string>
+	<string id="ui_mm_r4_enable_tessellation">
+		<text>Тесселяция</text>
+	</string>
+	<string id="ui_mm_fov">
+		<text>Угол обзора</text>
+	</string>
+	<string id="ui_mm_crouch_toggle">
+		<text>Режим сесть/встать</text>
+	</string>
+	<string id="ui_mm_hud_draw">
+		<text>Показывать интерфейс</text>
+	</string>
+	<string id="ui_mm_r2_smap_quality">
+		<text>Качество карты теней</text>
+	</string>
+	<string id="smap1024">
+		<text>1024 пикселя</text>
+	</string>
+	<string id="smap1536">
+		<text>1536 пикселей</text>
+	</string>
+	<string id="smap2048">
+		<text>2048 пикселей</text>
+	</string>
+	<string id="smap2560">
+		<text>2560 пикселей</text>
+	</string>
+	<string id="smap3072">
+		<text>3072 пикселя</text>
+	</string>
+	<string id="smap4096">
+		<text>4096 пикселей</text>
+	</string>
+	<string id="ui_mm_ssao_text">
+		<text>Режим SSAO</text>
+	</string>
+	<string id="disabled">
+		<text>отключено</text>
+	</string>
+	<string id="default">
+		<text>по умолчанию</text>
+	</string>
+	<string id="hdao">
+		<text>HDAO</text>
+	</string>
+	<string id="hbao">
+		<text>HBAO</text>
+	</string>
+	<string id="st_opt_extreme">
+		<text>макс. высоко</text>
+	</string>
+	<string id="st_cam_1">
+		<text>Вид от первого лица</text>
+	</string>
+	<string id="st_cam_2">
+		<text>Вид от третьего лица</text>
+	</string>
+	<string id="st_cam_3">
+		<text>Вид от третьего лица (Свободная камера)</text>
+	</string>
+	<string id="st_quicksave">
+		<text>быстрое сохранение</text>
+	</string>
+	<string id="st_game_autosave">
+		<text>автосохранение</text>
+	</string>
+	<string id="ui_mm_r2_detail_bump">
+		<text>Детальный рельеф</text>
+	</string>
+	<string id="ui_mm_r2_steep_parallax">
+		<text>Steep parallax</text>
+	</string>
+	<string id="ui_mm_r2_sun_quality">
+		<text>Качество солнца</text>
+	</string>
+	<string id="st_opt_high">
+		<text>высоко</text>
+	</string>
+	<string id="st_opt_low">
+		<text>низко</text>
+	</string>
+	<string id="st_opt_medium">
+		<text>средне</text>
+	</string>
+	<string id="st_opt_off">
+		<text>отключено</text>
+	</string>
+	<string id="st_opt_ultra">
+		<text>очень высоко</text>
+	</string>
+	<string id="ui_mm_sun_shafts">
+		<text>Солнечные лучи</text>
+	</string>
+	<string id="ui_mm_ssao">
+		<text>Качество SSAO</text>
+	</string>
+	<string id="ui_mm_soft_water">
+		<text>Мягкая вода</text>
+	</string>
+	<string id="ui_mm_soft_particles">
+		<text>Мягкие частицы</text>
+	</string>
+	<string id="ui_mm_dof">
+		<text>Глубина резкости</text>
+	</string>
+	<string id="ui_mm_volumetric_light">
+		<text>Объёмный свет</text>
+	</string>
+	<string id="ui_mm_msaa_alphatest">
+		<text>Сглаживать А-тестовые объекты</text>
+	</string>
+	<string id="ui_mm_r3_dynamic_wet_surfaces">
+		<text>Намокание плоскостей</text>
+	</string>
+	<string id="ui_mm_r3_volumetric_smoke">
+		<text>Объёмный дым</text>
+	</string>
+	<string id="ui_mm_r3_DX10_1">
+		<text>Использовать DX10.1</text>
+	</string>
+	<string id="st_discord_main_menu">
+		<text>В главном меню</text>
+	</string>
+	<string id="st_discord_loading_level">
+		<text>Загрузка игрового уровня</text>
+	</string>
+	<string id="st_discord_in_game">
+		<text>В игре:</text>
+	</string>
+</string_table>

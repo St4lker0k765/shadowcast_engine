@@ -405,7 +405,7 @@ public:
 		timer.Start				();
 #endif
 		if (!xr_strlen(S)){
-			strconcat			(sizeof(S),S,Core.UserName,"_","quicksave");
+			strconcat			(sizeof(S),S,Core.UserName," - ",CStringTable().translate("st_quicksave").c_str());
 			NET_Packet			net_packet;
 			net_packet.w_begin	(M_SAVE_GAME);
 			net_packet.w_stringZ(S);
@@ -1017,8 +1017,7 @@ public:
 			tpGame->alife().spawn_item(args, Actor()->Position(), Actor()->ai_location().level_vertex_id(), Actor()->ai_location().game_vertex_id(), ALife::_OBJECT_ID(-1));
 	}
 
-#pragma todo("Починить потом!")
-	/*virtual void fill_tips(vecTips& tips, u32 mode)
+	virtual void fill_tips(vecTips& tips, u32 mode)
 	{
 		if (!ai().get_alife())
 		{
@@ -1041,7 +1040,6 @@ public:
 
 		// tips.push_back((*itb).second.name());
 	}
-	*/
 };
 //#endif // MASTER_GOLD
 
@@ -1081,10 +1079,7 @@ public:
 			VERIFY(dummy == M_SPAWN);
 			tpGame->alife().server().Process_spawn(packet, clientID);
 		}
-	}
 
-#pragma todo("Починить потом!")
-	/*
 	virtual void fill_tips(vecTips& tips, u32 mode)
 	{
 		if (!ai().get_alife())
@@ -1107,7 +1102,6 @@ public:
 
 		// tips.push_back((*itb).second.name());
 	}
-	*/
 };
 
 #include "GamePersistent.h"
