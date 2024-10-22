@@ -157,6 +157,13 @@ bool	CLevel::net_start_client5				()
 bool	CLevel::net_start_client6				()
 {
 	if(connected_to_server){
+
+		if (!g_dedicated_server)
+		{
+			HUD().Load();
+			//g_pGamePersistent->LoadTitle				("st_loading_textures");
+		}
+
 		// Sync
 		if(g_hud)
 			g_hud->OnConnected				();
