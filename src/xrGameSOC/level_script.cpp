@@ -521,6 +521,11 @@ void g_change_community_goodwill(LPCSTR _community, int _entity_id, int val)
 	RELATION_REGISTRY().ChangeCommunityGoodwill(c.index(), u16(_entity_id), val);
 }
 
+u32 render_get_dx_level()
+{
+	return ::Render->get_dx_level();
+}
+
 #pragma optimize("s",on)
 void CLevel::script_register(lua_State *L)
 {
@@ -626,7 +631,8 @@ void CLevel::script_register(lua_State *L)
 	module(L)
 	[
 		def("command_line",						&command_line),
-		def("IsGameTypeSingle",					&IsGameTypeSingle)
+		def("IsGameTypeSingle",					&IsGameTypeSingle),
+		def("render_get_dx_level",				&render_get_dx_level)
 	];
 
 	module(L,"relation_registry")

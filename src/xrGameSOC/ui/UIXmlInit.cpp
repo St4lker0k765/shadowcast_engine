@@ -154,6 +154,24 @@ bool CUIXmlInit::InitOptionsItem(CUIXml& xml_doc, const char* paht, int index, C
         shared_str group = xml_doc.ReadAttrib(buf, index,"group");
 
 		pWnd->Register(*entry, *group);
+		LPCSTR depends = xml_doc.ReadAttrib(buf, index, "depend", NULL);
+		if (depends)
+		{
+			CUIOptionsItem::ESystemDepends d = CUIOptionsItem::sdNothing;
+
+			if (0 == stricmp(depends, "vid"))
+				d = CUIOptionsItem::sdVidRestart;
+			else if (0 == stricmp(depends, "snd"))
+				d = CUIOptionsItem::sdSndRestart;
+			else if (0 == stricmp(depends, "restart"))
+				d = CUIOptionsItem::sdSystemRestart;
+			else if (0 == stricmp(depends, "runtime"))
+				d = CUIOptionsItem::sdApplyOnChange;
+			else
+				Msg("! unknown param [%s] in optionsItem [%s]", depends, entry.c_str());
+
+			pWnd->SetSystemDepends(d);
+		}
 		return true;
 	}
 	else return false;	
@@ -1291,7 +1309,39 @@ bool CUIXmlInit::InitTrackBar(CUIXml& xml_doc, const char* path, int index, CUIT
 	pWnd->SetInvert		(!!invert);
 	float step			= xml_doc.ReadAttribFlt(path, index, "step", 0.1f);
 	pWnd->SetStep		(step);
-	
+
+	bool is_float = !is_integer;
+	if (is_float)
+	{
+		float fmin = xml_doc.ReadAttribFlt(path, index, "min", 0.0f);
+		float fmax = xml_doc.ReadAttribFlt(path, index, "max", 0.0f);
+
+		if (fmin != fmax)
+		{
+			pWnd->SetOptFBounds(fmin, fmax);
+			pWnd->SetBoundReady(true);
+		}
+	}
+	else
+	{
+		int imin = xml_doc.ReadAttribInt(path, index, "min", 0);
+		int imax = xml_doc.ReadAttribInt(path, index, "max", 0);
+
+		if (imin != imax)
+		{
+			pWnd->SetOptIBounds(imin, imax);
+			pWnd->SetBoundReady(true);
+		}
+	}
+
+	string512 buf;
+	strconcat(sizeof(buf), buf, path, ":output_wnd");
+	if (xml_doc.NavigateToNode(buf, index))
+	{
+		InitStatic(xml_doc, buf, index, pWnd->m_static);
+		pWnd->m_static_format = xml_doc.ReadAttrib(buf, index, "format", NULL);
+		pWnd->m_static->Enable(true);
+	}
 
 	return				true;
 }
@@ -1303,21 +1353,22 @@ bool CUIXmlInit::InitComboBox(CUIXml& xml_doc, const char* path, int index, CUIC
 	pWnd->SetListLength			(xml_doc.ReadAttribInt(path, index, "list_length", 4));
 
 	InitWindow					(xml_doc, path, index, pWnd);
+	pWnd->InitComboBox			(pWnd->GetWndPos(),pWnd->GetWidth());
 	InitOptionsItem				(xml_doc, path, index, pWnd);
 
 	bool b = (1==xml_doc.ReadAttribInt(path, index, "always_show_scroll",1));
 
-	pWnd->m_list.SetFixedScrollBar(b);
+	pWnd->m_list_box.SetFixedScrollBar(b);
 
 	string512					_path;
 	strconcat					(sizeof(_path),_path, path, ":list_font");
 	InitFont					(xml_doc, _path, index, color, pFont);
 	pWnd->SetFont				(pFont);
-	pWnd->m_list.SetFont		(pFont);
-	pWnd->m_list.SetTextColor	(color);
+	pWnd->m_list_box.SetFont		(pFont);
+	pWnd->m_list_box.SetTextColor	(color);
 	strconcat					(sizeof(_path),_path, path, ":list_font_s");	
 	InitFont					(xml_doc, _path, index, color, pFont);
-	pWnd->m_list.SetTextColorS	(color);
+	pWnd->m_list_box.SetTextColorS	(color);
 	
 	strconcat					(sizeof(_path),_path, path, ":text_color:e");
 	if (xml_doc.NavigateToNode(_path, index)){

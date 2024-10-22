@@ -32,6 +32,11 @@ void CUIOptionsManagerScript::SendMessage2Group(const char* group, const char* m
 	CUIOptionsItem::GetOptionsManager()->SendMessage2Group(group, message);
 }
 
+bool CUIOptionsManagerScript::NeedSystemRestart()
+{
+	return CUIOptionsItem::GetOptionsManager()->NeedSystemRestart();
+}
+
 #pragma optimize("s",on)
 void CUIOptionsManagerScript::script_register(lua_State *L)
 {
@@ -46,6 +51,7 @@ void CUIOptionsManagerScript::script_register(lua_State *L)
 			.def("UndoGroup",			&CUIOptionsManagerScript::UndoGroup )
 			.def("OptionsPostAccept",	&CUIOptionsManagerScript::OptionsPostAccept )
 			.def("SendMessage2Group",	&CUIOptionsManagerScript::SendMessage2Group )
+			.def("NeedSystemRestart",	&CUIOptionsManagerScript::NeedSystemRestart )			
 			
 		];
 }

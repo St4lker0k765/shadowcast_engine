@@ -5,6 +5,11 @@
 
 CUIOptionsManager CUIOptionsItem::m_optionsManager;
 
+CUIOptionsItem::CUIOptionsItem()
+{
+	m_dep = sdNothing;
+}
+
 CUIOptionsItem::~CUIOptionsItem()
 {
 	m_optionsManager.UnRegisterItem(this);
@@ -91,7 +96,20 @@ void CUIOptionsItem::SaveOptTokenValue(const char* val){
 	SaveOptStringValue(val);
 }
 
-void CUIOptionsItem::SaveValue(){
+void CUIOptionsItem::SaveValue()
+{
+	if (!IsChanged())
+		return;
+		
+	if(m_dep==sdVidRestart)
+		m_optionsManager.DoVidRestart();
+	else
+	if(m_dep==sdSndRestart)
+		m_optionsManager.DoSndRestart();
+	else
+	if(m_dep==sdSystemRestart)
+		m_optionsManager.DoSystemRestart();
+
 	if (	m_entry == "vid_mode"		|| 
 			m_entry == "_preset"		|| 
 			m_entry == "rs_fullscreen" 	||	

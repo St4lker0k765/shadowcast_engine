@@ -173,7 +173,7 @@ const char* CUIMapList::GetCommandLine(LPCSTR player_name){
 	m_command += m_srv_params;
 	m_command += "/estime=";
 	
-	u32 id		= m_pWeatherSelector->GetListWnd()->GetSelectedItem()->GetTAG();
+	u32 id		= 0;
 
 	int estime  = m_mapWeather[id].weather_time;
 	m_command	+= itoa(estime/60,buf,10);

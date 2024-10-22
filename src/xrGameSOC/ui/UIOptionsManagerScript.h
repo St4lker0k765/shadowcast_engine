@@ -11,7 +11,7 @@ public:
 	void UndoGroup(const char* group);
 	void OptionsPostAccept();
 	void SendMessage2Group(const char* group, const char* message);
-
+	bool NeedSystemRestart();
 	DECLARE_SCRIPT_REGISTER_FUNCTION
 };
 
