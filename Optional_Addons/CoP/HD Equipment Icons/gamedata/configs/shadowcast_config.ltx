@@ -14,19 +14,19 @@ _delta_rot = 0.000002
 ;default_icon_large = shadowcast_engine_logo_rpc ; Стандартная иконка для Discord Rich Presence. Если нужно изменить, раскомментировать строку.
 
 [gameplay]
-use_hd_icons	   = false ; Включить иконки 100x100, если false, то используется 50x50
+use_hd_icons	   = true ; Включить иконки 100x100, если false, то используется 50x50
 
 [ui]
 enable_trackbar_scaling	   = false ; Уменьшение кнопки у ползунков в 2 раза. Полезно для модов с HD интерфейсом.
 
 [compatibility]
 ; Режим совместимости: cop - Зов Припяти, cs - Чистое Небо, soc - Тень Чернобыля
-game_mode = cs
+game_mode = cop
 
 [default_console_settings]
 rs_loadingstages = 1
-; for STCS
-;g_hud_fov = 0.75
+; for STCoP 3.5
+;g_hud_fov = 0.7
 
 [game_specific]
 ; настройки, присутствующие только в определённой игре
@@ -34,4 +34,4 @@ rs_loadingstages = 1
 cop_death_sound_enable = true ; включить озвучки смерти у НПС
 cop_square_minimap = false ; Использовать квадратную миникарту, как в ЧН
 cop_old_trackbar_texture = false ; Использовать старую текстуру ползунков из ЧН
-cs_use_new_weapon_misfire = true ; Использовать систему клина оружия из ЗП
+cs_use_new_weapon_misfire = false ; Использовать систему клина оружия из ЗП
