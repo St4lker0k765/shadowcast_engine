@@ -627,14 +627,14 @@ void CLevel::OnFrame	()
 				const IServerStatistic* S = Server->GetStatistic();
 				F->SetHeight	(0.015f);
 				F->OutSetI	(0.0f,0.5f);
-				F->SetColor	(D3DCOLOR_XRGB(0,255,0));
+				F->SetColor	(color_xrgb(0,255,0));
 				F->OutNext	("IN:  %4d/%4d (%2.1f%%)",	S->bytes_in_real,	S->bytes_in,	100.f*float(S->bytes_in_real)/float(S->bytes_in));
 				F->OutNext	("OUT: %4d/%4d (%2.1f%%)",	S->bytes_out_real,	S->bytes_out,	100.f*float(S->bytes_out_real)/float(S->bytes_out));
 				F->OutNext	("client_2_sever ping: %d",	net_Statistic.getPing());
 				F->OutNext	("SPS/Sended : %4d/%4d", S->dwBytesPerSec, S->dwBytesSended);
 				F->OutNext	("sv_urate/cl_urate : %4d/%4d", psNET_ServerUpdate, psNET_ClientUpdate);
 
-				F->SetColor	(D3DCOLOR_XRGB(255,255,255));
+				F->SetColor	(color_xrgb(255,255,255));
 
 				struct net_stats_functor
 				{
@@ -666,11 +666,11 @@ void CLevel::OnFrame	()
 
 				F->SetHeight(0.015f);
 				F->OutSetI	(0.0f,0.5f);
-				F->SetColor	(D3DCOLOR_XRGB(0,255,0));
+				F->SetColor	(color_xrgb(0,255,0));
 				F->OutNext	("client_2_sever ping: %d",	net_Statistic.getPing());
 				F->OutNext	("sv_urate/cl_urate : %4d/%4d", psNET_ServerUpdate, psNET_ClientUpdate);
 
-				F->SetColor	(D3DCOLOR_XRGB(255,255,255));
+				F->SetColor	(color_xrgb(255,255,255));
 				F->OutNext("P(%d), BPS(%2.1fK), MRR(%2d), MSR(%2d), Retried(%2d), Blocked(%2d), Sended(%2d), SPS(%2d)",
 					//Server->game->get_option_s(C->Name,"name",C->Name),
 					//					C->Name,
@@ -718,7 +718,7 @@ void CLevel::OnFrame	()
 	m_ph_commander_scripts->update		();
 //	autosave_manager().update			();
 
-	//ïðîñ÷èòàòü ïîëåò ïóëü
+	//Ð¿Ñ€Ð¾ÑÑ‡Ð¸Ñ‚Ð°Ñ‚ÑŒ Ð¿Ð¾Ð»ÐµÑ‚ Ð¿ÑƒÐ»ÑŒ
 	Device.Statistic->TEST0.Begin		();
 	BulletManager().CommitRenderSet		();
 	Device.Statistic->TEST0.End			();
@@ -774,11 +774,11 @@ void CLevel::OnRender()
 		return;
 
 	Game().OnRender();
-	//îòðèñîâàòü òðàññû ïóëü
+	//Ð¾Ñ‚Ñ€Ð¸ÑÐ¾Ð²Ð°Ñ‚ÑŒ Ñ‚Ñ€Ð°ÑÑÑ‹ Ð¿ÑƒÐ»ÑŒ
 	//Device.Statistic->TEST1.Begin();
 	BulletManager().Render();
 	//Device.Statistic->TEST1.End();
-	//îòðèñîâàòü èíòåðôåéc ïîëüçîâàòåëÿ
+	//Ð¾Ñ‚Ñ€Ð¸ÑÐ¾Ð²Ð°Ñ‚ÑŒ Ð¸Ð½Ñ‚ÐµÑ€Ñ„ÐµÐ¹c Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»Ñ
 
 	::Render->AfterWorldRender(); //--#SM+#-- +SecondVP+
 

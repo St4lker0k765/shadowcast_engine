@@ -238,7 +238,7 @@ void CWeaponMagazinedWGrenade::state_Fire(float dt)
 {
 	VERIFY(fOneShotTime>0.f);
 
-	//режим стрельбы подствольника
+	//СЂРµР¶РёРј СЃС‚СЂРµР»СЊР±С‹ РїРѕРґСЃС‚РІРѕР»СЊРЅРёРєР°
 	if(m_bGrenadeMode)
 	{
 		/*
@@ -263,7 +263,7 @@ void CWeaponMagazinedWGrenade::state_Fire(float dt)
 			FireEnd();
 		*/
 	} 
-	//режим стрельбы очередями
+	//СЂРµР¶РёРј СЃС‚СЂРµР»СЊР±С‹ РѕС‡РµСЂРµРґСЏРјРё
 	else 
 		inherited::state_Fire(dt);
 }
@@ -350,15 +350,15 @@ void  CWeaponMagazinedWGrenade::LaunchGrenade()
 				Fvector					res[2];
 #ifdef		DEBUG
 //.				DBG_OpenCashedDraw();
-//.				DBG_DrawLine(p1,Fvector().add(p1,d),D3DCOLOR_XRGB(255,0,0));
+//.				DBG_DrawLine(p1,Fvector().add(p1,d),color_xrgb(255,0,0));
 #endif
 				u8 canfire0 = TransferenceAndThrowVelToThrowDir(Transference, 
 																CRocketLauncher::m_fLaunchSpeed, 
 																EffectiveGravity(), 
 																res);
 #ifdef DEBUG
-//.				if(canfire0>0)DBG_DrawLine(p1,Fvector().add(p1,res[0]),D3DCOLOR_XRGB(0,255,0));
-//.				if(canfire0>1)DBG_DrawLine(p1,Fvector().add(p1,res[1]),D3DCOLOR_XRGB(0,0,255));
+//.				if(canfire0>0)DBG_DrawLine(p1,Fvector().add(p1,res[0]),color_xrgb(0,255,0));
+//.				if(canfire0>1)DBG_DrawLine(p1,Fvector().add(p1,res[1]),color_xrgb(0,0,255));
 //.				DBG_ClosedCashedDraw(30000);
 #endif
 				
@@ -415,7 +415,7 @@ void CWeaponMagazinedWGrenade::ReloadMagazine()
 {
 	inherited::ReloadMagazine();
 
-	//перезарядка подствольного гранатомета
+	//РїРµСЂРµР·Р°СЂСЏРґРєР° РїРѕРґСЃС‚РІРѕР»СЊРЅРѕРіРѕ РіСЂР°РЅР°С‚РѕРјРµС‚Р°
 	if(iAmmoElapsed && !getRocketCount() && m_bGrenadeMode) 
 	{
 		shared_str fake_grenade_name = pSettings->r_string(m_ammoTypes[m_ammoType].c_str(), "fake_grenade_name");
@@ -509,7 +509,7 @@ bool CWeaponMagazinedWGrenade::Attach(PIItem pIItem, bool b_send_event)
 
 		CRocketLauncher::m_fLaunchSpeed = pGrenadeLauncher->GetGrenadeVel();
 
- 		//уничтожить подствольник из инвентаря
+ 		//СѓРЅРёС‡С‚РѕР¶РёС‚СЊ РїРѕРґСЃС‚РІРѕР»СЊРЅРёРє РёР· РёРЅРІРµРЅС‚Р°СЂСЏ
 		if(b_send_event)
 		{
 			if (OnServer()) 
@@ -580,7 +580,7 @@ float	CWeaponMagazinedWGrenade::CurrentZoomFactor	()
 	return inherited::CurrentZoomFactor();
 }
 
-//виртуальные функции для проигрывания анимации HUD
+//РІРёСЂС‚СѓР°Р»СЊРЅС‹Рµ С„СѓРЅРєС†РёРё РґР»СЏ РїСЂРѕРёРіСЂС‹РІР°РЅРёСЏ Р°РЅРёРјР°С†РёРё HUD
 void CWeaponMagazinedWGrenade::PlayAnimShow()
 {
 	VERIFY(GetState()==eShowing);
@@ -751,12 +751,12 @@ void CWeaponMagazinedWGrenade::PlayAnimIdle()
 				{
 					if (!(State & mcCrouch)) 
 					{
-						if (State & mcAccel) //Ходьба медленная (SHIFT)
+						if (State & mcAccel) //РҐРѕРґСЊР±Р° РјРµРґР»РµРЅРЅР°СЏ (SHIFT)
 							act_state = 5;
 						else
 							act_state = 2;
 					}
-					else if (State & mcAccel) //Ходьба в присяде (CTRL+SHIFT)
+					else if (State & mcAccel) //РҐРѕРґСЊР±Р° РІ РїСЂРёСЃСЏРґРµ (CTRL+SHIFT)
 						act_state = 4;
 					else
 						act_state = 3;

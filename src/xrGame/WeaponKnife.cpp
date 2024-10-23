@@ -369,38 +369,38 @@ void CWeaponKnife::LoadFireParams(LPCSTR section)
 	s_sHitPower_2			= pSettings->r_string_wb	(section, "hit_power_2" );
 	s_sHitPowerCritical_2	= pSettings->r_string_wb	(section, "hit_power_critical_2" );
 	
-	fvHitPower_2[egdMaster]			= (float)atof(_GetItem(*s_sHitPower_2,0,buffer));//ïåðâûé ïàðàìåòð - ýòî õèò äëÿ óðîâíÿ èãðû ìàñòåð
-	fvHitPowerCritical_2[egdMaster]	= (float)atof(_GetItem(*s_sHitPowerCritical_2,0,buffer));//ïåðâûé ïàðàìåòð - ýòî õèò äëÿ óðîâíÿ èãðû ìàñòåð
+	fvHitPower_2[egdMaster]			= (float)atof(_GetItem(*s_sHitPower_2,0,buffer));//Ð¿ÐµÑ€Ð²Ñ‹Ð¹ Ð¿Ð°Ñ€Ð°Ð¼ÐµÑ‚Ñ€ - ÑÑ‚Ð¾ Ñ…Ð¸Ñ‚ Ð´Ð»Ñ ÑƒÑ€Ð¾Ð²Ð½Ñ Ð¸Ð³Ñ€Ñ‹ Ð¼Ð°ÑÑ‚ÐµÑ€
+	fvHitPowerCritical_2[egdMaster]	= (float)atof(_GetItem(*s_sHitPowerCritical_2,0,buffer));//Ð¿ÐµÑ€Ð²Ñ‹Ð¹ Ð¿Ð°Ñ€Ð°Ð¼ÐµÑ‚Ñ€ - ÑÑ‚Ð¾ Ñ…Ð¸Ñ‚ Ð´Ð»Ñ ÑƒÑ€Ð¾Ð²Ð½Ñ Ð¸Ð³Ñ€Ñ‹ Ð¼Ð°ÑÑ‚ÐµÑ€
 
-	fvHitPower_2[egdNovice] = fvHitPower_2[egdStalker] = fvHitPower_2[egdVeteran] = fvHitPower_2[egdMaster];//èçíà÷àëüíî ïàðàìåòðû äëÿ äðóãèõ óðîâíåé ñëîæíîñòè òàêèå æå
-	fvHitPowerCritical_2[egdNovice] = fvHitPowerCritical_2[egdStalker] = fvHitPowerCritical_2[egdVeteran] = fvHitPowerCritical_2[egdMaster];//èçíà÷àëüíî ïàðàìåòðû äëÿ äðóãèõ óðîâíåé ñëîæíîñòè òàêèå æå
+	fvHitPower_2[egdNovice] = fvHitPower_2[egdStalker] = fvHitPower_2[egdVeteran] = fvHitPower_2[egdMaster];//Ð¸Ð·Ð½Ð°Ñ‡Ð°Ð»ÑŒÐ½Ð¾ Ð¿Ð°Ñ€Ð°Ð¼ÐµÑ‚Ñ€Ñ‹ Ð´Ð»Ñ Ð´Ñ€ÑƒÐ³Ð¸Ñ… ÑƒÑ€Ð¾Ð²Ð½ÐµÐ¹ ÑÐ»Ð¾Ð¶Ð½Ð¾ÑÑ‚Ð¸ Ñ‚Ð°ÐºÐ¸Ðµ Ð¶Ðµ
+	fvHitPowerCritical_2[egdNovice] = fvHitPowerCritical_2[egdStalker] = fvHitPowerCritical_2[egdVeteran] = fvHitPowerCritical_2[egdMaster];//Ð¸Ð·Ð½Ð°Ñ‡Ð°Ð»ÑŒÐ½Ð¾ Ð¿Ð°Ñ€Ð°Ð¼ÐµÑ‚Ñ€Ñ‹ Ð´Ð»Ñ Ð´Ñ€ÑƒÐ³Ð¸Ñ… ÑƒÑ€Ð¾Ð²Ð½ÐµÐ¹ ÑÐ»Ð¾Ð¶Ð½Ð¾ÑÑ‚Ð¸ Ñ‚Ð°ÐºÐ¸Ðµ Ð¶Ðµ
 
-	int num_game_diff_param=_GetItemCount(*s_sHitPower_2);//óçíà¸ì êîëëè÷åñòâî ïàðàìåòðîâ äëÿ õèòîâ
-	if (num_game_diff_param>1)//åñëè çàäàí âòîðîé ïàðàìåòð õèòà
+	int num_game_diff_param=_GetItemCount(*s_sHitPower_2);//ÑƒÐ·Ð½Ð°Ñ‘Ð¼ ÐºÐ¾Ð»Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ Ð¿Ð°Ñ€Ð°Ð¼ÐµÑ‚Ñ€Ð¾Ð² Ð´Ð»Ñ Ñ…Ð¸Ñ‚Ð¾Ð²
+	if (num_game_diff_param>1)//ÐµÑÐ»Ð¸ Ð·Ð°Ð´Ð°Ð½ Ð²Ñ‚Ð¾Ñ€Ð¾Ð¹ Ð¿Ð°Ñ€Ð°Ð¼ÐµÑ‚Ñ€ Ñ…Ð¸Ñ‚Ð°
 	{
-		fvHitPower_2[egdVeteran] = (float)atof(_GetItem(*s_sHitPower_2,1,buffer));//òî âû÷èòûâàåì åãî äëÿ óðîâíÿ âåòåðàíà
+		fvHitPower_2[egdVeteran] = (float)atof(_GetItem(*s_sHitPower_2,1,buffer));//Ñ‚Ð¾ Ð²Ñ‹Ñ‡Ð¸Ñ‚Ñ‹Ð²Ð°ÐµÐ¼ ÐµÐ³Ð¾ Ð´Ð»Ñ ÑƒÑ€Ð¾Ð²Ð½Ñ Ð²ÐµÑ‚ÐµÑ€Ð°Ð½Ð°
 	}
-	if (num_game_diff_param>2)//åñëè çàäàí òðåòèé ïàðàìåòð õèòà
+	if (num_game_diff_param>2)//ÐµÑÐ»Ð¸ Ð·Ð°Ð´Ð°Ð½ Ñ‚Ñ€ÐµÑ‚Ð¸Ð¹ Ð¿Ð°Ñ€Ð°Ð¼ÐµÑ‚Ñ€ Ñ…Ð¸Ñ‚Ð°
 	{
-		fvHitPower_2[egdStalker] = (float)atof(_GetItem(*s_sHitPower_2,2,buffer));//òî âû÷èòûâàåì åãî äëÿ óðîâíÿ ñòàëêåðà
+		fvHitPower_2[egdStalker] = (float)atof(_GetItem(*s_sHitPower_2,2,buffer));//Ñ‚Ð¾ Ð²Ñ‹Ñ‡Ð¸Ñ‚Ñ‹Ð²Ð°ÐµÐ¼ ÐµÐ³Ð¾ Ð´Ð»Ñ ÑƒÑ€Ð¾Ð²Ð½Ñ ÑÑ‚Ð°Ð»ÐºÐµÑ€Ð°
 	}
-	if (num_game_diff_param>3)//åñëè çàäàí ÷åòâ¸ðòûé ïàðàìåòð õèòà
+	if (num_game_diff_param>3)//ÐµÑÐ»Ð¸ Ð·Ð°Ð´Ð°Ð½ Ñ‡ÐµÑ‚Ð²Ñ‘Ñ€Ñ‚Ñ‹Ð¹ Ð¿Ð°Ñ€Ð°Ð¼ÐµÑ‚Ñ€ Ñ…Ð¸Ñ‚Ð°
 	{
-		fvHitPower_2[egdNovice]  = (float)atof(_GetItem(*s_sHitPower_2,3,buffer));//òî âû÷èòûâàåì åãî äëÿ óðîâíÿ íîâè÷êà
+		fvHitPower_2[egdNovice]  = (float)atof(_GetItem(*s_sHitPower_2,3,buffer));//Ñ‚Ð¾ Ð²Ñ‹Ñ‡Ð¸Ñ‚Ñ‹Ð²Ð°ÐµÐ¼ ÐµÐ³Ð¾ Ð´Ð»Ñ ÑƒÑ€Ð¾Ð²Ð½Ñ Ð½Ð¾Ð²Ð¸Ñ‡ÐºÐ°
 	}
 
-	num_game_diff_param=_GetItemCount(*s_sHitPowerCritical_2);//óçíà¸ì êîëëè÷åñòâî ïàðàìåòðîâ
-	if (num_game_diff_param>1)//åñëè çàäàí âòîðîé ïàðàìåòð õèòà
+	num_game_diff_param=_GetItemCount(*s_sHitPowerCritical_2);//ÑƒÐ·Ð½Ð°Ñ‘Ð¼ ÐºÐ¾Ð»Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ Ð¿Ð°Ñ€Ð°Ð¼ÐµÑ‚Ñ€Ð¾Ð²
+	if (num_game_diff_param>1)//ÐµÑÐ»Ð¸ Ð·Ð°Ð´Ð°Ð½ Ð²Ñ‚Ð¾Ñ€Ð¾Ð¹ Ð¿Ð°Ñ€Ð°Ð¼ÐµÑ‚Ñ€ Ñ…Ð¸Ñ‚Ð°
 	{
-		fvHitPowerCritical_2[egdVeteran] = (float)atof(_GetItem(*s_sHitPowerCritical_2,1,buffer));//òî âû÷èòûâàåì åãî äëÿ óðîâíÿ âåòåðàíà
+		fvHitPowerCritical_2[egdVeteran] = (float)atof(_GetItem(*s_sHitPowerCritical_2,1,buffer));//Ñ‚Ð¾ Ð²Ñ‹Ñ‡Ð¸Ñ‚Ñ‹Ð²Ð°ÐµÐ¼ ÐµÐ³Ð¾ Ð´Ð»Ñ ÑƒÑ€Ð¾Ð²Ð½Ñ Ð²ÐµÑ‚ÐµÑ€Ð°Ð½Ð°
 	}
-	if (num_game_diff_param>2)//åñëè çàäàí òðåòèé ïàðàìåòð õèòà
+	if (num_game_diff_param>2)//ÐµÑÐ»Ð¸ Ð·Ð°Ð´Ð°Ð½ Ñ‚Ñ€ÐµÑ‚Ð¸Ð¹ Ð¿Ð°Ñ€Ð°Ð¼ÐµÑ‚Ñ€ Ñ…Ð¸Ñ‚Ð°
 	{
-		fvHitPowerCritical_2[egdStalker] = (float)atof(_GetItem(*s_sHitPowerCritical_2,2,buffer));//òî âû÷èòûâàåì åãî äëÿ óðîâíÿ ñòàëêåðà
+		fvHitPowerCritical_2[egdStalker] = (float)atof(_GetItem(*s_sHitPowerCritical_2,2,buffer));//Ñ‚Ð¾ Ð²Ñ‹Ñ‡Ð¸Ñ‚Ñ‹Ð²Ð°ÐµÐ¼ ÐµÐ³Ð¾ Ð´Ð»Ñ ÑƒÑ€Ð¾Ð²Ð½Ñ ÑÑ‚Ð°Ð»ÐºÐµÑ€Ð°
 	}
-	if (num_game_diff_param>3)//åñëè çàäàí ÷åòâ¸ðòûé ïàðàìåòð õèòà
+	if (num_game_diff_param>3)//ÐµÑÐ»Ð¸ Ð·Ð°Ð´Ð°Ð½ Ñ‡ÐµÑ‚Ð²Ñ‘Ñ€Ñ‚Ñ‹Ð¹ Ð¿Ð°Ñ€Ð°Ð¼ÐµÑ‚Ñ€ Ñ…Ð¸Ñ‚Ð°
 	{
-		fvHitPowerCritical_2[egdNovice]  = (float)atof(_GetItem(*s_sHitPowerCritical_2,3,buffer));//òî âû÷èòûâàåì åãî äëÿ óðîâíÿ íîâè÷êà
+		fvHitPowerCritical_2[egdNovice]  = (float)atof(_GetItem(*s_sHitPowerCritical_2,3,buffer));//Ñ‚Ð¾ Ð²Ñ‹Ñ‡Ð¸Ñ‚Ñ‹Ð²Ð°ÐµÐ¼ ÐµÐ³Ð¾ Ð´Ð»Ñ ÑƒÑ€Ð¾Ð²Ð½Ñ Ð½Ð¾Ð²Ð¸Ñ‡ÐºÐ°
 	}
 
 	fHitImpulse_2		= pSettings->r_float	(section, "hit_impulse_2" );
@@ -427,19 +427,19 @@ void CWeaponKnife::OnRender()
 			float	sc_r				= i->second;
 			Fmatrix	sphere				= Fmatrix().scale(sc_r, sc_r, sc_r);
 			sphere.c					= i->first;
-			renderer.draw_ellipse		(sphere, D3DCOLOR_XRGB(100, 255, 0));
+			renderer.draw_ellipse		(sphere, color_xrgb(100, 255, 0));
 		}
 		/*
 		Fmatrix	sphere				= Fmatrix().scale(.05f, .05f, .05f);
 		sphere.c					= m_dbg_data.m_pos;
-		renderer.draw_ellipse		(sphere, D3DCOLOR_XRGB(255, 0, 0));
-		renderer.draw_line			(Fidentity, m_dbg_data.m_pos, m_dbg_data.m_endpos, D3DCOLOR_XRGB(255, 255, 0));
+		renderer.draw_ellipse		(sphere, color_xrgb(255, 0, 0));
+		renderer.draw_line			(Fidentity, m_dbg_data.m_pos, m_dbg_data.m_endpos, color_xrgb(255, 255, 0));
 		
 		sphere.c					= m_dbg_data.m_endpos;
-		renderer.draw_ellipse		(sphere, D3DCOLOR_XRGB(100, 255, 0));*/
+		renderer.draw_ellipse		(sphere, color_xrgb(100, 255, 0));*/
 		//Fvector victim_end			(m_dbg_data.m_pos);
 		//victim_end.add				(m_dbg_data.m_pick_vector);
-		//renderer.draw_line			(Fidentity, m_dbg_data.m_pos, victim_end, D3DCOLOR_XRGB(0, 255, 255));
+		//renderer.draw_line			(Fidentity, m_dbg_data.m_pos, victim_end, color_xrgb(0, 255, 255));
 	}
 	float hit_power = 1.f;
 	for (dbg_draw_data::targets_t::const_iterator i = m_dbg_data.m_targets_vectors.begin(),
@@ -449,7 +449,7 @@ void CWeaponKnife::OnRender()
 		sphere.c		= *i;
 		u8				hit_color = u8(255 * hit_power);
 		hit_power		*= m_NextHitDivideFactor;
-		renderer.draw_ellipse(sphere, D3DCOLOR_XRGB(hit_color, 50, 0));
+		renderer.draw_ellipse(sphere, color_xrgb(hit_color, 50, 0));
 	}
 	
 	for (dbg_draw_data::obbes_t::const_iterator i = m_dbg_data.m_target_boxes.begin(),
@@ -457,7 +457,7 @@ void CWeaponKnife::OnRender()
 	{
 		Fmatrix	tmp_matrix;
 		tmp_matrix.set(i->m_rotate.i, i->m_rotate.j, i->m_rotate.k, i->m_translate);
-		renderer.draw_obb(tmp_matrix, i->m_halfsize, D3DCOLOR_XRGB(0, 255, 0));
+		renderer.draw_obb(tmp_matrix, i->m_halfsize, color_xrgb(0, 255, 0));
 	}
 }
 #endif

@@ -2,12 +2,12 @@
 
 ## О движке:
 
-* Движок основан на [STCoP Public Engine](https://github.com/mortany/stcop_engine_public). Главной целью движка является обеспечения совместимости между ЗП, ЧН и ТЧ, а также добавление новых возможностей для модмейкеров.
+* Движок основан на [STCoP Engine](https://github.com/mortany/stcop_engine_public). Главной целью движка является обеспечения совместимости между ЗП, ЧН и ТЧ, а также добавление новых возможностей для модмейкеров.
 * Авторы движка: [St4lker0k765](https://github.com/St4lker0k765), [morrazzzz](https://github.com/morrazzzz)
 
 ## Изменения:
 * Поддержка x64
-* Поддержка ЧН
+* Поддержка ТЧ и ЧН
 * Поддержка Discord Rich Presence
 * Улучшенные PiP прицелы
 * Улучшенные рендеры
@@ -26,13 +26,17 @@
 * Следы от пуль на НПС
 
 ## Отдельные благодарности:
-* abramcumner - за порт ЧН на VS2022
+* abramcumner - за порт ЧН на Visual Studio 2022
+* ESM Engine - порт ТЧ под ЗП рендеры и погоду
 * X-Ray Oxygen - за TTF шрифты;
 * OpenXRay - за загрузочный экран в XML
 * IX-Ray Engine - различные фиксы
-* mortan - за STCoP Engine, x64 и 3D прицелы;
+* mortan - за STCoP Engine и 3D прицелы;
+* ForserX - x64 и различная поддержка
 * Hrusteckiy - за иконки 100x100
 
 [**Гайд по адаптации модификаций под Shadowcast Engine (ЗП)**](/assets/cop_mod_adaptation_guide.md)
 
 [**Гайд по адаптации модификаций под Shadowcast Engine (ЧН)**](/assets/cs_mod_adaptation_guide.md)
+
+Гайд по адаптации модификаций под ТЧ будет в скором времени.

@@ -368,7 +368,7 @@ void CCustomMonster::shedule_Update	( u32 DT )
 			//////////////////////////////////////
 			//Fvector C; float R;
 			//////////////////////////////////////
-			// С Олеся - ПИВО!!!! (Диме :-))))
+			// РЎ РћР»РµСЃСЏ - РџРР’Рћ!!!! (Р”РёРјРµ :-))))
 			// m_PhysicMovementControl->GetBoundingSphere	(C,R);
 			//////////////////////////////////////
 			//Center(C);
@@ -829,12 +829,12 @@ void CCustomMonster::PitchCorrection()
 	Fvector position_on_plane;
 	P.project(position_on_plane,Position());
 
-	// находим проекцию точки, лежащей на векторе текущего направления
+	// РЅР°С…РѕРґРёРј РїСЂРѕРµРєС†РёСЋ С‚РѕС‡РєРё, Р»РµР¶Р°С‰РµР№ РЅР° РІРµРєС‚РѕСЂРµ С‚РµРєСѓС‰РµРіРѕ РЅР°РїСЂР°РІР»РµРЅРёСЏ
 	Fvector dir_point, proj_point;
 	dir_point.mad(position_on_plane, Direction(), 1.f);
 	P.project(proj_point,dir_point);
 	
-	// получаем искомый вектор направления
+	// РїРѕР»СѓС‡Р°РµРј РёСЃРєРѕРјС‹Р№ РІРµРєС‚РѕСЂ РЅР°РїСЂР°РІР»РµРЅРёСЏ
 	Fvector target_dir;
 	target_dir.sub(proj_point,position_on_plane);
 
@@ -1118,10 +1118,10 @@ void CCustomMonster::OnRender()
 	for (int i=0; i<1; ++i) {
 		const xr_vector<CDetailPathManager::STravelPoint>		&keys	= !i ? movement().detail().m_key_points					: movement().detail().m_key_points;
 		const xr_vector<DetailPathManager::STravelPathPoint>	&path	= !i ? movement().detail().path()	: movement().detail().path();
-		u32									color0	= !i ? D3DCOLOR_XRGB(0,255,0)		: D3DCOLOR_XRGB(0,0,255);
-		u32									color1	= !i ? D3DCOLOR_XRGB(255,0,0)		: D3DCOLOR_XRGB(255,255,0);
-		u32									color2	= !i ? D3DCOLOR_XRGB(0,0,255)		: D3DCOLOR_XRGB(0,255,255);
-		u32									color3	= !i ? D3DCOLOR_XRGB(255,255,255)	: D3DCOLOR_XRGB(255,0,255);
+		u32									color0	= !i ? color_xrgb(0,255,0)		: color_xrgb(0,0,255);
+		u32									color1	= !i ? color_xrgb(255,0,0)		: color_xrgb(255,255,0);
+		u32									color2	= !i ? color_xrgb(0,0,255)		: color_xrgb(0,255,255);
+		u32									color3	= !i ? color_xrgb(255,255,255)	: color_xrgb(255,0,255);
 		float								radius0 = !i ? .1f : .15f;
 		float								radius1 = !i ? .2f : .3f;
 		{
@@ -1130,7 +1130,7 @@ void CCustomMonster::OnRender()
 				const DetailPathManager::STravelPathPoint&	N2 = path[I];	Fvector	P2; P2.set(N2.position); P2.y+=0.1f;
 				if (!fis_zero(P1.distance_to_sqr(P2),EPS_L))
 					Level().debug_renderer().draw_line			(Fidentity,P1,P2,color0);
-				if ((path.size() - 1) == I) // песледний box?
+				if ((path.size() - 1) == I) // РїРµСЃР»РµРґРЅРёР№ box?
 					Level().debug_renderer().draw_aabb			(P1,radius0,radius0,radius0,color1);
 				else 
 					Level().debug_renderer().draw_aabb			(P1,radius0,radius0,radius0,color2);
@@ -1160,19 +1160,19 @@ void CCustomMonster::OnRender()
 
 		Fvector				P1 = ai().level_graph().vertex_position(node);
 		P1.y				+= 1.f;
-		Level().debug_renderer().draw_aabb	(P1,.5f,1.f,.5f,D3DCOLOR_XRGB(255,0,0));
+		Level().debug_renderer().draw_aabb	(P1,.5f,1.f,.5f,color_xrgb(255,0,0));
 	}
 	if (g_Alive()) {
 		if (memory().enemy().selected()) {
 			Fvector				P1 = memory().memory(memory().enemy().selected()).m_object_params.m_position;
 			P1.y				+= 1.f;
-			Level().debug_renderer().draw_aabb	(P1,1.f,1.f,1.f,D3DCOLOR_XRGB(0,0,0));
+			Level().debug_renderer().draw_aabb	(P1,1.f,1.f,1.f,color_xrgb(0,0,0));
 		}
 
 		if (memory().danger().selected()) {
 			Fvector				P1 = memory().danger().selected()->position();
 			P1.y				+= 1.f;
-			Level().debug_renderer().draw_aabb	(P1,1.f,1.f,1.f,D3DCOLOR_XRGB(0,0,0));
+			Level().debug_renderer().draw_aabb	(P1,1.f,1.f,1.f,color_xrgb(0,0,0));
 		}
 	}
 

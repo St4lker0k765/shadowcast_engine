@@ -261,8 +261,8 @@ void CPhysicObject::UpdateCL()
 {
 	inherited::UpdateCL();
 
-	//Åñëè íàø ôèçè÷åñêèé îáúåêò àíèìèðîâàííûé, òî 
-	//äâèãàåì îáúåêò çà àíèìàöèåé
+	//Ð•ÑÐ»Ð¸ Ð½Ð°Ñˆ Ñ„Ð¸Ð·Ð¸Ñ‡ÐµÑÐºÐ¸Ð¹ Ð¾Ð±ÑŠÐµÐºÑ‚ Ð°Ð½Ð¸Ð¼Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ð¹, Ñ‚Ð¾ 
+	//Ð´Ð²Ð¸Ð³Ð°ÐµÐ¼ Ð¾Ð±ÑŠÐµÐºÑ‚ Ð·Ð° Ð°Ð½Ð¸Ð¼Ð°Ñ†Ð¸ÐµÐ¹
 	if (m_pPhysicsShell->PPhysicsShellAnimator())
 	{
 		m_pPhysicsShell->PPhysicsShellAnimator()->OnFrame();
@@ -715,12 +715,12 @@ void CPhysicObject::PH_A_CrPr		()
 		Fvector c,r,p;
 		bb.get_CD(c,r );
 		XFORM().transform_tiny(p,c);
-		DBG_DrawAABB( p, r,D3DCOLOR_XRGB(255, 0, 0));
+		DBG_DrawAABB( p, r,color_xrgb(255, 0, 0));
 		//PPhysicsShell()->XFORM().transform_tiny(c);
 		Fmatrix mm;
 		PPhysicsShell()->GetGlobalTransformDynamic(&mm);
 		mm.transform_tiny(p,c);
-		DBG_DrawAABB( p, r,D3DCOLOR_XRGB(0, 255, 0));
+		DBG_DrawAABB( p, r,color_xrgb(0, 255, 0));
 		DBG_ClosedCashedDraw	(50000);
 #endif
 		spatial_move();

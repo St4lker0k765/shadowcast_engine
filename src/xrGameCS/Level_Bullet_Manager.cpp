@@ -1,5 +1,5 @@
-// Level_Bullet_Manager.cpp:	для обеспечения полета пули по траектории
-//								все пули и осколки передаются сюда
+// Level_Bullet_Manager.cpp:	РґР»СЏ РѕР±РµСЃРїРµС‡РµРЅРёСЏ РїРѕР»РµС‚Р° РїСѓР»Рё РїРѕ С‚СЂР°РµРєС‚РѕСЂРёРё
+//								РІСЃРµ РїСѓР»Рё Рё РѕСЃРєРѕР»РєРё РїРµСЂРµРґР°СЋС‚СЃСЏ СЃСЋРґР°
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
@@ -684,14 +684,14 @@ BOOL CBulletManager::firetrace_callback	(collide::rq_result& result, LPVOID para
 	if ( fis_zero(data.collide_time) )
 		return						(TRUE);
 
-	//статический объект
+	//СЃС‚Р°С‚РёС‡РµСЃРєРёР№ РѕР±СЉРµРєС‚
 	if (!result.O) {
 		CDB::TRI const& triangle	= *(Level().ObjectSpace.GetStaticTris() + result.element);
 		bullet_manager.RegisterEvent(EVENT_HIT, FALSE, &bullet, collide_position, result, triangle.material);
 		return						(FALSE);
 	}
 
-	//динамический объект
+	//РґРёРЅР°РјРёС‡РµСЃРєРёР№ РѕР±СЉРµРєС‚
 	VERIFY							( !(result.O->ID() == bullet.parent_id &&  bullet.fly_dist < parent_ignore_distance) );
 	IKinematics* const kinematics	= smart_cast<IKinematics*>(result.O->Visual());
 	if (!kinematics)
@@ -898,12 +898,12 @@ void CBulletManager::Render	()
 		BulletPoints::const_iterator	e = m_bullet_points.end();
 		for ( ; i != e; i+=2) {
 			sphere.c					= *i;
-			renderer.draw_ellipse		(sphere, D3DCOLOR_XRGB(255, 0, 0));
+			renderer.draw_ellipse		(sphere, color_xrgb(255, 0, 0));
 
-			renderer.draw_line			(Fidentity, *i, *(i + 1), D3DCOLOR_XRGB(0, 255, 0));
+			renderer.draw_line			(Fidentity, *i, *(i + 1), color_xrgb(0, 255, 0));
 
 			sphere.c					= *(i + 1);
-			renderer.draw_ellipse		(sphere, D3DCOLOR_XRGB(255, 0, 0));
+			renderer.draw_ellipse		(sphere, color_xrgb(255, 0, 0));
 		}
 
 		if (m_bullet_points.size() > 32768)
@@ -912,9 +912,9 @@ void CBulletManager::Render	()
 	else
 		m_bullet_points.clear	();
 
-	//0-рикошет
-	//1-застрявание пули в материале
-	//2-пробивание материала
+	//0-СЂРёРєРѕС€РµС‚
+	//1-Р·Р°СЃС‚СЂСЏРІР°РЅРёРµ РїСѓР»Рё РІ РјР°С‚РµСЂРёР°Р»Рµ
+	//2-РїСЂРѕР±РёРІР°РЅРёРµ РјР°С‚РµСЂРёР°Р»Р°
 	if (g_bDrawBulletHit) {
 		extern FvectorVec g_hit[];
 		FvectorIt it;

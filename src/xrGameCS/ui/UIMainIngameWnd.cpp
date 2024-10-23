@@ -57,8 +57,8 @@ const u32	g_clWhite					= 0xffffffff;
 
 #define		SHOW_INFO_SPEED				0.5f
 #define		HIDE_INFO_SPEED				10.f
-#define		C_ON_ENEMY					D3DCOLOR_XRGB(0xff,0,0)
-#define		C_DEFAULT					D3DCOLOR_XRGB(0xff,0xff,0xff)
+#define		C_ON_ENEMY					color_xrgb(0xff,0,0)
+#define		C_DEFAULT					color_xrgb(0xff,0xff,0xff)
 
 #define				MAININGAME_XML				"maingame.xml"
 
@@ -121,10 +121,10 @@ void CUIMainIngameWnd::Init()
 	m_iPickUpItemIconY			= UIPickUpItemIcon.GetWndRect().top;
 	//---------------------------------------------------------
 
-	//индикаторы 
+	//РёРЅРґРёРєР°С‚РѕСЂС‹ 
 	UIZoneMap->Init				();
 
-	// Подсказки, которые возникают при наведении прицела на объект
+	// РџРѕРґСЃРєР°Р·РєРё, РєРѕС‚РѕСЂС‹Рµ РІРѕР·РЅРёРєР°СЋС‚ РїСЂРё РЅР°РІРµРґРµРЅРёРё РїСЂРёС†РµР»Р° РЅР° РѕР±СЉРµРєС‚
 	AttachChild					(&UIStaticQuickHelp);
 	xml_init.InitStatic			(uiXml, "quick_info", 0, &UIStaticQuickHelp);
 
@@ -134,7 +134,7 @@ void CUIMainIngameWnd::Init()
 	xml_init.InitScrollView		(uiXml, "icons_scroll_view", 0, m_UIIcons);
 	AttachChild					(m_UIIcons);
 
-	// Загружаем иконки 
+	// Р—Р°РіСЂСѓР¶Р°РµРј РёРєРѕРЅРєРё 
 	if ( IsGameTypeSingle() )
 	{
 		xml_init.InitStatic		(uiXml, "starvation_static", 0, &UIStarvationIcon);
@@ -174,11 +174,11 @@ void CUIMainIngameWnd::Init()
 		"artefact"
 	};
 
-	// Загружаем пороговые значения для индикаторов
+	// Р—Р°РіСЂСѓР¶Р°РµРј РїРѕСЂРѕРіРѕРІС‹Рµ Р·РЅР°С‡РµРЅРёСЏ РґР»СЏ РёРЅРґРёРєР°С‚РѕСЂРѕРІ
 	EWarningIcons j = ewiWeaponJammed;
 	while (j < ewiInvincible)
 	{
-		// Читаем данные порогов для каждого индикатора
+		// Р§РёС‚Р°РµРј РґР°РЅРЅС‹Рµ РїРѕСЂРѕРіРѕРІ РґР»СЏ РєР°Р¶РґРѕРіРѕ РёРЅРґРёРєР°С‚РѕСЂР°
 		shared_str cfgRecord = pSettings->r_string("main_ingame_indicators_thresholds", *warningStrings[static_cast<int>(j) - 1]);
 		u32 count = _GetItemCount(*cfgRecord);
 
@@ -355,16 +355,16 @@ void CUIMainIngameWnd::Update()
 
 		xr_vector<float>::reverse_iterator	rit;
 
-		// Сначала проверяем на точное соответсвие
+		// РЎРЅР°С‡Р°Р»Р° РїСЂРѕРІРµСЂСЏРµРј РЅР° С‚РѕС‡РЅРѕРµ СЃРѕРѕС‚РІРµС‚СЃРІРёРµ
 		rit  = std::find( m_Thresholds[i].rbegin(), m_Thresholds[i].rend(), value );
 
-		// Если его нет, то берем последнее меньшее значение ()
+		// Р•СЃР»Рё РµРіРѕ РЅРµС‚, С‚Рѕ Р±РµСЂРµРј РїРѕСЃР»РµРґРЅРµРµ РјРµРЅСЊС€РµРµ Р·РЅР°С‡РµРЅРёРµ ()
 		if ( rit == m_Thresholds[i].rend() )
 		{
 			rit = std::find_if(m_Thresholds[i].rbegin(), m_Thresholds[i].rend(), std::bind(std::less<float>(), _1, value));
 		}
 
-		// Минимальное и максимальное значения границы
+		// РњРёРЅРёРјР°Р»СЊРЅРѕРµ Рё РјР°РєСЃРёРјР°Р»СЊРЅРѕРµ Р·РЅР°С‡РµРЅРёСЏ РіСЂР°РЅРёС†С‹
 		float min = m_Thresholds[i].front();
 		float max = m_Thresholds[i].back();
 
@@ -449,7 +449,7 @@ void CUIMainIngameWnd::SetWarningIconColor(EWarningIcons icon, const u32 cl)
 {
 	bool bMagicFlag = true;
 
-	// Задаем цвет требуемой иконки
+	// Р—Р°РґР°РµРј С†РІРµС‚ С‚СЂРµР±СѓРµРјРѕР№ РёРєРѕРЅРєРё
 	switch(icon)
 	{
 	case ewiAll:
@@ -492,7 +492,7 @@ void CUIMainIngameWnd::TurnOffWarningIcon(EWarningIcons icon)
 
 void CUIMainIngameWnd::SetFlashIconState_(EFlashingIcons type, bool enable)
 {
-	// Включаем анимацию требуемой иконки
+	// Р’РєР»СЋС‡Р°РµРј Р°РЅРёРјР°С†РёСЋ С‚СЂРµР±СѓРµРјРѕР№ РёРєРѕРЅРєРё
 	FlashingIcons_it icon = m_FlashingIcons.find(type);
 	R_ASSERT2(icon != m_FlashingIcons.end(), "Flashing icon with this type not existed");
 	icon->second->Show(enable);
@@ -505,14 +505,14 @@ void CUIMainIngameWnd::InitFlashingIcons(CUIXml* node)
 
 	CUIXmlInit xml_init;
 	CUIStatic *pIcon = NULL;
-	// Пробегаемся по всем нодам и инициализируем из них статики
+	// РџСЂРѕР±РµРіР°РµРјСЃСЏ РїРѕ РІСЃРµРј РЅРѕРґР°Рј Рё РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј РёР· РЅРёС… СЃС‚Р°С‚РёРєРё
 	for (int i = 0; i < staticsCount; ++i)
 	{
 		pIcon = xr_new<CUIStatic>();
 		xml_init.InitStatic(*node, flashingIconNodeName, i, pIcon);
 		shared_str iconType = node->ReadAttrib(flashingIconNodeName, i, "type", "none");
 
-		// Теперь запоминаем иконку и ее тип
+		// РўРµРїРµСЂСЊ Р·Р°РїРѕРјРёРЅР°РµРј РёРєРѕРЅРєСѓ Рё РµРµ С‚РёРї
 		EFlashingIcons type = efiPdaTask;
 
 		if		(iconType == "pda")		type = efiPdaTask;

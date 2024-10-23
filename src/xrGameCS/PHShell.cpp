@@ -230,8 +230,8 @@ void CPHShell::PhDataUpdate(dReal step){
 		ReanableObject();
 #if 0
 	DBG_OpenCashedDraw();
-	dbg_draw_velocity	( 0.1f, D3DCOLOR_XRGB( 255, 0, 0 ) ); 
-	dbg_draw_force		( 0.1f, D3DCOLOR_XRGB( 0, 0, 255 ) ); 
+	dbg_draw_velocity	( 0.1f, color_xrgb( 255, 0, 0 ) ); 
+	dbg_draw_force		( 0.1f, color_xrgb( 0, 0, 255 ) ); 
 	DBG_ClosedCashedDraw( 10000 );
 	//dbg_draw_geometry
 #endif
@@ -1733,10 +1733,10 @@ void CPHShell::SetIgnoreRagDoll()
 }
 
 
-	//Делает данный физический объек анимированным 
+	//Р”РµР»Р°РµС‚ РґР°РЅРЅС‹Р№ С„РёР·РёС‡РµСЃРєРёР№ РѕР±СЉРµРє Р°РЅРёРјРёСЂРѕРІР°РЅРЅС‹Рј 
 void CPHShell::CreateShellAnimator(const CInifile* ini, LPCSTR section )
 {	
-	//Для фильтра коллизий относим данный объект к классу анимированных
+	//Р”Р»СЏ С„РёР»СЊС‚СЂР° РєРѕР»Р»РёР·РёР№ РѕС‚РЅРѕСЃРёРј РґР°РЅРЅС‹Р№ РѕР±СЉРµРєС‚ Рє РєР»Р°СЃСЃСѓ Р°РЅРёРјРёСЂРѕРІР°РЅРЅС‹С…
 	CPHCollideValidator::SetAnimatedClass(*this);
 	m_pPhysicsShellAnimatorC=xr_new<CPhysicsShellAnimator>( this,  ini, section );
 	VERIFY( PhysicsRefObject( ) );
@@ -1744,17 +1744,17 @@ void CPHShell::CreateShellAnimator(const CInifile* ini, LPCSTR section )
 	//m_pPhysicsShellAnimatorC->ResetCallbacks();
 }
 
-//Настраивает фильтр коллизий на игнорирование столкновенний данного
-//физического объекта с анимированным физическим объектом
+//РќР°СЃС‚СЂР°РёРІР°РµС‚ С„РёР»СЊС‚СЂ РєРѕР»Р»РёР·РёР№ РЅР° РёРіРЅРѕСЂРёСЂРѕРІР°РЅРёРµ СЃС‚РѕР»РєРЅРѕРІРµРЅРЅРёР№ РґР°РЅРЅРѕРіРѕ
+//С„РёР·РёС‡РµСЃРєРѕРіРѕ РѕР±СЉРµРєС‚Р° СЃ Р°РЅРёРјРёСЂРѕРІР°РЅРЅС‹Рј С„РёР·РёС‡РµСЃРєРёРј РѕР±СЉРµРєС‚РѕРј
 void CPHShell::SetIgnoreAnimated()
 {
-	//Для фильтра коллизий указываем, что данный
-	//физический объект игнорирует анимированные физические тела
+	//Р”Р»СЏ С„РёР»СЊС‚СЂР° РєРѕР»Р»РёР·РёР№ СѓРєР°Р·С‹РІР°РµРј, С‡С‚Рѕ РґР°РЅРЅС‹Р№
+	//С„РёР·РёС‡РµСЃРєРёР№ РѕР±СЉРµРєС‚ РёРіРЅРѕСЂРёСЂСѓРµС‚ Р°РЅРёРјРёСЂРѕРІР°РЅРЅС‹Рµ С„РёР·РёС‡РµСЃРєРёРµ С‚РµР»Р°
 	
 	CPHCollideValidator::SetAnimatedClassNotCollide(*this);
 }
 
-//Выдает информацию о том является ли данный объект анимированным
+//Р’С‹РґР°РµС‚ РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ С‚РѕРј СЏРІР»СЏРµС‚СЃСЏ Р»Рё РґР°РЅРЅС‹Р№ РѕР±СЉРµРєС‚ Р°РЅРёРјРёСЂРѕРІР°РЅРЅС‹Рј
 
 
 void	CPHShell::				SetSmall()

@@ -207,15 +207,15 @@ static void dbg_draw_state_end( CPhysicsShell *shell )
 	if( dbg_imotion_draw_velocity )
 	{
 		DBG_OpenCashedDraw();
-		shell->dbg_draw_velocity( dbg_imotion_draw_velocity_scale, D3DCOLOR_ARGB( 100 ,255, 0, 0 ) );
-		//shell->dbg_draw_force( 0.01, D3DCOLOR_XRGB( 0, 0, 255 ) );
+		shell->dbg_draw_velocity( dbg_imotion_draw_velocity_scale, color_argb( 100 ,255, 0, 0 ) );
+		//shell->dbg_draw_force( 0.01, color_xrgb( 0, 0, 255 ) );
 		DBG_ClosedCashedDraw( 50000 );
 	}
 	if(dbg_imotion_collide_debug)
 	{
 #ifdef DEBUG
 			DBG_OpenCashedDraw();
-			shell->dbg_draw_geometry( 0.02, D3DCOLOR_ARGB( 255, 255, 255, 255 )  );
+			shell->dbg_draw_geometry( 0.02, color_argb( 255, 255, 255, 255 )  );
 			DBG_ClosedCashedDraw( 50000 );
 #endif
 	}
@@ -291,7 +291,7 @@ void	imotion_position::state_end( )
 #if 0
 
 			DBG_OpenCashedDraw();
-			shell->dbg_draw_geometry( 0.02, D3DCOLOR_ARGB( 255, 0, 255, 0 )  );
+			shell->dbg_draw_geometry( 0.02, color_argb( 255, 0, 255, 0 )  );
 			DBG_DrawBones( *shell->get_ElementByStoreOrder( 0 )->PhysicsRefObject() );
 			DBG_ClosedCashedDraw( 50000 );
 
@@ -316,7 +316,7 @@ void	imotion_position::state_end( )
 #if 0 
 
 			DBG_OpenCashedDraw();
-			shell->dbg_draw_geometry( 0.02, D3DCOLOR_ARGB( 255, 0, 0, 255 )  );
+			shell->dbg_draw_geometry( 0.02, color_argb( 255, 0, 0, 255 )  );
 			DBG_DrawBones( *shell->get_ElementByStoreOrder( 0 )->PhysicsRefObject() );
 			DBG_ClosedCashedDraw( 50000 );
 
@@ -385,7 +385,7 @@ void collide_anim_dbg_draw( CPhysicsShell	*shell, float dt )
 	{
 		shell->AnimToVelocityState( dt, default_l_limit * 10, default_w_limit * 10 );
 		DBG_OpenCashedDraw();
-		shell->dbg_draw_velocity( dbg_imotion_draw_velocity_scale, D3DCOLOR_XRGB( 0, 255, 0 ) );
+		shell->dbg_draw_velocity( dbg_imotion_draw_velocity_scale, color_xrgb( 0, 255, 0 ) );
 		DBG_ClosedCashedDraw( 50000 );
 	}
 	if( dbg_imotion_draw_skeleton )
@@ -541,7 +541,7 @@ float imotion_position::move( float dt, IKinematicsAnimated& KA )
 			shell->CollideAll();
 			interactive_motion_diagnostic( make_string( " move (to ragdoll): deppth= %f", depth ).c_str() );
 			DBG_OpenCashedDraw();
-			shell->dbg_draw_geometry( 0.02, D3DCOLOR_ARGB( 255, 255, 0 ,255 )  );
+			shell->dbg_draw_geometry( 0.02, color_argb( 255, 255, 0 ,255 )  );
 			DBG_ClosedCashedDraw( 50000 );
 		}
 #endif
@@ -574,7 +574,7 @@ float imotion_position::motion_collide( float dt, IKinematicsAnimated& KA )
 			//interactive_motion_diagnostic( make_string( " motion_collide collided0: deppth= %f", depth ).c_str() );
 			interactive_motion_diagnostic( make_string( "motion_collide 1: stoped: colide: %s, depth %f", collide_diag().c_str(), depth ).c_str() );
 			DBG_OpenCashedDraw();
-			shell->dbg_draw_geometry( 0.02, D3DCOLOR_ARGB( 255, 0, 255, 0 )  );
+			shell->dbg_draw_geometry( 0.02, color_argb( 255, 0, 255, 0 )  );
 			DBG_ClosedCashedDraw( 50000 );
 		}
 #endif
@@ -589,7 +589,7 @@ float imotion_position::motion_collide( float dt, IKinematicsAnimated& KA )
 		{
 			interactive_motion_diagnostic( make_string( " motion_collide collided1: deppth= %f", depth ).c_str() );
 			DBG_OpenCashedDraw();
-			shell->dbg_draw_geometry( 0.02, D3DCOLOR_ARGB( 255, 0, 255, 255 )  );
+			shell->dbg_draw_geometry( 0.02, color_argb( 255, 0, 255, 255 )  );
 			DBG_ClosedCashedDraw( 50000 );
 		}
 #endif
@@ -609,7 +609,7 @@ float imotion_position::motion_collide( float dt, IKinematicsAnimated& KA )
 		{
 			interactive_motion_diagnostic( make_string( " motion_collide collided2: deppth= %f", depth ).c_str() );
 			DBG_OpenCashedDraw();
-			shell->dbg_draw_geometry( 0.02, D3DCOLOR_ARGB( 255, 0, 255, 0 )  );
+			shell->dbg_draw_geometry( 0.02, color_argb( 255, 0, 255, 0 )  );
 			DBG_ClosedCashedDraw( 50000 );
 		}
 #endif
@@ -633,7 +633,7 @@ float imotion_position::motion_collide( float dt, IKinematicsAnimated& KA )
 			shell->CollideAll();
 			interactive_motion_diagnostic( make_string(  " motion_collide restore: %f ", depth  ).c_str() );
 			DBG_OpenCashedDraw();
-			shell->dbg_draw_geometry( 0.02, D3DCOLOR_ARGB( 255, 255, 0, 0 )  );
+			shell->dbg_draw_geometry( 0.02, color_argb( 255, 255, 0, 0 )  );
 			DBG_ClosedCashedDraw( 50000 );
 		}
 #endif

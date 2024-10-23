@@ -171,7 +171,7 @@ void	CIKLimb::Solve(SCalculateData& cd)
 			{
 				Fvector dbg_pos;
 				cd.m_obj.transform_tiny(dbg_pos, pos);
-				DBG_DrawPoint( dbg_pos, 0.02f, D3DCOLOR_XRGB( 255, 255 , 255 ) );
+				DBG_DrawPoint( dbg_pos, 0.02f, color_xrgb( 255, 255 , 255 ) );
 			}
 #endif
 			Fmatrix ihip;
@@ -211,7 +211,7 @@ void	CIKLimb::Solve(SCalculateData& cd)
 			Fvector dbg_pos;
 			Kinematics()->LL_GetBoneInstance(m_bones[2]).mTransform.transform_tiny(dbg_pos, m_toe_position);
 			cd.m_obj.transform_tiny( dbg_pos );
-			DBG_DrawPoint( dbg_pos, 0.02f, D3DCOLOR_XRGB( 255, 255 , 0 ) );
+			DBG_DrawPoint( dbg_pos, 0.02f, color_xrgb( 255, 255 , 0 ) );
 		}
 #endif
 }
@@ -417,7 +417,7 @@ void CollideGoal( Fmatrix &g, const  SIKCollideData &cld )
 #ifdef DEBUG
 	if( ph_dbg_draw_mask.test( phDbgDrawIKGoal ) )
 	{
-		DBG_DrawLine(cld.m_collide,cld.m_anime,D3DCOLOR_XRGB(0,0,255));
+		DBG_DrawLine(cld.m_collide,cld.m_anime,color_xrgb(0,0,255));
 	}
 #endif
 		g.c.add( Fvector( ).sub( cld.m_collide,cld.m_anime ) );
@@ -535,13 +535,13 @@ void	CIKLimb::SetNewGoal			( const SIKCollideData &cld, SCalculateData& cd )
 		if( cd.foot_step && state_valide( sv_state ) )
 		{
 			DBG_DrawMatrix( sv_state.collide_pos, 1.0f, 100 );
-			DBG_DrawPoint ( sv_state.collide_pos.c, 0.05, D3DCOLOR_XRGB( 0, 255 , 255 ) );
+			DBG_DrawPoint ( sv_state.collide_pos.c, 0.05, color_xrgb( 0, 255 , 255 ) );
 		}
 		if( cd.do_collide )
 		{
-			DBG_DrawPoint( cld.m_anime, 0.03f, D3DCOLOR_XRGB( 255, 255 , 255 ) );
+			DBG_DrawPoint( cld.m_anime, 0.03f, color_xrgb( 255, 255 , 255 ) );
 			if( cld.collided )
-				DBG_DrawPoint( cld.m_collide , 0.05f, D3DCOLOR_XRGB( 255, 0 , 0 ) );
+				DBG_DrawPoint( cld.m_collide , 0.05f, color_xrgb( 255, 0 , 0 ) );
 		}
 		if( blending )
 		{
@@ -554,14 +554,14 @@ void	CIKLimb::SetNewGoal			( const SIKCollideData &cld, SCalculateData& cd )
 			sv_state.goal.transform_tiny( a0, m_toe_position );
 			Fvector a1;
 			blend_from.transform_tiny( a1, m_toe_position );
-			DBG_DrawLine( a0, a1, D3DCOLOR_XRGB( c, 0, c ) );
+			DBG_DrawLine( a0, a1, color_xrgb( c, 0, c ) );
 			Fvector a2;
 			gl_goal.transform_tiny( a2, m_toe_position );
-			DBG_DrawLine( a1, a2, D3DCOLOR_XRGB( 0, c , 0 ) );
+			DBG_DrawLine( a1, a2, color_xrgb( 0, c , 0 ) );
 			Fvector a3; sv_state_DBR.goal.transform_tiny( a3, m_toe_position );
-			DBG_DrawLine( a3, a0, D3DCOLOR_XRGB( c, c , 0 ) );
+			DBG_DrawLine( a3, a0, color_xrgb( c, c , 0 ) );
 			if( Fvector( ).sub( a3, a0 ).magnitude() > 0.1f )
-					DBG_DrawLine( a3, a0, D3DCOLOR_XRGB( c, 0 , 0 ) );
+					DBG_DrawLine( a3, a0, color_xrgb( c, 0 , 0 ) );
 			if( sv_state.count > -1 )
 			{
 				DBG_ClosedCashedDraw( 3000 );
@@ -698,11 +698,11 @@ void CIKLimb::Collide( SIKCollideData &cld, CGameObject *O, const Fmatrix &foot,
 	{
 		CDB::TRI	*tri	= Level( ).ObjectSpace.GetStaticTris( ) + R.element;
 		Fvector p = pos;p.add( Fvector( ).mul( pick_v, l_pick_dist ) );
-		DBG_DrawLine(pos,p,D3DCOLOR_XRGB( 255, 0, 0 ) );
+		DBG_DrawLine(pos,p,color_xrgb( 255, 0, 0 ) );
 		if( tri )
 		{
 			Fvector p = pos;p.add( Fvector( ).mul( pick_v, l_pick_dist ) );
-			DBG_DrawTri( tri,Level( ).ObjectSpace.GetStaticVerts( ), D3DCOLOR_XRGB( 255, 0, 0 ) );
+			DBG_DrawTri( tri,Level( ).ObjectSpace.GetStaticVerts( ), color_xrgb( 255, 0, 0 ) );
 		}
 	}
 #endif
@@ -731,9 +731,9 @@ Matrix &CIKLimb::Goal			( Matrix &gl, const Fmatrix &xm, SCalculateData& cd )
 		DBG_DrawMatrix( DBGG, 0.2f );
 		if( cd.do_collide )
 		{
-			DBG_DrawLine( sv_state.goal.c, DBGG.c, D3DCOLOR_XRGB( 255, 0, 255 ) );
-			DBG_DrawPoint( sv_state.goal.c, 0.05, D3DCOLOR_XRGB( 255, 255, 255 ) );
-			DBG_DrawPoint( DBGG.c, 0.04,D3DCOLOR_XRGB(0, 255 ,0 ) );
+			DBG_DrawLine( sv_state.goal.c, DBGG.c, color_xrgb( 255, 0, 255 ) );
+			DBG_DrawPoint( sv_state.goal.c, 0.05, color_xrgb( 255, 255, 255 ) );
+			DBG_DrawPoint( DBGG.c, 0.04,color_xrgb(0, 255 ,0 ) );
 			Fvector ch; ch.sub( DBGG.c, sv_state.goal.c );
 			if( ch.magnitude( ) > 0.5f )
 			{
@@ -778,24 +778,24 @@ void CIKLimb::CalculateBones(SCalculateData &cd)
 void	DBG_DrawRotationLimitsY(const Fmatrix &start,float ang, float l, float h )
 {
 #ifdef DEBUG
-	DBG_DrawRotationY( start, ang - EPS, ang + EPS, 0.15f, D3DCOLOR_XRGB( 0, 255, 0 ), false, 1 );
-	DBG_DrawRotationY( start, l, h, 0.15f, D3DCOLOR_ARGB( 50, 0, 250, 0 ), true );
+	DBG_DrawRotationY( start, ang - EPS, ang + EPS, 0.15f, color_xrgb( 0, 255, 0 ), false, 1 );
+	DBG_DrawRotationY( start, l, h, 0.15f, color_argb( 50, 0, 250, 0 ), true );
 #endif // DEBUG
 }
 
 void	DBG_DrawRotationLimitsZ(const Fmatrix &start,float ang, float l, float h )
 {
 #ifdef DEBUG
-	DBG_DrawRotationZ( start, ang - EPS, ang + EPS, 0.15f, D3DCOLOR_XRGB( 0, 0, 255 ), false, 1 );
-	DBG_DrawRotationZ( start, l, h, 0.15f, D3DCOLOR_ARGB( 50, 0, 0, 250 ), true );
+	DBG_DrawRotationZ( start, ang - EPS, ang + EPS, 0.15f, color_xrgb( 0, 0, 255 ), false, 1 );
+	DBG_DrawRotationZ( start, l, h, 0.15f, color_argb( 50, 0, 0, 250 ), true );
 #endif // DEBUG
 }
 
 void	DBG_DrawRotationLimitsX(const Fmatrix &start,float ang, float l, float h )
 {
 #ifdef DEBUG
-	DBG_DrawRotationX( start, ang + EPS, ang - EPS, 0.15f, D3DCOLOR_XRGB( 255, 0, 0 ), false, 1 );
-	DBG_DrawRotationX( start, l, h, 0.15f, D3DCOLOR_ARGB( 50, 255, 0, 0 ), true );
+	DBG_DrawRotationX( start, ang + EPS, ang - EPS, 0.15f, color_xrgb( 255, 0, 0 ), false, 1 );
+	DBG_DrawRotationX( start, l, h, 0.15f, color_argb( 50, 255, 0, 0 ), true );
 #endif // DEBUG
 }
 

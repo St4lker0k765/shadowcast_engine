@@ -24,12 +24,12 @@
 #include "../Include/xrRender/UIRender.h"
 #include "UIFontDefines.h"
 
-u32 C_ON_ENEMY		D3DCOLOR_RGBA(0xff,0,0,0x80);
-u32 C_ON_NEUTRAL	D3DCOLOR_RGBA(0xff,0xff,0x80,0x80);
-u32 C_ON_FRIEND		D3DCOLOR_RGBA(0,0xff,0,0x80);
+u32 C_ON_ENEMY =		color_rgba(0xff,0,0,0x80);
+u32 C_ON_NEUTRAL =	color_rgba(0xff,0xff,0x80,0x80);
+u32 C_ON_FRIEND =		color_rgba(0,0xff,0,0x80);
 
 
-#define C_DEFAULT	D3DCOLOR_RGBA(0xff,0xff,0xff,0x80)
+#define C_DEFAULT	color_rgba(0xff,0xff,0xff,0x80)
 #define C_SIZE		0.025f
 #define NEAR_LIM	0.5f
 
@@ -96,7 +96,7 @@ ICF static BOOL pick_trace_callback(collide::rq_result& result, LPVOID params)
 		return FALSE;
 	}else
 	{
-		//получить треугольник и узнать его материал
+		//РїРѕР»СѓС‡РёС‚СЊ С‚СЂРµСѓРіРѕР»СЊРЅРёРє Рё СѓР·РЅР°С‚СЊ РµРіРѕ РјР°С‚РµСЂРёР°Р»
 		CDB::TRI* T		= Level().ObjectSpace.GetStaticTris()+result.element;
 		
 		SGameMtl* mtl = GMLib.GetMaterialByIdx(T->material);
@@ -298,7 +298,7 @@ void CHUDTarget::Render()
 #endif
 	}
 
-	//отрендерить кружочек или крестик
+	//РѕС‚СЂРµРЅРґРµСЂРёС‚СЊ РєСЂСѓР¶РѕС‡РµРє РёР»Рё РєСЂРµСЃС‚РёРє
 	if(!m_bShowCrosshair)
 	{
 		
@@ -333,7 +333,7 @@ void CHUDTarget::Render()
 		UIRender->FlushPrimitive();
 
 	}else{
-		//отрендерить прицел
+		//РѕС‚СЂРµРЅРґРµСЂРёС‚СЊ РїСЂРёС†РµР»
 		HUDCrosshair.cross_color	= C;
 		HUDCrosshair.OnRender		(pt.x, pt.y);
 	}
