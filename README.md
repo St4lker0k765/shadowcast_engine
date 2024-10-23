@@ -39,4 +39,4 @@
 
 [**Гайд по адаптации модификаций под Shadowcast Engine (ЧН)**](/assets/cs_mod_adaptation_guide.md)
 
-Гайд по адаптации модификаций под ТЧ будет в скором времени.
+[**Гайд по адаптации модификаций под Shadowcast Engine (ТЧ)**](/assets/soc_mod_adaptation_guide.md)
