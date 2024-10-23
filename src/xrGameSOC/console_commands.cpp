@@ -1005,40 +1005,40 @@ public:
 	void Execute(LPCSTR args)
 	{
 		if (!g_pGameLevel)
-			return;
-
-		if (!pSettings->section_exist(args))
 		{
-			Msg("! Can't find section: %s", args);
+			Msg("# Required load the level!");
 			return;
 		}
+
+		int CountItems_ = 1;
+		string256 SectionName_;
+
+		sscanf_s(args, "%s %d", SectionName_, (u32)sizeof SectionName_, &CountItems_);
+
+		if (!pSettings->section_exist(SectionName_))
+		{
+			Msg("! Can't find section: %s", SectionName_);
+			return;
+		}
+
+		Fvector CamPos_;
+		CamPos_.mad(Device.vCameraPosition, Device.vCameraDirection, HUD().GetCurrentRayQuery().range);
 
 		if (auto tpGame = smart_cast<game_sv_Single*>(Level().Server->game))
-			tpGame->alife().spawn_item(args, Actor()->Position(), Actor()->ai_location().level_vertex_id(), Actor()->ai_location().game_vertex_id(), ALife::_OBJECT_ID(-1));
+		{
+			for (int i = 0; i < CountItems_; i++)
+				tpGame->alife().spawn_item(SectionName_, CamPos_, /*Actor()->ai_location().level_vertex_id()*/0, Actor()->ai_location().game_vertex_id(), ALife::_OBJECT_ID(-1));
+		}
 	}
 
-	virtual void fill_tips(vecTips& tips, u32 mode)
+	virtual void	fill_tips(vecTips& tips, u32 mode)
 	{
-		if (!ai().get_alife())
+		for (auto sect : pSettings->sections())
 		{
-			Msg("! ALife simulator is needed to perform specified command!");
-			return;
+			if ((sect->line_exist("description") && !sect->line_exist("value") && !sect->line_exist("scheme_index"))
+				|| sect->line_exist("species"))
+				tips.emplace_back(sect->Name);
 		}
-
-		for (const auto& it = CInifile::Item();;)
-		{
-
-			auto& section = it.first;
-
-			if (pSettings->line_exist(section, "class"))
-			{
-				tips.push_back(section);
-			}
-		}
-
-		std::sort(tips.begin(), tips.end());
-
-		// tips.push_back((*itb).second.name());
 	}
 };
 //#endif // MASTER_GOLD
@@ -1079,28 +1079,16 @@ public:
 			VERIFY(dummy == M_SPAWN);
 			tpGame->alife().server().Process_spawn(packet, clientID);
 		}
+	}
 
-	virtual void fill_tips(vecTips& tips, u32 mode)
+	virtual void	fill_tips(vecTips& tips, u32 mode)
 	{
-		if (!ai().get_alife())
+		for (auto sect : pSettings->sections())
 		{
-			Msg("! ALife simulator is needed to perform specified command!");
-			return;
+			if ((sect->line_exist("description") && !sect->line_exist("value") && !sect->line_exist("scheme_index"))
+				|| sect->line_exist("species"))
+				tips.emplace_back(sect->Name);
 		}
-
-		for (const auto& it = CInifile::Item();;)
-		{
-			auto& section = it.first;
-
-			if (pSettings->line_exist(section, "class"))
-			{
-				tips.push_back(section);
-			}
-		}
-
-		std::sort(tips.begin(), tips.end());
-
-		// tips.push_back((*itb).second.name());
 	}
 };
 
