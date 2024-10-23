@@ -221,8 +221,6 @@ void xrServer::Update	()
 	//-----------------------------------------------------
 	//Remove any of long time disconnected players
 
-	PerformCheckClientsForMaxPing	();
-
 	Flush_Clients_Buffers			();
 	
 	if( 0==(Device.dwFrame%100) )//once per 100 frames
