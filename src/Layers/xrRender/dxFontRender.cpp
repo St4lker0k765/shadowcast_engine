@@ -77,7 +77,11 @@ void dxFontRender::OnRender(CGameFont& owner)
 				u32	_A = color_get_A(clr);
 				clr2 = color_rgba(_R, _G, _B, _A);
 			}
-
+#if !defined(USE_DX11) || !defined(USE_DX10)
+			X += 1.f;
+			Y += 1.f;
+			Y2 += 1.f;
+#endif
 			for (int i = 0; i < length; i++)
 			{
 				const CGameFont::Glyph* glyphInfo = owner.GetGlyphInfo(str.string[i]);

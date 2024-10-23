@@ -373,7 +373,7 @@
     <cap_r4_enable_tessellation x="20" y="0" width="143" height="21">
       <text font="letterica16" r="215" g="195" b="170">ui_mm_r4_enable_tessellation</text>
     </cap_r4_enable_tessellation>
-    <check_r4_enable_tessellation x="194" y="0" width="30" height="21" stretch="1">
+    <check_r4_enable_tessellation x="194" y="0" width="30" height="21">
       <options_item entry="r4_enable_tessellation" group="mm_opt_video_adv" depend="vid"/>
     </check_r4_enable_tessellation>
 
