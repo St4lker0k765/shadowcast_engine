@@ -108,6 +108,7 @@ BOOL CActor::CanPickItem(const CFrustum& frustum, const Fvector& from, CObject* 
 	return !bOverlaped;
 }
 
+#include "ai/monsters/ai_monster_utils.h"
 void CActor::PickupModeUpdate()
 {
 	if(!m_bPickupMode) return;
@@ -125,8 +126,11 @@ void CActor::PickupModeUpdate()
 	}
 
 	//. ????? GetNearest ?????
-	feel_touch_update	(Position(), /*inventory().GetTakeDist()*/m_fPickupInfoRadius);
-	
+	if (eacFirstEye != cam_active)
+		feel_touch_update(Position(), m_fPickupInfoRadius);
+	else
+		feel_touch_update(get_bone_position(this, "bip01_spine"), m_fPickupInfoRadius);
+
 	CFrustum frustum;
 	frustum.CreateFromMatrix(Device.mFullTransform,FRUSTUM_P_LRTB|FRUSTUM_P_FAR);
 	//. slow (ray-query test)
@@ -140,9 +144,9 @@ void	CActor::PickupModeUpdate_COD	()
 {
 	if (Level().CurrentViewEntity() != this || !g_b_COD_PickUpMode) return;
 		
-	if (!g_Alive() || eacFirstEye != cam_active) 
+	if (!g_Alive() || eacFreeLook == cam_active)
 	{
-		HUD().GetUI()->UIMainIngameWnd->SetPickUpItem(NULL);
+		HUD().GetUI()->UIMainIngameWnd->SetPickUpItem(nullptr);
 		return;
 	};
 	

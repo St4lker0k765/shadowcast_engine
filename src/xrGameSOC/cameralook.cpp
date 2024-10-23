@@ -17,7 +17,7 @@ void CCameraLook::Load(LPCSTR section)
 	style				= csLookAt;
 	lim_zoom			= pSettings->r_fvector2	(section,"lim_zoom");
 	dist				= (lim_zoom[0]+lim_zoom[1])*0.5f;
-	prev_d				= 0;
+	prev_d				= 0.0f;
 }
 
 CCameraLook::~CCameraLook()
@@ -37,19 +37,23 @@ void CCameraLook::Update(Fvector& point, Fvector& /**noise_dangle/**/)
 		parent->XFORM().transform_dir(vDirection);
 		parent->XFORM().transform_dir(vNormal);
 	}
-	Fvector				vDir;
-	collide::rq_result	R;
+	UpdateDistance(point);
+}
 
-	float				covariance = VIEWPORT_NEAR*6.f;
-	vDir.invert			(vDirection);
-	g_pGameLevel->ObjectSpace.RayPick( point, vDir, dist+covariance, collide::rqtBoth, R, parent);
+void CCameraLook::UpdateDistance(Fvector& point)
+{
+	Fvector vDir;
+	vDir.invert(vDirection);
 
-	float d				= psCamSlideInert*prev_d+(1.f-psCamSlideInert)*(R.range-covariance);
+	collide::rq_result R;
+	float covariance = VIEWPORT_NEAR * 6.0f;
+	g_pGameLevel->ObjectSpace.RayPick(point, vDir, dist + covariance, collide::rqtBoth, R, parent);
+
+	float d = psCamSlideInert * prev_d + (1.0f - psCamSlideInert)*(R.range - covariance);
 	prev_d = d;
 	
-	vPosition.mul		(vDirection,-d-VIEWPORT_NEAR);
-	vPosition.add		(point);
-
+	vPosition.mul(vDirection, -d - VIEWPORT_NEAR);
+	vPosition.add(point);
 }
 
 void CCameraLook::Move( int cmd, float val, float factor)
@@ -98,47 +102,53 @@ void CCameraLook2::OnActivate( CCameraBase* old_cam )
 	}
 }
 
+#define AUTOAIM_ENABLED FALSE
 void CCameraLook2::Update(Fvector& point, Fvector&)
 {
-	if(!m_locked_enemy)
-	{//autoaim
-		if( pInput->iGetAsyncKeyState(cam_dik) )
-		{
-			const CVisualMemoryManager::VISIBLES& vVisibles = Actor()->memory().visual().objects();
-			CVisualMemoryManager::VISIBLES::const_iterator v_it = vVisibles.begin();
-			float _nearest_dst	= flt_max;
+	m_cam_offset = Fvector().set(0.400f, 0.2f, 0.0f);
 
-			for (; v_it!=vVisibles.end(); ++v_it)
-			{
-				const CObject*	_object_			= (*v_it).m_object;
-				if (!Actor()->memory().visual().visible_now(smart_cast<const CGameObject*>(_object_)))	continue;
-
-				CObject* object_ = const_cast<CObject*>(_object_);
-				
-
-				CEntityAlive*	EA					= smart_cast<CEntityAlive*>(object_);
-				if(!EA || !EA->g_Alive())			continue;
-				
-				float d = object_->Position().distance_to_xz(Actor()->Position());
-				if( !m_locked_enemy || d<_nearest_dst)
-				{
-					m_locked_enemy	= object_;
-					_nearest_dst	= d;
-				}
-			}
-//.			if(m_locked_enemy) Msg("enemy is %s", *m_locked_enemy->cNameSect() );
-		}
-	}else
+	if (AUTOAIM_ENABLED)
 	{
-		if( !pInput->iGetAsyncKeyState(cam_dik) ){
-			m_locked_enemy	= NULL;
-//.			Msg				("enemy is NILL");
+		if (!m_locked_enemy)
+		{//autoaim
+			if (pInput->iGetAsyncKeyState(cam_dik))
+			{
+				const CVisualMemoryManager::VISIBLES& vVisibles = Actor()->memory().visual().objects();
+				CVisualMemoryManager::VISIBLES::const_iterator v_it = vVisibles.begin();
+				float _nearest_dst = flt_max;
+
+				for (; v_it != vVisibles.end(); ++v_it)
+				{
+					const CObject* _object_ = (*v_it).m_object;
+					if (!Actor()->memory().visual().visible_now(smart_cast<const CGameObject*>(_object_)))	continue;
+
+					CObject* object_ = const_cast<CObject*>(_object_);
+
+
+					CEntityAlive* EA = smart_cast<CEntityAlive*>(object_);
+					if (!EA || !EA->g_Alive())			continue;
+
+					float d = object_->Position().distance_to_xz(Actor()->Position());
+					if (!m_locked_enemy || d < _nearest_dst)
+					{
+						m_locked_enemy = object_;
+						_nearest_dst = d;
+					}
+				}
+				//.			if(m_locked_enemy) Msg("enemy is %s", *m_locked_enemy->cNameSect() );
+			}
 		}
+		else
+		{
+			if (!pInput->iGetAsyncKeyState(cam_dik)) {
+				m_locked_enemy = NULL;
+				//.			Msg				("enemy is NILL");
+			}
+		}
+
+		if (m_locked_enemy)
+			UpdateAutoAim();
 	}
-
-	if(m_locked_enemy)
-		UpdateAutoAim	();
-
 
 	Fmatrix mR;
 	mR.setHPB						(-yaw,-pitch,-roll);
@@ -152,6 +162,7 @@ void CCameraLook2::Update(Fvector& point, Fvector&)
 	Fvector _off					= m_cam_offset;
 	a_xform.transform_tiny			(_off);
 	vPosition.set					(_off);
+	UpdateDistance					(_off);
 }
 
 void CCameraLook2::UpdateAutoAim()
@@ -187,7 +198,9 @@ void CCameraLook2::UpdateAutoAim()
 void CCameraLook2::Load(LPCSTR section)
 {
 	CCameraLook::Load		(section);
-	m_cam_offset			= pSettings->r_fvector3	(section,"offset");
+	m_cam_offset = Fvector().set(0.314f, 0.2f, 0.0f);
+	dist = 1.4f;
+	prev_d = 0.0f;		
 	m_autoaim_inertion_yaw	= pSettings->r_fvector2	(section,"autoaim_speed_y");
 	m_autoaim_inertion_pitch= pSettings->r_fvector2	(section,"autoaim_speed_x");
 }

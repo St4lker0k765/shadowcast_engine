@@ -934,6 +934,7 @@ void CActor::UpdateCL	()
 			xr_delete(m_sndShockEffector);
 	}
 }
+#include "ai/monsters/ai_monster_utils.h"
 
 float	NET_Jump = 0;
 void CActor::shedule_Update	(u32 DT)
@@ -1118,9 +1119,12 @@ void CActor::shedule_Update	(u32 DT)
 										setVisible				(!HUDview	());
 	//что актер видит перед собой
 	collide::rq_result& RQ = HUD().GetCurrentRayQuery();
-	
 
-	if(!input_external_handler_installed() && RQ.O &&  RQ.range<inventory().GetTakeDist()) 
+	Fvector ActorPos, PickPos = { 0.0f, 0.0f, 0.0f };
+	Center(ActorPos);
+	PickPos.mad(Device.vCameraPosition, Device.vCameraDirection, RQ.range);
+
+	if (!input_external_handler_installed() && RQ.O && RQ.O->getVisible() && ActorPos.distance_to_sqr(PickPos) < (inventory().GetTakeDist() * 2.0f))
 	{
 		m_pObjectWeLookingAt			= smart_cast<CGameObject*>(RQ.O);
 		
