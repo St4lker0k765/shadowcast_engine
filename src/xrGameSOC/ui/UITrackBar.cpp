@@ -11,6 +11,7 @@
 #define FRAME_LINE_TEXTURE		"ui_slider_e"
 #define FRAME_LINE_TEXTURE_D	"ui_slider_d"
 #define SLIDER_TEXTURE			"ui_slider_button"
+bool EnableTrackbarScaling = READ_IF_EXISTS(pSCSettings, r_bool, "ui", "enable_trackbar_scaling", false);
 
 CUITrackBar::CUITrackBar()
 	: m_f_min(0),
@@ -88,6 +89,11 @@ void CUITrackBar::Init(float x, float y, float width, float height){
     item_height			= CUITextureMaster::GetTextureHeight(buf);
 
 	item_width *= UI()->get_current_kx();
+	if (EnableTrackbarScaling)
+	{
+		item_width /= 2.0f;
+		item_height /= 2.0f;
+	}
 
 	m_pSlider->Init		(0, (height - item_height)/2, item_width, item_height);
 	m_pSlider->InitTexture(SLIDER_TEXTURE);
