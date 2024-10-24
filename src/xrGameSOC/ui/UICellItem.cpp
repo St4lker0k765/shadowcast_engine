@@ -4,6 +4,7 @@
 #include "../../xrEngine/xr_input.h"
 #include "../HUDManager.h"
 #include "../level.h"
+#include "UIDragDropListEx.h"
 #include "../object_broker.h"
 
 CUICellItem::CUICellItem()
@@ -14,6 +15,9 @@ CUICellItem::CUICellItem()
 	m_b_already_drawn	= false;
 	SetAccelerator		(0);
 	m_b_destroy_childs	= true;
+	m_selected			= false;
+	m_select_armament	= false;
+	m_cur_mark			= false;
 }
 
 CUICellItem::~CUICellItem()
@@ -99,6 +103,22 @@ void CUICellItem::PushChild(CUICellItem* c)
 	VERIFY				(this!=c);
 	m_childs.push_back	(c);
 	UpdateItemText		();
+}
+
+void CUICellItem::Update()
+{
+	inherited::Update(); 
+
+	if (CursorOverWindow())
+	{
+		Frect clientArea;
+		m_pParentList->GetClientArea(clientArea);
+		Fvector2 cp = GetUICursor()->GetCursorPosition();
+		if (clientArea.in(cp))
+			GetMessageTarget()->SendMessage(this, DRAG_DROP_ITEM_FOCUSED_UPDATE, NULL);
+	}
+
+	m_b_already_drawn = false;
 }
 
 CUICellItem* CUICellItem::PopChild()

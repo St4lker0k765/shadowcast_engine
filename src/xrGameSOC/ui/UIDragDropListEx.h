@@ -55,7 +55,10 @@ protected:
 	void	__stdcall		OnItemSelected			(CUIWindow* w, void* pData);
 	void	__stdcall		OnItemRButtonClick		(CUIWindow* w, void* pData);
 	void	__stdcall		OnItemDBClick			(CUIWindow* w, void* pData);
-	
+	void	__stdcall		OnItemFocusReceived		(CUIWindow* w, void* pData);
+	void	__stdcall		OnItemFocusLost			(CUIWindow* w, void* pData);
+	void	__stdcall		OnItemFocusedUpdate		(CUIWindow* w, void* pData);
+
 public:
 	static CUIDragItem*		m_drag_item;
 							CUIDragDropListEx	();
@@ -69,6 +72,9 @@ public:
 	DRAG_DROP_EVENT			m_f_item_db_click;
 	DRAG_DROP_EVENT			m_f_item_selected;
 	DRAG_DROP_EVENT			m_f_item_rbutton_click;
+	DRAG_DROP_EVENT			m_f_item_focused_update;
+	DRAG_DROP_EVENT			m_f_item_focus_received;
+	DRAG_DROP_EVENT			m_f_item_focus_lost;
 
 	const	Ivector2&		CellsCapacity		();
 			void			SetCellsCapacity	(const Ivector2 c);
@@ -103,6 +109,7 @@ public:
 			void			ClearAll			(bool bDestroy);	
 			void			Compact				();
 			bool			IsOwner				(CUICellItem* itm);
+			void			clear_select_armament();
 public:
 	//UIWindow overriding
 	virtual		void		Draw				();
@@ -127,7 +134,7 @@ protected:
 	Ivector2					m_cellSize;					//pixels	(width, height)
 	UI_CELLS_VEC				m_cells;
 
-	void						GetTexUVLT			(Fvector2& uv, u32 col, u32 row);
+	void						GetTexUVLT			(Fvector2& uv, u32 col, u32 row, u8 select_mode);
 	void						ReinitSize			();
 	u32							GetCellsInRange		(const Irect& rect, UI_CELLS_VEC& res);
 
@@ -159,4 +166,5 @@ protected:
 				void			Grow				();
 				void			Shrink				();
 				void			ClearAll			(bool bDestroy);
+				void			clear_select_armament();
 };

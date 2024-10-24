@@ -360,3 +360,30 @@ void CUIInventoryWnd::ClearAllLists()
 	m_pUIPistolList->ClearAll				(true);
 	m_pUIAutomaticList->ClearAll			(true);
 }
+
+bool CUIInventoryWnd::OnItemFocusedUpdate(CUICellItem* itm)
+{
+	if (itm)
+	{
+		itm->m_selected = true;
+	}
+	if (CUIDragDropListEx::m_drag_item)
+	{
+		return true;
+	}
+	return true;
+}
+
+bool CUIInventoryWnd::OnItemFocusReceive(CUICellItem* itm)
+{
+	return true;
+}
+
+bool CUIInventoryWnd::OnItemFocusLost(CUICellItem* itm)
+{
+	if (itm)
+	{
+		itm->m_selected = false;
+	}
+	return true;
+}

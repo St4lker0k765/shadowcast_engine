@@ -623,4 +623,34 @@ void CUICarBodyWnd::BindDragDropListEnents(CUIDragDropListEx* lst)
 	lst->m_f_item_db_click			= CUIDragDropListEx::DRAG_DROP_EVENT(this,&CUICarBodyWnd::OnItemDbClick);
 	lst->m_f_item_selected			= CUIDragDropListEx::DRAG_DROP_EVENT(this,&CUICarBodyWnd::OnItemSelected);
 	lst->m_f_item_rbutton_click		= CUIDragDropListEx::DRAG_DROP_EVENT(this,&CUICarBodyWnd::OnItemRButtonClick);
+	lst->m_f_item_focused_update	= CUIDragDropListEx::DRAG_DROP_EVENT(this,&CUICarBodyWnd::OnItemFocusedUpdate);
+	lst->m_f_item_focus_received	= CUIDragDropListEx::DRAG_DROP_EVENT(this,&CUICarBodyWnd::OnItemFocusReceive);
+	lst->m_f_item_focus_lost		= CUIDragDropListEx::DRAG_DROP_EVENT(this,&CUICarBodyWnd::OnItemFocusLost);
+}
+
+bool CUICarBodyWnd::OnItemFocusedUpdate(CUICellItem* itm)
+{
+	if (itm)
+	{
+		itm->m_selected = true;
+	}
+	if (CUIDragDropListEx::m_drag_item)
+	{
+		return true;
+	}
+	return true;
+}
+
+bool CUICarBodyWnd::OnItemFocusReceive(CUICellItem* itm)
+{
+	return true;
+}
+
+bool CUICarBodyWnd::OnItemFocusLost(CUICellItem* itm)
+{
+	if (itm)
+	{
+		itm->m_selected = false;
+	}
+	return true;
 }

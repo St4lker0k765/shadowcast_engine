@@ -99,6 +99,9 @@ protected:
 	bool		xr_stdcall		OnItemDbClick				(CUICellItem* itm);
 	bool		xr_stdcall		OnItemSelected				(CUICellItem* itm);
 	bool		xr_stdcall		OnItemRButtonClick			(CUICellItem* itm);
+	bool		xr_stdcall		OnItemFocusedUpdate			(CUICellItem* itm);
+	bool		xr_stdcall		OnItemFocusReceive			(CUICellItem* itm);
+	bool		xr_stdcall		OnItemFocusLost				(CUICellItem* itm);
 
 
 	CUIStatic					UIProgressBack;
@@ -110,7 +113,7 @@ protected:
 
 	CUIPropertiesBox			UIPropertiesBox;
 	
-	//информация о персонаже
+	//РёРЅС„РѕСЂРјР°С†РёСЏ Рѕ РїРµСЂСЃРѕРЅР°Р¶Рµ
 	CUIOutfitInfo				UIOutfitInfo;
 	CUIItemInfo					UIItemInfo;
 

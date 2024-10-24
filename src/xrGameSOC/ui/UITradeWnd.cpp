@@ -627,10 +627,40 @@ void CUITradeWnd::BindDragDropListEnents(CUIDragDropListEx* lst)
 	lst->m_f_item_db_click			= CUIDragDropListEx::DRAG_DROP_EVENT(this,&CUITradeWnd::OnItemDbClick);
 	lst->m_f_item_selected			= CUIDragDropListEx::DRAG_DROP_EVENT(this,&CUITradeWnd::OnItemSelected);
 	lst->m_f_item_rbutton_click		= CUIDragDropListEx::DRAG_DROP_EVENT(this,&CUITradeWnd::OnItemRButtonClick);
+	lst->m_f_item_focused_update	= CUIDragDropListEx::DRAG_DROP_EVENT(this,&CUITradeWnd::OnItemFocusedUpdate);
+	lst->m_f_item_focus_received	= CUIDragDropListEx::DRAG_DROP_EVENT(this,&CUITradeWnd::OnItemFocusReceive);
+	lst->m_f_item_focus_lost		= CUIDragDropListEx::DRAG_DROP_EVENT(this,&CUITradeWnd::OnItemFocusLost);
 }
 
 void CUITradeWnd::ColorizeItem(CUICellItem* itm, bool b)
 {
 	if(!b)
 		itm->SetColor				(color_rgba(255,100,100,255));
+}
+
+bool CUITradeWnd::OnItemFocusedUpdate(CUICellItem* itm)
+{
+	if (itm)
+	{
+		itm->m_selected = true;
+	}
+	if (CUIDragDropListEx::m_drag_item)
+	{
+		return true;
+	}
+	return true;
+}
+
+bool CUITradeWnd::OnItemFocusReceive(CUICellItem* itm)
+{
+	return true;
+}
+
+bool CUITradeWnd::OnItemFocusLost(CUICellItem* itm)
+{
+	if (itm)
+	{
+		itm->m_selected = false;
+	}
+	return true;
 }

@@ -33,7 +33,7 @@ public:
 	virtual		bool		OnKeyboard				(int dik, EUIMessages keyboard_action);
 	virtual		bool		OnMouse					(float x, float y, EUIMessages mouse_action);
 	virtual		void		Draw					();
-	virtual		void		Update					()						{inherited::Update(); m_b_already_drawn=false;};
+	virtual		void		Update					();
 				
 	virtual		void		OnAfterChild			()						{};
 
@@ -56,6 +56,9 @@ public:
 				int			m_index;
 				bool		m_b_already_drawn;
 				bool		m_b_destroy_childs;
+				bool		m_selected;
+				bool		m_cur_mark;
+				bool		m_select_armament;
 };
 
 class CUIDragItem: public CUIWindow, public pureRender, public pureFrame

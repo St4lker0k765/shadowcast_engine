@@ -64,7 +64,7 @@ protected:
 
 	bool				CanMoveToOther				(PIItem pItem);
 
-	//указатели игрока и того с кем торгуем
+	//СѓРєР°Р·Р°С‚РµР»Рё РёРіСЂРѕРєР° Рё С‚РѕРіРѕ СЃ РєРµРј С‚РѕСЂРіСѓРµРј
 	CInventory*			m_pInv;
 	CInventory*			m_pOthersInv;
 	CInventoryOwner*	m_pInvOwner;
@@ -89,6 +89,9 @@ protected:
 	bool		xr_stdcall		OnItemDbClick		(CUICellItem* itm);
 	bool		xr_stdcall		OnItemSelected		(CUICellItem* itm);
 	bool		xr_stdcall		OnItemRButtonClick	(CUICellItem* itm);
+	bool		xr_stdcall		OnItemFocusedUpdate	(CUICellItem* itm);
+	bool		xr_stdcall		OnItemFocusReceive	(CUICellItem* itm);
+	bool		xr_stdcall		OnItemFocusLost		(CUICellItem* itm);
 
 	void				BindDragDropListEnents		(CUIDragDropListEx* lst);
 

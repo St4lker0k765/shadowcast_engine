@@ -39,6 +39,9 @@ CUIDragDropListEx::CUIDragDropListEx()
 	AddCallback					("cell_item",	DRAG_DROP_ITEM_SELECTED,		CUIWndCallback::void_function		(this, &CUIDragDropListEx::OnItemSelected)			);
 	AddCallback					("cell_item",	DRAG_DROP_ITEM_RBUTTON_CLICK,	CUIWndCallback::void_function	(this, &CUIDragDropListEx::OnItemRButtonClick)			);
 	AddCallback					("cell_item",	DRAG_DROP_ITEM_DB_CLICK,		CUIWndCallback::void_function		(this, &CUIDragDropListEx::OnItemDBClick)			);
+	AddCallback					("cell_item",	DRAG_DROP_ITEM_FOCUSED_UPDATE,	CUIWndCallback::void_function		(this, &CUIDragDropListEx::OnItemFocusedUpdate)			);
+	AddCallback					("cell_item",	STATIC_FOCUS_RECEIVED,			CUIWndCallback::void_function		(this, &CUIDragDropListEx::OnItemFocusReceived)			);
+	AddCallback					("cell_item",	STATIC_FOCUS_LOST,				CUIWndCallback::void_function		(this, &CUIDragDropListEx::OnItemFocusLost)			);
 }
 
 CUIDragDropListEx::~CUIDragDropListEx()
@@ -538,12 +541,16 @@ bool CUICellContainer::IsRoomFree(const Ivector2& pos, const Ivector2& size)
 	return true;
 }
 
-void CUICellContainer::GetTexUVLT(Fvector2& uv, u32 col, u32 row)
+void CUICellContainer::GetTexUVLT(Fvector2& uv, u32 col, u32 row, u8 select_mode)
 {
-	uv.set(0.0f,0.0f);
-
-//.	if( (col%2==1 && row%2==1)||(col%2==0 && row%2==0) )
-//.		uv.set(0.5f,0.0f);
+	switch (select_mode)
+	{
+	case 0:		uv.set(0.00f, 0.0f);	break;
+	case 1:		uv.set(0.25f, 0.0f);	break;
+	case 2:		uv.set(0.50f, 0.0f);	break;
+	case 3:		uv.set(0.75f, 0.0f);	break;
+	default:	uv.set(0.00f, 0.0f);	break;
+	}
 }
 
 
@@ -692,7 +699,7 @@ void CUICellContainer::Draw()
 	const Fvector2 pts[6] =		{{0.0f,0.0f},{1.0f,0.0f},{1.0f,1.0f},
 								 {0.0f,0.0f},{1.0f,1.0f},{0.0f,1.0f}};
 #define ty 1.0f
-#define tx 0.5f
+#define tx 0.25f
 	const Fvector2 uvs[6] =		{{0.0f,0.0f},{tx,0.0f},{tx,ty},
 								 {0.0f,0.0f},{tx,ty},{0.0f,ty}};
 
@@ -712,9 +719,32 @@ void CUICellContainer::Draw()
 		{
 			Fvector2 rect_offset;
 			rect_offset.set((drawLT.x + f_len.x * x), (drawLT.y + f_len.y * y));
-
+			
+			Ivector2 cpos;
+			cpos.set( x, y );
+			cpos.add( TopVisibleCell() );
+			CUICell& ui_cell = GetCellAt( cpos );
+			
+			u8 select_mode = 0;
+			if ( !ui_cell.Empty() )
+			{
+				if ( ui_cell.m_item->m_cur_mark )
+				{
+					select_mode = 2;
+				}
+				else if ( ui_cell.m_item->m_selected )
+				{
+					select_mode = 1;
+				}
+				else if ( ui_cell.m_item->m_select_armament )
+				{
+					select_mode = 3;
+				}
+			}
+			
 			Fvector2			tp;
-			GetTexUVLT			(tp,tgt_cells.x1+x,tgt_cells.y1+y);
+			GetTexUVLT			(tp, tgt_cells.x1+x, tgt_cells.y1+y, select_mode);
+
 			for (u32 k=0; k<6; ++k)
 			{
 				const Fvector2& p	= pts[k];
@@ -742,4 +772,50 @@ void CUICellContainer::Draw()
 	}
 
 	UI()->PopScissor			();
+}
+
+void  CUIDragDropListEx::OnItemFocusedUpdate(CUIWindow* w, void* pData)
+{
+	if (m_f_item_focused_update)
+	{
+		CUICellItem* itm = smart_cast<CUICellItem*>(w);
+		m_f_item_focused_update(itm);
+	}
+}
+
+void CUIDragDropListEx::clear_select_armament()
+{
+	m_container->clear_select_armament();
+}
+
+void CUICellContainer::clear_select_armament()
+{
+	UI_CELLS_VEC_IT itb = m_cells.begin();
+	UI_CELLS_VEC_IT ite = m_cells.end();
+	for (; itb != ite; ++itb)
+	{
+		CUICell& cell = (*itb);
+		if (cell.m_item)
+		{
+			cell.m_item->m_select_armament = false;
+		}
+	}
+}
+
+void  CUIDragDropListEx::OnItemFocusReceived(CUIWindow* w, void* pData)
+{
+	if (m_f_item_focus_received)
+	{
+		CUICellItem* itm = smart_cast<CUICellItem*>(w);
+		m_f_item_focus_received(itm);
+	}
+}
+
+void  CUIDragDropListEx::OnItemFocusLost(CUIWindow* w, void* pData)
+{
+	if (m_f_item_focus_lost)
+	{
+		CUICellItem* itm = smart_cast<CUICellItem*>(w);
+		m_f_item_focus_lost(itm);
+	}
 }
