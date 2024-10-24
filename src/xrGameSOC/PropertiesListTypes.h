@@ -7,6 +7,8 @@
 #ifdef __BORLANDC__            
 #	include "ElTree.hpp"
 #endif
+#pragma pack( push,1 )
+
 //---------------------------------------------------------------------------
 enum EPropType{
 	PROP_UNDEF		= -1,
@@ -79,8 +81,6 @@ IC void set_value(T& val, const T& _val)
 {
 	val = _val;
 };
-
-#pragma pack(2)
 
 template <class T>
 class CustomValue: public PropValue
@@ -693,6 +693,7 @@ public:
     }
 };
 //------------------------------------------------------------------------------
+#pragma pack( pop )
 
 #endif
 
