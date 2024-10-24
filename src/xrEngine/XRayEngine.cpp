@@ -164,6 +164,7 @@ void InitSettings()
     else if (!xr_strcmp(gameMode, "soc"))
     {
         ShadowOfChernobylMode = true;
+        use_old_sound_occ = true;
         CallOfPripyatMode = false;
         return;
     }

@@ -35,7 +35,10 @@ void CWeaponKnife::Load	(LPCSTR section)
 
 	// HUD :: Anims
 	R_ASSERT			(m_pHUD);
-	animGet				(mhud_idle,		pSettings->r_string(*hud_sect,"anim_idle"));
+	shared_str m_sAnimIdle = pSettings->r_string( *hud_sect, "anim_idle" );
+	animGet( mhud_idle, *m_sAnimIdle );
+	animGet( mhud_idle_moving, READ_IF_EXISTS( pSettings, r_string, *hud_sect, "anim_idle_moving", *m_sAnimIdle ) );
+	animGet( mhud_idle_sprint, READ_IF_EXISTS( pSettings, r_string, *hud_sect, "anim_idle_sprint", *m_sAnimIdle ) );
 	animGet				(mhud_hide,		pSettings->r_string(*hud_sect,"anim_hide"));
 	animGet				(mhud_show,		pSettings->r_string(*hud_sect,"anim_draw"));
 	animGet				(mhud_attack,	pSettings->r_string(*hud_sect,"anim_shoot1_start"));
@@ -221,11 +224,9 @@ void CWeaponKnife::switch2_Attacking	(u32 state)
 	m_bPending		= true;
 }
 
-void CWeaponKnife::switch2_Idle	()
+void CWeaponKnife::switch2_Idle() 
 {
-	VERIFY(GetState()==eIdle);
-
-	m_pHUD->animPlay(random_anim(mhud_idle), TRUE, this, GetState());
+	PlayAnimIdle();
 	m_bPending = false;
 }
 
@@ -325,4 +326,26 @@ void CWeaponKnife::GetBriefInfo(xr_string& str_name, xr_string& icon_sect_name, 
 	str_name		= NameShort();
 	str_count		= "";
 	icon_sect_name	= *cNameSect();
+}
+
+
+void CWeaponKnife::PlayAnimIdle() {
+	VERIFY(GetState() == eIdle);
+
+	CActor* actor = smart_cast<CActor*>(H_Parent());
+
+	if (actor)
+		if (actor->get_state() & mcSprint) {
+			m_pHUD->animPlay(random_anim(mhud_idle_sprint), TRUE, this, GetState());
+			return;
+		}
+
+	m_pHUD->animPlay(random_anim(mhud_idle), TRUE, this, GetState());
+}
+
+
+
+void CWeaponKnife::onMovementChanged(ACTOR_DEFS::EMoveCommand cmd) {
+	if (cmd == ACTOR_DEFS::mcSprint && GetState() == eIdle)
+		PlayAnimIdle();
 }
