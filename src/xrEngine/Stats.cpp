@@ -321,7 +321,8 @@ void CStats::Show()
     {
         const auto fps = u32(fFPS);
         fpsFont->SetColor(0xFF00FF00);
-        fpsFont->Out(Device.dwWidth - 60, 5, "%3d", fps);
+        fpsFont->SetAligment(CGameFont::alRight);
+        fpsFont->Out(Device.dwWidth - (15.f * (Device.dwHeight/768.f)), 5, "%3d", fps);
         fpsFont->OnRender();
     }
 
