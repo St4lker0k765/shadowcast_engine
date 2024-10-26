@@ -22,6 +22,7 @@
 #include "UI/UIStatic.h"
 #include "CharacterPhysicsSupport.h"
 #include "InventoryBox.h"
+#include "../xrEngine/xr_input.h"
 
 void CActor::IR_OnKeyboardPress(int cmd)
 {
@@ -61,6 +62,11 @@ void CActor::IR_OnKeyboardPress(int cmd)
 	}else
 		if(inventory().Action(cmd, CMD_START))					return;
 
+	if (psActorFlags.test(AF_NO_CLIP))
+	{
+		NoClipFly(cmd);
+		return;
+	}
 	switch(cmd){
 	case kJUMP:		
 		{
@@ -110,7 +116,8 @@ void CActor::IR_OnKeyboardPress(int cmd)
 				}
 			}
 		}break;
-	case kTORCH:{ 
+	case kTORCH:
+		{ 
 		const xr_vector<CAttachableItem*>& all = CAttachmentOwner::attached_objects();
 		xr_vector<CAttachableItem*>::const_iterator it = all.begin();
 		xr_vector<CAttachableItem*>::const_iterator it_e = all.end();
@@ -220,6 +227,12 @@ void CActor::IR_OnKeyboardHold(int cmd)
 		return;
 	}
 
+	if (psActorFlags.test(AF_NO_CLIP) && (cmd == kFWD || cmd == kBACK || cmd == kL_STRAFE || cmd == kR_STRAFE
+		|| cmd == kJUMP || cmd == kCROUCH))
+	{
+		NoClipFly(cmd);
+		return;
+	}
 	float LookFactor = GetLookFactor();
 	switch(cmd)
 	{
@@ -536,3 +549,80 @@ void CActor::set_input_external_handler(CActorInputHandler *handler)
 
 
 
+
+void CActor::NoClipFly(int cmd)
+{
+	Fvector cur_pos;// = Position();
+	cur_pos.set(0,0,0);
+	float scale = 1.0f;
+	if(pInput->iGetAsyncKeyState(DIK_LSHIFT))
+		scale = 0.25f;
+	else if(pInput->iGetAsyncKeyState(DIK_LMENU))
+		scale = 4.0f;
+
+	switch(cmd)
+	{
+	case kJUMP:		
+		cur_pos.y += 0.1f;
+		break;
+	case kCROUCH:	
+		cur_pos.y -= 0.1f;
+		break;
+	case kFWD:	
+		cur_pos.z += 0.1f;
+		break;
+	case kBACK:
+		cur_pos.z -= 0.1f;
+		break;
+	case kL_STRAFE:
+		cur_pos.x -= 0.1f;
+		break;
+	case kR_STRAFE:
+		cur_pos.x += 0.1f;
+		break;
+	case kCAM_1:	
+		cam_Set(eacFirstEye);				
+		break;
+	case kCAM_2:	
+		cam_Set(eacLookAt);				
+		break;
+	case kCAM_3:	
+		cam_Set(eacFreeLook);
+		break;
+	case kNIGHT_VISION:
+		{
+			const xr_vector<CAttachableItem*>& all = CAttachmentOwner::attached_objects();
+			xr_vector<CAttachableItem*>::const_iterator it = all.begin();
+			xr_vector<CAttachableItem*>::const_iterator it_e = all.end();
+			for(;it!=it_e;++it){
+				CTorch* torch = smart_cast<CTorch*>(*it);
+				if (torch){		
+					torch->SwitchNightVision();
+					break;
+				}
+			}
+		}break;
+	case kTORCH:
+		{ 
+		const xr_vector<CAttachableItem*>& all = CAttachmentOwner::attached_objects();
+		xr_vector<CAttachableItem*>::const_iterator it = all.begin();
+		xr_vector<CAttachableItem*>::const_iterator it_e = all.end();
+		for(;it!=it_e;++it){
+				CTorch* torch = smart_cast<CTorch*>(*it);
+				if (torch){		
+					torch->Switch();
+					break;
+				}
+		}
+		}break;
+	case kUSE:
+		ActorUse();
+		break;
+	}
+	cur_pos.mul(scale);
+	Fmatrix	mOrient;
+	mOrient.rotateY(-(cam_Active()->GetWorldYaw()));
+	mOrient.transform_dir(cur_pos);
+	Position().add(cur_pos);
+	character_physics_support()->movement()->SetPosition(Position());
+}

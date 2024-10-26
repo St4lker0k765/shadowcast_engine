@@ -714,6 +714,7 @@ public:
 	virtual	bool				InventoryAllowSprint			();
 	virtual void				OnNextWeaponSlot				();
 	virtual void				OnPrevWeaponSlot				();
+			void				NoClipFly						(int cmd);
 
 public:
 	

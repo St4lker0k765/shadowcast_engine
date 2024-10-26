@@ -10,6 +10,7 @@
 #include "../xrEngine/xr_input.h"
 #include "saved_game_wrapper.h"
 #include "Include/xrRender/DebugRender.h"
+#include "actor_flags.h"
 
 #ifdef DEBUG
 #include "Actor.h"
@@ -33,7 +34,7 @@ void CLevel::IR_OnMouseWheel( int direction )
 	if(	g_bDisableAllInput	) return;
 
 	if (HUD().GetUI()->IR_OnMouseWheel(direction)) return;
-	if( Device.Paused()		) return;
+	if( Device.Paused() && !psActorFlags.test(AF_NO_CLIP)) return;
 
 	if (game && Game().IR_OnMouseWheel(direction) ) return;
 
@@ -58,7 +59,7 @@ void CLevel::IR_OnMouseMove( int dx, int dy )
 {
 	if(g_bDisableAllInput)						return;
 	if (HUD().GetUI()->IR_OnMouseMove(dx, dy))	return;
-	if (Device.Paused())							return;
+	if (Device.Paused() && !psActorFlags.test(AF_NO_CLIP))							return;
 	if (CURRENT_ENTITY())		{
 		IInputReceiver*		IR	= smart_cast<IInputReceiver*>	(smart_cast<CGameObject*>(CURRENT_ENTITY()));
 		if (IR)				IR->IR_OnMouseMove					(dx,dy);
@@ -103,7 +104,10 @@ void CLevel::IR_OnKeyboardPress	(int key)
 		{
 			if ( IsGameTypeSingle() )
 			{
-				Device.Pause(!Device.Paused(), TRUE, TRUE, "li_pause_key");
+				if (psActorFlags.test(AF_NO_CLIP))
+					Device.Pause(!Device.Paused(), TRUE, TRUE, "li_pause_key_no_clip");
+				else
+					Device.Pause(!Device.Paused(), TRUE, TRUE, "li_pause_key");
 			}
 		}
 		return;
@@ -116,7 +120,7 @@ void CLevel::IR_OnKeyboardPress	(int key)
 
 	if ( b_ui_exist && HUD().GetUI()->IR_OnKeyboardPress(key)) return;
 
-	if( Device.Paused() )		return;
+	if( Device.Paused() && !psActorFlags.test(AF_NO_CLIP))		return;
 
 	if ( game && Game().IR_OnKeyboardPress(key) ) return;
 
@@ -261,7 +265,7 @@ void CLevel::IR_OnKeyboardRelease(int key)
 
 	if (g_bDisableAllInput	) return;
 	if ( b_ui_exist && HUD().GetUI()->IR_OnKeyboardRelease(key)) return;
-	if (Device.Paused()		) return;
+	if (Device.Paused() && !psActorFlags.test(AF_NO_CLIP)) return;
 	if (game && Game().OnKeyboardRelease(get_binded_action(key)) ) return;
 
 	if( b_ui_exist && HUD().GetUI()->MainInputReceiver() )return;
@@ -279,7 +283,7 @@ void CLevel::IR_OnKeyboardHold(int key)
 
 	if (b_ui_exist && HUD().GetUI()->IR_OnKeyboardHold(key)) return;
 	if ( b_ui_exist && HUD().GetUI()->MainInputReceiver() )return;
-	if ( Device.Paused() ) return;
+	if ( Device.Paused() && !psActorFlags.test(AF_NO_CLIP)) return;
 	if (CURRENT_ENTITY())		{
 		IInputReceiver*		IR	= smart_cast<IInputReceiver*>	(smart_cast<CGameObject*>(CURRENT_ENTITY()));
 		if (IR)				IR->IR_OnKeyboardHold				(get_binded_action(key));

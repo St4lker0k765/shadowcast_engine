@@ -1573,6 +1573,7 @@ void CCC_RegisterCommands()
 	CMD1(CCC_TimeFactor,	"time_factor")
 	CMD1(CCC_SetWeather, "set_weather")
 	CMD3(CCC_Mask,		"g_autopickup",	&psActorFlags,	AF_AUTOPICKUP)
+	CMD3(CCC_Mask,				"g_no_clip",					&psActorFlags,	AF_NO_CLIP	)
 
 
 #ifdef DEBUG
