@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="windows-1251" ?>
+<string_table>
+	<string id="ui_mm_detail_height">
+		<text>Grass detail height</text>
+	</string>
+	<string id="ui_mm_detail_radius">
+		<text>Grass detail radius</text>
+	</string>
+	<string id="ui_mm_fov">
+		<text>Field of View</text>
+	</string>
+	<string id="ui_mm_r2_smap_quality">
+		<text>Shadow map quality</text>
+	</string>
+	<string id="smap1024">
+		<text>1024 pixels</text>
+	</string>
+	<string id="smap1536">
+		<text>1536 pixels</text>
+	</string>
+	<string id="smap2048">
+		<text>2048 pixels</text>
+	</string>
+	<string id="smap2560">
+		<text>2560 pixels</text>
+	</string>
+	<string id="smap3072">
+		<text>3072 pixels</text>
+	</string>
+	<string id="smap4096">
+		<text>4096 pixels</text>
+	</string>
+	<string id="st_cam_1">
+		<text>First person view</text>
+	</string>
+	<string id="st_cam_2">
+		<text>Third person view</text>
+	</string>
+	<string id="st_cam_3">
+		<text>Third person view (Freecam)</text>
+	</string>
+	<string id="st_client_connecting_to">
+		<text>CLIENT: Connecting to</text>
+	</string>
+	<string id="st_client_spawning">
+		<text>CLIENT: Spawning</text>
+	</string>
+	<string id="st_client_synchronising">
+		<text>CLIENT: Synchronizing</text>
+	</string>
+	<string id="st_creating_new_game">
+		<text>Creating new game</text>
+	</string>
+	<string id="st_quicksave">
+		<text>quick save</text>
+	</string>
+	<string id="st_game_autosave">
+		<text>auto save</text>
+	</string>
+	<string id="st_discord_main_menu">
+		<text>In main menu</text>
+	</string>
+	<string id="st_discord_loading_level">
+		<text>Loading game level</text>
+	</string>
+	<string id="st_discord_in_game">
+		<text>In game:</text>
+	</string>
+</string_table>

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="windows-1251" ?>
+<string_table>
+	<string id="renderer_r2.5">
+		<text>Enhanced full dynamic lighting</text>
+	</string>
+	<string id="renderer_r3">
+		<text>Enhanced full dyn. lighting (DX10)</text>
+	</string>
+	<string id="renderer_r4">
+		<text>Enhanced full dyn. lighting (DX11)</text>
+	</string>
+	<string id="ui_mm_detail_height">
+		<text>Grass detail height</text>
+	</string>
+	<string id="ui_mm_detail_radius">
+		<text>Grass detail radius</text>
+	</string>
+	<string id="ui_mm_r4_enable_tessellation">
+		<text>Tessellation</text>
+	</string>
+	<string id="ui_mm_fov">
+		<text>Field of View</text>
+	</string>
+	<string id="ui_mm_crouch_toggle">
+		<text>Crouch/stand mode</text>
+	</string>
+	<string id="ui_mm_hud_draw">
+		<text>Show interface</text>
+	</string>
+	<string id="ui_mm_r2_smap_quality">
+		<text>Shadow map quality</text>
+	</string>
+	<string id="smap1024">
+		<text>1024 pixels</text>
+	</string>
+	<string id="smap1536">
+		<text>1536 pixels</text>
+	</string>
+	<string id="smap2048">
+		<text>2048 pixels</text>
+	</string>
+	<string id="smap2560">
+		<text>2560 pixels</text>
+	</string>
+	<string id="smap3072">
+		<text>3072 pixels</text>
+	</string>
+	<string id="smap4096">
+		<text>4096 pixels</text>
+	</string>
+	<string id="ui_mm_ssao_text">
+		<text>SSAO Mode</text>
+	</string>
+	<string id="disabled">
+		<text>disabled</text>
+	</string>
+	<string id="default">
+		<text>default</text>
+	</string>
+	<string id="hdao">
+		<text>HDAO</text>
+	</string>
+	<string id="hbao">
+		<text>HBAO</text>
+	</string>
+	<string id="st_opt_extreme">
+		<text>max high</text>
+	</string>
+	<string id="st_cam_1">
+		<text>First person view</text>
+	</string>
+	<string id="st_cam_2">
+		<text>Third person view</text>
+	</string>
+	<string id="st_cam_3">
+		<text>Third person view (Freecam)</text>
+	</string>
+	<string id="st_quicksave">
+		<text>quick save</text>
+	</string>
+	<string id="st_game_autosave">
+		<text>auto save</text>
+	</string>
+	<string id="ui_mm_r2_detail_bump">
+		<text>Detail bump</text>
+	</string>
+	<string id="ui_mm_r2_steep_parallax">
+		<text>Steep parallax</text>
+	</string>
+	<string id="ui_mm_r2_sun_quality">
+		<text>Sun quality</text>
+	</string>
+	<string id="st_opt_high">
+		<text>high</text>
+	</string>
+	<string id="st_opt_low">
+		<text>low</text>
+	</string>
+	<string id="st_opt_medium">
+		<text>medium</text>
+	</string>
+	<string id="st_opt_off">
+		<text>off</text>
+	</string>
+	<string id="st_opt_ultra">
+		<text>very high</text>
+	</string>
+	<string id="ui_mm_sun_shafts">
+		<text>Sun rays</text>
+	</string>
+	<string id="ui_mm_ssao">
+		<text>SSAO quality</text>
+	</string>
+	<string id="ui_mm_soft_water">
+		<text>Soft water</text>
+	</string>
+	<string id="ui_mm_soft_particles">
+		<text>Soft particles</text>
+	</string>
+	<string id="ui_mm_dof">
+		<text>Depth of field</text>
+	</string>
+	<string id="ui_mm_volumetric_light">
+		<text>Volumetric light</text>
+	</string>
+	<string id="ui_mm_msaa_alphatest">
+		<text>Smooth A-test objects</text>
+	</string>
+	<string id="ui_mm_r3_dynamic_wet_surfaces">
+		<text>Wet surfaces</text>
+	</string>
+	<string id="ui_mm_r3_volumetric_smoke">
+		<text>Volumetric smoke</text>
+	</string>
+	<string id="ui_mm_r3_DX10_1">
+		<text>Use DX10.1</text>
+	</string>
+	<string id="st_discord_main_menu">
+		<text>In main menu</text>
+	</string>
+	<string id="st_discord_loading_level">
+		<text>Loading game level</text>
+	</string>
+	<string id="st_discord_in_game">
+		<text>In game:</text>
+	</string>
+</string_table>
