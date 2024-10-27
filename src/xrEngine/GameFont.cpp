@@ -63,6 +63,7 @@ CGameFont::CGameFont(const char* section, u32 flags) : Name(section)
 		LineSpacing = pSettings->r_float(section, "line_spacing");
 
 	// Init
+	pFontRender = RenderFactory->CreateFontRender();
 	Prepare(Data.Name, Data.Shader, Data.Style, Data.Size);
 }
 
@@ -71,6 +72,10 @@ CGameFont::~CGameFont()
 	// Shading
 	RenderFactory->DestroyFontRender(pFontRender);
 	pFontRender = nullptr;
+
+	xr_free(Data.Shader);
+	xr_free(Data.Style);
+	xr_free(Data.Name);
 }
 
 void CGameFont::ReInit()

@@ -12,6 +12,9 @@ CFontManager::CFontManager()
 	Device.seqDeviceReset.Add(this, REG_PRIORITY_HIGH);
 	pFontDI = nullptr;
 	pFontMedium = nullptr;
+	pFontSystem = nullptr;
+	pFontSystem16 = nullptr;
+	pFontStat = nullptr;
 }
 
 CFontManager::~CFontManager()
