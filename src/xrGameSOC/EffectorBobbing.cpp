@@ -27,9 +27,10 @@ CEffectorBobbing::CEffectorBobbing() : CEffectorCam(eCEBobbing,10000.f)
 	m_fAmplitudeWalk	= pSettings->r_float(BOBBING_SECT, "walk_amplitude");
 	m_fAmplitudeLimp	= pSettings->r_float(BOBBING_SECT, "limp_amplitude");
 
-	m_fSpeedRun			= pSettings->r_float(BOBBING_SECT, "run_speed");
-	m_fSpeedWalk		= pSettings->r_float(BOBBING_SECT, "walk_speed");
-	m_fSpeedLimp		= pSettings->r_float(BOBBING_SECT, "limp_speed");
+	// HACK: Temporary speed fix, fix this shit later
+	m_fSpeedRun			= pSettings->r_float(BOBBING_SECT, "run_speed")/2;
+	m_fSpeedWalk		= pSettings->r_float(BOBBING_SECT, "walk_speed")/2;
+	m_fSpeedLimp		= pSettings->r_float(BOBBING_SECT, "limp_speed")/2;
 }
 
 CEffectorBobbing::~CEffectorBobbing	()
@@ -97,8 +98,8 @@ BOOL CEffectorBobbing::ProcessCam(SCamEffectorInfo& info)
 		Fmatrix		mR;
 		mR.mul		(M,R);
 		
-		info.d.set(mR.k);
-		info.n.set(mR.j);
+		info.d.set	(mR.k);
+		info.n.set	(mR.j);
 	}
 //	else{
 //		fTime		= 0;
