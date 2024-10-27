@@ -6,6 +6,23 @@ class CObjectAnimator;
 class CEffectorController;
 class CActor;
 
+class CActorCameraManager	:public CCameraManager
+{
+	typedef CCameraManager	inherited;
+
+	SCamEffectorInfo		m_cam_info_hud;
+
+protected:
+	virtual void			UpdateCamEffectors		();
+	virtual bool			ProcessCameraEffector	(CEffectorCam* eff);
+
+public:
+							CActorCameraManager():inherited(false){}
+	virtual					~CActorCameraManager() {}
+
+	IC void					hud_camera_Matrix		(Fmatrix& M){M.set(m_cam_info_hud.r, m_cam_info_hud.n, m_cam_info_hud.d, m_cam_info_hud.p);}
+};
+
 typedef fastdelegate::FastDelegate0<float>		GET_KOEFF_FUNC;
 
 void AddEffector		(CActor* A, int type, const shared_str& sect_name);
@@ -56,8 +73,8 @@ class CAnimatorCamEffectorScriptCB :public CAnimatorCamEffector
 public:
 	CAnimatorCamEffectorScriptCB	(LPCSTR _cb){cb_name =_cb;};
 	virtual	BOOL		Valid					();
-	virtual BOOL		AllowProcessingIfInvalid()	{return m_bAbsolutePositioning;}
-	virtual	void		ProcessIfInvalid		(Fvector &p, Fvector &d, Fvector &n, float& fFov, float& fFar, float& fAspect);
+	virtual BOOL		AllowProcessingIfInvalid()							{return m_bAbsolutePositioning;}
+	virtual	void		ProcessIfInvalid		(SCamEffectorInfo& info);
 };
 
 class CAnimatorCamLerpEffector :public CAnimatorCamEffector
