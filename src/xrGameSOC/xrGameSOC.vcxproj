@@ -430,6 +430,7 @@
     <ClInclude Include="script_crandom.h" />
     <ClInclude Include="UIFontDefines.h" />
     <ClInclude Include="ui\UIHelper.h" />
+    <ClInclude Include="ui\UIHint.h" />
     <ClInclude Include="ui\UILoadingScreen.h" />
     <ClInclude Include="ui_defs.h" />
     <ClInclude Include="wrapper_abstract.h" />
@@ -2073,6 +2074,7 @@
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
     <ClCompile Include="ui\UIHelper.cpp" />
+    <ClCompile Include="ui\UIHint.cpp" />
     <ClCompile Include="ui\UILoadingScreen.cpp" />
     <ClCompile Include="visual_memory_manager.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch_script.h</PrecompiledHeaderFile>

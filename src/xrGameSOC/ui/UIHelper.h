@@ -17,6 +17,7 @@ class CUIFrameLineWnd;
 class CUIFrameWindow;
 class CUI3tButton;
 class CUICheckButton;
+class UIHint;
 class CUIDragDropListEx;
 
 class UIHelper
@@ -32,6 +33,7 @@ public:
 	static	CUI3tButton*		Create3tButton		( CUIXml& xml, LPCSTR ui_path, CUIWindow* parent );
 	static	CUICheckButton*		CreateCheck			( CUIXml& xml, LPCSTR ui_path, CUIWindow* parent );
 
+	static	UIHint*				CreateHint			( CUIXml& xml, LPCSTR ui_path /*, CUIWindow* parent*/ );
 	static	CUIDragDropListEx*	CreateDragDropListEx( CUIXml& xml, LPCSTR ui_path, CUIWindow* parent );
 
 }; // class UIHelper

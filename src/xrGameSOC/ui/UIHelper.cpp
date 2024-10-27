@@ -8,7 +8,7 @@
 #include "StdAfx.h"
 #include "UIHelper.h"
 #include "UIXmlInit.h"
-
+#include "UIHint.h"
 #include "UIStatic.h"
 #include "UIProgressBar.h"
 #include "UIFrameLineWnd.h"
@@ -82,5 +82,14 @@ CUIDragDropListEx* UIHelper::CreateDragDropListEx( CUIXml& xml, LPCSTR ui_path, 
 	parent->AttachChild				( ui );
 	ui->SetAutoDelete				( true );
 	CUIXmlInit::InitDragDropListEx	( xml, ui_path, 0, ui );
+	return ui;
+}
+
+UIHint* UIHelper::CreateHint( CUIXml& xml, LPCSTR ui_path /*, CUIWindow* parent*/ )
+{
+	UIHint* ui				= xr_new<UIHint>();
+//	parent->AttachChild		( ui );
+	ui->SetAutoDelete		( true );
+	ui->init_from_xml		( xml, ui_path );
 	return ui;
 }
