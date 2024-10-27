@@ -15,6 +15,8 @@ protected:
 	u16				m_iMaxUses;
 	u16				m_iRemainingUses;
 	bool			m_bRemoveAfterUse;
+	float m_fWeightFull;
+	float m_fWeightEmpty;
 
 public:
 							CEatableItem				();
@@ -36,5 +38,7 @@ public:
 			bool			CanDelete					() const { return m_bRemoveAfterUse == true; };
 	virtual u16				GetMaxUses					() const { return m_iMaxUses; };
 	virtual u16				GetRemainingUses			() const { return m_iRemainingUses; };
+	void SetRemainingUses(u16 value) { if (value <= m_iMaxUses && value >= 0) m_iRemainingUses = value; };
+	virtual float Weight() const;
 };
 

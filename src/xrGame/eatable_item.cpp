@@ -42,6 +42,8 @@ void CEatableItem::Load(LPCSTR section)
 
 	m_iRemainingUses = m_iMaxUses = READ_IF_EXISTS(pSettings, r_u16, section, "max_uses", 1);
 	m_bRemoveAfterUse = READ_IF_EXISTS(pSettings, r_bool, section, "remove_after_use", TRUE);
+	m_fWeightFull = m_weight;
+	m_fWeightEmpty = READ_IF_EXISTS(pSettings, r_float, section, "empty_weight", 0.0f);
 
 	if (IsUsingCondition())
 	{
@@ -150,4 +152,19 @@ bool CEatableItem::UseBy (CEntityAlive* entity_alive)
 	CurrentGameUI()->GetActorMenu().RefreshConsumableCells();
 
 	return true;
+}
+
+float CEatableItem::Weight() const
+{
+	float res = inherited::Weight();
+
+	if (IsUsingCondition())
+	{
+		float net_weight = m_fWeightFull - m_fWeightEmpty;
+		float use_weight = m_iMaxUses > 0 ? (net_weight / m_iMaxUses) : 0.f;
+
+		res = m_fWeightEmpty + (m_iRemainingUses * use_weight);
+	}
+
+	return res;
 }

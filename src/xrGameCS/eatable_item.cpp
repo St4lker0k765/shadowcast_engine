@@ -54,7 +54,9 @@ void CEatableItem::Load(LPCSTR section)
 	m_fWoundsHealPerc			= pSettings->r_float(section, "wounds_heal_perc");
 	clamp						(m_fWoundsHealPerc, 0.f, 1.f);
 	m_fMaxPowerUpInfluence		= READ_IF_EXISTS	(pSettings,r_float,section,"eat_max_power",0.0f);
-	
+	m_fWeightFull = m_weight;
+	m_fWeightEmpty = READ_IF_EXISTS(pSettings, r_float, section, "empty_weight", 0.0f);
+
 	m_iRemainingUses = m_iMaxUses = READ_IF_EXISTS( pSettings, r_u16, section, "max_uses", 1 );
 	m_bRemoveAfterUse = READ_IF_EXISTS( pSettings, r_bool, section, "remove_after_use", TRUE );
 
@@ -148,4 +150,19 @@ void CEatableItem::UseBy (CEntityAlive* entity_alive)
 	HUD().GetUI()->UIGame()->ActorMenu().RefreshConsumableCells();
 
 
+}
+
+float CEatableItem::Weight() 
+{
+	float res = inherited::Weight();
+
+	if (IsUsingCondition())
+	{
+		float net_weight = m_fWeightFull - m_fWeightEmpty;
+		float use_weight = m_iMaxUses > 0 ? (net_weight / m_iMaxUses) : 0.f;
+
+		res = m_fWeightEmpty + (m_iRemainingUses * use_weight);
+	}
+
+	return res;
 }
