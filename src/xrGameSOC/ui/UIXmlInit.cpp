@@ -25,6 +25,7 @@
 #include "UIListBox.h" //#include "UIScrollView.h"
 #include "UIComboBox.h"
 #include "UITrackBar.h"
+#include "UIHint.h"
 #include "../game_base_space.h"
 
 #include "UITextureMaster.h"
@@ -1399,4 +1400,15 @@ u32	CUIXmlInit::GetColor(CUIXml& xml_doc, const char* path, int index, u32 def_c
 		return color_argb(a,r,g,b);
 	}
 
+}
+
+bool CUIXmlInit::InitHintWindow(CUIXml& xml_doc, LPCSTR path, int index, UIHintWindow* pWnd)
+{
+	VERIFY( pWnd );
+	InitWindow( xml_doc, path, index, pWnd );
+	LPCSTR hint_text = xml_doc.Read( path, index, "no hint" );
+	pWnd->set_hint_text_ST( hint_text );
+
+	pWnd->set_hint_delay( (u32)xml_doc.ReadAttribInt( path, index, "delay" ) );
+	return true;
 }

@@ -38,6 +38,8 @@
 * **Папка sounds** (для ЗП погоды)
 * **textures\ed\ed_not_existing_texture.dds** (отсутствующая текстура)
 * **Папка textures\fx** (для ЗП погоды)
+* **Папка textures\internal** (для ЗП рендеров)
 * **Папка textures\sky** (для ЗП погоды)
 * **textures\ui\ui_console.dds** (текстура для консоли)
 * **textures\ui\ui_grid.dds** (текстура сетки инвентаря из ЗП; без неё сетка будет отображаться некорректно)
+* **Папка textures\water** (для ЗП рендеров)

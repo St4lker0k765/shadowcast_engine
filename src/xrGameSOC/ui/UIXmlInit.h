@@ -34,6 +34,7 @@ class CUIDragDropListEx;
 class CUIComboBox;
 class CUITabButtonMP;
 class CUITrackBar;
+class UIHintWindow;
 
 class CUIXmlInit
 {
@@ -79,6 +80,7 @@ public:
 	static bool InitListBox				(CUIXml& xml_doc, const char* path, int index, CUIListBox* pWnd);
 	static bool	InitComboBox			(CUIXml& xml_doc, const char* path, int index, CUIComboBox* pWnd);
 	static bool	InitTrackBar			(CUIXml& xml_doc, const char* path, int index, CUITrackBar* pWnd);
+	static bool InitHintWindow			(CUIXml& xml_doc, const char* path, int index, UIHintWindow* pWnd);
 	static Frect GetFRect				(CUIXml& xml_doc, const char* path, int index);
 	static u32	GetColor				(CUIXml& xml_doc, const char* path, int index, u32 def_clr);
 public:
