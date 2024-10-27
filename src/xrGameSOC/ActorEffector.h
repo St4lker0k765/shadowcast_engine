@@ -55,6 +55,7 @@ protected:
 	CObjectAnimator*							m_objectAnimator;
 public:
 	bool				m_bAbsolutePositioning;
+	float				m_fov;
 
 						CAnimatorCamEffector	();
 	virtual				~CAnimatorCamEffector	();
@@ -63,6 +64,8 @@ public:
 			void		SetCyclic				(bool b)				{m_bCyclic=b;}
 	virtual	BOOL		Valid					();
 			float		GetAnimatorLength		()						{return fLifeTime;};
+
+	virtual bool		AbsolutePositioning		()						{return m_bAbsolutePositioning;}
 };
 
 class CAnimatorCamEffectorScriptCB :public CAnimatorCamEffector 
@@ -139,9 +142,12 @@ class CControllerPsyHitCamEffector :public CEffectorCam {
 	Fvector				m_position_source;
 	Fvector				m_direction;
 	float				m_distance;
+	float				m_base_fov;
+	float				m_dest_fov;
 
 public:
-						CControllerPsyHitCamEffector	(ECamEffectorType type, const Fvector &src_pos, const Fvector &target_pos, float time);
+						CControllerPsyHitCamEffector	(ECamEffectorType type, const Fvector &src_pos, const Fvector &target_pos, 
+														float time, float base_fov, float dest_fov);
 	virtual BOOL		ProcessCam						(SCamEffectorInfo& info);
 };
 //////////////////////////////////////////////////////////////////////////

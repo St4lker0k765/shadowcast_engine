@@ -12,6 +12,8 @@ void CAnimatorCamEffectorScriptCB::ProcessIfInvalid(SCamEffectorInfo& info)
 		info.d						= m.k;
 		info.n						= m.j;
 		info.p						= m.c;
+		if(m_fov>0.0f)
+			info.fFov				= m_fov;
 	}
 }
 

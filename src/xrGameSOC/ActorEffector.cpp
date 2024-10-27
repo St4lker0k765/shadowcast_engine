@@ -10,8 +10,12 @@
 void AddEffector		(CActor* A, int type, const shared_str& sect_name)
 {
 	if(pSettings->line_exist(sect_name,"pp_eff_name")){
-		bool bCyclic						= !!pSettings->r_bool(sect_name,"pp_eff_cyclic");
 		CPostprocessAnimator* pp_anm		= xr_new<CPostprocessAnimator>();
+
+		bool bCyclic						= !!pSettings->r_bool(sect_name,"pp_eff_cyclic");
+
+		pp_anm->bOverlap					= !!READ_IF_EXISTS(pSettings, r_bool, sect_name, "pp_eff_overlap", false);
+
 		pp_anm->SetType						((EEffectorPPType)type);
 		pp_anm->SetCyclic					(bCyclic);
 
@@ -44,6 +48,7 @@ void AddEffector		(CActor* A, int type, const shared_str& sect_name, CEffectorCo
 		CPostprocessAnimatorControlled* pp_anm	= xr_new<CPostprocessAnimatorControlled>(ec);
 		pp_anm->SetType						((EEffectorPPType)type);
 		pp_anm->SetCyclic					(bCyclic);
+		pp_anm->bOverlap					= !!READ_IF_EXISTS(pSettings, r_bool, sect_name, "pp_eff_overlap", false);
 		LPCSTR fn = pSettings->r_string		(sect_name,"pp_eff_name");
 		pp_anm->Load						(fn);
 		A->Cameras().AddPPEffector			(pp_anm);
@@ -73,6 +78,7 @@ void AddEffector		(CActor* A, int type, const shared_str& sect_name, GET_KOEFF_F
 		CPostprocessAnimatorLerp* pp_anm	= xr_new<CPostprocessAnimatorLerp>();
 		pp_anm->SetType						((EEffectorPPType)type);
 		pp_anm->SetCyclic					(bCyclic);
+		pp_anm->bOverlap					= !!READ_IF_EXISTS(pSettings, r_bool, sect_name, "pp_eff_overlap", false);
 		LPCSTR fn = pSettings->r_string		(sect_name,"pp_eff_name");
 		pp_anm->SetFactorFunc				(k_func);
 		pp_anm->Load						(fn);
@@ -106,6 +112,7 @@ void AddEffector(CActor* A, int type, const shared_str& sect_name, float factor)
 		pp_anm->SetType						((EEffectorPPType)type);
 		pp_anm->SetCyclic					(bCyclic);
 		pp_anm->SetPower					(factor);
+		pp_anm->bOverlap					= !!READ_IF_EXISTS(pSettings, r_bool, sect_name, "pp_eff_overlap", false);
 		LPCSTR fn = pSettings->r_string		(sect_name,"pp_eff_name");
 		pp_anm->Load						(fn);
 		A->Cameras().AddPPEffector			(pp_anm);
@@ -147,6 +154,7 @@ CAnimatorCamEffector::CAnimatorCamEffector()
 	m_bCyclic				= true;
 	m_objectAnimator		= xr_new<CObjectAnimator>();
 	m_bAbsolutePositioning	= false;
+	m_fov					= -1.0f;
 }
 
 CAnimatorCamEffector::~CAnimatorCamEffector()
@@ -193,12 +201,15 @@ BOOL CAnimatorCamEffector::ProcessCam(SCamEffectorInfo& info)
 		info.n						= m.j;
 		info.p						= m.c;
 	};
+	if(m_fov>0.0f)
+		info.fFov				= m_fov;
+
 	return						TRUE;
 }
 
 BOOL CAnimatorCamLerpEffector::ProcessCam(SCamEffectorInfo& info)
 {
-	if(!CEffectorCam::ProcessCam(info))	return FALSE;
+	if (!CEffectorCam::ProcessCam(info)) return FALSE;
 
 	const Fmatrix& m			= m_objectAnimator->XFORM();
 	m_objectAnimator->Update	(Device.fTimeDelta);
@@ -232,6 +243,9 @@ BOOL CAnimatorCamLerpEffector::ProcessCam(SCamEffectorInfo& info)
 	info.n						= res.j;
 	info.p						= res.c;
 
+	if(m_fov>0.0f)
+		info.fFov				= m_fov;
+
 	return TRUE;
 }
 
@@ -262,8 +276,10 @@ BOOL CCameraEffectorControlled::Valid()
 
 #define SND_MIN_VOLUME_FACTOR (0.1f)
 
-SndShockEffector::SndShockEffector	()
+SndShockEffector::SndShockEffector	() : m_end_time(0), m_life_time(0)
 {
+	m_life_time				= 0.0f;
+	m_end_time			    = 0.0f;
 	m_snd_length			= 0.0f;
 	m_cur_length			= 0.0f;
 	m_stored_volume			= -1.0f;
@@ -336,22 +352,28 @@ void SndShockEffector::Update()
 #define DELTA_ANGLE_Z	0.5f * PI / 180
 #define ANGLE_SPEED		1.5f	
 
-CControllerPsyHitCamEffector::CControllerPsyHitCamEffector(ECamEffectorType type, const Fvector &src_pos, const Fvector &target_pos, float time)
-	:inherited(eCEControllerPsyHit, flt_max)
-{
-	m_time_total			= time;
-	m_time_current			= 0;
-	m_dangle_target.set		(angle_normalize(Random.randFs(DELTA_ANGLE_X)),angle_normalize(Random.randFs(DELTA_ANGLE_Y)),angle_normalize(Random.randFs(DELTA_ANGLE_Z)));
-	m_dangle_current.set	(0.f, 0.f, 0.f);
-	m_position_source		= src_pos;
-	m_direction.sub			(target_pos,src_pos);
-	m_distance				= m_direction.magnitude();
-	m_direction.normalize	();
-}
-
 const float	_base_fov		= 170.f;
-const float	_max_fov_add	= 160.f;
+const float	_max_fov_add	= 30.f;
 
+CControllerPsyHitCamEffector::CControllerPsyHitCamEffector(ECamEffectorType type, const Fvector &src_pos, 
+														   const Fvector &target_pos, float time, 
+														   float base_fov, float dest_fov)
+								: inherited(eCEControllerPsyHit, flt_max)
+{
+	m_base_fov				=	base_fov;
+	m_dest_fov				=	dest_fov;
+	m_time_total			=	time;
+	m_time_current			=	0;
+	m_dangle_target.set			(	angle_normalize(Random.randFs(DELTA_ANGLE_X)),
+									angle_normalize(Random.randFs(DELTA_ANGLE_Y)),
+									angle_normalize(Random.randFs(DELTA_ANGLE_Z))	);
+
+	m_dangle_current.set		(0.f, 0.f, 0.f);
+	m_position_source		=	src_pos;
+	m_direction.sub				(target_pos,src_pos);
+	m_distance				=	m_direction.magnitude();
+	m_direction.normalize		();
+}
 
 BOOL CControllerPsyHitCamEffector::ProcessCam(SCamEffectorInfo& info)
 {
@@ -384,7 +406,8 @@ BOOL CControllerPsyHitCamEffector::ProcessCam(SCamEffectorInfo& info)
 	float cur_dist	= m_distance * perc_past;
 
 	Mdef.c.mad	(m_position_source, m_direction, cur_dist);
-	info.fFov = _base_fov - _max_fov_add*perc_past;
+	info.fFov = m_base_fov + (m_dest_fov-m_base_fov)*perc_past;
+	//info.fFov = _base_fov - _max_fov_add*perc_past;
 
 	m_time_current	+= Device.fTimeDelta;
 	
