@@ -213,7 +213,6 @@ void	CActor::PickupModeUpdate_COD	()
 		//подбирание объекта
 		Game().SendPickUpEvent(ID(), pNearestItem->object().ID());
 		
-		PickupModeOff();
 	}
 };
 

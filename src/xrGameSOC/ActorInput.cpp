@@ -192,9 +192,6 @@ void CActor::IR_OnKeyboardRelease(int cmd)
 
 	if (g_Alive())	
 	{
-		if (cmd == kUSE) 
-			PickupModeOff();
-
 		if(m_holder)
 		{
 			m_holder->OnKeyboardRelease(cmd);
@@ -353,8 +350,6 @@ bool CActor::use_Holder				(CHolderCustom* holder)
 void CActor::ActorUse()
 {
 	//mstate_real = 0;
-	PickupModeOn();
-
 		
 	if (m_holder)
 	{
