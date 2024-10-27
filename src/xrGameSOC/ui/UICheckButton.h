@@ -16,11 +16,11 @@ public:
 	virtual bool	IsChanged();
 	virtual void 	SeveBackUpValue			();
 	virtual void 	Undo					();
+				void InitCheckButton		(Fvector2 pos, Fvector2 size, LPCSTR texture_name);
 
-	virtual void Init(float x, float y, float width, float height);
 	virtual void SetTextX(float x) {/*do nothing*/}
 
-	//состояние кнопки
+	//СЃРѕСЃС‚РѕСЏРЅРёРµ РєРЅРѕРїРєРё
 	bool GetCheck()					{return m_eButtonState == BUTTON_PUSHED;}
 	void SetCheck(bool ch)			{m_eButtonState = ch ? BUTTON_PUSHED : BUTTON_NORMAL;}
 
@@ -28,6 +28,6 @@ public:
 
 private:
 	bool			b_backup_val;
-	void InitTexture();
+	void InitTexture2				(LPCSTR texture_name);
 	CUIWindow* m_pDependControl;
 };

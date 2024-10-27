@@ -1,5 +1,5 @@
-// UICheckButton.cpp: êëàññ êíîïêè, èìåþùåé 2 ñîñòîÿíèÿ:
-// ñ ãàëî÷êîé è áåç
+// UICheckButton.cpp: ÐºÐ»Ð°ÑÑ ÐºÐ½Ð¾Ð¿ÐºÐ¸, Ð¸Ð¼ÐµÑŽÑ‰ÐµÐ¹ 2 ÑÐ¾ÑÑ‚Ð¾ÑÐ½Ð¸Ñ:
+// Ñ Ð³Ð°Ð»Ð¾Ñ‡ÐºÐ¾Ð¹ Ð¸ Ð±ÐµÐ·
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
@@ -43,17 +43,19 @@ bool CUICheckButton::IsChanged(){
 	return b_backup_val != GetCheck();
 }
 
-void CUICheckButton::Init(float x, float y, float width, float height){
-	CUIWindow::Init(x,y,width,height);
-	InitTexture();
-	m_pLines->Init(x,y,width,m_background.GetE()->GetStaticItem()->GetRect().height());
+void CUICheckButton::InitCheckButton(Fvector2 pos, Fvector2 size, LPCSTR texture_name)
+{
+	Init(pos.x, pos.y, size.x, size.y);
+	InitTexture2	(texture_name);
+	m_pLines->SetWndPos(pos);
+	m_pLines->SetWndSize(Fvector2().set(size.x,m_background.GetE()->GetStaticItem()->GetRect().height()));
 }
 
-void CUICheckButton::InitTexture()
+void CUICheckButton::InitTexture2(LPCSTR texture_name)
 {
-	CUI3tButton::InitTexture("ui_checker");
+	CUI3tButton::InitTexture(texture_name); // "ui_checker"
 	Frect r = m_background.GetE()->GetStaticItem()->GetOriginalRect();
-	CUI3tButton::SetTextX(r.width());	
+	CUI3tButton::SetTextX( GetTextX() + r.width() );	
 }
 
 void CUICheckButton::SeveBackUpValue()
