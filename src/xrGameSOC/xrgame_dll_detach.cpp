@@ -62,6 +62,8 @@ void init_game_globals()
 
 extern CUIXml*	g_gameTaskXml;
 extern CUIXml*	g_uiSpotXml;
+extern CUIXml*	pWpnScopeXml;
+extern bool SOCScopesXmlEnable;
 
 extern void destroy_lua_wpn_params	();
 
@@ -130,4 +132,6 @@ void clean_game_globals()
 	xr_delete										(g_uiSpotXml);
 	dump_list_xmls									();
 	DestroyUIGeom									();
+	if (SOCScopesXmlEnable)
+		xr_delete										(pWpnScopeXml);
 }

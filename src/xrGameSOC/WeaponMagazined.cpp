@@ -15,6 +15,19 @@
 #include "level.h"
 #include "object_broker.h"
 #include "string_table.h"
+#include "ui\UIXmlInit.h"
+#include "ui\UIWindow.h"
+
+CUIXml* pWpnScopeXml = NULL;
+
+void createWpnScopeXML()
+{
+	if (!pWpnScopeXml)
+	{
+		pWpnScopeXml = xr_new<CUIXml>();
+		pWpnScopeXml->Load(CONFIG_PATH, UI_PATH, "scopes.xml");
+	}
+}
 
 CWeaponMagazined::CWeaponMagazined(LPCSTR name, ESoundTypes eSoundType) : CWeapon(name)
 {
@@ -887,11 +900,23 @@ void CWeaponMagazined::InitAddons()
 			scope_tex_name = pSettings->r_string(*m_sScopeName, "scope_texture");
 			m_fScopeZoomFactor = pSettings->r_float	(*m_sScopeName, "scope_zoom_factor");
 			
-			if(m_UIScope) xr_delete(m_UIScope);
-			m_UIScope = xr_new<CUIStaticItem>();
+			if (SOCScopesXmlEnable)
+			{
+				if (m_UIScopeNew)
+					xr_delete(m_UIScopeNew);
 
-			m_UIScope->Init(*scope_tex_name, "hud\\default", 0, 0, alNone);
+				m_UIScopeNew = xr_new<CUIWindow>();
+				createWpnScopeXML();
+				CUIXmlInit::InitWindow(*pWpnScopeXml, scope_tex_name.c_str(), 0, m_UIScopeNew);
+			}
+			else
+			{
+				if (m_UIScope)
+					xr_delete(m_UIScope);
+				m_UIScope = xr_new<CUIStaticItem>();
 
+				m_UIScope->Init(*scope_tex_name, "hud\\default", 0, 0, alNone);
+			}
 		}
 		else if(m_eScopeStatus == ALife::eAddonPermanent)
 		{
@@ -899,21 +924,44 @@ void CWeaponMagazined::InitAddons()
 			shared_str scope_tex_name;
 			scope_tex_name = pSettings->r_string(cNameSect(), "scope_texture");
 
-			if(m_UIScope) xr_delete(m_UIScope);
-			m_UIScope = xr_new<CUIStaticItem>();
-			m_UIScope->Init(*scope_tex_name, "hud\\default", 0, 0, alNone);
+			if (SOCScopesXmlEnable)
+			{
+				m_UIScopeNew = xr_new<CUIWindow>();
+				if (!pWpnScopeXml)
+				{
+					pWpnScopeXml = xr_new<CUIXml>();
+					pWpnScopeXml->Load(CONFIG_PATH, UI_PATH, "scopes.xml");
+				}
+				CUIXmlInit::InitWindow(*pWpnScopeXml, scope_tex_name.c_str(), 0, m_UIScopeNew);
+			}
+			else
+			{
+				if (m_UIScope)
+					xr_delete(m_UIScope);
+				m_UIScope = xr_new<CUIStaticItem>();
+				m_UIScope->Init(*scope_tex_name, "hud\\default", 0, 0, alNone);
+			}
 
 		}
 	}
 	else
 	{
-		if(m_UIScope) xr_delete(m_UIScope);
+		if (SOCScopesXmlEnable)
+		{
+			if (m_UIScopeNew)
+				xr_delete(m_UIScopeNew);
+		}
+		else 
+		{
+			if(m_UIScope) 
+				xr_delete(m_UIScope);
+		}
 		
 		if(IsZoomEnabled())
 			m_fIronSightZoomFactor = pSettings->r_float	(cNameSect(), "scope_zoom_factor");
 	}
 
-	
+		
 
 	if(IsSilencerAttached() && SilencerAttachable())
 	{		

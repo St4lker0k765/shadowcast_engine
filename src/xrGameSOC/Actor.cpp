@@ -78,7 +78,6 @@ static Fvector	vFootExt;
 Flags32			psActorFlags={0};
 
 
-
 CActor::CActor() : CEntityAlive(), current_ik_cam_shift(0)
 {
 	encyclopedia_registry	= xr_new<CEncyclopediaRegistryWrapper	>();
@@ -828,17 +827,30 @@ void CActor::g_Physics(Fvector& _accel, float jump, float dt)
 	}
 }
 float g_fov = 67.5f;
+extern bool SOCScopesXmlEnable;
 
 float CActor::currentFOV()
 {
 	CWeapon* pWeapon = smart_cast<CWeapon*>(inventory().ActiveItem());	
 
-	if (eacFirstEye == cam_active && pWeapon &&
-		pWeapon->IsZoomed() && (!pWeapon->ZoomTexture() ||
-		(!pWeapon->IsRotatingToZoom() && pWeapon->ZoomTexture())))
-		return pWeapon->GetZoomFactor() * (0.75f);
+	if (SOCScopesXmlEnable)
+	{
+		if (eacFirstEye == cam_active && pWeapon &&
+			pWeapon->IsZoomed() && (!pWeapon->ZoomTextureNew() ||
+				(!pWeapon->IsRotatingToZoom() && pWeapon->ZoomTextureNew())))
+			return pWeapon->GetZoomFactor() * (0.75f);
+		else
+			return g_fov;
+	}
 	else
-		return g_fov;
+	{
+		if (eacFirstEye == cam_active && pWeapon &&
+			pWeapon->IsZoomed() && (!pWeapon->ZoomTexture() ||
+				(!pWeapon->IsRotatingToZoom() && pWeapon->ZoomTexture())))
+			return pWeapon->GetZoomFactor() * (0.75f);
+		else
+			return g_fov;
+	}
 }
 
 void CActor::UpdateCL	()

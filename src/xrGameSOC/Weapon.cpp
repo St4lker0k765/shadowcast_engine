@@ -29,6 +29,8 @@
 
 #define WEAPON_REMOVE_TIME		60000
 #define ROTATION_TIME			0.25f
+extern CUIXml* pWpnScopeXml;
+bool SOCScopesXmlEnable = READ_IF_EXISTS(pSCSettings, r_bool, "game_specific", "soc_enable_scopes_xml", false);
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -77,12 +79,16 @@ CWeapon::CWeapon(LPCSTR name)
 	m_ef_main_weapon_type	= static_cast<u32>(-1);
 	m_ef_weapon_type		= static_cast<u32>(-1);
 	m_UIScope				= nullptr;
+	m_UIScopeNew			= nullptr;
 	m_set_next_ammoType_on_reload = static_cast<u32>(-1);
 }
 
 CWeapon::~CWeapon		()
 {
-	xr_delete	(m_UIScope);
+	if (SOCScopesXmlEnable)
+		xr_delete	(m_UIScopeNew);
+	else
+		xr_delete	(m_UIScope);
 }
 
 void CWeapon::Hit(SHit* pHDS)
@@ -777,7 +783,7 @@ void CWeapon::renderable_Render		()
 	RenderLight				();	
 
 	//если мы в режиме снайперки, то сам HUD рисовать не надо
-	if(IsZoomed() && !IsRotatingToZoom() && ZoomTexture())
+	if(IsZoomed() && !IsRotatingToZoom() && (ZoomTexture() || ZoomTextureNew()))
 		m_bRenderHud = false;
 	else
 		m_bRenderHud = true;
@@ -1276,6 +1282,14 @@ CUIStaticItem* CWeapon::ZoomTexture()
 		return nullptr;
 }
 
+CUIWindow* CWeapon::ZoomTextureNew()
+{
+	if (UseScopeTexture())
+		return m_UIScopeNew;
+	else
+		return NULL;
+}
+
 void CWeapon::SwitchState(u32 S)
 {
 	if (OnClient()) return;
@@ -1535,11 +1549,20 @@ void CWeapon::modify_holder_params		(float &range, float &fov) const
 
 void CWeapon::OnDrawUI()
 {
-	if(IsZoomed() && ZoomHideCrosshair()){
-		if(ZoomTexture() && !IsRotatingToZoom()){
+	if(IsZoomed() && ZoomHideCrosshair())
+	{
+		if(ZoomTexture() && !IsRotatingToZoom())
+		{
 			ZoomTexture()->SetPos	(0,0);
 			ZoomTexture()->SetRect	(0,0,UI_BASE_WIDTH, UI_BASE_HEIGHT);
 			ZoomTexture()->Render	();
+
+//			m_UILens.Draw();
+		}
+		else if (ZoomTextureNew() && SOCScopesXmlEnable && !IsRotatingToZoom())
+		{ 
+			ZoomTextureNew()->Update();
+			ZoomTextureNew()->Draw();
 		}
 	}
 }
@@ -1607,7 +1630,7 @@ bool CWeapon::show_crosshair()
 
 bool CWeapon::show_indicators()
 {
-	return ! ( IsZoomed() && ZoomTexture() );
+	return ! ( IsZoomed() && (ZoomTexture() || ZoomTextureNew()) );
 }
 
 float CWeapon::GetConditionToShow	() const
