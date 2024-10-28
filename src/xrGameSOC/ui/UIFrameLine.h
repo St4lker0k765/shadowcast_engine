@@ -3,10 +3,10 @@
 //	Created by Roman E. Marchenko, vortex@gsc-game.kiev.ua
 //	Copyright 2004. GSC Game World
 //	---------------------------------------------------------------------------
-//  Класс аналогичный UIFrameRect за исключением того, что он предназначен для
-//	отображения затекстурированного узкого прямоуголника произвольной длинны или
-//	ширины. В качестве исходных материалов необходимо 3 текстуры: правая(нижняя),
-//	левая(верхняя) и центральная
+//  РљР»Р°СЃСЃ Р°РЅР°Р»РѕРіРёС‡РЅС‹Р№ UIFrameRect Р·Р° РёСЃРєР»СЋС‡РµРЅРёРµРј С‚РѕРіРѕ, С‡С‚Рѕ РѕРЅ РїСЂРµРґРЅР°Р·РЅР°С‡РµРЅ РґР»СЏ
+//	РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ Р·Р°С‚РµРєСЃС‚СѓСЂРёСЂРѕРІР°РЅРЅРѕРіРѕ СѓР·РєРѕРіРѕ РїСЂСЏРјРѕСѓРіРѕР»РЅРёРєР° РїСЂРѕРёР·РІРѕР»СЊРЅРѕР№ РґР»РёРЅРЅС‹ РёР»Рё
+//	С€РёСЂРёРЅС‹. Р’ РєР°С‡РµСЃС‚РІРµ РёСЃС…РѕРґРЅС‹С… РјР°С‚РµСЂРёР°Р»РѕРІ РЅРµРѕР±С…РѕРґРёРјРѕ 3 С‚РµРєСЃС‚СѓСЂС‹: РїСЂР°РІР°СЏ(РЅРёР¶РЅСЏСЏ),
+//	Р»РµРІР°СЏ(РІРµСЂС…РЅСЏСЏ) Рё С†РµРЅС‚СЂР°Р»СЊРЅР°СЏ
 //=============================================================================
 
 #ifndef UI_FRAME_LINE_H_
@@ -34,12 +34,15 @@ class CUIFrameLine: public CUICustomItem
 	{
 		flValidSize = 1
 	};
+public:
+	bool		bStretchTexture;
 
 protected:
 	float		iSize;
 	Fvector2	iPos;
 	u8			uFlags;
 	bool		bHorizontalOrientation;
+	Fvector2	m_parent_wnd_size;
 
 	void		UpdateSize		();
 public:
@@ -50,6 +53,7 @@ public:
 	IC void		SetPos			(float left, float top)		{ iPos.set(left,top);	uFlags &=~ flValidSize; }
 	IC void		SetSize			(float size)				{ iSize = size;			uFlags &=~ flValidSize; }
 	IC void		SetOrientation	(bool bIsHorizontal)	{ bHorizontalOrientation = bIsHorizontal; uFlags &=~ flValidSize; }
+	void		SetElementsRect	(CUIStaticItem& item,int idx);
 	void		Render			();
 };
 

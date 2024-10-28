@@ -6339,9 +6339,6 @@
     <ClInclude Include="ui\UIDialogWnd.h">
       <Filter>UI\UIWindows\Windows</Filter>
     </ClInclude>
-    <ClInclude Include="ui\UIFrameLineWnd.h">
-      <Filter>UI\UIWindows\Windows</Filter>
-    </ClInclude>
     <ClInclude Include="ui\UIFrameWindow.h">
       <Filter>UI\UIWindows\Windows</Filter>
     </ClInclude>
@@ -6665,6 +6662,9 @@
     </ClInclude>
     <ClInclude Include="WeaponMounted.h" />
     <ClInclude Include="ui\UILoadingScreen.h" />
+    <ClInclude Include="ui\UIFrameLineWnd.h">
+      <Filter>UI\UIWindows\Windows</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="damage_manager.cpp">
