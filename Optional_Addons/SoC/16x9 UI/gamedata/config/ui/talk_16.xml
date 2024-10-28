@@ -44,7 +44,7 @@
 
 
 	<question_item x="0" y="0" width="467" height="20" min_height="13">
-    <num_text x="0" y="3" width="8" height="20">
+    <num_text x="0" y="0" width="8" height="20">
       <text font="letterica18" r="255" g="232" b="208"/>
     </num_text>
 		<content_text x="15" y="0" width="445" height="20">

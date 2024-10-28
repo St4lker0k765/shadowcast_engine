@@ -236,7 +236,10 @@ void destroyEngine()
 
 void execUserScript()
 {
-    Console->Execute("default_controls");
+    if (!ShadowOfChernobylMode)
+        Console->Execute("default_controls");
+    else
+        Console->Execute("unbindall");
     Console->ExecuteScript(Console->ConfigFile);
 }
 

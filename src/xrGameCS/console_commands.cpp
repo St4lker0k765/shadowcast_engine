@@ -68,7 +68,7 @@ extern	u64		g_qwStartGameTime;
 extern	u64		g_qwEStartGameTime;
 
 ENGINE_API
-extern  float	psHUD_FOV_def; //--#SM+#-- Команда для смены FOV теперь меняет это [it's now used in hud_fov]
+extern  float	psHUD_FOV_def; //--#SM+#-- РљРѕРјР°РЅРґР° РґР»СЏ СЃРјРµРЅС‹ FOV С‚РµРїРµСЂСЊ РјРµРЅСЏРµС‚ СЌС‚Рѕ [it's now used in hud_fov]
 extern	float	psSqueezeVelocity;
 extern	int		psLUA_GCSTEP;
 
@@ -1324,6 +1324,14 @@ public:
 
 #include "GamePersistent.h"
 
+class CCC_UI_Reload : public IConsole_Command {
+public:
+	CCC_UI_Reload(LPCSTR N) : IConsole_Command(N) { bEmptyArgsHandled = TRUE; };
+	virtual void Execute(LPCSTR args) {
+		if (g_pGamePersistent && g_pGameLevel && Level().game)
+			HUD().OnScreenResolutionChanged(); // РїРµСЂРµР·Р°РіСЂСѓР¶Р°РµРј UI С‡РµСЂРµР· СЌС‚Сѓ РєРѕРјР°РЅРґСѓ
+	}
+};
 
 class CCC_MainMenu : public IConsole_Command {
 public:
@@ -1718,6 +1726,7 @@ void CCC_RegisterCommands()
 
 	CMD1(CCC_FlushLog,			"flush"					);		// flush log
 	CMD1(CCC_ClearLog,			"clear_log"					);
+	CMD1(CCC_UI_Reload, "ui_reload"); // РїРµСЂРµР·Р°РіСЂСѓР·РєР° UI
 
 #ifndef MASTER_GOLD
 	CMD1(CCC_ALifeTimeFactor,		"al_time_factor"		);		// set time factor
@@ -1743,7 +1752,7 @@ void CCC_RegisterCommands()
 	CMD3(CCC_Mask,				"hud_crosshair",		&psHUD_Flags,	HUD_CROSSHAIR);
 	CMD3(CCC_Mask,				"hud_crosshair_dist",	&psHUD_Flags,	HUD_CROSSHAIR_DIST);
 
-	CMD4(CCC_Float,				"g_hud_fov",			&psHUD_FOV_def,	0.1f,	1.0f) // [FFT++]: изменено в коллизии шокера
+	CMD4(CCC_Float,				"g_hud_fov",			&psHUD_FOV_def,	0.1f,	1.0f) // [FFT++]: РёР·РјРµРЅРµРЅРѕ РІ РєРѕР»Р»РёР·РёРё С€РѕРєРµСЂР°
 	CMD4(CCC_Float,				"fov",					&g_fov,			50.0f,	120.0f);
 
 	CMD1(CCC_Spawn_to_inventory, "g_spawn_to_inventory")
