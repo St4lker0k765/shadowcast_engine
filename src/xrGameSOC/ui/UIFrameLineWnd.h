@@ -23,8 +23,11 @@ public:
 	CUIStatic		UITitleText;
 	CUIStatic*		GetTitleStatic(){return &UITitleText;};
 
+	void SetStretchTexture	( bool bStretch )	{ m_bStretchTexture = bStretch; }
+	bool GetStretchTexture	() const			{ return m_bStretchTexture; }
 protected:
 	bool			bHorizontal;
 	bool			m_bTextureAvailable;
 	CUIFrameLine	UIFrameLine;	
+	bool			m_bStretchTexture;
 };

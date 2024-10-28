@@ -47,6 +47,9 @@ protected:
 	void		UpdateSize		();
 public:
 				CUIFrameLine	();
+
+	void		set_parent_wnd_size(Fvector2 const& size)	{ m_parent_wnd_size = size; }
+
 	void		Init			(LPCSTR base_name, float x, float y, float size, bool horizontal, DWORD align);
 	void		InitTexture		(const char* texture);
 	void		SetColor		(u32 cl);
