@@ -1,0 +1,38 @@
+[environment]
+; Переключите на false если хотите использовать положение солнца из погодного конфига, к примеру из мода Atmosfear
+dynamic_sun_dir = false
+
+; Направление для хода солнца, не работает если включен ход солнца по конфигам ( dynamic_sun_dir = false )
+sun_dir_azimuth = 0.0
+
+[hud_adj]
+_delta_pos = 0.000002
+_delta_rot = 0.000002
+
+[discord_rich_presence]
+;id = 1263598008340316263 ; ID для Discord Rich Presence. Если нужно изменить ID, раскомментировать строку. Стандартный ID для Shadowcast Engine - 1263598008340316263.
+;default_icon_large = shadowcast_engine_logo_rpc ; Стандартная иконка для Discord Rich Presence. Если нужно изменить, раскомментировать строку.
+
+[gameplay]
+use_hd_icons	   = false ; Включить иконки 100x100, если false, то используется 50x50
+
+[ui]
+enable_trackbar_scaling	   = false ; Уменьшение кнопки у ползунков в 2 раза. Полезно для модов с HD интерфейсом.
+
+[compatibility]
+; Режим совместимости: cop - Зов Припяти, cs - Чистое Небо, soc - Тень Чернобыля
+game_mode = soc
+
+[default_console_settings]
+rs_loadingstages = 1
+; for STCoP 3.5
+;g_hud_fov = 0.7
+
+[game_specific]
+; настройки, присутствующие только в определённой игре
+; cop - ЗП, cs - ЧН, soc - ТЧ
+cop_death_sound_enable = true ; включить озвучки смерти у НПС
+cop_square_minimap = false ; Использовать квадратную миникарту, как в ЧН
+cop_old_trackbar_texture = false ; Использовать старую текстуру ползунков из ЧН
+cs_use_new_weapon_misfire = false ; Использовать систему клина оружия из ЗП
+soc_enable_scopes_xml = true ; Включить поддержку scopes.xml из ЧН/ЗП

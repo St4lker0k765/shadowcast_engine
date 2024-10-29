@@ -1,0 +1,226 @@
+[wpn_desert_eagle]:identity_immunities
+GroupControlSection			= spawn_group
+discovery_dependency 		= 
+$spawn                   	= "weapons\Desert Eagle"					; option for Level Editor
+$npc			 			= on				; option for Level Editor
+$prefetch 					= 8
+scheduled            		= off              ; option for ALife Simulator
+cform                    	= skeleton
+class                    	= WP_PM
+min_radius               	= 5
+max_radius               	= 30
+description					= enc_weapons1_wpn-desert-eagle
+
+ef_weapon_type				= 5
+
+;-----------------------------------------------------------------------------------
+holder_range_modifier	= 1.0               ; во сколько раз увеличиваетс€ eye_range 
+holder_fov_modifier		= 1.0              ; во сколько раз увеличиваетс€ eye_fov
+;-----------------------------------------------------------------------------------
+
+cost					 	= 2500
+
+ammo_limit		 			= 120
+ammo_current		 		= 90
+ammo_elapsed		 		= 12
+
+ammo_mag_size		 		= 8
+ammo_class		 			= ammo_11.43x23_fmj, ammo_11.43x23_hydro
+
+
+hand_dependence		 		= 1
+single_handed				= 1
+
+slot 				 		= 1		; // primary
+animation_slot		 		= 1		; type of the animation that will be used
+
+inv_name					= wp_desert_eagle
+inv_name_short				= wp_desert_eagle
+inv_weight				= 1.7
+
+inv_grid_width				= 2
+inv_grid_height				= 1
+inv_grid_x					= 14
+inv_grid_y					= 8
+
+kill_msg_x			= 194
+kill_msg_y			= 123
+kill_msg_width		= 46
+kill_msg_height		= 27
+
+;-----------------------------------------------------------------------------------
+;базова€ дисперси€
+fire_dispersion_base		= 0.2  ;угол (в градусах) базовой дисперсии оружи€ (оружи€ зажатого в тисках)
+control_inertion_factor		= 1.3f
+
+;отдача
+cam_relax_speed         	= 6.0	;скорость возврата в исходное положение
+cam_dispersion          	= 6.0	;увеличени€ угла (в градусах) с каждым выстрелом
+cam_dispersion_inc		= 0.0	;увеличениe cam_dispersion с каждым выстрелом
+cam_dispertion_frac		= 1.0	;ствол будет подыматьс€ на cam_dispersion*cam_dispertion_frac +- cam_dispersion*(1-cam_dispertion_frac)
+cam_max_angle			= 90.0	;максимальный угол отдачи
+cam_max_angle_horz		= 10.0	;(degree) maximum shot horizontal degree 
+cam_step_angle_horz		= 1.5	;(degree) size of step camera moved in horizontal position while shooting
+
+fire_dispersion_condition_factor = 5	;увеличение дисперсии в процентах при максимальном износе 
+misfire_probability 		= 0.003	;веро€тность осечки при максимальном износе
+misfire_condition_k			= 0.05 
+condition_shot_dec 			= 0.0003 ;увеличение износа при каждом выстреле
+;-----------------------------------------------------------------------------------
+
+direction                	= 0, 0, 1
+fire_point			= -0.005000,0.130000,0.220000
+
+flame_particles		   		= weapons\generic_weapon05
+smoke_particles		   		= weapons\generic_shoot_00
+rpm_empty_click 	 		= 200
+
+shell_point		 			= 0.0, 0.133, 0.06
+shell_dir		 			= 0.0, 0.0, 0.4
+shell_particles	 			= weapons\generic_shells
+
+PDM_disp_base 			= 1.0
+PDM_disp_vel_factor 		= 1.1
+PDM_disp_accel_factor 		= 1.1
+PDM_crouch	 		= 1.0
+PDM_crouch_no_acc 		= 1.0
+
+; ttc
+hit_power           = 0.50, 0.54, 0.57, 0.60
+hit_impulse		 	= 140
+hit_type 			= fire_wound
+
+fire_distance       = 100
+bullet_speed		= 400			
+rpm                 = 200
+; end ttc
+
+use_aim_bullet				= true		;ѕоддерживаетс€ ли перва€ суппер пул€
+time_to_aim					= 1.0	
+
+silencer_hit_power       	= 0.65
+silencer_hit_impulse	 	= 60
+silencer_fire_distance   	= 100
+silencer_bullet_speed	 	= 250
+
+hud                      	= wpn_desert_eagle_hud
+normal                   	= 0, 1, 0
+position                 	= -0.021, -0.09, 0.0
+orientation              	= 0, 0, 0
+
+;--STRAP PARAMETERS-----------------------------------------------------------------
+;strap_position         		= -0.1,-0.45,0.2			; position (offset) and orientation of the weapon when it is strapped
+;strap_orientation      		= 1.57,0,0						; (3rd person view)
+;strap_bone0					= bip01_spine2
+;strap_bone1					= bip01_spine1
+
+startup_ammo             	= 90
+visual                   	= weapons\desert_eagle\wpn_desert_eagle.ogf
+
+light_color		 			= 0.6,0.5,0.3
+light_range		 			= 3.0
+light_var_color		 		= 0.05
+light_var_range		 		= 0.5
+light_time 		 			= 0.2
+
+ph_mass			 			= 1
+;cost			 			= 350
+
+;addons
+scope_status				= 0
+silencer_status				= 2
+grenade_launcher_status		= 0
+
+zoom_enabled				= true
+scope_zoom_factor	   		= 55
+
+;ІҐг™®
+snd_draw					= weapons\fort_draw
+snd_holster					= weapons\generic_holster
+snd_shoot					= weapons\t_desert_eagle_shot     ;pm_shoot ;fort_shoot
+snd_empty					= weapons\pistol_empty
+snd_reload					= weapons\pm_reload, 0.8
+snd_close					= weapons\generic_close
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; silencer
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+silencer_name  				= wpn_addon_silencer		; section name for the attachable silencer
+silencer_x 					= 77						; offset in inventory icon
+silencer_y 					= -17					
+
+;params when silencer is attached 
+;similar to corresponding params without prefix silencer_
+
+;silencer_flame_particles 	= weapons\generic_weapon01
+silencer_smoke_particles 	= weapons\generic_shoot_00
+snd_silncer_shot			= weapons\w_ak74_shot1 
+silencer_light_color		= 0.6,0.5,0.3
+silencer_light_range		= 0.01
+silencer_light_var_color	= 0.05
+silencer_light_var_range	= 0.5
+silencer_light_time 		= 0.2
+
+[wpn_desert_eagle_hud]
+zoom_hide_crosshair			= true
+
+
+;hands_position				= -0.021000,-0.160000,0.002500
+;hands_orientation			= -0.500000,1.000000,1.149999
+;hands_position_16x9				= 0.033000,-0.189500,0.039000
+;hands_orientation_16x9			= 2.349998,2.749999,2.849998
+
+hands_position				= -0.021000,-0.160000,0.002500
+hands_orientation			= -0.350000,0.650000,0.849999
+hands_position_16x9				= -0.010000,-0.176500,0.039000
+hands_orientation_16x9			= -1.500000,0.800000,2.449998
+
+item_position					= 0.000746,-0.000321,0.003479
+item_orientation				= 1.239378,-0.134046,-2.052052
+
+item_visual             	= dynamics\weapons\wpn_desert_eagle\wpn_desert_eagle_hud.ogf
+attach_place_idx				= 0
+
+shell_point						= 0.021,0.057,0.456
+shell_bone              	= wpn_body
+
+fire_point			= 0,0.048,0.222
+fire_bone               	= wpn_body
+
+anm_show					= desert_eagle_draw
+anm_show_empty				= desert_eagle_draw, desert_eagle_opened
+
+anm_hide             		= desert_eagle_holster
+anm_hide_empty         		= desert_eagle_holster, desert_eagle_opened
+
+anm_idle             		= desert_eagle_idle
+anm_idle_empty         		= desert_eagle_idle, desert_eagle_opened
+
+anm_shots					= desert_eagle_shoot
+anm_shot_l					= desert_eagle_shoot, desert_eagle_open
+
+anm_idle_aim				= desert_eagle_idle_aim
+anm_idle_aim_empty			= desert_eagle_idle_aim, desert_eagle_opened
+
+anm_reload					= desert_eagle_reload
+anm_reload_empty			= desert_eagle_reload, desert_eagle_close
+
+anm_idle_moving 			= desert_eagle_idle_moving
+anm_idle_moving_empty		= desert_eagle_idle_moving, desert_eagle_opened
+anm_idle_sprint				= desert_eagle_idle_sprint
+anm_idle_sprint_empty		= desert_eagle_idle_sprint, desert_eagle_opened
+anm_bore					= desert_eagle_idle_bore
+anm_bore_empty				= desert_eagle_idle_bore, desert_eagle_opened
+
+aim_hud_offset_pos				= -0.104500,0.015500,-0.063500
+aim_hud_offset_rot				= -0.022500,0.007500,-0.035000
+
+gl_hud_offset_pos				= 0,0,0
+gl_hud_offset_rot				= 0,0,0
+
+lean_hud_offset_pos			= 0,0,0
+lean_hud_offset_rot			= 0,0,0
+
+aim_hud_offset_pos_16x9				= -0.120501,0.033000,0.000000
+aim_hud_offset_rot_16x9				= -0.017500,-0.010000,-0.010000

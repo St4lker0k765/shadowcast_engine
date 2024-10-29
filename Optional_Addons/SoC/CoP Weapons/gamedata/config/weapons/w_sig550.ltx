@@ -1,0 +1,302 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[wpn_sig550]:identity_immunities
+GroupControlSection		= spawn_group
+discovery_dependency	= 
+$spawn              	= "weapons\sig550"		; option for Level Editor
+$npc					= on				; option for Level Editor
+$prefetch 				= 8
+scheduled				= off				; option for ALife Simulator
+cform               	= skeleton
+class               	= WP_AK74
+min_radius          	= 30
+max_radius          	= 100
+description				= enc_weapons1_wpn-sig550
+	
+ef_main_weapon_type		= 2
+ef_weapon_type			= 6
+
+;-----------------------------------------------------------------------------------
+holder_range_modifier	= 1.0		       ; во сколько раз увеличивается eye_range 
+holder_fov_modifier		= 0.7              ; во сколько раз увеличивается eye_fov
+;-----------------------------------------------------------------------------------
+
+
+cost					= 6500
+weapon_class			= assault_rifle	; Type of the weapon
+	
+ammo_limit				= 210
+ammo_current			= 180
+ammo_elapsed			= 30
+	
+ammo_mag_size			= 30
+ammo_class				= ammo_5.56x45_ss190, ammo_5.56x45_ap
+grenade_class			= ammo_m209
+fire_modes				= 1, -1
+launch_speed			= 0
+hand_dependence			= 1
+single_handed			= 0	
+
+slot 					= 2		; // secondary
+animation_slot			= 2		; type of the animation that will be used
+
+inv_name	        	= wpn-sig550
+inv_name_short			= wpn-sig550
+inv_weight				= 4.0
+
+inv_grid_width			= 5
+inv_grid_height			= 2
+inv_grid_x				= 5
+inv_grid_y				= 7
+
+kill_msg_x			= 80
+kill_msg_y			= 59
+kill_msg_width		= 87
+kill_msg_height		= 24
+
+;-----------------------------------------------------------------------------------
+;базовая дисперсия
+fire_dispersion_base		= 0.13	;угол (в градусах) базовой дисперсии оружия (оружия зажатого в тисках)
+control_inertion_factor		= 1.4f
+
+;отдача
+cam_relax_speed        		= 5.2;0.25	;скорость возврата в исходное положение
+cam_dispersion         		= 0.25	;увеличения угла (в градусах) с каждым выстрелом
+cam_dispersion_inc		= 0.1	;увеличениe cam_dispersion с каждым выстрелом
+cam_dispertion_frac		= 1.0	;ствол будет подыматься на cam_dispersion*cam_dispertion_frac +- cam_dispersion*(1-cam_dispertion_frac)
+cam_max_angle			= 8.2	;максимальный угол отдачи
+cam_max_angle_horz		= 6.0	;(degree) maximum shot horizontal degree 
+cam_step_angle_horz		= 0.5;0.4	;(degree) size of step camera moved in horizontal position while shooting
+
+fire_dispersion_condition_factor = 5	;увеличение дисперсии в процентах при максимальном износе 
+misfire_probability 		= 0.003	;вероятность осечки при максимальном износе 
+misfire_condition_k			= 0.05
+condition_shot_dec 			= 0.0002 ;увеличение износа при каждом выстреле
+
+direction              		=  0, 0, 1
+fire_point			= 0.000000,0.137000,0.649000
+fire_point2            		=  0.0, 0.097, 0.722
+
+flame_particles				= weapons\generic_weapon05
+smoke_particles				= weapons\generic_shoot_00
+grenade_flame_particles		= weapons\generic_weapon01
+	
+shell_point			= -0.020000,0.167000,0.082000
+shell_dir		 			= 0.0, 0.0, 0.4
+shell_particles	 			= weapons\generic_shells
+
+rpm_empty_click 	 		= 200
+
+PDM_disp_base 			= 1.0
+PDM_disp_vel_factor 		= 1.45
+PDM_disp_accel_factor 		= 1.45
+PDM_crouch	 		= 1.0
+PDM_crouch_no_acc 		= 1.0
+
+; ttc
+hit_power        	= 0.48, 0.52, 0.55, 0.58
+hit_impulse		 	= 140
+hit_type 			= fire_wound
+
+fire_distance           = 1000
+bullet_speed			= 970	;начальная скорость пули
+rpm                     = 700
+; end ttc
+
+use_aim_bullet				= true		;Поддерживается ли первая суппер пуля
+time_to_aim					= 1.0	
+
+hud                      	= wpn_sig550_hud
+normal                   	= 0, 1, 0
+
+;----------------------------------------------------------
+position         	        = -0.026, -0.097, 0.0
+orientation      	        = 0, 0, 0
+
+;--STRAP PARAMETERS-----------------------------------------------------------------
+;под мишкой
+strap_position         		= -0.26,-0.11,0.25			; position (offset) and orientation of the weapon when it is strapped
+strap_orientation      		= -15,-9,110				; (3rd person view in degrees)
+strap_bone0					= bip01_spine2
+strap_bone1					= bip01_spine1
+
+startup_ammo   		        = 90
+visual         		        = weapons\sig550\wpn_sig550.ogf
+	
+light_color					= 0.6,0.5,0.3
+light_range					= 5
+light_var_color				= 0.05
+light_var_range				= 0.5
+light_time 					= 0.2
+
+ph_mass						= 4
+;cost						= 2100
+
+;addons
+scope_status				= 0;2
+silencer_status				= 0;2
+grenade_launcher_status		= 2
+
+zoom_enabled				= true						; (on,off)zoom mode (right mouse button)
+scope_zoom_factor	    	= 50						; fov for zoom mode
+
+;zoom_enabled				= true
+;scope_zoom_factor	    	= 15		;SUSAT 4X
+;scope_texture				= wpn_crosshair_l85
+
+scope_name 					= wpn_addon_scope_susat
+scope_x 					= 78
+scope_y 					= 0
+silencer_name  				= wpn_addon_silencer
+silencer_x 					= 221
+silencer_y 					= 16
+grenade_launcher_name 		= wpn_addon_grenade_launcher_m203
+grenade_launcher_x 			= 109
+grenade_launcher_y 			= 30
+
+;звуки
+snd_draw					= weapons\ak74_draw
+snd_holster					= weapons\generic_holster
+snd_shoot					= weapons\t_sig550_shot      ;test_shoot ;was ak74_shoot
+snd_empty					= weapons\gen_empty, 0.5
+snd_reload					= weapons\sig550_reload, 0.7, 0.35
+snd_shoot_grenade			= weapons\gen_grenshoot
+snd_reload_grenade			= weapons\gen_grenload, 1.0, 0.8
+snd_switch					= weapons\groza_switch, 1.0, 0.5
+
+
+;настройки для глушителя
+silencer_hit_power       	= 0.48
+silencer_hit_impulse	 	= 120
+silencer_fire_distance   	= 250
+silencer_bullet_speed	 	= 600
+
+;silencer_flame_particles 	= weapons\generic_weapon01
+silencer_smoke_particles 	= weapons\generic_shoot_00
+
+snd_silncer_shot			= weapons\w_ak74_shot1 
+
+silencer_light_color		= 0.6,0.5,0.3
+silencer_light_range		= 0.01
+silencer_light_var_color	= 0.05
+silencer_light_var_range	= 0.5
+silencer_light_time 		= 0.2
+
+
+[wpn_sig550_hud]
+zoom_hide_crosshair	= true
+attach_place_idx	= 0
+item_visual		= dynamics\weapons\wpn_sig550\wpn_sig550_hud
+
+hands_position			= -0.050000,-0.151000,0.092500
+hands_orientation		= -0.500000,-0.750000,-2.000000
+
+hands_position_16x9     = -0.044000,-0.156000,0.100000
+hands_orientation_16x9  = -0.500000,1.000000,-2.000000
+
+item_position		= 0.002866,-0.006395,0.000780
+item_orientation	= 0.642900,0.520562,361.843872
+
+shell_point		= 0.028,0.075,0.156
+shell_dir       = 0.0, 1.0, 0.0
+shell_bone		= wpn_body
+
+fire_point		= 0,0.056,0.746
+fire_bone      	= wpn_body
+fire_point2		= 0.0,-0.028,0.678
+fire_bone2		= wpn_body
+
+anm_show             	= sig550_draw
+anm_hide             	= sig550_holster
+anm_idle             	= sig550_idle
+anm_idle_sprint         = sig550_idle_sprint
+anm_idle_moving 	= sig550_idle_moving
+anm_shots               = sig550_shoot
+anm_reload              = sig550_reload
+anm_idle_aim           	= sig550_idle_aim
+
+anm_switch              = sig550_switch_off
+anm_switch_g            = sig550_switch_on
+anm_bore		= sig550_idle_bore
+
+anm_hide_w_gl           = sig550_holster_w_gl
+anm_show_w_gl           = sig550_draw_w_gl
+anm_idle_w_gl           = sig550_idle_w_gl
+anm_shots_w_gl          = sig550_shoot_w_gl
+anm_reload_w_gl         = sig550_reload_w_gl
+anm_idle_w_gl_aim       = sig550_idle_w_gl_aim
+anm_idle_sprint_w_gl	= sig550_idle_sprint_w_gl
+anm_idle_moving_w_gl	= sig550_idle_moving_w_gl
+anm_bore_w_gl		= sig550_idle_bore_w_gl
+
+anm_show_g         	= sig550_draw_grenade
+anm_hide_g         	= sig550_holster_grenade
+anm_idle_g         	= sig550_idle_grenade
+anm_reload_g       	= sig550_reload_grenade
+anm_idle_g_aim     	= sig550_idle_grenade
+anm_shots_g        	= sig550_shoot_grenade
+anm_idle_sprint_g	= sig550_idle_sprint_grenade
+anm_idle_moving_g	= sig550_idle_moving_grenade
+anm_bore_g		= sig550_idle_bore_grenade
+
+;aim_hud_offset_pos				= -0.112000,0.034000,-0.018000
+;aim_hud_offset_rot				= 0.017500,0.002500,-0.010000
+
+aim_hud_offset_pos				= -0.106000,0.025000,-0.047000
+aim_hud_offset_rot				= -0.015000,0.002500,-0.010000
+
+
+aim_hud_offset_pos_16x9				= -0.112000,0.031500,0.000500
+aim_hud_offset_rot_16x9				= 0.015000,0.002500,-0.010000
+
+gl_hud_offset_pos	= 0,0,0
+gl_hud_offset_rot	= 0,0,0
+;gl_hud_offset_pos	= -0.053000,-0.059000,0.000000
+;gl_hud_offset_rot	= -0.145000,0.000000,0.000000
+
+gl_hud_offset_pos_16x9	= 0,0,0
+gl_hud_offset_rot_16x9	= 0,0,0
+
+lean_hud_offset_pos	= 0,0,0
+lean_hud_offset_rot	= 0,0,0
+
+[scope_susat_sig]
+scope_name 					= wpn_addon_scope_susat
+scope_x                 = 78
+scope_y                 = 0
+
+[scope_susat_x1.6_sig]
+scope_name 					= wpn_addon_scope_susat_x1.6
+scope_x                 = 78
+scope_y                 = 0
+
+[scope_susat_custom_sig]
+scope_name 					= wpn_addon_scope_susat_custom
+scope_x                 = 78
+scope_y                 = 0
+
+[scope_susat_dusk_sig]
+scope_name 					= wpn_addon_scope_susat_dusk
+scope_x                 = 78
+scope_y                 = 0
+
+[scope_susat_night_sig]
+scope_name 					= wpn_addon_scope_susat_night
+scope_x                 = 78
+scope_y                 = 0
+
+;-----------------------------------------------------------------------------
+; Уникальные
+;-----------------------------------------------------------------------------
+
+[wpn_sig550_luckygun]:wpn_sig550
+$spawn                  = "weapons\wpn_sig550_luckygun"
+description             = st_wpn_sig550_strelok_descr
+inv_name                = st_wpn_sig550_strelok
+
+hit_power				= 0.4, 0.4, 0.4, 0.4
+hit_impulse				= 125
+
+scope_status            = 2
+silencer_status			= 2
+
+cost 					= 10000
