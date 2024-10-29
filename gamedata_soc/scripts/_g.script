@@ -1134,6 +1134,7 @@ function abort(fmt, ...)
 	local reason = string.format(fmt, ...)
 	assert("ERROR: " .. reason)
 	printf("ERROR: " .. reason)
+	-- Removed printf("%s") in Shadowcast Engine
 --	printf("%s")
 end
 
@@ -1254,6 +1255,9 @@ function start_game_callback()
 	treasure_manager.clear_treasure_manager()
 	xr_sound.clear_all_sound_object()
 	dialog_manager.fill_phrase_table()	
+	-- Shadowcast Engine Start
+	xr_s.init()
+	-- Shadowcast Engine End
 end
 
 ammo_section = {}
