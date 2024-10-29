@@ -121,11 +121,12 @@ const shared_str CParticlesObject::Name()
 }
 
 //----------------------------------------------------
-void CParticlesObject::Play		(bool)
+void CParticlesObject::Play		(bool hudMode)
 {
 	if(g_dedicated_server)		return;
 
 	IParticleCustom* V			= smart_cast<IParticleCustom*>(renderable.visual); VERIFY(V);
+	V->SetHudMode				(hudMode);
 	V->Play						();
 	dwLastTime					= Device.dwTimeGlobal-33ul;
 	mt_dt						= 0;

@@ -23,9 +23,15 @@
 #include "CharacterPhysicsSupport.h"
 #include "InventoryBox.h"
 #include "../xrEngine/xr_input.h"
+#include "player_hud.h"
+#include "HudItem.h"
+extern int g_bHudAdjustMode;
 
 void CActor::IR_OnKeyboardPress(int cmd)
 {
+	if (g_bHudAdjustMode)
+		return;
+
 	if (Remote())		return;
 
 //	if (conditions().IsSleeping())	return;
@@ -175,6 +181,12 @@ void CActor::IR_OnKeyboardPress(int cmd)
 }
 void CActor::IR_OnMouseWheel(int direction)
 {
+	if (g_bHudAdjustMode)
+	{
+		g_player_hud->tune(Ivector().set(0, 0, direction));
+		return;
+	}
+
 	if(inventory().Action( (direction>0)? kWPN_ZOOM_DEC:kWPN_ZOOM_INC , CMD_START)) return;
 
 
@@ -185,6 +197,9 @@ void CActor::IR_OnMouseWheel(int direction)
 }
 void CActor::IR_OnKeyboardRelease(int cmd)
 {
+	if (g_bHudAdjustMode)
+		return;
+
 	if (Remote())		return;
 
 //	if (conditions().IsSleeping())	return;
@@ -213,6 +228,9 @@ void CActor::IR_OnKeyboardRelease(int cmd)
 
 void CActor::IR_OnKeyboardHold(int cmd)
 {
+	if (g_bHudAdjustMode)
+		return;
+
 	if (Remote() || !g_Alive())					return;
 //	if (conditions().IsSleeping())				return;
 	if (m_input_external_handler && !m_input_external_handler->authorized(cmd))	return;
@@ -276,6 +294,16 @@ void CActor::IR_OnKeyboardHold(int cmd)
 
 void CActor::IR_OnMouseMove(int dx, int dy)
 {
+	if (g_bHudAdjustMode)
+	{
+		g_player_hud->tune(Ivector().set(dx, dy, 0));
+		return;
+	}
+
+	PIItem iitem = inventory().ActiveItem();
+	if (iitem && iitem->cast_hud_item())
+		iitem->cast_hud_item()->ResetSubStateTime();
+
 	if (Remote())		return;
 //	if (conditions().IsSleeping())	return;
 

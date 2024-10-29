@@ -30,6 +30,7 @@
 #include "trade_parameters.h"
 #include "clsid_game.h"
 #include "MainMenu.h"
+#include "player_hud.h"
 
 #include <functional>
 
@@ -181,10 +182,14 @@ CLevel::CLevel():IPureClient	(Device.GetTimerGlobal())
 	}
 	*/
 	//---------------------------------------------------------	
+
+	g_player_hud = xr_new<player_hud>();
+	g_player_hud->load_default();
 }
 
 CLevel::~CLevel()
 {
+	xr_delete					(g_player_hud);
 //	g_pGameLevel		= NULL;
 	Msg							("- Destroying level");
 

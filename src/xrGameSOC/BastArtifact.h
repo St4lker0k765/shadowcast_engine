@@ -34,6 +34,9 @@ public:
 
 	virtual bool Useful() const;
 
+	virtual void	Hide() {};
+	virtual void	Show() {};
+
 
 	virtual void feel_touch_new	(CObject* O);
 	virtual void feel_touch_delete	(CObject* O);

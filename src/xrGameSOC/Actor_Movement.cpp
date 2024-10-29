@@ -15,6 +15,7 @@
 #include "game_cl_base.h"
 #include "WeaponMagazined.h"
 #include "CharacterPhysicsSupport.h"
+#include "player_hud.h"
 #ifdef DEBUG
 #include "phdebug.h"
 #endif
@@ -574,6 +575,11 @@ void CActor::StopAnyMove()
 {
 	mstate_wishful	&=		~mcAnyMove;
 	mstate_real		&=		~mcAnyMove;
+
+	if (this == Level().CurrentViewEntity())
+	{
+		g_player_hud->OnMovementChanged((EMoveCommand)0);
+	}
 }
 
 

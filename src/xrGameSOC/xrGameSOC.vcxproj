@@ -427,6 +427,7 @@
     <ClInclude Include="damage_manager.h" />
     <ClInclude Include="damage_manager_inline.h" />
     <ClInclude Include="DamageSource.h" />
+    <ClInclude Include="player_hud.h" />
     <ClInclude Include="script_crandom.h" />
     <ClInclude Include="UIFontDefines.h" />
     <ClInclude Include="ui\UIHelper.h" />
@@ -1396,7 +1397,6 @@
     <ClInclude Include="WeaponFORT.h" />
     <ClInclude Include="WeaponRG6.h" />
     <ClInclude Include="weaponBM16.h" />
-    <ClInclude Include="WeaponHUD.h" />
     <ClInclude Include="WeaponMounted.h" />
     <ClInclude Include="WeaponStatMgun.h" />
     <ClInclude Include="Artifact.h" />
@@ -1860,6 +1860,8 @@
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
     <ClCompile Include="IKFoot.cpp" />
+    <ClCompile Include="player_hud.cpp" />
+    <ClCompile Include="player_hud_tune.cpp" />
     <ClCompile Include="script_action_wrapper.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch_script.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pch_script.h</PrecompiledHeaderFile>
@@ -5066,7 +5068,6 @@
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
-    <ClCompile Include="WeaponHUD.cpp" />
     <ClCompile Include="WeaponMounted.cpp" />
     <ClCompile Include="WeaponStatMgun.cpp" />
     <ClCompile Include="WeaponStatMgunFire.cpp" />

@@ -65,7 +65,9 @@ bool CBolt::Useful() const
 
 bool CBolt::Action(s32 cmd, u32 flags) 
 {
-	return inherited::Action(cmd, flags);
+	if (inherited::Action(cmd, flags))
+		return true;
+	return false;
 }
 
 void CBolt::Destroy()

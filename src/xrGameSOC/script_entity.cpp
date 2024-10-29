@@ -28,6 +28,8 @@
 #include "movement_manager.h"
 #include "script_callback_ex.h"
 #include "game_object_space.h"
+#include "../Include/xrRender/KinematicsAnimated.h"
+#include "../Include/xrRender/animation_blend.h"
 
 void __stdcall ActionCallback(IKinematics *tpKinematics);
 

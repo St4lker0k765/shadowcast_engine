@@ -25,6 +25,8 @@ public:
 	virtual BOOL net_Spawn			(CSE_Abstract* DC);
 
 	virtual void Load				(LPCSTR section);
+	virtual void	Hide() {};
+	virtual void	Show() {};
 
 	virtual	void Hit				(SHit* pHDS);
 
