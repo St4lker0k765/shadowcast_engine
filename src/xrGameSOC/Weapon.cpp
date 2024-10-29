@@ -1511,15 +1511,15 @@ void CWeapon::UpdateHudAdditonal		(Fmatrix& trans)
 	clamp(idx, 0ui8, 1ui8);
 
 	// Рассчитываем фактор боковой ходьбы
-	float fStrafeMaxTime = /*hi->m_measures.*/m_strafe_offset[2][idx].y; // Макс. время в секундах, за которое мы наклонимся из центрального положения
+	float fStrafeMaxTime = m_strafe_offset[2][idx].y; // Макс. время в секундах, за которое мы наклонимся из центрального положения
 	if (fStrafeMaxTime <= EPS)
 		fStrafeMaxTime = 0.01f;
 
 	float fStepPerUpd = Device.fTimeDelta / fStrafeMaxTime; // Величина изменение фактора поворота
 
-	u32 iMovingState = pActor->MovingState();
+/*	u32 iMovingState = pActor->MovingState();
 	if ((iMovingState & mcLStrafe) != 0)
-	{ // Движемся влево
+ { // Движемся влево
 		float fVal = (m_fLR_MovingFactor > 0.f ? fStepPerUpd * 3 : fStepPerUpd);
 		m_fLR_MovingFactor -= fVal;
 	}
@@ -1528,7 +1528,7 @@ void CWeapon::UpdateHudAdditonal		(Fmatrix& trans)
 		float fVal = (m_fLR_MovingFactor < 0.f ? fStepPerUpd * 3 : fStepPerUpd);
 		m_fLR_MovingFactor += fVal;
 	}
-	else
+	else*/
 	{ // Двигаемся в любом другом направлении
 		if (m_fLR_MovingFactor < 0.0f)
 		{

@@ -82,14 +82,18 @@ struct hud_item_measures
 		float m_pitch_offset_n;
 		float m_pitch_offset_d;
 		float m_pitch_low_limit;
-		// отклонение модели от "курса" из за инерции во время движения
-		float m_origin_offset;
-		// отклонение модели от "курса" из за инерции во время движения с прицеливанием
-		float m_origin_offset_aim;
-		// скорость возврата худ модели в нужное положение
+		float m_origin_offset;      //<-- outdated
+		float m_origin_offset_aim;  //<-- outdated
 		float m_tendto_speed;
-		// скорость возврата худ модели в нужное положение во время прицеливания
 		float m_tendto_speed_aim;
+		float m_tendto_ret_speed;
+		float m_tendto_ret_speed_aim;
+
+		float m_min_angle;
+		float m_min_angle_aim;
+
+		Fvector4 m_offset_LRUD;
+		Fvector4 m_offset_LRUD_aim;
 	};
 	inertion_params m_inertion_params; //--#SM+#--	
 };
@@ -172,11 +176,11 @@ public:
 	u32 motion_length(const motion_descr& M, const CMotionDef*& md, float speed, IKinematicsAnimated* itemModel, attachable_hud_item* pi = nullptr);
 	u32 motion_length(const shared_str& anim_name, const shared_str& hud_name, const CMotionDef*& md);
 	void OnMovementChanged(ACTOR_DEFS::EMoveCommand cmd);
+	bool inertion_allowed();
 
 private:
 	void update_inertion(Fmatrix& trans);
 	void update_additional(Fmatrix& trans);
-	bool inertion_allowed();
 
 private:
 	shared_str m_sect_name;
