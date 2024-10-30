@@ -46,7 +46,7 @@ void CUIComboBox::InitComboBox(Fvector2 pos, float width)
 
 	// Edit Box on left side of frame line
 	m_text.SetWndPos					(Fvector2().set(lb_text_offset,0.0f));
-	m_text.SetWndSize					(Fvector2().set(width, CB_HEIGHT)); 
+	m_text.SetWndSize					(Fvector2().set(width-lb_text_offset, CB_HEIGHT)); 
 
 	m_text.SetVTextAlignment			(valCenter);
 	m_text.SetTextColor					(m_textColor[0]);
@@ -56,7 +56,7 @@ void CUIComboBox::InitComboBox(Fvector2 pos, float width)
 	float item_height					= CUITextureMaster::GetTextureHeight("ui_cb_listline_b");
 
 	m_list_box.SetWndPos				(Fvector2().set(lb_text_offset,0.0f));
-	m_list_box.SetWndSize				(Fvector2().set(width, item_height*m_iListHeight));
+	m_list_box.SetWndSize				(Fvector2().set(width-lb_text_offset, item_height*m_iListHeight));
 	m_list_box.Init			();
 	m_list_box.SetTextColor				(m_textColor[0]);
 	m_list_box.SetSelectionTexture		("ui_cb_listline");
