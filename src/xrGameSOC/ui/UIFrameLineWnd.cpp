@@ -109,3 +109,25 @@ void CUIFrameLineWnd::SetColor(u32 cl)
 {
 	UIFrameLine.SetColor(cl);
 }
+
+static Fvector2 pt_offset = { -0.5f, -0.5f };
+
+void draw_rect(Fvector2 LTp, Fvector2 RBp, Fvector2 LTt, Fvector2 RBt, u32 clr, Fvector2 const& ts)
+{
+	UI()->AlignPixel(LTp.x);
+	UI()->AlignPixel(LTp.y);
+	LTp.add(pt_offset);
+	UI()->AlignPixel(RBp.x);
+	UI()->AlignPixel(RBp.y);
+	RBp.add(pt_offset);
+	LTt.div(ts);
+	RBt.div(ts);
+
+	UIRender->PushPoint(LTp.x, LTp.y, 0, clr, LTt.x, LTt.y);
+	UIRender->PushPoint(RBp.x, RBp.y, 0, clr, RBt.x, RBt.y);
+	UIRender->PushPoint(LTp.x, RBp.y, 0, clr, LTt.x, RBt.y);
+
+	UIRender->PushPoint(LTp.x, LTp.y, 0, clr, LTt.x, LTt.y);
+	UIRender->PushPoint(RBp.x, LTp.y, 0, clr, RBt.x, LTt.y);
+	UIRender->PushPoint(RBp.x, RBp.y, 0, clr, RBt.x, RBt.y);
+}

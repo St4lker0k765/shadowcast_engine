@@ -43,6 +43,7 @@ public:
 	void			ClientToScreenScaled			(Fvector2& src_and_dest);
 	void			ClientToScreenScaledWidth		(float& src_and_dest);
 	void			ClientToScreenScaledHeight		(float& src_and_dest);
+	void			AlignPixel						(float& src_and_dest)	const;
 
 	Frect			ScreenRect						();
 	const C2DFrustum& ScreenFrustum					(){return (m_bPostprocess)?m_2DFrustumPP:m_2DFrustum;}

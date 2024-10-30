@@ -18,6 +18,7 @@ xr_map<shared_str, TEX_INFO>	CUITextureMaster::m_textures;
 #ifdef DEBUG
 u32									CUITextureMaster::m_time = 0;
 #endif
+xr_map<sh_pair, ui_shader>		CUITextureMaster::m_shaders;
 
 void CUITextureMaster::WriteLog(){
 #ifdef DEBUG
@@ -200,4 +201,20 @@ void CUITextureMaster::GetTextureShader(LPCSTR texture_name, ui_shader& sh){
 	R_ASSERT3(it != m_textures.end(), "can't find texture", texture_name);
 
 	sh->create("hud\\default", *((*it).second.file));	
+}
+
+void CUITextureMaster::InitTexture(const shared_str& texture_name, const shared_str& shader_name, ui_shader& out_shader, Frect& out_rect)
+{
+	xr_map<shared_str, TEX_INFO>::iterator it	= m_textures.find(texture_name);
+	if (it != m_textures.end())
+	{
+		sh_pair p={it->second.file, shader_name};
+		xr_map<sh_pair, ui_shader>::iterator sh_it = m_shaders.find(p);
+		if(sh_it==m_shaders.end())
+			m_shaders[p]->create(shader_name.c_str(), it->second.file.c_str());
+
+		out_shader			= m_shaders[p];
+		out_rect			= (*it).second.rect;
+	}else
+		out_shader->create	(shader_name.c_str(), texture_name.c_str());
 }

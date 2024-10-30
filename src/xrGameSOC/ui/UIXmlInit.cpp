@@ -110,38 +110,11 @@ bool CUIXmlInit::InitWindow(CUIXml& xml_doc, LPCSTR path,
 bool CUIXmlInit::InitFrameWindow(CUIXml& xml_doc, LPCSTR path, 
 									int index, CUIFrameWindow* pWnd)
 {
-	R_ASSERT3(xml_doc.NavigateToNode(path,index), "XML node not found", path);
+	R_ASSERT4		(xml_doc.NavigateToNode(path,index), "XML node not found", path, xml_doc.m_xml_file_name);
 
-
-	InitWindow(xml_doc, path, index, pWnd);
-	InitTexture(xml_doc, path, index, pWnd);
-
-	string256 buf;
-/*
-	strconcat(buf,path,":left_top_texture");
-	shared_str tex_name = xml_doc.Read(buf, index, NULL);
-
-	float x = xml_doc.ReadAttribFlt(buf, index, "x");
-	float y = xml_doc.ReadAttribFlt(buf, index, "y");
-
-	if(*tex_name) pWnd->InitLeftTop(*tex_name, x,y);
-
-
-	strconcat(buf,path,":left_bottom_texture");
-	tex_name = xml_doc.Read(buf, index, NULL);
-
-	x = xml_doc.ReadAttribFlt(buf, index, "x");
-	y = xml_doc.ReadAttribFlt(buf, index, "y");
-
-	if(*tex_name) pWnd->InitLeftBottom(*tex_name, x,y);
-*/
-	//инициализировать заголовок окна
-	strconcat(sizeof(buf),buf,path,":title");
-	if(xml_doc.NavigateToNode(buf,index)) InitStatic(xml_doc, buf, index, pWnd->UITitleText);
-	
-	pWnd->BringToTop	(pWnd->UITitleText);
-
-	return true;
+	InitTexture		(xml_doc, path, index, pWnd);
+	InitWindow		(xml_doc, path, index, pWnd);
+	return			true;
 }
 
 

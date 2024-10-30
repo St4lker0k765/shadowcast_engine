@@ -136,6 +136,12 @@ Frect ui_core::ScreenRect()
 	return R;
 }
 
+void ui_core::AlignPixel(float& src_and_dest)	const
+{
+//	if (m_currentPointType != IUIRender::pttLIT)
+		src_and_dest = (float)iFloor(src_and_dest);
+}
+
 void ui_core::PushScissor(const Frect& r_tgt, bool overlapped)
 {
 //.	return;
