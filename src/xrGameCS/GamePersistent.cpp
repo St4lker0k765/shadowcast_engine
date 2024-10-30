@@ -30,6 +30,7 @@
 #include "GameTask.h"
 #include "GametaskManager.h"
 #include "string_table.h"
+#include "ui/uitexturemaster.h"
 #include "../xrServerEntitiesCS/xrServer_Objects_ALife_Monsters.h"
 
 #ifdef DEBUG_MEMORY_MANAGER
@@ -512,6 +513,9 @@ void CGamePersistent::OnFrame	()
 	if(g_tutorial && !g_tutorial->IsActive()){
 		xr_delete(g_tutorial);
 	}
+
+	if (0 == Device.dwFrame % 200)
+		CUITextureMaster::FreeCachedShaders();
 
 #ifdef DEBUG
 	++m_frame_counter;

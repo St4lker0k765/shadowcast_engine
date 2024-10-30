@@ -20,6 +20,17 @@ u32									CUITextureMaster::m_time = 0;
 #endif
 xr_map<sh_pair, ui_shader>		CUITextureMaster::m_shaders;
 
+void CUITextureMaster::FreeTexInfo()
+{
+	m_textures.clear();
+	FreeCachedShaders();
+}
+
+void CUITextureMaster::FreeCachedShaders()
+{
+	m_shaders.clear();
+}
+
 void CUITextureMaster::WriteLog(){
 #ifdef DEBUG
 	Msg("UI texture manager work time is %d ms", m_time);

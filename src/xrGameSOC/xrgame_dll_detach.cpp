@@ -19,7 +19,7 @@
 #include "monster_community.h"
 #include "character_rank.h"
 #include "character_reputation.h"
-
+#include "ui/UITextureMaster.h"
 #include "profiler.h"
 
 #include "sound_collection_storage.h"
@@ -134,4 +134,5 @@ void clean_game_globals()
 	DestroyUIGeom									();
 	if (SOCScopesXmlEnable)
 		xr_delete										(pWpnScopeXml);
+	CUITextureMaster::FreeTexInfo					();
 }

@@ -22,6 +22,12 @@ xr_map<sh_pair, ui_shader>		CUITextureMaster::m_shaders;
 void CUITextureMaster::FreeTexInfo()
 {
 	m_textures.clear();
+	FreeCachedShaders();
+}
+
+void CUITextureMaster::FreeCachedShaders()
+{
+	m_shaders.clear();
 }
 
 void CUITextureMaster::ParseShTexInfo(LPCSTR xml_file)
