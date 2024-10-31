@@ -140,8 +140,17 @@ void CUITrackBar::Update()
 {
 	CUIWindow::Update();
 
+	if(m_b_mouse_capturer)
+	{
+		if(!pInput->iGetAsyncBtnState(0))
+			m_b_mouse_capturer = false;
+	}
+}
 
-	if (m_b_is_float)
+void CUITrackBar::SetCurrentOptValue()
+{
+	CUIOptionsItem::SetCurrentOptValue();
+	if(m_b_is_float)
 	{
 		float fake_min, fake_max;
 		if (!m_b_bound_already_set)
@@ -157,21 +166,6 @@ void CUITrackBar::Update()
 		else
 			GetOptIntegerValue(m_i_val, fake_min, fake_max);
 	}
-
-	if(m_b_mouse_capturer)
-	{
-		if(!pInput->iGetAsyncBtnState(0))
-			m_b_mouse_capturer = false;
-	}
-}
-
-void CUITrackBar::SetCurrentOptValue()
-{
-	CUIOptionsItem::SetCurrentOptValue();
-	if(m_b_is_float)
-		GetOptFloatValue	(m_f_val, m_f_min, m_f_max);
-	else
-		GetOptIntegerValue	(m_i_val, m_i_min, m_i_max);
 
 	UpdatePos			();
 }
