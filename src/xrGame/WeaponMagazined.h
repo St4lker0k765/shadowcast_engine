@@ -222,4 +222,7 @@ protected:
 										 u16 weapon_id,
 										 bool send_hit);
 
+	//Alundaio: LAYERED_SND_SHOOT
+	HUD_SOUND_COLLECTION_LAYERED m_layered_sounds;
+	//-Alundaio
 };

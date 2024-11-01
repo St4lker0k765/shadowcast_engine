@@ -3,6 +3,5 @@
 
 #include "stdafx.h"
 
-#pragma comment(lib, "dxerr")
 #pragma comment(lib, "ws2_32")
 #pragma comment(lib, "legacy_stdio_definitions")
