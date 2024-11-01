@@ -417,8 +417,6 @@ void hud_item_measures::load(const shared_str& sect_name, IKinematics* K)
 	else
 		m_hands_offset[m_hands_offset_rot][m_hands_offset_type_gl] = READ_IF_EXISTS(pSettings, r_fvector3, sect_name, val_name, Fvector{});
 
-
-	//ОГСР-специфичные параметры
 	if (pSettings->line_exist(sect_name, "scope_zoom_offset"))
 		m_hands_offset[m_hands_offset_pos][m_hands_offset_type_aim_scope] = pSettings->r_fvector3(sect_name, "scope_zoom_offset");
 
@@ -431,14 +429,15 @@ void hud_item_measures::load(const shared_str& sect_name, IKinematics* K)
 	if (pSettings->line_exist(sect_name, "scope_grenade_zoom_rotate_x") && pSettings->line_exist(sect_name, "scope_grenade_zoom_rotate_y"))
 		m_hands_offset[m_hands_offset_rot][m_hands_offset_type_gl_scope] = Fvector().set(pSettings->r_float(sect_name, "scope_grenade_zoom_rotate_x"), pSettings->r_float(sect_name, "scope_grenade_zoom_rotate_y"), 0.f);
 
-	if (pSettings->line_exist(sect_name, "grenade_normal_zoom_offset"))
+	// is it needed?
+/*	if (pSettings->line_exist(sect_name, "grenade_normal_zoom_offset"))
 		m_hands_offset[m_hands_offset_pos][m_hands_offset_type_aim_gl_normal] = pSettings->r_fvector3(sect_name, "grenade_normal_zoom_offset");
-	else
+	else*/
 		m_hands_offset[m_hands_offset_pos][m_hands_offset_type_aim_gl_normal] = m_hands_offset[m_hands_offset_pos][m_hands_offset_type_aim];
 
-	if (pSettings->line_exist(sect_name, "grenade_normal_zoom_rotate_x") && pSettings->line_exist(sect_name, "grenade_normal_zoom_rotate_y"))
+/*	if (pSettings->line_exist(sect_name, "grenade_normal_zoom_rotate_x") && pSettings->line_exist(sect_name, "grenade_normal_zoom_rotate_y"))
 		m_hands_offset[m_hands_offset_rot][m_hands_offset_type_aim_gl_normal] = Fvector().set(pSettings->r_float(sect_name, "grenade_normal_zoom_rotate_x"), pSettings->r_float(sect_name, "grenade_normal_zoom_rotate_y"), 0.f);
-	else
+	else*/
 		m_hands_offset[m_hands_offset_rot][m_hands_offset_type_aim_gl_normal] = m_hands_offset[m_hands_offset_rot][m_hands_offset_type_aim];
 
 	if (pSettings->line_exist(sect_name, "scope_grenade_normal_zoom_offset"))

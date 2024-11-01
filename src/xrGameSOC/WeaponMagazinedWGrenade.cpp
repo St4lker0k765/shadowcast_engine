@@ -649,11 +649,11 @@ void CWeaponMagazinedWGrenade::PlayAnimIdle()
 				{
 					act_state = 1;
 				}
-					if (Actor()->get_state() & ACTOR_DEFS::mcAnyMove)
-					{
-						if (!st.bCrouch)
-							act_state = 2;
-					}
+				else if (Actor()->get_state() & ACTOR_DEFS::mcAnyMove)
+				{
+					if (!st.bCrouch)
+						act_state = 2;
+				}
 			}
 
 			if (m_bGrenadeMode)

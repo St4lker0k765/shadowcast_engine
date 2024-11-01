@@ -176,6 +176,8 @@ public:
 			bool IsScopeAttached			() const;
 			bool IsSilencerAttached			() const;
 
+			bool			IsGrenadeMode	() const;
+
 	virtual bool GrenadeLauncherAttachable();
 	virtual bool ScopeAttachable();
 	virtual bool SilencerAttachable();
@@ -265,6 +267,8 @@ protected:
 	//мы перемещаем HUD  
 	float			m_fZoomRotationFactor;
 	bool			m_bHideCrosshairInZoom;
+	bool m_bUseScopeZoom			= false;
+	bool m_bUseScopeGrenadeZoom		= false;
 public:
 
 	IC bool					IsZoomEnabled		()	const	{return m_bZoomEnabled;}

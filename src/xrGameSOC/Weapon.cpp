@@ -26,6 +26,7 @@
 #include "object_broker.h"
 #include "../xrEngine/igame_persistent.h"
 #include "EffectorFall.h"
+#include "WeaponMagazinedWGrenade.h"
 
 #define WEAPON_REMOVE_TIME		60000
 #define ROTATION_TIME			0.25f
@@ -344,6 +345,9 @@ void CWeapon::Load		(LPCSTR section)
 	m_eGrenadeLauncherStatus = static_cast<ALife::EWeaponAddonStatus>(pSettings->r_s32(section,"grenade_launcher_status"));
 
 	m_bZoomEnabled = !!pSettings->r_bool(section,"zoom_enabled");
+	m_bUseScopeZoom = !!READ_IF_EXISTS(pSettings, r_bool, section, "use_scope_zoom", false);
+	m_bUseScopeGrenadeZoom = !!READ_IF_EXISTS(pSettings, r_bool, section, "use_scope_grenade_zoom", false);
+
 	m_fZoomRotateTime = READ_IF_EXISTS(pSettings, r_float, hud_sect, "zoom_rotate_time", ROTATION_TIME);
 
 	m_fZoomFactor = CurrentZoomFactor();
@@ -1448,18 +1452,44 @@ bool CWeapon::ready_to_kill	() const
 // Получить индекс текущих координат худа
 u8 CWeapon::GetCurrentHudOffsetIdx()
 {
-	CActor* pActor = smart_cast<CActor*>(H_Parent());
-	if (!pActor)		return 0;
+	const bool b_aiming = ((IsZoomed() && m_fZoomRotationFactor <= 1.f) || (!IsZoomed() && m_fZoomRotationFactor > 0.f));
 
-	bool b_aiming = ((IsZoomed() && m_fZoomRotationFactor <= 1.f) ||
-		(!IsZoomed() && m_fZoomRotationFactor > 0.f));
+	if (b_aiming)
+	{
+		const bool has_gl = GrenadeLauncherAttachable() && IsGrenadeLauncherAttached();
+		const bool has_scope = ScopeAttachable() && IsScopeAttached();
 
-	if (!b_aiming)
-		return		0;
-	else
-		return		1;
+		if (IsGrenadeMode())
+		{
+			if (m_bUseScopeGrenadeZoom && has_scope)
+				return hud_item_measures::m_hands_offset_type_gl_scope;
+			else
+				return hud_item_measures::m_hands_offset_type_gl;
+		}
+		else if (has_gl)
+		{
+			if (m_bUseScopeZoom && has_scope)
+				return hud_item_measures::m_hands_offset_type_gl_normal_scope;
+			else
+				return hud_item_measures::m_hands_offset_type_aim_gl_normal;
+		}
+		else
+		{
+			if (m_bUseScopeZoom && has_scope)
+				return hud_item_measures::m_hands_offset_type_aim_scope;
+			else
+				return hud_item_measures::m_hands_offset_type_aim;
+		}
+	}
+
+	return hud_item_measures::m_hands_offset_type_normal;
 }
 
+bool CWeapon::IsGrenadeMode() const
+{
+	const auto wpn_w_gl = smart_cast<const CWeaponMagazinedWGrenade*>(this);
+	return wpn_w_gl && wpn_w_gl->m_bGrenadeMode;
+}
 
 void CWeapon::UpdateHudAdditonal		(Fmatrix& trans)
 {
