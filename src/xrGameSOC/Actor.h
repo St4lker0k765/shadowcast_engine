@@ -14,6 +14,7 @@
 #include "ui_defs.h"
 #include "ActorEffector.h"
 #include "step_manager.h"
+#include "fire_disp_controller.h"
 
 using namespace ACTOR_DEFS;
 
@@ -488,9 +489,11 @@ public:
 	virtual void						g_fireParams		(const CHudItem* pHudItem, Fvector& P, Fvector& D);
 	virtual BOOL						g_State				(SEntityState& state) const;
 	virtual	float						GetWeaponAccuracy	() const;
+			float						GetFireDispertion	() const {return m_fdisp_controller.GetCurrentDispertion();}
 			bool						IsZoomAimingMode	() const {return m_bZoomAimingMode;}
 
 protected:
+	CFireDispertionController			m_fdisp_controller;
 	//если актер целится в прицел
 	bool								m_bZoomAimingMode;
 

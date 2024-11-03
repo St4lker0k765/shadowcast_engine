@@ -1,13 +1,8 @@
-// exxZERO Time Stamp AddIn. Document modified at : Thursday, March 07, 2002 14:13:00 , by user : Oles , from computer : OLES
-// HUDCursor.cpp: implementation of the CHUDTarget class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "hudtarget.h"
 #include "hudmanager.h"
-#include "../xrEngine/GameMtlLib.h"
-#include "uifontdefines.h"
+#include "../xrEngine/gamemtllib.h"
+
 #include "../xrEngine/Environment.h"
 #include "../xrEngine/CustomHUD.h"
 #include "Entity.h"
@@ -27,7 +22,7 @@
 #include "inventory.h"
 
 #include "../Include/xrRender/UIRender.h"
-#include "../Include/xrRender/UiShader.h"
+#include "UIFontDefines.h"
 
 u32 C_ON_ENEMY =		color_rgba(0xff,0,0,0x80);
 u32 C_ON_NEUTRAL =	color_rgba(0xff,0xff,0x80,0x80);
@@ -55,69 +50,98 @@ IC	float	recon_maxspeed	()		{
 	return 10.f;
 }
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
 CHUDTarget::CHUDTarget	()
 {    
 	fuzzyShowInfo		= 0.f;
-	RQ.range			= 0.f;
-	hShader->create("hud\\cursor", "ui\\cursor");
+	PP.RQ.range			= 0.f;
+	hShader->create		("hud\\cursor","ui\\cursor");
 
-	RQ.set				(NULL, 0.f, -1);
+	PP.RQ.set				(NULL, 0.f, -1);
 
 	Load				();
 	m_bShowCrosshair	= false;
 }
 
-void CHUDTarget::net_Relcase(CObject* O)
+CHUDTarget::~CHUDTarget	()
 {
-	if(RQ.O == O)
-		RQ.O = NULL;
-
-	RQR.r_clear	();
 }
+
 
 void CHUDTarget::Load		()
 {
 	HUDCrosshair.Load();
 }
 
+void CHUDTarget::ShowCrosshair(bool b)
+{
+	m_bShowCrosshair = b;
+}
+
+void CHUDTarget::DefineCrosshairCastingPoint(const Fvector& point, const Fvector& direction)
+{
+	m_crosshairCastedFromPos = point;
+	m_crosshairCastedToDir = direction;
+}
+//. fVisTransparencyFactor
+float fCurrentPickPower;
 ICF static BOOL pick_trace_callback(collide::rq_result& result, LPVOID params)
 {
-	collide::rq_result* RQ = (collide::rq_result*)params;
-	if(result.O){	
-		*RQ				= result;
+	SPickParam*	pp			= (SPickParam*)params;
+//	collide::rq_result* RQ	= pp->RQ;
+	++pp->pass;
+
+	if(result.O)
+	{	
+		pp->RQ				= result;
 		return FALSE;
-	}else{
+	}else
+	{
 		//получить треугольник и узнать его материал
 		CDB::TRI* T		= Level().ObjectSpace.GetStaticTris()+result.element;
-		if (GMLib.GetMaterialByIdx(T->material)->Flags.is(SGameMtl::flPassable)) 
+		
+		SGameMtl* mtl = GMLib.GetMaterialByIdx(T->material);
+		pp->power		*= mtl->fVisTransparencyFactor;
+		if(pp->power>0.4f)
+		{
 			return TRUE;
+		}
+//.		if (mtl->Flags.is(SGameMtl::flPassable)) 
+//.			return TRUE;
 	}
-	*RQ					= result;
-	return FALSE;
+	pp->RQ					= result;
+	return					FALSE;
 }
 
 void CHUDTarget::CursorOnFrame ()
 {
 	Fvector				p1,dir;
 
-	p1					= Device.vCameraPosition;
-	dir					= Device.vCameraDirection;
-	
+	if (psHUD_Flags.test(HUD_CROSSCHAIR_NEW))
+	{
+		p1 = m_crosshairCastedFromPos;
+		dir = m_crosshairCastedToDir;
+	}
+	else
+	{
+		p1 = Device.vCameraPosition;
+		dir = Device.vCameraDirection;
+	}
 	// Render cursor
-	if(Level().CurrentEntity()){
-		RQ.O			= 0; 
-		RQ.range		= g_pGamePersistent->Environment().CurrentEnv->far_plane*0.99f;
-		RQ.element		= -1;
+	if(Level().CurrentEntity())
+	{
+		PP.RQ.O			= 0; 
+		PP.RQ.range		= g_pGamePersistent->Environment().CurrentEnv->far_plane*0.99f;
+		PP.RQ.element		= -1;
 		
-		collide::ray_defs	RD(p1, dir, RQ.range, CDB::OPT_CULL, collide::rqtBoth);
+		collide::ray_defs	RD(p1, dir, PP.RQ.range, CDB::OPT_CULL, collide::rqtBoth);
 		RQR.r_clear			();
 		VERIFY				(!fis_zero(RD.dir.square_magnitude()));
-		if(Level().ObjectSpace.RayQuery(RQR,RD, pick_trace_callback, &RQ, NULL, Level().CurrentEntity()))
-			clamp			(RQ.range,NEAR_LIM,RQ.range);
+		
+		PP.power			= 1.0f;
+		PP.pass				= 0;
+
+		if(Level().ObjectSpace.RayQuery(RQR,RD, pick_trace_callback, &PP, NULL, Level().CurrentEntity()))
+			clamp			(PP.RQ.range, NEAR_LIM, PP.RQ.range);
 	}
 
 }
@@ -125,6 +149,12 @@ void CHUDTarget::CursorOnFrame ()
 extern ENGINE_API BOOL g_bRendering; 
 void CHUDTarget::Render()
 {
+
+	BOOL  b_do_rendering = ( psHUD_Flags.is(HUD_CROSSHAIR|HUD_CROSSHAIR_RT|HUD_CROSSHAIR_RT2) );
+	
+	if(!b_do_rendering)
+		return;
+
 	VERIFY		(g_bRendering);
 
 	CObject*	O		= Level().CurrentEntity();
@@ -132,43 +162,53 @@ void CHUDTarget::Render()
 	CEntity*	E		= smart_cast<CEntity*>(O);
 	if (0==E)	return;
 
-	Fvector p1				= Device.vCameraPosition;
-	Fvector dir				= Device.vCameraDirection;
-	
+	Fvector pos1 = m_crosshairCastedFromPos;
+	Fvector dir1 = m_crosshairCastedToDir;
+	Fvector pos2 = Device.vCameraPosition;
+	Fvector dir2 = Device.vCameraDirection;
+
 	// Render cursor
-	u32 C				= C_DEFAULT;
-	
-	Fvector	p2;
-	p2.mad				(p1,dir,RQ.range);
-	Fvector4 pt;
+	u32 C = C_DEFAULT;
+
+	Fvector				p2;
+
+	if (psHUD_Flags.test(HUD_CROSSCHAIR_NEW))
+	{
+		p2.mad(pos1, dir1, PP.RQ.range);
+	}
+	else
+		p2.mad(pos2, dir2, PP.RQ.range);
+
+	Fvector4			pt;
 	Device.mFullTransform.transform(pt, p2);
 	pt.y = -pt.y;
-	float di_size = C_SIZE / powf(pt.w, .2f);
+	float				di_size = C_SIZE/powf(pt.w,.2f);
 
 	CGameFont* F		= HUD().Font().GetFont(GRAFFITI19_FONT_NAME);
 	F->SetAligment		(CGameFont::alCenter);
 	F->OutSetI			(0.f,0.05f);
 
 	if (psHUD_Flags.test(HUD_CROSSHAIR_DIST))
-		F->OutSkip();
+		F->OutSkip		();
 
-
-	if (psHUD_Flags.test(HUD_INFO)){ 
-		if (RQ.O){
-			CEntityAlive*	E		= smart_cast<CEntityAlive*>	(RQ.O);
+	if (psHUD_Flags.test(HUD_INFO))
+	{ 
+		if(PP.RQ.O && PP.RQ.O->getVisible())
+		{
+			CEntityAlive*	E		= smart_cast<CEntityAlive*>	(PP.RQ.O);
 			CEntityAlive*	pCurEnt = smart_cast<CEntityAlive*>	(Level().CurrentEntity());
-			PIItem			l_pI	= smart_cast<PIItem>		(RQ.O);
+			PIItem			l_pI	= smart_cast<PIItem>		(PP.RQ.O);
 
 			if (IsGameTypeSingle())
 			{
 				CInventoryOwner* our_inv_owner		= smart_cast<CInventoryOwner*>(pCurEnt);
+
 				if (E && E->g_Alive() && E->cast_base_monster())
 				{
 					C = C_ON_ENEMY;
 				}
 				else if (E && E->g_Alive() && !E->cast_base_monster())
 				{
-//.					CInventoryOwner* our_inv_owner		= smart_cast<CInventoryOwner*>(pCurEnt);
 					CInventoryOwner* others_inv_owner	= smart_cast<CInventoryOwner*>(E);
 
 					if(our_inv_owner && others_inv_owner){
@@ -183,22 +223,24 @@ void CHUDTarget::Render()
 							C = C_ON_FRIEND; break;
 						}
 
-					if (fuzzyShowInfo>0.5f){
-						CStringTable	strtbl		;
-						F->SetColor	(subst_alpha(C,u8(iFloor(255.f*(fuzzyShowInfo-0.5f)*2.f))));
-						F->OutNext	("%s", *strtbl.translate(others_inv_owner->Name()) );
-						F->OutNext	("%s", *strtbl.translate(others_inv_owner->CharacterInfo().Community().id()) );
-					}
+						if (fuzzyShowInfo>0.5f)
+						{
+							CStringTable	strtbl		;
+							F->SetColor	(subst_alpha(C,u8(iFloor(255.f*(fuzzyShowInfo-0.5f)*2.f))));
+							F->OutNext	("%s", *strtbl.translate(others_inv_owner->Name()) );
+							F->OutNext	("%s", *strtbl.translate(others_inv_owner->CharacterInfo().Community().id()) );
+						}
 					}
 
 					fuzzyShowInfo += SHOW_INFO_SPEED*Device.fTimeDelta;
 				}
 				else 
-					if (l_pI && our_inv_owner && RQ.range < 2.0f*our_inv_owner->inventory().GetTakeDist())
+					if (l_pI && our_inv_owner && PP.RQ.range < 2.0f*2.0f)
 					{
-						if (fuzzyShowInfo>0.5f){
+						if (fuzzyShowInfo>0.5f && l_pI->Name())
+						{
 							F->SetColor	(subst_alpha(C,u8(iFloor(255.f*(fuzzyShowInfo-0.5f)*2.f))));
-							F->OutNext	("%s",l_pI->Name/*Complex*/());
+							F->OutNext	("%s",l_pI->Name());
 						}
 						fuzzyShowInfo += SHOW_INFO_SPEED*Device.fTimeDelta;
 					}
@@ -207,27 +249,33 @@ void CHUDTarget::Render()
 			{
 				if (E && (E->GetfHealth()>0))
 				{
-					if (pCurEnt && GameID() == GAME_SINGLE){	
-						if (GameID() == GAME_DEATHMATCH)			C = C_ON_ENEMY;
-						else{	
+					if (pCurEnt && GameID() == eGameIDSingle)
+					{
+						if (GameID() == eGameIDDeathmatch)			C = C_ON_ENEMY;
+						else
+						{	
 							if (E->g_Team() != pCurEnt->g_Team())	C = C_ON_ENEMY;
 							else									C = C_ON_FRIEND;
 						};
-						if (RQ.range >= recon_mindist() && RQ.range <= recon_maxdist()){
-							float ddist = (RQ.range - recon_mindist())/(recon_maxdist() - recon_mindist());
+						if (PP.RQ.range >= recon_mindist() && PP.RQ.range <= recon_maxdist())
+						{
+							float ddist = (PP.RQ.range - recon_mindist())/(recon_maxdist() - recon_mindist());
 							float dspeed = recon_minspeed() + (recon_maxspeed() - recon_minspeed())*ddist;
 							fuzzyShowInfo += Device.fTimeDelta/dspeed;
 						}else{
-							if (RQ.range < recon_mindist()) fuzzyShowInfo += recon_minspeed()*Device.fTimeDelta;
-							else fuzzyShowInfo = 0;
+							if (PP.RQ.range < recon_mindist()) 
+								fuzzyShowInfo += recon_minspeed()*Device.fTimeDelta;
+							else 
+								fuzzyShowInfo = 0;
 						};
 
-						if (fuzzyShowInfo>0.5f){
+						if (fuzzyShowInfo>0.5f)
+						{
 							clamp(fuzzyShowInfo,0.f,1.f);
 							int alpha_C = iFloor(255.f*(fuzzyShowInfo-0.5f)*2.f);
 							u8 alpha_b	= u8(alpha_C & 0x00ff);
 							F->SetColor	(subst_alpha(C,alpha_b));
-							F->OutNext	("%s",*RQ.O->cName());
+							F->OutNext	("%s",*PP.RQ.O->cName());
 						}
 					}
 				};
@@ -241,14 +289,20 @@ void CHUDTarget::Render()
 
 	if (psHUD_Flags.test(HUD_CROSSHAIR_DIST))
 	{
-		F->OutSetI(0.f, 0.05f);
-		F->SetColor(C);
-		F->OutNext("%4.1f", RQ.range);
+		F->OutSetI		(0.f,0.05f);
+		F->SetColor		(C);
+#ifdef DEBUG
+		F->OutNext("%4.1f - %4.2f - %d", PP.RQ.range, PP.power, PP.pass);
+#else
+		F->OutNext("%4.1f", PP.RQ.range);
+#endif
 	}
+
 	//отрендерить кружочек или крестик
-	if(!m_bShowCrosshair){
-		// actual rendering
-		UIRender->StartPrimitive(6, IUIRender::ptTriList, IUIRender::ePointType::pttTL);
+	if(!m_bShowCrosshair)
+	{
+		
+		UIRender->StartPrimitive	(6, IUIRender::ptTriList, IUIRender::ePointType::pttTL);
 		
 		Fvector2		scr_size;
 		scr_size.set	(float(Device.dwWidth) ,float(Device.dwHeight));
@@ -261,15 +315,15 @@ void CHUDTarget::Render()
 		float			h_2		= scr_size.y/2.0f;
 
 		// Convert to screen coords
-		float cx = (pt.x + 1) * w_2;
-		float cy = (pt.y + 1) * h_2;
+		float cx		    = (pt.x+1)*w_2;
+		float cy		    = (pt.y+1)*h_2;
 
 		//	TODO: return code back to indexed rendering since we use quads
-		// Tri 1
+		//	Tri 1
 		UIRender->PushPoint(cx - size_x, cy + size_y, 0, C, 0, 1);
 		UIRender->PushPoint(cx - size_x, cy - size_y, 0, C, 0, 0);
 		UIRender->PushPoint(cx + size_x, cy + size_y, 0, C, 1, 1);
-		// Tri 2
+		//	Tri 2
 		UIRender->PushPoint(cx + size_x, cy + size_y, 0, C, 1, 1);
 		UIRender->PushPoint(cx - size_x, cy - size_y, 0, C, 0, 0);
 		UIRender->PushPoint(cx + size_x, cy - size_y, 0, C, 1, 0);
@@ -277,12 +331,18 @@ void CHUDTarget::Render()
 		// unlock VB and Render it as triangle LIST
 		UIRender->SetShader(*hShader);
 		UIRender->FlushPrimitive();
-	}
-	else
-	{
+
+	}else{
 		//отрендерить прицел
 		HUDCrosshair.cross_color	= C;
-		HUDCrosshair.OnRender		();
+		HUDCrosshair.OnRender		(pt.x, pt.y);
 	}
 }
 
+void CHUDTarget::net_Relcase(CObject* O)
+{
+	if(PP.RQ.O == O)
+		PP.RQ.O = NULL;
+
+	RQR.r_clear	();
+}

@@ -145,17 +145,22 @@ void CHUDManager::OnEvent(EVENT E, u64 P1, u64 P2)
 
 collide::rq_result&	CHUDManager::GetCurrentRayQuery	() 
 {
-	return m_pHUDTarget->RQ;
+	return m_pHUDTarget->GetRQ();
 }
 
 void CHUDManager::SetCrosshairDisp	(float dispf, float disps)
 {	
-	m_pHUDTarget->HUDCrosshair.SetDispersion(psHUD_Flags.test(HUD_CROSSHAIR_DYNAMIC) ? dispf : disps);
+	m_pHUDTarget->GetHUDCrosshair().SetDispersion(psHUD_Flags.test(HUD_CROSSHAIR_DYNAMIC) ? dispf : disps);
 }
 
 void  CHUDManager::ShowCrosshair	(bool show)
 {
-	m_pHUDTarget->m_bShowCrosshair = show;
+	m_pHUDTarget->ShowCrosshair(show);
+}
+
+void CHUDManager::DefineCrosshairCastingPoint(const Fvector& point, const Fvector& direction)
+{
+	m_pHUDTarget->DefineCrosshairCastingPoint(point, direction);
 }
 
 

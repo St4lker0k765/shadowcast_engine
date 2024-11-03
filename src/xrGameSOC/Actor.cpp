@@ -911,7 +911,8 @@ void CActor::UpdateCL	()
 			float full_fire_disp = pWeapon->GetFireDispersion(true);
 
 			CEffectorZoomInertion* S = smart_cast<CEffectorZoomInertion*>	(Cameras().GetCamEffector(eCEZoom));
-			if(S) S->SetParams(full_fire_disp);
+			if(S) 
+				S->SetParams(full_fire_disp);
 
 			m_bZoomAimingMode = true;
 		}
@@ -919,12 +920,62 @@ void CActor::UpdateCL	()
 		if(Level().CurrentEntity() && this->ID()==Level().CurrentEntity()->ID() )
 		{
 			float fire_disp_full = pWeapon->GetFireDispersion(true);
+			m_fdisp_controller.SetDispertion(fire_disp_full);
+			
+			fire_disp_full = m_fdisp_controller.GetCurrentDispertion();
 
-			HUD().SetCrosshairDisp(fire_disp_full, 0.02f);
+			//--#SM+#-- +SecondVP+ Чтобы перекрестие не скакало из за смены FOV (Sin!) [fix for crosshair shaking while SecondVP]
+			if (!Device.m_SecondViewport.IsSVPActive())
+				HUD().SetCrosshairDisp(fire_disp_full, 0.02f);
+
+
 			HUD().ShowCrosshair(pWeapon->use_crosshair());
+#ifdef DEBUG
+			HUD().SetFirstBulletCrosshairDisp(pWeapon->GetFirstBulletDisp());
+#endif
+			// Новая система маркера, спасибо Роману из команды демосфена
 
-			psHUD_Flags.set( HUD_CROSSHAIR_RT2, pWeapon->show_crosshair() );
+			Fvector pos, dir;
+
+			bool bInZoom = !!(pWeapon->bInZoomRightNow()/* && pWeapon->bIsSecondVPZoomPresent()*/ && psActorFlags.test(AF_3DSCOPE_ENABLE));
+
+			pos = Cameras().Position();
+			dir = Cameras().Direction();
+
+			if (psHUD_Flags.test(HUD_CROSSCHAIR_NEW) && !(pWeapon->IsZoomed() && pWeapon->ZoomTexture()))
+			{
+				pos = pWeapon->get_LastFP();
+				dir = pWeapon->get_LastFD();
+			}
+
+			HUD().DefineCrosshairCastingPoint(pos, dir);
+
+			BOOL B = ! ((mstate_real & mcLookout) && !IsGameTypeSingle());
+
+			psHUD_Flags.set( HUD_WEAPON_RT, B );
+
+			B = B && pWeapon->show_crosshair();
+
+			psHUD_Flags.set( HUD_CROSSHAIR_RT2, B );
+			
+			
 			psHUD_Flags.set( HUD_DRAW_RT,		pWeapon->show_indicators() );
+
+			// Обновляем двойной рендер от оружия [Update SecondVP with weapon data]
+	//		pWeapon->UpdateSecondVP(); //--#SM+#-- +SecondVP+
+
+			bool bUseMark = !!pWeapon->bMarkCanShow();
+
+			//float fVPRotFactor = pWeapon->bNVsecondVPstatus ? pWeapon->GetZRotatingFactor() : 0.0f;
+
+	/*		bool bNVEnbl = !!pWeapon->bNVsecondVPstatus;
+
+			// Обновляем информацию об оружии в шейдерах
+			g_pGamePersistent->m_pGShaderConstants->hud_params.x = pWeapon->GetZRotatingFactor(); //bInZoom;  //--#SM+#--
+			g_pGamePersistent->m_pGShaderConstants->hud_params.y = pWeapon->GetSecondVPFov(); //--#SM+#--
+			g_pGamePersistent->m_pGShaderConstants->hud_params.z = bUseMark; //--#SM+#--
+			g_pGamePersistent->m_pGShaderConstants->hud_params.w = pWeapon->m_nearwall_last_hud_fov;; //--#SM+#--
+			g_pGamePersistent->m_pGShaderConstants->m_blender_mode.x = bNVEnbl;  //--#SM+#--*/
 		}
 
 	}
@@ -932,11 +983,20 @@ void CActor::UpdateCL	()
 	{
 		if(Level().CurrentEntity() && this->ID()==Level().CurrentEntity()->ID() )
 		{
+			HUD().DefineCrosshairCastingPoint(Cameras().Position(), Cameras().Direction());
 			HUD().SetCrosshairDisp(0.f);
 			HUD().ShowCrosshair(false);
+
+			// Очищаем информацию об оружии в шейдерах
+			g_pGamePersistent->m_pGShaderConstants->hud_params.set(0.f, 0.f, 0.f, 0.f); //--#SM+#--
+			g_pGamePersistent->m_pGShaderConstants->m_blender_mode.set(0.f, 0.f, 0.f, 0.f); //--#SM+#--
+
+
+			// Отключаем второй вьюпорт [Turn off SecondVP]
+			//CWeapon::UpdateSecondVP();
+			Device.m_SecondViewport.SetSVPActive(false); //--#SM+#-- +SecondVP+
 		}
 	}
-
 	UpdateDefferedMessages();
 
 	if (g_Alive()) 

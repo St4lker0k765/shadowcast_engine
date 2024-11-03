@@ -41,6 +41,8 @@ public:
 	void					SetCrosshairDisp	(float dispf, float disps = 0.f);
 	void					ShowCrosshair		(bool show);
 
+	void					DefineCrosshairCastingPoint(const Fvector& point, const Fvector& direction);
+
 	void					SetHitmarkType		(LPCSTR tex_name);
 	virtual void			OnScreenResolutionChanged();
 	virtual void			OnDisconnected		();

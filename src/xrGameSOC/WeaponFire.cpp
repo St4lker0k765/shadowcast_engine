@@ -65,7 +65,19 @@ void CWeapon::FireTrace		(const Fvector& P, const Fvector& D)
 	ChangeCondition(-GetWeaponDeterioration()*l_cartridge.m_impair);
 
 	
-	float fire_disp				= GetFireDispersion(true);
+	float fire_disp = 0.f;
+	CActor* tmp_actor = nullptr;
+	if (fsimilar(fire_disp, 0.f))
+	{
+		//CActor* tmp_actor = smart_cast<CActor*>(Level().CurrentControlEntity());
+		if (H_Parent() && (H_Parent() == tmp_actor))
+		{
+			fire_disp = tmp_actor->GetFireDispertion();
+		} else
+		{
+			fire_disp = GetFireDispersion(true);
+		}
+	}
 
 	bool SendHit = SendHitAllowed(H_Parent());
 	//выстерлить пулю (с учетом возможной стрельбы дробью)

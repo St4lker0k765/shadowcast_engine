@@ -31,6 +31,8 @@ private:
 public:
 							CWeapon				(LPCSTR name);
 	virtual					~CWeapon			();
+	virtual	bool			bInZoomRightNow		() const { return m_fZoomRotationFactor > 0.05; }
+	virtual	bool            bMarkCanShow() { return IsZoomed(); }
 
 	// Generic
 	virtual void			Load				(LPCSTR section);
@@ -413,6 +415,7 @@ protected:
 	float					m_fPDM_disp_crouch			;
 	float					m_fPDM_disp_crouch_no_acc	;
 	//  [8/2/2005]
+	float					m_crosshair_inertion;
 
 protected:
 	//для отдачи оружия
@@ -458,6 +461,7 @@ public:
 	virtual	float			Get_PDM_Accel_F		()	const	{ return m_fPDM_disp_accel_factor	; };
 	virtual	float			Get_PDM_Crouch		()	const	{ return m_fPDM_disp_crouch			; };
 	virtual	float			Get_PDM_Crouch_NA	()	const	{ return m_fPDM_disp_crouch_no_acc	; };
+	virtual	float			GetCrosshairInertion()	const { return m_crosshair_inertion; };
 	//  [8/3/2005]
 protected:
 	int						iAmmoElapsed;		// ammo in magazine, currently

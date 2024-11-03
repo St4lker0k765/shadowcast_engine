@@ -82,6 +82,7 @@ CWeapon::CWeapon(LPCSTR name)
 	m_UIScope				= nullptr;
 	m_UIScopeNew			= nullptr;
 	m_set_next_ammoType_on_reload = static_cast<u32>(-1);
+	m_crosshair_inertion	= 0.f;
 
 	m_fLR_MovingFactor = 0.f;
 	m_fLR_CameraFactor = 0.f;
@@ -316,6 +317,7 @@ void CWeapon::Load		(LPCSTR section)
 	m_fPDM_disp_crouch			= READ_IF_EXISTS(pSettings, r_float, section, "PDM_disp_crouch",	1.0f);
 	m_fPDM_disp_crouch_no_acc	= READ_IF_EXISTS(pSettings, r_float, section, "PDM_disp_crouch_no_acc",	1.0f);
 	//  [8/2/2005]
+	m_crosshair_inertion = READ_IF_EXISTS(pSettings, r_float, section, "crosshair_inertion", 5.91f);
 
 	fireDispersionConditionFactor = pSettings->r_float(section,"fire_dispersion_condition_factor"); 
 	misfireProbability			  = pSettings->r_float(section,"misfire_probability"); 

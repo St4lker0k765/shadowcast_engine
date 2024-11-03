@@ -28,6 +28,8 @@
 #include "map_manager.h"
 #include "map_location.h"
 #include "phworld.h"
+#include "alife_simulator.h"
+#include "alife_time_manager.h"
 
 using namespace luabind;
 
@@ -99,9 +101,31 @@ bool set_weather_fx(LPCSTR weather_name)
 {
 	return		(g_pGamePersistent->Environment().SetWeatherFX(weather_name));
 }
+
+bool start_weather_fx_from_time(LPCSTR weather_name, float time)
+{
+#ifdef INGAME_EDITOR
+	if (!Device->WeatherEditor())
+#endif   // #ifdef INGAME_EDITOR
+		return (g_pGamePersistent->Environment().StartWeatherFXFromTime(weather_name, time));
+
+#ifdef INGAME_EDITOR
+	return (false);
+#endif   // #ifdef INGAME_EDITOR
+}
+
 bool is_wfx_playing	()
 {
 	return			(g_pGamePersistent->Environment().IsWFXPlaying());
+}
+float get_wfx_time()
+{
+	return (g_pGamePersistent->Environment().wfx_time);
+}
+
+void stop_weather_fx()
+{
+	g_pGamePersistent->Environment().StopWFX();
 }
 
 void set_time_factor(float time_factor)
@@ -128,26 +152,25 @@ ESingleGameDifficulty get_game_difficulty()
 {
 	return g_SingleGameDifficulty;
 }
-
 u32 get_time_days()
 {
-	u32 year = 0, month = 0, day = 0, hours = 0, mins = 0, secs = 0, milisecs = 0;
-	split_time(Level().GetGameTime(), year, month, day, hours, mins, secs, milisecs);
-	return			day;
+    u32 year = 0, month = 0, day = 0, hours = 0, mins = 0, secs = 0, milisecs = 0;
+    split_time((g_pGameLevel && Level().game) ? Level().GetGameTime() : ai().alife().time_manager().game_time(), year, month, day, hours, mins, secs, milisecs);
+    return day;
 }
 
 u32 get_time_hours()
 {
-	u32 year = 0, month = 0, day = 0, hours = 0, mins = 0, secs = 0, milisecs = 0;
-	split_time(Level().GetGameTime(), year, month, day, hours, mins, secs, milisecs);
-	return			hours;
+    u32 year = 0, month = 0, day = 0, hours = 0, mins = 0, secs = 0, milisecs = 0;
+    split_time((g_pGameLevel && Level().game) ? Level().GetGameTime() : ai().alife().time_manager().game_time(), year, month, day, hours, mins, secs, milisecs);
+    return hours;
 }
 
 u32 get_time_minutes()
 {
-	u32 year = 0, month = 0, day = 0, hours = 0, mins = 0, secs = 0, milisecs = 0;
-	split_time(Level().GetGameTime(), year, month, day, hours, mins, secs, milisecs);
-	return			mins;
+    u32 year = 0, month = 0, day = 0, hours = 0, mins = 0, secs = 0, milisecs = 0;
+    split_time((g_pGameLevel && Level().game) ? Level().GetGameTime() : ai().alife().time_manager().game_time(), year, month, day, hours, mins, secs, milisecs);
+    return mins;
 }
 
 float cover_in_direction(u32 level_vertex_id, const Fvector &direction)
@@ -549,7 +572,10 @@ void CLevel::script_register(lua_State *L)
 		def("get_weather",						get_weather),
 		def("set_weather",						set_weather),
 		def("set_weather_fx",					set_weather_fx),
+		def("start_weather_fx_from_time",		start_weather_fx_from_time),
 		def("is_wfx_playing",					is_wfx_playing),
+		def("get_wfx_time",						get_wfx_time),
+		def("stop_weather_fx",					stop_weather_fx),
 
 		def("environment",						environment),
 		

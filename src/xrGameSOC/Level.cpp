@@ -528,7 +528,6 @@ void CLevel::OnFrame	()
 				F->SetColor	(color_xrgb(255,255,255));
 				F->OutNext("P(%d), BPS(%2.1fK), MRR(%2d), MSR(%2d), Retried(%2d), Blocked(%2d), Sended(%2d), SPS(%2d)",
 					//Server->game->get_option_s(C->Name,"name",C->Name),
-					//					C->Name,
 					net_Statistic.getPing(),
 					float(net_Statistic.getBPS()),// /1024,
 					net_Statistic.getMPS_Receive	(),
@@ -541,8 +540,7 @@ void CLevel::OnFrame	()
 		}
 	}
 	
-//	g_pGamePersistent->Environment().SetGameTime	(GetGameDayTimeSec(),GetGameTimeFactor());
-	g_pGamePersistent->Environment().SetGameTime	(GetEnvironmentGameDayTimeSec(),GetGameTimeFactor());
+	g_pGamePersistent->Environment().SetGameTime(GetEnvironmentGameDayTimeSec(), game->GetEnvironmentGameTimeFactor());
 
 	//Device.Statistic->cripting.Begin	();
 	if (!g_dedicated_server)
@@ -915,13 +913,11 @@ void				CLevel::SetNumCrSteps		( u32 NumSteps )
 ALife::_TIME_ID CLevel::GetGameTime()
 {
 	return			(game->GetGameTime());
-//	return			(Server->game->GetGameTime());
 }
 
 ALife::_TIME_ID CLevel::GetEnvironmentGameTime()
 {
 	return			(game->GetEnvironmentGameTime());
-//	return			(Server->game->GetGameTime());
 }
 
 u8 CLevel::GetDayTime() 
@@ -963,18 +959,18 @@ float CLevel::GetGameTimeFactor()
 void CLevel::SetGameTimeFactor(const float fTimeFactor)
 {
 	game->SetGameTimeFactor(fTimeFactor);
-//	Server->game->SetGameTimeFactor(fTimeFactor);
 }
 
 void CLevel::SetGameTimeFactor(ALife::_TIME_ID GameTime, const float fTimeFactor)
 {
 	game->SetGameTimeFactor(GameTime, fTimeFactor);
-//	Server->game->SetGameTimeFactor(fTimeFactor);
 }
+
 void CLevel::SetEnvironmentGameTimeFactor(u64 const& GameTime, float const& fTimeFactor)
 {
 	if (!game)
 		return;
+
 	game->SetEnvironmentGameTimeFactor(GameTime, fTimeFactor);
 }
 /*

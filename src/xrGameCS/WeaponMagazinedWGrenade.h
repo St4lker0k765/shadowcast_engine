@@ -25,6 +25,8 @@ public:
 
 	virtual void	save				(NET_Packet &output_packet);
 	virtual void	load				(IReader &input_packet);
+	virtual	bool    bMarkCanShow() { return IsZoomed() && !m_bGrenadeMode; }
+	virtual	bool	bInZoomRightNow() const { return (m_zoom_params.m_fZoomRotationFactor > 0.05) && !m_bGrenadeMode; }
 
 
 	virtual bool	Attach					(PIItem pIItem, bool b_send_event);
@@ -51,7 +53,7 @@ public:
 
 	virtual void	UpdateSounds	();
 
-	//переключение в режим подствольника
+	//РїРµСЂРµРєР»СЋС‡РµРЅРёРµ РІ СЂРµР¶РёРј РїРѕРґСЃС‚РІРѕР»СЊРЅРёРєР°
 	virtual bool	SwitchMode		();
 	void			PerformSwitchGL	();
 	void			OnAnimationEnd	(u32 state);
@@ -59,7 +61,7 @@ public:
 
 	virtual bool	IsNecessaryItem	    (const shared_str& item_sect);
 
-	//виртуальные функции для проигрывания анимации HUD
+	//РІРёСЂС‚СѓР°Р»СЊРЅС‹Рµ С„СѓРЅРєС†РёРё РґР»СЏ РїСЂРѕРёРіСЂС‹РІР°РЅРёСЏ Р°РЅРёРјР°С†РёРё HUD
 	virtual void	PlayAnimShow		();
 	virtual void	PlayAnimHide		();
 	virtual void	PlayAnimReload		();
@@ -75,8 +77,8 @@ private:
 	virtual	bool	install_upgrade_ammo_class	( LPCSTR section, bool test );
 	
 public:
-	//дополнительные параметры патронов 
-	//для подствольника
+	//РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Рµ РїР°СЂР°РјРµС‚СЂС‹ РїР°С‚СЂРѕРЅРѕРІ 
+	//РґР»СЏ РїРѕРґСЃС‚РІРѕР»СЊРЅРёРєР°
 	CWeaponAmmo*			m_pAmmo2;
 	shared_str				m_ammoSect2;
 	xr_vector<shared_str>	m_ammoTypes2;

@@ -6522,6 +6522,9 @@
     <ClInclude Include="player_hud.h">
       <Filter>Core\Client\Objects\items &amp; weapons\HudItem</Filter>
     </ClInclude>
+    <ClInclude Include="fire_disp_controller.h">
+      <Filter>Core\Client\Objects\actor\base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="damage_manager.cpp">
@@ -9634,6 +9637,9 @@
     </ClCompile>
     <ClCompile Include="player_hud_tune.cpp">
       <Filter>Core\Client\Objects\items &amp; weapons\HudItem</Filter>
+    </ClCompile>
+    <ClCompile Include="fire_disp_controller.cpp">
+      <Filter>Core\Client\Objects\actor\base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
