@@ -1891,8 +1891,6 @@
     <ClInclude Include="xrServer_info.h" />
     <ClInclude Include="xrServer_svclient_validation.h" />
     <ClInclude Include="xrServer_updates_compressor.h" />
-    <ClInclude Include="xr_dsa_signer.h" />
-    <ClInclude Include="xr_dsa_verifyer.h" />
     <ClInclude Include="xr_level_controller.h" />
     <ClInclude Include="xr_time.h" />
     <ClInclude Include="ZoneCampfire.h" />
@@ -3958,8 +3956,6 @@
     <ClCompile Include="xrServer_sls_clear.cpp" />
     <ClCompile Include="xrServer_svclient_validation.cpp" />
     <ClCompile Include="xrServer_updates_compressor.cpp" />
-    <ClCompile Include="xr_dsa_signer.cpp" />
-    <ClCompile Include="xr_dsa_verifyer.cpp" />
     <ClCompile Include="xr_level_controller.cpp" />
     <ClCompile Include="xr_time.cpp" />
     <ClCompile Include="ZoneCampfire.cpp" />
@@ -3977,9 +3973,6 @@
     <ProjectReference Include="$(SolutionDir)xrPhysics\xrPhysics.vcxproj">
       <Project>{98d24a3d-7666-4c11-9d6e-b10393ce8cba}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\3rd party\crypto\crypto.vcxproj">
-      <Project>{fa169092-ea3e-40c1-8e5a-a2b575700fe8}</Project>
     </ProjectReference>
     <ProjectReference Include="..\3rd party\luabind\luabind.vcxproj">
       <Project>{252e63ce-f4ee-4358-b10d-eb2c508a264d}</Project>
