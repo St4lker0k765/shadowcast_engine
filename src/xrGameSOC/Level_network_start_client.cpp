@@ -156,23 +156,33 @@ bool	CLevel::net_start_client5				()
 
 bool	CLevel::net_start_client6				()
 {
-	if(connected_to_server){
+	if (connected_to_server) {
 
-		if (!g_dedicated_server)
+		if (!game_configured)
+		{
+			pApp->LoadEnd						(); 
+			return true;
+		}
+		
+		if	(!g_dedicated_server)
 		{
 			HUD().Load();
 			//g_pGamePersistent->LoadTitle				("st_loading_textures");
 		}
 
-		// Sync
 		if(g_hud)
 			g_hud->OnConnected				();
 
+#ifdef DEBUG
+		Msg("--- net_start_client6");
+#endif // #ifdef DEBUG
 
 		g_pGamePersistent->SetLoadStageTitle("st_client_synchronising");
-		g_pGamePersistent->LoadTitle();
+		pApp->LoadForceFinish();
+		g_pGamePersistent->LoadTitle		();
 		Device.PreCache						(60, true, true);
 		net_start_result_total				= TRUE;
+
 	}else{
 		net_start_result_total				= FALSE;
 	}
