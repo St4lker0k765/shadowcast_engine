@@ -36,7 +36,7 @@ CWeaponMagazined::CWeaponMagazined(LPCSTR name, ESoundTypes eSoundType) : CWeapo
 	m_eSoundEmptyClick	= ESoundTypes(SOUND_TYPE_WEAPON_EMPTY_CLICKING | eSoundType);
 	m_eSoundReload		= ESoundTypes(SOUND_TYPE_WEAPON_RECHARGING | eSoundType);
 	
-	m_pSndShotCurrent = NULL;
+	m_sSndShotCurrent = NULL;
 	m_sSilencerFlameParticles = m_sSilencerSmokeParticles = NULL;
 
 	m_bFireSingleShot = false;
@@ -47,28 +47,6 @@ CWeaponMagazined::CWeaponMagazined(LPCSTR name, ESoundTypes eSoundType) : CWeapo
 
 CWeaponMagazined::~CWeaponMagazined()
 {
-	// sounds
-	HUD_SOUND::DestroySound(sndShow);
-	HUD_SOUND::DestroySound(sndHide);
-	HUD_SOUND::DestroySound(sndShot);
-	HUD_SOUND::DestroySound(sndEmptyClick);
-	HUD_SOUND::DestroySound(sndReload);
-}
-
-
-void CWeaponMagazined::StopHUDSounds		()
-{
-	HUD_SOUND::StopSound(sndShow);
-	HUD_SOUND::StopSound(sndHide);
-	
-	HUD_SOUND::StopSound(sndEmptyClick);
-	HUD_SOUND::StopSound(sndReload);
-
-	HUD_SOUND::StopSound(sndShot);
-//.	if(sndShot.enable && sndShot.snd.feedback)
-//.		sndShot.snd.feedback->switch_to_3D();
-
-	inherited::StopHUDSounds();
 }
 
 void CWeaponMagazined::net_Destroy()
@@ -82,13 +60,13 @@ void CWeaponMagazined::Load	(LPCSTR section)
 	inherited::Load		(section);
 		
 	// Sounds
-	HUD_SOUND::LoadSound(section,"snd_draw"		, sndShow		, m_eSoundShow		);
-	HUD_SOUND::LoadSound(section,"snd_holster"	, sndHide		, m_eSoundHide		);
-	HUD_SOUND::LoadSound(section,"snd_shoot"	, sndShot		, m_eSoundShot		);
-	HUD_SOUND::LoadSound(section,"snd_empty"	, sndEmptyClick	, m_eSoundEmptyClick	);
-	HUD_SOUND::LoadSound(section,"snd_reload"	, sndReload		, m_eSoundReload		);
+	m_sounds.LoadSound(section, "snd_draw", "sndShow", false, m_eSoundShow);
+	m_sounds.LoadSound(section, "snd_holster", "sndHide", false, m_eSoundHide);
+	m_layered_sounds.LoadSound(section, "snd_shoot", "sndShot", false, m_eSoundShot);
+	m_sounds.LoadSound(section, "snd_empty", "sndEmptyClick", false, m_eSoundEmptyClick);
+	m_sounds.LoadSound(section, "snd_reload", "sndReload", true, m_eSoundReload);
 	
-	m_pSndShotCurrent = &sndShot;
+	m_sSndShotCurrent = "sndShot";
 		
 	
 
@@ -99,7 +77,7 @@ void CWeaponMagazined::Load	(LPCSTR section)
 			m_sSilencerFlameParticles = pSettings->r_string(section, "silencer_flame_particles");
 		if(pSettings->line_exist(section, "silencer_smoke_particles"))
 			m_sSilencerSmokeParticles = pSettings->r_string(section, "silencer_smoke_particles");
-		HUD_SOUND::LoadSound(section,"snd_silncer_shot", sndSilencerShot, m_eSoundShot);
+		m_layered_sounds.LoadSound(section, "snd_silncer_shot", "sndSilencerShot", false, m_eSoundShot);
 	}
 	//  [7/20/2005]
 	if (pSettings->line_exist(section, "dispersion_start"))
@@ -455,13 +433,14 @@ void CWeaponMagazined::UpdateSounds	()
 		return;
 	
 	dwUpdateSounds_Frame = Device.dwFrame;
+	Fvector P = get_LastFP();
 
 	// ref_sound positions
-	if (sndShow.playing			())	sndShow.set_position		(get_LastFP());
-	if (sndHide.playing			())	sndHide.set_position		(get_LastFP());
-	if (sndShot.playing			()) sndShot.set_position		(get_LastFP());
-	if (sndReload.playing		()) sndReload.set_position		(get_LastFP());
-	if (sndEmptyClick.playing	())	sndEmptyClick.set_position	(get_LastFP());
+		m_sounds.SetPosition		("sndShow", P);
+		m_sounds.SetPosition		("sndHide", P);
+//		m_sounds.SetPosition		("sndShot", P);
+		m_sounds.SetPosition		("sndReload", P);
+//		m_sounds.SetPosition	("sndEmptyClick", P);
 }
 
 void CWeaponMagazined::state_Fire	(float dt)
@@ -545,7 +524,7 @@ void CWeaponMagazined::OnShot		()
 		Actor()->set_state_wishful(Actor()->get_state_wishful() & (~mcSprint));
 
 	// Sound
-	PlaySound			(*m_pSndShotCurrent,get_LastFP());
+	m_layered_sounds.PlaySound(m_sSndShotCurrent.c_str(), get_LastFP(), H_Root(), !!GetHUDmode(), false, (u8)-1);
 
 	// Camera	
 	AddShotEffector		();
@@ -569,7 +548,7 @@ void CWeaponMagazined::OnShot		()
 
 void CWeaponMagazined::OnEmptyClick	()
 {
-	PlaySound	(sndEmptyClick,get_LastFP());
+	PlaySound("sndEmptyClick", get_LastFP());
 }
 
 void CWeaponMagazined::OnAnimationEnd(u32 state) 
@@ -656,7 +635,7 @@ void CWeaponMagazined::switch2_Empty()
 }
 void CWeaponMagazined::PlayReloadSound()
 {
-	PlaySound	(sndReload,get_LastFP());
+	PlaySound("sndReload", get_LastFP());
 }
 
 void CWeaponMagazined::switch2_Reload()
@@ -671,9 +650,9 @@ void CWeaponMagazined::switch2_Hiding()
 {
 	CWeapon::FireEnd();
 
-	HUD_SOUND::StopSound(sndReload);
+	m_sounds.StopSound("sndReload");
 
-	PlaySound	(sndHide,get_LastFP());
+	PlaySound("sndHide", get_LastFP());
 
 	PlayAnimHide();
 	SetPending(TRUE);
@@ -683,7 +662,7 @@ void CWeaponMagazined::switch2_Hidden()
 {
 	CWeapon::FireEnd();
 
-	HUD_SOUND::StopSound(sndReload);
+	m_sounds.StopSound("sndReload");
 
 	StopCurrentAnimWithoutCallback();
 
@@ -692,7 +671,7 @@ void CWeaponMagazined::switch2_Hidden()
 }
 void CWeaponMagazined::switch2_Showing()
 {
-	PlaySound	(sndShow,get_LastFP());
+	PlaySound("sndShow", get_LastFP());
 
 	SetPending(TRUE);
 	PlayAnimShow();
@@ -1007,7 +986,7 @@ void CWeaponMagazined::InitAddons()
 	{		
 		m_sFlameParticlesCurrent = m_sSilencerFlameParticles;
 		m_sSmokeParticlesCurrent = m_sSilencerSmokeParticles;
-		m_pSndShotCurrent = &sndSilencerShot;
+		m_sSndShotCurrent = "sndSilencerShot";
 
 
 		//сила выстрела
@@ -1021,7 +1000,7 @@ void CWeaponMagazined::InitAddons()
 	{
 		m_sFlameParticlesCurrent = m_sFlameParticles;
 		m_sSmokeParticlesCurrent = m_sSmokeParticles;
-		m_pSndShotCurrent = &sndShot;
+		m_sSndShotCurrent = "sndShot";
 
 		//сила выстрела
 		LoadFireParams	(*cNameSect(), "");
@@ -1157,7 +1136,7 @@ bool CWeaponMagazined::SwitchMode			()
 	else
 		m_iQueueSize = 1;
 	
-	PlaySound	(sndEmptyClick, get_LastFP());
+	PlaySound("sndEmptyClick", get_LastFP());
 
 	return true;
 }

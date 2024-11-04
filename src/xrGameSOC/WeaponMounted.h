@@ -54,7 +54,7 @@ protected:
 	CCartridge				m_CurrentAmmo;
 
 	//звук стрельбы
-	HUD_SOUND				sndShot;
+	HUD_SOUND_ITEM			sndShot;
 
 	//для отдачи
 	float					camRelaxSpeed;

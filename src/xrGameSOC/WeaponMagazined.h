@@ -18,21 +18,12 @@ class CWeaponMagazined: public CWeapon
 private:
 	typedef CWeapon inherited;
 protected:
-	// Media :: sounds
-	HUD_SOUND		sndShow;
-	HUD_SOUND		sndHide;
-	HUD_SOUND		sndShot;
-	HUD_SOUND		sndEmptyClick;
-	HUD_SOUND		sndReload;
 	//звук текущего выстрела
-	HUD_SOUND*		m_pSndShotCurrent;
-
-	virtual void	StopHUDSounds		();
+	shared_str		m_sSndShotCurrent;
 
 	//дополнительная информация о глушителе
 	LPCSTR			m_sSilencerFlameParticles;
 	LPCSTR			m_sSilencerSmokeParticles;
-	HUD_SOUND		sndSilencerShot;
 
 	ESoundTypes		m_eSoundShow;
 	ESoundTypes		m_eSoundHide;
@@ -176,6 +167,10 @@ protected:
 
 	virtual	int		ShotsFired			() { return m_iShotNum; }
 	virtual float	GetWeaponDeterioration	();
+
+	//Alundaio: LAYERED_SND_SHOOT
+	HUD_SOUND_COLLECTION_LAYERED m_layered_sounds;
+	//-Alundaio
 
 };
 

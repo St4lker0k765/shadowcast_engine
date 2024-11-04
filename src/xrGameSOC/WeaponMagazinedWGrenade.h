@@ -51,7 +51,6 @@ public:
 	virtual bool	Action			(s32 cmd, u32 flags);
 
 	virtual void	UpdateSounds	();
-	virtual void	StopHUDSounds	();
 
 	//переключение в режим подствольника
 	virtual bool	SwitchMode		();
@@ -67,10 +66,6 @@ public:
 	virtual void	PlayAnimIdle();
 	virtual void	PlayAnimShoot();
 	virtual void	PlayAnimModeSwitch();
-	
-	HUD_SOUND			sndShotG;
-	HUD_SOUND			sndReloadG;
-	HUD_SOUND			sndSwitch;
 
 
 	//дополнительные параметры патронов 

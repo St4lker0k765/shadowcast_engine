@@ -1,37 +1,32 @@
-//////////////////////////////////////////////////////////////////////
-// HudSound.h:		структура для работы со звуками применяемыми в 
-//					HUD-объектах (обычные звуки, но с доп. параметрами)
-//////////////////////////////////////////////////////////////////////
-
 #pragma once
 
 
-struct HUD_SOUND
+struct HUD_SOUND_ITEM
 {
-	HUD_SOUND()		{ m_activeSnd=NULL; }
-	~HUD_SOUND()	{ m_activeSnd=NULL; }
-
-	////////////////////////////////////
-	// работа со звуками
-	/////////////////////////////////////
-	static void		LoadSound		(	LPCSTR section, LPCSTR line,
-		ref_sound& hud_snd,
-		int type = sg_SourceType,
-		float* volume = NULL,
-		float* delay = NULL);
+	HUD_SOUND_ITEM():m_activeSnd(NULL),m_b_exclusive(false)		{}
 
 	static void		LoadSound		(	LPCSTR section, LPCSTR line,
-		HUD_SOUND& hud_snd,  int type = sg_SourceType);
+										ref_sound& hud_snd,
+										int type = sg_SourceType,
+										float* volume = NULL,
+										float* delay = NULL,
+										float* freq = NULL);
 
-	static void		DestroySound	(	HUD_SOUND& hud_snd);
+	static void		LoadSound		(	LPCSTR section, 
+										LPCSTR line,
+										HUD_SOUND_ITEM& hud_snd,  
+										int type = sg_SourceType);
 
-	static void		PlaySound		(	HUD_SOUND& snd,
-									const Fvector& position,
-									const CObject* parent,
-									bool hud_mode,
-									bool looped = false);
+	static void		DestroySound	(	HUD_SOUND_ITEM& hud_snd);
 
-	static void		StopSound		(	HUD_SOUND& snd);
+	static void		PlaySound		(	HUD_SOUND_ITEM& snd,
+										const Fvector& position,
+										const CObject* parent,
+										bool hud_mode,
+										bool looped = false,
+										u8 index=u8(-1));
+
+	static void		StopSound		(	HUD_SOUND_ITEM& snd);
 
 	ICF BOOL		playing			()
 	{
@@ -39,7 +34,7 @@ struct HUD_SOUND
 		else				return	FALSE;
 	}
 
-	ICF void		set_position	(const Fvector& pos)
+	ICF void		set_position	(	const Fvector& pos)
 	{
 		if(m_activeSnd)	{ 
 			if (m_activeSnd->snd._feedback()&&!m_activeSnd->snd._feedback()->is_2D())	
@@ -50,10 +45,59 @@ struct HUD_SOUND
 
 	struct SSnd		{
 		ref_sound	snd;
-		float		delay;		//задержка перед проигрыванием
-		float		volume;		//громкость
+		float		delay;		//Р·Р°РґРµСЂР¶РєР° РїРµСЂРµРґ РїСЂРѕРёРіСЂС‹РІР°РЅРёРµРј
+		float		volume;		//РіСЂРѕРјРєРѕСЃС‚СЊ
+		float		freq;		//РєРѕСЌС„С„РёС†РёРµРЅС‚ С‡Р°СЃС‚РѕС‚С‹
 	};
+	shared_str		m_alias;
 	SSnd*			m_activeSnd;
+	bool			m_b_exclusive;
 	xr_vector<SSnd> sounds;
+
+	bool operator == (LPCSTR alias) const{return 0==stricmp(m_alias.c_str(),alias);}
 };
 
+class HUD_SOUND_COLLECTION
+{
+public:
+								HUD_SOUND_COLLECTION();
+								~HUD_SOUND_COLLECTION();
+
+	xr_vector<HUD_SOUND_ITEM>	m_sound_items;
+	shared_str		m_alias; //Alundaio: For use when it's part of a layered Collection
+	void						PlaySound		(	LPCSTR alias, 
+													const Fvector& position,
+													const CObject* parent,
+													bool hud_mode,
+													bool looped = false,
+													u8 index=u8(-1));
+
+	HUD_SOUND_ITEM* FindSoundItem(LPCSTR alias, bool b_assert);
+
+	void						StopSound		(	LPCSTR alias);
+
+	void						LoadSound		(	LPCSTR section, 
+													LPCSTR line,
+													LPCSTR alias,
+													bool exclusive = false,
+													int type = sg_SourceType);
+
+	void						SetPosition		(	LPCSTR alias, 	const Fvector& pos);
+	void						StopAllSounds	();
+};
+
+//Alundaio:
+class HUD_SOUND_COLLECTION_LAYERED
+{
+	xr_vector<HUD_SOUND_COLLECTION>	m_sound_items;
+public:
+	~HUD_SOUND_COLLECTION_LAYERED();
+	HUD_SOUND_ITEM* FindSoundItem(LPCSTR alias, bool b_assert);
+	void						PlaySound(LPCSTR alias, const Fvector& position, const CObject* parent, bool hud_mode, bool looped = false, u8 index = u8(-1));
+	void						StopSound(LPCSTR alias);
+	void						StopAllSounds();
+	void						LoadSound(LPCSTR section, LPCSTR line, LPCSTR alias, bool exclusive = false, int type = sg_SourceType);
+	void						LoadSound(CInifile const* ini, LPCSTR section, LPCSTR line, LPCSTR alias, bool exclusive = false, int type = sg_SourceType);
+	void						SetPosition(LPCSTR alias, const Fvector& pos);
+};
+//-Alundaio

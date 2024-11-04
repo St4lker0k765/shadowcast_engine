@@ -7,7 +7,6 @@ class CBolt :
 {
 	using inherited = CMissile;
 	u16	m_thrower_id;
-	HUD_SOUND m_ThrowSnd{};
 public:
 	CBolt(void);
 	virtual ~CBolt(void);

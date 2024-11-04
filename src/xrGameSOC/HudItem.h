@@ -8,13 +8,13 @@
 class CSE_Abstract;
 class CPhysicItem;
 class NET_Packet;
-struct HUD_SOUND;
 class CInventoryItem;
 struct attachable_hud_item;
 class motion_marks;
 class CMotionDef;
 
 #include "actor_defs.h"
+#include "hudsound.h"
 
 class CHUDState
 {
@@ -85,13 +85,11 @@ public:
 	virtual CHudItem*cast_hud_item		()	 { return this; }
 
 
-	virtual void	PlaySound( HUD_SOUND& snd, const Fvector& position, bool overlap = false );
+	virtual void	PlaySound(LPCSTR alias, const Fvector& position, bool overlap = false );
 										
 	///////////////////////////////////////////////
 	// общие функции HUD
-	///////////////////////////////////////////////
-	virtual void	StopHUDSounds		()				{};
-	
+	///////////////////////////////////////////////	
 	//для предачи команд владельцем
 	virtual bool	Action				(s32 cmd, u32 flags);
 
@@ -178,6 +176,9 @@ protected:
 
 protected:
 	u32						m_animation_slot;
+
+	HUD_SOUND_COLLECTION		m_sounds;
+
 
 public:
 	IC		u32				animation_slot			()	{	return m_animation_slot;}

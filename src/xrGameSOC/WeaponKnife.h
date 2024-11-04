@@ -8,8 +8,6 @@ private:
 	typedef CWeapon inherited;
 protected:
 
-	HUD_SOUND			m_sndShot;
-
 	bool				m_attackStart;
 	bool				m_attackMotionMarksAvailable;
 

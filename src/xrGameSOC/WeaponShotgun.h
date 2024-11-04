@@ -27,7 +27,6 @@ public:
 	void			switch2_AddCartgidge();
 	void			switch2_EndReload	();
 
-	virtual void	UpdateSounds		();
 	virtual void	PlayAnimOpenWeapon	();
 	virtual void	PlayAnimAddOneCartridgeWeapon();
 	void			PlayAnimCloseWeapon	();
@@ -42,15 +41,11 @@ protected:
 	bool			HaveCartridgeInInventory(u8 cnt);
 	virtual u8		AddCartridge		(u8 cnt);
 
-	HUD_SOUND		sndShotBoth;
 	ESoundTypes		m_eSoundShotBoth;
 
 	ESoundTypes		m_eSoundOpen;
 	ESoundTypes		m_eSoundAddCartridge;
 	ESoundTypes		m_eSoundClose;
-	HUD_SOUND		m_sndOpen;
-	HUD_SOUND		m_sndAddCartridge;
-	HUD_SOUND		m_sndClose;
 
 	DECLARE_SCRIPT_REGISTER_FUNCTION
 };

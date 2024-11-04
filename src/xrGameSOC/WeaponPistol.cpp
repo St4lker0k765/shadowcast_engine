@@ -17,9 +17,6 @@ CWeaponPistol::~CWeaponPistol(void)
 void CWeaponPistol::net_Destroy()
 {
 	inherited::net_Destroy();
-
-	// sounds
-	HUD_SOUND::DestroySound(sndClose);
 }
 
 
@@ -27,7 +24,7 @@ void CWeaponPistol::Load	(LPCSTR section)
 {
 	inherited::Load		(section);
 
-	HUD_SOUND::LoadSound(section, "snd_close", sndClose, m_eSoundClose);
+	m_sounds.LoadSound(section, "snd_close", "sndClose", false, m_eSoundClose);
 
 }
 
@@ -115,7 +112,7 @@ void CWeaponPistol::PlayAnimHide()
 	VERIFY(GetState()==eHiding);
 	if (m_opened)
 	{
-		PlaySound(sndClose, get_LastFP());
+		PlaySound("sndClose", get_LastFP());
 		PlayHUDMotion("anim_close", "anm_hide_empty", TRUE, this, GetState());
 	}
 	else 
@@ -157,7 +154,7 @@ void CWeaponPistol::OnAnimationEnd(u32 state)
 void CWeaponPistol::OnShot		()
 {
 	// Sound
-	PlaySound		(*m_pSndShotCurrent,get_LastFP());
+	m_layered_sounds.PlaySound(m_sSndShotCurrent.c_str(), get_LastFP(), H_Root(), !!GetHUDmode(), false, (u8)-1);
 
 	AddShotEffector	();
 	
@@ -182,6 +179,5 @@ void CWeaponPistol::UpdateSounds()
 {
 	inherited::UpdateSounds();
 
-	if (sndClose.playing())
-		sndClose.set_position(get_LastFP());
+	m_sounds.SetPosition("sndClose", get_LastFP());
 }

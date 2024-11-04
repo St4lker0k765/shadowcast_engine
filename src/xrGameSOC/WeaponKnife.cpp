@@ -23,7 +23,6 @@ CWeaponKnife::CWeaponKnife() : CWeapon("KNIFE")
 }
 CWeaponKnife::~CWeaponKnife()
 {
-	HUD_SOUND::DestroySound(m_sndShot);
 
 }
 
@@ -34,7 +33,7 @@ void CWeaponKnife::Load	(LPCSTR section)
 
 	fWallmarkSize = pSettings->r_float(section,"wm_size");
 
-	HUD_SOUND::LoadSound(section,"snd_shoot"		, m_sndShot		, ESoundTypes(SOUND_TYPE_WEAPON_SHOOTING)		);
+	m_sounds.LoadSound(section, "snd_shoot", "sndShot", false, ESoundTypes(SOUND_TYPE_WEAPON_SHOOTING));
 	
 	knife_material_idx =  GMLib.GetMaterialIdx(KNIFE_MATERIAL_NAME);
 }
@@ -126,7 +125,7 @@ void CWeaponKnife::KnifeStrike(const Fvector& pos, const Fvector& dir)
 	iAmmoElapsed					= m_magazine.size();
 	bool SendHit					= SendHitAllowed(H_Parent());
 
-	PlaySound						(m_sndShot,pos);
+	PlaySound						("sndShot", pos);
 
 	CActor* actor = smart_cast<CActor*>(H_Parent());
 	if (actor->cam_Active() != actor->cam_FirstEye())

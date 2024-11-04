@@ -16,12 +16,6 @@ CWeaponShotgun::CWeaponShotgun() : CWeaponCustomPistol("TOZ34")
 
 CWeaponShotgun::~CWeaponShotgun()
 {
-	// sounds
-	HUD_SOUND::DestroySound(sndShotBoth);
-	HUD_SOUND::DestroySound(m_sndOpen);
-	HUD_SOUND::DestroySound(m_sndAddCartridge);
-	HUD_SOUND::DestroySound(m_sndClose);
-
 }
 
 void CWeaponShotgun::net_Destroy()
@@ -34,7 +28,7 @@ void CWeaponShotgun::Load(LPCSTR section)
 	inherited::Load(section);
 
 	// Звук и анимация для выстрела дуплетом
-	HUD_SOUND::LoadSound(section, "snd_shoot_duplet", sndShotBoth, m_eSoundShotBoth);
+	m_sounds.LoadSound(section, "snd_shoot_duplet", "sndShotBoth", false, m_eSoundShotBoth);
 
 	if (pSettings->line_exist(section, "tri_state_reload"))
 	{
@@ -43,9 +37,9 @@ void CWeaponShotgun::Load(LPCSTR section)
 
 	if (m_bTriStateReload)
 	{
-		HUD_SOUND::LoadSound(section, "snd_open_weapon", m_sndOpen, m_eSoundOpen);
-		HUD_SOUND::LoadSound(section, "snd_add_cartridge", m_sndAddCartridge, m_eSoundAddCartridge);
-		HUD_SOUND::LoadSound(section, "snd_close_weapon", m_sndClose, m_eSoundClose);
+		m_sounds.LoadSound(section, "snd_open_weapon", "sndOpen", false, m_eSoundOpen);
+		m_sounds.LoadSound(section, "snd_add_cartridge", "sndAddCartridge", false, m_eSoundAddCartridge);
+		m_sounds.LoadSound(section, "snd_close_weapon", "sndClose_2", false, m_eSoundClose);
 	}
 }
 
@@ -107,7 +101,7 @@ void CWeaponShotgun::OnShotBoth()
 	}
 
 	//звук выстрела дуплетом
-	PlaySound			(sndShotBoth,get_LastFP());
+	PlaySound("sndShotBoth", get_LastFP());
 	
 	// Camera
 	AddShotEffector		();
@@ -174,12 +168,6 @@ void CWeaponShotgun::switch2_Fire2	()
 		dwFP_Frame					= 0xffffffff;
 		dwXF_Frame					= 0xffffffff;
 	}
-}
-
-void CWeaponShotgun::UpdateSounds	()
-{
-	inherited::UpdateSounds();
-	if (sndShotBoth.playing())		sndShotBoth.set_position		(get_LastFP());
 }
 
 bool CWeaponShotgun::Action			(s32 cmd, u32 flags) 
@@ -282,14 +270,14 @@ void CWeaponShotgun::OnStateSwitch	(u32 S, u32 oldState)
 
 void CWeaponShotgun::switch2_StartReload()
 {
-	PlaySound			(m_sndOpen,get_LastFP());
+	PlaySound("sndOpen", get_LastFP());
 	PlayAnimOpenWeapon	();
 	SetPending(TRUE);
 }
 
 void CWeaponShotgun::switch2_AddCartgidge	()
 {
-	PlaySound	(m_sndAddCartridge,get_LastFP());
+	PlaySound("sndAddCartridge", get_LastFP());
 	PlayAnimAddOneCartridgeWeapon();
 	SetPending(TRUE);
 }
@@ -297,7 +285,7 @@ void CWeaponShotgun::switch2_AddCartgidge	()
 void CWeaponShotgun::switch2_EndReload	()
 {
 	SetPending(FALSE);
-	PlaySound			(m_sndClose,get_LastFP());
+	PlaySound("sndClose_2", get_LastFP());
 	PlayAnimCloseWeapon	();
 }
 
