@@ -30,6 +30,15 @@ Fvector _wpn_root_pos;
 #define ORIGIN_OFFSET          0.04f,  0.04f,  0.04f, 0.02f 
 #define ORIGIN_OFFSET_AIM      0.015f, 0.015f, 0.01f, 0.005f   
 
+float CalcMotionSpeed(const shared_str& anim_name)
+{
+
+	if (!IsGameTypeSingle() && (anim_name == "anm_show" || anim_name == "anm_hide"))
+		return 2.0f;
+	else
+		return 1.0f;
+}
+
 // Outdated - old inertion
 #define TENDTO_SPEED_OLD       5.f      // Скорость нормализации положения ствола
 #define TENDTO_SPEED_AIM_OLD   8.f      // (Для прицеливания)
@@ -74,13 +83,16 @@ void player_hud_motion_container::load(attachable_hud_item* parent, IKinematicsA
 				}
 				else
 				{
-					R_ASSERT2(_GetItemCount(anm.c_str()) == 2, anm.c_str());
+					R_ASSERT2(_GetItemCount(anm.c_str()) <= 3, anm.c_str());
 					string512 str_item;
 					_GetItem(anm.c_str(), 0, str_item);
 					pm->m_base_name = str_item;
 
 					_GetItem(anm.c_str(), 1, str_item);
-					pm->m_additional_name = str_item;
+					pm->m_additional_name = (xr_strlen(str_item) > 0) ? pm->m_additional_name = str_item : pm->m_base_name;
+
+					_GetItem(anm.c_str(), 2, str_item);
+					pm->m_anim_speed = atof(str_item);
 				}
 			}
 			else
@@ -510,7 +522,7 @@ void attachable_hud_item::load(const shared_str& sect_name)
 	m_measures.load(sect_name, m_model);
 }
 
-u32 attachable_hud_item::anim_play(const shared_str& anm_name_b, BOOL bMixIn, const CMotionDef*& md, u8& rnd_idx, bool randomAnim)
+u32 attachable_hud_item::anim_play(const shared_str& anm_name_b, BOOL bMixIn, const CMotionDef*& md, u8& rnd_idx, bool randomAnim, float speed)
 {
 	R_ASSERT(strstr(anm_name_b.c_str(), "anm_") == anm_name_b.c_str() || strstr(anm_name_b.c_str(), "anim_") == anm_name_b.c_str());
 	string256 anim_name_r;
@@ -520,6 +532,9 @@ u32 attachable_hud_item::anim_play(const shared_str& anm_name_b, BOOL bMixIn, co
 	player_hud_motion* anm = m_hand_motions.find_motion(anim_name_r);
 	R_ASSERT2(anm, "model [%s] has no motion alias defined [%s]", m_visual_name.c_str(), anim_name_r);
 	R_ASSERT2(anm->m_animations.size(), "model [%s] has no motion defined in motion_alias [%s]", m_visual_name.c_str(), anim_name_r);
+
+	if (speed == 1.f)
+		speed = anm->m_anim_speed != 0 ? anm->m_anim_speed : CalcMotionSpeed(anm_name_b);
 
 	if (randomAnim)
 		rnd_idx = (u8)Random.randI(anm->m_animations.size());
