@@ -51,6 +51,12 @@ public:
 	virtual void			load				(IReader &input_packet);
 	virtual BOOL			net_SaveRelevant	()								{return inherited::net_SaveRelevant();}
 
+	/*------------------STCoP Weapon Pack SECTION-----------------------*/
+	bool					UseAltScope;
+	void					UpdateAltScope();
+	bool					ScopeIsHasTexture;
+	shared_str				GetNameWithAttachment();
+
 	virtual void			UpdateCL			();
 	virtual void			shedule_Update		(u32 dt);
 
@@ -192,15 +198,15 @@ public:
 	virtual void InitAddons();
 
 	//для отоброажения иконок апгрейдов в интерфейсе
-	int	GetScopeX() {return m_iScopeX;}
-	int	GetScopeY() {return m_iScopeY;}
+	int GetScopeX();
+	int GetScopeY();
 	int	GetSilencerX() {return m_iSilencerX;}
 	int	GetSilencerY() {return m_iSilencerY;}
 	int	GetGrenadeLauncherX() {return m_iGrenadeLauncherX;}
 	int	GetGrenadeLauncherY() {return m_iGrenadeLauncherY;}
 
 	const shared_str& GetGrenadeLauncherName	()		{return m_sGrenadeLauncherName;}
-	const shared_str& GetScopeName				()		{return m_sScopeName;}
+	const shared_str GetScopeName() const;
 	const shared_str& GetSilencerName			()		{return m_sSilencerName;}
 
 	u8		GetAddonsState						()		const		{return m_flagsAddOnState;};
@@ -478,6 +484,10 @@ protected:
 
 public:
 	xr_vector<shared_str>	m_ammoTypes;
+	
+	DEFINE_VECTOR(shared_str, SCOPES_VECTOR, SCOPES_VECTOR_IT);
+	SCOPES_VECTOR			m_scopes;
+	u8						m_cur_scope;
 
 	CWeaponAmmo*			m_pAmmo;
 	u32						m_ammoType;

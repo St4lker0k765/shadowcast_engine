@@ -48,7 +48,7 @@
 //		and CSE_ALifeHumanAbstract		appended with known_traders property
 //		and CSE_ALifeTask				appended with try count property
 //		and CSE_ALifePersonalTask		no more exists
-// 37 - бинокль имеет ServerEntity не CSE_ALifeItemWeapon, а CSE_ALifeItem
+// 37 - Р±РёРЅРѕРєР»СЊ РёРјРµРµС‚ ServerEntity РЅРµ CSE_ALifeItemWeapon, Р° CSE_ALifeItem
 // 38 - CSE_ALifeHumanAbstract			appended with the equipment and weapon preferences
 // 39 - CSE_ALifeAnomalousZone			appended with the start power property
 // 40 - CSE_ALifeObjectPhysic			appended with activate flag
@@ -150,8 +150,9 @@
 // 116 - CSE_ALifeCreatureAbstract		appended with property m_game_death_time
 // 117 - CSE_ALifeLevelChanger			appended with property m_bSilentMode
 // 118 - CALifeHumanBrain				removed property m_tpKnownCustomers, sad but true
+// 119   CSE_ALifeItemWeapon            added cur_scope for alternative installed scopes
 //------------------------------------------------------------------------------
-#define SPAWN_VERSION	u16(118)
+#define SPAWN_VERSION	u16(119)
 
 SERVER_ENTITY_DECLARE_BEGIN2(CSE_Shape,ISE_Shape,CShapeData)
 public:
