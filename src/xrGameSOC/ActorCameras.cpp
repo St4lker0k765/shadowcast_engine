@@ -8,6 +8,7 @@
 #include "Car.h"
 
 #include "Weapon.h"
+#include "Inventory.h"
 
 #include "SleepEffector.h"
 #include "level.h"
@@ -17,6 +18,9 @@
 #include "CharacterPhysicsSupport.h"
 #include "EffectorShot.h"
 #include "PHShell.h"
+ENGINE_API extern float psHUD_FOV; //--#SM+#--
+ENGINE_API extern float psHUD_FOV_def; //--#SM+#--
+
 void CActor::cam_Set	(EActorCameras style)
 {
 	CCameraBase* old_cam = cam_Active();
@@ -127,6 +131,17 @@ ICF BOOL test_point(xrXRC& xrc, const Fmatrix& xform, const Fmatrix33& mat, cons
 void CActor::cam_Update(float dt, float fFOV)
 {
 	if(m_holder)		return;
+	
+	// HUD FOV Update --#SM+#--
+	if (this == Level().CurrentControlEntity())
+	{
+		CWeapon* pWeapon = smart_cast<CWeapon*>(this->inventory().ActiveItem());
+		if (eacFirstEye == cam_active && pWeapon)
+			psHUD_FOV = pWeapon->GetHudFov();
+		else
+			psHUD_FOV = psHUD_FOV_def;
+	}
+	//--#SM+#--
 
 	if(mstate_real & mcClimb&&cam_active!=eacFreeLook)
 		camUpdateLadder(dt);
