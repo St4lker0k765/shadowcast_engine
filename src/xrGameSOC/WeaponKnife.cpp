@@ -185,9 +185,9 @@ void CWeaponKnife::OnAnimationEnd(u32 state)
 			{
 				m_attackStart = false;
 				if(GetState()==eFire)
-					time = PlayHUDMotion("anim_shoot1_end", "anm_attack_end", FALSE, this, state);
+					time = PlayHUDMotionIfExists({ "anim_shoot1_end", "anm_attack_end" }, FALSE,  state);
 				else // eFire2
-					time = PlayHUDMotion("anim_shoot2_end", "anm_attack2_end", FALSE, this, state);
+					time = PlayHUDMotionIfExists({ "anim_shoot2_end", "anm_attack2_end" }, FALSE, state);
 
 				Fvector	p1, d; 
 				p1.set(get_LastFP()); 
@@ -221,9 +221,9 @@ void CWeaponKnife::switch2_Attacking	(u32 state)
 		return;
 
 	if (state == eFire)
-		PlayHUDMotion("anim_shoot1_start", "anm_attack", FALSE, this, state);
+		PlayHUDMotionIfExists({ "anim_shoot1_start", "anm_attack" }, FALSE, state);
 	else // eFire2
-		PlayHUDMotion("anim_shoot2_start", "anm_attack2", FALSE, this, state);
+		PlayHUDMotionIfExists({ "anim_shoot2_start", "anm_attack2" }, FALSE, state);
 
 	m_attackMotionMarksAvailable = !m_current_motion_def->marks.empty();
 	m_attackStart = true;
@@ -241,7 +241,7 @@ void CWeaponKnife::switch2_Hiding()
 {
 	FireEnd();
 	VERIFY(GetState() == eHiding);
-	PlayHUDMotion("anim_hide", "anm_hide", TRUE, this, GetState());
+	PlayHUDMotionIfExists({ "anim_hide", "anm_hide" }, TRUE, GetState());
 }
 
 void CWeaponKnife::switch2_Hidden()
@@ -253,7 +253,7 @@ void CWeaponKnife::switch2_Hidden()
 void CWeaponKnife::switch2_Showing()
 {
 	VERIFY(GetState() == eShowing);
-	PlayHUDMotion("anim_draw", "anm_show", FALSE, this, GetState());
+	PlayHUDMotionIfExists({ "anim_draw", "anm_show" }, FALSE, GetState());
 }
 
 void CWeaponKnife::FireStart()

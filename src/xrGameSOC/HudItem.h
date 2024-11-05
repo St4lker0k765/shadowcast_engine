@@ -139,9 +139,10 @@ public:
 	virtual	void	UpdateXForm				() = 0;
 
 	u32				PlayHUDMotion			(const shared_str& M, BOOL bMixIn, CHudItem* W, u32 state, bool randomAnim = true, float speed = 1.f);
-	u32				PlayHUDMotion			(const shared_str& M, const shared_str& M2, BOOL bMixIn, CHudItem* W, u32 state, bool randomAnim = true, float speed = 1.f);
+	u32				PlayHUDMotionIfExists	(std::initializer_list<const char*> Ms, const bool bMixIn, const u32 state, const bool randomAnim = true, float speed = 1.f);
 	u32				PlayHUDMotion_noCB		(const shared_str& M, BOOL bMixIn, bool randomAnim = true, float speed = 1.f);
 	bool			AnimationExist			(const shared_str& M) const;
+	u32				PlayHUDMotionNew		(const shared_str& M, const bool bMixIn, const u32 state, const bool randomAnim = true, float speed = 1.f);
 	void			StopCurrentAnimWithoutCallback();
 
 	attachable_hud_item* HudItemData		() const;

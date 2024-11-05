@@ -1050,20 +1050,20 @@ void CWeaponMagazined::ApplySilencerKoeffs	()
 void CWeaponMagazined::PlayAnimShow()
 {
 	VERIFY(GetState() == eShowing);
-	PlayHUDMotion("anim_draw", "anm_show", false, this, GetState());
+	PlayHUDMotionIfExists({ "anim_draw", "anm_show" }, false, GetState());
 }
 
 void CWeaponMagazined::PlayAnimHide()
 {
 	VERIFY(GetState() == eHiding);
-	PlayHUDMotion("anim_holster", "anm_hide", true, this, GetState());
+	PlayHUDMotionIfExists({ "anim_holster", "anm_hide" }, true, GetState());
 }
 
 
 void CWeaponMagazined::PlayAnimReload()
 {
 	VERIFY(GetState()==eReload);
-	PlayHUDMotion("anim_reload", "anm_reload", TRUE, nullptr, GetState());
+	PlayHUDMotionIfExists({ "anim_reload", "anm_reload" }, TRUE, GetState());
 }
 
 void CWeaponMagazined::PlayAnimIdle()
@@ -1081,13 +1081,13 @@ void CWeaponMagazined::PlayAnimIdle()
 
 void CWeaponMagazined::PlayAnimAim()
 {
-	PlayHUDMotion("anim_idle_aim", "anm_idle_aim", true, nullptr, GetState());
+	PlayHUDMotionIfExists({ "anim_idle_aim", "anm_idle_aim" }, true, GetState());
 }
 
 void CWeaponMagazined::PlayAnimShoot()
 {
 	VERIFY(GetState() == eFire || GetState() == eFire2);
-	PlayHUDMotion("anim_shoot", "anm_shots", false, this, GetState());
+	PlayHUDMotionIfExists({ "anim_shoot", "anm_shots" }, false, GetState());
 }
 
 void CWeaponMagazined::OnZoomIn			()

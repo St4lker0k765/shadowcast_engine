@@ -24,9 +24,15 @@ void CWeaponBM16::PlayAnimShoot()
 {
 	switch (m_magazine.size())
 	{
-	case 1: PlayHUDMotion("anim_shoot_1", "anm_shot_1", FALSE, this, GetState()); break;
-	case 2: PlayHUDMotion("anim_shoot", "anm_shot_2", FALSE, this, GetState()); break;
-	default: PlayHUDMotion("anim_shoot", "anm_shots", FALSE, this, GetState()); break;
+	case 1: 
+		PlayHUDMotionIfExists({ "anim_shoot_1", "anm_shot_1" }, FALSE, GetState()); 
+		break;
+	case 2: 
+		PlayHUDMotionIfExists({ "anim_shoot", "anm_shot_2" }, FALSE, GetState()); 
+		break;
+	default: 
+		PlayHUDMotionIfExists({ "anim_shoot", "anm_shots" }, FALSE, GetState()); 
+		break;
 	}
 }
 
@@ -38,24 +44,15 @@ void CWeaponBM16::PlayAnimShow()
 	{
 	case 0:
 	{
-		if (AnimationExist("anim_draw_0"))
-			PlayHUDMotion("anim_draw_0", TRUE, this, GetState());
-		else
-			PlayHUDMotion("anim_draw", "anm_show_0", TRUE, this, GetState());
+		PlayHUDMotionIfExists({ "anim_draw_0", "anim_draw", "anm_show_0" }, TRUE, GetState());
 	} break;
 	case 1:
 	{
-		if (AnimationExist("anim_draw_1"))
-			PlayHUDMotion("anim_draw_1", TRUE, this, GetState());
-		else
-			PlayHUDMotion("anim_draw", "anm_show_1", TRUE, this, GetState());
+		PlayHUDMotionIfExists({ "anim_draw_1", "anim_draw", "anm_show_1" }, TRUE, GetState());
 	} break;
 	case 2:
 	{
-		if (AnimationExist("anim_draw_2"))
-			PlayHUDMotion("anim_draw_2", TRUE, this, GetState());
-		else
-			PlayHUDMotion("anim_draw", "anm_show_2", TRUE, this, GetState());
+		PlayHUDMotionIfExists({ "anim_draw_2", "anim_draw", "anm_show_2" }, TRUE, GetState());
 	} break;
 	}
 }
@@ -68,24 +65,15 @@ void CWeaponBM16::PlayAnimHide()
 	{
 	case 0:
 	{
-		if (AnimationExist("anim_holster_0"))
-			PlayHUDMotion("anim_holster_0", TRUE, this, GetState());
-		else
-			PlayHUDMotion("anim_holster", "anm_hide_0", TRUE, this, GetState());
+		PlayHUDMotionIfExists({ "anim_holster_0", "anim_holster", "anm_hide_0" }, TRUE, GetState());
 	} break;
 	case 1:
 	{
-		if (AnimationExist("anim_holster_1"))
-			PlayHUDMotion("anim_holster_1", TRUE, this, GetState());
-		else
-			PlayHUDMotion("anim_holster", "anm_hide_1", TRUE, this, GetState());
+		PlayHUDMotionIfExists({ "anim_holster_1", "anim_holster", "anm_hide_1" }, TRUE, GetState());
 	} break;
 	case 2:
 	{
-		if (AnimationExist("anim_holster_2"))
-			PlayHUDMotion("anim_holster_2", TRUE, this, GetState());
-		else
-			PlayHUDMotion("anim_holster", "anm_hide_2", TRUE, this, GetState());
+		PlayHUDMotionIfExists({ "anim_holster_2",  "anim_holster", "anm_hide_2" }, TRUE, GetState());
 	} break;
 	}
 }
@@ -94,9 +82,9 @@ void CWeaponBM16::PlayAnimReload()
 {
 	VERIFY(GetState() == eReload);
 	if (m_magazine.size() == 1 || !HaveCartridgeInInventory(2))
-		PlayHUDMotion("anim_reload_1", "anm_reload_1", TRUE, this, GetState());
+		PlayHUDMotionIfExists({ "anim_reload_1", "anm_reload_1" }, TRUE, GetState());
 	else
-		PlayHUDMotion("anim_reload", "anm_reload_2", TRUE, this, GetState());
+		PlayHUDMotionIfExists({ "anim_reload", "anm_reload_2" }, TRUE, GetState());
 }
 
 void CWeaponBM16::PlayAnimIdleMoving()
@@ -105,28 +93,15 @@ void CWeaponBM16::PlayAnimIdleMoving()
 	{
 	case 0:
 	{
-		if (AnimationExist("anim_idle_moving"))
-			PlayHUDMotion("anim_idle_moving", TRUE, this, GetState());
-		else
-			PlayHUDMotion("anim_idle", "anm_idle_moving_0", TRUE, this, GetState());
+		PlayHUDMotionIfExists({ "anim_idle_moving", "anim_idle", "anm_idle_moving_0" }, TRUE, GetState());
 	} break;
 	case 1:
 	{
-		if (AnimationExist("anim_idle_moving_1"))
-			PlayHUDMotion("anim_idle_moving_1", TRUE, this, GetState());
-		else if(AnimationExist("anim_idle_moving"))
-			PlayHUDMotion("anim_idle_moving", TRUE, this, GetState());
-		else
-			PlayHUDMotion("anim_idle_1", "anm_idle_moving_1", TRUE, this, GetState());
+		PlayHUDMotionIfExists({ "anim_idle_moving_1", "anim_idle_moving", "anim_idle_1", "anm_idle_moving_1" }, TRUE, GetState());
 	} break;
 	case 2:
 	{
-		if (AnimationExist("anim_idle_moving_2"))
-			PlayHUDMotion("anim_idle_moving_2", TRUE, this, GetState());
-		else if (AnimationExist("anim_idle_moving"))
-			PlayHUDMotion("anim_idle_moving", TRUE, this, GetState());
-		else
-			PlayHUDMotion("anim_idle_2", "anm_idle_moving_2", TRUE, this, GetState());
+		PlayHUDMotionIfExists({ "anim_idle_moving_2", "anim_idle_moving", "anim_idle_2", "anm_idle_moving_2" }, TRUE, GetState());
 	} break;
 	}
 }
@@ -137,28 +112,15 @@ void CWeaponBM16::PlayAnimIdleSprint()
 	{
 	case 0:
 	{
-		if (AnimationExist("anim_idle_sprint"))
-			PlayHUDMotion("anim_idle_sprint", TRUE, this, GetState());
-		else
-			PlayHUDMotion("anim_idle", "anm_idle_sprint_0", TRUE, this, GetState());
+		PlayHUDMotionIfExists({ "anim_idle_sprint", "anim_idle", "anm_idle_sprint_0" }, TRUE, GetState());
 	} break;
 	case 1:
 	{
-		if (AnimationExist("anim_idle_sprint_1"))
-			PlayHUDMotion("anim_idle_sprint_1", TRUE, this, GetState());
-		else if (AnimationExist("anim_idle_sprint"))
-			PlayHUDMotion("anim_idle_sprint", TRUE, this, GetState());
-		else
-			PlayHUDMotion("anim_idle_1", "anm_idle_sprint_1", TRUE, this, GetState());
+		PlayHUDMotionIfExists({ "anim_idle_sprint_1", "anim_idle_sprint", "anim_idle_1", "anm_idle_sprint_1" }, TRUE, GetState());
 	} break;
 	case 2:
 	{
-		if (AnimationExist("anim_idle_sprint_2"))
-			PlayHUDMotion("anim_idle_sprint_2", TRUE, this, GetState());
-		else if (AnimationExist("anim_idle_sprint"))
-			PlayHUDMotion("anim_idle_sprint", TRUE, this, GetState());
-		else
-			PlayHUDMotion("anim_idle_2", "anm_idle_sprint_2", TRUE, this, GetState());
+		PlayHUDMotionIfExists({ "anim_idle_sprint_2", "anim_idle_sprint", "anim_idle_2", "anm_idle_sprint_2" }, TRUE, GetState());
 	} break;
 	}
 }
@@ -174,20 +136,17 @@ void CWeaponBM16::PlayAnimIdle()
 		{
 		case 0:
 		{ 
-			PlayHUDMotion("anim_idle", "anm_idle_aim_0", TRUE, nullptr, GetState());
+			PlayHUDMotionIfExists({ "anim_idle", "anm_idle_aim_0" }, TRUE, GetState());
 		}
 		break;
 		case 1: 
 		{
-			PlayHUDMotion("anim_zoomed_idle_1", "anm_idle_aim_1", TRUE, nullptr, GetState());
+			PlayHUDMotionIfExists({ "anim_zoomed_idle_1", "anm_idle_aim_1" }, TRUE, GetState());
 		}
 		break;
 		case 2:
 		{
-			if (AnimationExist("anim_zoomed_idle_2"))
-				PlayHUDMotion("anim_zoomed_idle_2", TRUE, nullptr, GetState());
-			else
-				PlayHUDMotion("anim_zoomedidle_2", "anm_idle_aim_2", TRUE, nullptr, GetState());
+			PlayHUDMotionIfExists({ "anim_zoomed_idle_2", "anim_zoomedidle_2", "anm_idle_aim_2" }, TRUE, GetState());
 		}
 		break;
 		};
@@ -198,17 +157,17 @@ void CWeaponBM16::PlayAnimIdle()
 		{
 		case 0: 
 		{
-			PlayHUDMotion("anim_idle", "anm_idle_0", TRUE, nullptr, GetState());
+			PlayHUDMotionIfExists({ "anim_idle", "anm_idle_0" }, TRUE, GetState());
 		}
 		break;
 		case 1: 
 		{ 
-			PlayHUDMotion("anim_idle_1", "anm_idle_1", TRUE, nullptr, GetState());
+			PlayHUDMotionIfExists({ "anim_idle_1", "anm_idle_1" }, TRUE, GetState());
 		}
 		break;
 		case 2: 
 		{ 
-			PlayHUDMotion("anim_idle_2", "anm_idle_2", TRUE, nullptr, GetState());
+			PlayHUDMotionIfExists({ "anim_idle_2", "anm_idle_2" }, TRUE, GetState());
 		}
 		break;
 		};

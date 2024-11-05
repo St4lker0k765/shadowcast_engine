@@ -107,7 +107,7 @@ void CWeaponShotgun::OnShotBoth()
 	AddShotEffector		();
 	
 	// анимация дуплета
-	PlayHUDMotion("anim_shoot_both", "anm_shots_both", false, this, GetState());
+	PlayHUDMotionIfExists({ "anim_shoot_both", "anm_shots_both" }, false, GetState());
 	
 	// Shell Drop
 	Fvector vel; 
@@ -293,21 +293,21 @@ void CWeaponShotgun::PlayAnimOpenWeapon()
 {
 	VERIFY(GetState() == eReload);
 
-	PlayHUDMotion("anim_open_weapon", "anm_open", FALSE, this, GetState());
+	PlayHUDMotionIfExists({ "anim_open_weapon", "anm_open" }, FALSE, GetState());
 }
 
 void CWeaponShotgun::PlayAnimAddOneCartridgeWeapon()
 {
 	VERIFY(GetState() == eReload);
 
-	PlayHUDMotion("anim_add_cartridge", "anm_add_cartridge", FALSE, this, GetState());
+	PlayHUDMotionIfExists({ "anim_add_cartridge", "anm_add_cartridge" }, FALSE, GetState());
 }
 
 void CWeaponShotgun::PlayAnimCloseWeapon()
 {
 	VERIFY(GetState() == eReload);
 
-	PlayHUDMotion("anim_close_weapon", "anm_close", FALSE, this, GetState());
+	PlayHUDMotionIfExists({ "anim_close_weapon", "anm_close" }, FALSE, GetState());
 }
 
 bool CWeaponShotgun::HaveCartridgeInInventory		(u8 cnt)

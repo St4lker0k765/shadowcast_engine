@@ -65,6 +65,7 @@ CWeapon::CWeapon(LPCSTR name)
 
 	m_fZoomFactor			= g_fov;
 	m_fZoomRotationFactor	= 0.f;
+	m_cur_scope				= NULL;
 
 
 	m_pAmmo					= nullptr;
@@ -857,6 +858,7 @@ void CWeapon::save(NET_Packet &output_packet)
 {
 	inherited::save	(output_packet);
 	save_data		(iAmmoElapsed,		output_packet);
+	save_data		(m_cur_scope,		output_packet);
 	save_data		(m_flagsAddOnState, output_packet);
 	save_data		(m_ammoType,		output_packet);
 	save_data		(m_bZoomMode,		output_packet);
@@ -866,6 +868,7 @@ void CWeapon::load(IReader &input_packet)
 {
 	inherited::load	(input_packet);
 	load_data		(iAmmoElapsed,		input_packet);
+	load_data		(m_cur_scope,		input_packet);
 	load_data		(m_flagsAddOnState, input_packet);
 	UpdateAddonsVisibility	();
 	load_data		(m_ammoType,		input_packet);

@@ -225,7 +225,7 @@ void CMissile::State(u32 state, u32 oldState)
 	case eShowing:
 	{
 		SetPending(TRUE);
-		PlayHUDMotion("anim_show", "anm_show", FALSE, this, GetState(), false);
+		PlayHUDMotionIfExists({ "anim_show", "anm_show" }, FALSE, GetState(), false);
 	}
 	break;
 	case eIdle:
@@ -241,7 +241,7 @@ void CMissile::State(u32 state, u32 oldState)
 			if (oldState != eHiding)
 			{
 				SetPending(TRUE);
-				PlayHUDMotion("anim_hide", "anm_hide", TRUE, this, GetState(), false);
+				PlayHUDMotionIfExists({ "anim_hide", "anm_hide" }, TRUE, GetState(), false);
 			}
 		}
 	}
@@ -262,25 +262,25 @@ void CMissile::State(u32 state, u32 oldState)
 	{
 		SetPending(TRUE);
 		m_fThrowForce = m_fMinForce;
-		PlayHUDMotion("anim_throw_begin", "anm_throw_begin", TRUE, this, GetState());
+		PlayHUDMotionIfExists({ "anim_throw_begin", "anm_throw_begin" }, TRUE, GetState());
 	}
 	break;
 	case eReady:
 	{ 
-		PlayHUDMotion("anim_throw_idle", "anm_throw_idle", TRUE, this, GetState());
+		PlayHUDMotionIfExists({ "anim_throw_idle", "anm_throw_idle" }, TRUE, GetState());
 	}
 	break;
 	case eThrow:
 	{
 		SetPending(TRUE);
 		m_throw = false;
-		PlayHUDMotion("anim_throw_act", "anm_throw", TRUE, this, GetState());
+		PlayHUDMotionIfExists({ "anim_throw_act", "anm_throw" }, TRUE, GetState());
 		m_throwMotionMarksAvailable = !m_current_motion_def->marks.empty();
 	}
 	break;
 	case eThrowEnd:
 	{
-		PlayHUDMotion("anim_throw_end", "anm_throw_end", TRUE, this, GetState());
+		PlayHUDMotionIfExists({ "anim_throw_end", "anm_throw_end" }, TRUE, GetState());
 		if (m_throwMotionMarksAvailable)
 			SwitchState(eShowing);
 		else
@@ -290,7 +290,7 @@ void CMissile::State(u32 state, u32 oldState)
 	case eBore:
 	{
 		PlaySound("sndPlaying", Position());
-		PlayHUDMotion("anim_playing", "anm_bore", TRUE, this, GetState());
+		PlayHUDMotionIfExists({ "anim_playing", "anm_bore" }, TRUE, GetState());
 	} 
 	break;
 	}
@@ -301,7 +301,7 @@ void CMissile::PlayAnimIdle()
 	if (TryPlayAnimIdle())
 		return;
 
-	PlayHUDMotion("anim_idle", "anm_idle", TRUE, nullptr, GetState(), false);
+	PlayHUDMotionIfExists({ "anim_idle", "anm_idle" }, TRUE, GetState(), false);
 }
 
 void CMissile::OnStateSwitch(u32 S, u32 oldState)
