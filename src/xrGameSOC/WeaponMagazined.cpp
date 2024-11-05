@@ -844,6 +844,7 @@ bool CWeaponMagazined::Attach(PIItem pIItem, bool b_send_event)
 			pIItem->object().DestroyObject	();
 		};
 
+		UpdateAltScope();
 		UpdateAddonsVisibility();
 		InitAddons();
 
