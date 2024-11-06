@@ -71,6 +71,7 @@ void CWeaponMagazinedWGrenade::Load	(LPCSTR section)
 		m_ammoName2 = 0;
 
 	iMagazineSize2 = iMagazineSize;
+	iAmmoElapsedMain = 0;
 }
 
 void CWeaponMagazinedWGrenade::net_Destroy()
@@ -183,6 +184,9 @@ void  CWeaponMagazinedWGrenade::PerformSwitchGL()
 	m_bGrenadeMode		= !m_bGrenadeMode;
 
 	iMagazineSize		= m_bGrenadeMode?1:iMagazineSize2;
+
+	if (m_bGrenadeMode)
+		iAmmoElapsedMain = iAmmoElapsed;
 
 	m_ammoTypes.swap	(m_ammoTypes2);
 
@@ -680,13 +684,24 @@ void CWeaponMagazinedWGrenade::PlayAnimShoot()
 	VERIFY(GetState() == eFire || GetState() == eFire2);
 	if (this->m_bGrenadeMode)
 	{
+		string_path guns_shoot_anm{};
+		strconcat(sizeof(guns_shoot_anm), guns_shoot_anm, (AnimationExist("anm_shoot") ? "anm_shoot" : "anm_shots"), (this->IsZoomed() && !this->IsRotatingToZoom()) ? "_aim" : "", "_g", (IsMisfire() ? "_jammed" : IsMainMagazineEmpty() ? "_empty" : ""));
+
 		//анимация стрельбы из подствольника
-		PlayHUDMotionIfExists({ "anim_shoot_g", "anm_shots_g" }, FALSE, GetState());
+		PlayHUDMotionIfExists({ guns_shoot_anm, "anim_shoot_g", "anm_shots_g" }, FALSE, GetState());
 	}
 	else
 	{
 		if (IsGrenadeLauncherAttached())
-			PlayHUDMotionIfExists({ "anim_shoot_gl", "anm_shots_w_gl" }, FALSE, GetState());
+		{
+			string_path guns_shoot_anm{};
+			strconcat(sizeof(guns_shoot_anm), guns_shoot_anm, (AnimationExist("anm_shoot") ? "anm_shoot" : "anm_shots"), (iAmmoElapsed == 1) ? "_last" : "", (this->IsZoomed() && !this->IsRotatingToZoom()) ? (this->IsScopeAttached() ? "_aim_scope" : "_aim") : "", (this->IsSilencerAttached() && m_bUseAimSilShotAnim) ? "_sil" : "", "_w_gl");
+
+			if (iAmmoElapsed == 1)
+				PlayHUDMotionIfExists({ guns_shoot_anm, "anim_shoot_last_gl", "anim_shoot_gl", "anm_shot_l_w_gl", "anm_shots_w_gl" }, false, GetState());
+			else
+				PlayHUDMotionIfExists({ guns_shoot_anm, "anim_shoot_gl", "anm_shots_w_gl" }, FALSE, GetState());
+		}
 		else
 			inherited::PlayAnimShoot();
 	}

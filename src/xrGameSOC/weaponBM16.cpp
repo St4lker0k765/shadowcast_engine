@@ -132,6 +132,17 @@ void CWeaponBM16::PlayAnimIdle()
 
 	if (IsZoomed())
 	{
+		if (IsRotatingToZoom())
+		{
+			string32 guns_aim_anm;
+			strconcat(sizeof(guns_aim_anm), guns_aim_anm, "anm_idle_aim_start_", std::to_string(m_magazine.size()).c_str());
+			if (AnimationExist(guns_aim_anm))
+			{
+				PlayHUDMotionNew(guns_aim_anm, true, GetState());
+				return;
+			}
+		}
+
 		switch (m_magazine.size())
 		{
 		case 0:

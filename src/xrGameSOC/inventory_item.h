@@ -243,6 +243,11 @@ public:
 	virtual CHudItem			*cast_hud_item				()	{return 0;}
 	virtual CWeaponAmmo			*cast_weapon_ammo			()	{return 0;}
 	virtual CGameObject			*cast_game_object			()  {return 0;};
+protected:
+
+		template <typename T>
+		IC static bool	process_if_exists_set(LPCSTR section, LPCSTR name, T(CInifile::* method)(LPCSTR, LPCSTR)const, T& value, bool test);
+
 };
 
 #include "inventory_item_inline.h"

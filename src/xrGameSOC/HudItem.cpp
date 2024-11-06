@@ -335,7 +335,10 @@ void CHudItem::PlayAnimIdle()
 	if (TryPlayAnimIdle())
 		return;
 
-	PlayHUDMotionIfExists({ "anim_idle", "anm_idle" }, TRUE, GetState());
+	if (IsMisfireNow())
+		PlayHUDMotionIfExists({ "anm_idle_jammed", "anm_idle" }, true, GetState());
+	else
+		PlayHUDMotionIfExists({ "anim_idle", "anm_idle" }, TRUE, GetState());
 }
 
 bool CHudItem::TryPlayAnimIdle()
@@ -399,12 +402,18 @@ bool CHudItem::AnimationExist(const shared_str& anim_name) const
 
 void CHudItem::PlayAnimIdleMoving()
 { 
-	PlayHUDMotionIfExists({ "anim_idle_moving", "anim_idle", "anm_idle_moving", "anm_idle" }, true, GetState());
+	if (IsMisfireNow())
+		PlayHUDMotionIfExists({ "anm_idle_moving_jammed", "anm_idle_moving", "anm_idle" }, true, GetState());
+	else
+		PlayHUDMotionIfExists({ "anim_idle_moving", "anim_idle", "anm_idle_moving", "anm_idle" }, true, GetState());
 }
 
 void CHudItem::PlayAnimIdleSprint()
 {
-	PlayHUDMotionIfExists({"anim_idle_sprint", "anim_idle", "anm_idle_sprint", "anm_idle"}, true, GetState());
+	if (IsMisfireNow())
+		PlayHUDMotionIfExists({ "anm_idle_sprint_jammed", "anm_idle_sprint", "anm_idle" }, true, GetState());
+	else
+		PlayHUDMotionIfExists({"anim_idle_sprint", "anim_idle", "anm_idle_sprint", "anm_idle"}, true, GetState());
 }
 
 void CHudItem::OnMovementChanged(ACTOR_DEFS::EMoveCommand cmd)

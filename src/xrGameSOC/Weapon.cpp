@@ -444,7 +444,9 @@ void CWeapon::Load		(LPCSTR section)
 	misfireProbability			  = pSettings->r_float(section,"misfire_probability"); 
 	misfireConditionK			  = READ_IF_EXISTS(pSettings, r_float, section, "misfire_condition_k",	1.0f);
 	conditionDecreasePerShot	  = pSettings->r_float(section,"condition_shot_dec"); 
-		
+
+	m_bUseAimSilShotAnim = READ_IF_EXISTS(pSettings, r_bool, section, "enable_aim_silencer_shoot_anm", false);
+
 	vLoadedFirePoint	= pSettings->r_fvector3		(section,"fire_point"		);
 	
 	if(pSettings->line_exist(section,"fire_point2")) 
@@ -2066,4 +2068,9 @@ float CWeapon::GetHudFov()
 		m_nearwall_last_hud_fov = m_nearwall_last_hud_fov * (1 - src) + fTrgFov * src;
 	}
 	return m_nearwall_last_hud_fov;
+}
+
+bool CWeapon::IsMisfireNow()
+{
+	return IsMisfire();
 }

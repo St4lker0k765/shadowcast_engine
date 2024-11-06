@@ -137,6 +137,7 @@ protected:
 	//переменная блокирует использование
 	//только разных типов патронов
 	bool m_bLockType;
+	bool m_bUseFiremodeChangeAnim;
 
 	//////////////////////////////////////////////
 	// режим приближения
@@ -164,6 +165,8 @@ protected:
 	virtual void	PlayAnimAim();
 	virtual void	PlayAnimShoot();
 	virtual void	PlayReloadSound		();
+
+	bool WeaponSoundExist(LPCSTR section, LPCSTR sound_name) const;
 
 	virtual	int		ShotsFired			() { return m_iShotNum; }
 	virtual float	GetWeaponDeterioration	();

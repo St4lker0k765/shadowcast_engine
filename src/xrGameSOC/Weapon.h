@@ -347,6 +347,7 @@ protected:
 
 	virtual	u8				GetCurrentHudOffsetIdx	() override;
 	virtual bool			MovingAnimAllowedNow	();
+	virtual bool			IsMisfireNow			();
 	virtual void			UpdateHudAdditonal		(Fmatrix&);
 	virtual bool			IsHudModeNow			();
 
@@ -504,6 +505,7 @@ public:
 	shared_str				m_ammoName;
 	BOOL					m_bHasTracers;
 	u8						m_u8TracerColorID;
+	bool					m_bUseAimSilShotAnim;
 	u32						m_set_next_ammoType_on_reload;
 	// Multitype ammo support
 	xr_vector<CCartridge>	m_magazine;
