@@ -106,6 +106,62 @@ void CWeaponBM16::PlayAnimIdleMoving()
 	}
 }
 
+void CWeaponBM16::PlayAnimIdleMovingSlow()
+{
+	switch (m_magazine.size())
+	{
+	case 0:
+		PlayHUDMotionIfExists({ "anm_idle_moving_slow_0", "anm_idle_moving_0" }, true, GetState());
+		break;
+	case 1:
+		PlayHUDMotionIfExists({ "anm_idle_moving_slow_1", "anm_idle_moving_1" }, true, GetState());
+		break;
+	case 2:
+		PlayHUDMotionIfExists({ "anm_idle_moving_slow_2", "anm_idle_moving_2" }, true, GetState());
+		break;
+	default:
+		PlayHUDMotionIfExists({ "anm_idle_moving_slow_2", "anm_idle_moving_2" }, true, GetState());
+		break;
+	}
+}
+
+void CWeaponBM16::PlayAnimIdleMovingCrouch()
+{
+	switch (m_magazine.size())
+	{
+	case 0:
+		PlayHUDMotionIfExists({ "anm_idle_moving_crouch_0", "anm_idle_moving_0" }, true, GetState());
+		break;
+	case 1:
+		PlayHUDMotionIfExists({ "anm_idle_moving_crouch_1", "anm_idle_moving_1" }, true, GetState());
+		break;
+	case 2:
+		PlayHUDMotionIfExists({ "anm_idle_moving_crouch_2", "anm_idle_moving_2" }, true, GetState());
+		break;
+	default:
+		PlayHUDMotionIfExists({ "anm_idle_moving_crouch_2", "anm_idle_moving_2" }, true, GetState());
+		break;
+	}
+}
+
+void CWeaponBM16::PlayAnimIdleMovingCrouchSlow()
+{
+	switch (m_magazine.size())
+	{
+	case 0:
+		PlayHUDMotionIfExists({ "anm_idle_moving_crouch_slow_0", "anm_idle_moving_crouch_0", "anm_idle_moving_0" }, true, GetState());
+		break;
+	case 1:
+		PlayHUDMotionIfExists({ "anm_idle_moving_crouch_slow_1", "anm_idle_moving_crouch_1", "anm_idle_moving_1" }, true, GetState());
+		break;
+	case 2:
+		PlayHUDMotionIfExists({ "anm_idle_moving_crouch_slow_2", "anm_idle_moving_crouch_2", "anm_idle_moving_2" }, true, GetState());
+		break;
+	default:
+		PlayHUDMotionIfExists({ "anm_idle_moving_crouch_slow_2", "anm_idle_moving_crouch_2", "anm_idle_moving_2" }, true, GetState());
+		break;
+	}
+}
 void CWeaponBM16::PlayAnimIdleSprint()
 {
 	switch (m_magazine.size())
@@ -182,5 +238,51 @@ void CWeaponBM16::PlayAnimIdle()
 		}
 		break;
 		};
+	}
+}
+
+void CWeaponBM16::PlayAnimSprintStart()
+{
+	string_path guns_sprint_start_anm{};
+	strconcat(sizeof(guns_sprint_start_anm), guns_sprint_start_anm, "anm_idle_sprint_start", std::to_string(m_magazine.size()).c_str(), IsMisfire() ? "_jammed" : "");
+
+	if (AnimationExist(guns_sprint_start_anm))
+		PlayHUDMotionNew(guns_sprint_start_anm, true, GetState());
+	else if (strstr(guns_sprint_start_anm, "_jammed"))
+	{
+		char new_guns_aim_anm[256];
+		strcpy(new_guns_aim_anm, guns_sprint_start_anm);
+		new_guns_aim_anm[strlen(guns_sprint_start_anm) - strlen("_jammed")] = '\0';
+
+		if (AnimationExist(new_guns_aim_anm))
+			PlayHUDMotionNew(new_guns_aim_anm, true, GetState());
+	}
+	else
+	{
+		m_bSprintType = true;
+		SwitchState(eIdle);
+	}
+}
+
+void CWeaponBM16::PlayAnimSprintEnd()
+{
+	string_path guns_sprint_end_anm{};
+	strconcat(sizeof(guns_sprint_end_anm), guns_sprint_end_anm, "anm_idle_sprint_end", std::to_string(m_magazine.size()).c_str(), IsMisfire() ? "_jammed" : "");
+
+	if (AnimationExist(guns_sprint_end_anm))
+		PlayHUDMotionNew(guns_sprint_end_anm, true, GetState());
+	else if (strstr(guns_sprint_end_anm, "_jammed"))
+	{
+		char new_guns_aim_anm[256];
+		strcpy(new_guns_aim_anm, guns_sprint_end_anm);
+		new_guns_aim_anm[strlen(guns_sprint_end_anm) - strlen("_jammed")] = '\0';
+
+		if (AnimationExist(new_guns_aim_anm))
+			PlayHUDMotionNew(new_guns_aim_anm, true, GetState());
+	}
+	else
+	{
+		m_bSprintType = false;
+		SwitchState(eIdle);
 	}
 }

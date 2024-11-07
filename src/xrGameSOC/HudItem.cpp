@@ -17,6 +17,7 @@
 #include "player_hud.h"
 #include "ui.h"
 #include "../xrEngine/SkeletonMotions.h"
+#include "Weapon.h"
 
 CHudItem::CHudItem(void)
 {
@@ -27,6 +28,7 @@ CHudItem::CHudItem(void)
 	AllowHudInertion	(TRUE);
 
 	m_bStopAtEndAnimIsRunning = false;
+	m_bSprintType = false;
 	m_current_motion_def = nullptr;
 	m_started_rnd_anim_idx = u8(-1);
 	m_dwStateTime		= 0;
@@ -138,10 +140,42 @@ void CHudItem::OnStateSwitch(u32 S, u32 oldState)
 {
 	m_dwStateTime = 0;
 	SetState(S);
+
 	if (object().Remote())
 		SetNextState(S);
+
+	if (S == eHidden)
+		m_bSprintType = false;
+	if (S != eIdle)
+		m_bSprintType = false;
+
+		switch (S)
+	{
+	case eSprintStart:
+		PlayAnimSprintStart();
+		break;
+	case eSprintEnd:
+		PlayAnimSprintEnd();
+		break;
+	}
 }
 
+void CHudItem::OnAnimationEnd(u32 state)
+{
+	switch (state)
+	{
+	case eSprintStart:
+	{
+		m_bSprintType = true;
+		SwitchState(eIdle);
+	} break;
+	case eSprintEnd:
+	{
+		m_bSprintType = false;
+		SwitchState(eIdle);
+	} break;
+	}
+}
 bool CHudItem::Activate()
 {
 	Show();
@@ -337,6 +371,8 @@ void CHudItem::PlayAnimIdle()
 
 	if (IsMisfireNow())
 		PlayHUDMotionIfExists({ "anm_idle_jammed", "anm_idle" }, true, GetState());
+	else if (IsMagazineEmpty())
+		PlayHUDMotionIfExists({ "anm_idle_empty", "anm_idle" }, true, GetState());
 	else
 		PlayHUDMotionIfExists({ "anim_idle", "anm_idle" }, TRUE, GetState());
 }
@@ -348,24 +384,50 @@ bool CHudItem::TryPlayAnimIdle()
 		CActor* pActor = smart_cast<CActor*>(object().H_Parent());
 		if (pActor)
 		{
-			CEntity::SEntityState st;
-			pActor->g_State(st);
-			if (st.bSprint)
+			const u32 State = pActor->get_state();
+			if (State & mcSprint)
 			{
+				if (!m_bSprintType)
+				{
+					SwitchState(eSprintStart);
+					return true;
+				}
+
 				PlayAnimIdleSprint();
 				return true;
 			}
-				if (Actor()->get_state()&ACTOR_DEFS::mcAnyMove)
+			else if (m_bSprintType)
+			{
+				if ((State & mcClimb))
+					return false;
+
+				SwitchState(eSprintEnd);
+				return true;
+			}
+			else if (State & mcAnyMove)
+			{
+				if (AnimationExist("anim_idle_moving") || AnimationExist("anm_idle_moving"))
 				{
-					if (!st.bCrouch)
+					if (!(State & mcCrouch))
 					{
-						if (AnimationExist("anim_idle_moving") || AnimationExist("anm_idle_moving"))
-						{
+						if (State & mcAccel) //Ходьба медленная (SHIFT)
+							PlayAnimIdleMovingSlow();
+						else
 							PlayAnimIdleMoving();
-							return true;
-						}
+						return true;
+					}
+					else if (State & mcAccel) //Ходьба в присяде (CTRL+SHIFT)
+					{
+						PlayAnimIdleMovingCrouchSlow();
+						return true;
+					}
+					else
+					{
+						PlayAnimIdleMovingCrouch();
+						return true;
 					}
 				}
+			}
 		}
 	}
 	return false;
@@ -403,19 +465,147 @@ bool CHudItem::AnimationExist(const shared_str& anim_name) const
 void CHudItem::PlayAnimIdleMoving()
 { 
 	if (IsMisfireNow())
-		PlayHUDMotionIfExists({ "anm_idle_moving_jammed", "anm_idle_moving", "anm_idle" }, true, GetState());
+		PlayHUDMotionIfExists({ "anm_idle_moving_jammed", "anm_idle_moving", "anim_idle_moving", "anm_idle", "anim_idle"}, true, GetState());
 	else
 		PlayHUDMotionIfExists({ "anim_idle_moving", "anim_idle", "anm_idle_moving", "anm_idle" }, true, GetState());
+}
+
+void CHudItem::PlayAnimIdleMovingSlow()
+{
+	if (IsMisfireNow())
+		PlayHUDMotionIfExists({ "anm_idle_moving_slow_jammed", "anm_idle_moving_slow", "anim_idle_moving", "anm_idle_moving", "anim_idle", "anm_idle" }, true, GetState());
+	else if (IsMagazineEmpty())
+		PlayHUDMotionIfExists({ "anm_idle_moving_slow_empty", "anm_idle_moving_slow", "anim_idle_moving", "anm_idle_moving", "anim_idle", "anm_idle" }, true, GetState());
+	else
+		PlayHUDMotionIfExists({ "anm_idle_moving_slow", "anim_idle_moving", "anm_idle_moving", "anim_idle", "anm_idle" }, true, GetState());
+}
+
+void CHudItem::PlayAnimIdleMovingCrouch()
+{
+	if (IsMisfireNow())
+		PlayHUDMotionIfExists({ "anm_idle_moving_crouch_jammed", "anm_idle_moving_crouch", "anim_idle_moving", "anm_idle_moving", "anim_idle", "anm_idle" }, true, GetState());
+	else if (IsMagazineEmpty())
+		PlayHUDMotionIfExists({ "anm_idle_moving_crouch_empty", "anm_idle_moving_crouch", "anim_idle_moving", "anm_idle_moving", "anim_idle", "anm_idle" }, true, GetState());
+	else
+		PlayHUDMotionIfExists({ "anm_idle_moving_crouch", "anim_idle_moving", "anm_idle_moving", "anim_idle", "anm_idle" }, true, GetState());
+}
+
+void CHudItem::PlayAnimIdleMovingCrouchSlow()
+{
+	if (IsMisfireNow())
+		PlayHUDMotionIfExists({ "anm_idle_moving_crouch_slow_jammed", "anm_idle_moving_crouch_slow", "anm_idle_moving_crouch", "anim_idle_moving", "anm_idle_moving", "anim_idle", "anm_idle" }, true, GetState());
+	else if (IsMagazineEmpty())
+		PlayHUDMotionIfExists({ "anm_idle_moving_crouch_slow_empty", "anm_idle_moving_crouch_slow", "anm_idle_moving_crouch", "anim_idle_moving", "anm_idle_moving", "anim_idle", "anm_idle" }, true, GetState());
+	else
+		PlayHUDMotionIfExists({ "anm_idle_moving_crouch_slow", "anm_idle_moving_crouch", "anim_idle_moving", "anm_idle_moving", "anim_idle", "anm_idle" }, true, GetState());
 }
 
 void CHudItem::PlayAnimIdleSprint()
 {
 	if (IsMisfireNow())
-		PlayHUDMotionIfExists({ "anm_idle_sprint_jammed", "anm_idle_sprint", "anm_idle" }, true, GetState());
+		PlayHUDMotionIfExists({ "anm_idle_sprint_jammed", "anm_idle_sprint", "anim_idle_sprint", "anim_idle", "anm_idle" }, true, GetState());
 	else
 		PlayHUDMotionIfExists({"anim_idle_sprint", "anim_idle", "anm_idle_sprint", "anm_idle"}, true, GetState());
 }
+void CHudItem::PlayAnimSprintStart()
+{
+	CWeapon* wpn = smart_cast<CWeapon*>(this);
 
+	string_path guns_sprint_start_anm{};
+	strconcat(sizeof(guns_sprint_start_anm), guns_sprint_start_anm, "anm_idle_sprint_start", (wpn && wpn->IsGrenadeLauncherAttached()) ? (wpn && wpn->IsGrenadeMode() ? "_g" : "_w_gl") : "", (IsMisfireNow() ? "_jammed" : (IsMagazineEmpty()) ? "_empty" : ""));
+
+	if (AnimationExist(guns_sprint_start_anm))
+		PlayHUDMotionNew(guns_sprint_start_anm, true, GetState());
+	else if (strstr(guns_sprint_start_anm, "_jammed"))
+	{
+		char new_guns_aim_anm[256];
+		strcpy(new_guns_aim_anm, guns_sprint_start_anm);
+		new_guns_aim_anm[strlen(guns_sprint_start_anm) - strlen("_jammed")] = '\0';
+
+		if (AnimationExist(new_guns_aim_anm))
+		{
+			PlayHUDMotionNew(new_guns_aim_anm, true, GetState());
+			return;
+		}
+		else
+		{
+			m_bSprintType = true;
+			SwitchState(eIdle);
+		}
+	}
+	else if (strstr(guns_sprint_start_anm, "_empty"))
+	{
+		char new_guns_aim_anm[256];
+		strcpy(new_guns_aim_anm, guns_sprint_start_anm);
+		new_guns_aim_anm[strlen(guns_sprint_start_anm) - strlen("_empty")] = '\0';
+
+		if (AnimationExist(new_guns_aim_anm))
+		{
+			PlayHUDMotionNew(new_guns_aim_anm, true, GetState());
+			return;
+		}
+		else
+		{
+			m_bSprintType = true;
+			SwitchState(eIdle);
+		}
+	}
+	else
+	{
+		m_bSprintType = true;
+		SwitchState(eIdle);
+	}
+}
+
+void CHudItem::PlayAnimSprintEnd()
+{
+	CWeapon* wpn = smart_cast<CWeapon*>(this);
+
+	string_path guns_sprint_end_anm{};
+	strconcat(sizeof(guns_sprint_end_anm), guns_sprint_end_anm, "anm_idle_sprint_end", (wpn && wpn->IsGrenadeLauncherAttached()) ? (wpn && wpn->IsGrenadeMode() ? "_g" : "_w_gl") : "", (IsMisfireNow() ? "_jammed" : (IsMagazineEmpty()) ? "_empty" : ""));
+
+	if (AnimationExist(guns_sprint_end_anm))
+		PlayHUDMotionNew(guns_sprint_end_anm, true, GetState());
+	else if (strstr(guns_sprint_end_anm, "_jammed"))
+	{
+		char new_guns_aim_anm[256];
+		strcpy(new_guns_aim_anm, guns_sprint_end_anm);
+		new_guns_aim_anm[strlen(guns_sprint_end_anm) - strlen("_jammed")] = '\0';
+
+		if (AnimationExist(new_guns_aim_anm))
+		{
+			PlayHUDMotionNew(new_guns_aim_anm, true, GetState());
+			return;
+		}
+		else
+		{
+			m_bSprintType = false;
+			SwitchState(eIdle);
+		}
+	}
+	else if (strstr(guns_sprint_end_anm, "_empty"))
+	{
+		char new_guns_aim_anm[256];
+		strcpy(new_guns_aim_anm, guns_sprint_end_anm);
+		new_guns_aim_anm[strlen(guns_sprint_end_anm) - strlen("_empty")] = '\0';
+
+		if (AnimationExist(new_guns_aim_anm))
+		{
+			PlayHUDMotionNew(new_guns_aim_anm, true, GetState());
+			return;
+		}
+		else
+		{
+			m_bSprintType = false;
+			SwitchState(eIdle);
+		}
+	}
+	else
+	{
+		m_bSprintType = false;
+		SwitchState(eIdle);
+	}
+}
 void CHudItem::OnMovementChanged(ACTOR_DEFS::EMoveCommand cmd)
 {
 	if (GetState() == eIdle && !m_bStopAtEndAnimIsRunning)

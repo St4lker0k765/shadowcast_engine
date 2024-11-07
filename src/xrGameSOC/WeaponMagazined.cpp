@@ -406,6 +406,8 @@ void CWeaponMagazined::UpdateCL			()
 		case eShowing:
 		case eHiding:
 		case eReload:
+		case eSprintStart:
+		case eSprintEnd:
 		case eIdle:
 			fTime			-=	dt;
 			if (fTime<0)	
@@ -570,6 +572,7 @@ void CWeaponMagazined::OnAnimationEnd(u32 state)
 		case eIdle:		switch2_Idle();			break;  // Keep showing idle
 
 	}
+	inherited::OnAnimationEnd(state);
 }
 void CWeaponMagazined::switch2_Idle()
 {

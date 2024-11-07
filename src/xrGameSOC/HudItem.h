@@ -26,7 +26,9 @@ public:
 		eHiding,
 		eHidden,
 		eBore,
-		eLastBaseState = eBore,
+		eSprintStart,
+		eSprintEnd,
+		eLastBaseState = eSprintEnd,
 	};
 
 private:
@@ -118,7 +120,7 @@ public:
 	virtual void	OnActiveItem		() {};
 	virtual void	OnHiddenItem		() {};
 
-	virtual void	OnAnimationEnd		(u32 state) {};
+	virtual void	OnAnimationEnd		(u32 state);
 	virtual void	OnMotionMark		(u32 state, const motion_marks&) {};
 	virtual void	OnMovementChanged	(ACTOR_DEFS::EMoveCommand cmd);
 
@@ -126,9 +128,16 @@ public:
 	bool			TryPlayAnimIdle		();
 	virtual bool	MovingAnimAllowedNow() { return true; }
 	virtual bool	IsMisfireNow		()				{ return false; }
+	virtual bool	IsMagazineEmpty		() { return false; }
+	virtual bool	IsGrenadeMode		() const { return false; }
 	//virtual void	PlayAnimBore		();
 	virtual void	PlayAnimIdleMoving	();
+	virtual void	PlayAnimIdleMovingSlow();
+	virtual void	PlayAnimIdleMovingCrouch();
+	virtual void	PlayAnimIdleMovingCrouchSlow();
 	virtual void	PlayAnimIdleSprint	();
+	virtual void	PlayAnimSprintStart	();
+	virtual void	PlayAnimSprintEnd	();
 
 	virtual void	UpdateCL			();
 	virtual void	renderable_Render	();
@@ -194,5 +203,7 @@ public:
 	IC CInventoryItem&		item					() const {	VERIFY(m_item);	return(*m_item);}
 
 	virtual void			on_renderable_Render	() = 0;
+
+	bool  m_bSprintType;
 };
 

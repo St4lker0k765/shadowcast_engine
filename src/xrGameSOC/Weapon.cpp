@@ -2074,3 +2074,13 @@ bool CWeapon::IsMisfireNow()
 {
 	return IsMisfire();
 }
+
+bool CWeapon::IsMagazineEmpty()
+{
+	return IsEmptyMagazine();
+}
+
+BOOL CWeapon::IsEmptyMagazine() const
+{
+	return (iAmmoElapsed == 0);
+}

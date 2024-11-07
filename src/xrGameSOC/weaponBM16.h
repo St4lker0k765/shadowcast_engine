@@ -19,6 +19,11 @@ protected:
 	virtual void	PlayAnimIdleSprint				();
 	virtual void	PlayAnimIdle					();
 	virtual void	PlayReloadSound					();
+	virtual void	PlayAnimIdleMovingSlow			() override;
+	virtual void	PlayAnimIdleMovingCrouch		() override;
+	virtual void	PlayAnimIdleMovingCrouchSlow	() override;
+	virtual void	PlayAnimSprintStart				() override;
+	virtual void	PlayAnimSprintEnd				() override;
 
 	DECLARE_SCRIPT_REGISTER_FUNCTION
 };

@@ -167,6 +167,7 @@ public:
 
 	BOOL					IsMisfire			() const;
 	BOOL					CheckForMisfire		();
+	BOOL					IsEmptyMagazine() const;
 
 
 	BOOL					AutoSpawnAmmo		() const		{ return m_bAutoSpawnAmmo; };
@@ -348,6 +349,7 @@ protected:
 	virtual	u8				GetCurrentHudOffsetIdx	() override;
 	virtual bool			MovingAnimAllowedNow	();
 	virtual bool			IsMisfireNow			();
+	virtual bool			IsMagazineEmpty();
 	virtual void			UpdateHudAdditonal		(Fmatrix&);
 	virtual bool			IsHudModeNow			();
 
