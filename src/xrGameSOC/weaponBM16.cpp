@@ -111,16 +111,16 @@ void CWeaponBM16::PlayAnimIdleMovingSlow()
 	switch (m_magazine.size())
 	{
 	case 0:
-		PlayHUDMotionIfExists({ "anm_idle_moving_slow_0", "anm_idle_moving_0" }, true, GetState());
+		PlayHUDMotionIfExists({ "anm_idle_moving_slow_0", "anm_idle_moving_0", "anim_idle_moving", "anim_idle" }, true, GetState());
 		break;
 	case 1:
-		PlayHUDMotionIfExists({ "anm_idle_moving_slow_1", "anm_idle_moving_1" }, true, GetState());
+		PlayHUDMotionIfExists({ "anm_idle_moving_slow_1", "anm_idle_moving_1", "anim_idle_moving_1", "anim_idle_moving", "anim_idle_1" }, true, GetState());
 		break;
 	case 2:
-		PlayHUDMotionIfExists({ "anm_idle_moving_slow_2", "anm_idle_moving_2" }, true, GetState());
+		PlayHUDMotionIfExists({ "anm_idle_moving_slow_2", "anm_idle_moving_2", "anim_idle_moving_2", "anim_idle_moving", "anim_idle_2" }, true, GetState());
 		break;
 	default:
-		PlayHUDMotionIfExists({ "anm_idle_moving_slow_2", "anm_idle_moving_2" }, true, GetState());
+		PlayHUDMotionIfExists({ "anm_idle_moving_slow_2", "anm_idle_moving_2", "anim_idle_moving_2", "anim_idle_moving", "anim_idle_2" }, true, GetState());
 		break;
 	}
 }
@@ -130,16 +130,16 @@ void CWeaponBM16::PlayAnimIdleMovingCrouch()
 	switch (m_magazine.size())
 	{
 	case 0:
-		PlayHUDMotionIfExists({ "anm_idle_moving_crouch_0", "anm_idle_moving_0" }, true, GetState());
+		PlayHUDMotionIfExists({ "anm_idle_moving_crouch_0", "anm_idle_moving_0", "anim_idle_moving", "anim_idle" }, true, GetState());
 		break;
 	case 1:
-		PlayHUDMotionIfExists({ "anm_idle_moving_crouch_1", "anm_idle_moving_1" }, true, GetState());
+		PlayHUDMotionIfExists({ "anm_idle_moving_crouch_1", "anm_idle_moving_1", "anim_idle_moving_1", "anim_idle_moving", "anim_idle_1" }, true, GetState());
 		break;
 	case 2:
-		PlayHUDMotionIfExists({ "anm_idle_moving_crouch_2", "anm_idle_moving_2" }, true, GetState());
+		PlayHUDMotionIfExists({ "anm_idle_moving_crouch_2", "anm_idle_moving_2", "anim_idle_moving_2", "anim_idle_moving", "anim_idle_2" }, true, GetState());
 		break;
 	default:
-		PlayHUDMotionIfExists({ "anm_idle_moving_crouch_2", "anm_idle_moving_2" }, true, GetState());
+		PlayHUDMotionIfExists({ "anm_idle_moving_crouch_2", "anm_idle_moving_2", "anim_idle_moving_2", "anim_idle_moving", "anim_idle_2" }, true, GetState());
 		break;
 	}
 }
@@ -149,16 +149,16 @@ void CWeaponBM16::PlayAnimIdleMovingCrouchSlow()
 	switch (m_magazine.size())
 	{
 	case 0:
-		PlayHUDMotionIfExists({ "anm_idle_moving_crouch_slow_0", "anm_idle_moving_crouch_0", "anm_idle_moving_0" }, true, GetState());
+		PlayHUDMotionIfExists({ "anm_idle_moving_crouch_slow_0", "anm_idle_moving_crouch_0", "anm_idle_moving_0", "anim_idle_moving", "anim_idle" }, true, GetState());
 		break;
 	case 1:
-		PlayHUDMotionIfExists({ "anm_idle_moving_crouch_slow_1", "anm_idle_moving_crouch_1", "anm_idle_moving_1" }, true, GetState());
+		PlayHUDMotionIfExists({ "anm_idle_moving_crouch_slow_1", "anm_idle_moving_crouch_1", "anm_idle_moving_1", "anim_idle_moving_1", "anim_idle_moving", "anim_idle_1" }, true, GetState());
 		break;
 	case 2:
-		PlayHUDMotionIfExists({ "anm_idle_moving_crouch_slow_2", "anm_idle_moving_crouch_2", "anm_idle_moving_2" }, true, GetState());
+		PlayHUDMotionIfExists({ "anm_idle_moving_crouch_slow_2", "anm_idle_moving_crouch_2", "anm_idle_moving_2", "anim_idle_moving_2", "anim_idle_moving", "anim_idle_2" }, true, GetState());
 		break;
 	default:
-		PlayHUDMotionIfExists({ "anm_idle_moving_crouch_slow_2", "anm_idle_moving_crouch_2", "anm_idle_moving_2" }, true, GetState());
+		PlayHUDMotionIfExists({ "anm_idle_moving_crouch_slow_2", "anm_idle_moving_crouch_2", "anm_idle_moving_2", "anim_idle_moving_2", "anim_idle_moving", "anim_idle_2" }, true, GetState());
 		break;
 	}
 }
@@ -220,6 +220,17 @@ void CWeaponBM16::PlayAnimIdle()
 	}
 	else
 	{
+		if (IsRotatingFromZoom())
+		{
+			string32 guns_aim_anm;
+			strconcat(sizeof(guns_aim_anm), guns_aim_anm, "anm_idle_aim_end_", std::to_string(m_magazine.size()).c_str());
+			if (AnimationExist(guns_aim_anm))
+			{
+				PlayHUDMotionNew(guns_aim_anm, true, GetState());
+				return;
+			}
+		}
+
 		switch (m_magazine.size())
 		{
 		case 0: 

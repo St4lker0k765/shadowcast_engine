@@ -630,6 +630,16 @@ void CWeaponMagazinedWGrenade::PlayAnimIdle()
 		}
 		else
 		{
+			if (IsRotatingFromZoom())
+			{
+				string32 guns_aim_anm;
+				strconcat(sizeof(guns_aim_anm), guns_aim_anm, "anm_idle_aim_end", m_bGrenadeMode ? "_g" : "_w_gl");
+				if (AnimationExist(guns_aim_anm)) {
+					PlayHUDMotionNew(guns_aim_anm, true, GetState());
+					return;
+				}
+			}
+
 			int act_state = 0;
 			CActor* pActor = smart_cast<CActor*>(H_Parent());
 			if(pActor)

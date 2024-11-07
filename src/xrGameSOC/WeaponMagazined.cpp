@@ -1101,7 +1101,17 @@ void CWeaponMagazined::PlayAnimIdle()
 		PlayAnimAim();
 	}
 	else
+	{
+		if (IsRotatingFromZoom())
+		{
+			if (AnimationExist("anm_idle_aim_end"))
+			{
+				PlayHUDMotionNew("anm_idle_aim_end", true, GetState());
+				return;
+			}
+		}
 		inherited::PlayAnimIdle();
+	}
 }
 
 void CWeaponMagazined::PlayAnimAim()
