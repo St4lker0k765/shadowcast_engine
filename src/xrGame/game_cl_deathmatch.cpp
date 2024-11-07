@@ -21,6 +21,8 @@
 #include "ui/UIActorMenu.h"
 #include "weapon.h"
 
+#include "reward_event_generator.h"
+
 #include "game_cl_deathmatch_snd_messages.h"
 #include "game_base_menu_events.h"
 
@@ -1004,6 +1006,17 @@ void game_cl_Deathmatch::OnSpawn(CObject* pObj)
 			PlayParticleEffect(Actor_Spawn_Effect.c_str(), pObj->Position());
 		game_PlayerState *ps = GetPlayerByGameID(pActor->ID());
 	};
+	if (smart_cast<CWeapon*>(pObj))
+	{
+		if (pObj->H_Parent())
+		{
+			game_PlayerState *ps = GetPlayerByGameID(pObj->H_Parent()->ID());
+			if (ps)
+			{
+				m_WeaponUsageStatistic->OnWeaponBought(ps, pObj->cNameSect().c_str());
+			}
+		}
+	}
 }
 
 void game_cl_Deathmatch::LoadSndMessages()

@@ -27,6 +27,8 @@
 #include "game_cl_artefacthunt_snd_msg.h"
 #include "game_cl_deathmatch_snd_messages.h"
 
+#include "reward_event_generator.h"
+
 
 //#define TEAM0_MENU		"artefacthunt_team0"
 #define	GREENTEAM_MENU		"capturetheartefact_team1"
@@ -843,6 +845,17 @@ void game_cl_CaptureTheArtefact::OnSpawn(CObject* pObj)
 			if (m_game_ui)
 			{
 				m_game_ui->HideBuyMenu();
+			}
+		}
+	}
+	if (smart_cast<CWeapon*>(pObj))
+	{
+		if (pObj->H_Parent())
+		{
+			game_PlayerState *ps = GetPlayerByGameID(pObj->H_Parent()->ID());
+			if (ps)
+			{
+				m_WeaponUsageStatistic->OnWeaponBought(ps, pObj->cNameSect().c_str());
 			}
 		}
 	}

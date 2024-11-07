@@ -213,6 +213,7 @@ void			CGameSpy_Browser::RefreshList_Full(bool Local, const char* FilterStr)
 			pRData->pGSBrowser = this;
 
 			m_bTryingToConnectToMasterServer = true;
+			if (MainMenu()) MainMenu()->Show_CTMS_Dialog();
 
 			thread_spawn(RefreshInternetList, "GS Internet Refresh", 0, pRData);
 		}
@@ -514,6 +515,8 @@ void			CGameSpy_Browser::OnUpdateFailed		(void* server)
 void			CGameSpy_Browser::Update()
 {
 	xrGS_ServerBrowserThink(m_pGSBrowser);	
+	if (!m_bTryingToConnectToMasterServer)
+		if (MainMenu()) MainMenu()->Hide_CTMS_Dialog();
 };
 
 void			CGameSpy_Browser::UpdateServerList()

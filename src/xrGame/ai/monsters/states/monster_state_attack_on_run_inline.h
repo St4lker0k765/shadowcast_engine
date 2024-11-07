@@ -5,7 +5,6 @@
 
 #include "../../../../xrCore/_vector3d_ext.h"
 #include "../../../level_graph.h"
-#include "../../../ai_space.h"
 
 #define TEMPLATE_SIGNATURE template <typename _Object>
 

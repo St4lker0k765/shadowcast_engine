@@ -34,6 +34,8 @@
 #include "game_cl_artefacthunt_snd_msg.h"
 #include "../xrEngine/IGame_Persistent.h"
 
+#include "reward_event_generator.h"
+
 game_cl_ArtefactHunt::game_cl_ArtefactHunt()
 {
 	m_game_ui = NULL;

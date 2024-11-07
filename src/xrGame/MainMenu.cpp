@@ -31,31 +31,36 @@
 
 #include "account_manager.h"
 #include "login_manager.h"
+#include "profile_store.h"
 #include "stats_submitter.h"
+#include "atlas_submit_queue.h"
 
 //#define DEMO_BUILD
 
 extern bool b_shniaganeed_pp;
 
 CMainMenu*	MainMenu()	{return (CMainMenu*)g_pGamePersistent->m_pMainMenu; };
+//----------------------------------------------------------------------------------
+#define INIT_MSGBOX(_box, _template)	{ _box = xr_new<CUIMessageBoxEx>(); _box->InitMessageBox(_template);}
+//----------------------------------------------------------------------------------
 
 CMainMenu::CMainMenu	()
 {
 	m_Flags.zero					();
-	m_startDialog					= nullptr;
-	m_screenshotFrame				= static_cast<u32>(-1);
+	m_startDialog					= NULL;
+	m_screenshotFrame				= u32(-1);
 	g_pGamePersistent->m_pMainMenu	= this;
 	if (Device.b_is_Ready)			OnDeviceCreate();  	
 	ReadTextureInfo					();
 	CUIXmlInit::InitColorDefs		();
-	g_btnHint						= nullptr;
-	g_statHint						= nullptr;
+	g_btnHint						= NULL;
+	g_statHint						= NULL;
 	m_deactivated_frame				= 0;	
 
 	//-------------------------------------------
 
 	m_start_time					= 0;
-	m_demo_info_loader				= nullptr;
+	m_demo_info_loader				= NULL;
 
 	if(!g_dedicated_server)
 	{
@@ -72,9 +77,10 @@ CMainMenu::~CMainMenu	()
 	xr_delete						(g_btnHint);
 	xr_delete						(g_statHint);
 	xr_delete						(m_startDialog);
-	g_pGamePersistent->m_pMainMenu	= nullptr;
+	g_pGamePersistent->m_pMainMenu	= NULL;
 
 	xr_delete						(m_demo_info_loader);
+	delete_data						(m_pMB_ErrDlgs);	
 }
 
 void CMainMenu::ReadTextureInfo()
@@ -143,7 +149,7 @@ void CMainMenu::Activate	(bool bActivate)
 			}
 			Device.seqRender.Remove			(g_pGameLevel);
 			CCameraManager::ResetPP			();
-		}
+		};
 		Device.seqRender.Add				(this, 4); // 1-console 2-cursor 3-tutorial
 
 		if (!g_pGameLevel)
@@ -182,7 +188,7 @@ void CMainMenu::Activate	(bool bActivate)
 
 			}
 			Device.seqRender.Add			(g_pGameLevel);
-		}
+		};
 		if(m_Flags.test(flRestoreConsole))
 			Console->Show			();
 
@@ -376,6 +382,12 @@ void CMainMenu::OnRenderPPUI_PP	()
 	}
 	UI().pp_stop();
 }
+/*
+void CMainMenu::StartStopMenu(CUIDialogWnd* pDialog, bool bDoHideIndicators)
+{
+	pDialog->m_bWorkInPause = true;
+	CDialogHolder::StartStopMenu(pDialog, bDoHideIndicators);
+}*/
 
 //pureFrame
 void CMainMenu::OnFrame()
@@ -399,7 +411,7 @@ void CMainMenu::OnFrame()
 		{
 			Device.seqFrame.Remove	(g_pGameLevel);
 			Device.seqRender.Remove	(g_pGameLevel);
-		}
+		};
 
 		if(m_Flags.test(flRestoreConsole))
 			Console->Show			();
@@ -432,7 +444,7 @@ void CMainMenu::Screenshot(IRender_interface::ScreenshotMode mode, LPCSTR name)
 		if(g_pGameLevel && m_Flags.test(flActive)){
 			Device.seqFrame.Add		(g_pGameLevel);
 			Device.seqRender.Add	(g_pGameLevel);
-		}
+		};
 		m_screenshotFrame			= Device.dwFrame+1;
 		m_Flags.set					(flRestoreConsole,		Console->bVisible);
 		Console->Hide				();
@@ -457,10 +469,26 @@ void CMainMenu::UnregisterPPDraw				(CUIWindow* w)
 	);
 }
 
+void CMainMenu::SwitchToMultiplayerMenu()
+{
+	m_startDialog->Dispatch				(2,1);
+};
+
 void CMainMenu::DestroyInternal(bool bForce)
 {
 	if(m_startDialog && ((m_deactivated_frame < Device.dwFrame+4)||bForce) )
 		xr_delete		(m_startDialog);
+}
+
+extern ENGINE_API string512  g_sLaunchOnExit_app;
+extern ENGINE_API string512  g_sLaunchOnExit_params;
+extern ENGINE_API string_path	g_sLaunchWorkingFolder;
+void	CMainMenu::OnRunDownloadedPatch			(CUIWindow*, void*)
+{
+	xr_strcpy					(g_sLaunchOnExit_app,*m_sPatchFileName);
+	xr_strcpy					(g_sLaunchOnExit_params,"");
+	xr_strcpy					(g_sLaunchWorkingFolder, "");
+	Console->Execute		("quit");
 }
 
 void CMainMenu::SetNeedVidRestart()
@@ -481,7 +509,7 @@ LPCSTR AddHyphens( LPCSTR c )
 	static string64 buf;
 
 	u32 sz = xr_strlen(c);
-	u32 j; 
+	u32 j = 0; 
 
 	for ( u32 i = 1; i <= 3; ++i )
 	{
@@ -505,7 +533,7 @@ LPCSTR DelHyphens( LPCSTR c )
 	u32 sz = xr_strlen( c );
 	u32 sz1 = _min( iFloor(sz/4.0f), 3 );
 
-	u32 j; 
+	u32 j = 0; 
 	for ( u32 i = 0; i < sz - sz1; ++i )
 	{
 		j = i + iFloor( i/4.0f );
@@ -514,6 +542,34 @@ LPCSTR DelHyphens( LPCSTR c )
 	buf[sz - sz1] = 0;
 	
 	return buf;
+}
+
+//extern	int VerifyClientCheck(const char *key, unsigned short cskey);
+
+void		CMainMenu::Show_CTMS_Dialog				()
+{
+}
+
+void		CMainMenu::Hide_CTMS_Dialog()
+{
+}
+
+void CMainMenu::OnConnectToMasterServerOkClicked(CUIWindow*, void*)
+{
+	Hide_CTMS_Dialog();
+}
+
+void CMainMenu::Show_DownloadMPMap(LPCSTR text, LPCSTR url)
+{
+}
+
+void CMainMenu::OnDownloadMPMap_CopyURL(CUIWindow* w, void* d)
+{
+}
+
+void CMainMenu::OnDownloadMPMap(CUIWindow* w, void* d)
+{
+	;
 }
 
 demo_info const * CMainMenu::GetDemoInfo(LPCSTR file_name)

@@ -20,6 +20,7 @@
 #define MESSAGE_MENUS	"tdm_messages_menu"
 
 #include "game_cl_teamdeathmatch_snd_messages.h"
+#include "reward_event_generator.h"
 
 const shared_str game_cl_TeamDeathmatch::GetTeamMenu(s16 team) 
 {
