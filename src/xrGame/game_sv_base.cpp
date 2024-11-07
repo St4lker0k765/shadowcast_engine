@@ -13,6 +13,9 @@
 #include "string_table.h"
 
 #include "debug_renderer.h"
+#include "xrGameSpyServer.h"
+
+ENGINE_API	bool g_dedicated_server;
 
 #define			MAPROT_LIST_NAME		"maprot_list.ltx"
 string_path		MAPROT_LIST		= "";
@@ -443,6 +446,25 @@ void game_sv_GameState::OnEvent (NET_Packet &tNetPacket, u16 type, u32 time, Cli
 		};
 	};
 }
+
+bool game_sv_GameState::CheckNewPlayer(xrClientData* CL)
+{
+	xrGameSpyServer*		gs_server = smart_cast<xrGameSpyServer*>(m_server);
+	R_ASSERT				(gs_server);
+	
+	char const *			error_msg = NULL;
+	ClientID				tmp_client_id(CL->ID);
+
+	if (error_msg)
+	{
+		m_server->SendProfileCreationError(CL, error_msg);
+		if (CL != m_server->GetServerClient()) //CL can be NULL
+			CleanDelayedEventFor(tmp_client_id);
+		return false;
+	}
+	return true;
+}
+
 void game_sv_GameState::OnSwitchPhase(u32 old_phase, u32 new_phase)
 {
 	inherited::OnSwitchPhase(old_phase, new_phase);
