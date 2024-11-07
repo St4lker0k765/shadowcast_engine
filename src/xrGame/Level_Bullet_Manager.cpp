@@ -1,3 +1,7 @@
+// Level_Bullet_Manager.cpp:	для обеспечения полета пули по траектории
+//								все пули и осколки передаются сюда
+//////////////////////////////////////////////////////////////////////
+
 #include "stdafx.h"
 #include "Level.h"
 #include "Level_Bullet_Manager.h"
@@ -5,6 +9,7 @@
 #include "Actor.h"
 #include "gamepersistent.h"
 #include "mt_config.h"
+#include "game_cl_mp.h"
 
 #include "../Include/xrRender/UIRender.h"
 #include "../Include/xrRender/Kinematics.h"

@@ -8,6 +8,7 @@
 #include "xrServer_Objects_ALife_All.h"
 #include "level.h"
 #include "game_cl_base.h"
+#include "game_sv_mp.h"
 #include "ai_space.h"
 #include "../xrEngine/IGame_Persistent.h"
 #include "string_table.h"
@@ -16,6 +17,7 @@
 #include "../xrEngine/XR_IOConsole.h"
 #include "ui/UIInventoryUtilities.h"
 #include "file_transfer.h"
+#include "screenshot_server.h"
 #include "xrServer_info.h"
 #include <functional>
 
@@ -912,6 +914,11 @@ void xrServer::PerformCheckClientsForMaxPing()
 	ForEachClientDoSender(temp_functor);
 }
 
+extern	s32		g_sv_dm_dwFragLimit;
+extern  s32		g_sv_ah_dwArtefactsNum;
+extern	s32		g_sv_dm_dwTimeLimit;
+extern	int		g_sv_ah_iReinforcementTime;
+extern	int		g_sv_mp_iDumpStatsPeriod;
 extern	BOOL	g_bCollectStatisticData;
 
 //xr_token game_types[];
@@ -928,6 +935,32 @@ void xrServer::GetServerInfo( CServerInfo* si )
 
 //	xr_strcpy( tmp256, get_token_name(game_types, game->Type() ) );
 	xr_strcpy( tmp256, GameTypeToString( game->Type(), true ) );
+	if ( game->Type() == eGameIDDeathmatch || game->Type() == eGameIDTeamDeathmatch )
+	{
+		xr_strcat( tmp256, " [" );
+		xr_strcat( tmp256, itoa( g_sv_dm_dwFragLimit, tmp, 10 ) );
+		xr_strcat( tmp256, "] " );
+	}
+	else if ( game->Type() == eGameIDArtefactHunt || game->Type() == eGameIDCaptureTheArtefact )
+	{
+		xr_strcat( tmp256, " [" );
+		xr_strcat( tmp256, itoa( g_sv_ah_dwArtefactsNum, tmp, 10 ) );
+		xr_strcat( tmp256, "] " );
+		g_sv_ah_iReinforcementTime;
+	}
+	
+	//if ( g_sv_dm_dwTimeLimit > 0 )
+	{
+		xr_strcat( tmp256, " time limit [" );
+		xr_strcat( tmp256, itoa( g_sv_dm_dwTimeLimit, tmp, 10 ) );
+		xr_strcat( tmp256, "] " );
+	}
+	if ( game->Type() == eGameIDArtefactHunt || game->Type() == eGameIDCaptureTheArtefact )
+	{
+		xr_strcat( tmp256, " RT [" );
+		xr_strcat( tmp256, itoa( g_sv_ah_iReinforcementTime, tmp, 10 ) );
+		xr_strcat( tmp256, "]" );
+	}
 	si->AddItem( "Game type", tmp256, RGB(128,255,255) );
 
 	if ( g_pGameLevel )
@@ -935,6 +968,17 @@ void xrServer::GetServerInfo( CServerInfo* si )
 		time = InventoryUtilities::GetGameTimeAsString( InventoryUtilities::etpTimeToMinutes ).c_str();
 		
 		xr_strcpy( tmp256, time );
+		if ( g_sv_mp_iDumpStatsPeriod > 0 )
+		{
+			xr_strcat( tmp256, " statistic [" );
+			xr_strcat( tmp256, itoa( g_sv_mp_iDumpStatsPeriod, tmp, 10 ) );
+			xr_strcat( tmp256, "]" );
+			if ( g_bCollectStatisticData )
+			{
+				xr_strcat( tmp256, "[weapons]" );
+			}
+			
+		}
 		si->AddItem( "Game time", tmp256, RGB(205,228,178) );
 	}
 }
@@ -972,18 +1016,53 @@ void xrServer::KickCheaters			()
 
 void xrServer::MakeScreenshot(ClientID const & admin_id, ClientID const & cheater_id)
 {
+	if ((cheater_id == SV_Client->ID) && g_dedicated_server)
+	{
+		return;
+	}
+	for (int i = 0; i < sizeof(m_screenshot_proxies)/sizeof(clientdata_proxy*); ++i)
+	{
+		if (!m_screenshot_proxies[i]->is_active())
+		{
+			m_screenshot_proxies[i]->make_screenshot(admin_id, cheater_id);
+			Msg("* admin [%d] is making screeshot of client [%d]", admin_id, cheater_id);
+			return;
+		}
+	}
+	Msg("! ERROR: SV: not enough file transfer proxies for downloading screenshot, please try later ...");
 }
 void xrServer::MakeConfigDump(ClientID const & admin_id, ClientID const & cheater_id)
 {
-	
+	if ((cheater_id == SV_Client->ID) && g_dedicated_server)
+	{
+		return;
+	}
+	for (int i = 0; i < sizeof(m_screenshot_proxies)/sizeof(clientdata_proxy*); ++i)
+	{
+		if (!m_screenshot_proxies[i]->is_active())
+		{
+			m_screenshot_proxies[i]->make_config_dump(admin_id, cheater_id);
+			Msg("* admin [%d] is making config dump of client [%d]", admin_id, cheater_id);
+			return;
+		}
+	}
+	Msg("! ERROR: SV: not enough file transfer proxies for downloading file, please try later ...");
 }
 
 
 void xrServer::initialize_screenshot_proxies()
 {
+	for (int i = 0; i < sizeof(m_screenshot_proxies)/sizeof(clientdata_proxy*); ++i)
+	{
+		m_screenshot_proxies[i] = xr_new<clientdata_proxy>(m_file_transfers);
+	}
 }
 void xrServer::deinitialize_screenshot_proxies()
 {
+	for (int i = 0; i < sizeof(m_screenshot_proxies)/sizeof(clientdata_proxy*); ++i)
+	{
+		xr_delete(m_screenshot_proxies[i]);
+	}
 }
 
 struct PlayerInfoWriter

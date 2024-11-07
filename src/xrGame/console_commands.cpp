@@ -24,6 +24,7 @@
 #include "ai/monsters/BaseMonster/base_monster.h"
 #include "date_time.h"
 #include "mt_config.h"
+#include "ui/UIOptConCom.h"
 #include "UIGameSP.h"
 #include "ui/UIActorMenu.h"
 #include "ui/UIStatic.h"
@@ -111,6 +112,8 @@ Flags32 g_uCommonFlags;
 enum E_COMMON_FLAGS{
 	flAiUseTorchDynamicLights = 1
 };
+
+CUIOptConCom g_OptConCom;
 
 typedef void (*full_memory_stats_callback_type) ( );
 XRCORE_API full_memory_stats_callback_type g_full_memory_stats_callback;
@@ -1661,6 +1664,9 @@ public:
 
 void CCC_RegisterCommands()
 {
+	// options
+	g_OptConCom.Init();
+
 	CMD4(CCC_Integer,           "lj_escapeSequences", &escapeSequences, FALSE, TRUE)
 
 	CMD1(CCC_MemStats,			"stat_memory"			)

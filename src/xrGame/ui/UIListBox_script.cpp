@@ -3,6 +3,10 @@
 #include "UIListBoxItem.h"
 #include "UIListBoxItemMsgChain.h"
 #include "ServerList.h"
+#include "UIMapList.h"
+#include "UISpinText.h"
+#include "UIMapInfo.h"
+#include "UIComboBox.h"
 
 using namespace luabind;
 
@@ -58,6 +62,12 @@ void CUIListBox::script_register(lua_State *L)
 		.def_readwrite("without_ff",		&SServerFilters::without_ff)
 		.def_readwrite("listen_servers",	&SServerFilters::listen_servers),
 
+		class_<connect_error_cb>("connect_error_cb")
+			.def(						constructor<>())
+			.def(						constructor<connect_error_cb::lua_object_type, connect_error_cb::lua_function_type>())
+			.def("bind",				&connect_error_cb::bind)
+			.def("clear",				&connect_error_cb::clear),
+
 		class_<CServerList, CUIWindow>("CServerList")
 		.def(							constructor<>())
 		.enum_("enum_connect_errcode")
@@ -73,6 +83,34 @@ void CUIListBox::script_register(lua_State *L)
 		.def("RefreshQuick",			&CServerList::RefreshQuick)
 		.def("ShowServerInfo",			&CServerList::ShowServerInfo)
 		.def("NetRadioChanged",			&CServerList::NetRadioChanged)
-		.def("SetSortFunc",				&CServerList::SetSortFunc)
+		.def("SetSortFunc",				&CServerList::SetSortFunc),
+		
+
+		class_<CUIMapList, CUIWindow>("CUIMapList")
+		.def(							constructor<>())
+		.def("SetWeatherSelector",		&CUIMapList::SetWeatherSelector)
+		.def("SetModeSelector",			&CUIMapList::SetModeSelector)
+		.def("OnModeChange",			&CUIMapList::OnModeChange)
+		.def("LoadMapList",				&CUIMapList::LoadMapList)
+		.def("SaveMapList",				&CUIMapList::SaveMapList)
+		.def("GetCommandLine",			&CUIMapList::GetCommandLine)
+		.def("SetServerParams",			&CUIMapList::SetServerParams)
+		.def("GetCurGameType",			&CUIMapList::GetCurGameType)
+		.def("StartDedicatedServer",	&CUIMapList::StartDedicatedServer)
+		.def("SetMapPic",				&CUIMapList::SetMapPic)
+		.def("SetMapInfo",				&CUIMapList::SetMapInfo)
+		.def("ClearList",				&CUIMapList::ClearList)
+		.def("IsEmpty",					&CUIMapList::IsEmpty),
+		
+		class_<enum_exporter<EGameIDs> >("GAME_TYPE")
+		.enum_("gametype")
+		[
+			value("GAME_UNKNOWN",			int(-1)),
+			value("eGameIDDeathmatch",		int(eGameIDDeathmatch)),
+			value("eGameIDTeamDeathmatch",	int(eGameIDTeamDeathmatch)),
+			value("eGameIDArtefactHunt",	int(eGameIDArtefactHunt)),
+			value("eGameIDCaptureTheArtefact",int(eGameIDCaptureTheArtefact))
+		]
+		
 	];
 }
