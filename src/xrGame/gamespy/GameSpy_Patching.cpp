@@ -105,6 +105,8 @@ void __cdecl GS_ptPatchCallback ( PTBool available, PTBool mandatory, const char
 	if (!available)
 	{
 		Msg("No new patches are available.");
+		if (g_bInformUserThatNoPatchFound)
+			MainMenu()->OnNoNewPatchFound();		
 		return;
 	};
 	Msg("Found NewPatch: %s - %s", versionName, downloadURL);
@@ -112,6 +114,7 @@ void __cdecl GS_ptPatchCallback ( PTBool available, PTBool mandatory, const char
 	char* new_download_url = static_cast<char*>(_alloca(new_url_size));
 	char const * new_url = ModifyDownloadUrl(new_download_url, new_url_size, downloadURL);
 	Msg("NewPatch url after updating: %s", new_url);
+	MainMenu()->OnNewPatchFound(versionName, new_url);
 };
 
 void	CGameSpy_Patching::CheckForPatch(bool InformOfNoPatch)

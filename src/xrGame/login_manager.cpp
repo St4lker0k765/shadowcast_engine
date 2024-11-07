@@ -232,7 +232,6 @@ void login_manager::logout()
 
 void login_manager::reinit_connection_tasks()
 {
-/*
 	account_manager* tmp_acc_mngr = MainMenu()->GetAccountMngr();
 	if (tmp_acc_mngr->is_get_account_profiles_active())
 	{
@@ -249,7 +248,6 @@ void login_manager::reinit_connection_tasks()
 		Msg("! WARNING: reiniting suggesting unique nicks");
 		tmp_acc_mngr->reinit_suggest_unique_nicks();
 	}
-	*/
 }
 
 void login_manager::delete_profile_obj()

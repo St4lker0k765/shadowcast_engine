@@ -182,8 +182,8 @@ void game_cl_ArtefactHunt::TranslateGameMessage	(u32 msg, NET_Packet& P)
 			game_PlayerState* pPlayer = GetPlayerByGameID(PlayerID);
 			if (!pPlayer) break;
 
-//			if (m_reward_generator)
-///				m_reward_generator->OnPlayerTakeArtefact(pPlayer);
+			if (m_reward_generator)
+				m_reward_generator->OnPlayerTakeArtefact(pPlayer);
 
 			xr_sprintf(tmp, "%s%s", "%s%s %s", *st.translate("mp_has_tak_art"));
 
@@ -213,8 +213,8 @@ void game_cl_ArtefactHunt::TranslateGameMessage	(u32 msg, NET_Packet& P)
 			game_PlayerState* pPlayer = GetPlayerByGameID(PlayerID);
 			if (!pPlayer) break;
 			
-//			if (m_reward_generator)
-//				m_reward_generator->OnPlayerDropArtefact(pPlayer);
+			if (m_reward_generator)
+				m_reward_generator->OnPlayerDropArtefact(pPlayer);
 
             xr_sprintf(tmp, "%s%s", "%s%s %s", *st.translate("mp_has_drop_art"));
 
@@ -237,8 +237,8 @@ void game_cl_ArtefactHunt::TranslateGameMessage	(u32 msg, NET_Packet& P)
 			game_PlayerState* pPlayer = GetPlayerByGameID(PlayerID);
 			if (!pPlayer) break;
 
-//			if (m_reward_generator)
-//				m_reward_generator->OnPlayerBringArtefact(pPlayer);
+			if (m_reward_generator)
+				m_reward_generator->OnPlayerBringArtefact(pPlayer);
 
 			xr_sprintf(tmp, "%s%s", "%s%s %s", *st.translate("mp_scores"));
 
@@ -262,8 +262,8 @@ void game_cl_ArtefactHunt::TranslateGameMessage	(u32 msg, NET_Packet& P)
 			xr_sprintf(Text, "%s%s", 
 				Color_Main, *st.translate("mp_art_spowned"));
 			if(CurrentGameUI()) CurrentGameUI()->CommonMessageOut(Text);
-	//		if (m_reward_generator)
-	//			m_reward_generator->OnArtefactSpawned();
+			if (m_reward_generator)
+				m_reward_generator->OnArtefactSpawned();
 
 			PlaySndMessage(ID_NEW_AF);
 		}break;

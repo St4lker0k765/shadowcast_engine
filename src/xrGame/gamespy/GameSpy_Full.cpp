@@ -74,6 +74,11 @@ void	CGameSpy_Full::LoadGameSpy()
 
 void	CGameSpy_Full::Update	()
 {
+	if (!m_bServicesAlreadyChecked)
+	{
+		m_bServicesAlreadyChecked = true;
+		MainMenu()->SetErrorDialog(CMainMenu::ErrGSServiceFailed);
+	}
 	m_pGS_HTTP->Think	();
 	m_pGS_SB->Update	();
 	m_pGS_GP->Think		();

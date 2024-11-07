@@ -19,8 +19,11 @@
 
 #include "login_manager.h"
 #include "account_manager.h"
+#include "profile_store.h"
 
 using namespace luabind;
+
+CMainMenu*	MainMenu();
 
 #pragma optimize("s",on)
 void UIRegistrator::script_register(lua_State *L)
@@ -55,6 +58,9 @@ void UIRegistrator::script_register(lua_State *L)
 		class_<CMainMenu>("CMainMenu")
 			.def("GetGSVer",				&CApplication::ShowCurrentVersion)
 			.def("GetDemoInfo",				&CMainMenu::GetDemoInfo)
+			.def("GetLoginMngr",			&CMainMenu::GetLoginMngr)
+			.def("GetAccountMngr",			&CMainMenu::GetAccountMngr)
+			.def("GetProfileStore",			&CMainMenu::GetProfileStore)
 	];
 
 	module(L,"main_menu")

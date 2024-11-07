@@ -6300,6 +6300,9 @@
     <ClInclude Include="game_events_handler.h">
       <Filter>Core\Server\Games\client\mp\award_system</Filter>
     </ClInclude>
+    <ClInclude Include="reward_event_generator.h">
+      <Filter>Core\Server\Games\client\mp\award_system</Filter>
+    </ClInclude>
     <ClInclude Include="reward_manager.h">
       <Filter>Core\Server\Games\client\mp\award_system</Filter>
     </ClInclude>
@@ -6483,7 +6486,13 @@
     <ClInclude Include="account_manager.h">
       <Filter>Core\Server\Games\PlayerAccounts</Filter>
     </ClInclude>
+    <ClInclude Include="account_manager_console.h">
+      <Filter>Core\Server\Games\PlayerAccounts</Filter>
+    </ClInclude>
     <ClInclude Include="atlas_stalkercoppc_v1.h">
+      <Filter>Core\Server\Games\PlayerAccounts</Filter>
+    </ClInclude>
+    <ClInclude Include="atlas_submit_queue.h">
       <Filter>Core\Server\Games\PlayerAccounts</Filter>
     </ClInclude>
     <ClInclude Include="awards_store.h">
@@ -6504,7 +6513,13 @@
     <ClInclude Include="mixed_delegate_unique_tags.h">
       <Filter>Core\Server\Games\PlayerAccounts</Filter>
     </ClInclude>
+    <ClInclude Include="player_account.h">
+      <Filter>Core\Server\Games\PlayerAccounts</Filter>
+    </ClInclude>
     <ClInclude Include="profile_data_types.h">
+      <Filter>Core\Server\Games\PlayerAccounts</Filter>
+    </ClInclude>
+    <ClInclude Include="profile_store.h">
       <Filter>Core\Server\Games\PlayerAccounts</Filter>
     </ClInclude>
     <ClInclude Include="queued_async_method.h">
@@ -9784,6 +9799,9 @@
     <ClCompile Include="event_conditions_collection.cpp">
       <Filter>Core\Server\Games\client\mp\award_system</Filter>
     </ClCompile>
+    <ClCompile Include="reward_event_generator.cpp">
+      <Filter>Core\Server\Games\client\mp\award_system</Filter>
+    </ClCompile>
     <ClCompile Include="reward_manager.cpp">
       <Filter>Core\Server\Games\client\mp\award_system</Filter>
     </ClCompile>
@@ -9955,10 +9973,16 @@
     <ClCompile Include="account_manager.cpp">
       <Filter>Core\Server\Games\PlayerAccounts</Filter>
     </ClCompile>
+    <ClCompile Include="account_manager_console.cpp">
+      <Filter>Core\Server\Games\PlayerAccounts</Filter>
+    </ClCompile>
     <ClCompile Include="account_manager_script.cpp">
       <Filter>Core\Server\Games\PlayerAccounts</Filter>
     </ClCompile>
     <ClCompile Include="atlas_stalkercoppc_v1.c">
+      <Filter>Core\Server\Games\PlayerAccounts</Filter>
+    </ClCompile>
+    <ClCompile Include="atlas_submit_queue.cpp">
       <Filter>Core\Server\Games\PlayerAccounts</Filter>
     </ClCompile>
     <ClCompile Include="awards_store.cpp">
@@ -9976,10 +10000,19 @@
     <ClCompile Include="login_manager_script.cpp">
       <Filter>Core\Server\Games\PlayerAccounts</Filter>
     </ClCompile>
+    <ClCompile Include="player_account.cpp">
+      <Filter>Core\Server\Games\PlayerAccounts</Filter>
+    </ClCompile>
     <ClCompile Include="profile_data_types.cpp">
       <Filter>Core\Server\Games\PlayerAccounts</Filter>
     </ClCompile>
     <ClCompile Include="profile_data_types_script.cpp">
+      <Filter>Core\Server\Games\PlayerAccounts</Filter>
+    </ClCompile>
+    <ClCompile Include="profile_store.cpp">
+      <Filter>Core\Server\Games\PlayerAccounts</Filter>
+    </ClCompile>
+    <ClCompile Include="profile_store_script.cpp">
       <Filter>Core\Server\Games\PlayerAccounts</Filter>
     </ClCompile>
     <ClCompile Include="stats_submitter.cpp">

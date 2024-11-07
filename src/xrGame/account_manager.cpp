@@ -263,6 +263,14 @@ void account_manager::delete_profile(account_operation_cb dpcb)
 	{
 		m_profile_deleting_cb = dpcb;
 	}
+
+	login_manager* tmp_lmngr = MainMenu()->GetLoginMngr();
+	VERIFY(tmp_lmngr);
+	if (!tmp_lmngr->get_current_profile())
+	{
+		m_profile_deleting_cb(false, "mp_gp_not_logged_in");
+		return;
+	}
 	
 	GPResult tmp_res = m_gamespy_gp->DeleteProfile(
 		&account_manager::delete_profile_cb,
@@ -533,6 +541,10 @@ void __cdecl account_manager::delete_profile_cb(GPConnection * connection,
 		return;
 	}
 	VERIFY(tmp_inst->m_gamespy_gp);
+	login_manager*	tmp_lmngr				= MainMenu()->GetLoginMngr();
+	VERIFY(tmp_lmngr);
+	tmp_lmngr->delete_profile_obj			();
+	tmp_inst->m_profile_deleting_cb			(true, "");
 }
 
 void __cdecl account_manager::search_profile_cb(GPConnection * connection,

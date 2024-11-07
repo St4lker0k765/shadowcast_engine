@@ -56,10 +56,25 @@ CMainMenu::CMainMenu	()
 	g_btnHint						= NULL;
 	g_statHint						= NULL;
 	m_deactivated_frame				= 0;	
+	
+	m_sPatchURL						= "";
+	m_pGameSpyFull					= NULL;
+	m_account_mngr					= NULL;
+	m_login_mngr					= NULL;
+	m_profile_store					= NULL;
+	m_stats_submitter				= NULL;
+	m_atlas_submit_queue			= NULL;
+
+	m_sPDProgress.IsInProgress		= false;
+	m_downloaded_mp_map_url._set	("");
 
 	//-------------------------------------------
 
+	m_NeedErrDialog					= ErrNoError;
 	m_start_time					= 0;
+
+	GetPlayerName					();
+	GetCDKeyFromRegistry			();
 	m_demo_info_loader				= NULL;
 
 	if(!g_dedicated_server)
@@ -419,6 +434,7 @@ void CMainMenu::OnFrame()
 
 	if(IsActive())
 	{
+		CheckForErrorDlg();
 		bool b_is_16_9	= (float)Device.dwWidth/(float)Device.dwHeight > (UI_BASE_WIDTH/UI_BASE_HEIGHT+0.01f);
 		if(b_is_16_9 !=m_activatedScreenRatio)
 		{
@@ -469,6 +485,18 @@ void CMainMenu::UnregisterPPDraw				(CUIWindow* w)
 	);
 }
 
+void CMainMenu::SetErrorDialog					(EErrorDlg ErrDlg)	
+{ 
+	m_NeedErrDialog = ErrDlg;
+};
+
+void CMainMenu::CheckForErrorDlg()
+{
+	if (m_NeedErrDialog == ErrNoError)	return;
+	m_pMB_ErrDlgs[m_NeedErrDialog]->ShowDialog(false);
+	m_NeedErrDialog						= ErrNoError;
+};
+
 void CMainMenu::SwitchToMultiplayerMenu()
 {
 	m_startDialog->Dispatch				(2,1);
@@ -480,6 +508,120 @@ void CMainMenu::DestroyInternal(bool bForce)
 		xr_delete		(m_startDialog);
 }
 
+void CMainMenu::OnNewPatchFound(LPCSTR VersionName, LPCSTR URL)
+{
+	if (m_sPDProgress.IsInProgress) return;
+	
+	if (m_pMB_ErrDlgs[NewPatchFound])	
+	{
+		delete_data(m_pMB_ErrDlgs[NewPatchFound]);
+		m_pMB_ErrDlgs[NewPatchFound] = NULL;
+	}
+	if (!m_pMB_ErrDlgs[NewPatchFound])
+	{
+		INIT_MSGBOX(m_pMB_ErrDlgs[NewPatchFound], "msg_box_new_patch");
+
+		shared_str tmpText;
+		tmpText.printf(m_pMB_ErrDlgs[NewPatchFound]->GetText(), VersionName, URL);
+		m_pMB_ErrDlgs[NewPatchFound]->SetText(*tmpText);		
+	}
+	m_sPatchURL = URL;
+	
+	Register						(m_pMB_ErrDlgs[NewPatchFound]);
+	m_pMB_ErrDlgs[NewPatchFound]->AddCallbackStr	("button_yes", MESSAGE_BOX_YES_CLICKED, CUIWndCallback::void_function(this, &CMainMenu::OnDownloadPatch));
+	m_pMB_ErrDlgs[NewPatchFound]->ShowDialog(false);
+};
+
+void CMainMenu::OnNoNewPatchFound()
+{
+	m_pMB_ErrDlgs[NoNewPatch]->ShowDialog(false);
+}
+
+void CMainMenu::OnDownloadPatch(CUIWindow*, void*)
+{
+	CGameSpy_Available GSA;
+	shared_str result_string;
+	if (!GSA.CheckAvailableServices(result_string))
+	{
+		Msg(*result_string);
+		return;
+	};
+	
+	LPCSTR fileName = *m_sPatchURL;
+	if (!fileName) return;
+
+	string4096 FilePath = "";
+	char* FileName = NULL;
+	GetFullPathName(fileName, 4096, FilePath, &FileName);
+
+	string_path		fname;
+	if (FS.path_exist("$downloads$"))
+	{
+		FS.update_path(fname, "$downloads$", FileName);
+		m_sPatchFileName = fname;
+	}
+	else
+		m_sPatchFileName.printf	("downloads\\%s", FileName);	
+	
+	m_sPDProgress.IsInProgress	= true;
+	m_sPDProgress.Progress		= 0;
+	m_sPDProgress.FileName		= m_sPatchFileName;
+	m_sPDProgress.Status		= "";
+
+	m_pGameSpyFull->GetGameSpyHTTP()->DownloadFile(*m_sPatchURL, *m_sPatchFileName);
+}
+
+void	CMainMenu::OnDownloadPatchError()
+{
+	m_sPDProgress.IsInProgress	= false;
+	m_pMB_ErrDlgs[PatchDownloadError]->ShowDialog(false);
+};
+
+void	CMainMenu::OnDownloadPatchSuccess			()
+{
+	m_sPDProgress.IsInProgress	= false;
+	
+	m_pMB_ErrDlgs[PatchDownloadSuccess]->ShowDialog(false);
+}
+
+void	CMainMenu::OnSessionTerminate				(LPCSTR reason)
+{
+	if ( m_NeedErrDialog == SessionTerminate && (Device.dwTimeGlobal - m_start_time) < 8000 )
+		return;
+
+	m_start_time = Device.dwTimeGlobal;
+	CStringTable	st;
+	LPCSTR str = st.translate("ui_st_kicked_by_server").c_str();
+	LPSTR		text;
+
+	if ( reason && xr_strlen(reason) && reason[0] == '@' )
+	{
+		STRCONCAT( text, reason + 1 );
+	}
+	else
+	{
+		STRCONCAT( text, str, " ", reason );
+	}
+	
+	m_pMB_ErrDlgs[SessionTerminate]->SetText(st.translate(text).c_str());
+	SetErrorDialog(CMainMenu::SessionTerminate);
+}
+
+void	CMainMenu::OnLoadError				(LPCSTR module)
+{
+	LPCSTR str=CStringTable().translate("ui_st_error_loading").c_str();
+	string1024 Text;
+	strconcat(sizeof(Text),Text,str," ");
+	xr_strcat(Text,sizeof(Text),module);
+	m_pMB_ErrDlgs[LoadingError]->SetText(Text);
+	SetErrorDialog(CMainMenu::LoadingError);
+}
+
+void	CMainMenu::OnDownloadPatchProgress			(u64 bytesReceived, u64 totalSize)
+{
+	m_sPDProgress.Progress = (float(bytesReceived)/float(totalSize))*100.0f;
+};
+
 extern ENGINE_API string512  g_sLaunchOnExit_app;
 extern ENGINE_API string512  g_sLaunchOnExit_params;
 extern ENGINE_API string_path	g_sLaunchWorkingFolder;
@@ -489,6 +631,12 @@ void	CMainMenu::OnRunDownloadedPatch			(CUIWindow*, void*)
 	xr_strcpy					(g_sLaunchOnExit_params,"");
 	xr_strcpy					(g_sLaunchWorkingFolder, "");
 	Console->Execute		("quit");
+}
+
+void CMainMenu::CancelDownload()
+{
+	m_pGameSpyFull->GetGameSpyHTTP()->StopDownload();
+	m_sPDProgress.IsInProgress	= false;
 }
 
 void CMainMenu::SetNeedVidRestart()
@@ -546,12 +694,45 @@ LPCSTR DelHyphens( LPCSTR c )
 
 //extern	int VerifyClientCheck(const char *key, unsigned short cskey);
 
+bool CMainMenu::IsCDKeyIsValid()
+{
+	if (!m_pGameSpyFull || !m_pGameSpyFull->GetGameSpyHTTP()) return false;
+	string64 CDKey = "";
+	GetCDKey_FromRegistry(CDKey);
+
+#ifndef DEMO_BUILD
+	if (!xr_strlen(CDKey)) return true;
+#endif
+
+	int GameID = 0;
+	for (int i=0; i<4; i++)
+	{
+		m_pGameSpyFull->GetGameSpyHTTP()->xrGS_GetGameID(&GameID, i);
+		if (VerifyClientCheck(CDKey, unsigned short (GameID)) == 1)
+			return true;
+	};	
+	return false;
+}
+
+bool		CMainMenu::ValidateCDKey					()
+{
+	if (IsCDKeyIsValid()) return true;
+	SetErrorDialog(CMainMenu::ErrCDKeyInvalid);
+	return false;
+}
+
 void		CMainMenu::Show_CTMS_Dialog				()
 {
+	if (!m_pMB_ErrDlgs[ConnectToMasterServer]) return;
+	if (m_pMB_ErrDlgs[ConnectToMasterServer]->IsShown()) return;
+	m_pMB_ErrDlgs[ConnectToMasterServer]->ShowDialog(false);
 }
 
 void		CMainMenu::Hide_CTMS_Dialog()
 {
+	if (!m_pMB_ErrDlgs[ConnectToMasterServer]) return;
+	if (!m_pMB_ErrDlgs[ConnectToMasterServer]->IsShown()) return;
+	m_pMB_ErrDlgs[ConnectToMasterServer]->HideDialog();
 }
 
 void CMainMenu::OnConnectToMasterServerOkClicked(CUIWindow*, void*)
@@ -559,17 +740,43 @@ void CMainMenu::OnConnectToMasterServerOkClicked(CUIWindow*, void*)
 	Hide_CTMS_Dialog();
 }
 
+LPCSTR CMainMenu::GetPlayerName()
+{
+	return "single_player";
+}
+
+LPCSTR CMainMenu::GetCDKeyFromRegistry()
+{
+	string512 key;
+	GetCDKey_FromRegistry( key );
+	m_cdkey._set( key );
+	return m_cdkey.c_str();
+}
+
 void CMainMenu::Show_DownloadMPMap(LPCSTR text, LPCSTR url)
 {
+	VERIFY( m_pMB_ErrDlgs[DownloadMPMap] );
+
+	m_downloaded_mp_map_url._set( url );
+
+	m_pMB_ErrDlgs[DownloadMPMap]->SetText(text);
+	m_pMB_ErrDlgs[DownloadMPMap]->SetTextEditURL(url);
+
+	m_pMB_ErrDlgs[DownloadMPMap]->ShowDialog(false);
 }
 
 void CMainMenu::OnDownloadMPMap_CopyURL(CUIWindow* w, void* d)
 {
+	LPCSTR url = m_downloaded_mp_map_url.c_str();
+	os_clipboard::copy_to_clipboard( url );
 }
 
 void CMainMenu::OnDownloadMPMap(CUIWindow* w, void* d)
 {
-	;
+	LPCSTR url = m_downloaded_mp_map_url.c_str();
+	LPCSTR params = NULL;
+	STRCONCAT(params, "/C start ", url);
+	ShellExecute(0, "open", "cmd.exe", params, NULL, SW_SHOW);
 }
 
 demo_info const * CMainMenu::GetDemoInfo(LPCSTR file_name)

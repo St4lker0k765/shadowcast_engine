@@ -1625,6 +1625,7 @@ public:
 	}
 };
 
+#ifdef	DEBUG
 void DBG_CashedClear();
 class CCC_DBGDrawCashedClear : public IConsole_Command {
 public:
