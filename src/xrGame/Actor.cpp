@@ -23,6 +23,7 @@
 #include "UIGameCustom.h"
 #include "../xrphysics/matrix_utils.h"
 #include "clsid_game.h"
+#include "game_cl_base_weapon_usage_statistic.h"
 #include "Grenade.h"
 #include "Torch.h"
 
@@ -584,19 +585,60 @@ void	CActor::Hit(SHit* pHDS)
 			HitMark			(HDS.damage(), HDS.dir, HDS.who, HDS.bone(), HDS.p_in_bone_space, HDS.impulse, HDS.hit_type);
 	}
 
-	float hit_power				= HitArtefactsOnBelt(HDS.damage(), HDS.hit_type);
+	if(IsGameTypeSingle())	
+	{
+		float hit_power				= HitArtefactsOnBelt(HDS.damage(), HDS.hit_type);
 
-	if (GodMode())
+		if(GodMode())
+		{
+			HDS.power				= 0.0f;
+			inherited::Hit			(&HDS);
+			return;
+		}else 
+		{
+			HDS.power				= hit_power;
+			HDS.add_wound			= true;
+			inherited::Hit			(&HDS);
+		}
+	}else
 	{
-		HDS.power = 0.0f;
-		inherited::Hit(&HDS);
-		return;
-	}
-	else
-	{
-		HDS.power = hit_power;
-		HDS.add_wound = true;
-		inherited::Hit(&HDS);
+		m_bWasBackStabbed			= false;
+		if (HDS.hit_type == ALife::eHitTypeWound_2 && Check_for_BackStab_Bone(HDS.bone()))
+		{
+			// convert impulse into local coordinate system
+			Fmatrix					mInvXForm;
+			mInvXForm.invert		(XFORM());
+			Fvector					vLocalDir;
+			mInvXForm.transform_dir	(vLocalDir,HDS.dir);
+			vLocalDir.invert		();
+
+			Fvector a				= {0,0,1};
+			float res				= a.dotproduct(vLocalDir);
+			if (res < -0.707)
+			{
+				game_PlayerState* ps = Game().GetPlayerByGameID(ID());
+				
+				if (!ps || !ps->testFlag(GAME_PLAYER_FLAG_INVINCIBLE))						
+					m_bWasBackStabbed = true;
+			}
+		};
+		
+		float hit_power				= 0.0f;
+
+		if (m_bWasBackStabbed) 
+			hit_power				= (HDS.damage() == 0) ? 0 : 100000.0f;
+		else 
+			hit_power				= HitArtefactsOnBelt(HDS.damage(), HDS.hit_type);
+
+		HDS.power					= hit_power;
+		HDS.add_wound				= true;
+		inherited::Hit				(&HDS);
+
+		if(OnServer() && !g_Alive() && HDS.hit_type==ALife::eHitTypeExplosion)
+		{
+			game_PlayerState* ps							= Game().GetPlayerByGameID(ID());
+			Game().m_WeaponUsageStatistic->OnExplosionKill	(ps, HDS);
+		}
 	}
 }
 

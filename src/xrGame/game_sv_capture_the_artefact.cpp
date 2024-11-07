@@ -15,6 +15,7 @@
 #include "weapon.h"
 #include "eatable_item_object.h" 
 #include "Missile.h"
+#include "game_cl_base_weapon_usage_statistic.h"
 #include "LevelGameDef.h"
 #include "clsid_game.h"
 #include "ui\UIBuyWndShared.h"
@@ -1530,6 +1531,7 @@ void game_sv_CaptureTheArtefact::OnPlayerKillPlayer(game_PlayerState* ps_killer,
 	bool CanGiveBonus					= OnKillResult(KillRes, ps_killer, ps_killed);
 	if (CanGiveBonus) 
 		OnGiveBonus						(KillRes, ps_killer, ps_killed, KillType, SpecialKillType, pWeaponA);
+	Game().m_WeaponUsageStatistic->OnPlayerKillPlayer(ps_killer,KillType,SpecialKillType);
 	signal_Syncronize();
 }
 
@@ -1589,6 +1591,7 @@ void game_sv_CaptureTheArtefact::ProcessPlayerDeath(game_PlayerState *playerStat
 			childArtefactTeam->second.artefactOwner->ID,
 			childArtefactTeam->second.artefact->ID, true);*/
 	}
+	Game().m_WeaponUsageStatistic->OnPlayerKilled(playerState);
 }
 
 /*void game_sv_CaptureTheArtefact::ProcessPlayerKill(game_PlayerState * playerState)
@@ -2168,6 +2171,7 @@ void game_sv_CaptureTheArtefact::ActorDeliverArtefactOnBase(CSE_ActorMP *actor, 
 	Set_RankUp_Allowed(false);
 	
 	signal_Syncronize();
+	Game().m_WeaponUsageStatistic->OnPlayerBringArtefact(ps);
 	AskAllToUpdateStatistics();
 	StartNewRound();
 }

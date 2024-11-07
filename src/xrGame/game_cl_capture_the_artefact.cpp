@@ -17,6 +17,7 @@
 #include "clsid_game.h"
 #include "actor.h"
 #include "weapon.h"
+#include "game_cl_base_weapon_usage_statistic.h"
 
 #include "../xrEngine/IGame_Persistent.h"
 #include "ui/UIActorMenu.h"

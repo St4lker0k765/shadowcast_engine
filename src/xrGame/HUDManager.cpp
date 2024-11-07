@@ -7,6 +7,7 @@
 #include "GamePersistent.h"
 #include "MainMenu.h"
 #include "grenade.h"
+#include "spectator.h"
 #include "Car.h"
 #include "UIGameCustom.h"
 #include "UICursor.h"
@@ -80,7 +81,7 @@ bool need_render_hud()
 	if (A && (!A->HUDview() || !A->g_Alive()) ) 
 		return false;
 
-	if( smart_cast<CCar*>(O))
+	if( smart_cast<CCar*>(O) || smart_cast<CSpectator*>(O) )
 		return false;
 
 	return true;

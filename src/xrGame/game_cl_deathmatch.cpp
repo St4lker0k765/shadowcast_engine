@@ -21,6 +21,7 @@
 #include "ui/UIActorMenu.h"
 #include "weapon.h"
 
+#include "game_cl_base_weapon_usage_statistic.h"
 #include "reward_event_generator.h"
 
 #include "game_cl_deathmatch_snd_messages.h"

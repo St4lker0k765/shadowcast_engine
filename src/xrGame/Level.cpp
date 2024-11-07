@@ -36,6 +36,7 @@
 #include "level_sounds.h"
 #include "car.h"
 #include "trade_parameters.h"
+#include "game_cl_base_weapon_usage_statistic.h"
 #include "MainMenu.h"
 #include "xrEngine/XR_IOConsole.h"
 #include "actor.h"
@@ -332,6 +333,8 @@ void CLevel::ProcessGameEvents()
             }
             case M_STATISTIC_UPDATE:
             {
+                if (GameID() != eGameIDSingle)
+                    Game().m_WeaponUsageStatistic->OnUpdateRequest(&P);
                 break;
             }
             case M_FILE_TRANSFER:
@@ -353,6 +356,8 @@ void CLevel::ProcessGameEvents()
             }
         }
     }
+    if (OnServer() && GameID() != eGameIDSingle)
+        Game().m_WeaponUsageStatistic->Send_Check_Respond();
 }
 
 #ifdef DEBUG_MEMORY_MANAGER
@@ -1041,6 +1046,7 @@ void CLevel::OnAlifeSimulatorLoaded()
 
 void CLevel::OnSessionTerminate(LPCSTR reason)
 {
+    MainMenu()->OnSessionTerminate(reason);
 }
 
 #include "../xrEngine/CameraManager.h"
