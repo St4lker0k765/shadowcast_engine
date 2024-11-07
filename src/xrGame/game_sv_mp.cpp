@@ -1923,6 +1923,10 @@ void game_sv_mp::DumpOnlineStatistic()
 void game_sv_mp::WritePlayerStats(CInifile& ini, LPCSTR sect, xrClientData* pCl)
 {
 	ini.w_string(sect,"player_name",	pCl->ps->getName());
+	if (pCl->ps->m_account.is_online())
+	{
+		ini.w_u32(sect,"player_profile_id",	pCl->ps->m_account.profile_id());
+	}
 	ini.w_u32	(sect,"player_team",	pCl->ps->team);
 	ini.w_u32	(sect,"kills_rival",	pCl->ps->m_iRivalKills);
 	ini.w_u32	(sect,"kills_self",		pCl->ps->m_iSelfKills);
@@ -2238,6 +2242,9 @@ void	game_sv_mp::OnPlayerChangeName		(NET_Packet& P, ClientID sender)
 		return;
 	}
 
+	shared_str old_name = ps->getName();
+	pClient->name					= NewName;
+	ps->m_account.set_player_name	(NewName);
 	CheckPlayerName					(pClient);
 	
 	if (pClient->owner)
@@ -2247,6 +2254,7 @@ void	game_sv_mp::OnPlayerChangeName		(NET_Packet& P, ClientID sender)
 		P.w_u32(GAME_EVENT_PLAYER_NAME);
 		P.w_u16(pClient->owner->ID);
 		P.w_s16(ps->team);
+		P.w_stringZ(old_name.c_str());
 		P.w_stringZ(ps->getName());
 		//---------------------------------------------------
 		real_sender tmp_functor(m_server, &P);

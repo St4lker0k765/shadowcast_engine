@@ -5,12 +5,20 @@
 #include "Spectator.h"
 #include "file_transfer.h"
 #include "screenshot_manager.h"
+#include "configs_dumper.h"
+#include "configs_dump_verifyer.h"
 #include "screenshot_server.h"
 #include "../xrCore/fastdelegate.h"
 
 class CUIWindow;
 class CUISpeechMenu;
 class CUIMessageBoxEx;
+
+namespace award_system
+{
+	class reward_manager;
+}//namespace award_system
+
 
 struct SND_Message{
 	ref_sound	pSound;
@@ -251,6 +259,8 @@ public:
 	virtual		LPCSTR				GetGameScore			(string32&	score_dest) = 0;
 				
 	screenshot_manager				ss_manager;
+	mp_anticheat::configs_dumper	cd_manager;
+	mp_anticheat::configs_verifyer	cd_verifyer;
 	
 	award_system::reward_event_generator*	get_reward_generator() const { return m_reward_generator; };
 
@@ -266,7 +276,8 @@ private:
 				CMemoryWriter		upload_memory_writer;
 				void				reinit_compress_buffer(u32 need_size);
 				void				deinit_compress_buffer();
-	
+				
+				award_system::reward_manager*	m_reward_manager;
 				void				start_receive_server_info	(ClientID const & svclient_id);
 				
 				player_info_reply_cb_t	m_players_info_reply;

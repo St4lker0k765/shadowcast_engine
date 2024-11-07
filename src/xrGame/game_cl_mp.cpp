@@ -95,6 +95,7 @@ game_cl_mp::game_cl_mp()
 */	//-----------------------------------------------------------
 	m_reward_generator			= NULL;
 	m_ready_to_open_buy_menu	= true;
+	m_reward_manager			= NULL;
 	crypto::xr_crypto_init();
 };
 
@@ -144,6 +145,7 @@ game_cl_mp::~game_cl_mp()
 	xr_delete(m_pMessageBox);
 
 	xr_delete(m_reward_generator);
+	xr_delete(m_reward_manager);
 	local_player = NULL;
 };
 
@@ -435,8 +437,12 @@ void game_cl_mp::TranslateGameMessage	(u32 msg, NET_Packet& P)
 				screenshot_manager::complete_callback_t compl_cb = 
 					fastdelegate::MakeDelegate(this, &game_cl_mp::SendCollectedData);
 				ss_manager.make_screenshot(compl_cb);
-			}
-			else if (etype == e_screenshot_response)
+			} else if (etype == e_configs_request)
+			{
+				mp_anticheat::configs_dumper::complete_callback_t compl_cb = 
+					fastdelegate::MakeDelegate(this, &game_cl_mp::SendCollectedData);
+				cd_manager.dump_config(compl_cb);
+			} else if (etype == e_screenshot_response)
 			{
 				ClientID tmp_client(P.r_u32());
 				shared_str client_name;
@@ -560,6 +566,8 @@ void game_cl_mp::shedule_Update(u32 dt)
 
 	if (m_reward_generator)
 		m_reward_generator->update();
+	if (m_reward_manager)
+		m_reward_manager->update_tasks();
 
 	switch (Phase())
 	{
@@ -1801,6 +1809,11 @@ void game_cl_mp::decompress_and_process_config(LPCSTR file_name, u8* data, u32 d
 	ftosave->w			(buffer_for_compress, file_size);
 	FS.w_close			(ftosave);
 	string256			tmp_diff;
+	if (!cd_verifyer.verify(buffer_for_compress, file_size, tmp_diff))
+	{
+		add_detected_cheater(file_name, tmp_diff);
+		Msg("! CHEATER detected: %s, %s", file_name, tmp_diff);
+	}
 }
 
 game_cl_mp::fr_callback_binder*	game_cl_mp::get_receiver_cb_binder()
@@ -1908,6 +1921,11 @@ void game_cl_mp::extract_server_info(u8* data_ptr, u32 data_size)
 void game_cl_mp::AddRewardTask(u32 const award_id)
 {
 	CObject* tmp_view_entity = Level().CurrentViewEntity();
+	if ((tmp_view_entity && local_player) &&
+		(tmp_view_entity->ID() == local_player->GameID))
+	{
+		m_reward_manager->add_task(award_id);
+	}	
 }
 
 void game_cl_mp::ReInitRewardGenerator(game_PlayerState* local_ps)
@@ -1915,6 +1933,7 @@ void game_cl_mp::ReInitRewardGenerator(game_PlayerState* local_ps)
 	if (!m_reward_generator)
 	{
 		m_reward_generator	= xr_new<award_system::reward_event_generator>(u32(-1));
+		m_reward_manager	= xr_new<award_system::reward_manager>(this);
 	}
 	m_reward_generator->init_player(local_ps);
 }
