@@ -316,7 +316,7 @@ if(!psNET_direct_connect)
 	//---------------------------	
 	if (CoCreateInstanceRes != S_OK)
 	{
-		DXTRACE_ERR(tmp, CoCreateInstanceRes );
+//		DXTRACE_ERR(tmp, CoCreateInstanceRes );
 		CHK_DX(CoCreateInstanceRes );
 	}	
 	//---------------------------

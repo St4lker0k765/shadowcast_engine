@@ -2107,9 +2107,6 @@
     <Filter Include="Core\Server\Games\client\mp\screenshots">
       <UniqueIdentifier>{083893c7-5148-4c4f-8b0d-e28d55dc5ef7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Server\Games\client\mp\anticheat">
-      <UniqueIdentifier>{05fd45d5-e228-4cf4-b0ba-95c70c241d32}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core\Server\Games\client\mp\award_system">
       <UniqueIdentifier>{a6c8ba3f-676b-481e-9a66-384adbd86cfb}</UniqueIdentifier>
     </Filter>
@@ -6291,18 +6288,6 @@
     <ClInclude Include="screenshots_writer.h">
       <Filter>Core\Server\Games\client\mp\screenshots</Filter>
     </ClInclude>
-    <ClInclude Include="configs_common.h">
-      <Filter>Core\Server\Games\client\mp\anticheat</Filter>
-    </ClInclude>
-    <ClInclude Include="configs_dump_verifyer.h">
-      <Filter>Core\Server\Games\client\mp\anticheat</Filter>
-    </ClInclude>
-    <ClInclude Include="configs_dumper.h">
-      <Filter>Core\Server\Games\client\mp\anticheat</Filter>
-    </ClInclude>
-    <ClInclude Include="mp_config_sections.h">
-      <Filter>Core\Server\Games\client\mp\anticheat</Filter>
-    </ClInclude>
     <ClInclude Include="ammunition_groups.h">
       <Filter>Core\Server\Games\client\mp\award_system</Filter>
     </ClInclude>
@@ -7346,6 +7331,8 @@
     <ClInclude Include="ui\UIFrameLineWnd.h">
       <Filter>UI\UIWindows\Windows</Filter>
     </ClInclude>
+    <ClInclude Include="game_base_menu_events.h" />
+    <ClInclude Include="game_sv_base_console_vars.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="damage_manager.cpp">
@@ -9808,18 +9795,6 @@
     <ClCompile Include="screenshots_writer.cpp">
       <Filter>Core\Server\Games\client\mp\screenshots</Filter>
     </ClCompile>
-    <ClCompile Include="configs_common.cpp">
-      <Filter>Core\Server\Games\client\mp\anticheat</Filter>
-    </ClCompile>
-    <ClCompile Include="configs_dump_verifyer.cpp">
-      <Filter>Core\Server\Games\client\mp\anticheat</Filter>
-    </ClCompile>
-    <ClCompile Include="configs_dumper.cpp">
-      <Filter>Core\Server\Games\client\mp\anticheat</Filter>
-    </ClCompile>
-    <ClCompile Include="mp_config_sections.cpp">
-      <Filter>Core\Server\Games\client\mp\anticheat</Filter>
-    </ClCompile>
     <ClCompile Include="ammunition_groups.cpp">
       <Filter>Core\Server\Games\client\mp\award_system</Filter>
     </ClCompile>
@@ -10977,6 +10952,7 @@
     </ClCompile>
     <ClCompile Include="WeaponMounted.cpp" />
     <ClCompile Include="ui\UILoadingScreen.cpp" />
+    <ClCompile Include="game_sv_base_console_vars.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ai\monsters\chimera\chimera_attack_state.h">
