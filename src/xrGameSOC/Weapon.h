@@ -33,6 +33,15 @@ public:
 	virtual					~CWeapon			();
 	virtual	bool			bInZoomRightNow		() const { return m_fZoomRotationFactor > 0.05; }
 	virtual	bool            bMarkCanShow() { return IsZoomed(); }
+	virtual void			UpdateSecondVP(bool bInGrenade = false);
+	IC		bool			bIsSecondVPZoomPresent() const { return GetSecondVPZoomFactor() > 0.000f; }
+	float			GetSecondVPZoomFactor() const;
+	IC		float			GetZRotatingFactor()    const { return m_fZoomRotationFactor; }
+	float			GetSecondVPFov() const;
+	BOOL					bLoadAltScopesParams(LPCSTR section);
+	void					Load3DScopeParams(LPCSTR section);
+	void					LoadOriginalScopesParams(LPCSTR section);
+	void					LoadCurrentScopeParams(LPCSTR section);
 
 	// Generic
 	virtual void			Load				(LPCSTR section);
@@ -51,9 +60,9 @@ public:
 	virtual void			load				(IReader &input_packet);
 	virtual BOOL			net_SaveRelevant	()								{return inherited::net_SaveRelevant();}
 
-	bool					UseAltScope;
+	bool					bUseAltScope;
 	void					UpdateAltScope		();
-	bool					ScopeIsHasTexture;
+	bool					bScopeIsHasTexture;
 	shared_str				GetNameWithAttachment();
 
 
@@ -255,6 +264,9 @@ private:
 protected:
 	struct SZoomParams
 	{
+		float           m_f3dZoomFactor;        //коэффициент мирового зума при использовании второго вьюпорта
+		float           m_fSecondVPFovFactor;
+
 		    bool m_bZoomDofEnabled;
 
 			Fvector			m_ZoomDof;

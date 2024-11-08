@@ -356,6 +356,11 @@ if(!g_dedicated_server)
 		m_BloodSnd.create		(pSettings->r_string(section,"heavy_blood_snd"), st_Effect,SOUND_TYPE_MONSTER_INJURING);
 	}
 }
+	if (this == Level().CurrentEntity()) //--#SM+#-- Сбрасываем режим рендеринга в дефолтный [reset some render flags]
+	{
+		g_pGamePersistent->m_pGShaderConstants->m_blender_mode.set(0.f, 0.f, 0.f, 0.f);
+	}
+
 	cam_Set						(eacFirstEye);
 
 	// sheduler
@@ -937,7 +942,7 @@ void CActor::UpdateCL	()
 
 			Fvector pos, dir;
 
-			bool bInZoom = !!(pWeapon->bInZoomRightNow()/* && pWeapon->bIsSecondVPZoomPresent()*/ && psActorFlags.test(AF_3DSCOPE_ENABLE));
+			bool bInZoom = !!(pWeapon->bInZoomRightNow() && pWeapon->bIsSecondVPZoomPresent() && psActorFlags.test(AF_3DSCOPE_ENABLE));
 
 			pos = Cameras().Position();
 			dir = Cameras().Direction();
@@ -962,20 +967,20 @@ void CActor::UpdateCL	()
 			psHUD_Flags.set( HUD_DRAW_RT,		pWeapon->show_indicators() );
 
 			// Обновляем двойной рендер от оружия [Update SecondVP with weapon data]
-	//		pWeapon->UpdateSecondVP(); //--#SM+#-- +SecondVP+
+			pWeapon->UpdateSecondVP(); //--#SM+#-- +SecondVP+
 
 			bool bUseMark = !!pWeapon->bMarkCanShow();
 
 			//float fVPRotFactor = pWeapon->bNVsecondVPstatus ? pWeapon->GetZRotatingFactor() : 0.0f;
 
-	/*		bool bNVEnbl = !!pWeapon->bNVsecondVPstatus;
+	//		bool bNVEnbl = !!pWeapon->bNVsecondVPstatus;
 
 			// Обновляем информацию об оружии в шейдерах
 			g_pGamePersistent->m_pGShaderConstants->hud_params.x = pWeapon->GetZRotatingFactor(); //bInZoom;  //--#SM+#--
 			g_pGamePersistent->m_pGShaderConstants->hud_params.y = pWeapon->GetSecondVPFov(); //--#SM+#--
 			g_pGamePersistent->m_pGShaderConstants->hud_params.z = bUseMark; //--#SM+#--
 			g_pGamePersistent->m_pGShaderConstants->hud_params.w = pWeapon->m_nearwall_last_hud_fov;; //--#SM+#--
-			g_pGamePersistent->m_pGShaderConstants->m_blender_mode.x = bNVEnbl;  //--#SM+#--*/
+			//g_pGamePersistent->m_pGShaderConstants->m_blender_mode.x = bNVEnbl;  //--#SM+#--
 		}
 
 	}

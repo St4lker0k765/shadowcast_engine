@@ -28,13 +28,14 @@
 #include "../xrEngine/igame_persistent.h"
 #include "EffectorFall.h"
 #include "WeaponMagazinedWGrenade.h"
+#include "Inventory.h"
 
 #define WEAPON_REMOVE_TIME		60000
 #define ROTATION_TIME			0.25f
 
 ENGINE_API extern float psHUD_FOV_def;
 
-extern CUIXml* pWpnScopeXml;
+extern CUIXml* pWpnScopeXml = NULL;
 bool SOCScopesXmlEnable = READ_IF_EXISTS(pSCSettings, r_bool, "game_specific", "soc_enable_scopes_xml", false);
 
 //////////////////////////////////////////////////////////////////////
@@ -93,9 +94,11 @@ CWeapon::CWeapon(LPCSTR name)
 	m_fLR_CameraFactor = 0.f;
 	m_fLR_InertiaFactor = 0.f;
 	m_fUD_InertiaFactor = 0.f;
+	m_zoom_params.m_f3dZoomFactor = 0.0f;
+	m_zoom_params.m_fSecondVPFovFactor = 0.0f;
 
-	UseAltScope = false;
-	ScopeIsHasTexture = false;
+	bUseAltScope = false;
+	bScopeIsHasTexture = false;
 	m_nearwall_last_hud_fov = psHUD_FOV_def;
 }
 
@@ -115,7 +118,7 @@ void CWeapon::Hit(SHit* pHDS)
 
 const shared_str CWeapon::GetScopeName() const
 {
-	if (UseAltScope)
+	if (bUseAltScope)
 	{
 		return m_scopes[m_cur_scope];
 	}
@@ -127,48 +130,27 @@ const shared_str CWeapon::GetScopeName() const
 
 void CWeapon::UpdateAltScope()
 {
-	if (m_eScopeStatus == ALife::eAddonAttachable)
-	{
-		shared_str sectionNeedLoad;
-
-		if (!UseAltScope)
-			return;
-
-		if (IsScopeAttached())
-		{
-			if (pSettings->section_exist(GetNameWithAttachment()))
-			{
-				sectionNeedLoad = GetNameWithAttachment();
-			}
-			else
-			{
-				return;
-			}
-		}
-		else
-		{
-			sectionNeedLoad = m_section_id.c_str();
-		}
-
-		if (!pSettings->section_exist(sectionNeedLoad))
-			return;
-
-		shared_str vis = pSettings->r_string(sectionNeedLoad, "visual");
-
-		if (vis != cNameVisual())
-		{
-			cNameVisual_set(vis);
-		}
-
-		shared_str new_hud = pSettings->r_string(sectionNeedLoad, "hud");
-		if (new_hud != hud_sect)
-		{
-			hud_sect = new_hud;
-		}
-	}
-	else
-	{
+	if (m_eScopeStatus != ALife::eAddonAttachable || !bUseAltScope)
 		return;
+
+	shared_str sectionNeedLoad;
+
+	sectionNeedLoad = IsScopeAttached() ? GetNameWithAttachment() : m_section_id;
+
+	if (!pSettings->section_exist(sectionNeedLoad))
+		return;
+
+	shared_str vis = pSettings->r_string(sectionNeedLoad, "visual");
+
+	if (vis != cNameVisual())
+	{
+		cNameVisual_set(vis);
+	}
+
+	shared_str new_hud = pSettings->r_string(sectionNeedLoad, "hud");
+	if (new_hud != hud_sect)
+	{
+		hud_sect = new_hud;
 	}
 }
 
@@ -189,7 +171,7 @@ shared_str CWeapon::GetNameWithAttachment()
 
 int CWeapon::GetScopeX()
 {
-	if (UseAltScope)
+	if (bUseAltScope)
 	{
 		if (m_eScopeStatus != ALife::eAddonPermanent && IsScopeAttached())
 		{
@@ -208,7 +190,7 @@ int CWeapon::GetScopeX()
 
 int CWeapon::GetScopeY()
 {
-	if (UseAltScope)
+	if (bUseAltScope)
 	{
 		if (m_eScopeStatus != ALife::eAddonPermanent && IsScopeAttached())
 		{
@@ -485,121 +467,11 @@ void CWeapon::Load		(LPCSTR section)
 	m_nearwall_target_hud_fov = READ_IF_EXISTS(pSettings, r_float, section, "nearwall_target_hud_fov", 0.27f);
 	m_nearwall_speed_mod = READ_IF_EXISTS(pSettings, r_float, section, "nearwall_speed_mod", 10.f);
 
-	UseAltScope = pSettings->line_exist(section, "scopes");
+	bUseAltScope = !!bLoadAltScopesParams(section);
 
-	if (UseAltScope)
-	{
-		if (m_eScopeStatus == ALife::eAddonAttachable)
-		{
+	if (!bUseAltScope)
+		LoadOriginalScopesParams(section);
 
-			LPCSTR str = pSettings->r_string(section, "scopes");
-			for (int i = 0, count = _GetItemCount(str); i < count; ++i)
-			{
-				string128 scope_section;
-				_GetItem(str, i, scope_section);
-
-				if (!xr_strcmp(scope_section, "none"))
-				{
-					UseAltScope = 0;
-				}
-				else
-				{
-					m_scopes.push_back(scope_section);
-				}
-			}
-		}
-		else if (m_eScopeStatus == ALife::eAddonPermanent)
-		{
-			shared_str scope_tex_name = "none";
-			ScopeIsHasTexture = false;
-			if (pSettings->line_exist(cNameSect(), "scope_texture"))
-			{
-				scope_tex_name = pSettings->r_string(cNameSect(), "scope_texture");
-				if (xr_strcmp(scope_tex_name, "none") != 0)
-					ScopeIsHasTexture = true;
-			}
-			m_fScopeZoomFactor = pSettings->r_float(cNameSect(), "scope_zoom_factor");
-			if (ScopeIsHasTexture)
-			{
-/*				m_zoom_params.m_sUseZoomPostprocess = READ_IF_EXISTS(pSettings, r_string, cNameSect(), "scope_nightvision", 0);
-				m_zoom_params.m_bUseDynamicZoom = READ_IF_EXISTS(pSettings, r_bool, cNameSect(), "scope_dynamic_zoom", FALSE);
-				m_zoom_params.m_sUseBinocularVision = READ_IF_EXISTS(pSettings, r_string, cNameSect(), "scope_alive_detector", 0);*/
-				if (SOCScopesXmlEnable)
-				{
-					m_UIScopeNew = xr_new<CUIWindow>();
-					if (!pWpnScopeXml)
-					{
-						pWpnScopeXml = xr_new<CUIXml>();
-						pWpnScopeXml->Load(CONFIG_PATH, UI_PATH, "scopes.xml");
-					}
-					CUIXmlInit::InitWindow(*pWpnScopeXml, scope_tex_name.c_str(), 0, m_UIScopeNew);
-				}
-				else 
-				{
-					m_UIScope = xr_new<CUIStaticItem>();
-
-					m_UIScope->Init(*scope_tex_name, "hud\\default", 0, 0, alNone);
-				}
-			}
-
-		}
-	}
-
-	if (!UseAltScope)
-	{
-		if (m_eScopeStatus == ALife::eAddonAttachable)
-		{
-			if (pSettings->line_exist(section, "scopes_sect"))
-			{
-				LPCSTR str = pSettings->r_string(section, "scopes_sect");
-				for (int i = 0, count = _GetItemCount(str); i < count; ++i)
-				{
-					string128						scope_section;
-					_GetItem(str, i, scope_section);
-					m_scopes.push_back(scope_section);
-				}
-			}
-			else
-			{
-				m_scopes.push_back(section);
-			}
-		}
-		else if (m_eScopeStatus == ALife::eAddonPermanent)
-		{
-			shared_str scope_tex_name = "none";
-			ScopeIsHasTexture = false;
-			if (pSettings->line_exist(cNameSect(), "scope_texture"))
-			{
-				scope_tex_name = pSettings->r_string(cNameSect(), "scope_texture");
-				if (xr_strcmp(scope_tex_name, "none") != 0)
-					ScopeIsHasTexture = true;
-			}
-			m_fScopeZoomFactor = pSettings->r_float(cNameSect(), "scope_zoom_factor");
-			if (ScopeIsHasTexture)
-			{
-	/*			m_zoom_params.m_sUseZoomPostprocess = READ_IF_EXISTS(pSettings, r_string, cNameSect(), "scope_nightvision", 0);
-				m_zoom_params.m_bUseDynamicZoom = READ_IF_EXISTS(pSettings, r_bool, cNameSect(), "scope_dynamic_zoom", FALSE);
-				m_zoom_params.m_sUseBinocularVision = READ_IF_EXISTS(pSettings, r_string, cNameSect(), "scope_alive_detector", 0);*/
-				if (SOCScopesXmlEnable)
-				{
-					m_UIScopeNew = xr_new<CUIWindow>();
-					if (!pWpnScopeXml)
-					{
-						pWpnScopeXml = xr_new<CUIXml>();
-						pWpnScopeXml->Load(CONFIG_PATH, UI_PATH, "scopes.xml");
-					}
-					CUIXmlInit::InitWindow(*pWpnScopeXml, scope_tex_name.c_str(), 0, m_UIScopeNew);
-				}
-				else 
-				{
-					m_UIScope = xr_new<CUIStaticItem>();
-
-					m_UIScope->Init(*scope_tex_name, "hud\\default", 0, 0, alNone);
-				}
-			}
-		}
-	}
-    
 	if(m_eSilencerStatus == ALife::eAddonAttachable)
 	{
 		m_sSilencerName = pSettings->r_string(section,"silencer_name");
@@ -725,6 +597,141 @@ void CWeapon::LoadFireParams		(LPCSTR section, LPCSTR prefix)
 
 	CShootingObject::LoadFireParams(section, prefix);
 };
+
+BOOL CWeapon::bLoadAltScopesParams(LPCSTR section)
+{
+	if (!pSettings->line_exist(section, "scopes"))
+		return FALSE;
+
+	if (!xr_strcmp(pSettings->r_string(section, "scopes"), "none"))
+		return FALSE;
+
+	if (m_eScopeStatus == ALife::eAddonAttachable)
+	{
+		LPCSTR str = pSettings->r_string(section, "scopes");
+		for (int i = 0, count = _GetItemCount(str); i < count; ++i)
+		{
+			string128 scope_section;
+			_GetItem(str, i, scope_section);
+			m_scopes.push_back(scope_section);
+		}
+	}
+	else if (m_eScopeStatus == ALife::eAddonPermanent)
+	{
+		LoadCurrentScopeParams(section);
+	}
+
+	return TRUE;
+}
+
+void CWeapon::LoadOriginalScopesParams(LPCSTR section)
+{
+	if (m_eScopeStatus == ALife::eAddonAttachable)
+	{
+		if (pSettings->line_exist(section, "scopes_sect"))
+		{
+			LPCSTR str = pSettings->r_string(section, "scopes_sect");
+			for (int i = 0, count = _GetItemCount(str); i < count; ++i)
+			{
+				string128						scope_section;
+				_GetItem(str, i, scope_section);
+				m_scopes.push_back(scope_section);
+			}
+		}
+		else
+		{
+			m_scopes.push_back(section);
+		}
+	}
+	else if (m_eScopeStatus == ALife::eAddonPermanent)
+	{
+		LoadCurrentScopeParams(section);
+	}
+}
+
+void createWpnScopeXML()
+{
+	if (!pWpnScopeXml)
+	{
+		pWpnScopeXml = xr_new<CUIXml>();
+		pWpnScopeXml->Load(CONFIG_PATH, UI_PATH, "scopes.xml");
+	}
+}
+
+void CWeapon::LoadCurrentScopeParams(LPCSTR section)
+{
+	shared_str scope_tex_name = "none";
+	bScopeIsHasTexture = false;
+	if (pSettings->line_exist(section, "scope_texture"))
+	{
+		scope_tex_name = pSettings->r_string(section, "scope_texture");
+		if (xr_strcmp(scope_tex_name, "none") != 0)
+			bScopeIsHasTexture = true;
+	}
+
+	Load3DScopeParams(section);
+
+	m_fScopeZoomFactor = pSettings->r_float(section, "scope_zoom_factor");
+
+	if (bScopeIsHasTexture || bIsSecondVPZoomPresent())
+	{
+	//	if (bIsSecondVPZoomPresent())
+	//		bNVsecondVPavaible = !!pSettings->line_exist(section, "scope_nightvision");
+	//	else m_zoom_params.m_sUseZoomPostprocess = READ_IF_EXISTS(pSettings, r_string, section, "scope_nightvision", 0);
+
+	//	m_zoom_params.m_bUseDynamicZoom = READ_IF_EXISTS(pSettings, r_bool, section, "scope_dynamic_zoom", FALSE);
+
+	/*	if (m_zoom_params.m_bUseDynamicZoom)
+		{
+			m_fZoomStepCount = READ_IF_EXISTS(pSettings, r_u8, section, "scope_zoom_steps", 3.0f);
+			m_fZoomMinKoeff = READ_IF_EXISTS(pSettings, r_u8, section, "min_zoom_k", 0.3f);
+		}
+
+		m_zoom_params.m_sUseBinocularVision = READ_IF_EXISTS(pSettings, r_string, section, "scope_alive_detector", 0);*/
+	}
+	else
+	{
+//		bNVsecondVPavaible = false;
+//		bNVsecondVPstatus = false;
+	}
+
+//	m_fScopeInertionFactor = READ_IF_EXISTS(pSettings, r_float, section, "scope_inertion_factor", m_fControlInertionFactor);
+
+//	m_fRTZoomFactor = m_zoom_params.m_fScopeZoomFactor;
+
+	if (m_UIScope)
+	{
+		xr_delete(m_UIScope);
+	}
+
+	if (m_UIScopeNew)
+	{
+		xr_delete(m_UIScopeNew);
+	}
+
+	if (bScopeIsHasTexture)
+	{
+		if (SOCScopesXmlEnable)
+		{
+			m_UIScopeNew = xr_new<CUIWindow>();
+			createWpnScopeXML();
+			CUIXmlInit::InitWindow(*pWpnScopeXml, scope_tex_name.c_str(), 0, m_UIScopeNew);
+		}
+		else 
+		{
+			m_UIScope = xr_new<CUIStaticItem>();
+
+			m_UIScope->Init(*scope_tex_name, "hud\\default", 0, 0, alNone);
+
+		}
+	}
+}
+
+void CWeapon::Load3DScopeParams(LPCSTR section)
+{
+	m_zoom_params.m_fSecondVPFovFactor = READ_IF_EXISTS(pSettings, r_float, section, "3d_fov", 0.0f);
+	m_zoom_params.m_f3dZoomFactor = READ_IF_EXISTS(pSettings, r_float, section, "3d_zoom_factor", 100.0f);
+}
 
 BOOL CWeapon::net_Spawn		(CSE_Abstract* DC)
 {
@@ -1475,7 +1482,14 @@ void CWeapon::InitAddons()
 
 float CWeapon::CurrentZoomFactor	()
 {
-	return IsScopeAttached() ? m_fScopeZoomFactor : m_fIronSightZoomFactor;
+	if (psActorFlags.test(AF_3DSCOPE_ENABLE) && IsScopeAttached())
+	{
+		return bIsSecondVPZoomPresent() ? m_zoom_params.m_f3dZoomFactor : m_fScopeZoomFactor;
+	}
+	else
+	{
+		return IsScopeAttached() ? m_fScopeZoomFactor : m_fIronSightZoomFactor;
+	}
 };
 
 void CWeapon::OnZoomIn()
@@ -1493,6 +1507,8 @@ void CWeapon::OnZoomIn()
 
 void CWeapon::OnZoomOut()
 {
+//	if (!bIsSecondVPZoomPresent() && psActorFlags.test(AF_3DSCOPE_ENABLE))
+//		m_fRTZoomFactor = GetZoomFactor(); // Сохраняем текущий динамический зум
 	m_bZoomMode = false;
 	m_fZoomFactor = g_fov;
 
@@ -1508,7 +1524,7 @@ void CWeapon::OnZoomOut()
 
 CUIStaticItem* CWeapon::ZoomTexture()
 {
-	if (UseScopeTexture())
+	if (UseScopeTexture() && (!psActorFlags.test(AF_3DSCOPE_ENABLE) || !bIsSecondVPZoomPresent()))
 		return m_UIScope;
 	else
 		return nullptr;
@@ -1516,7 +1532,7 @@ CUIStaticItem* CWeapon::ZoomTexture()
 
 CUIWindow* CWeapon::ZoomTextureNew()
 {
-	if (UseScopeTexture())
+	if (UseScopeTexture() && (!psActorFlags.test(AF_3DSCOPE_ENABLE) || !bIsSecondVPZoomPresent()))
 		return m_UIScopeNew;
 	else
 		return NULL;
@@ -2083,4 +2099,41 @@ bool CWeapon::IsMagazineEmpty()
 BOOL CWeapon::IsEmptyMagazine() const
 {
 	return (iAmmoElapsed == 0);
+}
+
+// Обновление необходимости включения второго вьюпорта +SecondVP+
+// Вызывается только для активного оружия игрока
+void CWeapon::UpdateSecondVP(bool bInGrenade)
+{
+	bool b_is_active_item = (m_pCurrentInventory != NULL) && (m_pCurrentInventory->ActiveItem() == this);
+	R_ASSERT(ParentIsActor() && b_is_active_item); // Эта функция должна вызываться только для оружия в руках нашего игрока
+
+	CActor* pActor = smart_cast<CActor*>(H_Parent());
+
+	bool bCond_1 = bInZoomRightNow();													// Мы должны целиться
+
+	bool bCond_2 = bIsSecondVPZoomPresent() && psActorFlags.test(AF_3DSCOPE_ENABLE);	// В конфиге должен быть прописан фактор зума для линзы (scope_lense_factor
+	// больше чем 0)
+	bool bCond_3 = pActor->cam_Active() == pActor->cam_FirstEye();						// Мы должны быть от 1-го лица	
+
+	Device.m_SecondViewport.SetSVPActive(bCond_1 && bCond_2 && bCond_3 && !bInGrenade);
+}
+
+float CWeapon::GetSecondVPZoomFactor() const
+{
+	float dist_k = (100.f / m_zoom_params.m_f3dZoomFactor);
+
+	clamp(dist_k, 0.0f, 1.0f);
+
+	float result = (m_zoom_params.m_fSecondVPFovFactor / dist_k);
+
+	return result;
+}
+
+float CWeapon::GetSecondVPFov() const
+{
+//	if (m_zoom_params.m_bUseDynamicZoom && bIsSecondVPZoomPresent())
+//		return (m_fSecondRTZoomFactor / 100.f) * 75.f;//g_fov; 75.f
+
+	return GetSecondVPZoomFactor() * 75.f;//g_fov; 75.f
 }
