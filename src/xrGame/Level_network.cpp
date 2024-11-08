@@ -452,18 +452,49 @@ void CLevel::OnConnectResult(NET_Packet*	P)
 		{
 		case ecr_data_verification_failed:		//Standart error
 			{
+				if (strstr(ResultStr, "Data verification failed. Cheater?"))
+					MainMenu()->SetErrorDialog(CMainMenu::ErrDifferentVersion);
 			}break;
 		case ecr_cdkey_validation_failed:		//GameSpy CDKey
 			{
+				if (!xr_strcmp(ResultStr, "Invalid CD Key"))
+					MainMenu()->SetErrorDialog(CMainMenu::ErrCDKeyInvalid);//, ResultStr);
+				if (!xr_strcmp(ResultStr, "CD Key in use"))
+					MainMenu()->SetErrorDialog(CMainMenu::ErrCDKeyInUse);//, ResultStr);
+				if (!xr_strcmp(ResultStr, "Your CD Key is disabled. Contact customer service."))
+					MainMenu()->SetErrorDialog(CMainMenu::ErrCDKeyDisabled);//, ResultStr);
 			}break;		
 		case ecr_password_verification_failed:		//login+password
-			{;
+			{
+				MainMenu()->SetErrorDialog(CMainMenu::ErrInvalidPassword);
 			}break;
 		case ecr_have_been_banned:
 			{
+				if (!xr_strlen(ResultStr))
+				{
+					MainMenu()->OnSessionTerminate(
+						CStringTable().translate("st_you_have_been_banned").c_str()
+					);
+				} else
+				{
+					MainMenu()->OnSessionTerminate(
+						CStringTable().translate(ResultStr).c_str()
+					);
+				}
 			}break;
 		case ecr_profile_error:
 			{
+				if (!xr_strlen(ResultStr))
+				{
+					MainMenu()->OnSessionTerminate(
+						CStringTable().translate("st_profile_error").c_str()
+					);
+				} else
+				{
+					MainMenu()->OnSessionTerminate(
+						CStringTable().translate(ResultStr).c_str()
+					);
+				}
 			}
 		}
 	};	
@@ -548,16 +579,21 @@ void			CLevel::ClearAllObjects				()
 void				CLevel::OnInvalidHost			()
 {
 	IPureClient::OnInvalidHost();
+	if (MainMenu()->GetErrorDialogType() == CMainMenu::ErrNoError)
+		MainMenu()->SetErrorDialog(CMainMenu::ErrInvalidHost);
 };
 
 void				CLevel::OnInvalidPassword		()
 {
 	IPureClient::OnInvalidPassword();
+	MainMenu()->SetErrorDialog(CMainMenu::ErrInvalidPassword);
 };
 
 void				CLevel::OnSessionFull			()
 {
 	IPureClient::OnSessionFull();
+	if (MainMenu()->GetErrorDialogType() == CMainMenu::ErrNoError)
+		MainMenu()->SetErrorDialog(CMainMenu::ErrSessionFull);
 }
 
 void				CLevel::OnConnectRejected		()

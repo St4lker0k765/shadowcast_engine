@@ -1,3 +1,7 @@
+// Level_Bullet_Manager.cpp:	для обеспечения полета пули по траектории
+//								все пули и осколки передаются сюда
+//////////////////////////////////////////////////////////////////////
+
 #include "stdafx.h"
 #include "Level.h"
 #include "Level_Bullet_Manager.h"
@@ -5,6 +9,9 @@
 #include "Actor.h"
 #include "gamepersistent.h"
 #include "mt_config.h"
+#include "game_cl_base_weapon_usage_statistic.h"
+#include "game_cl_mp.h"
+#include "reward_event_generator.h"
 
 #include "../Include/xrRender/UIRender.h"
 #include "../Include/xrRender/Kinematics.h"
@@ -211,6 +218,14 @@ void CBulletManager::AddBullet(const Fvector& position,
 	bullet.Init					(position, direction, starting_speed, power, /*power_critical,*/ impulse, sender_id, sendersweapon_id, e_hit_type, maximum_distance, cartridge, air_resistance_factor, SendHit);
 //	bullet.frame_num			= Device.dwFrame;
 	bullet.flags.aim_bullet		= AimBullet;
+	if (!IsGameTypeSingle())
+	{
+		if (SendHit)
+			Game().m_WeaponUsageStatistic->OnBullet_Fire(&bullet, cartridge);
+		game_cl_mp*	tmp_cl_game = smart_cast<game_cl_mp*>(&Game());
+		if (tmp_cl_game->get_reward_generator())
+			tmp_cl_game->get_reward_generator()->OnBullet_Fire(sender_id, sendersweapon_id, position, direction); 
+	}
 	
 }
 
@@ -1032,6 +1047,8 @@ void CBulletManager::CommitEvents			()	// @ the start of frame
 			}break;
 		case EVENT_REMOVE:
 			{
+				if (E.bullet.flags.allow_sendhit && GameID() != eGameIDSingle)
+					Game().m_WeaponUsageStatistic->OnBullet_Remove(&E.bullet);
 				m_Bullets[E.tgt_material] = m_Bullets.back();
 				m_Bullets.pop_back();
 			}break;

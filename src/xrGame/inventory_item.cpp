@@ -1464,7 +1464,24 @@ u16 CInventoryItem::parent_id() const
 
 void CInventoryItem::SetDropManual(BOOL val)
 {
- 	m_flags.set(FdropManual, val);
+	m_flags.set(FdropManual, val);
+	
+#ifdef DEBUG
+	if (!IsGameTypeSingle())
+	{
+		if (!!m_name)
+		{
+			Msg("! WARNING: trying to set drop manual flag to item [%d][%s] to %d", object_id(), m_name.c_str(), val);
+		}
+	}
+#endif // #ifdef DEBUG
+	if (!IsGameTypeSingle())
+	{
+		if (val == TRUE)
+			DenyTrade();
+		else
+			AllowTrade();
+	}
 }
 
 bool CInventoryItem::has_network_synchronization	() const

@@ -16,6 +16,8 @@ struct SZoneMapEntityData{
 	SZoneMapEntityData(){pos.set(.0f,.0f,.0f);color = 0xff00ff00;}
 };
 
+struct WeaponUsageStatistic;
+
 class	game_cl_GameState	: public game_GameState, public ISheduled
 {
 	typedef game_GameState	inherited;
@@ -34,7 +36,14 @@ public:
 	ClientID							local_svdpnid;
 	game_PlayerState*					local_player;
 	game_PlayerState*					lookat_player();
+
+
+	WeaponUsageStatistic				*m_WeaponUsageStatistic;
+private:
+				void				switch_Phase			(u32 new_phase)		{inherited::switch_Phase(new_phase);};
 protected:
+
+	virtual		void				OnSwitchPhase			(u32 old_phase, u32 new_phase);	
 
 	//for scripting enhancement
 	virtual		void				TranslateGameMessage	(u32 msg, NET_Packet& P);
@@ -79,6 +88,7 @@ public:
 	void							u_EventSend				(NET_Packet& P);
 
 	virtual		void				ChatSay					(LPCSTR phrase, bool bAll)	{};
+	virtual		void				OnChatMessage			(NET_Packet* P)	{};
 	virtual		void				OnWarnMessage			(NET_Packet* P)	{};
 	virtual		void				OnRadminMessage			(u16 type, NET_Packet* P)	{};
 	
@@ -107,5 +117,6 @@ public:
 	virtual		void				OnPlayerVoted			(game_PlayerState* ps)	{};
 	virtual		void				SendPickUpEvent			(u16 ID_who, u16 ID_what);
 
+	virtual		bool				IsPlayerInTeam			(game_PlayerState* ps, ETeam team) {return ps->team == team;};
 	virtual		void				OnConnected				();
 };

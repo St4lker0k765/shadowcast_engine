@@ -24,6 +24,7 @@
 #include "ai/monsters/BaseMonster/base_monster.h"
 #include "date_time.h"
 #include "mt_config.h"
+#include "ui/UIOptConCom.h"
 #include "UIGameSP.h"
 #include "ui/UIActorMenu.h"
 #include "ui/UIStatic.h"
@@ -63,6 +64,7 @@ extern	int		psLUA_GCSTEP;
 extern	int		x_m_x;
 extern	int		x_m_z;
 extern	BOOL	net_cl_inputguaranteed	;
+extern	BOOL	net_sv_control_hit		;
 extern	int		g_dwInputUpdateDelta	;
 #ifdef DEBUG
 extern	BOOL	g_ShowAnimationInfo		;
@@ -111,6 +113,8 @@ Flags32 g_uCommonFlags;
 enum E_COMMON_FLAGS{
 	flAiUseTorchDynamicLights = 1
 };
+
+CUIOptConCom g_OptConCom;
 
 typedef void (*full_memory_stats_callback_type) ( );
 XRCORE_API full_memory_stats_callback_type g_full_memory_stats_callback;
@@ -1386,7 +1390,6 @@ public:
 	}
 };
 
-#ifdef DEBUG
 class CCC_RadioGroupMask2;
 class CCC_RadioMask :public CCC_Mask
 {
@@ -1534,6 +1537,7 @@ public:
 	}
 };
 
+#ifdef	DEBUG
 extern void show_animation_stats	();
 
 class CCC_ShowAnimationStats : public IConsole_Command {
@@ -1661,6 +1665,9 @@ public:
 
 void CCC_RegisterCommands()
 {
+	// options
+	g_OptConCom.Init();
+
 	CMD4(CCC_Integer,           "lj_escapeSequences", &escapeSequences, FALSE, TRUE)
 
 	CMD1(CCC_MemStats,			"stat_memory"			)

@@ -63,6 +63,7 @@
 #	include "script_entity_action.h"
 #	include "helicopter.h"
 #	include "game_base.h"
+#	include "demoinfo.h"
 #	include "script_ui_registrator.h"
 #	include "key_binding_registrator.h"
 #	include "fs_registrator.h"
@@ -148,4 +149,8 @@
 #	include "smart_cover_object.h"
 #	include "ui/FactionState.h"
 #	include "actor.h"
+#	include "login_manager.h"
+#	include "account_manager.h"
+#	include	"profile_store.h"
+#	include	"profile_data_types.h"
 #endif
