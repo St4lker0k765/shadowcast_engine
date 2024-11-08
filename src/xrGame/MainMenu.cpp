@@ -479,7 +479,6 @@ void CMainMenu::OnFrame()
 	if(IsActive() || m_sPDProgress.IsInProgress)
 	{
 		m_pGameSpyFull->Update();
-		m_atlas_submit_queue->update();
 	}
 
 	if(IsActive())
