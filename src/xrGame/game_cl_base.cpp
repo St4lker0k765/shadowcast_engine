@@ -342,8 +342,6 @@ void game_cl_GameState::shedule_Update		(u32 dt)
 	{
 	case GAME_PHASE_INPROGRESS:
 		{
-			if (!IsGameTypeSingle())
-				m_WeaponUsageStatistic->Update();
 		}break;
 	default:
 		{
@@ -409,7 +407,6 @@ void				game_cl_GameState::OnSwitchPhase			(u32 old_phase, u32 new_phase)
 	{
 		case GAME_PHASE_INPROGRESS:
 			{
-				m_WeaponUsageStatistic->Clear();
 			}break;
 		default:
 			{

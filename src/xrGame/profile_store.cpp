@@ -7,19 +7,13 @@
 #include "login_manager.h"
 #include "awards_store.h"
 #include "best_scores_store.h"
-#include "stats_submitter.h"
 #include "atlas_submit_queue.h"
 
 namespace gamespy_profile
 {
 
 
-profile_store::profile_store(CGameSpy_Full* fullgs_obj) :
-	m_dsigned_reader(
-		stats_submitter::p_number,
-		stats_submitter::q_number,
-		stats_submitter::g_number,
-		stats_submitter::public_key)
+profile_store::profile_store(CGameSpy_Full* fullgs_obj)
 {
 	VERIFY(fullgs_obj && fullgs_obj->GetGameSpySAKE());
 	m_fullgs_obj		= fullgs_obj;
@@ -141,26 +135,9 @@ void profile_store::load_profile(store_operation_cb progress_indicator_cb)
 	
 	if (tmp_reader)
 	{
-		u32 const tmp_length = tmp_reader->length();
-		if (tmp_length)
-		{
-			m_valid_ltx = m_dsigned_reader.load_and_verify(
-				static_cast<u8*>(tmp_reader->pointer()),
-				tmp_length
-			);
-			FS.r_close(tmp_reader);
-		}
 	}
 	if (m_valid_ltx)
 	{
-		s32 tmp_profile_id = m_dsigned_reader.get_ltx().r_s32(
-			profile_data_section, profile_id_line
-		);
-		gamespy_gp::login_manager*	tmp_lmngr		= MainMenu()->GetLoginMngr();
-		R_ASSERT(tmp_lmngr);
-		gamespy_gp::profile const * tmp_curr_prof	= tmp_lmngr->get_current_profile();
-		R_ASSERT(tmp_curr_prof);
-		m_valid_ltx = (tmp_profile_id == tmp_curr_prof->m_profile_id);
 	}
 
 	m_awards_store->reset_awards		();
@@ -257,11 +234,6 @@ void profile_store::loaded_fields(bool const result, char const * err_descr)
 	
 	if (m_valid_ltx)
 	{
-		m_awards_store->load_awards_from_ltx(m_dsigned_reader.get_ltx());
-		m_best_scores_store->load_best_scores_from_ltx(m_dsigned_reader.get_ltx());
-		m_awards_store->merge_sake_to_ltx_awards();
-		m_best_scores_store->merge_sake_to_ltx_best_scores();
-		check_sake_actuality();
 	}
 	tmp_cb(true, "");
 }
@@ -298,21 +270,6 @@ void profile_store::check_sake_actuality()
 	if (!m_awards_store->is_sake_equal_to_file() ||
 		!m_best_scores_store->is_sake_equal_to_file())
 	{
-		__time32_t	current_time;
-		_time32		(&current_time);
-
-		__time32_t	last_submit_time = static_cast<__time32_t>(
-			m_dsigned_reader.get_ltx().r_u32(
-				profile_data_section,
-				profile_last_submit_time
-			)
-		);
-		if ((current_time - last_submit_time) >= actuality_update_time)
-		{
-			atlas_submit_queue* tmp_submit_queue = MainMenu()->GetSubmitQueue();
-			VERIFY(tmp_submit_queue);
-			tmp_submit_queue->submit_all();
-		}
 	}
 }
 

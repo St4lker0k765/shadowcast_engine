@@ -490,11 +490,11 @@ void CServerList::ConnectToSelected()
 		return;
 	}
 
-	if (xr_strcmp(item->GetInfo()->info.version, MainMenu()->GetGSVer()))
-	{
-		MainMenu()->SetErrorDialog(CMainMenu::ErrDifferentVersion);
-		return;
-	}
+//	if (xr_strcmp(item->GetInfo()->info.version, MainMenu()->GetGSVer()))
+//	{
+//		MainMenu()->SetErrorDialog(CMainMenu::ErrDifferentVersion);
+//		return;
+//	}
 
 
 	if (item->GetInfo()->info.icons.pass || item->GetInfo()->info.icons.user_pass)

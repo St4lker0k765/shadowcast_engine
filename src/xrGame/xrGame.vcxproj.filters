@@ -2104,9 +2104,6 @@
     <Filter Include="Core\Server\Games\client\mp">
       <UniqueIdentifier>{0d87a81d-98e6-455c-99bd-e046d405955e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Server\Games\client\mp\screenshots">
-      <UniqueIdentifier>{083893c7-5148-4c4f-8b0d-e28d55dc5ef7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core\Server\Games\client\mp\award_system">
       <UniqueIdentifier>{a6c8ba3f-676b-481e-9a66-384adbd86cfb}</UniqueIdentifier>
     </Filter>
@@ -6279,15 +6276,6 @@
     <ClInclude Include="game_cl_mp_snd_messages.h">
       <Filter>Core\Server\Games\client\mp</Filter>
     </ClInclude>
-    <ClInclude Include="screenshot_manager.h">
-      <Filter>Core\Server\Games\client\mp\screenshots</Filter>
-    </ClInclude>
-    <ClInclude Include="screenshots_common.h">
-      <Filter>Core\Server\Games\client\mp\screenshots</Filter>
-    </ClInclude>
-    <ClInclude Include="screenshots_writer.h">
-      <Filter>Core\Server\Games\client\mp\screenshots</Filter>
-    </ClInclude>
     <ClInclude Include="ammunition_groups.h">
       <Filter>Core\Server\Games\client\mp\award_system</Filter>
     </ClInclude>
@@ -6523,9 +6511,6 @@
       <Filter>Core\Server\Games\PlayerAccounts</Filter>
     </ClInclude>
     <ClInclude Include="queued_async_method.h">
-      <Filter>Core\Server\Games\PlayerAccounts</Filter>
-    </ClInclude>
-    <ClInclude Include="stats_submitter.h">
       <Filter>Core\Server\Games\PlayerAccounts</Filter>
     </ClInclude>
     <ClInclude Include="gamespy\GameSpy_ATLAS.h">
@@ -7332,7 +7317,6 @@
       <Filter>UI\UIWindows\Windows</Filter>
     </ClInclude>
     <ClInclude Include="game_base_menu_events.h" />
-    <ClInclude Include="game_sv_base_console_vars.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="damage_manager.cpp">
@@ -9786,15 +9770,6 @@
     <ClCompile Include="game_cl_mp_snd_messages.cpp">
       <Filter>Core\Server\Games\client\mp</Filter>
     </ClCompile>
-    <ClCompile Include="screenshot_manager.cpp">
-      <Filter>Core\Server\Games\client\mp\screenshots</Filter>
-    </ClCompile>
-    <ClCompile Include="screenshots_common.cpp">
-      <Filter>Core\Server\Games\client\mp\screenshots</Filter>
-    </ClCompile>
-    <ClCompile Include="screenshots_writer.cpp">
-      <Filter>Core\Server\Games\client\mp\screenshots</Filter>
-    </ClCompile>
     <ClCompile Include="ammunition_groups.cpp">
       <Filter>Core\Server\Games\client\mp\award_system</Filter>
     </ClCompile>
@@ -10018,12 +9993,6 @@
       <Filter>Core\Server\Games\PlayerAccounts</Filter>
     </ClCompile>
     <ClCompile Include="profile_store_script.cpp">
-      <Filter>Core\Server\Games\PlayerAccounts</Filter>
-    </ClCompile>
-    <ClCompile Include="stats_submitter.cpp">
-      <Filter>Core\Server\Games\PlayerAccounts</Filter>
-    </ClCompile>
-    <ClCompile Include="stats_submitter_dsa_params.cpp">
       <Filter>Core\Server\Games\PlayerAccounts</Filter>
     </ClCompile>
     <ClCompile Include="gamespy\GameSpy_ATLAS.cpp">
@@ -10952,7 +10921,6 @@
     </ClCompile>
     <ClCompile Include="WeaponMounted.cpp" />
     <ClCompile Include="ui\UILoadingScreen.cpp" />
-    <ClCompile Include="game_sv_base_console_vars.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ai\monsters\chimera\chimera_attack_state.h">

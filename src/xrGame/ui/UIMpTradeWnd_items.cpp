@@ -893,21 +893,6 @@ void CUICellItemTradeMenuDraw::OnDraw(CUICellItem* cell)
 	cell->GetAbsolutePos				(pos);
 	UI().ClientToScreenScaled			(pos, pos.x, pos.y);
 
-	int acc									= cell->GetAccelerator();
-	if(acc!=0)
-	{
-		if(acc==11)							
-			acc = 1;
-		string64							buff;
-
-		xr_sprintf							(buff," %d", acc - DIK_ESCAPE);
-		CGameFont* pFont					= UI().Font().pFontLetterica16Russian;
-		pFont->SetAligment					(CGameFont::alCenter);
-		pFont->SetColor						(color_rgba(135,123,116,255));
-		pFont->Out							(pos.x, pos.y, buff);
-		pFont->OnRender						();
-	}
-
 	bool b_can_buy_rank		= m_trade_wnd->CheckBuyPossibility(m_info_item->m_name_sect, CUIMpTradeWnd::bf_check_rank_restr, true);
 
 	if(!b_can_buy_rank)

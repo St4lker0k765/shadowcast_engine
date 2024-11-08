@@ -10,7 +10,6 @@
 
 #include "MainMenu.h"
 #include "login_manager.h"
-#include "stats_submitter.h"
 #include "atlas_submit_queue.h"
 
 namespace award_system

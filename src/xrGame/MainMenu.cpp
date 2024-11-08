@@ -32,7 +32,6 @@
 #include "account_manager.h"
 #include "login_manager.h"
 #include "profile_store.h"
-#include "stats_submitter.h"
 #include "atlas_submit_queue.h"
 
 //#define DEMO_BUILD
@@ -83,7 +82,6 @@ CMainMenu::CMainMenu	()
 	m_account_mngr					= NULL;
 	m_login_mngr					= NULL;
 	m_profile_store					= NULL;
-	m_stats_submitter				= NULL;
 	m_atlas_submit_queue			= NULL;
 
 	m_sPDProgress.IsInProgress		= false;
@@ -120,8 +118,6 @@ CMainMenu::CMainMenu	()
 		m_account_mngr			= xr_new<gamespy_gp::account_manager>		(m_pGameSpyFull->GetGameSpyGP());
 		m_login_mngr			= xr_new<gamespy_gp::login_manager>			(m_pGameSpyFull);
 		m_profile_store			= xr_new<gamespy_profile::profile_store>	(m_pGameSpyFull);
-		m_stats_submitter		= xr_new<gamespy_profile::stats_submitter>	(m_pGameSpyFull);
-		m_atlas_submit_queue	= xr_new<atlas_submit_queue>				(m_stats_submitter);
 	}
 	
 	Device.seqFrame.Add		(this,REG_PRIORITY_LOW-1000);
@@ -138,7 +134,6 @@ CMainMenu::~CMainMenu	()
 	xr_delete						(m_account_mngr);
 	xr_delete						(m_login_mngr);
 	xr_delete						(m_profile_store);
-	xr_delete						(m_stats_submitter);
 	xr_delete						(m_atlas_submit_queue);
 	
 	xr_delete						(m_pGameSpyFull);

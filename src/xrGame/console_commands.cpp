@@ -64,6 +64,7 @@ extern	int		psLUA_GCSTEP;
 extern	int		x_m_x;
 extern	int		x_m_z;
 extern	BOOL	net_cl_inputguaranteed	;
+extern	BOOL	net_sv_control_hit		;
 extern	int		g_dwInputUpdateDelta	;
 #ifdef DEBUG
 extern	BOOL	g_ShowAnimationInfo		;
@@ -1389,7 +1390,6 @@ public:
 	}
 };
 
-#ifdef DEBUG
 class CCC_RadioGroupMask2;
 class CCC_RadioMask :public CCC_Mask
 {
@@ -1537,6 +1537,7 @@ public:
 	}
 };
 
+#ifdef	DEBUG
 extern void show_animation_stats	();
 
 class CCC_ShowAnimationStats : public IConsole_Command {
@@ -1625,7 +1626,6 @@ public:
 	}
 };
 
-#ifdef	DEBUG
 void DBG_CashedClear();
 class CCC_DBGDrawCashedClear : public IConsole_Command {
 public:

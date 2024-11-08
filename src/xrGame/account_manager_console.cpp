@@ -6,7 +6,6 @@
 #include "account_manager.h"
 #include "login_manager.h"
 #include "profile_store.h"
-#include "stats_submitter.h"
 #include "MainMenu.h"
 
 void CCC_CreateGameSpyAccount::Execute(LPCSTR args)
@@ -239,49 +238,8 @@ void CCC_GameSpyProfile::Execute(LPCSTR args)
 			gamespy_profile::store_operation_cb());
 	} else if (!xr_strcmp(tmp_command, "reward"))
 	{
-		gamespy_profile::stats_submitter* tmp_ssubmitter = MainMenu()->GetStatsSubmitter();
-		VERIFY(tmp_ssubmitter);
-		char const *	tmp_reward_id_str	= args + xr_strlen(tmp_command);
-		int tmp_award_id					= 0;
-
-		if (!sscanf_s(tmp_reward_id_str, "%u", &tmp_award_id))
-		{
-			Msg("! Bad award id");
-			return;
-		}
-		tmp_ssubmitter->reward_with_award(
-			static_cast<gamespy_profile::enum_awards_t>(tmp_award_id),
-			1,
-			tmp_curr_prof,
-			gamespy_profile::store_operation_cb()
-		);
-	} else if (!xr_strcmp(tmp_command, "bestscore"))
+	}
+	else if (!xr_strcmp(tmp_command, "bestscore"))
 	{
-		gamespy_profile::stats_submitter* tmp_ssubmitter = MainMenu()->GetStatsSubmitter();
-		VERIFY(tmp_ssubmitter);
-		char const * tmp_scores_str = args + xr_strlen(tmp_command);
-		unsigned int score_id		= 0;
-		int score_value				= 0;
-		if (sscanf_s(tmp_scores_str, "%u %u", &score_id, &score_value) != 2)
-		{
-			Msg("! Not enough parameters");
-			return;
-		}
-		if (score_id >= gamespy_profile::bst_score_types_count)
-		{
-			Msg("! Bad scoreid");
-		}
-		debug_best_scores.clear();
-		debug_best_scores.insert(
-			std::make_pair(
-				static_cast<gamespy_profile::enum_best_score_type>(score_id),
-				score_value
-			)
-		);
-		tmp_ssubmitter->set_best_scores(
-			&debug_best_scores,
-			tmp_curr_prof,
-			gamespy_profile::store_operation_cb()
-		);
 	}
 }

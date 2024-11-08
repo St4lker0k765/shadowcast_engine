@@ -1,7 +1,6 @@
 #ifndef GAMESPY_PROFILE_STORE
 #define GAMESPY_PROFILE_STORE
 
-#include <boost/noncopyable.hpp>
 #include "../xrEngine/ISheduled.h"
 #include "profile_data_types.h"
 #include "script_export_space.h"
@@ -22,8 +21,7 @@ class awards_store;
 class best_scores_store;
 
 class profile_store : 
-	public ISheduled,
-	private boost::noncopyable
+	public ISheduled
 {
 public:
 	explicit		profile_store			(CGameSpy_Full* fullgs_obj);
@@ -66,7 +64,6 @@ private:
 	store_operation_cb	m_progress_indicator;
 	store_operation_cb	m_complete_cb;
 
-	gsc_dsigned_ltx_reader	m_dsigned_reader;
 	bool					m_valid_ltx;
 	awards_store*			m_awards_store;
 	best_scores_store*		m_best_scores_store;

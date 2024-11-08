@@ -35,13 +35,11 @@
 #include "../xrCore/ppmd_compressor.h"
 #include "../xrCore/rt_compressor.h"
 #include "game_cl_mp_snd_messages.h"
-#include "../3rd party/crypto/crypto.h"
 
 #include "reward_event_generator.h"
 #include "game_cl_base_weapon_usage_statistic.h"
 #include "reward_manager.h"
 #include "login_manager.h"
-#include "stats_submitter.h"
 
 #include "xrServer_info.h" //for enum_server_info_type
 
@@ -97,7 +95,6 @@ game_cl_mp::game_cl_mp()
 	m_reward_generator			= NULL;
 	m_ready_to_open_buy_menu	= true;
 	m_reward_manager			= NULL;
-	crypto::xr_crypto_init();
 };
 
 game_cl_mp::~game_cl_mp()
@@ -435,14 +432,8 @@ void game_cl_mp::TranslateGameMessage	(u32 msg, NET_Packet& P)
 			clientdata_event_t etype = static_cast<clientdata_event_t>(P.r_u8());
 			if (etype == e_screenshot_request)
 			{
-				screenshot_manager::complete_callback_t compl_cb = 
-					fastdelegate::MakeDelegate(this, &game_cl_mp::SendCollectedData);
-				ss_manager.make_screenshot(compl_cb);
 			} else if (etype == e_configs_request)
 			{
-				mp_anticheat::configs_dumper::complete_callback_t compl_cb = 
-					fastdelegate::MakeDelegate(this, &game_cl_mp::SendCollectedData);
-				cd_manager.dump_config(compl_cb);
 			} else if (etype == e_screenshot_response)
 			{
 				ClientID tmp_client(P.r_u32());
@@ -1809,12 +1800,6 @@ void game_cl_mp::decompress_and_process_config(LPCSTR file_name, u8* data, u32 d
 	}
 	ftosave->w			(buffer_for_compress, file_size);
 	FS.w_close			(ftosave);
-	string256			tmp_diff;
-	if (!cd_verifyer.verify(buffer_for_compress, file_size, tmp_diff))
-	{
-		add_detected_cheater(file_name, tmp_diff);
-		Msg("! CHEATER detected: %s, %s", file_name, tmp_diff);
-	}
 }
 
 game_cl_mp::fr_callback_binder*	game_cl_mp::get_receiver_cb_binder()
@@ -1852,45 +1837,10 @@ struct old_detected_cheater
 
 void game_cl_mp::draw_all_active_binder_states()
 {
-	//drawing download states ..
-	CGameFont* F = UI().Font().pFontDI;
-	F->SetHeightI	(0.015f);
-	F->OutSetI		(0.1f,0.2f);
-	F->SetColor		(D3DCOLOR_XRGB(0,255,0));
-	
-	for (u32 i = 0; i < MAX_PLAYERS_COUNT; ++i)
-	{
-		if (m_client_receiver_cbs[i].m_active)
-		{
-			fr_callback_binder & tmp_br = m_client_receiver_cbs[i];
-			F->OutNext("%s : %02u %% ", tmp_br.m_file_name.c_str(),
-				int(
-					(float(tmp_br.m_downloaded_size) / tmp_br.m_max_size) * 100
-				)
-			);
-		}
-	}
-	F->SetColor		(D3DCOLOR_XRGB(255,0,0));
-	for (cheaters_collection_t::iterator i = m_detected_cheaters.begin(),
-		ie = m_detected_cheaters.end(); i != ie; ++i)
-	{
-		F->OutNext("%s : cheater suspect ...",
-			i->m_file_name.c_str());
-	}
-	
-	m_detected_cheaters.erase(
-		std::remove_if(
-			m_detected_cheaters.begin(),
-			m_detected_cheaters.end(),
-			old_detected_cheater()
-		),
-		m_detected_cheaters.end()
-	);
 }
 
 void game_cl_mp::draw_downloads(bool draw)
 {
-	ss_manager.set_draw_downloads(draw);
 }
 
 void game_cl_mp::extract_server_info(u8* data_ptr, u32 data_size)
