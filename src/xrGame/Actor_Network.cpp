@@ -44,7 +44,6 @@
 #include "actor_memory.h"
 #include "actor_statistic_mgr.h"
 #include "characterphysicssupport.h"
-#include "game_cl_base_weapon_usage_statistic.h"
 #include "../xrengine/xr_collide_form.h"
 #ifdef DEBUG
 #	include "debug_renderer.h"
@@ -1884,9 +1883,6 @@ void				CActor::OnCriticalHitHealthLoss			()
 	P.w_u16 ((m_iLastHittingWeaponID && m_iLastHitterID != m_iLastHittingWeaponID) ? u16(m_iLastHittingWeaponID&0xffff) : 0);
 	P.w_u8	(u8(SpecialHit));
 	u_EventSend(P);
-	//-------------------------------------------
-	if (GameID() != eGameIDSingle)
-		Game().m_WeaponUsageStatistic->OnBullet_Check_Result(true);
 };
 
 void				CActor::OnPlayHeadShotParticle (NET_Packet P)

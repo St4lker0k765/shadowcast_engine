@@ -1,7 +1,6 @@
 #pragma once
 
 #include "UIStatic.h"
-#include "KillMessageStruct.h"
 
 class CUIXml;
 class CUIGameLog;
@@ -15,7 +14,6 @@ public:
 			void 		InitFromXML				(CUIXml& xml_doc);
 			void 		SetMoneyAmount			(LPCSTR money);
 			void 		SetMoneyChange			(LPCSTR money);
-			void 		AddBonusMoney			(KillMessageStruct& msg);
 
 protected:
 	CUIStatic			m_back;

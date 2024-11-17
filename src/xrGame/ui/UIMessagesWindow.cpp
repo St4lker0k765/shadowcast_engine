@@ -10,7 +10,6 @@
 bool		IsGameTypeSingle();
 #include "UIMessagesWindow.h"
 #include "UIGameLog.h"
-#include "UIChatWnd.h"
 #include "xrUIXmlParser.h"
 #include "UIXmlInit.h"
 #include "UIInventoryUtilities.h"
@@ -26,11 +25,6 @@ CUIMessagesWindow::CUIMessagesWindow()
 CUIMessagesWindow::~CUIMessagesWindow()
 {}
 
-void CUIMessagesWindow::AddLogMessage(KillMessageStruct& msg)
-{
-	m_pGameLog->AddLogMessage(msg);
-}
-
 void CUIMessagesWindow::AddLogMessage(const shared_str& msg)
 {
 	m_pGameLog->AddLogMessage(*msg);
@@ -43,15 +37,13 @@ void CUIMessagesWindow::PendingMode(bool const is_pending_mode)
 		if (m_in_pending_mode)
 			return;
 		
-		m_pChatWnd->PendingMode	(is_pending_mode);
 		m_pChatLog->SetWndRect	(m_pending_chat_log_rect);
 		m_in_pending_mode		= true;
 		return;
 	}
 	if (!m_in_pending_mode)
 		return;
-	
-	m_pChatWnd->PendingMode		(is_pending_mode);
+
 	m_pChatLog->SetWndRect		(m_inprogress_chat_log_rect);
 	m_in_pending_mode			= false;
 }
@@ -79,9 +71,6 @@ void CUIMessagesWindow::Init(float x, float y, float width, float height)
 		m_pChatLog->SetAutoDelete			(true);
 		m_pChatLog->Show					(true);
 		AttachChild							(m_pChatLog);
-		m_pChatWnd							= xr_new<CUIChatWnd>(); 
-		m_pChatWnd->SetAutoDelete			(true);
-		AttachChild							(m_pChatWnd);
 
 		CUIXmlInit::InitScrollView			(xml, "mp_log_list", 0, m_pGameLog);
 		CUIXmlInit::InitFont				(xml, "mp_log_list:font", 0, color, pFont);
@@ -107,8 +96,7 @@ void CUIMessagesWindow::Init(float x, float y, float width, float height)
 		
 		CUIXmlInit::InitFont				(xml, "chat_log_list:font", 0, color, pFont);
 		m_pChatLog->SetTextAtrib			(pFont, color);
-		
-		m_pChatWnd->Init					(xml);
+	
 	}	
 
 }
@@ -149,8 +137,6 @@ void CUIMessagesWindow::SetChatOwner(game_cl_GameState* owner)
 */
 void CUIMessagesWindow::Show(bool show)
 {
-	if (m_pChatWnd)
-		m_pChatWnd->Show(show);
 	if (m_pGameLog)
 		m_pGameLog->Show(show);
 	if (m_pChatLog)

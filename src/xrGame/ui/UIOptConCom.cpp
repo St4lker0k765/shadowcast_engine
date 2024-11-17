@@ -10,8 +10,6 @@
 
 #include "gamespy/GameSpy_GP.h"
 
-#include "ui/UICDkey.h"
-
 xr_token g_GameModes	[] = {
 	{ "st_deathmatch",				eGameIDDeathmatch			},
 	{ "st_team_deathmatch",			eGameIDTeamDeathmatch		},
@@ -38,8 +36,6 @@ public:
 			str[max_name_length] = 0;
 
 		CCC_String::Execute(str);	
-
-		WritePlayerName_ToRegistry( value );
 	}
 	virtual void	Save	(IWriter *F)	{};
 };
@@ -81,10 +77,9 @@ void CUIOptConCom::Init()
 
 void		CUIOptConCom::ReadPlayerNameFromRegistry	()
 {
-	GetPlayerName_FromRegistry( m_playerName, sizeof(m_playerName) );
 };
 
 void		CUIOptConCom::WritePlayerNameToRegistry		()
 {
-	WritePlayerName_ToRegistry( m_playerName );
+
 };

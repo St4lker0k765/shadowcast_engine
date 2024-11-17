@@ -18,12 +18,6 @@ void __cdecl callback_serverkey(int keyid, void* outbuf, void *userdata)
 	if (!pQR2) return;
 
 	
-
-	game_sv_mp* gmMP = smart_cast<game_sv_mp*>(pServer->game);
-//	game_sv_Deathmatch* gmDM = smart_cast<game_sv_Deathmatch*>(pServer->game);
-	game_sv_TeamDeathmatch* gmTDM = smart_cast<game_sv_TeamDeathmatch*>(pServer->game);
-	game_sv_ArtefactHunt* gmAhunt = smart_cast<game_sv_ArtefactHunt*>(pServer->game);
-
 	string4096		game_version;
 
 	switch (keyid)
@@ -70,8 +64,7 @@ void __cdecl callback_serverkey(int keyid, void* outbuf, void *userdata)
 	case HOSTPORT_KEY:		pQR2->BufferAdd_Int(outbuf, pServer->GetPort()); break;
 
 	case DEDICATED_KEY:		pQR2->BufferAdd_Int(outbuf, pServer->IsDedicated());		break;
-	case GAMETYPE_NAME_KEY: ADD_KEY_VAL(pServer->game, pQR2, BufferAdd_Int, outbuf, Type()); break; //pQR2->BufferAdd_Int(outbuf, pServer->game->Type()); break;
-	case NUMTEAMS_KEY:		ADD_KEY_VAL(gmMP, pQR2, BufferAdd_Int, outbuf, GetNumTeams()); break; //pQR2->BufferAdd_Int(outbuf, gmMP->GetNumTeams()); break;		
+	case GAMETYPE_NAME_KEY: ADD_KEY_VAL(pServer->game, pQR2, BufferAdd_Int, outbuf, Type()); break; //pQR2->BufferAdd_Int(outbuf, pServer->game->Type()); break;	
 	case G_MAX_PING_KEY:	pQR2->BufferAdd_Int(outbuf, g_sv_dwMaxClientPing); break;
 /*	//------- game ---------//	
 	case G_MAP_ROTATION_KEY:			ADD_KEY_VAL(gmDM, pQR2, BufferAdd_Int, outbuf, HasMapRotation()); break; //if (gmDM) pQR2->BufferAdd_Int(outbuf, gmDM->HasMapRotation());		else pQR2->BufferAdd(outbuf, "");	break;
@@ -87,19 +80,8 @@ void __cdecl callback_serverkey(int keyid, void* outbuf, void *userdata)
 	case G_WARM_UP_TIME_KEY:			ADD_KEY_VAL(gmDM, pQR2, BufferAdd_Int, outbuf, GetWarmUpTime()); break; //if (gmDM)pQR2->BufferAdd_Int(outbuf, gmDM->GetWarmUpTime());			else pQR2->BufferAdd(outbuf, "");	break;
 	case G_FORCE_RESPAWN_KEY:			ADD_KEY_VAL(gmDM, pQR2, BufferAdd_Int, outbuf, GetForceRespawn()); break; //if (gmDM)pQR2->BufferAdd_Int(outbuf, gmDM->GetForceRespawn());		else pQR2->BufferAdd(outbuf, "");	break;*/
 		//---- game_sv_teamdeathmatch ----
-	case G_AUTO_TEAM_BALANCE_KEY:		ADD_KEY_VAL(gmTDM, pQR2, BufferAdd_Int, outbuf, Get_AutoTeamBalance()); break; //if (gmTDM)pQR2->BufferAdd_Int(outbuf, gmTDM->Get_AutoTeamBalance	());			break;
-	case G_AUTO_TEAM_SWAP_KEY:			ADD_KEY_VAL(gmTDM, pQR2, BufferAdd_Int, outbuf, Get_AutoTeamSwap()); break; //if (gmTDM)pQR2->BufferAdd_Int(outbuf, gmTDM->Get_AutoTeamSwap		());			break;
-	case G_FRIENDLY_INDICATORS_KEY:		ADD_KEY_VAL(gmTDM, pQR2, BufferAdd_Int, outbuf, Get_FriendlyIndicators()); break; //if (gmTDM)pQR2->BufferAdd_Int(outbuf, gmTDM->Get_FriendlyIndicators	());			break;
-	case G_FRIENDLY_NAMES_KEY:			ADD_KEY_VAL(gmTDM, pQR2, BufferAdd_Int, outbuf, Get_FriendlyNames()); break; //if (gmTDM)pQR2->BufferAdd_Int(outbuf, gmTDM->Get_FriendlyNames		());			break;
-	case G_FRIENDLY_FIRE_KEY:			ADD_KEY_VAL_INT(gmTDM, pQR2, BufferAdd_Int, outbuf, GetFriendlyFire()*100.0f); break; //if (gmTDM)pQR2->BufferAdd_Int(outbuf, int(gmTDM->GetFriendlyFire()*100.0f));		break;
+
 		//---- game_sv_artefacthunt ----	
-	case G_ARTEFACTS_COUNT_KEY:			ADD_KEY_VAL(gmAhunt, pQR2, BufferAdd_Int, outbuf, Get_ArtefactsCount()); break; //if (gmAhunt) pQR2->BufferAdd_Int(outbuf, gmAhunt->Get_ArtefactsCount		());			break;
-	case G_ARTEFACT_STAY_TIME_KEY:		ADD_KEY_VAL(gmAhunt, pQR2, BufferAdd_Int, outbuf, Get_ArtefactsStayTime()); break; //if (gmAhunt) pQR2->BufferAdd_Int(outbuf, gmAhunt->Get_ArtefactsStayTime		());			break;
-	case G_ARTEFACT_RESPAWN_TIME_KEY:	ADD_KEY_VAL(gmAhunt, pQR2, BufferAdd_Int, outbuf, Get_ArtefactsRespawnDelta()); break; //if (gmAhunt) pQR2->BufferAdd_Int(outbuf, gmAhunt->Get_ArtefactsRespawnDelta	());			break;
-	case G_REINFORCEMENT_KEY:			ADD_KEY_VAL(gmAhunt, pQR2, BufferAdd_Int, outbuf, Get_ReinforcementTime()); break; //if (gmAhunt) pQR2->BufferAdd_Int(outbuf, gmAhunt->Get_ReinforcementTime		());			break;
-	case G_SHIELDED_BASES_KEY:			ADD_KEY_VAL(gmAhunt, pQR2, BufferAdd_Int, outbuf, Get_ShieldedBases()); break; //if (gmAhunt) pQR2->BufferAdd_Int(outbuf, gmAhunt->Get_ShieldedBases			());			break;
-	case G_RETURN_PLAYERS_KEY:			ADD_KEY_VAL(gmAhunt, pQR2, BufferAdd_Int, outbuf, Get_ReturnPlayers()); break; //if (gmAhunt) pQR2->BufferAdd_Int(outbuf, gmAhunt->Get_ReturnPlayers			());			break;
-	case G_BEARER_CANT_SPRINT_KEY:		ADD_KEY_VAL(gmAhunt, pQR2, BufferAdd_Int, outbuf, Get_BearerCantSprint()); break; //if (gmAhunt) pQR2->BufferAdd_Int(outbuf, gmAhunt->Get_BearerCantSprint		());			break;
 	default:
 		{
 //			R_ASSERT2(0, "Unknown GameSpy Server key ");

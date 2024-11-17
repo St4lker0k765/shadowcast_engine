@@ -19,7 +19,6 @@
 #include "../xrEngine/CameraManager.h"
 #include "Inventory.h"
 #include "huditem.h"
-#include "game_cl_mp.h"
 #include "string_table.h"
 #include "map_manager.h"
 
@@ -200,46 +199,6 @@ void CSpectator::IR_OnKeyboardPress(int cmd)
 		}break;
 	case kWPN_ZOOM:
 		{
-			game_cl_mp* pMPGame = smart_cast<game_cl_mp*> (&Game());
-			if (!pMPGame) break;
-			game_PlayerState* PS = Game().local_player;
-			if (!Level().IsDemoPlay() && (!PS || PS->GameID != ID())) break;
-			
-
-			EActorCameras new_camera = EActorCameras((cam_active+1)%eacMaxCam);
-			
-			if (!PS->testFlag(GAME_PLAYER_FLAG_SPECTATOR))
-			{
-				bool found = false;
-				while (!found)
-				{
-					if (pMPGame->Is_Spectator_Camera_Allowed(new_camera))
-					{
-						found = true;
-						break;
-					}
-					if (new_camera == (eacMaxCam - 1))
-						break;
-					new_camera = EActorCameras((new_camera+1)%eacMaxCam);					
-				}
-				if (!found)
-					break;
-			};
-			
-			if (new_camera == eacFreeFly)
-			{
-				cam_Set			(eacFreeFly);	
-				m_pActorToLookAt = NULL;
-			}
-			else
-			{
-				if (!m_pActorToLookAt) SelectNextPlayerToLook(false);
-				if (m_pActorToLookAt)
-				{
-					cam_Set			(new_camera);
-					m_last_camera	= new_camera;
-				}
-			}
 		}break;
 	}
 }
@@ -258,43 +217,6 @@ void CSpectator::IR_OnKeyboardRelease(int cmd)
 
 void CSpectator::IR_OnKeyboardHold(int cmd)
 {
-	if (Remote())		return;
-
-	game_cl_mp* pMPGame = smart_cast<game_cl_mp*> (&Game());
-	game_PlayerState* PS = Game().local_player;
-
-	if ((cam_active==eacFreeFly)||(cam_active==eacFreeLook)){
-		CCameraBase* C	= cameras	[cam_active];
-		Fvector vmove={0,0,0};
-		switch(cmd){
-		case kUP:
-		case kDOWN: 
-		case kCAM_ZOOM_IN: 
-		case kCAM_ZOOM_OUT: 
-			cameras[cam_active]->Move(cmd); break;
-		case kLEFT:
-		case kRIGHT:
-			if (eacFreeLook!=cam_active) cameras[cam_active]->Move(cmd); break;
-		case kFWD:			
-			vmove.mad( C->vDirection, m_fTimeDelta*Accel_mul );
-			break;
-		case kBACK:
-			vmove.mad( C->vDirection, -m_fTimeDelta*Accel_mul );
-			break;
-		case kR_STRAFE:{
-			Fvector right;
-			right.crossproduct(C->vNormal,C->vDirection);
-			vmove.mad( right, m_fTimeDelta*Accel_mul );
-			}break;
-		case kL_STRAFE:{
-			Fvector right;
-			right.crossproduct(C->vNormal,C->vDirection);
-			vmove.mad( right, -m_fTimeDelta*Accel_mul );
-			}break;
-		}
-		if (cam_active != eacFreeFly || (pMPGame->Is_Spectator_Camera_Allowed(eacFreeFly) || (PS && PS->testFlag(GAME_PLAYER_FLAG_SPECTATOR))))
-			XFORM().c.add( vmove );
-	}
 }
 
 void CSpectator::IR_OnMouseMove(int dx, int dy)
@@ -467,36 +389,6 @@ BOOL			CSpectator::net_Spawn				( CSE_Abstract*	DC )
 	BOOL res = inherited::net_Spawn(DC);
 	if (!res) return FALSE;
 
-	CSE_Abstract			*E	= (CSE_Abstract*)(DC);
-	if (!E) return FALSE;
-
-	game_cl_mp* pMPGame = smart_cast<game_cl_mp*> (&Game());
-	float tmp_roll = 0.f;
-	if (!pMPGame || pMPGame->Is_Spectator_Camera_Allowed(eacFreeFly))
-	{
-		cam_active = eacFreeFly;
-	} else
-	{
-		game_PlayerState*	ps = pMPGame->local_player;
-		s16					tmp_team = ps ? pMPGame->ModifyTeam(ps->team) : -1;
-		if ((tmp_team == -1) || (tmp_team == etSpectatorsTeam))
-		{
-			cam_active = eacFreeFly;
-		} else
-		{
-			cam_active = eacFixedLookAt;
-			tmp_roll = -E->o_Angle.z;
-		}
-	}
-	look_idx				= 0;
-
-	cameras[cam_active]->Set(-E->o_Angle.y, -E->o_Angle.x, tmp_roll);// set's camera orientation
-	cameras[cam_active]->vPosition.set(E->o_Position);
-
-	if (OnServer())
-	{
-		E->s_flags.set(M_SPAWN_OBJECT_LOCAL, TRUE);
-	};
 	return TRUE;
 };
 
@@ -510,59 +402,6 @@ void			CSpectator::net_Destroy	()
 
 bool			CSpectator::SelectNextPlayerToLook	(bool const search_next)
 {
-	if (GameID() == eGameIDSingle) return false;
-	
-	game_PlayerState* PS = Game().local_player;
-	if (!PS) return false;
-	m_pActorToLookAt = NULL;
-
-	game_cl_mp* pMPGame = smart_cast<game_cl_mp*> (&Game());
-
-	game_cl_GameState::PLAYERS_MAP_IT it = Game().players.begin(),
-		ite = Game().players.end();
-	u16 PPCount = 0;
-	CActor*	PossiblePlayers[32];
-	int last_player_idx = -1;
-	for(; it!=ite; ++it)
-	{
-		game_PlayerState* ps = it->second;
-		if (!ps || ps->testFlag(GAME_PLAYER_FLAG_VERY_VERY_DEAD) /*|| (ps==PS)*/) continue;
-		if (pMPGame && pMPGame->Is_Spectator_TeamCamera_Allowed())
-		{
-			if (ps->team != PS->team && !PS->testFlag(GAME_PLAYER_FLAG_SPECTATOR)) continue;
-		};
-		u16 id = ps->GameID;
-		CObject* pObject = Level().Objects.net_Find(id);
-		if (!pObject) continue;
-		CActor* A = smart_cast<CActor*>(pObject);
-		if (!A) continue;
-		if (m_last_player_name.size() && (m_last_player_name == ps->getName()))
-		{
-			last_player_idx		= PPCount;
-		}
-		PossiblePlayers[PPCount++] = A;
-	};
-	if (!search_next)
-	{
-		if (last_player_idx != -1)
-		{
-			m_pActorToLookAt = PossiblePlayers[last_player_idx];
-			return true;
-		} else
-		{
-			return false;
-		}
-	} 
-
-	if (PPCount > 0)
-	{
-		look_idx %= PPCount;
-		m_pActorToLookAt = PossiblePlayers[look_idx];
-		game_PlayerState* tmp_state = Game().GetPlayerByGameID(m_pActorToLookAt->ID());
-		if (tmp_state)
-			m_last_player_name = tmp_state->getName();
-		return true;
-	};
 	return false;
 };
 

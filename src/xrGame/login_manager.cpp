@@ -8,8 +8,6 @@
 #include "gamespy/GameSpy_Patching.h"
 #include "RegistryFuncs.h"
 #include "../xrGameSpy/xrGameSpy_MainDefs.h"
-#include "player_name_modifyer.h"
-#include "ui/UICDkey.h"
 #include "secure_messaging.h"
 
 #include <shellapi.h>
@@ -151,7 +149,6 @@ void login_manager::login_offline(char const * nick, login_operation_cb logincb)
 
 	//verify symbols in new unique nick
 	string256					new_nick;
-	modify_player_name			(nick, new_nick);
 	m_current_profile			= xr_new<profile>(0, new_nick, "", false);
 	m_login_operation_cb		(m_current_profile, "mp_login_success");
 	m_login_operation_cb.clear	();
@@ -196,7 +193,6 @@ void login_manager::set_unique_nick_raw(set_unick_params_t const & new_unick,
 	{
 		//verify symbols in new unique nick
 		string256							updated_unick;
-		modify_player_name					(new_unick.m_t1.c_str(), updated_unick);
 		m_current_profile->m_unique_nick	= updated_unick;
 		logincb(m_current_profile, "mp_change_unick_success");
 		return;
@@ -441,13 +437,11 @@ void login_manager::save_nick_to_registry(char const * nickname)
 {
 	string256 tmp_str;
 	xr_strcpy(tmp_str, nickname);
-	WritePlayerName_ToRegistry(tmp_str);
 }
 
 char const * login_manager::get_nick_from_registry()
 {
 	m_reg_nick[0] = 0;
-	GetPlayerName_FromRegistry(m_reg_nick, sizeof(m_reg_nick));
 	return m_reg_nick;
 }
 

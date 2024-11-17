@@ -22,8 +22,6 @@
 #include "DemoInfo.h"
 #include "DemoInfo_Loader.h"
 
-#include "ui/UICDkey.h"
-
 #include <shellapi.h>
 
 #include "object_broker.h"
@@ -745,22 +743,7 @@ LPCSTR DelHyphens( LPCSTR c )
 
 bool CMainMenu::IsCDKeyIsValid()
 {
-	if (!m_pGameSpyFull || !m_pGameSpyFull->GetGameSpyHTTP()) return false;
-	string64 CDKey = "";
-	GetCDKey_FromRegistry(CDKey);
-
-#ifndef DEMO_BUILD
-	if (!xr_strlen(CDKey)) return true;
-#endif
-
-	int GameID = 0;
-	for (int i=0; i<4; i++)
-	{
-		m_pGameSpyFull->GetGameSpyHTTP()->xrGS_GetGameID(&GameID, i);
-		if (VerifyClientCheck(CDKey, unsigned short (GameID)) == 1)
-			return true;
-	};	
-	return false;
+	return true;
 }
 
 bool		CMainMenu::ValidateCDKey					()
@@ -791,27 +774,11 @@ void CMainMenu::OnConnectToMasterServerOkClicked(CUIWindow*, void*)
 
 LPCSTR CMainMenu::GetPlayerName()
 {
-	gamespy_gp::login_manager* l_mngr		= GetLoginMngr();
-	gamespy_gp::profile const * tmp_prof	= l_mngr ? 
-		l_mngr->get_current_profile() : NULL;
-
-	if (tmp_prof)
-	{
-		m_player_name = tmp_prof->unique_nick();
-	} else
-	{
-		string512 name;
-		GetPlayerName_FromRegistry( name, sizeof(name) );
-		m_player_name = name;
-	}
 	return m_player_name.c_str();
 }
 
 LPCSTR CMainMenu::GetCDKeyFromRegistry()
 {
-	string512 key;
-	GetCDKey_FromRegistry( key );
-	m_cdkey._set( key );
 	return m_cdkey.c_str();
 }
 

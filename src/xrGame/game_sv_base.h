@@ -60,19 +60,11 @@ public:
 #define		TEAM_COUNT 4
 
 	BOOL							sv_force_sync;
-	float							rpoints_MinDist [TEAM_COUNT];
-	xr_vector<RPoint>				rpoints	[TEAM_COUNT];
-	DEF_VECTOR(RPRef, RPoint*);
-	RPRef							rpointsBlocked;
 	
 	ERoundEnd_Result				round_end_reason;
 	
 	virtual		void				SaveMapList				();
 	virtual		bool				HasMapRotation			() {return m_bMapRotation; };
-
-				bool				FindPlayerName			(char const * name, IClient const * to_exclude);
-				void				GenerateNewName			(char const * old_name, char * dest, u32 const dest_size);
-				void				CheckPlayerName			(xrClientData* CL);
 public:
 	virtual		void				OnPlayerConnect			(ClientID id_who);
 	virtual		void				OnPlayerDisconnect		(ClientID id_who, LPSTR Name, u16 GameID);
@@ -116,13 +108,8 @@ public:
 	//virtual		ClientID			get_it_2_id				(u32 it);*/
 	virtual		u32					get_players_count		();
 				CSE_Abstract*		get_entity_from_eid		(u16 id);
-				RPoint				getRP					(u16 team_idx, u32 rp_idx);
-				u32					getRPcount				(u16 team_idx);
 	// Signals
 	virtual		void				signal_Syncronize		();
-	virtual		void				assign_RP				(CSE_Abstract* E, game_PlayerState* ps_who);
-	virtual		bool				IsPointFreezed			(RPoint* rp);
-	virtual		void				SetPointFreezed			(RPoint* rp);
 
 #ifdef DEBUG
 	virtual		void				OnRender				();
@@ -190,6 +177,4 @@ public:
 	virtual		void				on_death				(CSE_Abstract *e_dest, CSE_Abstract *e_src);
 
 	virtual		void				DumpOnlineStatistic		(){};
-				
-				bool				CheckNewPlayer			(xrClientData* CL);
 };

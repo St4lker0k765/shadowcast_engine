@@ -8,8 +8,6 @@
 #include "xrServer_Objects_ALife_All.h"
 #include "level.h"
 #include "game_cl_base.h"
-#include "game_sv_mp.h"
-#include "game_cl_base_weapon_usage_statistic.h"
 #include "ai_space.h"
 #include "../xrEngine/IGame_Persistent.h"
 #include "string_table.h"
@@ -583,25 +581,6 @@ u32 xrServer::OnMessage	(NET_Packet& P, ClientID sender)			// Non-Zero means bro
 		}break;
 	case M_STATISTIC_UPDATE_RESPOND:
 		{
-			//client method for collecting statistics are called from two places : 1 - this, 2 - game_sv_mp::WritePlayerStats
-			if (GameID() != eGameIDSingle)
-			{
-				game_sv_mp* my_game = static_cast<game_sv_mp*>(game);
-				if (CL)
-				{
-					my_game->m_async_stats.set_responded(CL->ID);
-					if (static_cast<IClient*>(CL) != GetServerClient())
-					{
-						game_PlayerState* tmp_ps = CL->ps;
-						u32 tmp_pid = tmp_ps != NULL ? tmp_ps->m_account.profile_id() : 0;
-						Game().m_WeaponUsageStatistic->OnUpdateRespond(&P, CL->m_cdkey_digest, tmp_pid);
-					}
-				} else
-				{
-					Msg("! ERROR: SV: update respond received from unknown sender");
-				}
-			}			
-			//if (SV_Client) SendTo	(SV_Client->ID, P, net_flags(TRUE, TRUE));
 		}break;
 	case M_REMOTE_CONTROL_AUTH:
 		{
@@ -1018,61 +997,6 @@ LPCSTR GameTypeToString(EGameIDs gt, bool bShort);
 
 void xrServer::GetServerInfo( CServerInfo* si )
 {
-	string32  tmp;
-	string256 tmp256;
-
-	si->AddItem( "Server port", itoa( GetPort(), tmp, 10 ), RGB(128,128,255) );
-	LPCSTR time = InventoryUtilities::GetTimeAsString( Device.dwTimeGlobal, InventoryUtilities::etpTimeToSecondsAndDay ).c_str();
-	si->AddItem( "Uptime", time, RGB(255,228,0) );
-
-//	xr_strcpy( tmp256, get_token_name(game_types, game->Type() ) );
-	xr_strcpy( tmp256, GameTypeToString( game->Type(), true ) );
-	if ( game->Type() == eGameIDDeathmatch || game->Type() == eGameIDTeamDeathmatch )
-	{
-		xr_strcat( tmp256, " [" );
-		xr_strcat( tmp256, itoa( g_sv_dm_dwFragLimit, tmp, 10 ) );
-		xr_strcat( tmp256, "] " );
-	}
-	else if ( game->Type() == eGameIDArtefactHunt || game->Type() == eGameIDCaptureTheArtefact )
-	{
-		xr_strcat( tmp256, " [" );
-		xr_strcat( tmp256, itoa( g_sv_ah_dwArtefactsNum, tmp, 10 ) );
-		xr_strcat( tmp256, "] " );
-		g_sv_ah_iReinforcementTime;
-	}
-	
-	//if ( g_sv_dm_dwTimeLimit > 0 )
-	{
-		xr_strcat( tmp256, " time limit [" );
-		xr_strcat( tmp256, itoa( g_sv_dm_dwTimeLimit, tmp, 10 ) );
-		xr_strcat( tmp256, "] " );
-	}
-	if ( game->Type() == eGameIDArtefactHunt || game->Type() == eGameIDCaptureTheArtefact )
-	{
-		xr_strcat( tmp256, " RT [" );
-		xr_strcat( tmp256, itoa( g_sv_ah_iReinforcementTime, tmp, 10 ) );
-		xr_strcat( tmp256, "]" );
-	}
-	si->AddItem( "Game type", tmp256, RGB(128,255,255) );
-
-	if ( g_pGameLevel )
-	{
-		time = InventoryUtilities::GetGameTimeAsString( InventoryUtilities::etpTimeToMinutes ).c_str();
-		
-		xr_strcpy( tmp256, time );
-		if ( g_sv_mp_iDumpStatsPeriod > 0 )
-		{
-			xr_strcat( tmp256, " statistic [" );
-			xr_strcat( tmp256, itoa( g_sv_mp_iDumpStatsPeriod, tmp, 10 ) );
-			xr_strcat( tmp256, "]" );
-			if ( g_bCollectStatisticData )
-			{
-				xr_strcat( tmp256, "[weapons]" );
-			}
-			
-		}
-		si->AddItem( "Game time", tmp256, RGB(205,228,178) );
-	}
 }
 
 void xrServer::AddCheater			(shared_str const & reason, ClientID const & cheaterID)

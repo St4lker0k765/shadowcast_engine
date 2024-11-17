@@ -3,7 +3,6 @@
 #include "../Spectator.h"
 #include "GameSpy_Browser.h"
 #include "GameSpy_Base_Defs.h"
-#include "../ui/ServerList.h"
 #include "../MainMenu.h"
 
 #include "GameSpy_Available.h"
@@ -77,11 +76,6 @@ void	CGameSpy_Browser::InitInternalData(HMODULE hGameSpyDLL)
 
 CGameSpy_Browser::~CGameSpy_Browser()
 {
-	if ( m_pServerList )
-	{
-		m_pServerList->on_game_spy_browser_destroy	(this);
-	}	
-
 	Clear();
 
 	delete_data(m_pQR2);
@@ -151,17 +145,11 @@ static bool services_checked = false;
 
 bool	CGameSpy_Browser::Init(CServerList* pServerList)
 {
-	if (m_pServerList)
-	{
-		m_pServerList->on_game_spy_browser_destroy(this);
-	}
-	m_pServerList = pServerList;
 	return true;
 };
 
 void	CGameSpy_Browser::Clear()
 {
-	m_pServerList = NULL;
 };
 
 struct RefreshData
@@ -530,13 +518,6 @@ void			CGameSpy_Browser::Update()
 
 void			CGameSpy_Browser::UpdateServerList()
 {
-//	SortBrowserByPing();
-	if (m_pServerList) 
-	{
-//		m_pServerList->SetSortFunc("", false);
-//		m_pServerList->SetSortFunc("ping", false);
-		m_pServerList->RefreshList();
-	}
 }
 
 void			CGameSpy_Browser::SortBrowserByPing	()

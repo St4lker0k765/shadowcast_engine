@@ -81,32 +81,6 @@ xrGameSpyServer::EConnect xrGameSpyServer::Connect(shared_str &session_name, Gam
 	m_iMaxPlayers	= game->get_option_i		(*session_name,"maxplayers",32);
 //	m_bCheckCDKey = game->get_option_i		(*session_name,"cdkey",0) != 0;
 	m_bCheckCDKey = game->get_option_i		(*session_name,"public",0) != 0;
-	//--------------------------------------------//
-	if (game->Type() != eGameIDSingle) 
-	{
-		//----- Check for Backend Services ---
-		CGameSpy_Available GSA;
-		shared_str result_string;
-		if (!GSA.CheckAvailableServices(result_string))
-		{
-			Msg(*result_string);
-		};
-
-		//------ Init of QR2 SDK -------------
-		iGameSpyBasePort = game->get_option_i(*session_name, "portgs", -1);
-		QR2_Init(iGameSpyBasePort);
-
-		//------ Init of CDKey SDK -----------
-
-#ifndef DEBUG
-
-#ifndef DEMO_BUILD
-		if(m_bCheckCDKey) 
-#endif
-
-			CDKey_Init();
-#endif // DEBUG
-	};
 
 	return res;
 }

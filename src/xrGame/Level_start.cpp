@@ -12,7 +12,6 @@
 #include "MainMenu.h"
 #include "string_table.h"
 #include "UIGameCustom.h"
-#include "ui/UICDkey.h"
 
 int		g_cl_save_demo = 0;
 extern XRCORE_API bool g_allow_heap_min;
@@ -34,7 +33,6 @@ bool CLevel::net_Start(const char* op_server, const char* op_client)
 	pApp->LoadBegin				();
 
 	string64	player_name;
-	GetPlayerName_FromRegistry( player_name, sizeof(player_name) );
 
 	if ( xr_strlen(player_name) == 0 )
 	{
