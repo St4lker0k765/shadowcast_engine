@@ -35,6 +35,8 @@
 * ForserX - x64 и различная поддержка
 * Hrusteckiy - за иконки 100x100
 
+[**Гайд по сборке движка**](/assets/engine_compiling_guide.md)
+
 [**Гайд по адаптации модификаций под Shadowcast Engine (ЗП)**](/assets/cop_mod_adaptation_guide.md)
 
 [**Гайд по адаптации модификаций под Shadowcast Engine (ЧН)**](/assets/cs_mod_adaptation_guide.md)

@@ -1,0 +1,29 @@
+{
+  "solution": {
+    "path": "Shadowcast Engine.sln",
+    "projects": [
+      "..\\sdk\\include\\ogg\\vs2013\\libogg_static.vcxproj",
+      "..\\sdk\\include\\theora\\vs2013\\libtheora_static.vcxproj",
+      "..\\sdk\\include\\vorbis\\vs2013\\libvorbis_static.vcxproj",
+      "..\\sdk\\include\\vorbis\\vs2013\\libvorbisfile_static.vcxproj",
+      "3rd party\\NVTT\\NVTT.vcxproj",
+      "3rd party\\luabind\\luabind.vcxproj",
+      "3rd party\\ode\\contrib\\msvc7\\ode_default\\default.vcxproj",
+      "3rd party\\openal\\OpenAL-Windows\\Router\\Router.vcxproj",
+      "Layers\\xrAPI\\xrAPI.vcxproj",
+      "Layers\\xrRenderPC_R2\\xrRender_R2.vcxproj",
+      "Layers\\xrRenderPC_R3\\xrRender_R3.vcxproj",
+      "Layers\\xrRenderPC_R4\\xrRender_R4.vcxproj",
+      "xrCDB\\xrCDB.vcxproj",
+      "xrCore\\xrCore.vcxproj",
+      "xrEngine\\xrEngine.vcxproj",
+      "xrGameCS\\xrGameCS.vcxproj",
+      "xrGameSpy\\xrGameSpy.vcxproj",
+      "xrNetServer\\xrNetServer.vcxproj",
+      "xrParticles\\xrParticles.vcxproj",
+      "xrPhysics\\xrPhysics.vcxproj",
+      "xrSound\\xrSound.vcxproj",
+      "xrXMLParser\\xrXMLParser.vcxproj"
+    ]
+  }
+}
