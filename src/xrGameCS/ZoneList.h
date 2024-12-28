@@ -1,6 +1,7 @@
 #pragma once
 
 #include "DetectList.h"
+#include "CustomZone.h"
 
 class CZoneList : public CDetectList<CCustomZone>
 {

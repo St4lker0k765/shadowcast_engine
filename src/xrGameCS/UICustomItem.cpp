@@ -36,14 +36,14 @@ void CUICustomItem::Render(const Fvector2& pos, u32 color,
 
 	Fvector2 LTp,RBp;
 	Fvector2 LTt,RBt;
-	//êîîðäèíàòû íà ýêðàíå â ïèêñåëÿõ
+	//ÐºÐ¾Ð¾Ñ€Ð´Ð¸Ð½Ð°Ñ‚Ñ‹ Ð½Ð° ÑÐºÑ€Ð°Ð½Ðµ Ð² Ð¿Ð¸ÐºÑÐµÐ»ÑÑ…
 	UI()->ClientToScreenScaled	(LTp, x1,y1);
 	LTp.add						(pos);
 
 	UI()->ClientToScreenScaled	(RBp, x2,y2);
 	RBp.add						(pos);
 
-	//òåêñòóðíûå êîîðäèíàòû
+	//Ñ‚ÐµÐºÑÑ‚ÑƒÑ€Ð½Ñ‹Ðµ ÐºÐ¾Ð¾Ñ€Ð´Ð¸Ð½Ð°Ñ‚Ñ‹
 	LTt.set			( iOriginalRect.x1/ts.x, iOriginalRect.y1/ts.y);
 	RBt.set			( iOriginalRect.x2/ts.x, iOriginalRect.y2/ts.y);
 
@@ -64,7 +64,7 @@ void CUICustomItem::Render(const Fvector2& pos, u32 color,
 	if(UI()->m_currentPointType!=IUIRender::pttLIT)
 		R			= UI()->ScreenFrustum().ClipPoly(S,D);
 	else
-		R			= &S;
+		R			= UI()->ScreenFrustumLIT().ClipPoly(S,D);
 
 	if (R && R->size())
 	{
