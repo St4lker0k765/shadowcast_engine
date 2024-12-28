@@ -512,7 +512,7 @@ void CRenderDevice::Pause(BOOL bOn, BOOL bTimer, BOOL bSound, LPCSTR reason)
                 !xr_strcmp(reason, "li_pause_key_no_clip") ? FALSE :
                 TRUE;
 
-        if (bTimer && (!g_pGamePersistent || g_pGamePersistent->CanBePaused()))
+        if (bTimer)
         {
             g_pauseMngr.Pause(TRUE);
             if (!xr_strcmp(reason, "li_pause_key_no_clip"))

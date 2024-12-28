@@ -176,22 +176,7 @@ CLevel::~CLevel()
         g_tutorial->m_pStoredInputReceiver = nullptr;
     if (g_tutorial2 && g_tutorial2->m_pStoredInputReceiver == this)
         g_tutorial2->m_pStoredInputReceiver = nullptr;
-    if (IsDemoPlay())
-    {
-        StopPlayDemo();
-        if (m_reader)
-        {
-            FS.r_close(m_reader);
-            m_reader = nullptr;
-        }
-    }
-    xr_delete(m_msg_filter);
-    xr_delete(m_demoplay_control);
-    xr_delete(m_demo_info);
-    if (IsDemoSave())
-    {
-        StopSaveDemo();
-    }
+
     deinit_compression();
 }
 
@@ -1013,15 +998,13 @@ void CLevel::SetEnvironmentGameTimeFactor(u64 const& GameTime, float const& fTim
 
 bool CLevel::IsServer()
 {
-    if (!Server || IsDemoPlayStarted())
+    if (!Server)
         return false;
     return true;
 }
 
 bool CLevel::IsClient()
 {
-    if (IsDemoPlayStarted())
-        return true;
     if (Server)
         return false;
     return true;

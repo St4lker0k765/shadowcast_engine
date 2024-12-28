@@ -1522,9 +1522,6 @@
     <Filter Include="Core\Client\Level\ClientDigestComputer">
       <UniqueIdentifier>{b78be59d-2199-4b10-abbb-7396a2762429}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Client\Level\LevelNetworkDemo">
-      <UniqueIdentifier>{d79d3201-de20-4eb4-88ed-e76454a00fde}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core\Client\Level Controller">
       <UniqueIdentifier>{488043bb-30c6-4821-b111-b31aabf92136}</UniqueIdentifier>
     </Filter>
@@ -1536,18 +1533,6 @@
     </Filter>
     <Filter Include="Core\Client\Objects\actor">
       <UniqueIdentifier>{d6d7054c-3df6-4b91-9402-243a507583b2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Client\Objects\actor\mp">
-      <UniqueIdentifier>{808bb23a-aafc-400a-873d-9985e971e970}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Client\Objects\actor\mp\client">
-      <UniqueIdentifier>{953db74f-ba3d-4c0b-8f30-42f25e1079f2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Client\Objects\actor\mp\server">
-      <UniqueIdentifier>{dc4e94a9-0d60-45bc-adf3-4ba9505d2018}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Client\Objects\actor\mp\state">
-      <UniqueIdentifier>{61b863ae-4a38-4747-a4e4-a3eb277943bb}</UniqueIdentifier>
     </Filter>
     <Filter Include="Core\Client\Objects\actor\base">
       <UniqueIdentifier>{1bac2bd2-55b0-4f90-825a-e0d5035a5c6e}</UniqueIdentifier>
@@ -1983,12 +1968,6 @@
     </Filter>
     <Filter Include="Core\Client\Particles">
       <UniqueIdentifier>{63cdfe35-ce42-4b4a-a114-6488fbcfdfc5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Client\Spectator">
-      <UniqueIdentifier>{00648882-1250-4ade-b893-27055b6d57ea}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Client\Spectator\Cameras">
-      <UniqueIdentifier>{0ac178c9-6f29-48e3-8ce5-7bf8a399318d}</UniqueIdentifier>
     </Filter>
     <Filter Include="Core\Common">
       <UniqueIdentifier>{f5555d92-4e46-4fe0-a196-969d339d6c53}</UniqueIdentifier>
@@ -5241,38 +5220,11 @@
     <ClInclude Include="..\xrGameSpy\gamespy\md5.h">
       <Filter>Core\Client\Level\ClientDigestComputer</Filter>
     </ClInclude>
-    <ClInclude Include="DemoInfo.h">
-      <Filter>Core\Client\Level\LevelNetworkDemo</Filter>
-    </ClInclude>
-    <ClInclude Include="DemoInfo_Loader.h">
-      <Filter>Core\Client\Level\LevelNetworkDemo</Filter>
-    </ClInclude>
-    <ClInclude Include="DemoPlay_Control.h">
-      <Filter>Core\Client\Level\LevelNetworkDemo</Filter>
-    </ClInclude>
-    <ClInclude Include="Level_network_Demo.h">
-      <Filter>Core\Client\Level\LevelNetworkDemo</Filter>
-    </ClInclude>
-    <ClInclude Include="Message_Filter.h">
-      <Filter>Core\Client\Level\LevelNetworkDemo</Filter>
-    </ClInclude>
     <ClInclude Include="xr_level_controller.h">
       <Filter>Core\Client\Level Controller</Filter>
     </ClInclude>
     <ClInclude Include="level_debug.h">
       <Filter>Core\Client\Level Debug</Filter>
-    </ClInclude>
-    <ClInclude Include="actor_mp_client.h">
-      <Filter>Core\Client\Objects\actor\mp\client</Filter>
-    </ClInclude>
-    <ClInclude Include="actor_mp_server.h">
-      <Filter>Core\Client\Objects\actor\mp\server</Filter>
-    </ClInclude>
-    <ClInclude Include="actor_mp_state.h">
-      <Filter>Core\Client\Objects\actor\mp\state</Filter>
-    </ClInclude>
-    <ClInclude Include="actor_mp_state_inline.h">
-      <Filter>Core\Client\Objects\actor\mp\state</Filter>
     </ClInclude>
     <ClInclude Include="Actor.h">
       <Filter>Core\Client\Objects\actor\base</Filter>
@@ -5924,12 +5876,6 @@
     </ClInclude>
     <ClInclude Include="ParticlesObject.h">
       <Filter>Core\Client\Particles</Filter>
-    </ClInclude>
-    <ClInclude Include="Spectator.h">
-      <Filter>Core\Client\Spectator</Filter>
-    </ClInclude>
-    <ClInclude Include="spectator_camera_first_eye.h">
-      <Filter>Core\Client\Spectator\Cameras</Filter>
     </ClInclude>
     <ClInclude Include="date_time.h">
       <Filter>Core\Common\DateTime</Filter>
@@ -6827,6 +6773,9 @@
     <ClInclude Include="game_base_menu_events.h" />
     <ClInclude Include="ui\UIGameLog.h">
       <Filter>UI\Multiplayer\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="..\xrServerEntities\script_engine_export.h">
+      <Filter>AI\AScript\ScriptEngine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -8327,9 +8276,6 @@
     <ClCompile Include="Level.cpp">
       <Filter>Core\Client\Level</Filter>
     </ClCompile>
-    <ClCompile Include="Level_GameSpy_Funcs.cpp">
-      <Filter>Core\Client\Level</Filter>
-    </ClCompile>
     <ClCompile Include="Level_input.cpp">
       <Filter>Core\Client\Level</Filter>
     </ClCompile>
@@ -8423,47 +8369,11 @@
     <ClCompile Include="..\xrGameSpy\gamespy\md5c.c">
       <Filter>Core\Client\Level\ClientDigestComputer</Filter>
     </ClCompile>
-    <ClCompile Include="DemoInfo.cpp">
-      <Filter>Core\Client\Level\LevelNetworkDemo</Filter>
-    </ClCompile>
-    <ClCompile Include="DemoInfo_Loader.cpp">
-      <Filter>Core\Client\Level\LevelNetworkDemo</Filter>
-    </ClCompile>
-    <ClCompile Include="DemoPLay_Control.cpp">
-      <Filter>Core\Client\Level\LevelNetworkDemo</Filter>
-    </ClCompile>
-    <ClCompile Include="Level_network_Demo.cpp">
-      <Filter>Core\Client\Level\LevelNetworkDemo</Filter>
-    </ClCompile>
-    <ClCompile Include="Message_Filter.cpp">
-      <Filter>Core\Client\Level\LevelNetworkDemo</Filter>
-    </ClCompile>
     <ClCompile Include="xr_level_controller.cpp">
       <Filter>Core\Client\Level Controller</Filter>
     </ClCompile>
     <ClCompile Include="level_debug.cpp">
       <Filter>Core\Client\Level Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="actor_mp_client.cpp">
-      <Filter>Core\Client\Objects\actor\mp\client</Filter>
-    </ClCompile>
-    <ClCompile Include="actor_mp_client_export.cpp">
-      <Filter>Core\Client\Objects\actor\mp\client</Filter>
-    </ClCompile>
-    <ClCompile Include="actor_mp_client_import.cpp">
-      <Filter>Core\Client\Objects\actor\mp\client</Filter>
-    </ClCompile>
-    <ClCompile Include="actor_mp_server.cpp">
-      <Filter>Core\Client\Objects\actor\mp\server</Filter>
-    </ClCompile>
-    <ClCompile Include="actor_mp_server_export.cpp">
-      <Filter>Core\Client\Objects\actor\mp\server</Filter>
-    </ClCompile>
-    <ClCompile Include="actor_mp_server_import.cpp">
-      <Filter>Core\Client\Objects\actor\mp\server</Filter>
-    </ClCompile>
-    <ClCompile Include="actor_mp_state.cpp">
-      <Filter>Core\Client\Objects\actor\mp\state</Filter>
     </ClCompile>
     <ClCompile Include="Actor.cpp">
       <Filter>Core\Client\Objects\actor\base</Filter>
@@ -9011,9 +8921,6 @@
     <ClCompile Include="MPPlayersBag.cpp">
       <Filter>Core\Client\Objects\items &amp; weapons\MPPlayersBag</Filter>
     </ClCompile>
-    <ClCompile Include="mpactor_dump_impl.cpp">
-      <Filter>Core\Client\Objects\items &amp; weapons\MPAnticheat</Filter>
-    </ClCompile>
     <ClCompile Include="shootingObject_dump_impl.cpp">
       <Filter>Core\Client\Objects\items &amp; weapons\MPAnticheat</Filter>
     </ClCompile>
@@ -9154,12 +9061,6 @@
     </ClCompile>
     <ClCompile Include="ParticlesObject.cpp">
       <Filter>Core\Client\Particles</Filter>
-    </ClCompile>
-    <ClCompile Include="Spectator.cpp">
-      <Filter>Core\Client\Spectator</Filter>
-    </ClCompile>
-    <ClCompile Include="spectator_camera_first_eye.cpp">
-      <Filter>Core\Client\Spectator\Cameras</Filter>
     </ClCompile>
     <ClCompile Include="console_commands.cpp">
       <Filter>Core\Common\Console Commands</Filter>

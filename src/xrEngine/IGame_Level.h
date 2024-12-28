@@ -101,9 +101,6 @@ public:
 
 	virtual void ApplyCamera();
 
-    virtual shared_str OpenDemoFile(const char* demo_file_name) = 0;
-    virtual void net_StartPlayDemo() = 0;
-
     // Main interface
     CObject* CurrentEntity(void) const { return pCurrentEntity; }
     CObject* CurrentViewEntity(void) const { return pCurrentViewEntity; }

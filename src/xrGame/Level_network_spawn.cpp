@@ -135,15 +135,6 @@ void CLevel::g_sv_Spawn		(CSE_Abstract* E)
 		if ((E->s_flags.is(M_SPAWN_OBJECT_LOCAL)) && 
 			(E->s_flags.is(M_SPAWN_OBJECT_ASPLAYER)) )	
 		{
-			if (IsDemoPlayStarted())
-			{
-				if (E->s_flags.is(M_SPAWN_OBJECT_PHANTOM))
-				{
-					SetControlEntity	(O);
-					SetEntity			(O);	//do not switch !!!
-					SetDemoSpectator	(O);
-				}
-			} else
 			{
 				if (CurrentEntity() != NULL) 
 				{

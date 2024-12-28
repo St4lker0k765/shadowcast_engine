@@ -208,9 +208,6 @@ INT g_sv_SendUpdate = 0;
 
 void xrServer::Update	()
 {
-	if (Level().IsDemoPlayStarted() || Level().IsDemoPlayFinished())
-		return;								//diabling server when demo is playing
-
 	NET_Packet		Packet;
 
 	VERIFY						(verify_entities());
@@ -330,10 +327,6 @@ void xrServer::SendUpdatePacketsToAll()
 		{
 			m_last_updates_size += to_send.B.count;
 			SendBroadcast	(GetServerClient()->ID, to_send, net_flags(FALSE,TRUE));
-			if (Level().IsDemoSave())
-			{
-				Level().SavePacket(to_send);
-			}
 		}
 	}
 }

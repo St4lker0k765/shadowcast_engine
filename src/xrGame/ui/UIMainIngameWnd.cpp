@@ -342,10 +342,7 @@ void CUIMainIngameWnd::Update()
 		return;
 
 	game_PlayerState* lookat_player = Game().local_player;
-	if (Level().IsDemoPlayStarted())
-	{
-		lookat_player = Game().lookat_player();
-	}
+
 	bool b_God = ( GodMode() || ( !lookat_player ) )? true : lookat_player->testFlag(GAME_PLAYER_FLAG_INVINCIBLE);
 	if ( b_God )
 	{

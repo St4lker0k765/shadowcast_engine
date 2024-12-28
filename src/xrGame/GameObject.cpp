@@ -124,21 +124,12 @@ void CGameObject::net_Destroy	()
 	inherited::net_Destroy						();
 	setReady									(FALSE);
 	
-	if (Level().IsDemoPlayStarted() && ID() == u16(-1))
-	{
-		Msg("Destroying demo_spectator object");
-	} else
-	{
-		g_pGameLevel->Objects.net_Unregister		(this);
-	}
+	g_pGameLevel->Objects.net_Unregister		(this);
 	
 	if (this == Level().CurrentEntity())
 	{
-		if (!Level().IsDemoPlayStarted())
-		{
-			Level().SetControlEntity			(0);
-		}
-		Level().SetEntity						(0);	// do not switch !!!
+		Level().SetControlEntity(nullptr);
+		Level().SetEntity(nullptr);	// do not switch !!!
 	}
 
 	Level().RemoveObject_From_4CrPr(this);
@@ -260,15 +251,8 @@ BOOL CGameObject::net_Spawn		(CSE_Abstract*	DC)
 	cNameSect_set					(E->s_name);
 	if (E->name_replace()[0])
 		cName_set					(E->name_replace());
-	bool demo_spectator = false;
 	
-	if (Level().IsDemoPlayStarted() && E->ID == u16(-1))
-	{
-		Msg("* Spawning demo spectator ...");
-		demo_spectator = true;
-	} else {
-		R_ASSERT(Level().Objects.net_Find(E->ID) == NULL);
-	}
+	R_ASSERT(Level().Objects.net_Find(E->ID) == NULL);
 
 
 	setID							(E->ID);
@@ -306,17 +290,9 @@ BOOL CGameObject::net_Spawn		(CSE_Abstract*	DC)
 
 	// Net params
 	setLocal						(E->s_flags.is(M_SPAWN_OBJECT_LOCAL));
-	if (Level().IsDemoPlay()) //&& OnClient())
-	{
-		if (!demo_spectator)
-		{
-			setLocal(FALSE);
-		}
-	};
 
 	setReady						(TRUE);
-	if (!demo_spectator)
-		g_pGameLevel->Objects.net_Register	(this);
+	g_pGameLevel->Objects.net_Register	(this);
 
 	m_server_flags.one				();
 	if (O) {

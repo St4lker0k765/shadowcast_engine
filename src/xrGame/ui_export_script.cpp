@@ -55,7 +55,6 @@ void UIRegistrator::script_register(lua_State *L)
 				
 		class_<CMainMenu>("CMainMenu")
 			.def("GetGSVer",				&CApplication::ShowCurrentVersion)
-			.def("GetDemoInfo",				&CMainMenu::GetDemoInfo)
 			.def("GetLoginMngr",			&CMainMenu::GetLoginMngr)
 			.def("GetAccountMngr",			&CMainMenu::GetAccountMngr)
 			.def("GetProfileStore",			&CMainMenu::GetProfileStore)

@@ -17,7 +17,6 @@
 #include "ActorEffector.h"
 #include "actor.h"
 #include "GameTask.h"
-#include "spectator.h"
 #include "UI/UItextureMaster.h"
 #include "GametaskManager.h"
 #include "../xrEngine/xrSASH.h"
@@ -591,14 +590,6 @@ void CGamePersistent::OnFrame	()
 
 	if(Device.Paused())
 	{
-		if (Level().IsDemoPlay())
-		{
-			CSpectator* tmp_spectr = smart_cast<CSpectator*>(Level().CurrentControlEntity());
-			if (tmp_spectr)
-			{
-				tmp_spectr->UpdateCL();	//updating spectator in pause (pause ability of demo play)
-			}
-		}
 #ifndef MASTER_GOLD
 		if (Level().CurrentViewEntity() && IsGameTypeSingle()) {
 			if (!g_actor || (g_actor->ID() != Level().CurrentViewEntity()->ID())) {
@@ -897,10 +888,6 @@ void CGamePersistent::SetLoadStageTitle(pcstr ls_title)
 		pApp->SetLoadStageTitle("");
 }
 
-bool CGamePersistent::CanBePaused()
-{
-	return IsGameTypeSingle	() || (g_pGameLevel && Level().IsDemoPlay());
-}
 void CGamePersistent::SetPickableEffectorDOF(bool bSet)
 {
 	m_bPickableDOF = bSet;

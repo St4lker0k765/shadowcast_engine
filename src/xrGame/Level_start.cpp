@@ -16,16 +16,6 @@
 int		g_cl_save_demo = 0;
 extern XRCORE_API bool g_allow_heap_min;
 
-shared_str CLevel::OpenDemoFile(const char* demo_file_name)
-{
-	PrepareToPlayDemo(demo_file_name);
-	return m_demo_server_options;
-}
-void CLevel::net_StartPlayDemo()
-{
-	net_Start(m_demo_server_options.c_str(), "localhost");
-}
-
 bool CLevel::net_Start(const char* op_server, const char* op_client)
 {
 	net_start_result_total				= TRUE;
@@ -70,24 +60,7 @@ bool CLevel::net_Start(const char* op_server, const char* op_client)
 		};		
 	};
 	m_caServerOptions			    = op_server;
-	//---------------------------------------------------------------------
-	if (!IsDemoPlay())
-	{
-		LPCSTR pdemosave = strstr(op_client, "/mpdemosave=");
-		bool is_single = m_caServerOptions.size() != 0 ? 
-			(strstr(m_caServerOptions.c_str(), "single") != NULL) :
-			false;
-		int save_demo = g_cl_save_demo;
-		if (pdemosave != NULL)
-		{
-			sscanf(pdemosave, "/mpdemosave=%d", &save_demo);
-		}
-		if (!is_single && save_demo)
-		{
-			PrepareToSaveDemo();
-		}
-	}
-	//---------------------------------------------------------------------------
+
 	g_loading_events.push_back	(LOADING_EVENT(this,&CLevel::net_start1));
 	g_loading_events.push_back	(LOADING_EVENT(this,&CLevel::net_start2));
 	g_loading_events.push_back	(LOADING_EVENT(this,&CLevel::net_start3));

@@ -326,23 +326,6 @@ void		CActor::net_Import_Base				( NET_Packet& P)
 	id_Team				= P.r_u8();
 	id_Squad			= P.r_u8();
 	id_Group			= P.r_u8();
-	
-	
-	//----------- for E3 -----------------------------
-//	if (OnClient())
-	//------------------------------------------------
-	{
-//		if (OnServer() || Remote())
-		if (Level().IsDemoPlay())
-		{
-			unaffected_r_torso.yaw		= N.o_torso.yaw;
-			unaffected_r_torso.pitch	= N.o_torso.pitch;
-			unaffected_r_torso.roll		= N.o_torso.roll;
-
-			cam_Active()->yaw	= -N.o_torso.yaw;
-			cam_Active()->pitch = N.o_torso.pitch;
-		};
-	};
 
 	//CSE_ALifeCreatureTrader
 //	P.r_float			(fDummy);
@@ -696,10 +679,6 @@ BOOL CActor::net_Spawn		(CSE_Abstract* DC)
 	psHUD_Flags.set(HUD_WEAPON_RT,TRUE);
 	psHUD_Flags.set(HUD_WEAPON_RT2,TRUE);
 	
-	if (Level().IsDemoPlay() && OnClient())
-	{
-		setLocal(FALSE);
-	};
 	return					TRUE;
 }
 

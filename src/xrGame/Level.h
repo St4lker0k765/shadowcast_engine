@@ -32,7 +32,6 @@ class CGameTaskManager;
 class CZoneList;
 class message_filter;
 class demoplay_control;
-class demo_info;
 
 class CDebugRenderer;
 
@@ -54,7 +53,6 @@ class CLevel :
     public IGame_Level,
     public IPureClient
 {
-#include "Level_network_Demo.h"
     void ClearAllObjects();
 private:
 #ifdef DEBUG
@@ -144,7 +142,6 @@ private:
     xr_string m_sConnectResult;
 
 public:
-    void OnGameSpyChallenge(NET_Packet* P);
     void OnBuildVersionChallenge();
     void OnConnectResult(NET_Packet* P);
     // Static particles
@@ -213,8 +210,6 @@ public:
     virtual void _BCL OnFrame(void);
     virtual void OnRender();
 	virtual void ApplyCamera();
-    virtual	shared_str OpenDemoFile(const char* demo_file_name);
-    virtual void net_StartPlayDemo();
     void cl_Process_Event(u16 dest, u16 type, NET_Packet& P);
     void cl_Process_Spawn(NET_Packet& P);
     void ProcessGameEvents();

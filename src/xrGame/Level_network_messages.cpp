@@ -59,10 +59,6 @@ void CLevel::ClientReceive()
 	m_dwRPC = 0;
 	m_dwRPS = 0;
 	
-	if (IsDemoPlayStarted())
-	{
-		SimulateServerUpdate();
-	}
 #ifdef DEBUG
 	if (SimmulateNetworkLag())
 		return;
@@ -70,10 +66,6 @@ void CLevel::ClientReceive()
 	StartProcessQueue();
 	for (NET_Packet* P = net_msg_Retreive(); P; P=net_msg_Retreive())
 	{
-		if (IsDemoSaveStarted())
-		{
-			SavePacket(*P);
-		}
 		//-----------------------------------------------------
 		m_dwRPC++;
 		m_dwRPS += P->B.count;
@@ -230,10 +222,6 @@ void CLevel::ClientReceive()
 	#ifdef DEBUG
 				Msg("- Game configuring : Finished ");
 	#endif // #ifdef DEBUG
-				if (IsDemoPlayStarted() && !m_current_spectator)
-				{
-					SpawnDemoSpectator();
-				}
 			}break;
 		case M_GAMEMESSAGE:
 			{
@@ -273,10 +261,6 @@ void CLevel::ClientReceive()
 		case M_SAVE_GAME:
 			{
 				ClientSave			();
-			}break;
-		case M_GAMESPY_CDKEY_VALIDATION_CHALLENGE:
-			{
-				OnGameSpyChallenge(P);
 			}break;
 		case M_AUTH_CHALLENGE:
 			{

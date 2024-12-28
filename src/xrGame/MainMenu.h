@@ -7,8 +7,6 @@ class CUIMessageBoxEx;
 class CGameSpy_HTTP;
 class CGameSpy_Full;
 
-class demo_info_loader;
-
 #include "../xrEngine/IInputReceiver.h"
 #include "../xrEngine/IGame_Persistent.h"
 #include "UIDialogHolder.h"
@@ -77,8 +75,6 @@ class CMainMenu :
 	gamespy_gp::login_manager*			m_login_mngr;
 	gamespy_profile::profile_store*		m_profile_store;
 	atlas_submit_queue*					m_atlas_submit_queue;
-
-	demo_info_loader*					m_demo_info_loader;
 public:
 	enum	EErrorDlg 
 	{
@@ -195,8 +191,6 @@ public:
 
 	LPCSTR			GetPlayerName					();
 	LPCSTR			GetCDKeyFromRegistry			();
-	
-	demo_info const *	GetDemoInfo					(LPCSTR file_name);
 };
 
 extern CMainMenu*	MainMenu();

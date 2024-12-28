@@ -142,16 +142,6 @@ void CLevel::net_Stop		()
 	if (m_file_transfer)
 		xr_delete(m_file_transfer);
 
-	if (IsDemoPlay() && m_current_spectator)	//destroying demo spectator ...
-	{
-		m_current_spectator->setDestroy	(TRUE);
-		SetControlEntity(NULL); //m_current_spectator == CurrentControlEntity()
-		m_current_spectator = NULL;
-		
-	}else 
-	if(IsDemoSave() && !IsDemoInfoSaved())
-		SaveDemoInfo();
-
 	remove_objects				();
 	
 	//WARNING ! remove_objects() uses this flag, so position of this line must e here ..
@@ -288,7 +278,6 @@ extern					BOOL		g_SV_Disable_Auth_Check;
 
 void CLevel::Send		(NET_Packet& P, u32 dwFlags, u32 dwTimeout)
 {
-	if (IsDemoPlayStarted() || IsDemoPlayFinished()) return;
 	// optimize the case when server located in our memory
 	if(psNET_direct_connect){
 		ClientID	_clid;
@@ -341,77 +330,13 @@ const int ConnectionTimeOut = 60000; //1 min
 
 bool			CLevel::Connect2Server				(const char* options)
 {
-	NET_Packet					P;
-	m_bConnectResultReceived	= false	;
+	m_bConnectResultReceived	= true;
 	m_bConnectResult			= true	;
-
-	if(!psNET_direct_connect)
-	{
-		xr_auth_strings_t	tmp_ignore;
-		xr_auth_strings_t	tmp_check;
-		fill_auth_check_params	(tmp_ignore, tmp_check);
-//		FS.auth_generate		(tmp_ignore, tmp_check);
-	}
 
 	if (!Connect(options))		return	FALSE;
 	//---------------------------------------------------------------------------
-	if(psNET_direct_connect) m_bConnectResultReceived = true;
-	u32 EndTime = GetTickCount() + ConnectionTimeOut;
-	while	(!m_bConnectResultReceived)		{ 
-		ClientReceive	();
-		Sleep			(5); 
-		if(Server)
-			Server->Update()	;
-		//-----------------------------------------
-		u32 CurTime = GetTickCount();
-		if (CurTime > EndTime)
-		{
-			NET_Packet	P;
-			P.B.count = 0;
-			P.r_pos = 0;
 
-			P.w_u8(0);
-			P.w_u8(0);
-			P.w_stringZ("Data verification failed. Cheater?");
-
-			OnConnectResult(&P);			
-		}
-		if (net_isFails_Connect())
-		{
-			OnConnectRejected	();	
-			Disconnect		()	;
-			return	FALSE;
-		}
-		//-----------------------------------------
-	}
-	Msg							("%c client : connection %s - <%s>", m_bConnectResult ?'*':'!', m_bConnectResult ? "accepted" : "rejected", m_sConnectResult.c_str());
-	if		(!m_bConnectResult) 
-	{
-		if(Server)
-		{
-			Server->Disconnect		();
-			xr_delete				(Server);
-		}
-		OnConnectRejected			();	
-		Disconnect					();
-		return FALSE		;
-	};
-
-	
-	if(psNET_direct_connect)
-		net_Syncronised = TRUE;
-	else
-		net_Syncronize	();
-
-	while (!net_IsSyncronised()) {
-		Sleep(1);
-		if (net_Disconnected)
-		{
-			OnConnectRejected	();	
-			Disconnect			();
-			return FALSE;
-		}
-	};
+	net_Syncronised = TRUE;
 
 	//---------------------------------------------------------------------------
 	//P.w_begin	(M_CLIENT_REQUEST_CONNECTION_DATA);
@@ -499,13 +424,6 @@ void CLevel::OnConnectResult(NET_Packet*	P)
 		}
 	};	
 	m_sConnectResult			= ResultStr;
-	if (IsDemoSave() && result)
-	{
-		P->r_u8(); //server client or not
-		shared_str server_options;
-		P->r_stringZ(server_options);
-		StartSaveDemo(server_options);
-	}
 };
 
 void			CLevel::ClearAllObjects				()

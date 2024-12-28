@@ -86,8 +86,6 @@ public:
 	virtual	void		LoadTitle				(bool change_tip = false, shared_str map_name = "");
     void SetLoadStageTitle(pcstr ls_title = nullptr) override;
 
-	virtual bool		CanBePaused				();
-
 			void		SetPickableEffectorDOF	(bool bSet);
 			void		SetEffectorDOF			(const Fvector& needed_dof);
 			void		RestoreEffectorDOF		();

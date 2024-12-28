@@ -961,10 +961,6 @@ void CWeaponMagazined::switch2_Fire	()
 	m_bStopedAfterQueueFired = false;
 	m_bFireSingleShot = true;
 	m_iShotNum = 0;
-
-    if((OnClient() || Level().IsDemoPlay())&& !IsWorking())
-		FireStart();
-
 }
 
 void CWeaponMagazined::switch2_Empty()
@@ -1495,7 +1491,7 @@ const char* CWeaponMagazined::GetAnimAimName()
 	auto pActor = smart_cast<const CActor*>(H_Parent());
 	if (pActor)
 	{
-		if (const u32 state = pActor->get_state() && state & mcAnyMove)
+		if (const u32 state = pActor->get_state() && (state & mcAnyMove))
 		{
 			if (IsScopeAttached())
 			{

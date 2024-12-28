@@ -117,12 +117,7 @@ void xrServer::AttachNewClient			(IClient* CL)
 		Server_Client_Check		(CL); 
 	}
 
-	// gen message
-	if (!NeedToCheckClient_GameSpy_CDKey(CL))
-	{
-		//-------------------------------------------------------------
-		Check_GameSpy_CDKey_Success(CL);
-	}
+	Check_GameSpy_CDKey_Success(CL);
 
 	//xrClientData * CL_D=(xrClientData*)(CL); 
 	//ip_address				ClAddress;

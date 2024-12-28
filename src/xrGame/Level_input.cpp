@@ -40,8 +40,6 @@
 bool g_bDisableAllInput = false;
 extern	float	g_fTimeFactor;
 
-#define CURRENT_ENTITY()	(game?((GameID() == eGameIDSingle) ? CurrentEntity() : CurrentControlEntity()):NULL)
-
 void CLevel::IR_OnMouseWheel( int direction )
 {
 	if(	g_bDisableAllInput	) return;
@@ -51,9 +49,9 @@ void CLevel::IR_OnMouseWheel( int direction )
 		&& !psActorFlags.test(AF_NO_CLIP) 
 		) return;
 
-	if (CURRENT_ENTITY())		
+	if (CurrentEntity())
 	{
-		IInputReceiver*		IR	= smart_cast<IInputReceiver*>	(smart_cast<CGameObject*>(CURRENT_ENTITY()));
+		IInputReceiver*		IR	= smart_cast<IInputReceiver*>	(smart_cast<CGameObject*>(CurrentEntity()));
 		if (IR)				IR->IR_OnMouseWheel(direction);
 	}
 }
@@ -71,12 +69,10 @@ void CLevel::IR_OnMouseMove( int dx, int dy )
 {
 	if(g_bDisableAllInput)							return;
 	if (CurrentGameUI()->IR_UIOnMouseMove(dx,dy))		return;
-	if (Device.Paused() && !IsDemoPlay() 
-		&& !psActorFlags.test(AF_NO_CLIP) 
-		)	return;
-	if (CURRENT_ENTITY())		
+	if (Device.Paused() && !psActorFlags.test(AF_NO_CLIP))	return;
+	if (CurrentEntity())
 	{
-		IInputReceiver*		IR	= smart_cast<IInputReceiver*>	(smart_cast<CGameObject*>(CURRENT_ENTITY()));
+		IInputReceiver*		IR	= smart_cast<IInputReceiver*>	(smart_cast<CGameObject*>(CurrentEntity()));
 		if (IR)				IR->IR_OnMouseMove					(dx,dy);
 	}
 }
@@ -103,7 +99,7 @@ void CLevel::IR_OnKeyboardPress	(int key)
 
 	if(_curr==kPAUSE)
 	{
-		if (!g_block_pause && (IsGameTypeSingle() || IsDemoPlay()))
+		if (!g_block_pause)
 		{
 			if(psActorFlags.test(AF_NO_CLIP))
 				Device.Pause(!Device.Paused(), TRUE, TRUE, "li_pause_key_no_clip");
@@ -144,9 +140,7 @@ void CLevel::IR_OnKeyboardPress	(int key)
 
 	if ( b_ui_exist && CurrentGameUI()->IR_UIOnKeyboardPress(key)) return;
 
-	if ( Device.Paused() && !IsDemoPlay() 
-		&& !psActorFlags.test(AF_NO_CLIP) 
-		)	return;
+	if ( Device.Paused() && !psActorFlags.test(AF_NO_CLIP))	return;
 
 	if ( game && game->OnKeyboardPress(get_binded_action(key)) )	return;
 
@@ -415,9 +409,9 @@ void CLevel::IR_OnKeyboardPress	(int key)
 	if (bindConsoleCmds.execute(key))
 		return;
 
-	if (CURRENT_ENTITY())		
+	if (CurrentEntity())
 	{
-		IInputReceiver*		IR	= smart_cast<IInputReceiver*>	(smart_cast<CGameObject*>(CURRENT_ENTITY()));
+		IInputReceiver*		IR	= smart_cast<IInputReceiver*>	(smart_cast<CGameObject*>(CurrentEntity()));
 		if (IR)				IR->IR_OnKeyboardPress(get_binded_action(key));
 	}
 
@@ -441,9 +435,9 @@ void CLevel::IR_OnKeyboardRelease(int key)
 		&& !psActorFlags.test(AF_NO_CLIP)
 		)				return;
 
-	if (CURRENT_ENTITY())		
+	if (CurrentEntity())
 	{
-		IInputReceiver*		IR	= smart_cast<IInputReceiver*>	(smart_cast<CGameObject*>(CURRENT_ENTITY()));
+		IInputReceiver*		IR	= smart_cast<IInputReceiver*>	(smart_cast<CGameObject*>(CurrentEntity()));
 		if (IR)				IR->IR_OnKeyboardRelease			(get_binded_action(key));
 	}
 }
@@ -482,11 +476,9 @@ void CLevel::IR_OnKeyboardHold(int key)
 #endif // DEBUG
 
 	if (CurrentGameUI() && CurrentGameUI()->IR_UIOnKeyboardHold(key)) return;
-	if (Device.Paused() && !Level().IsDemoPlay() 
-		&& !psActorFlags.test(AF_NO_CLIP)
-		) return;
-	if (CURRENT_ENTITY())		{
-		IInputReceiver*		IR	= smart_cast<IInputReceiver*>	(smart_cast<CGameObject*>(CURRENT_ENTITY()));
+	if (Device.Paused() && !psActorFlags.test(AF_NO_CLIP)) return;
+	if (CurrentEntity())		{
+		IInputReceiver*		IR	= smart_cast<IInputReceiver*>	(smart_cast<CGameObject*>(CurrentEntity()));
 		if (IR)				IR->IR_OnKeyboardHold				(get_binded_action(key));
 	}
 }

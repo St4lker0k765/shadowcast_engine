@@ -492,6 +492,7 @@
     <ClInclude Include="..\xrServerEntities\script_debugger_messages.h" />
     <ClInclude Include="..\xrServerEntities\script_debugger_threads.h" />
     <ClInclude Include="..\xrServerEntities\script_engine.h" />
+    <ClInclude Include="..\xrServerEntities\script_engine_export.h" />
     <ClInclude Include="..\xrServerEntities\script_engine_inline.h" />
     <ClInclude Include="..\xrServerEntities\script_engine_space.h" />
     <ClInclude Include="..\xrServerEntities\script_export_macroses.h" />
@@ -573,10 +574,6 @@
     <ClInclude Include="Actor_Flags.h" />
     <ClInclude Include="actor_input_handler.h" />
     <ClInclude Include="actor_memory.h" />
-    <ClInclude Include="actor_mp_client.h" />
-    <ClInclude Include="actor_mp_server.h" />
-    <ClInclude Include="actor_mp_state.h" />
-    <ClInclude Include="actor_mp_state_inline.h" />
     <ClInclude Include="actor_statistic_defs.h" />
     <ClInclude Include="actor_statistic_mgr.h" />
     <ClInclude Include="AdvancedDetector.h" />
@@ -1116,9 +1113,6 @@
     <ClInclude Include="debug_text_tree.h" />
     <ClInclude Include="debug_text_tree_inline.h" />
     <ClInclude Include="DelayedActionFuse.h" />
-    <ClInclude Include="DemoInfo.h" />
-    <ClInclude Include="DemoInfo_Loader.h" />
-    <ClInclude Include="DemoPlay_Control.h" />
     <ClInclude Include="DestroyablePhysicsObject.h" />
     <ClInclude Include="detail_path_builder.h" />
     <ClInclude Include="detail_path_manager.h" />
@@ -1317,7 +1311,6 @@
     <ClInclude Include="level_graph_vertex_inline.h" />
     <ClInclude Include="level_location_selector.h" />
     <ClInclude Include="level_location_selector_inline.h" />
-    <ClInclude Include="Level_network_Demo.h" />
     <ClInclude Include="Level_network_map_sync.h" />
     <ClInclude Include="level_path_builder.h" />
     <ClInclude Include="level_path_manager.h" />
@@ -1353,7 +1346,6 @@
     <ClInclude Include="memory_space.h" />
     <ClInclude Include="memory_space_impl.h" />
     <ClInclude Include="MercuryBall.h" />
-    <ClInclude Include="Message_Filter.h" />
     <ClInclude Include="MilitaryOutfit.h" />
     <ClInclude Include="Mincer.h" />
     <ClInclude Include="Missile.h" />
@@ -1655,8 +1647,6 @@
     <ClInclude Include="space_restriction_shape_inline.h" />
     <ClInclude Include="space_restrictor.h" />
     <ClInclude Include="space_restrictor_inline.h" />
-    <ClInclude Include="Spectator.h" />
-    <ClInclude Include="spectator_camera_first_eye.h" />
     <ClInclude Include="squad_hierarchy_holder.h" />
     <ClInclude Include="squad_hierarchy_holder_inline.h" />
     <ClInclude Include="StalkerOutfit.h" />
@@ -2168,13 +2158,6 @@
     <ClCompile Include="actor_input_handler.cpp" />
     <ClCompile Include="actor_memory.cpp" />
     <ClCompile Include="Actor_Movement.cpp" />
-    <ClCompile Include="actor_mp_client.cpp" />
-    <ClCompile Include="actor_mp_client_export.cpp" />
-    <ClCompile Include="actor_mp_client_import.cpp" />
-    <ClCompile Include="actor_mp_server.cpp" />
-    <ClCompile Include="actor_mp_server_export.cpp" />
-    <ClCompile Include="actor_mp_server_import.cpp" />
-    <ClCompile Include="actor_mp_state.cpp" />
     <ClCompile Include="Actor_Network.cpp">
       <PrecompiledHeaderFile>pch_script.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
@@ -2665,9 +2648,6 @@
     <ClCompile Include="debug_renderer.cpp" />
     <ClCompile Include="debug_text_tree.cpp" />
     <ClCompile Include="DelayedActionFuse.cpp" />
-    <ClCompile Include="DemoInfo.cpp" />
-    <ClCompile Include="DemoInfo_Loader.cpp" />
-    <ClCompile Include="DemoPLay_Control.cpp" />
     <ClCompile Include="DestroyablePhysicsObject.cpp">
       <PrecompiledHeaderFile>pch_script.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
@@ -2945,7 +2925,6 @@
     <ClCompile Include="Level_bullet_manager_firetrace.cpp" />
     <ClCompile Include="level_changer.cpp" />
     <ClCompile Include="level_debug.cpp" />
-    <ClCompile Include="Level_GameSpy_Funcs.cpp" />
     <ClCompile Include="level_graph.cpp" />
     <ClCompile Include="level_graph_debug.cpp" />
     <ClCompile Include="level_graph_debug2.cpp">
@@ -2963,7 +2942,6 @@
       <PrecompiledHeaderOutputFile>$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
     <ClCompile Include="Level_network_compressed_updates.cpp" />
-    <ClCompile Include="Level_network_Demo.cpp" />
     <ClCompile Include="Level_network_digest_computer.cpp" />
     <ClCompile Include="Level_network_map_sync.cpp" />
     <ClCompile Include="Level_network_messages.cpp" />
@@ -3005,7 +2983,6 @@
       <PrecompiledHeaderOutputFile>$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
     <ClCompile Include="MercuryBall.cpp" />
-    <ClCompile Include="Message_Filter.cpp" />
     <ClCompile Include="MilitaryOutfit.cpp" />
     <ClCompile Include="Mincer.cpp" />
     <ClCompile Include="mincer_script.cpp">
@@ -3037,7 +3014,6 @@
     <ClCompile Include="moving_objects_dynamic.cpp" />
     <ClCompile Include="moving_objects_dynamic_collision.cpp" />
     <ClCompile Include="moving_objects_static.cpp" />
-    <ClCompile Include="mpactor_dump_impl.cpp" />
     <ClCompile Include="MPPlayersBag.cpp" />
     <ClCompile Include="Needles.cpp" />
     <ClCompile Include="NoGravityZone.cpp" />
@@ -3502,8 +3478,6 @@
       <PrecompiledHeaderFile>pch_script.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
-    <ClCompile Include="Spectator.cpp" />
-    <ClCompile Include="spectator_camera_first_eye.cpp" />
     <ClCompile Include="squad_hierarchy_holder.cpp" />
     <ClCompile Include="StalkerOutfit.cpp">
       <PrecompiledHeaderFile>pch_script.h</PrecompiledHeaderFile>
