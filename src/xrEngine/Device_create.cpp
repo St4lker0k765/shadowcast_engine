@@ -7,8 +7,6 @@
 #include "dedicated_server_only.h"
 #include "../xrcdb/xrxrc.h"
 
-#include "securom_api.h"
-
 extern XRCDB_API BOOL* cdb_bDebug;
 extern ENGINE_API float psSVPImageSizeK;
 
@@ -66,8 +64,6 @@ void CRenderDevice::ConnectToRender()
 
 PROTECT_API void CRenderDevice::Create()
 {
-    SECUROM_MARKER_SECURITY_ON(4)
-
     if (b_is_Ready) return; // prevent double call
     Statistic = xr_new<CStats>();
 
@@ -105,5 +101,4 @@ PROTECT_API void CRenderDevice::Create()
 
     PreCache(0, false, false);
 
-    SECUROM_MARKER_SECURITY_OFF(4)
 }
