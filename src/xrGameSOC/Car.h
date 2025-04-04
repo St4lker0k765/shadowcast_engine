@@ -601,7 +601,8 @@ protected:
 	virtual	void					RestoreNetState						(CSE_PHSkeleton* po)															;
 			void					SetDefaultNetState					(CSE_PHSkeleton* po)															;
 
-	
+	virtual bool					IsHudModeNow		(){return false;};
+
 public:
 	CCar(void);
 	virtual ~CCar(void);

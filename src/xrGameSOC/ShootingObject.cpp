@@ -70,6 +70,10 @@ void CShootingObject::Load	(LPCSTR section)
 	VERIFY(fTimeToFire>0.f);
 	fTimeToFire			= 60.f / fTimeToFire;
 
+	m_bForcedParticlesHudMode = !!pSettings->line_exist(section, "forced_particle_hud_mode");
+	if (m_bForcedParticlesHudMode)
+		m_bParticlesHudMode = !!pSettings->r_bool(section, "forced_particle_hud_mode");
+
 	LoadFireParams		(section, "");
 	LoadLights			(section, "");
 	LoadShellParticles	(section, "");
@@ -196,7 +200,7 @@ void CShootingObject::StartParticles (CParticlesObject*& pParticles, LPCSTR part
 	pParticles = CParticlesObject::Create(particles_name,(BOOL)auto_remove_flag);
 	
 	UpdateParticles(pParticles, pos, vel);
-	bool in_hud_mode = IsHudModeNow();
+	bool in_hud_mode = IsHudModeNow() && m_bParticlesHudMode;
 	pParticles->Play(in_hud_mode);
 }
 void CShootingObject::StopParticles (CParticlesObject*&	pParticles)
@@ -276,7 +280,7 @@ void CShootingObject::OnShellDrop	(const Fvector& play_pos,
 	particles_pos.c.set		(play_pos);
 
 	pShellParticles->UpdateParent		(particles_pos, parent_vel); 
-	bool in_hud_mode = IsHudModeNow();
+	bool in_hud_mode = IsHudModeNow() && m_bParticlesHudMode;
 	pShellParticles->Play(in_hud_mode);
 }
 
@@ -305,7 +309,7 @@ void CShootingObject::StartFlameParticles	()
 	StopFlameParticles();
 	m_pFlameParticles = CParticlesObject::Create(*m_sFlameParticlesCurrent,FALSE);
 	UpdateFlameParticles();
-	bool in_hud_mode = IsHudModeNow();
+	bool in_hud_mode = IsHudModeNow() && m_bParticlesHudMode;
 	m_pFlameParticles->Play(in_hud_mode);
 
 }
