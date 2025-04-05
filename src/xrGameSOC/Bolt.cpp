@@ -17,8 +17,6 @@ CBolt::~CBolt(void) {}
 
 void CBolt::Load(LPCSTR section) {
 	inherited::Load(section);
-	if (pSettings->line_exist(section, "snd_throw"))
-		m_sounds.LoadSound(section, "snd_throw", "sndThrow", false, SOUND_TYPE_WEAPON_SHOOTING);
 }
 
 
@@ -48,9 +46,6 @@ void CBolt::Deactivate()
 
 void CBolt::Throw() 
 {
-	if (const auto actor = smart_cast<CActor*>(H_Parent()))
-		PlaySound("sndThrow", actor->Position());
-
 	auto					*l_pBolt = smart_cast<CMissile*>(m_fake_missile);
 	if(!l_pBolt)				return;
 	l_pBolt->set_destroy_time	(m_dwDestroyTimeMax/static_cast<u32>(phTimefactor));
