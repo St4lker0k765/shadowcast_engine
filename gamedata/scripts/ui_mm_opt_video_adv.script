@@ -43,7 +43,7 @@ function mode_ge_3(render_id)
 end
 
 function mode_4(render_id)
-	return render_id==4
+	return render_id==3
 end
 
 function opt_video_adv:InitControls(x, y, xml, handler)

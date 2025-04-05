@@ -166,7 +166,7 @@ public:
     CCC_TuneTextureMaterial(LPCSTR N) :IConsole_Command(N) {};
     virtual void	Execute(LPCSTR args)
     {
-        if (!psDeviceFlags.test(rsR2) && !psDeviceFlags.test(rsR3) && !psDeviceFlags.test(rsR4))
+        if (!psDeviceFlags.test(rsR2)  && !psDeviceFlags.test(rsR4))
         {
             Msg("This command not supported for static render.");
             return;
@@ -543,8 +543,7 @@ public:
         // 3 - r3
         // 4 - r4
         psDeviceFlags.set(rsR2, ((renderer_value >= 0) && renderer_value < 3));
-        psDeviceFlags.set(rsR3, (renderer_value == 3));
-        psDeviceFlags.set(rsR4, (renderer_value >= 4));
+        psDeviceFlags.set(rsR4, (renderer_value >= 3));
 
         r2_sun_static = (renderer_value < 1);
 

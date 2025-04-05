@@ -10,7 +10,6 @@ extern xr_token* vid_quality_token;
 
 extern "C" {
     using SupportsAdvancedRendering = bool __cdecl(void);
-    using SupportsDX10Rendering = bool __declspec(dllexport)();
     using SupportsDX11Rendering = bool __declspec(dllexport)();
 };
 
@@ -78,26 +77,10 @@ void CEngine::Initialize_dll()
         }
     }
 
-    if (psDeviceFlags.test(rsR3))
-    {
-        // try to initialize R3
-        Log("# [Engine]: Loading DLL:", r3_name);
-        h_render = LoadLibrary(r3_name);
-        if (nullptr == h_render)
-        {
-            // try to load R1
-            Msg("! ...Failed - incompatible hardware/pre-Vista OS.");
-            psDeviceFlags.set(rsR2, TRUE);
-        }
-        else
-            g_current_renderer = 3;
-    }
-
     if (psDeviceFlags.test(rsR2) || !h_render)
     {
         // try to initialize R2
         psDeviceFlags.set(rsR4, false);
-        psDeviceFlags.set(rsR3, false);
         Msg("# [Engine]: Loading DLL: [%s]", r2_name);
         h_render = LoadLibrary(r2_name);
         R_ASSERT(h_render);
@@ -156,18 +139,15 @@ void CEngine::CreatingRenderList()
     if (vid_quality_token != nullptr) return;
     bool bSupports_r2 = false;
     bool bSupports_r2_5 = false;
-    bool bSupports_r3 = false;
     bool bSupports_r4 = false;
 
     LPCSTR r2_name = "xrRender_R2.dll";
-    LPCSTR r3_name = "xrRender_R3.dll";
     LPCSTR r4_name = "xrRender_R4.dll";
 
     if (strstr(Core.Params, "-perfhud_hack"))
     {
         bSupports_r2 = true;
         bSupports_r2_5 = true;
-        bSupports_r3 = true;
         bSupports_r4 = true;
     }
     else
@@ -181,21 +161,6 @@ void CEngine::CreatingRenderList()
             auto* test_rendering = (SupportsAdvancedRendering*)(GetProcAddress(h_render, "SupportsAdvancedRendering"));
             R_ASSERT(test_rendering);
             bSupports_r2_5 = test_rendering();
-            FreeLibrary(h_render);
-        }
-
-        // try to initialize R3
-        Log("Loading DLL:", r3_name);
-        // Hide "d3d10.dll not found" message box for XP
-        SetErrorMode(SEM_FAILCRITICALERRORS);
-        h_render = LoadLibrary(r3_name);
-        // Restore error handling
-        SetErrorMode(0);
-        if (h_render)
-        {
-            auto* test_dx10_rendering = (SupportsDX10Rendering*)(GetProcAddress(h_render, "SupportsDX10Rendering"));
-            R_ASSERT(test_dx10_rendering);
-            bSupports_r3 = test_dx10_rendering();
             FreeLibrary(h_render);
         }
 
@@ -220,7 +185,7 @@ void CEngine::CreatingRenderList()
     xr_vector<LPCSTR> _tmp;
     u32 i = 0;
     bool bBreakLoop = false;
-    for (; i < 5; ++i)
+    for (; i < 4; ++i)
     {
         switch (i)
         {
@@ -232,11 +197,7 @@ void CEngine::CreatingRenderList()
             if (!bSupports_r2_5)
                 bBreakLoop = true;
             break;
-        case 3: //"renderer_r_dx10"
-            if (!bSupports_r3)
-                bBreakLoop = true;
-            break;
-        case 4: //"renderer_r_dx11"
+        case 3: //"renderer_r_dx11"
             if (!bSupports_r4)
                 bBreakLoop = true;
             break;
@@ -260,9 +221,6 @@ void CEngine::CreatingRenderList()
             val = "renderer_r2.5";
             break;
         case 3:
-            val = "renderer_r3";
-            break; // -)
-        case 4:
             val = "renderer_r4";
             break; // -)
         default:

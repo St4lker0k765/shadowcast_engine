@@ -71,7 +71,7 @@ end
 -- >=R4
 
 function only_4_and_more_mode(ctrl, _id, _ssample_trb_val, _ssample_cb_val)
-	local bEnabled	= _id>=4
+	local bEnabled	= _id>=3
 	ctrl:Enable		(bEnabled)
 end
 
