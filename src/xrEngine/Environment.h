@@ -117,6 +117,8 @@ public:
 class ENGINE_API CEnvDescriptor
 {
 public:
+    bool old_style;
+
     float exec_time;
     float exec_time_loaded;
 

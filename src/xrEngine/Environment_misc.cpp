@@ -257,6 +257,8 @@ void CEnvAmbient::load(
 CEnvDescriptor::CEnvDescriptor(shared_str const& identifier) :
 m_identifier(identifier)
 {
+    old_style = false;
+
     exec_time = 0.0f;
     exec_time_loaded = 0.0f;
 
@@ -324,6 +326,8 @@ void CEnvDescriptor::load(CEnvironment& environment, CInifile& config, pcstr sec
     clouds_color.w = save;
 
     sky_color = config.r_fvector3(identifier, "sky_color");
+    if (oldStyle)
+        sky_color.mul(0.5f);
 
     if (config.line_exist(identifier, "sky_rotation")) sky_rotation = deg2rad(config.r_float(identifier, "sky_rotation"));
     else sky_rotation = 0;
@@ -505,6 +509,9 @@ void CEnvDescriptorMixer::lerp(CEnvironment*, CEnvDescriptor& A, CEnvDescriptor&
 {
     float modif_power = 1.f / (modifier_power + 1); // the environment itself
     float fi = 1 - f;
+
+    // XXX: it would be nice to lerp this too.
+    old_style = A.old_style;
 
     m_pDescriptorMixer->lerp(&*A.m_pDescriptor, &*B.m_pDescriptor);
     /*
@@ -754,7 +761,10 @@ void CEnvironment::load_weathers()
             for (int envIdx = 0; envIdx < envCount; ++envIdx)
             {
                 if (pSettings->r_line(weatherSection, envIdx, &executionTime, &envSection))
+                {
                     env.emplace_back(create_descriptor(executionTime, pSettings, envSection));
+                    env.back()->old_style = true;
+                }
             }
         }
     }
@@ -826,7 +836,10 @@ void CEnvironment::load_weather_effects()
             for (int envIdx = 0; envIdx < envCount; ++envIdx)
             {
                 if (pSettings->r_line(weatherSection, envIdx, &executionTime, &envSection))
+                {
                     env.emplace_back(create_descriptor(executionTime, pSettings, envSection));
+                    env.back()->old_style = true;
+                }
             }
 
             env.emplace_back(create_descriptor("24:00:00", nullptr));
