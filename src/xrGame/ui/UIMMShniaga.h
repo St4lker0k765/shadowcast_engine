@@ -54,7 +54,6 @@ protected:
 	void 				CreateList				(xr_vector<CUITextWnd*>& lst, CUIXml& xml_doc, LPCSTR path);
 	void 				ShowMain				();
 	void 				ShowNewGame				();
-	void				ShowNetworkGame			();
 	float				pos						(float x1, float x2, u32 t);
 
     CUIStatic*			m_shniaga;
@@ -70,7 +69,6 @@ protected:
 
 	xr_vector<CUITextWnd*>	m_buttons;
 	xr_vector<CUITextWnd*>	m_buttons_new;
-	xr_vector<CUITextWnd*>	m_buttons_new_network;
 
 	int						m_selected_btn;
 	enum_page_id			m_page;

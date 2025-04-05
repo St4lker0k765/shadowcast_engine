@@ -94,16 +94,9 @@ void CEngine::Initialize_dll()
     {
         LPCSTR g_name = "xrGame.dll";
 
-        if (!CallOfPripyatMode)
+        if (ShadowOfChernobylMode)
         {
-            if (ClearSkyMode)
-            {
-                g_name = "xrGameCS.dll";
-            }
-            else if (ShadowOfChernobylMode)
-            {
-                g_name = "xrGameSOC.dll";
-            }
+            g_name = "xrGameSOC.dll";
         }
 
         Msg("# [Engine]: Loading DLL: [%s]", g_name);
