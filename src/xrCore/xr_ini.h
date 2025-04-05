@@ -91,13 +91,84 @@ public:
     BOOL section_exist(const shared_str& S)const;
     Root& sections() { return DATA; }
     Root const& sections() const { return DATA; }
+    
+    // Generic reading templated functions
+    template<typename T>
+    T read(pcstr section, pcstr line) const;
 
+    template<typename T>
+    T read(const shared_str& section, pcstr line) const
+    {
+        return read<T>(section.c_str(), line);
+    }
+
+    template<typename T>
+    bool try_read(T& outValue, pcstr section, pcstr line) const;
+
+    template<typename T>
+    bool try_read(T& outValue, const shared_str& section, pcstr line) const
+    {
+        return try_read<T>(outValue, section.c_str(), line);
+    }
+
+    // Returns value if it exist, or returns default value
+    template<typename T>
+    T read_if_exists(pcstr section, pcstr line, T defaultValue) const
+    {
+        if (line_exist(section, line))
+        {
+            return read<T>(section, line);
+        }
+        return defaultValue;
+    }
+
+    template<typename T>
+    T read_if_exists(const shared_str& section, pcstr line, T defaultValue) const
+    {
+        return read_if_exists<T>(section.c_str(), line, defaultValue);
+    }
+
+    // Returns true if value is exist and assigns it or returns false
+    template<typename T>
+    bool read_if_exists(T& outValue, pcstr section, pcstr line) const
+    {
+        if (line_exist(section, line))
+        {
+            outValue = read<T>(section, line);
+            return true;
+        }
+        return false;
+    }
+
+    template<typename T>
+    bool read_if_exists(T& outValue, const shared_str& section, pcstr line) const
+    {
+        return read_if_exists(outValue, section.c_str(), line);
+    }
+
+    template<typename T>
+    bool try_read_if_exists(T& outValue, pcstr section, pcstr line) const
+    {
+        if (line_exist(section, line))
+        {
+            return try_read<T>(outValue, section, line);
+        }
+        return false;
+    }
+
+    template<typename T>
+    bool try_read_if_exists(T& outValue, const shared_str& section, pcstr line) const
+    {
+        return try_read_if_exists(outValue, section.c_str(), line);
+    }
+
+    // Generic reading functions
     CLASS_ID r_clsid(LPCSTR S, LPCSTR L)const;
     CLASS_ID r_clsid(const shared_str& S, LPCSTR L)const { return r_clsid(*S, L); }
-    LPCSTR r_string(LPCSTR S, LPCSTR L)const; // оставляет кавычки
-    LPCSTR r_string(const shared_str& S, LPCSTR L)const { return r_string(*S, L); } // оставляет кавычки
-    shared_str r_string_wb(LPCSTR S, LPCSTR L)const; // убирает кавычки
-    shared_str r_string_wb(const shared_str& S, LPCSTR L)const { return r_string_wb(*S, L); } // убирает кавычки
+    LPCSTR r_string(LPCSTR S, LPCSTR L)const; // РѕСЃС‚Р°РІР»СЏРµС‚ РєР°РІС‹С‡РєРё
+    LPCSTR r_string(const shared_str& S, LPCSTR L)const { return r_string(*S, L); } // РѕСЃС‚Р°РІР»СЏРµС‚ РєР°РІС‹С‡РєРё
+    shared_str r_string_wb(LPCSTR S, LPCSTR L)const; // СѓР±РёСЂР°РµС‚ РєР°РІС‹С‡РєРё
+    shared_str r_string_wb(const shared_str& S, LPCSTR L)const { return r_string_wb(*S, L); } // СѓР±РёСЂР°РµС‚ РєР°РІС‹С‡РєРё
     u8 r_u8(LPCSTR S, LPCSTR L) const;
     u8 r_u8(const shared_str& S, LPCSTR L)const { return r_u8(*S, L); }
     u16 r_u16(LPCSTR S, LPCSTR L)const;
@@ -160,7 +231,7 @@ public:
 };
 
 // Main configuration file
-extern XRCORE_API CInifile const* pSettings;
+extern XRCORE_API CInifile *pSettings;
 extern XRCORE_API CInifile const* pSCSettings;
 
 #endif //__XR_INI_H__

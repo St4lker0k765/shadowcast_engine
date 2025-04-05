@@ -70,14 +70,29 @@ return R;
 void CLensFlareDescriptor::load(CInifile* pIni, LPCSTR sect)
 {
     section = sect;
-    m_Flags.set(flSource, pIni->r_bool(sect, "sun"));
-    if (m_Flags.is(flSource))
+    if (pIni->line_exist(sect, "sun"))
     {
-        LPCSTR S = pIni->r_string(sect, "sun_shader");
-        LPCSTR T = pIni->r_string(sect, "sun_texture");
-        float r = pIni->r_float(sect, "sun_radius");
-        BOOL i = pIni->r_bool(sect, "sun_ignore_color");
-        SetSource(r, i, T, S);
+        m_Flags.set(flSource, pIni->r_bool(sect, "sun"));
+        if (m_Flags.is(flSource))
+        {
+            LPCSTR S = pIni->r_string(sect, "sun_shader");
+            LPCSTR T = pIni->r_string(sect, "sun_texture");
+            float r = pIni->r_float(sect, "sun_radius");
+            BOOL i = pIni->r_bool(sect, "sun_ignore_color");
+            SetSource(r, i, T, S);
+        }
+    }
+    else
+    {
+        m_Flags.set(flSource, pIni->r_bool(sect, "source"));
+        if (m_Flags.is(flSource))
+        {
+            LPCSTR S = pIni->r_string(sect, "source_shader");
+            LPCSTR T = pIni->r_string(sect, "source_texture");
+            float r = pIni->r_float(sect, "source_radius");
+            BOOL i = pIni->r_bool(sect, "source_ignore_color");
+            SetSource(r, i, T, S);
+        }
     }
     m_Flags.set(flFlare, pIni->r_bool(sect, "flares"));
     if (m_Flags.is(flFlare))

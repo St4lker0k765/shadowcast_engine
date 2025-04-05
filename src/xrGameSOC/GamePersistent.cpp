@@ -59,6 +59,7 @@ CGamePersistent::CGamePersistent(void)
 	ambient_effect_wind_end = 0.f;
 	ambient_effect_wind_out_time = 0.f;
 	ambient_effect_wind_on = false;
+	ambient_sound_next_time.reserve(32);
 
 	m_pUI_core					= NULL;
 	m_pMainMenu					= NULL;
@@ -232,23 +233,20 @@ void CGamePersistent::WeathersUpdate()
 		BOOL bIndoor = TRUE;
 		if (actor) bIndoor = actor->renderable_ROS()->get_luminocity_hemi() < 0.05f;
 
-		int data_set = (Random.randF() < (1.f - Environment().CurrentEnv->weight)) ? 0 : 1;
-
-		CEnvDescriptor* const current_env = Environment().Current[0];
-		VERIFY(current_env);
+		const size_t data_set = (Random.randF() < (1.f - Environment().CurrentEnv->weight)) ? 0 : 1;
 
 		CEnvDescriptor* const _env = Environment().Current[data_set];
 		VERIFY(_env);
 
 		CEnvAmbient* env_amb = _env->env_ambient;
 		if (env_amb) {
-			CEnvAmbient::SSndChannelVec& vec = current_env->env_ambient->get_snd_channels();
-			CEnvAmbient::SSndChannelVecIt I = vec.begin();
-			CEnvAmbient::SSndChannelVecIt E = vec.end();
+			CEnvAmbient::SSndChannelVec& vec = env_amb->get_snd_channels();
 
-			for (u32 idx = 0; I != E; ++I, ++idx) {
+			auto I = vec.cbegin();
+			const auto E = vec.cend();
+
+			for (size_t idx = 0; I != E; ++I, ++idx) {
 				CEnvAmbient::SSndChannel& ch = **I;
-				R_ASSERT(idx < 20);
 				if (ambient_sound_next_time[idx] == 0)//first
 				{
 					ambient_sound_next_time[idx] = Device.dwTimeGlobal + ch.get_rnd_sound_first_time();
