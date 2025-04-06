@@ -68,7 +68,7 @@ bool CUITextureMaster::IsSh(const shared_str& texture_name){
 	return strstr(texture_name.c_str(),"\\") ? false : true;
 }
 
-void CUITextureMaster::InitTexture(const shared_str& texture_name, const shared_str& shader_name, ui_shader& out_shader, Frect& out_rect)
+bool CUITextureMaster::InitTexture(const shared_str& texture_name, const shared_str& shader_name, ui_shader& out_shader, Frect& out_rect)
 {
 	xr_map<shared_str, TEX_INFO>::iterator it	= m_textures.find(texture_name);
 	if (it != m_textures.end())
@@ -80,11 +80,13 @@ void CUITextureMaster::InitTexture(const shared_str& texture_name, const shared_
 
 		out_shader			= m_shaders[p];
 		out_rect			= (*it).second.rect;
-	}else
-		out_shader->create	(shader_name.c_str(), texture_name.c_str());
+		return true;
+	}
+	out_shader->create	(shader_name.c_str(), texture_name.c_str());
+	return false;
 }
 
-void CUITextureMaster::InitTexture(const shared_str& texture_name, CUIStaticItem* tc, const shared_str& shader_name)
+bool CUITextureMaster::InitTexture(const shared_str& texture_name, CUIStaticItem* tc, const shared_str& shader_name)
 {
 	xr_map<shared_str, TEX_INFO>::iterator it	= m_textures.find(texture_name);
 	if (it != m_textures.end())
@@ -97,8 +99,10 @@ void CUITextureMaster::InitTexture(const shared_str& texture_name, CUIStaticItem
 		tc->SetShader		(m_shaders[p]);
 		tc->SetTextureRect	((*it).second.rect);
 		tc->SetSize			(Fvector2().set(it->second.rect.width(),it->second.rect.height()));
-	}else
-		tc->CreateShader		(texture_name.c_str(), shader_name.c_str());
+		return true;
+	}
+	tc->CreateShader		(texture_name.c_str(), shader_name.c_str());
+	return false;
 }
 
 Frect CUITextureMaster::GetTextureRect(const shared_str&  texture_name){
@@ -117,16 +121,68 @@ float CUITextureMaster::GetTextureWidth(const shared_str&  texture_name)
 	return info.rect.width();
 }
 
-TEX_INFO CUITextureMaster::FindItem(const shared_str&  texture_name)
+bool CUITextureMaster::GetTextureHeight(const shared_str& texture_name, float& outValue)
 {
-	xr_map<shared_str, TEX_INFO>::iterator	it;
-	it = m_textures.find(texture_name);
+    TEX_INFO info;
+    if (FindItem(texture_name, info))
+    {
+        outValue = info.rect.height();
+        return true;
+    }
+    return false;
+}
 
-	if (it != m_textures.end())
-		return (it->second);
-	else{
-		return TEX_INFO();
-	}
+bool CUITextureMaster::GetTextureWidth(const shared_str& texture_name, float& outValue)
+{
+    TEX_INFO info;
+    if (FindItem(texture_name, info))
+    {
+        outValue = info.rect.width();
+        return true;
+    }
+    return false;
+
+}
+
+TEX_INFO CUITextureMaster::FindItem(const shared_str& texture_name, pcstr default_texture /*= nullptr*/)
+{
+    TEX_INFO info;
+    
+    VERIFY4(FindItem(texture_name, default_texture, info),
+        "Can't find texture", texture_name.c_str(), default_texture);
+
+    return info;
+}
+
+bool CUITextureMaster::FindItem(const shared_str& texture_name, TEX_INFO& outValue)
+{
+    return FindItem(texture_name, nullptr, outValue);
+}
+
+bool CUITextureMaster::FindItem(const shared_str& texture_name, pcstr default_texture, TEX_INFO& outValue)
+{
+    auto it = m_textures.find(texture_name);
+
+    if (it != m_textures.end())
+    {
+        outValue = it->second;
+        return true;
+    }
+
+    it = m_textures.find(default_texture);
+    if (it != m_textures.end())
+    {
+        outValue = it->second;
+        return true;
+    }
+
+    return false;
+}
+
+bool CUITextureMaster::ItemExist(const shared_str& texture_name)
+{
+	const auto it = m_textures.find(texture_name);
+	return it != m_textures.end();
 }
 
 void CUITextureMaster::GetTextureShader(const shared_str& texture_name, ui_shader& sh) {

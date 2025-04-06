@@ -68,9 +68,13 @@ Frect CUIXmlInit::GetFRect(CUIXml& xml_doc, LPCSTR path, int index){
 }
 
 bool CUIXmlInit::InitWindow(CUIXml& xml_doc, LPCSTR path, 	
-							int index, CUIWindow* pWnd)
+							int index, CUIWindow* pWnd, bool fatal)
 {
-	R_ASSERT4(xml_doc.NavigateToNode(path,index), "XML node not found", path, xml_doc.m_xml_file_name);
+	if (!xml_doc.NavigateToNode(path, index))
+	{
+		R_ASSERT4(!fatal, "XML node not found", path, xml_doc.m_xml_file_name);
+		return false;
+	}
 	
 	Fvector2 pos, size;
 	pos.x = xml_doc.ReadAttribFlt(path, index, "x");
@@ -95,14 +99,13 @@ bool CUIXmlInit::InitWindow(CUIXml& xml_doc, LPCSTR path,
 
 //////////////////////////////////////////////////////////////////////////
 
-bool CUIXmlInit::InitFrameWindow(CUIXml& xml_doc, LPCSTR path, 
-									int index, CUIFrameWindow* pWnd)
+bool CUIXmlInit::InitFrameWindow(CUIXml& xml_doc, LPCSTR path,
+	int index, CUIFrameWindow* pWnd, bool fatal)
 {
-	R_ASSERT4		(xml_doc.NavigateToNode(path,index), "XML node not found", path, xml_doc.m_xml_file_name);
+	bool result = InitWindow(xml_doc, path, index, pWnd, fatal);
+	result &= InitTexture(xml_doc, path, index, pWnd, fatal);
 
-	InitTexture		(xml_doc, path, index, pWnd);
-	InitWindow		(xml_doc, path, index, pWnd);
-	return			true;
+	return result;
 }
 
 
@@ -816,14 +819,22 @@ bool CUIXmlInit::InitTabControl(CUIXml &xml_doc, LPCSTR path, int index, CUITabC
 
 //////////////////////////////////////////////////////////////////////////
 
-bool CUIXmlInit::InitFrameLine(CUIXml& xml_doc, LPCSTR path, int index, CUIFrameLineWnd* pWnd)
+bool CUIXmlInit::InitFrameLine(CUIXml& xml_doc, LPCSTR path, int index, CUIFrameLineWnd* pWnd, bool fatal)
 {
-	R_ASSERT3(xml_doc.NavigateToNode(path,index), "XML node not found", path);
-
+	const bool nodeExist = xml_doc.NavigateToNode(path, index);
+	if (!nodeExist)
+	{
+		R_ASSERT4(!fatal, "XML node not found", path, xml_doc.m_xml_file_name);
+		return false;
+	}
 	string256 buf;
 
-	bool stretch_flag = xml_doc.ReadAttribInt(path, index, "stretch") ? true : false;
-	R_ASSERT(stretch_flag==false);
+	bool stretch_flag = xml_doc.ReadAttribInt(path, index, "stretch");
+	if (stretch_flag)
+	{
+		Msg("~ [%s] stretch attribute is unsupported for [%s]", xml_doc.m_xml_file_name, path);
+		//.	pWnd->SetStretchTexture( stretch_flag );
+	}
 //.	pWnd->SetStretchTexture( stretch_flag );
 
 	Fvector2 pos, size;
@@ -845,8 +856,7 @@ bool CUIXmlInit::InitFrameLine(CUIXml& xml_doc, LPCSTR path, int index, CUIFrame
 	pWnd->SetTextureColor	(color);
 
 	InitWindow		(xml_doc, path, index, pWnd);
-	pWnd->InitFrameLineWnd(*base_name, pos, size, !vertical);
-	return true;
+	return pWnd->InitFrameLineWnd(*base_name, pos, size, !vertical, fatal);
 }
 
 bool CUIXmlInit::InitCustomEdit(CUIXml& xml_doc, LPCSTR path, int index, CUICustomEdit* pWnd)
@@ -931,8 +941,10 @@ bool CUIXmlInit::InitSleepStatic(CUIXml &xml_doc, const char *path, int index, C
 	return true;
 }
 
-bool CUIXmlInit::InitTexture(CUIXml& xml_doc, LPCSTR path, int index, ITextureOwner* pWnd)
+bool CUIXmlInit::InitTexture(CUIXml& xml_doc, LPCSTR path, int index, ITextureOwner* pWnd, bool fatal)
 {
+	bool result = true;
+
 	string256 buf;
 	LPCSTR texture	= NULL;
 	LPCSTR shader	= NULL;
@@ -945,9 +957,9 @@ bool CUIXmlInit::InitTexture(CUIXml& xml_doc, LPCSTR path, int index, ITextureOw
 	if (texture)
 	{
 		if(shader)
-			pWnd->InitTextureEx(texture, shader);
+			result = pWnd->InitTextureEx(texture, shader, fatal);
 		else
-	       pWnd->InitTexture(texture);
+			result = pWnd->InitTexture(texture, fatal);
 	}
 //--------------------
 	Frect			rect;
@@ -965,7 +977,7 @@ bool CUIXmlInit::InitTexture(CUIXml& xml_doc, LPCSTR path, int index, ITextureOw
 	if (rect.width() != 0 && rect.height() != 0)
 		pWnd->SetTextureRect(rect);
 
-	return true;
+	return result;
 }
 
 bool CUIXmlInit::InitTextureOffset(CUIXml &xml_doc, LPCSTR path, int index, CUIStatic* pWnd){

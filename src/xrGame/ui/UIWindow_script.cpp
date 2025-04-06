@@ -129,6 +129,8 @@ void CUIWindow::script_register(lua_State *L)
 		.def("IsEnabled",				&CUIWindow::IsEnabled)
 		.def("Show",					&CUIWindow::Show)
 		.def("IsShown",					&CUIWindow::IsShown)
+		.def("SetFont",					&CUIWindow::SetFont)
+		.def("GetFont",					&CUIWindow::GetFont)
 
 		.def("WindowName",				&CUIWindow::WindowName_script)
 		.def("SetWindowName",			&CUIWindow::SetWindowName)
@@ -136,13 +138,17 @@ void CUIWindow::script_register(lua_State *L)
 		.def("ResetPPMode",				&CUIWindow::ResetPPMode),
 
 		class_<CDialogHolder>("CDialogHolder")
+		.def("TopInputReceiver",		&CDialogHolder::TopInputReceiver)
+		.def("MainInputReceiver",		&CDialogHolder::TopInputReceiver)
+		.def("start_stop_menu",			&CDialogHolder::StartStopMenu)
 		.def("AddDialogToRender",		&CDialogHolder::AddDialogToRender)
 		.def("RemoveDialogToRender",	&CDialogHolder::RemoveDialogToRender),
 
 		class_<CUIDialogWnd, CUIWindow>("CUIDialogWnd")
 		.def("ShowDialog",				&CUIDialogWnd::ShowDialog)
 		.def("HideDialog",				&CUIDialogWnd::HideDialog)
-		.def("GetHolder",				&CUIDialogWnd::GetHolder),
+		.def("GetHolder",				&CUIDialogWnd::GetHolder)
+		.def("SetHolder",				&CUIDialogWnd::SetHolder),
 
 		class_<CUIFrameWindow, CUIWindow>("CUIFrameWindow")
 		.def(							constructor<>())

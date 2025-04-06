@@ -22,7 +22,7 @@ CUIScrollBar::CUIScrollBar()
 	m_FrameBackground	= xr_new<CUIFrameLineWnd>();m_FrameBackground->SetAutoDelete(true); AttachChild(m_FrameBackground);
 }
 
-void CUIScrollBar::InitScrollBar(Fvector2 pos, float length, bool bIsHorizontal, LPCSTR profile)
+bool CUIScrollBar::InitScrollBar(Fvector2 pos, float length, bool bIsHorizontal, LPCSTR profile)
 {
 	string256 _path;
 	CUIXml xml_doc;
@@ -34,6 +34,11 @@ void CUIScrollBar::InitScrollBar(Fvector2 pos, float length, bool bIsHorizontal,
 
 	inherited::SetWndPos			(pos);
 	m_bIsHorizontal					= bIsHorizontal;
+
+	// Workarounds for compatibility with old resources (SoC, CS)
+	CUIStatic* tempScroll = nullptr;
+	CUIStatic* tempBackground = nullptr;
+
 	m_FrameBackground->SetHorizontal(m_bIsHorizontal);
 	if(m_bIsHorizontal)
 	{
@@ -50,12 +55,31 @@ void CUIScrollBar::InitScrollBar(Fvector2 pos, float length, bool bIsHorizontal,
 		m_ScrollBox->SetHorizontal	(true);
 
 		strconcat					(sizeof(_path),_path, profile, ":box");
-		CUIXmlInit::InitFrameLine	(xml_doc, _path, 0, m_ScrollBox);
+		if (!CUIXmlInit::InitFrameLine(xml_doc, _path, 0, m_ScrollBox, false))
+		{
+			if (xml_doc.NavigateToNode(_path))
+			{
+				tempScroll = new CUIStatic();
+				CUIXmlInit::InitStatic(xml_doc, _path, 0, tempScroll);
+				tempScroll->Show(true);
+			}
+		}
 
 		strconcat					(sizeof(_path),_path, profile, ":back:texture");
 		LPCSTR texture				= xml_doc.Read(_path, 0, "");
 		R_ASSERT					(texture);
-		m_FrameBackground->InitTexture(texture);
+
+		if (!m_FrameBackground->InitTexture(texture, "hud\\default", false))
+		{
+			if (xml_doc.NavigateToNode(_path))
+			{
+				tempBackground = new CUIStatic();
+				tempBackground->SetWndRect(GetWndRect());
+				strconcat(sizeof(_path), _path, profile, ":back");
+				CUIXmlInit::InitStatic(xml_doc, _path, 0, tempBackground);
+				tempBackground->Show(true);
+			}	
+		}
 		m_ScrollWorkArea			= _max(0,iFloor(GetWidth()-2*height));
 	}else
 	{
@@ -72,21 +96,79 @@ void CUIScrollBar::InitScrollBar(Fvector2 pos, float length, bool bIsHorizontal,
 		m_ScrollBox->SetHorizontal	(false);
 
 		strconcat					(sizeof(_path),_path, profile, ":box_v");
-		CUIXmlInit::InitFrameLine	(xml_doc, _path, 0, m_ScrollBox);	
+		if (!CUIXmlInit::InitFrameLine(xml_doc, _path, 0, m_ScrollBox, false))
+		{
+			if (xml_doc.NavigateToNode(_path))
+			{
+				tempScroll = new CUIStatic();
+				CUIXmlInit::InitStatic(xml_doc, _path, 0, tempScroll);
+				tempScroll->Show(true);
+			}
+		}
 
 		strconcat					(sizeof(_path),_path, profile, ":back_v:texture");
 		LPCSTR texture				= xml_doc.Read(_path, 0, "");
 		R_ASSERT					(texture);
 
-		m_FrameBackground->InitTexture(texture);
+		if (!m_FrameBackground->InitTexture(texture, "hud\\default", false))
+		{
+			if (xml_doc.NavigateToNode(_path))
+			{
+				tempBackground = new CUIStatic();
+				tempBackground->SetWndRect(GetWndRect());
+				strconcat(sizeof(_path), _path, profile, ":back_v");
+				CUIXmlInit::InitStatic(xml_doc, _path, 0, tempBackground);
+				tempBackground->Show(true);
+			}
+		}
 		m_ScrollWorkArea			= _max(0,iFloor(GetHeight()-2*height));
 	}	
 
 	UpdateScrollBar					();
+
+	if (tempBackground && tempBackground->IsShown())
+	{
+		if (m_bIsHorizontal)
+			SetHeight(tempBackground->GetHeight());
+		else
+			SetWidth(tempBackground->GetWidth());
+
+		m_FrameBackground->InitFrameLineWnd(GetWndPos(), GetWndSize(), m_bIsHorizontal);
+
+		m_FrameBackground->SetShader(tempBackground->GetShader());
+		m_FrameBackground->SetTextureRect(tempBackground->GetTextureRect(), CUIFrameLineWnd::flBack);
+		m_FrameBackground->SetTextureRect({ 0, 0, 0, 0 }, CUIFrameLineWnd::flFirst);
+		m_FrameBackground->SetTextureRect({ 0, 0, 0, 0 }, CUIFrameLineWnd::flSecond);
+		m_FrameBackground->SetTextureVisible(true);
+	}
+
+	if (tempScroll && tempScroll->IsShown())
+	{
+		m_ScrollBox->InitFrameLineWnd(tempScroll->GetWndPos(), GetWndSize(), m_bIsHorizontal);
+
+		m_ScrollBox->SetShader(tempScroll->GetShader());
+		m_ScrollBox->SetTextureRect(tempScroll->GetTextureRect(), CUIFrameLineWnd::flBack);
+		m_ScrollBox->SetTextureRect({ 0, 0, 0, 0 }, CUIFrameLineWnd::flFirst);
+		m_ScrollBox->SetTextureRect({ 0, 0, 0, 0 }, CUIFrameLineWnd::flSecond);
+		m_ScrollBox->SetTextureVisible(true);
+	}
+
+	bool result = true;
+
+	if (tempScroll && !tempScroll->IsShown())
+		result = false;
+
+	if (tempBackground && !tempBackground->IsShown())
+		result = false;
+
+	xr_delete(tempScroll);
+	xr_delete(tempBackground);
+
+	return result;
 }
 
 
-//корректировка размеров скроллера
+//РєРѕСЂСЂРµРєС‚РёСЂРѕРІРєР° СЂР°Р·РјРµСЂРѕРІ СЃРєСЂРѕР»Р»РµСЂР°
 void CUIScrollBar::SetWidth(float width)
 {
 	if(width<=0.0f) width = 1.0f;
@@ -142,7 +224,7 @@ void CUIScrollBar::UpdateScrollBar()
 {
 	if (IsShown())
 	{
-		//уcтановить размер и положение каретки
+		//СѓcС‚Р°РЅРѕРІРёС‚СЊ СЂР°Р·РјРµСЂ Рё РїРѕР»РѕР¶РµРЅРёРµ РєР°СЂРµС‚РєРё
 		if(m_iMaxPos==m_iMinPos)	m_iMaxPos++;
 		float box_sz				= float(m_ScrollWorkArea)*float(m_iPageSize ? m_iPageSize : 1)/float(m_iMaxPos-m_iMinPos);
 		if(IsRelevant())
@@ -346,7 +428,7 @@ void CUIScrollBar::SendMessage(CUIWindow *pWnd, s16 msg, void *pData)
 	{
 		if ( msg == SCROLLBOX_MOVE )
 		{
-			//вычислить новое положение прокрутки
+			//РІС‹С‡РёСЃР»РёС‚СЊ РЅРѕРІРѕРµ РїРѕР»РѕР¶РµРЅРёРµ РїСЂРѕРєСЂСѓС‚РєРё
 			ClampByViewRect();
 			if ( m_bIsHorizontal )
 			{

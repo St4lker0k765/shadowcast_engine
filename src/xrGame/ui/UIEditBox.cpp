@@ -1,4 +1,4 @@
-// CUIEditBox.cpp: ввод строки с клавиатуры
+// CUIEditBox.cpp: РІРІРѕРґ СЃС‚СЂРѕРєРё СЃ РєР»Р°РІРёР°С‚СѓСЂС‹
 // 
 //////////////////////////////////////////////////////////////////////
 
@@ -24,22 +24,23 @@ void CUIEditBox::InitCustomEdit(Fvector2 pos, Fvector2 size)
 	CUICustomEdit::InitCustomEdit	(pos, size);
 }
 
-void CUIEditBox::InitTextureEx(LPCSTR texture, LPCSTR  shader)
+bool CUIEditBox::InitTextureEx(LPCSTR texture, LPCSTR  shader, bool fatal)
 {
 	if(!m_frameLine)
 	{
-		m_frameLine = xr_new<CUIFrameLineWnd>();
+		m_frameLine = new CUIFrameLineWnd();
 		AttachChild(m_frameLine);
 		m_frameLine->SetAutoDelete(true);
 	}
-	m_frameLine->InitTexture(texture, shader);
+	const bool result = m_frameLine->InitTexture(texture, shader);
 	m_frameLine->SetWndPos			(Fvector2().set(0,0));
 	m_frameLine->SetWndSize			(GetWndSize());
+	return result;
 }
 
-void CUIEditBox::InitTexture(LPCSTR texture)
+bool CUIEditBox::InitTexture(LPCSTR texture, bool fatal)
 {
-	InitTextureEx(texture, "hud\\default");
+	return InitTextureEx(texture, "hud\\default", fatal);
 }
 
 void CUIEditBox::SetCurrentOptValue()

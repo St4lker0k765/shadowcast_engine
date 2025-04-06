@@ -16,7 +16,7 @@ CUIFixedScrollBar::~CUIFixedScrollBar(void)
 {
 }
 
-void CUIFixedScrollBar::InitScrollBar(Fvector2 pos, bool horizontal, LPCSTR profile)
+bool CUIFixedScrollBar::InitScrollBar(Fvector2 pos, bool horizontal, LPCSTR profile)
 {
 	string256 _path;
 	CUIXml xml_doc;
@@ -46,7 +46,8 @@ void CUIFixedScrollBar::InitScrollBar(Fvector2 pos, bool horizontal, LPCSTR prof
 		CUIXmlInit::Init3tButton(xml_doc, _path, 0, m_ScrollBox);
 
 		strconcat(sizeof(_path),_path, profile, ":back");
-		CUIXmlInit::InitFrameLine(xml_doc, _path, 0, m_FrameBackground);
+		if (!CUIXmlInit::InitFrameLine(xml_doc, _path, 0, m_FrameBackground, false))
+			return false;
 
 		m_ScrollWorkArea = _max(0,iFloor(GetWidth()-2*height));
 	}
@@ -64,17 +65,19 @@ void CUIFixedScrollBar::InitScrollBar(Fvector2 pos, bool horizontal, LPCSTR prof
 		CUIXmlInit::Init3tButton(xml_doc, _path, 0, m_ScrollBox);
 
 		strconcat(sizeof(_path),_path, profile, ":back_v");
-		CUIXmlInit::InitFrameLine(xml_doc, _path, 0, m_FrameBackground);
+		if (!CUIXmlInit::InitFrameLine(xml_doc, _path, 0, m_FrameBackground, false))
+			return false;
 
 		m_ScrollWorkArea = _max(0,iFloor(GetHeight()-2*width_v));
 	}	
 	UpdateScrollBar();
+	return true;
 }
 void CUIFixedScrollBar::UpdateScrollBar()
 {
 	if(IsShown())
 	{
-		//уcтановить размер и положение каретки
+		//СѓcС‚Р°РЅРѕРІРёС‚СЊ СЂР°Р·РјРµСЂ Рё РїРѕР»РѕР¶РµРЅРёРµ РєР°СЂРµС‚РєРё
 		if(m_iMaxPos==m_iMinPos)	
 			m_iMaxPos++;
 		float box_sz = float(m_ScrollWorkArea)*float(m_iPageSize ? m_iPageSize : 1)/float(m_iMaxPos-m_iMinPos);
@@ -277,7 +280,7 @@ void CUIFixedScrollBar::SendMessage(CUIWindow *pWnd, s16 msg, void *pData)
 	{
 		if(msg==SCROLLBOX_MOVE)
 		{
-			//вычислить новое положение прокрутки
+			//РІС‹С‡РёСЃР»РёС‚СЊ РЅРѕРІРѕРµ РїРѕР»РѕР¶РµРЅРёРµ РїСЂРѕРєСЂСѓС‚РєРё
 			ClampByViewRect();
 			if(m_bIsHorizontal)
 			{
