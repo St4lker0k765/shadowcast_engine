@@ -81,7 +81,7 @@ void CLevel::IR_OnMouseMove( int dx, int dy )
 	}
 }
 
-// Îáðàáîòêà íàæàòèÿ êëàâèø
+// ÐžÐ±Ñ€Ð°Ð±Ð¾Ñ‚ÐºÐ° Ð½Ð°Ð¶Ð°Ñ‚Ð¸Ñ ÐºÐ»Ð°Ð²Ð¸Ñˆ
 extern bool g_block_pause;
 
 // Lain: added TEMP!!!
@@ -138,6 +138,11 @@ void CLevel::IR_OnKeyboardPress	(int key)
 				Console->Execute("main_menu");
 			}return;
 		}break;
+	case kALIFE_CMD: {
+		luabind::functor<void>	functor;
+		R_ASSERT2(ai().script_engine().functor("sim_combat.start_attack", functor), "failed to get sim_combat.start_attack functor");
+		functor();
+	}break;
 	};
 
 	if ( !bReady || !b_ui_exist )			return;

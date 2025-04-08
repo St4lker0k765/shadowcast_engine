@@ -4,6 +4,7 @@
 #include "UI3tButton.h"
 #include "UITextureMaster.h"
 #include "../../xrEngine/xr_input.h"
+#include "UIXmlInit.h"
 
 bool UseOldTrackbarTex = READ_IF_EXISTS(pSCSettings, r_bool, "game_specific", "cop_old_trackbar_texture", false);
 bool EnableTrackbarScaling = READ_IF_EXISTS(pSCSettings, r_bool, "ui", "enable_trackbar_scaling", false);
@@ -98,36 +99,37 @@ bool CUITrackBar::OnMouseAction(float x, float y, EUIMessages mouse_action)
 
 void CUITrackBar::InitTrackBar(Fvector2 pos, Fvector2 size)
 {
-	float				item_height;
-	float				item_width;
+	CUIXml xml_doc;
+	xml_doc.Load			(CONFIG_PATH, UI_PATH, "trackbar.xml");
 
-	pcstr slider_bar_tex = "ui_inGame2_opt_slider_bar";
-	pcstr slider_box_tex = "ui_inGame2_opt_slider_box";
-	pcstr slider_box_e_tex = "ui_inGame2_opt_slider_box_e";
-	if (UseOldTrackbarTex)
-	{
-		slider_bar_tex = "ui_slider_e";
-		slider_box_tex = "ui_slider_button";
-		slider_box_e_tex = "ui_slider_button_e";
-	}
-	InitIB				(pos, size);
-		InitState(S_Enabled, slider_bar_tex);
-		InitState(S_Disabled, slider_bar_tex);
+	LPCSTR nodevalue_button = xml_doc.Read("button_texture_name", 0, "ui_inGame2_opt_slider_box");
+	LPCSTR nodevalue_track	= xml_doc.Read("track_texture_name", 0, "ui_inGame2_opt_slider_bar");
+	float size_custom		= xml_doc.ReadFlt("size", 0, 1.0f);
 
-		item_width = CUITextureMaster::GetTextureWidth(slider_box_e_tex);
-		item_height = CUITextureMaster::GetTextureHeight(slider_box_e_tex);
+	float					item_height;
+	float					item_width;
 
-		item_width *= UI().get_current_kx();
-		if (EnableTrackbarScaling)
-		{
-			item_width /= 2.0f;
-			item_height /= 2.0f;
-		}
-		m_pSlider->InitButton(Fvector2().set(0.0f, 0.0f) /*(size.y - item_height)/2.0f)*/,
-			Fvector2().set(item_width, item_height));			//size
-		m_pSlider->InitTexture(slider_box_tex);
+
+	InitIB(pos, size);
+
+	InitState				(S_Enabled, nodevalue_track);
+	InitState				(S_Disabled, nodevalue_track);
+	string128				name_button_e;
+	xr_sprintf				(name_button_e, "%s%s", nodevalue_button, "_e");
+	item_width				= CUITextureMaster::GetTextureWidth(name_button_e);
+    item_height				= CUITextureMaster::GetTextureHeight(name_button_e);
+
+	item_width				*= UI().get_current_kx();
+
+	item_width				*= size_custom;
+	item_height				*= size_custom;
+
+	m_pSlider->InitButton	(Fvector2().set(0.0f, 0.0f), Fvector2().set(item_width, item_height) );			//size
+	m_pSlider->InitTexture	(nodevalue_button);
+	m_pSlider->m_background->SetStretchTexture(xml_doc.ReadInt("stretch", 0, TRUE));
+	
 	SetCurrentState(S_Enabled);
-}	
+}
 
 void CUITrackBar::Draw()
 {

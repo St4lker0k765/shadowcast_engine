@@ -56,6 +56,7 @@ void UIRegistrator::script_register(lua_State *L)
 			],
 				
 		class_<CMainMenu>("CMainMenu")
+			.def("GetPatchProgress",		&CMainMenu::GetPatchProgress)
 			.def("GetGSVer",				&CApplication::ShowCurrentVersion)
 			.def("GetDemoInfo",				&CMainMenu::GetDemoInfo)
 			.def("GetLoginMngr",			&CMainMenu::GetLoginMngr)

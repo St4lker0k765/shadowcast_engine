@@ -8,7 +8,7 @@
 // copyright 2005 GSC Game World
 
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "UITextureMaster.h"
 #include "UIStaticItem.h"
 #include "uiabstract.h"
@@ -121,62 +121,16 @@ float CUITextureMaster::GetTextureWidth(const shared_str&  texture_name)
 	return info.rect.width();
 }
 
-bool CUITextureMaster::GetTextureHeight(const shared_str& texture_name, float& outValue)
+TEX_INFO CUITextureMaster::FindItem(const shared_str&  texture_name)
 {
-    TEX_INFO info;
-    if (FindItem(texture_name, info))
-    {
-        outValue = info.rect.height();
-        return true;
-    }
-    return false;
-}
+	xr_map<shared_str, TEX_INFO>::iterator	it;
+	it = m_textures.find(texture_name);
 
-bool CUITextureMaster::GetTextureWidth(const shared_str& texture_name, float& outValue)
-{
-    TEX_INFO info;
-    if (FindItem(texture_name, info))
-    {
-        outValue = info.rect.width();
-        return true;
-    }
-    return false;
-
-}
-
-TEX_INFO CUITextureMaster::FindItem(const shared_str& texture_name, pcstr default_texture /*= nullptr*/)
-{
-    TEX_INFO info;
-    
-    VERIFY4(FindItem(texture_name, default_texture, info),
-        "Can't find texture", texture_name.c_str(), default_texture);
-
-    return info;
-}
-
-bool CUITextureMaster::FindItem(const shared_str& texture_name, TEX_INFO& outValue)
-{
-    return FindItem(texture_name, nullptr, outValue);
-}
-
-bool CUITextureMaster::FindItem(const shared_str& texture_name, pcstr default_texture, TEX_INFO& outValue)
-{
-    auto it = m_textures.find(texture_name);
-
-    if (it != m_textures.end())
-    {
-        outValue = it->second;
-        return true;
-    }
-
-    it = m_textures.find(default_texture);
-    if (it != m_textures.end())
-    {
-        outValue = it->second;
-        return true;
-    }
-
-    return false;
+	if (it != m_textures.end())
+		return (it->second);
+	else{
+		return TEX_INFO();
+	}
 }
 
 bool CUITextureMaster::ItemExist(const shared_str& texture_name)
@@ -185,11 +139,11 @@ bool CUITextureMaster::ItemExist(const shared_str& texture_name)
 	return it != m_textures.end();
 }
 
-void CUITextureMaster::GetTextureShader(const shared_str& texture_name, ui_shader& sh) {
+void CUITextureMaster::GetTextureShader(const shared_str&  texture_name, ui_shader& sh){
 	xr_map<shared_str, TEX_INFO>::iterator	it;
 	it = m_textures.find(texture_name);
 
 	R_ASSERT3(it != m_textures.end(), "can't find texture", texture_name.c_str());
 
-	sh->create("hud\\default", *((*it).second.file));
+	sh->create("hud\\default", *((*it).second.file));	
 }

@@ -90,8 +90,9 @@ _action  actions[] = {
 
 	{ "quick_save",			kQUICK_SAVE				,_sp},		
 	{ "quick_load",			kQUICK_LOAD				,_sp},		
-//	{ "alife_command",		kALIFE_CMD				,_sp},		
-	
+	{ "alife_command",		kALIFE_CMD				,_sp},		
+	{ "use_bandage",		kUSE_BANDAGE			,_sp},
+	{ "use_medkit",			kUSE_MEDKIT				,_sp},
 																
 	{ NULL, 				kLASTACTION				,_both}		
 };															

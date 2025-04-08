@@ -33,11 +33,11 @@ void CUIComboBox::InitComboBox(Fvector2 pos, float width)
 
 	CUIXml xml_doc;
 	xml_doc.Load(CONFIG_PATH, UI_PATH, "combobox.xml");
-	float comboBoxHeight = xml_doc.ReadFlt("height", 0, 20.0f);
-	LPCSTR frameLineDefault = xml_doc.Read("frameline_default", 0, "ui_inGame2_combobox_linetext");
-	LPCSTR frameLineHighlighted = xml_doc.Read("frameline_highlighted", 0, "ui_inGame2_combobox_linetext");
-	LPCSTR listBoxTexture = xml_doc.Read("list_box", 0, "ui_inGame2_combobox_line");
-	LPCSTR listFrameTexture = xml_doc.Read("list_frame", 0, "ui_inGame2_combobox");
+	float comboBoxHeight = xml_doc.ReadFlt("height", 0, 23.0f);
+	LPCSTR frameLineDefault = xml_doc.Read("frameline_default", 0, "ui_cb_linetext_e");
+	LPCSTR frameLineHighlighted = xml_doc.Read("frameline_highlighted", 0, "ui_cb_linetext_h");
+	LPCSTR listBoxTexture = xml_doc.Read("list_box", 0, "ui_cb_listline");
+	LPCSTR listFrameTexture = xml_doc.Read("list_frame", 0, "ui_cb_listbox");
 	string_path listBoxTextureHeight;
 	strconcat(sizeof(listBoxTextureHeight), listBoxTextureHeight, listBoxTexture, "_b");
 
