@@ -7317,6 +7317,18 @@
       <Filter>UI\UIWindows\Windows</Filter>
     </ClInclude>
     <ClInclude Include="game_base_menu_events.h" />
+    <ClInclude Include="ui\UIListItem.h">
+      <Filter>UI\UIWindows\ListBox</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UIListItemEx.h">
+      <Filter>UI\UIWindows\ListBox</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UIListWnd.h">
+      <Filter>UI\UIWindows\ListBox</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UIListWnd_inline.h">
+      <Filter>UI\UIWindows\ListBox</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="damage_manager.cpp">
@@ -10921,6 +10933,18 @@
     </ClCompile>
     <ClCompile Include="WeaponMounted.cpp" />
     <ClCompile Include="ui\UILoadingScreen.cpp" />
+    <ClCompile Include="ui\UIListItem.cpp">
+      <Filter>UI\UIWindows\ListBox</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UIListItemEx.cpp">
+      <Filter>UI\UIWindows\ListBox</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UIListWnd.cpp">
+      <Filter>UI\UIWindows\ListBox</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UIListWnd_script.cpp">
+      <Filter>UI\UIWindows\ListBox</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ai\monsters\chimera\chimera_attack_state.h">

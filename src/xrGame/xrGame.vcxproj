@@ -1919,6 +1919,10 @@
     <ClInclude Include="ui\UIListBox.h" />
     <ClInclude Include="ui\UIListBoxItem.h" />
     <ClInclude Include="ui\UIListBoxItemMsgChain.h" />
+    <ClInclude Include="ui\UIListItem.h" />
+    <ClInclude Include="ui\UIListItemEx.h" />
+    <ClInclude Include="ui\UIListWnd.h" />
+    <ClInclude Include="ui\UIListWnd_inline.h" />
     <ClInclude Include="ui\UILoadingScreen.h" />
     <ClInclude Include="ui\UIListItemServer.h" />
     <ClInclude Include="ui\UILogsWnd.h" />
@@ -4010,6 +4014,16 @@
     <ClCompile Include="ui\UIListBox_script.cpp">
       <PrecompiledHeaderFile>pch_script.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
+    </ClCompile>
+    <ClCompile Include="ui\UIListItem.cpp" />
+    <ClCompile Include="ui\UIListItemEx.cpp" />
+    <ClCompile Include="ui\UIListWnd.cpp" />
+    <ClCompile Include="ui\UIListWnd_script.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pch_script.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release_No_Optimization|x64'">pch_script.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Mixed|x64'">pch_script.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release_AVX|x64'">pch_script.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pch_script.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="ui\UILoadingScreen.cpp" />
     <ClCompile Include="ui\UIListItemServer.cpp" />

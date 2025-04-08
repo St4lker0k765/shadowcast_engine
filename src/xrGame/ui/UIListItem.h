@@ -1,49 +1,56 @@
 #pragma once
-#include "UIbutton.h"
 
-class CUIListItem :	public CUIButton
+#include "UIButton.h"
+
+class CUIListItem : public CUIButton
 {
-private:
-	typedef CUIButton inherited;
+protected:
+    using inherited = CUIButton;
+
 public:
-				CUIListItem		();
-	virtual		~CUIListItem	();
+    CUIListItem();
+    virtual ~CUIListItem();
 
-			void InitListItem(Fvector2 pos, Fvector2 size);
-//.	virtual void Init(const char* str, float x, float y, float width, float height);
-	virtual void InitTexture(LPCSTR tex_name);
-	
-			void* GetData() {return m_pData;}
-			void SetData(void* pData) { m_pData = pData;}
+    void InitListItem(Fvector2 pos, Fvector2 size);
+    virtual void InitTexture(pcstr tex_name);
 
-			int GetIndex() {return m_iIndex;}
-			void SetIndex(int index) {m_iIndex = index; m_iGroupID = index;}
+    void* GetData() { return m_pData; }
+    void SetData(void* pData) { m_pData = pData; }
 
-			int GetValue() {return m_iValue;}
-			void SetValue(int value) {m_iValue = value;}
+    int GetIndex() { return m_iIndex; }
 
-			int	GetGroupID() { return m_iGroupID; }
-			void SetGroupID(int ID) { m_iGroupID = ID; }
+    void SetIndex(int index)
+    {
+        m_iIndex = index;
+        m_iGroupID = index;
+    }
 
-	virtual void	MarkSelected				(bool b){};
-	// переопределяем критерий подсвечивания текста
-	virtual bool IsHighlightText();
-	virtual void SetHighlightText(bool Highlight)		{ m_bHighlightText = Highlight; }
+    int GetValue() { return m_iValue; }
+    void SetValue(int value) { m_iValue = value; }
+
+    int GetGroupID() { return m_iGroupID; }
+    void SetGroupID(int ID) { m_iGroupID = ID; }
+
+    virtual void MarkSelected(bool b) {}
+
+    // РїРµСЂРµРѕРїСЂРµРґРµР»СЏРµРј РєСЂРёС‚РµСЂРёР№ РїРѕРґСЃРІРµС‡РёРІР°РЅРёСЏ С‚РµРєСЃС‚Р°
+    virtual bool IsHighlightText();
+    virtual void SetHighlightText(bool Highlight) { m_bHighlightText = Highlight; }
 
 protected:
-	//указатель на произвольные данные, которые могут
-	//присоедениены к элементу
-	void* m_pData;
-	
-	//произвольное число, приписанное объекту
-	int m_iValue;
-	
-	//индекс в списке
-	int m_iIndex;
+    //СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РїСЂРѕРёР·РІРѕР»СЊРЅС‹Рµ РґР°РЅРЅС‹Рµ, РєРѕС‚РѕСЂС‹Рµ РјРѕРіСѓС‚
+    //РїСЂРёСЃРѕРµРґРµРЅРёРµРЅС‹ Рє СЌР»РµРјРµРЅС‚Сѓ
+    void* m_pData;
 
-	// идентификатор группы
-	int m_iGroupID;
+    //РїСЂРѕРёР·РІРѕР»СЊРЅРѕРµ С‡РёСЃР»Рѕ, РїСЂРёРїРёСЃР°РЅРЅРѕРµ РѕР±СЉРµРєС‚Сѓ
+    int m_iValue;
 
-	// подсвечивается кнопка или нет?
-	bool m_bHighlightText;
+    //РёРЅРґРµРєСЃ РІ СЃРїРёСЃРєРµ
+    int m_iIndex;
+
+    // РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РіСЂСѓРїРїС‹
+    int m_iGroupID;
+
+    // РїРѕРґСЃРІРµС‡РёРІР°РµС‚СЃСЏ РєРЅРѕРїРєР° РёР»Рё РЅРµС‚?
+    bool m_bHighlightText;
 };

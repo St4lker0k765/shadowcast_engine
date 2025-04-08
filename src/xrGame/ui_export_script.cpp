@@ -16,6 +16,7 @@
 #include "ui/UIOptionsManagerScript.h"
 #include "ui/UIMapInfo.h"
 #include "ScriptXmlInit.h"
+#include "ui/UIListWnd.h"
 
 #include "login_manager.h"
 #include "account_manager.h"
@@ -37,6 +38,7 @@ void UIRegistrator::script_register(lua_State *L)
 	CUITabControl::script_register(L);
 	CUIMessageBox::script_register(L);
 	CUIListBox::script_register(L);
+	CUIListWnd::script_register(L);
 	CUIDialogWndEx::script_register(L);
 	CUIPropertiesBox::script_register(L);
 	CUIOptionsManagerScript::script_register(L);
