@@ -19,6 +19,7 @@
 #define REGISTRY_CHUNK_DATA			0x0009
 #define SECTION_HEADER				"location_"
 #define SAVE_EXTENSION				".scop"
+#define SAVE_EXTENSION_LEGACY		".sav"
 #define SPAWN_NAME					"game.spawn"
 // inventory rukzak size
 #define MAX_ITEM_VOLUME				100
@@ -141,11 +142,11 @@ namespace ALife {
 		eCombatTypeDummy = u32(-1),
 	};
 
-	//возможность подключения аддонов
+	//РІРѕР·РјРѕР¶РЅРѕСЃС‚СЊ РїРѕРґРєР»СЋС‡РµРЅРёСЏ Р°РґРґРѕРЅРѕРІ
 	enum EWeaponAddonStatus{
-		eAddonDisabled				= 0,	//нельзя присоеденить
-		eAddonPermanent				= 1,	//постоянно подключено по умолчанию
-		eAddonAttachable			= 2		//можно присоединять
+		eAddonDisabled				= 0,	//РЅРµР»СЊР·СЏ РїСЂРёСЃРѕРµРґРµРЅРёС‚СЊ
+		eAddonPermanent				= 1,	//РїРѕСЃС‚РѕСЏРЅРЅРѕ РїРѕРґРєР»СЋС‡РµРЅРѕ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
+		eAddonAttachable			= 2		//РјРѕР¶РЅРѕ РїСЂРёСЃРѕРµРґРёРЅСЏС‚СЊ
 	};
 
 	IC EHitType	g_tfString2HitType(LPCSTR caHitType)

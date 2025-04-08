@@ -588,9 +588,12 @@ public:
 #endif
 	}
 
-	virtual void fill_tips			(vecTips& tips, u32 mode)
+	virtual void fill_tips(vecTips& tips, u32 mode)
 	{
-		get_files_list				(tips, "$game_saves$", SAVE_EXTENSION);
+		if (ClearSkyMode)
+			get_files_list(tips, "$game_saves$", SAVE_EXTENSION_LEGACY);
+		else
+			get_files_list(tips, "$game_saves$", SAVE_EXTENSION);
 	}
 
 };//CCC_ALifeSave
@@ -642,9 +645,12 @@ public:
 		net_packet.w_stringZ(saved_game);
 		Level().Send(net_packet, net_flags(TRUE));
 	}
-	virtual void fill_tips			(vecTips& tips, u32 mode)
+	virtual void fill_tips(vecTips& tips, u32 mode)
 	{
-		get_files_list				(tips, "$game_saves$", SAVE_EXTENSION);
+		if (ClearSkyMode)
+			get_files_list(tips, "$game_saves$", SAVE_EXTENSION_LEGACY);
+		else
+			get_files_list(tips, "$game_saves$", SAVE_EXTENSION);
 	}
 
 };

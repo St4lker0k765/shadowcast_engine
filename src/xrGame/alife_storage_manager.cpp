@@ -33,19 +33,24 @@ CALifeStorageManager::~CALifeStorageManager	() {}
 
 void CALifeStorageManager::save	(LPCSTR save_name_no_check, bool update_name)
 {
-	LPCSTR game_saves_path		= FS.get_path("$game_saves$")->m_Path;
+    pcstr gameSaveExtension = SAVE_EXTENSION;
+    if (ClearSkyMode)
+        gameSaveExtension = SAVE_EXTENSION_LEGACY;
 
-	string_path					save_name;
-	strncpy_s					(save_name, sizeof(save_name), save_name_no_check, sizeof(save_name)-5-xr_strlen(SAVE_EXTENSION)-xr_strlen(game_saves_path));
+    LPCSTR game_saves_path = FS.get_path("$game_saves$")->m_Path;
 
-	xr_strcpy					(g_last_saved_game, save_name);
+    string_path save_name;
+    strncpy_s(save_name, sizeof(save_name), save_name_no_check,
+        sizeof(save_name) - 5 - xr_strlen(gameSaveExtension) - xr_strlen(game_saves_path));
 
-	string_path					save;
-	xr_strcpy					(save,m_save_name);
-	if (save_name)
-	{
-		strconcat				(sizeof(m_save_name), m_save_name, save_name, SAVE_EXTENSION);
-	}
+    xr_strcpy(g_last_saved_game, save_name);
+
+    string_path saveBackup;
+    xr_strcpy(saveBackup, m_save_name);
+    if (save_name[0])
+    {
+        strconcat(sizeof(m_save_name), m_save_name, save_name, gameSaveExtension);
+    }
 	else {
 		if (!xr_strlen(m_save_name)) {
 			Log					("There is no file name specified!");
@@ -88,7 +93,7 @@ void CALifeStorageManager::save	(LPCSTR save_name_no_check, bool update_name)
 #endif // DEBUG
 
 	if (!update_name)
-		xr_strcpy					(m_save_name,save);
+		xr_strcpy(m_save_name, saveBackup);
 }
 
 void CALifeStorageManager::load	(void *buffer, const u32 &buffer_size, LPCSTR file_name)
@@ -127,44 +132,62 @@ void CALifeStorageManager::load	(void *buffer, const u32 &buffer_size, LPCSTR fi
 
 bool CALifeStorageManager::load	(LPCSTR save_name_no_check)
 {
+	pcstr gameSaveExtension = SAVE_EXTENSION;
+	if (ClearSkyMode)
+		gameSaveExtension = SAVE_EXTENSION_LEGACY;
+
 	LPCSTR game_saves_path		= FS.get_path("$game_saves$")->m_Path;
 
 	string_path					save_name;
-	strncpy_s					(save_name, sizeof(save_name), save_name_no_check, sizeof(save_name)-5-xr_strlen(SAVE_EXTENSION)-xr_strlen(game_saves_path));
+	strncpy_s					(save_name, sizeof(save_name), save_name_no_check, sizeof(save_name)-5-xr_strlen(gameSaveExtension)-xr_strlen(game_saves_path));
 
 	CTimer						timer;
 	timer.Start					();
 
-	string_path					save;
-	xr_strcpy					(save,m_save_name);
-	if (!save_name) {
-		if (!xr_strlen(m_save_name))
-			R_ASSERT2			(false,"There is no file name specified!");
-	}
-	else
-	{
-		strconcat				(sizeof(m_save_name), m_save_name, save_name, SAVE_EXTENSION);
-	}
+    string_path saveBackup;
+    xr_strcpy(saveBackup, m_save_name);
+    if (!save_name[0])
+    {
+        if (!xr_strlen(m_save_name))
+        {
+            Log("There is no file name specified!");
+            return false;
+        }
+    }
+    else
+    {
+        strconcat(sizeof(m_save_name), m_save_name, save_name, gameSaveExtension);
+    }
 	string_path					file_name;
 	FS.update_path				(file_name,"$game_saves$",m_save_name);
 
 	xr_strcpy					(g_last_saved_game, save_name);
 	xr_strcpy					(g_bug_report_file, file_name);
 
-	IReader						*stream;
-	stream						= FS.r_open(file_name);
-	if (!stream) {
-		Msg						("* Cannot find saved game %s",file_name);
-		xr_strcpy				(m_save_name,save);
-		return					(false);
-	}
+    IReader* stream = FS.r_open(file_name);
+    if (!stream)
+    {
+        Msg("* Cannot open saved game %s", file_name);
+        xr_strcpy(m_save_name, saveBackup);
+        return false;
+    }
 
-	CHECK_OR_EXIT				(CSavedGameWrapper::valid_saved_game(*stream),make_string("%s\nSaved game version mismatch or saved game is corrupted",file_name));
-/*
+    constexpr pcstr mismatch = "Saved game version mismatch or saved game is corrupted";
+    const bool gameSaveIsValid = CSavedGameWrapper::valid_saved_game(*stream);
+    VERIFY2(gameSaveIsValid, mismatch, file_name);
+
+    if (!gameSaveIsValid)
+    {
+        Msg("! %s [%s]", mismatch, file_name);
+
+        xr_strcpy(m_save_name, saveBackup);
+        return false;
+    }
+
 	string512					temp;
-	strconcat					(sizeof(temp),temp,CStringTable().translate("st_loading_saved_game").c_str()," \"",save_name,SAVE_EXTENSION,"\"");
-	g_pGamePersistent->LoadTitle(temp);
-*/
+	strconcat					(sizeof(temp),temp,CStringTable().translate("st_loading_saved_game").c_str()," \"",save_name, gameSaveExtension,"\"");
+	g_pGamePersistent->SetLoadStageTitle(temp);
+
 	g_pGamePersistent->LoadTitle();
 
 	unload						();
