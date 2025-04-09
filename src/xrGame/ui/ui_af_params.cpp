@@ -23,6 +23,7 @@ CUIArtefactParams::CUIArtefactParams()
 		m_restore_item[i] = NULL;
 	}
 	m_additional_weight = NULL;
+	m_Prop_line = nullptr;
 }
 
 CUIArtefactParams::~CUIArtefactParams()
@@ -103,10 +104,8 @@ void CUIArtefactParams::InitFromXml( CUIXml& xml )
 	CUIXmlInit::InitWindow( xml, base, 0, this );
 	xml.SetLocalRoot( base_node );
 	
-	m_Prop_line = xr_new<CUIStatic>();
-	AttachChild( m_Prop_line );
-	m_Prop_line->SetAutoDelete( false );	
-	CUIXmlInit::InitStatic( xml, "prop_line", 0, m_Prop_line );
+	if (xml.NavigateToNode("prop_line"))
+		m_Prop_line = UIHelper::CreateStatic(xml, "prop_line", this);
 
 	for ( u32 i = 0; i < ALife::infl_max_count; ++i )
 	{
@@ -137,8 +136,17 @@ void CUIArtefactParams::InitFromXml( CUIXml& xml )
 		m_additional_weight->Init( xml, "additional_weight" );
 		m_additional_weight->SetAutoDelete(false);
 
-		LPCSTR name = CStringTable().translate( "ui_inv_weight" ).c_str();
-		m_additional_weight->SetCaption( name );
+		// use either ui_inv_weight or ui_inv_outfit_additional_weight
+		// but set ui_inv_weight if both unavailable
+		LPCSTR name = CStringTable().translate("ui_inv_weight").c_str();
+		LPCSTR add_name = CStringTable().translate("ui_inv_outfit_additional_weight").c_str();
+		if (0 == xr_strcmp(name, "ui_inv_weight") &&
+			0 != xr_strcmp(add_name, "ui_inv_outfit_additional_weight"))
+		{
+			m_additional_weight->SetCaption(add_name);
+		}
+		else
+			m_additional_weight->SetCaption( name );
 
 		//xml.SetLocalRoot( base_node );
 	}
@@ -154,7 +162,8 @@ bool CUIArtefactParams::Check(const shared_str& af_section)
 void CUIArtefactParams::SetInfo( shared_str const& af_section )
 {
 	DetachAll();
-	AttachChild( m_Prop_line );
+	if (m_Prop_line)
+		AttachChild( m_Prop_line );
 
 	CActor* actor = smart_cast<CActor*>( Level().CurrentViewEntity() );
 	if ( !actor )
@@ -162,9 +171,10 @@ void CUIArtefactParams::SetInfo( shared_str const& af_section )
 		return;
 	}
 
-	float val = 0.0f, max_val = 1.0f;
-	Fvector2 pos;
-	float h = m_Prop_line->GetWndPos().y+m_Prop_line->GetWndSize().y;
+    float val = 0.0f, max_val = 1.0f, h = 0.0f;
+    Fvector2 pos;
+    if (m_Prop_line)
+        h = m_Prop_line->GetWndPos().y + m_Prop_line->GetWndSize().y;
 
 	for ( u32 i = 0; i < ALife::infl_max_count; ++i )
 	{

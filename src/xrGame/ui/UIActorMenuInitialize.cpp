@@ -73,16 +73,24 @@ void CUIActorMenu::Construct()
 	m_PartnerCharacterInfo->InitCharacterInfo( &uiXml, "partner_ch_info" );
 	
 	m_RightDelimiter			= UIHelper::CreateStatic(uiXml, "right_delimiter", this);
-//	m_ActorTradeCaption			= UIHelper::CreateTextWnd(uiXml, "right_delimiter:trade_caption", m_RightDelimiter);
+
+	if (uiXml.NavigateToNode("right_delimiter:trade_caption") && ClearSkyMode)
+	{
+		m_ActorTradeCaption = UIHelper::CreateTextWnd(uiXml, "right_delimiter:trade_caption", m_RightDelimiter);
+		m_ActorTradeCaption->AdjustWidthToText();
+	}
 	m_ActorTradePrice			= UIHelper::CreateTextWnd(uiXml, "right_delimiter:trade_price", m_RightDelimiter);
 	m_ActorTradeWeightMax		= UIHelper::CreateTextWnd(uiXml, "right_delimiter:trade_weight_max", m_RightDelimiter);
-//	m_ActorTradeCaption->AdjustWidthToText();
 	
 	m_LeftDelimiter				= UIHelper::CreateStatic(uiXml, "left_delimiter", this);
-//	m_PartnerTradeCaption		= UIHelper::CreateTextWnd(uiXml, "left_delimiter:trade_caption", m_LeftDelimiter);
+
+	if (uiXml.NavigateToNode("left_delimiter::trade_caption") && ClearSkyMode)
+	{
+		m_PartnerTradeCaption = UIHelper::CreateTextWnd(uiXml, "left_delimiter:trade_caption", m_LeftDelimiter);
+		m_PartnerTradeCaption->AdjustWidthToText();
+	}
 	m_PartnerTradePrice			= UIHelper::CreateTextWnd(uiXml, "left_delimiter:trade_price", m_LeftDelimiter);
 	m_PartnerTradeWeightMax		= UIHelper::CreateTextWnd(uiXml, "left_delimiter:trade_weight_max", m_LeftDelimiter);
-//	m_PartnerTradeCaption->AdjustWidthToText();
 
 	m_ActorBottomInfo			= UIHelper::CreateStatic(uiXml, "actor_weight_caption", this);
 	m_ActorWeight				= UIHelper::CreateTextWnd(uiXml, "actor_weight", this);
@@ -94,45 +102,78 @@ void CUIActorMenu::Construct()
 	m_PartnerBottomInfo->AdjustWidthToText();
 	m_PartnerWeight_end_x		= m_PartnerWeight->GetWndPos().x;
 
-	m_InvSlot2Highlight			= UIHelper::CreateStatic(uiXml, "inv_slot2_highlight", this);
-	m_InvSlot2Highlight			->Show(false);
-	m_InvSlot3Highlight			= UIHelper::CreateStatic(uiXml, "inv_slot3_highlight", this);
-	m_InvSlot3Highlight			->Show(false);
-	m_HelmetSlotHighlight		= UIHelper::CreateStatic(uiXml, "helmet_slot_highlight", this);
-	m_HelmetSlotHighlight		->Show(false);
-	m_OutfitSlotHighlight		= UIHelper::CreateStatic(uiXml, "outfit_slot_highlight", this);
-	m_OutfitSlotHighlight		->Show(false);
-	m_DetectorSlotHighlight		= UIHelper::CreateStatic(uiXml, "detector_slot_highlight", this);
-	m_DetectorSlotHighlight		->Show(false);
-	m_QuickSlotsHighlight[0]	= UIHelper::CreateStatic(uiXml, "quick_slot_highlight", this);
-	m_QuickSlotsHighlight[0]	->Show(false);
-	m_ArtefactSlotsHighlight[0]	= UIHelper::CreateStatic(uiXml, "artefact_slot_highlight", this);
-	m_ArtefactSlotsHighlight[0]	->Show(false);
+	if (uiXml.NavigateToNode("inv_slot2_highlight"))
+	{
+		m_InvSlot2Highlight = UIHelper::CreateStatic(uiXml, "inv_slot2_highlight", this);
+		m_InvSlot2Highlight->Show(false);
+	}
+	if (uiXml.NavigateToNode("inv_slot3_highlight"))
+	{
+		m_InvSlot3Highlight = UIHelper::CreateStatic(uiXml, "inv_slot3_highlight", this);
+		m_InvSlot3Highlight->Show(false);
+	}
+	if (uiXml.NavigateToNode("helmet_slot_highlight"))
+	{
+		m_HelmetSlotHighlight = UIHelper::CreateStatic(uiXml, "helmet_slot_highlight", this);
+		m_HelmetSlotHighlight->Show(false);
+	}
+	if (uiXml.NavigateToNode("outfit_slot_highlight"))
+	{
+		m_OutfitSlotHighlight = UIHelper::CreateStatic(uiXml, "outfit_slot_highlight", this);
+		m_OutfitSlotHighlight->Show(false);
+	}
+	if (uiXml.NavigateToNode("detector_slot_highlight"))
+	{
+		m_DetectorSlotHighlight = UIHelper::CreateStatic(uiXml, "detector_slot_highlight", this);
+		m_DetectorSlotHighlight->Show(false);
+	}
+	if (uiXml.NavigateToNode("quick_slot_highlight"))
+	{
+		m_QuickSlotsHighlight[0] = UIHelper::CreateStatic(uiXml, "quick_slot_highlight", this);
+		m_QuickSlotsHighlight[0]->Show(false);
+	}
+	if (uiXml.NavigateToNode("artefact_slot_highlight"))
+	{
+		m_ArtefactSlotsHighlight[0] = UIHelper::CreateStatic(uiXml, "artefact_slot_highlight", this);
+		m_ArtefactSlotsHighlight[0]->Show(false);
+	}
+    if (m_QuickSlotsHighlight[0])
+    {
+        Fvector2 pos = m_QuickSlotsHighlight[0]->GetWndPos();
+        const float dx = uiXml.ReadAttribFlt("quick_slot_highlight", 0, "dx", 0.0f);
+        const float dy = uiXml.ReadAttribFlt("quick_slot_highlight", 0, "dy", 0.0f);
 
-	Fvector2 pos;
-	pos								= m_QuickSlotsHighlight[0]->GetWndPos();
-	float dx						= uiXml.ReadAttribFlt("quick_slot_highlight", 0, "dx", 24.0f);
-	for(u8 i=1;i<4;i++)
-	{
-		pos.x						+= dx;
-		m_QuickSlotsHighlight[i]	= UIHelper::CreateStatic(uiXml, "quick_slot_highlight", this);
-		m_QuickSlotsHighlight[i]	->SetWndPos(pos);
-		m_QuickSlotsHighlight[i]	->Show(false);
-	}
-	pos								= m_ArtefactSlotsHighlight[0]->GetWndPos();
-	dx								= uiXml.ReadAttribFlt("artefact_slot_highlight", 0, "dx", 24.0f);
-	for(u8 i=1;i<e_af_count;i++)
-	{
-		pos.x						+= dx;
-		m_ArtefactSlotsHighlight[i]	= UIHelper::CreateStatic(uiXml, "artefact_slot_highlight", this);
-		m_ArtefactSlotsHighlight[i]	->SetWndPos(pos);
-		m_ArtefactSlotsHighlight[i]	->Show(false);
-	}
+        for (u8 i = 1; i < 4; i++)
+        {
+            pos.x += dx;
+            pos.y += dy;
+            m_QuickSlotsHighlight[i] = UIHelper::CreateStatic(uiXml, "quick_slot_highlight", this);
+            m_QuickSlotsHighlight[i]->SetWndPos(pos);
+            m_QuickSlotsHighlight[i]->Show(false);
+        }
+    }
+
+    if (m_ArtefactSlotsHighlight[0])
+    {
+        Fvector2 pos = m_ArtefactSlotsHighlight[0]->GetWndPos();
+        const float dx = uiXml.ReadAttribFlt("artefact_slot_highlight", 0, "dx", 0.0f);
+        const float dy = uiXml.ReadAttribFlt("artefact_slot_highlight", 0, "dy", 0.0f);
+        for (u8 i = 1; i < e_af_count; i++)
+        {
+            pos.x += dx;
+            pos.y += dy;
+            m_ArtefactSlotsHighlight[i] = UIHelper::CreateStatic(uiXml, "artefact_slot_highlight", this);
+            m_ArtefactSlotsHighlight[i]->SetWndPos(pos);
+            m_ArtefactSlotsHighlight[i]->Show(false);
+        }
+    }
 
 	m_pInventoryBagList			= UIHelper::CreateDragDropListEx(uiXml, "dragdrop_bag", this);
 	m_pInventoryBeltList		= UIHelper::CreateDragDropListEx(uiXml, "dragdrop_belt", this);
 	m_pInventoryOutfitList		= UIHelper::CreateDragDropListEx(uiXml, "dragdrop_outfit", this);
-	m_pInventoryHelmetList		= UIHelper::CreateDragDropListEx(uiXml, "dragdrop_helmet", this);
+	if (uiXml.NavigateToNode("dragdrop_helmet"))
+		m_pInventoryHelmetList		= UIHelper::CreateDragDropListEx(uiXml, "dragdrop_helmet", this);
+
 	m_pInventoryDetectorList	= UIHelper::CreateDragDropListEx(uiXml, "dragdrop_detector", this);
 	m_pInventoryPistolList		= UIHelper::CreateDragDropListEx(uiXml, "dragdrop_pistol", this);
 	m_pInventoryAutomaticList	= UIHelper::CreateDragDropListEx(uiXml, "dragdrop_automatic", this);
@@ -141,43 +182,73 @@ void CUIActorMenu::Construct()
 	m_pTradePartnerBagList		= UIHelper::CreateDragDropListEx(uiXml, "dragdrop_partner_bag", this);
 	m_pTradePartnerList			= UIHelper::CreateDragDropListEx(uiXml, "dragdrop_partner_trade", this);
 	m_pDeadBodyBagList			= UIHelper::CreateDragDropListEx(uiXml, "dragdrop_deadbody_bag", this);
-	m_pQuickSlot				= UIHelper::CreateDragDropReferenceList(uiXml, "dragdrop_quick_slots", this);
-	m_pQuickSlot->Initialize	();
+	if (uiXml.NavigateToNode("dragdrop_quick_slots"))
+	{
+		m_pQuickSlot = UIHelper::CreateDragDropReferenceList(uiXml, "dragdrop_quick_slots", this);
+		m_pQuickSlot->Initialize();
+	}
 
-	m_pTrashList				= UIHelper::CreateDragDropListEx		(uiXml, "dragdrop_trash", this);
-	m_pTrashList->m_f_item_drop	= CUIDragDropListEx::DRAG_CELL_EVENT	(this,&CUIActorMenu::OnItemDrop);
-	m_pTrashList->m_f_drag_event= CUIDragDropListEx::DRAG_ITEM_EVENT	(this,&CUIActorMenu::OnDragItemOnTrash);
+	if (uiXml.NavigateToNode("dragdrop_trash"))
+	{
+		m_pTrashList = UIHelper::CreateDragDropListEx(uiXml, "dragdrop_trash", this);
+		m_pTrashList->m_f_item_drop = CUIDragDropListEx::DRAG_CELL_EVENT(this, &CUIActorMenu::OnItemDrop);
+		m_pTrashList->m_f_drag_event = CUIDragDropListEx::DRAG_ITEM_EVENT(this, &CUIActorMenu::OnDragItemOnTrash);
+	}
 
 	m_belt_list_over[0]			= UIHelper::CreateStatic(uiXml, "belt_list_over", this);
-	pos							= m_belt_list_over[0]->GetWndPos();
-	dx							= uiXml.ReadAttribFlt("belt_list_over", 0, "dx", 10.0f);
-	for ( u8 i = 1; i < e_af_count; ++i )
 	{
-		pos.x					+= dx;
-		m_belt_list_over[i]		= UIHelper::CreateStatic(uiXml, "belt_list_over", this);
-		m_belt_list_over[i]->SetWndPos( pos );
+		Fvector2 pos = m_belt_list_over[0]->GetWndPos();
+		const float dx = uiXml.ReadAttribFlt("belt_list_over", 0, "dx", 0.0f);
+		const float dy = uiXml.ReadAttribFlt("belt_list_over", 0, "dy", 0.0f);
+		for (u8 i = 1; i < e_af_count; ++i)
+		{
+			pos.x += dx;
+			pos.y += dy;
+			m_belt_list_over[i] = UIHelper::CreateStatic(uiXml, "belt_list_over", this);
+			m_belt_list_over[i]->SetWndPos(pos);
+		}
 	}
-	m_HelmetOver = UIHelper::CreateStatic(uiXml, "helmet_over", this);
-	m_HelmetOver->Show			(false);
 
+	if (uiXml.NavigateToNode("helmet_over"))
+	{
+		m_HelmetOver = UIHelper::CreateStatic(uiXml, "helmet_over", this);
+		m_HelmetOver->Show(false);
+	}
 	m_ActorMoney	= UIHelper::CreateTextWnd(uiXml, "actor_money_static", this);
 	m_PartnerMoney	= UIHelper::CreateTextWnd(uiXml, "partner_money_static", this);
-	m_QuickSlot1	= UIHelper::CreateTextWnd(uiXml, "quick_slot1_text", this);
-	m_QuickSlot2	= UIHelper::CreateTextWnd(uiXml, "quick_slot2_text", this);
-	m_QuickSlot3	= UIHelper::CreateTextWnd(uiXml, "quick_slot3_text", this);
-	m_QuickSlot4	= UIHelper::CreateTextWnd(uiXml, "quick_slot4_text", this);
 
-	m_WeaponSlot1_progress	= UIHelper::CreateProgressBar(uiXml, "progess_bar_weapon1", this);
-	m_WeaponSlot2_progress	= UIHelper::CreateProgressBar(uiXml, "progess_bar_weapon2", this);
-	m_Helmet_progress		= UIHelper::CreateProgressBar(uiXml, "progess_bar_helmet", this);
-	m_Outfit_progress		= UIHelper::CreateProgressBar(uiXml, "progess_bar_outfit", this);
+	if (uiXml.NavigateToNode("quick_slot1_text"))
+		m_QuickSlot1	= UIHelper::CreateTextWnd(uiXml, "quick_slot1_text", this);
+	if (uiXml.NavigateToNode("quick_slot2_text"))
+		m_QuickSlot2	= UIHelper::CreateTextWnd(uiXml, "quick_slot2_text", this);
+	if (uiXml.NavigateToNode("quick_slot3_text"))
+		m_QuickSlot3	= UIHelper::CreateTextWnd(uiXml, "quick_slot3_text", this);
+	if (uiXml.NavigateToNode("quick_slot4_text"))
+		m_QuickSlot4	= UIHelper::CreateTextWnd(uiXml, "quick_slot4_text", this);
 
-	m_trade_buy_button	= UIHelper::Create3tButton(uiXml, "trade_buy_button", this);
-	m_trade_sell_button	= UIHelper::Create3tButton(uiXml, "trade_sell_button", this);
+	if (uiXml.NavigateToNode("progess_bar_weapon1"))
+		m_WeaponSlot1_progress	= UIHelper::CreateProgressBar(uiXml, "progess_bar_weapon1", this);
+	if (uiXml.NavigateToNode("progess_bar_weapon2"))
+		m_WeaponSlot2_progress	= UIHelper::CreateProgressBar(uiXml, "progess_bar_weapon2", this);
+	if (uiXml.NavigateToNode("progess_bar_helmet"))
+		m_Helmet_progress		= UIHelper::CreateProgressBar(uiXml, "progess_bar_helmet", this);
+	if (uiXml.NavigateToNode("progess_bar_outfit"))
+		m_Outfit_progress		= UIHelper::CreateProgressBar(uiXml, "progess_bar_outfit", this);
+
+	if (uiXml.NavigateToNode("trade_button"))
+		m_trade_button		= UIHelper::Create3tButton(uiXml, "trade_button", this);
+
+	if (uiXml.NavigateToNode("trade_buy_button"))
+		m_trade_buy_button	= UIHelper::Create3tButton(uiXml, "trade_buy_button", this);
+
+	if (uiXml.NavigateToNode("trade_sell_button"))
+		m_trade_sell_button	= UIHelper::Create3tButton(uiXml, "trade_sell_button", this);
+
 	m_takeall_button	= UIHelper::Create3tButton(uiXml, "takeall_button", this);
 	m_exit_button		= UIHelper::Create3tButton(uiXml, "exit_button", this);
 
-//	m_clock_value						= UIHelper::CreateStatic(uiXml, "clock_value", this);
+	if (uiXml.NavigateToNode("clock_value"))
+		m_clock_value						= UIHelper::CreateStatic(uiXml, "clock_value", this);
 
 /*
 	m_pDeadBodyBagList					= xr_new<CUIDragDropListEx>(); 
@@ -240,7 +311,8 @@ void CUIActorMenu::Construct()
 	BindDragDropListEvents				(m_pInventoryPistolList);		
 	BindDragDropListEvents				(m_pInventoryAutomaticList);	
 	BindDragDropListEvents				(m_pInventoryOutfitList);	
-	BindDragDropListEvents				(m_pInventoryHelmetList);	
+	if (m_pInventoryHelmetList)
+		BindDragDropListEvents				(m_pInventoryHelmetList);
 	BindDragDropListEvents				(m_pInventoryDetectorList);	
 	BindDragDropListEvents				(m_pInventoryBagList);
 	BindDragDropListEvents				(m_pTradeActorBagList);
@@ -248,7 +320,8 @@ void CUIActorMenu::Construct()
 	BindDragDropListEvents				(m_pTradePartnerBagList);
 	BindDragDropListEvents				(m_pTradePartnerList);
 	BindDragDropListEvents				(m_pDeadBodyBagList);
-	BindDragDropListEvents				(m_pQuickSlot);
+	if (m_pQuickSlot)
+		BindDragDropListEvents				(m_pQuickSlot);
 
 	m_allowed_drops[iTrashSlot].push_back(iActorBag);
 	m_allowed_drops[iTrashSlot].push_back(iActorSlot);
@@ -323,48 +396,107 @@ void CUIActorMenu::BindDragDropListEvents(CUIDragDropListEx* lst)
 
 void CUIActorMenu::InitCallbacks()
 {
-	Register						(m_trade_buy_button);
-	Register						(m_trade_sell_button);
+	if (m_trade_button)
+		Register(m_trade_button);
+	if (m_trade_buy_button)
+		Register(m_trade_buy_button);
+	if (m_trade_sell_button)
+		Register(m_trade_sell_button);
 	Register						(m_takeall_button);
 	Register						(m_exit_button);
 	Register						(m_UIPropertiesBox);
 	VERIFY							(m_pUpgradeWnd);
 	Register						(m_pUpgradeWnd->m_btn_repair);
 
-	AddCallback(m_trade_buy_button,BUTTON_CLICKED,   CUIWndCallback::void_function(this, &CUIActorMenu::OnBtnPerformTradeBuy));
-	AddCallback(m_trade_sell_button,BUTTON_CLICKED,   CUIWndCallback::void_function(this, &CUIActorMenu::OnBtnPerformTradeSell));
-	AddCallback(m_takeall_button,  BUTTON_CLICKED,   CUIWndCallback::void_function(this, &CUIActorMenu::TakeAllFromPartner));
-	AddCallback(m_exit_button,     BUTTON_CLICKED,   CUIWndCallback::void_function(this, &CUIActorMenu::OnBtnExitClicked));
-	AddCallback(m_UIPropertiesBox, PROPERTY_CLICKED, CUIWndCallback::void_function(this, &CUIActorMenu::ProcessPropertiesBoxClicked));
-	AddCallback(m_pUpgradeWnd->m_btn_repair, BUTTON_CLICKED,   CUIWndCallback::void_function(this, &CUIActorMenu::TryRepairItem));
+    if (m_trade_button)
+    {
+        AddCallback(m_trade_button, BUTTON_CLICKED,
+            CUIWndCallback::void_function(this, &CUIActorMenu::OnBtnPerformTradeBuy));
+    }
+
+    if (m_trade_buy_button)
+    {
+        AddCallback(m_trade_buy_button, BUTTON_CLICKED,
+            CUIWndCallback::void_function(this, &CUIActorMenu::OnBtnPerformTradeBuy));
+    }
+
+    if (m_trade_sell_button)
+    {
+        AddCallback(m_trade_sell_button, BUTTON_CLICKED,
+            CUIWndCallback::void_function(this, &CUIActorMenu::OnBtnPerformTradeSell));
+    }
+
+
+    AddCallback(m_takeall_button, BUTTON_CLICKED,
+        CUIWndCallback::void_function(this, &CUIActorMenu::TakeAllFromPartner));
+    
+    AddCallback(m_exit_button, BUTTON_CLICKED,
+        CUIWndCallback::void_function(this, &CUIActorMenu::OnBtnExitClicked));
+    
+    AddCallback(m_UIPropertiesBox, PROPERTY_CLICKED,
+        CUIWndCallback::void_function(this, &CUIActorMenu::ProcessPropertiesBoxClicked));
+    
+    AddCallback(m_pUpgradeWnd->m_btn_repair, BUTTON_CLICKED,
+        CUIWndCallback::void_function(this, &CUIActorMenu::TryRepairItem));
 }
 
 void CUIActorMenu::UpdateButtonsLayout()
 {
-	string32 tmp;
-	LPCSTR str = CStringTable().translate("quick_use_str_1").c_str();
-	strncpy_s(tmp, sizeof(tmp), str, 3);
-	if(tmp[2]==',')
-		tmp[1] = '\0';
-	m_QuickSlot1->SetTextST(tmp);
+    if (m_trade_button)
+    {
+        Fvector2 btn_exit_pos;
+        if (m_trade_button->IsShown() || m_takeall_button->IsShown())
+        {
+            btn_exit_pos = m_trade_button->GetWndPos();
+            btn_exit_pos.x += m_trade_button->GetWndSize().x;
+        }
+        else
+        {
+            btn_exit_pos = m_trade_button->GetWndPos();
+            btn_exit_pos.x += m_trade_button->GetWndSize().x / 2.0f;
+        }
 
-	str = CStringTable().translate("quick_use_str_2").c_str();
-	strncpy_s(tmp, sizeof(tmp), str, 3);
-	if(tmp[2]==',')
-		tmp[1] = '\0';
-	m_QuickSlot2->SetTextST(tmp);
+        m_exit_button->SetWndPos(btn_exit_pos);
+    }
 
-	str = CStringTable().translate("quick_use_str_3").c_str();
-	strncpy_s(tmp, sizeof(tmp), str, 3);
-	if(tmp[2]==',')
-		tmp[1] = '\0';
-	m_QuickSlot3->SetTextST(tmp);
+    string32 tmp;
+    LPCSTR str;
 
-	str = CStringTable().translate("quick_use_str_4").c_str();
-	strncpy_s(tmp, sizeof(tmp), str, 3);
-	if(tmp[2]==',')
-		tmp[1] = '\0';
-	m_QuickSlot4->SetTextST(tmp);
+    if (m_QuickSlot1)
+    {
+        str = CStringTable().translate("quick_use_str_1").c_str();
+        strncpy_s(tmp, sizeof(tmp), str, 3);
+        if (tmp[2] == ',')
+            tmp[1] = '\0';
+        m_QuickSlot1->SetTextST(tmp);
+    }
 
-	UpdateConditionProgressBars		();
+    if (m_QuickSlot2)
+    {
+        str = CStringTable().translate("quick_use_str_2").c_str();
+        strncpy_s(tmp, sizeof(tmp), str, 3);
+        if (tmp[2] == ',')
+            tmp[1] = '\0';
+        m_QuickSlot2->SetTextST(tmp);
+    }
+
+    if (m_QuickSlot3)
+    {
+        str = CStringTable().translate("quick_use_str_3").c_str();
+        strncpy_s(tmp, sizeof(tmp), str, 3);
+        if (tmp[2] == ',')
+            tmp[1] = '\0';
+        m_QuickSlot3->SetTextST(tmp);
+    }
+
+    if (m_QuickSlot4)
+    {
+        str = CStringTable().translate("quick_use_str_4").c_str();
+        strncpy_s(tmp, sizeof(tmp), str, 3);
+        if (tmp[2] == ',')
+            tmp[1] = '\0';
+        m_QuickSlot4->SetTextST(tmp);
+    }
+
+    UpdateConditionProgressBars();
 }

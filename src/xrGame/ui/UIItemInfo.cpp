@@ -39,7 +39,7 @@ CUIItemInfo::CUIItemInfo()
 	UIWeight					= NULL;
 	UIItemImage					= NULL;
 	UIDesc						= NULL;
-//	UIConditionWnd				= NULL;
+	UIConditionWnd				= NULL;
 	UIWpnParams					= NULL;
 	UIProperties				= NULL;
 	UIOutfitInfo				= NULL;
@@ -54,7 +54,7 @@ CUIItemInfo::CUIItemInfo()
 
 CUIItemInfo::~CUIItemInfo()
 {
-//	xr_delete	(UIConditionWnd);
+	xr_delete	(UIConditionWnd);
 	xr_delete	(UIWpnParams);
 	xr_delete	(UIArtefactParams);
 	xr_delete	(UIProperties);
@@ -62,10 +62,14 @@ CUIItemInfo::~CUIItemInfo()
 	xr_delete	(UIBoosterInfo);
 }
 
-void CUIItemInfo::InitItemInfo(LPCSTR xml_name)
+bool CUIItemInfo::InitItemInfo(LPCSTR xml_name)
 {
 	CUIXml						uiXml;
 	uiXml.Load					(CONFIG_PATH, UI_PATH, xml_name);
+
+	if (uiXml.GetNodesNum(uiXml.GetRoot(), nullptr) == 0)
+		return false;
+
 	CUIXmlInit					xml_init;
 
 	if(uiXml.NavigateToNode("main_frame",0))
@@ -124,8 +128,9 @@ void CUIItemInfo::InitItemInfo(LPCSTR xml_name)
 
 	if(uiXml.NavigateToNode("descr_list",0))
 	{
-//		UIConditionWnd					= xr_new<CUIConditionParams>();
-//		UIConditionWnd->InitFromXml		(uiXml);
+		UIConditionWnd					= xr_new<CUIConditionParams>();
+		UIConditionWnd->InitFromXml		(uiXml);
+
 		UIWpnParams						= xr_new<CUIWpnParams>();
 		UIWpnParams->InitFromXml		(uiXml);
 
@@ -173,6 +178,7 @@ void CUIItemInfo::InitItemInfo(LPCSTR xml_name)
 	}
 
 	xml_init.InitAutoStaticGroup	(uiXml, "auto", 0, this);
+	return true;
 }
 
 void CUIItemInfo::InitItemInfo(Fvector2 pos, Fvector2 size, LPCSTR xml_name)
@@ -323,7 +329,7 @@ void CUIItemInfo::InitItem(CUICellItem* pCellItem, CInventoryItem* pCompareItem,
 	}
 	if(UIItemImage)
 	{
-		// Çàãðóæàåì êàðòèíêó
+		// Ð—Ð°Ð³Ñ€ÑƒÐ¶Ð°ÐµÐ¼ ÐºÐ°Ñ€Ñ‚Ð¸Ð½ÐºÑƒ
 		UIItemImage->SetShader				(InventoryUtilities::GetEquipmentIconsShader());
 
 		Irect item_grid_rect				= pInvItem->GetInvGridRect();
@@ -357,8 +363,8 @@ void CUIItemInfo::TryAddConditionInfo( CInventoryItem& pInvItem, CInventoryItem*
 	CCustomOutfit*	outfit = smart_cast<CCustomOutfit*>( &pInvItem );
 	if ( weapon || outfit )
 	{
-//		UIConditionWnd->SetInfo( pCompareItem, pInvItem );
-//		UIDesc->AddWindow( UIConditionWnd, false );
+		UIConditionWnd->SetInfo( pCompareItem, pInvItem );
+		UIDesc->AddWindow( UIConditionWnd, false );
 	}
 }
 

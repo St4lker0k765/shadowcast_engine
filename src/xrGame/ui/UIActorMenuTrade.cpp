@@ -32,7 +32,8 @@ void CUIActorMenu::InitTradeMode()
 	m_pInventoryBagList->Show		(false);
 	m_PartnerCharacterInfo->Show	(true);
 	m_PartnerMoney->Show			(true);
-	m_pQuickSlot->Show				(true);
+	if (m_pQuickSlot)
+		m_pQuickSlot->Show			(true);
 
 	m_pTradeActorBagList->Show		(true);
 	m_pTradeActorList->Show			(true);
@@ -45,8 +46,12 @@ void CUIActorMenu::InitTradeMode()
 
 	m_PartnerBottomInfo->Show		(true);
 	m_PartnerWeight->Show			(true);
-	m_trade_buy_button->Show		(true);
-	m_trade_sell_button->Show		(true);
+    if (m_trade_button)
+        m_trade_button->Show(true);
+    if (m_trade_buy_button)
+        m_trade_buy_button->Show(true);
+    if (m_trade_sell_button)
+        m_trade_sell_button->Show(true);
 
 	VERIFY							( m_pPartnerInvOwner );
 	m_pPartnerInvOwner->StartTrading();
@@ -143,12 +148,16 @@ void CUIActorMenu::DeInitTradeMode()
 
 	m_PartnerBottomInfo->Show		(false);
 	m_PartnerWeight->Show			(false);
-	m_trade_buy_button->Show		(false);
-	m_trade_sell_button->Show		(false);
+	if (m_trade_button)
+		m_trade_button->Show(false);
+	if (m_trade_buy_button)
+		m_trade_buy_button->Show(false);
+	if (m_trade_sell_button)
+		m_trade_sell_button->Show(false);
 
 	if(!CurrentGameUI())
 		return;
-	//только если находимся в режиме single
+	//С‚РѕР»СЊРєРѕ РµСЃР»Рё РЅР°С…РѕРґРёРјСЃСЏ РІ СЂРµР¶РёРјРµ single
 	CUIGameSP* pGameSP = smart_cast<CUIGameSP*>(CurrentGameUI());
 	if(!pGameSP) return;
 
