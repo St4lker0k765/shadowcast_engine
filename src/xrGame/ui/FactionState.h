@@ -6,7 +6,6 @@
 ////////////////////////////////////////////////////////////////////////////
 
 #pragma once
-/*
 #include "UIWindow.h"
 
 class FactionState
@@ -104,4 +103,3 @@ add_to_type_list(FactionState)
 #define script_type_list save_type_list(FactionState)
 
 #include "FactionState_inline.h"
-*/

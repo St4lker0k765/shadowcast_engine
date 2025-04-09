@@ -14,7 +14,7 @@ class CUIFrameWindow;
 class UIHint;
 
 class CUITaskWnd;
-//-class CUIFactionWarWnd;
+class CUIFactionWarWnd;
 class CUIRankingWnd;
 class CUILogsWnd;
 class CUIAnimatedStatic;
@@ -31,12 +31,12 @@ protected:
 	CUIStatic*				UIMainPdaFrame;
 	CUIStatic*				UINoice;
 	
-	CUITextWnd*				m_caption;
+	CUIStatic*				m_caption;
 	shared_str				m_caption_const;
-//	CUIAnimatedStatic*		m_anim_static;
+	CUIAnimatedStatic*		m_anim_static;
 	CUITextWnd*				m_clock;
 
-	// Текущий активный диалог
+	// РўРµРєСѓС‰РёР№ Р°РєС‚РёРІРЅС‹Р№ РґРёР°Р»РѕРі
 	CUIWindow*				m_pActiveDialog;
 	shared_str				m_sActiveSection;
 
@@ -44,7 +44,7 @@ protected:
 
 public:
 	CUITaskWnd*				pUITaskWnd;
-//-	CUIFactionWarWnd*		pUIFactionWarWnd;
+	CUIFactionWarWnd*		pUIFactionWarWnd;
 	CUIRankingWnd*			pUIRankingWnd;
 	CUILogsWnd*				pUILogsWnd;
 

@@ -7329,6 +7329,21 @@
     <ClInclude Include="ui\UIListWnd_inline.h">
       <Filter>UI\UIWindows\ListBox</Filter>
     </ClInclude>
+    <ClInclude Include="ui\FactionState.h">
+      <Filter>UI\Common\PDA\FactionWar</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\FactionState_inline.h">
+      <Filter>UI\Common\PDA\FactionWar</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UIFactionWarWnd.h">
+      <Filter>UI\Common\PDA\FactionWar</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UIWarState.h">
+      <Filter>UI\Common\PDA\FactionWar</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UIRankFaction.h">
+      <Filter>UI\Common\PDA\Statistics &amp; Rankings</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="damage_manager.cpp">
@@ -10944,6 +10959,18 @@
     </ClCompile>
     <ClCompile Include="ui\UIListWnd_script.cpp">
       <Filter>UI\UIWindows\ListBox</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\FactionState.cpp">
+      <Filter>UI\Common\PDA\FactionWar</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UIFactionWarWnd.cpp">
+      <Filter>UI\Common\PDA\FactionWar</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UIWarState.cpp">
+      <Filter>UI\Common\PDA\FactionWar</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UIRankFaction.cpp">
+      <Filter>UI\Common\PDA\Statistics &amp; Rankings</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

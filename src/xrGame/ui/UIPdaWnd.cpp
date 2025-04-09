@@ -26,6 +26,7 @@
 #include "UITaskWnd.h"
 #include "UIRankingWnd.h"
 #include "UILogsWnd.h"
+#include "UIFactionWarWnd.h"
 
 #define PDA_XML		"pda.xml"
 
@@ -36,7 +37,7 @@ void RearrangeTabButtons(CUITabControl* pTab);
 CUIPdaWnd::CUIPdaWnd()
 {
 	pUITaskWnd       = NULL;
-//-	pUIFactionWarWnd = NULL;
+	pUIFactionWarWnd = NULL;
 	pUIRankingWnd    = NULL;
 	pUILogsWnd       = NULL;
 	m_hint_wnd       = NULL;
@@ -46,7 +47,7 @@ CUIPdaWnd::CUIPdaWnd()
 CUIPdaWnd::~CUIPdaWnd()
 {
 	delete_data( pUITaskWnd );
-//-	delete_data( pUIFactionWarWnd );
+	delete_data( pUIFactionWarWnd );
 	delete_data( pUIRankingWnd );
 	delete_data( pUILogsWnd );
 	delete_data( m_hint_wnd );
@@ -64,15 +65,18 @@ void CUIPdaWnd::Init()
 	CUIXmlInit::InitWindow	(uiXml, "main", 0, this);
 
 	UIMainPdaFrame			= UIHelper::CreateStatic	( uiXml, "background_static", this );
-	m_caption				= UIHelper::CreateTextWnd	( uiXml, "caption_static", this );
+	m_caption				= UIHelper::CreateStatic	( uiXml, "caption_static", this );
 	m_caption_const			= ( m_caption->GetText() );
-	m_clock					= UIHelper::CreateTextWnd	( uiXml, "clock_wnd", this );
-/*
-	m_anim_static			= xr_new<CUIAnimatedStatic>();
-	AttachChild				(m_anim_static);
-	m_anim_static->SetAutoDelete(true);
-	CUIXmlInit::InitAnimatedStatic(uiXml, "anim_static", 0, m_anim_static);
-*/
+	if (uiXml.NavigateToNode("clock_wnd"))
+		m_clock					= UIHelper::CreateTextWnd	( uiXml, "clock_wnd", this );
+
+	if (uiXml.NavigateToNode("anim_static"))
+	{
+		m_anim_static			= xr_new<CUIAnimatedStatic>();
+		AttachChild				(m_anim_static);
+		m_anim_static->SetAutoDelete(true);
+		CUIXmlInit::InitAnimatedStatic(uiXml, "anim_static", 0, m_anim_static);
+	}
 	m_btn_close				= UIHelper::Create3tButton( uiXml, "close_button", this );
 	m_hint_wnd				= UIHelper::CreateHint( uiXml, "hint_wnd" );
 
@@ -83,9 +87,9 @@ void CUIPdaWnd::Init()
 		pUITaskWnd->hint_wnd		= m_hint_wnd;
 		pUITaskWnd->Init			();
 
-//-		pUIFactionWarWnd				= xr_new<CUIFactionWarWnd>();
-//-		pUIFactionWarWnd->hint_wnd		= m_hint_wnd;
-//-		pUIFactionWarWnd->Init			();
+		pUIFactionWarWnd				= xr_new<CUIFactionWarWnd>();
+		pUIFactionWarWnd->hint_wnd		= m_hint_wnd;
+		pUIFactionWarWnd->Init			();
 
 		pUIRankingWnd					= xr_new<CUIRankingWnd>();
 		pUIRankingWnd->Init				();
@@ -162,7 +166,8 @@ void CUIPdaWnd::Update()
 {
 	inherited::Update();
 	m_pActiveDialog->Update();
-	m_clock->TextItemControl().SetText(InventoryUtilities::GetGameTimeAsString(InventoryUtilities::etpTimeToMinutes).c_str());
+	if (m_clock)
+		m_clock->TextItemControl().SetText(InventoryUtilities::GetGameTimeAsString(InventoryUtilities::etpTimeToMinutes).c_str());
 
 	Device.seqParallel.push_back	(fastdelegate::FastDelegate0<>(pUILogsWnd,&CUILogsWnd::PerformWork));
 }
@@ -181,10 +186,10 @@ void CUIPdaWnd::SetActiveSubdialog(const shared_str& section)
 	{
 		m_pActiveDialog = pUITaskWnd;
 	}
-//-	else if ( section == "eptFractionWar" )
-//-	{
-//-		m_pActiveDialog = pUIFactionWarWnd;
-//-	}
+	else if ( section == "eptFractionWar" )
+	{
+		m_pActiveDialog = pUIFactionWarWnd;
+	}
 	else if ( section == "eptRanking" )
 	{
 		m_pActiveDialog = pUIRankingWnd;
@@ -256,10 +261,10 @@ void CUIPdaWnd::DrawHint()
 	{
 		pUITaskWnd->DrawHint();
 	}
-//-	else if ( m_pActiveDialog == pUIFactionWarWnd )
-//-	{
-//		m_hint_wnd->Draw();
-//-	}
+	else if ( m_pActiveDialog == pUIFactionWarWnd )
+	{
+		m_hint_wnd->Draw();
+	}
 	else if ( m_pActiveDialog == pUIRankingWnd )
 	{
 		pUIRankingWnd->DrawHint();
@@ -291,7 +296,7 @@ void CUIPdaWnd::Reset()
 	inherited::ResetAll		();
 
 	if ( pUITaskWnd )		pUITaskWnd->ResetAll();
-//-	if ( pUIFactionWarWnd )	pUITaskWnd->ResetAll();
+	if ( pUIFactionWarWnd )	pUITaskWnd->ResetAll();
 	if ( pUIRankingWnd )	pUIRankingWnd->ResetAll();
 	if ( pUILogsWnd )		pUILogsWnd->ResetAll();
 }

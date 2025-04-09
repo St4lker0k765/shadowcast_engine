@@ -6,7 +6,6 @@
 ////////////////////////////////////////////////////////////////////////////
 
 #include "pch_script.h"
-/*
 #include "UIFactionWarWnd.h"
 
 #include "UIXmlInit.h"
@@ -254,7 +253,7 @@ bool CUIFactionWarWnd::InitFactions()
 	if ( xr_strlen(our_fract) == 0 || xr_strlen(enemy_fract) == 0 )
 	{
 		return false;
-	}*
+	}*/
 	m_our_faction.set_faction_id2( our );
 	m_enemy_faction.set_faction_id2( enemy );
 
@@ -400,4 +399,4 @@ float CUIFactionWarWnd::get_max_power()
 	R_ASSERT( ai().script_engine().functor( "pda.get_max_power", funct ) );
 	return funct();
 }
-*/
+
