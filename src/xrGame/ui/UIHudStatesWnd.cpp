@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "UIHudStatesWnd.h"
-
+#include "../UIFontDefines.h"
+#include "../grenade.h"
 #include "../Actor.h"
 #include "../ActorCondition.h"
 #include "../EntityCondition.h"
@@ -8,7 +9,7 @@
 #include "../ActorHelmet.h"
 #include "../inventory.h"
 #include "../RadioactiveZone.h"
-
+#include "uitexturemaster.h"
 #include "UIStatic.h"
 #include "UIProgressBar.h"
 #include "UIProgressShape.h"
@@ -43,10 +44,12 @@ CUIHudStatesWnd::CUIHudStatesWnd()
 
 	m_zone_feel_radius_max = 0.0f;
 	
-	m_health_blink = pSettings->r_float( "actor_condition", "hud_health_blink" );
+	m_health_blink = READ_IF_EXISTS(pSettings, r_float, "actor_condition", "hud_health_blink", 0.f);
 	clamp( m_health_blink, 0.0f, 1.0f );
 
 	m_fake_indicators_update = false;
+	m_arrow = nullptr;
+	m_arrow_shadow = nullptr;
 //-	Load_section();
 }
 
@@ -97,76 +100,92 @@ void CUIHudStatesWnd::InitFromXml( CUIXml& xml, LPCSTR path )
 
 
 	m_back            = UIHelper::CreateStatic( xml, "back", this );
+	if (xml.NavigateToNode("back_v"))
+		m_back_v = UIHelper::CreateStatic(xml, "back_v", this);
+
+	// XXX: replace with UIHelper
+	if (xml.NavigateToNode("arrow"))
+	{
+		m_arrow = new UI_Arrow();
+		m_arrow->init_from_xml(xml, "arrow", this);
+	}
+
+	// XXX: replace with UIHelper
+	if (xml.NavigateToNode("arrow_shadow"))
+	{
+		m_arrow_shadow = new UI_Arrow();
+		m_arrow_shadow->init_from_xml(xml, "arrow_shadow", this);
+	}
+
+	if (xml.NavigateToNode("back_over_arrow"))
+		m_back_over_arrow = UIHelper::CreateStatic(xml, "back_over_arrow", this);
+	if (xml.NavigateToNode("static_armor"))
+		m_static_armor = UIHelper::CreateStatic(xml, "static_armor", this);
+
 	m_ui_health_bar   = UIHelper::CreateProgressBar( xml, "progress_bar_health", this );
 	m_ui_stamina_bar  = UIHelper::CreateProgressBar( xml, "progress_bar_stamina", this );
-//	m_back_v          = UIHelper::CreateStatic( xml, "back_v", this );
-//	m_static_armor    = UIHelper::CreateStatic( xml, "static_armor", this );
-	
-/*
-	m_resist_back[ALife::infl_rad]  = UIHelper::CreateStatic( xml, "resist_back_rad", this );
-	m_resist_back[ALife::infl_fire] = UIHelper::CreateStatic( xml, "resist_back_fire", this );
-	m_resist_back[ALife::infl_acid] = UIHelper::CreateStatic( xml, "resist_back_acid", this );
-	m_resist_back[ALife::infl_psi]  = UIHelper::CreateStatic( xml, "resist_back_psi", this );
-	// electra = no has CStatic!!
-*/
+	if (xml.NavigateToNode("progress_bar_armor"))
+		m_ui_armor_bar = UIHelper::CreateProgressBar(xml, "progress_bar_armor", this);
+
+	if (m_static_armor || m_ui_armor_bar)
+	{
+		R_ASSERT3(m_static_armor && m_ui_armor_bar,
+			"Please, provide both [m_static_armor] and [m_ui_armor_bar] tags in xml file",
+			xml.m_xml_file_name);
+	}
+
+	if (xml.NavigateToNode("resist_back_rad"))
+		m_resist_back[ALife::infl_rad] = UIHelper::CreateStatic(xml, "resist_back_rad", this);
+	if (xml.NavigateToNode("resist_back_fire"))
+		m_resist_back[ALife::infl_fire] = UIHelper::CreateStatic(xml, "resist_back_fire", this);
+	if (xml.NavigateToNode("resist_back_acid"))
+		m_resist_back[ALife::infl_acid] = UIHelper::CreateStatic(xml, "resist_back_acid", this);
+	if (xml.NavigateToNode("resist_back_psi"))
+		m_resist_back[ALife::infl_psi] = UIHelper::CreateStatic(xml, "resist_back_psi", this);
+
 	m_indik[ALife::infl_rad]  = UIHelper::CreateStatic( xml, "indik_rad", this );
 	m_indik[ALife::infl_fire] = UIHelper::CreateStatic( xml, "indik_fire", this );
 	m_indik[ALife::infl_acid] = UIHelper::CreateStatic( xml, "indik_acid", this );
 	m_indik[ALife::infl_psi]  = UIHelper::CreateStatic( xml, "indik_psi", this );
 
-//	m_lanim_name				= xml.ReadAttrib( "indik_rad", 0, "light_anim", "" );
+	m_lanim_name				= xml.ReadAttrib( "indik_rad", 0, "light_anim", "" );
 
-	m_ui_weapon_cur_ammo		= UIHelper::CreateTextWnd( xml, "static_cur_ammo", this );
-	m_ui_weapon_fmj_ammo		= UIHelper::CreateTextWnd( xml, "static_fmj_ammo", this );
-	m_ui_weapon_ap_ammo			= UIHelper::CreateTextWnd( xml, "static_ap_ammo", this );
+	if (xml.NavigateToNode("static_ammo"))
+		m_ui_weapon_sign_ammo = UIHelper::CreateStatic(xml, "static_ammo", this);
+	//m_ui_weapon_sign_ammo->SetEllipsis( CUIStatic::eepEnd, 2 );
+
+	if (xml.NavigateToNode("static_cur_ammo"))
+		m_ui_weapon_cur_ammo		= UIHelper::CreateTextWnd( xml, "static_cur_ammo", this );
+	if (xml.NavigateToNode("static_fmj_ammo"))
+		m_ui_weapon_fmj_ammo		= UIHelper::CreateTextWnd( xml, "static_fmj_ammo", this );
+	if (xml.NavigateToNode("static_ap_ammo"))
+		m_ui_weapon_ap_ammo			= UIHelper::CreateTextWnd( xml, "static_ap_ammo", this );
 	m_fire_mode					= UIHelper::CreateTextWnd( xml, "static_fire_mode", this );
-	m_ui_grenade				= UIHelper::CreateTextWnd( xml, "static_grenade", this );
+	if (xml.NavigateToNode("static_grenade"))
+		m_ui_grenade				= UIHelper::CreateTextWnd( xml, "static_grenade", this );
 	
 	m_ui_weapon_icon			= UIHelper::CreateStatic( xml, "static_wpn_icon", this );
 	m_ui_weapon_icon->SetShader( InventoryUtilities::GetEquipmentIconsShader() );
-//	m_ui_weapon_icon->Enable	( false );
 	m_ui_weapon_icon_rect		= m_ui_weapon_icon->GetWndRect();
 
-//	m_ui_armor_bar    = UIHelper::CreateProgressBar( xml, "progress_bar_armor", this );
+	if (xml.NavigateToNode("progress"))
+	{
+		m_progress_self = new CUIProgressShape();
+		m_progress_self->SetAutoDelete(true);
+		AttachChild( m_progress_self );
+		CUIXmlInit::InitProgressShape( xml, "progress", 0, m_progress_self );
+	}
+	if (xml.NavigateToNode("bleeding"))
+	{
+		m_bleeding = UIHelper::CreateStatic(xml, "bleeding", this);
+		m_bleeding->Show(false);
+	}
 
-//	m_progress_self = xr_new<CUIProgressShape>();
-//	m_progress_self->SetAutoDelete(true);
-//	AttachChild( m_progress_self );
-//	CUIXmlInit::InitProgressShape( xml, "progress", 0, m_progress_self );
-
-//	m_arrow				= xr_new<UI_Arrow>();
-//	m_arrow_shadow		= xr_new<UI_Arrow>();
-
-//	m_arrow->init_from_xml( xml, "arrow", this );
-//	m_arrow_shadow->init_from_xml( xml, "arrow_shadow", this );
-
-//	m_back_over_arrow = UIHelper::CreateStatic( xml, "back_over_arrow", this );
-
-/*
-	m_bleeding_lev1 = UIHelper::CreateStatic( xml, "bleeding_level_1", this );
-	m_bleeding_lev1->Show( false );
-
-	m_bleeding_lev2 = UIHelper::CreateStatic( xml, "bleeding_level_2", this );
-	m_bleeding_lev2->Show( false );
-
-	m_bleeding_lev3 = UIHelper::CreateStatic( xml, "bleeding_level_3", this );
-	m_bleeding_lev3->Show( false );
-
-	m_radiation_lev1 = UIHelper::CreateStatic( xml, "radiation_level_1", this );
-	m_radiation_lev1->Show( false );
-
-	m_radiation_lev2 = UIHelper::CreateStatic( xml, "radiation_level_2", this );
-	m_radiation_lev2->Show( false );
-
-	m_radiation_lev3 = UIHelper::CreateStatic( xml, "radiation_level_3", this );
-	m_radiation_lev3->Show( false );
-
-	for ( int i = 0; i < it_max; ++i )
+	for (int i = 0; i < it_max; ++i)
 	{
 		m_cur_state_LA[i] = true;
-		SwitchLA( false, (ALife::EInfluenceType)i );
+		SwitchLA(false, static_cast<ALife::EInfluenceType>(i));
 	}
-*/	
 	xml.SetLocalRoot( stored_root );
 }
 
@@ -252,20 +271,29 @@ void CUIHudStatesWnd::UpdateHealth( CActor* actor )
 		m_ui_stamina_bar->m_UIProgressItem.ResetColorAnimation();
 	}
 
-/*
-	CCustomOutfit* outfit = actor->GetOutfit();
-	if ( outfit )
-	{
-		m_static_armor->Show( true );
-		m_ui_armor_bar->Show( true );
-		m_ui_armor_bar->SetProgressPos( outfit->GetCondition() * 100.0f );
-	}
-	else
-	{
-		m_static_armor->Show( false );
-		m_ui_armor_bar->Show( false );
-	}
-*/	
+    if (m_static_armor && m_ui_armor_bar)
+    {
+        CCustomOutfit* outfit = actor->GetOutfit();
+        if (outfit)
+        {
+            m_static_armor->Show(true);
+            m_ui_armor_bar->Show(true);
+            m_ui_armor_bar->SetProgressPos(outfit->GetCondition() * 100.0f);
+        }
+        else
+        {
+            m_static_armor->Show(false);
+            m_ui_armor_bar->Show(false);
+        }
+    }
+
+    if (m_bleeding)
+    {
+        if (actor->conditions().BleedingSpeed() > 0.01f)
+            m_bleeding->Show(true);
+        else
+            m_bleeding->Show(false);
+    }
 	/*
 	float bleeding_speed = actor->conditions().BleedingSpeed();
 	if(bleeding_speed > 0.01f)
@@ -299,64 +327,143 @@ void CUIHudStatesWnd::UpdateHealth( CActor* actor )
 	else
 		m_radiation_lev3->Show(false);
 		*/
+
+	if (m_progress_self)
+		m_progress_self->SetPos(m_radia_self);
 }
 
-void CUIHudStatesWnd::UpdateActiveItemInfo( CActor* actor )
+void CUIHudStatesWnd::UpdateActiveItemInfo(CActor* actor)
 {
-	PIItem item = actor->inventory().ActiveItem();
-	if ( item )
-	{
-		if(m_b_force_update)
+    PIItem item = actor->inventory().ActiveItem();
+    if (item)
+    {
+        if (m_b_force_update)
+        {
+            if (item->cast_weapon())
+                item->cast_weapon()->ForceUpdateAmmo();
+            m_b_force_update = false;
+        }
+
+        item->GetBriefInfo(m_item_info);
+
+        //		UIWeaponBack.SetText		( str_name.c_str() );
+        m_fire_mode->SetText(m_item_info.fire_mode.c_str());
+        SetAmmoIcon(m_item_info.icon.c_str());
+
+        if (m_ui_weapon_cur_ammo)
+        {
+            m_ui_weapon_cur_ammo->Show(true);
+            m_ui_weapon_cur_ammo->SetText(m_item_info.cur_ammo.c_str());
+        }
+
+        if (m_ui_weapon_fmj_ammo)
+        {
+            m_ui_weapon_fmj_ammo->Show(true);
+            m_ui_weapon_fmj_ammo->SetText(m_item_info.fmj_ammo.c_str());
+            m_ui_weapon_fmj_ammo->SetTextColor(color_rgba(238, 155, 23, 150));
+        }
+
+        if (m_ui_weapon_ap_ammo)
+        {
+            m_ui_weapon_ap_ammo->Show(true);
+            m_ui_weapon_ap_ammo->SetText(m_item_info.ap_ammo.c_str());
+            m_ui_weapon_ap_ammo->SetTextColor(color_rgba(238, 155, 23, 150));
+        }
+
+		if (m_ui_weapon_sign_ammo)
 		{
-			if(item->cast_weapon())
-				item->cast_weapon()->ForceUpdateAmmo();
-			m_b_force_update		= false;
-		}
+			if (m_item_info.cur_ammo.size())
+			{
+				string64 temp;
+				if (smart_cast<CGrenade*>(item))
+				{
+					xr_sprintf(temp, "%s", m_item_info.cur_ammo.c_str());
+				}
+				else
+				{
+					xr_sprintf(temp, "%s/%s", m_item_info.cur_ammo.c_str(), m_item_info.total_ammo.c_str());
+				}
 
-		item->GetBriefInfo			( m_item_info );
+				m_ui_weapon_sign_ammo->Show(true);
+				m_ui_weapon_sign_ammo->SetText(temp);
 
-//		UIWeaponBack.SetText		( str_name.c_str() );
-		m_fire_mode->SetText		( m_item_info.fire_mode.c_str() );
-		SetAmmoIcon					( m_item_info.icon.c_str() );
-		
-		m_ui_weapon_cur_ammo->Show	( true );
-		m_ui_weapon_fmj_ammo->Show	( true );
-		m_ui_weapon_ap_ammo->Show	( true );
-		m_fire_mode->Show			( true );
-		m_ui_grenade->Show			( true );
+				// hack ^ begin
+				CGameFont* pFont32 = UI().Font().GetFont(GRAFFITI32_FONT_NAME);
+				CGameFont* pFont22 = UI().Font().GetFont(GRAFFITI22_FONT_NAME);
+				CGameFont* pFont = pFont32;
 
-		m_ui_weapon_cur_ammo->SetText	( m_item_info.cur_ammo.c_str() );
-		m_ui_weapon_fmj_ammo->SetText	( m_item_info.fmj_ammo.c_str() );
-		m_ui_weapon_ap_ammo->SetText	( m_item_info.ap_ammo.c_str() );
-		
-		m_ui_grenade->SetText	( m_item_info.grenade.c_str() );
+				if (UI().is_widescreen())
+				{
+					pFont = pFont22;
+				}
+				else
+				{
+					if (xr_strlen(temp) > 5)
+					{
+						pFont = pFont22;
+					}
+				}
+				m_ui_weapon_sign_ammo->SetFont(pFont);
+			}
+			else
+			{
+				m_ui_weapon_sign_ammo->Show(false);
+			}
+        }
 
-		CWeaponMagazinedWGrenade* wpn = smart_cast<CWeaponMagazinedWGrenade*>(item);
-		if(wpn && wpn->m_bGrenadeMode)
-		{
-			m_ui_weapon_fmj_ammo->SetTextColor(color_rgba(238,155,23,150));
-			m_ui_grenade->SetTextColor(color_rgba(238,155,23,255));
-		}
-		else
-		{
-			m_ui_weapon_fmj_ammo->SetTextColor(color_rgba(238,155,23,255));
-			m_ui_grenade->SetTextColor(color_rgba(238,155,23,150));
-		}
-	}
-	else
-	{
-		m_ui_weapon_icon->Show		( false );
+        m_fire_mode->Show(true);
 
-		m_ui_weapon_cur_ammo->Show	( false );
-		m_ui_weapon_fmj_ammo->Show	( false );
-		m_ui_weapon_ap_ammo->Show	( false );
-		m_fire_mode->Show			( false );
-		m_ui_grenade->Show			( false );
-	}
+        if (m_ui_grenade)
+        {
+            m_ui_grenade->Show(true);
+
+            m_ui_grenade->SetText(m_item_info.grenade.c_str());
+            
+            CWeaponMagazinedWGrenade* wpn = smart_cast<CWeaponMagazinedWGrenade*>(item);
+            if (wpn && wpn->m_bGrenadeMode)
+                m_ui_grenade->SetTextColor(color_rgba(238, 155, 23, 255));
+            else
+                m_ui_grenade->SetTextColor(color_rgba(238, 155, 23, 150));
+        }
+
+        CWeaponMagazined* wpnm = smart_cast<CWeaponMagazined*>(item);
+        if (wpnm)
+        {
+            if (wpnm->m_ammoType == 0 && m_ui_weapon_fmj_ammo)
+                m_ui_weapon_fmj_ammo->SetTextColor(color_rgba(238, 155, 23, 255));
+            else if (wpnm->m_ammoType == 1 && m_ui_weapon_ap_ammo)
+                m_ui_weapon_ap_ammo->SetTextColor(color_rgba(238, 155, 23, 255));
+        }
+    }
+    else
+    {
+        m_ui_weapon_icon->Show(false);
+
+        if (m_ui_weapon_cur_ammo)
+            m_ui_weapon_cur_ammo->Show(false);
+
+        if (m_ui_weapon_fmj_ammo)
+            m_ui_weapon_fmj_ammo->Show(false);
+
+        if (m_ui_weapon_ap_ammo)
+            m_ui_weapon_ap_ammo->Show(false);
+
+        if (m_ui_weapon_sign_ammo)
+            m_ui_weapon_sign_ammo->Show(false);
+
+        m_fire_mode->Show(false);
+
+        if (m_ui_grenade)
+            m_ui_grenade->Show(false);
+    }
 }
+
 
 void CUIHudStatesWnd::SetAmmoIcon(const shared_str& sect_name)
 {
+	if (!m_ui_weapon_icon)
+		return;
+
 	if (!sect_name.size())
 	{
 		m_ui_weapon_icon->Show(false);
@@ -446,8 +553,10 @@ void CUIHudStatesWnd::UpdateZones()
 		Msg(" self = %.2f   hit = %.2f", m_radia_self, m_radia_hit );
 	}*/
 
-//	m_arrow->SetNewValue( m_radia_hit );
-//	m_arrow_shadow->SetPos( m_arrow->GetPos() );
+	if (m_arrow)
+		m_arrow->SetNewValue(m_radia_hit);
+	if (m_arrow_shadow)
+		m_arrow_shadow->SetPos(m_arrow->GetPos());
 /*
 	power = actor->conditions().GetPsy();
 	clamp( power, 0.0f, 1.1f );
@@ -523,12 +632,12 @@ void CUIHudStatesWnd::UpdateZones()
 			if ( dist_to_zone < rad_zone )
 			{
 				fRelPow *= 0.3f;
-				fRelPow *= ( 2.5f - 2.0f * power ); // çâóê çàâèñèò îò ñèëû çîíû
+				fRelPow *= ( 2.5f - 2.0f * power ); // Ð·Ð²ÑƒÐº Ð·Ð°Ð²Ð¸ÑÐ¸Ñ‚ Ð¾Ñ‚ ÑÐ¸Ð»Ñ‹ Ð·Ð¾Ð½Ñ‹
 			}
 		}
 		clamp( fRelPow, 0.0f, 1.0f );
 
-		//îïðåäåëèòü òåêóùóþ ÷àñòîòó ñðàáàòûâàíèÿ ñèãíàëà
+		//Ð¾Ð¿Ñ€ÐµÐ´ÐµÐ»Ð¸Ñ‚ÑŒ Ñ‚ÐµÐºÑƒÑ‰ÑƒÑŽ Ñ‡Ð°ÑÑ‚Ð¾Ñ‚Ñƒ ÑÑ€Ð°Ð±Ð°Ñ‚Ñ‹Ð²Ð°Ð½Ð¸Ñ ÑÐ¸Ð³Ð½Ð°Ð»Ð°
 		zone_info.cur_period = zone_type->freq.x + (zone_type->freq.y - zone_type->freq.x) * (fRelPow * fRelPow);
 		
 		//string256	buff_z;
@@ -565,14 +674,13 @@ void CUIHudStatesWnd::UpdateIndicatorType( CActor* actor, ALife::EInfluenceType 
 		return;
 	}
 
-/*	
-	u32 c_white  = color_rgba( 255, 255, 255, 255 );
-	u32 c_green  = color_rgba( 0, 255, 0, 255 );
-	u32 c_yellow = color_rgba( 255, 255, 0, 255 );
-	u32 c_red    = color_rgba( 255, 0, 0, 255 );
-*/
+	const u32 c_white = color_rgba(255, 255, 255, 255);
+	const u32 c_green = color_rgba(0, 255, 0, 255);
+	const u32 c_yellow = color_rgba(255, 255, 0, 255);
+	const u32 c_red = color_rgba(255, 0, 0, 255);
+
 	LPCSTR texture = "";
-	string128 str;
+	string256 str;
 	switch(type)
 	{
 		case ALife::infl_rad: texture = "ui_inGame2_triangle_Radiation_"; break;
@@ -613,46 +721,73 @@ void CUIHudStatesWnd::UpdateIndicatorType( CActor* actor, ALife::EInfluenceType 
 
 //	float max_power = actor->conditions().GetZoneMaxPower( hit_type );
 //	protect = protect / max_power; // = 0..1
-
-	if ( hit_power < EPS )
-	{
-		m_indik[type]->Show(false);
-//		m_indik[type]->SetTextureColor( c_white );
-//		SwitchLA( false, type );
-		actor->conditions().SetZoneDanger( 0.0f, type );
-		return;
-	}
-
 	m_indik[type]->Show(true);
-	if ( hit_power <= protect )
-	{
-//		m_indik[type]->SetTextureColor( c_green );
-//		SwitchLA( false, type );
-		xr_sprintf(str, sizeof(str), "%s%s", texture, "green");
-		texture = str;
-		m_indik[type]->InitTexture(texture);
-		actor->conditions().SetZoneDanger( 0.0f, type );
-		return;
-	}
-	if ( hit_power - protect < m_zone_threshold[type] )
-	{
-//		m_indik[type]->SetTextureColor( c_yellow );
-//		SwitchLA( false, type );
-		xr_sprintf(str, sizeof(str), "%s%s", texture, "yellow");
-		texture = str;
-		m_indik[type]->InitTexture(texture);
-		actor->conditions().SetZoneDanger( 0.0f, type );
-		return;
-	}
-//	m_indik[type]->SetTextureColor( c_red );
-//	SwitchLA( true, type );
-	xr_sprintf(str, sizeof(str), "%s%s", texture, "red");
-	texture = str;
-	m_indik[type]->InitTexture(texture);
-	VERIFY(actor->conditions().GetZoneMaxPower(hit_type));
-	actor->conditions().SetZoneDanger((hit_power-protect)/actor->conditions().GetZoneMaxPower(hit_type), type);
+
+    if (hit_power < EPS)
+    {
+        string256 greenTexture;
+        // If we have green texture and white is missing
+        // Assume it's CoP and use it's standard scheme
+        xr_sprintf(greenTexture, sizeof(greenTexture), "%s%s", texture, "green");
+
+        SwitchLA(false, type);
+        xr_sprintf(str, sizeof(str), "%s%s", texture, "white");
+        texture = str;
+
+        if (CUITextureMaster::ItemExist(texture))
+            m_indik[type]->InitTexture(texture);
+        else if (CUITextureMaster::ItemExist(greenTexture))
+            m_indik[type]->Show(false); // Use standard CoP scheme
+        else
+            m_indik[type]->SetTextureColor(c_white);
+
+        actor->conditions().SetZoneDanger(0.0f, type);
+        return;
+    }
+    if (hit_power <= protect)
+    {
+        SwitchLA(false, type);
+        xr_sprintf(str, sizeof(str), "%s%s", texture, "green");
+        texture = str;
+
+        if (CUITextureMaster::ItemExist(texture))
+            m_indik[type]->InitTexture(texture);
+        else
+            m_indik[type]->SetTextureColor(c_green);
+
+        actor->conditions().SetZoneDanger(0.0f, type);
+        return;
+    }
+
+    if (hit_power - protect < m_zone_threshold[type])
+    {
+        SwitchLA(false, type);
+        xr_sprintf(str, sizeof(str), "%s%s", texture, "yellow");
+        texture = str;
+
+        if (CUITextureMaster::ItemExist(texture))
+            m_indik[type]->InitTexture(texture);
+        else
+            m_indik[type]->SetTextureColor(c_yellow);
+
+        actor->conditions().SetZoneDanger(0.0f, type);
+        return;
+    }
+
+    SwitchLA(true, type);
+    xr_sprintf(str, sizeof(str), "%s%s", texture, "red");
+    texture = str;
+
+    if (CUITextureMaster::ItemExist(texture))
+        m_indik[type]->InitTexture(texture);
+    else
+        m_indik[type]->SetTextureColor(c_red);
+
+    VERIFY(actor->conditions().GetZoneMaxPower(hit_type));
+    actor->conditions().SetZoneDanger((hit_power - protect) / actor->conditions().GetZoneMaxPower(hit_type), type);
 }
-/*
+
+
 void CUIHudStatesWnd::SwitchLA( bool state, ALife::EInfluenceType type )
 {
 	if ( state == m_cur_state_LA[type] )
@@ -671,7 +806,7 @@ void CUIHudStatesWnd::SwitchLA( bool state, ALife::EInfluenceType type )
 		m_cur_state_LA[type] = false;
 	}
 }
-*/
+
 float CUIHudStatesWnd::get_zone_cur_power( ALife::EHitType hit_type )
 {
 	ALife::EInfluenceType iz_type = get_indik_type( hit_type );

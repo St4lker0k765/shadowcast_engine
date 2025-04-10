@@ -73,12 +73,12 @@ public:
 
 protected:
 
-	// 5 статиков для отображения иконок:
-	// - сломанного оружия(only mp)
-	// - радиации
-	// - ранения
-	// - голода
-	// - усталости
+	// 5 СЃС‚Р°С‚РёРєРѕРІ РґР»СЏ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ РёРєРѕРЅРѕРє:
+	// - СЃР»РѕРјР°РЅРЅРѕРіРѕ РѕСЂСѓР¶РёСЏ(only mp)
+	// - СЂР°РґРёР°С†РёРё
+	// - СЂР°РЅРµРЅРёСЏ
+	// - РіРѕР»РѕРґР°
+	// - СѓСЃС‚Р°Р»РѕСЃС‚Рё
 	CUIStatic*			UIWeaponJammedIcon;
 //	CUIStatic			UIRadiaitionIcon;
 //	CUIStatic			UIWoundIcon;
@@ -94,7 +94,7 @@ protected:
 
 public:
 	
-	// Енумы соответсвующие предупреждающим иконкам 
+	// Р•РЅСѓРјС‹ СЃРѕРѕС‚РІРµС‚СЃРІСѓСЋС‰РёРµ РїСЂРµРґСѓРїСЂРµР¶РґР°СЋС‰РёРј РёРєРѕРЅРєР°Рј 
 	enum EWarningIcons
 	{
 		ewiAll				= 0,
@@ -110,16 +110,16 @@ public:
 
 	void				SetMPChatLog					(CUIWindow* pChat, CUIWindow* pLog);
 
-	// Задаем цвет соответствующей иконке
+	// Р—Р°РґР°РµРј С†РІРµС‚ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµР№ РёРєРѕРЅРєРµ
 	void				SetWarningIconColor				(EWarningIcons icon, const u32 cl);
 	void				TurnOffWarningIcon				(EWarningIcons icon);
 
-	// Пороги изменения цвета индикаторов, загружаемые из system.ltx
+	// РџРѕСЂРѕРіРё РёР·РјРµРЅРµРЅРёСЏ С†РІРµС‚Р° РёРЅРґРёРєР°С‚РѕСЂРѕРІ, Р·Р°РіСЂСѓР¶Р°РµРјС‹Рµ РёР· system.ltx
 	typedef				xr_map<EWarningIcons, xr_vector<float> >	Thresholds;
 	typedef				Thresholds::iterator						Thresholds_it;
 	Thresholds			m_Thresholds;
 
-	// Енум перечисления возможных мигающих иконок
+	// Р•РЅСѓРј РїРµСЂРµС‡РёСЃР»РµРЅРёСЏ РІРѕР·РјРѕР¶РЅС‹С… РјРёРіР°СЋС‰РёС… РёРєРѕРЅРѕРє
 	enum EFlashingIcons
 	{
 		efiPdaTask	= 0,
@@ -143,16 +143,16 @@ protected:
 	void				UpdateFlashingIcons				();
 //	void				UpdateActiveItemInfo			();
 
-//	void				SetAmmoIcon						(const shared_str& seсt_name);
+//	void				SetAmmoIcon						(const shared_str& seСЃt_name);
 
-	// first - иконка, second - анимация
+	// first - РёРєРѕРЅРєР°, second - Р°РЅРёРјР°С†РёСЏ
 	DEF_MAP				(FlashingIcons, EFlashingIcons, CUIStatic*);
 	FlashingIcons		m_FlashingIcons;
 
 //	CMissile*			m_pGrenade;
 //	CInventoryItem*		m_pItem;
 
-	// Отображение подсказок при наведении прицела на объект
+	// РћС‚РѕР±СЂР°Р¶РµРЅРёРµ РїРѕРґСЃРєР°Р·РѕРє РїСЂРё РЅР°РІРµРґРµРЅРёРё РїСЂРёС†РµР»Р° РЅР° РѕР±СЉРµРєС‚
 	void				RenderQuickInfos();
 
 public:

@@ -1273,12 +1273,10 @@ void CActor::shedule_Update	(u32 DT)
 		}	
 		mstate_old = mstate_real;
 	}
-/*
 	if (this == Level().CurrentViewEntity())
 	{
 		UpdateMotionIcon		(mstate_real);
 	};
-*/
 	NET_Jump = 0;
 
 
@@ -1894,7 +1892,6 @@ void CActor::AnimTorsoPlayCallBack(CBlend* B)
 }
 
 
-/*
 void CActor::UpdateMotionIcon(u32 mstate_rl)
 {
 	CUIMotionIcon*	motion_icon=CurrentGameUI()->UIMainIngameWnd->MotionIcon();
@@ -1921,7 +1918,6 @@ void CActor::UpdateMotionIcon(u32 mstate_rl)
 			motion_icon->ShowState(CUIMotionIcon::stNormal);
 	}
 }
-*/
 
 
 CPHDestroyable*	CActor::ph_destroyable	()

@@ -1748,7 +1748,9 @@ bool CWeaponMagazined::GetBriefInfo(II_BriefInfo& info)
 	{
 		return false;
 	}
-	GetSuitableAmmoTotal();//update m_BriefInfo_CalcFrame
+	const int at = GetSuitableAmmoTotal() - GetAmmoElapsed(); // update m_BriefInfo_CalcFrame
+	xr_sprintf(int_str, "%d", at);
+	info.total_ammo = int_str;
 	info.grenade = "";
 
 	u32 at_size = m_ammoTypes.size();
@@ -1756,6 +1758,7 @@ bool CWeaponMagazined::GetBriefInfo(II_BriefInfo& info)
 	{
 		info.fmj_ammo._set("--");
 		info.ap_ammo._set("--");
+		info.total_ammo._set("--");
 	}
 	else
 	{
