@@ -93,7 +93,7 @@ void CActorCondition::LoadCondition(LPCSTR entity_section)
 	m_fAccelK					= pSettings->r_float(section,"accel_k");
 	m_fSprintK					= pSettings->r_float(section,"sprint_k");
 
-	//порог силы и здоровья меньше которого актер начинает хромать
+	//РїРѕСЂРѕРі СЃРёР»С‹ Рё Р·РґРѕСЂРѕРІСЊСЏ РјРµРЅСЊС€Рµ РєРѕС‚РѕСЂРѕРіРѕ Р°РєС‚РµСЂ РЅР°С‡РёРЅР°РµС‚ С…СЂРѕРјР°С‚СЊ
 	m_fLimpingHealthBegin		= pSettings->r_float(section,	"limping_health_begin");
 	m_fLimpingHealthEnd			= pSettings->r_float(section,	"limping_health_end");
 	R_ASSERT					(m_fLimpingHealthBegin<=m_fLimpingHealthEnd);
@@ -128,7 +128,7 @@ void CActorCondition::LoadCondition(LPCSTR entity_section)
 	m_zone_max_power[ALife::infl_psi]	= pSettings->r_float(section, "psi_zone_max_power" );
 	m_zone_max_power[ALife::infl_electra]= pSettings->r_float(section, "electra_zone_max_power" );
 
-	m_max_power_restore_speed = pSettings->r_float(section, "max_power_restore_speed" );
+	m_max_power_restore_speed = READ_IF_EXISTS(pSettings, r_float, section, "max_power_restore_speed", 1.0f);
 	m_max_wound_protection = READ_IF_EXISTS(pSettings,r_float,section,"max_wound_protection",1.0f);
 	m_max_fire_wound_protection = READ_IF_EXISTS(pSettings,r_float,section,"max_fire_wound_protection",1.0f);
 
@@ -462,7 +462,7 @@ void CActorCondition::PowerHit(float power, bool apply_outfit)
 	m_fPower			-=	apply_outfit ? HitPowerEffect(power) : power;
 	clamp					(m_fPower, 0.f, 1.f);
 }
-//weight - "удельный" вес от 0..1
+//weight - "СѓРґРµР»СЊРЅС‹Р№" РІРµСЃ РѕС‚ 0..1
 void CActorCondition::ConditionJump(float weight)
 {
 	float power			=	m_fJumpPower;

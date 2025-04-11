@@ -50,7 +50,12 @@ CUIHudStatesWnd::CUIHudStatesWnd()
 	m_fake_indicators_update = false;
 	m_arrow = nullptr;
 	m_arrow_shadow = nullptr;
-//-	Load_section();
+	m_ui_weapon_cur_ammo = nullptr;
+	m_ui_weapon_fmj_ammo = nullptr;
+	m_ui_weapon_ap_ammo = nullptr;
+	m_ui_weapon_sign_ammo = nullptr;
+	m_ui_grenade = nullptr;
+	//-	Load_section();
 }
 
 CUIHudStatesWnd::~CUIHudStatesWnd()

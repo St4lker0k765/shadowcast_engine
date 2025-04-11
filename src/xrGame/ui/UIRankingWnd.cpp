@@ -41,8 +41,7 @@ CUIRankingWnd::CUIRankingWnd()
 	m_monster_background(nullptr), m_monster_over(nullptr),
 	m_favorite_weapon_ramka(nullptr), m_favorite_weapon_over(nullptr),
 	m_monster_icon_back(nullptr), m_monster_icon(nullptr),
-	m_favorite_weapon_bckgrnd(nullptr), m_favorite_weapon_icon(nullptr),
-	m_stat_caption{}, m_stat_info{}, m_stat_count(0)
+	m_favorite_weapon_bckgrnd(nullptr), m_favorite_weapon_icon(nullptr)
 {
 	m_actor_ch_info				= NULL;
 	m_previous_time				= Device.dwTimeGlobal;

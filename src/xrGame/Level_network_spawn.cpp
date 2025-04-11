@@ -15,6 +15,11 @@ void CLevel::cl_Process_Spawn(NET_Packet& P)
 	// Begin analysis
 	shared_str			s_name;
 	P.r_stringZ			(s_name);
+	if (s_name == "")
+	{
+		Msg("Invalid section found, skipping...");
+		return;
+	}
 
 	//Msg("Spawn object %s [%d]b", s_name.c_str(), P.B.count);
 

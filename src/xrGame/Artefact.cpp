@@ -251,7 +251,7 @@ void CArtefact::StartLights()
 
 	VERIFY						(m_pTrailLight == NULL);
 	m_pTrailLight				= ::Render->light_create();
-	bool const b_light_shadow	= !!pSettings->r_bool(cNameSect(), "idle_light_shadow");
+	bool const b_light_shadow	= READ_IF_EXISTS(pSettings, r_bool, cNameSect(), "idle_light_shadow", false);
 
 	m_pTrailLight->set_shadow	(b_light_shadow);
 
