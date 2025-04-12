@@ -225,7 +225,7 @@ void CLevel::IR_OnKeyboardPress	(int key)
 					CHudItem* pHudItem = smart_cast<CHudItem*>(pActor->inventory().ActiveItem());
 					if (pHudItem) 
 					{
-						pHudItem->OnStateSwitch(pHudItem->GetState());
+						pHudItem->OnStateSwitch(pHudItem->GetState(), pHudItem->GetState());
 					}
 				}
 			}

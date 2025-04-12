@@ -837,7 +837,7 @@ void game_sv_GameState::on_death	(CSE_Abstract *e_dest, CSE_Abstract *e_src)
 #ifdef DEBUG
 void game_sv_GameState::OnRender				()
 {
-	Fmatrix T; T.identity();
+/*	Fmatrix T; T.identity();
 	Fvector V0, V1;
 	u32 TeamColors[TEAM_COUNT] = {color_xrgb(255, 0, 0), color_xrgb(0, 255, 0), color_xrgb(0, 0, 255), color_xrgb(255, 255, 0)};
 //	u32 TeamColorsDist[TEAM_COUNT] = {color_argb(128, 255, 0, 0), color_argb(128, 0, 255, 0), color_argb(128, 0, 0, 255), color_argb(128, 255, 255, 0)};
@@ -889,7 +889,7 @@ void game_sv_GameState::OnRender				()
 				T.scale(r, r, r);
 				T.translate_add(rp.P);
 				Level().debug_renderer().draw_ellipse(T, TeamColorsDist[t]);
-*/
+*
 			}
 		}
 	};
@@ -911,7 +911,7 @@ void game_sv_GameState::OnRender				()
 			Level().debug_renderer().draw_ellipse(T, TeamColors[PS->team]);
 		};
 
-	}
+	}*/
 };
 #endif
 //  [7/5/2005]

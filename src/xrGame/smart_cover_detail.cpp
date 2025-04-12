@@ -28,14 +28,14 @@ float smart_cover::detail::parse_float	(
 bool smart_cover::detail::parse_float(float& output,
 	luabind::object const& table, LPCSTR identifier, float const& min_threshold, float const& max_threshold)
 {
-	VERIFY2(luabind::get_type(table) == LUA_TTABLE, "invalid loophole description passed");
+	VERIFY2(table.type() == LUA_TTABLE, "invalid loophole description passed");
 	const luabind::object lua_result = table[identifier];
 	const auto type = lua_result.type();
 	if (type == LUA_TNUMBER)
 	{
 		output = luabind::object_cast<float>(lua_result);
-		VERIFY2(output >= min_threshold, make_string<const char*>("invalid read number value %s", identifier));
-		VERIFY2(output <= max_threshold, make_string<const char*>("invalid number value %s", identifier));
+		VERIFY2(output >= min_threshold, make_string("invalid read number value %s", identifier));
+		VERIFY2(output <= max_threshold, make_string("invalid number value %s", identifier));
 		return true;
 	}
 	return false;
@@ -86,7 +86,7 @@ Fvector smart_cover::detail::parse_fvector (luabind::object const &table, LPCSTR
 
 bool smart_cover::detail::parse_fvector(luabind::object const& table, LPCSTR identifier, Fvector& output)
 {
-	VERIFY2(luabind::get_type(table) == LUA_TTABLE, "invalid loophole description passed");
+	VERIFY2(table.type() == LUA_TTABLE, "invalid loophole description passed");
 	luabind::object result = table[identifier];
 	if (result.type() != LUA_TNIL)
 	{

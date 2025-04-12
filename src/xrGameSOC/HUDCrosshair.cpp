@@ -82,7 +82,7 @@ void CHUDCrosshair::OnRenderFirstBulletDispertion()
 	center.set		(scr_size.x/2.0f, scr_size.y/2.0f);
 
 //.	UIRender->StartLineList(10);
-	UIRender->StartPrimitive		(10, IUIRender::ptLineList, UI()->m_currentPointType);
+	UIRender->StartPrimitive		(10, IUIRender::ptLineList, IUIRender::pttTL/*, UI()->m_currentPointType*/);
 
 	u32	fb_cross_color					= color_rgba(255, 0, 0, 255); //red
 	

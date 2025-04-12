@@ -936,7 +936,7 @@ void CActor::UpdateCL	()
 
 			HUD().ShowCrosshair(pWeapon->use_crosshair());
 #ifdef DEBUG
-			HUD().SetFirstBulletCrosshairDisp(pWeapon->GetFirstBulletDisp());
+//			HUD().SetFirstBulletCrosshairDisp(pWeapon->GetFirstBulletDisp());
 #endif
 			// Новая система маркера, спасибо Роману из команды демосфена
 

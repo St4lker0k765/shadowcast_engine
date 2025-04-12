@@ -2281,6 +2281,9 @@
     <Filter Include="UI\UIWindows\Hint">
       <UniqueIdentifier>{2c1a1cd2-ca8d-4ace-861f-39e3971959e5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="AI\AScript\lua_studio">
+      <UniqueIdentifier>{369765bb-8195-43c9-8b30-1f0328899fb3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mt_config.h">
@@ -6525,6 +6528,9 @@
     <ClInclude Include="fire_disp_controller.h">
       <Filter>Core\Client\Objects\actor\base</Filter>
     </ClInclude>
+    <ClInclude Include="lua_studio.h">
+      <Filter>AI\AScript\lua_studio</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="damage_manager.cpp">
@@ -9640,6 +9646,9 @@
     </ClCompile>
     <ClCompile Include="fire_disp_controller.cpp">
       <Filter>Core\Client\Objects\actor\base</Filter>
+    </ClCompile>
+    <ClCompile Include="lua_studio.cpp">
+      <Filter>AI\AScript\lua_studio</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

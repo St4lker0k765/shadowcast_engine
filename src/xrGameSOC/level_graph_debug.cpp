@@ -161,7 +161,7 @@ void CLevelGraph::draw_stalkers		(const int &vertex_id)
 	float				radius = .0105f;
 	const u32					color = color_xrgb(255,0,0);
 	const CGameGraph			&graph = ai().game_graph();
-	CGameFont					&font = *UI().Font().pFontDI;
+	CGameFont					&font = *UI()->Font()->pFontDI;
 
 	Fvector						position;
 	position = convert_position(graph.vertex(vertex_id)->game_point());
@@ -311,7 +311,7 @@ void CLevelGraph::draw_objects		(const int &vertex_id)
 	float				radius = .0105f;
 	const u32					color = color_xrgb(255,0,0);
 	const CGameGraph			&graph = ai().game_graph();
-	CGameFont					&font = *UI().Font().pFontDI;
+	CGameFont					&font = *UI()->Font()->pFontDI;
 	Fvector						position;
 	position = convert_position(graph.vertex(vertex_id)->game_point());
 

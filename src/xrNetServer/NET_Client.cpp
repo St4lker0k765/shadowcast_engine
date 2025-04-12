@@ -641,15 +641,7 @@ if(!psNET_direct_connect)
 				{
 					Msg("! IPureClient : port %d is BUSY!", c_port);
 					return FALSE;
-				}				
-#ifdef DEBUG
-				else
-					Msg("! IPureClient : port %d is BUSY!", c_port);
-
-//				const char* x = DXGetErrorString9(res);
-				string1024 tmp = "";
-				DXTRACE_ERR(tmp, res);
-#endif				
+				}					
 				c_port++;
 			}
 			else
@@ -695,11 +687,6 @@ if(!psNET_direct_connect)
 //		R_CHK(res);		
 		net_csEnumeration.Leave		();
 		_RELEASE					(pHostAddress);
-#ifdef DEBUG	
-//		const char* x = DXGetErrorString9(res);
-		string1024 tmp = "";
-		DXTRACE_ERR(tmp, res);
-#endif
 		switch (res)
 		{
 		case DPNERR_INVALIDPASSWORD:
@@ -874,14 +861,6 @@ HRESULT	IPureClient::net_Handler(u32 dwMessageType, PVOID pMessage)
 			case DPN_MSGID_CONNECT_COMPLETE:			
 				{
 					PDPNMSG_CONNECT_COMPLETE pMsg = (PDPNMSG_CONNECT_COMPLETE)pMessage;
-#ifdef DEBUG
-//					const char* x = DXGetErrorString9(pMsg->hResultCode);
-					if (pMsg->hResultCode != S_OK)
-					{
-						string1024 tmp="";
-						DXTRACE_ERR(tmp, pMsg->hResultCode);
-					}					
-#endif
 					if (pMsg->dwApplicationReplyDataSize)
 					{
 						string256 ResStr = "";
